@@ -2,7 +2,7 @@ export default {
   items: [
     {
       name: "Configuración",
-      url: "/base",
+      url: "/dashboard",
       icon: "icon-settings",
       children: [
         {
@@ -23,7 +23,8 @@ export default {
         },
         {
           name: "Conglomerado",
-          icon: "icon-settings"
+          icon: "icon-settings",
+          url: "/dashboard/conglomerado"
         },
         {
           name: "Dependencia",

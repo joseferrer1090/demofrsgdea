@@ -255,6 +255,7 @@ class TableContentConglomerado extends Component {
               pagination={true}
               search={true}
               exportCSV
+              searchPlaceholder="Buscar"
             >
               <TableHeaderColumn
                 dataSort={true}

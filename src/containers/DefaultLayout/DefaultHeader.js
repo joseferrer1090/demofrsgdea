@@ -44,7 +44,7 @@ class DefaultHeader extends Component {
         <AppNavbarBrand
           full={{
             src: this.state.logoFull,
-            width: 90,
+            width: 100,
             height: 40,
             alt: "Logo Lexco "
           }}

@@ -17,8 +17,8 @@ import {
   AppNavbarBrand,
   AppSidebarToggler
 } from "@coreui/react";
-import logo from "../../assets/img/brand/logo.svg";
-import sygnet from "../../assets/img/brand/sygnet.svg";
+// import logo from "../../assets/img/brand/logo.svg";
+// import sygnet from "../../assets/img/brand/sygnet.svg";
 
 const propTypes = {
   children: PropTypes.node
@@ -27,6 +27,13 @@ const propTypes = {
 const defaultProps = {};
 
 class DefaultHeader extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      logoFull: "https://via.placeholder.com/200",
+      logoMin: "https://via.placeholder.com/90"
+    };
+  }
   render() {
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
@@ -35,8 +42,18 @@ class DefaultHeader extends Component {
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
         <AppNavbarBrand
-          full={{ src: logo, width: 89, height: 25, alt: "CoreUI Logo" }}
-          minimized={{ src: sygnet, width: 30, height: 30, alt: "CoreUI Logo" }}
+          full={{
+            src: this.state.logoFull,
+            width: 90,
+            height: 40,
+            alt: "Logo Lexco "
+          }}
+          minimized={{
+            src: this.state.logoMin,
+            width: 30,
+            height: 30,
+            alt: "Logo Lexco"
+          }}
         />
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 

@@ -64,56 +64,27 @@ class DefaultHeader extends Component {
             </NavLink>
           </NavItem> */}
           <AppHeaderDropdown direction="down">
-            <DropdownToggle nav>
+            <DropdownToggle nav style={{ marginRight: "4px !important" }}>
+              Administrador
               <img
-                src={"../../assets/img/avatars/6.jpg"}
+                src={"../../assets/img/avatars/user.svg"}
                 className="img-avatar"
                 alt="admin@bootstrapmaster.com"
               />
             </DropdownToggle>
             <DropdownMenu right style={{ right: "auto" }}>
               <DropdownItem header tag="div" className="text-center">
-                <strong>Account</strong>
+                <strong>Cuenta</strong>
               </DropdownItem>
               <DropdownItem>
-                <i className="fa fa-bell-o" /> Updates
-                <Badge color="info">42</Badge>
+                <i className="fa fa-user" /> Perfil
               </DropdownItem>
               <DropdownItem>
-                <i className="fa fa-envelope-o" /> Messages
-                <Badge color="success">42</Badge>
+                <i className="fa fa-wrench" /> Herramientas
               </DropdownItem>
-              <DropdownItem>
-                <i className="fa fa-tasks" /> Tasks
-                <Badge color="danger">42</Badge>
-              </DropdownItem>
-              <DropdownItem>
-                <i className="fa fa-comments" /> Comments
-                <Badge color="warning">42</Badge>
-              </DropdownItem>
-              <DropdownItem header tag="div" className="text-center">
-                <strong>Settings</strong>
-              </DropdownItem>
-              <DropdownItem>
-                <i className="fa fa-user" /> Profile
-              </DropdownItem>
-              <DropdownItem>
-                <i className="fa fa-wrench" /> Settings
-              </DropdownItem>
-              <DropdownItem>
-                <i className="fa fa-usd" /> Payments
-                <Badge color="secondary">42</Badge>
-              </DropdownItem>
-              <DropdownItem>
-                <i className="fa fa-file" /> Projects
-                <Badge color="primary">42</Badge>
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem>
-                <i className="fa fa-shield" /> Lock Account
-              </DropdownItem>
+
               <DropdownItem onClick={e => this.props.onLogout(e)}>
-                <i className="fa fa-lock" /> Logout
+                <i className="fa fa-lock" /> Salir
               </DropdownItem>
             </DropdownMenu>
           </AppHeaderDropdown>

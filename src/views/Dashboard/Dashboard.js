@@ -18,7 +18,8 @@ import {
   DropdownToggle,
   Progress,
   Row,
-  Table
+  Table,
+  Jumbotron
 } from "reactstrap";
 import { CustomTooltips } from "@coreui/coreui-plugin-chartjs-custom-tooltips";
 import { getStyle, hexToRgba } from "@coreui/coreui/dist/js/coreui-utilities";
@@ -529,13 +530,42 @@ class Dashboard extends Component {
   }
 
   loading = () => (
-    <div className="animated fadeIn pt-1 text-center">Loading...</div>
+    <div className="animated fadeIn pt-1 text-center">Cargando...</div>
   );
 
   render() {
     return (
       <div className="animated fadeIn">
         <Row>
+          <Col md="12">
+            <Jumbotron className="border border-secondary">
+              <h1 className="display-3">Bienvenido, administrador!</h1>
+              <p className="lead">
+                Esta la interfaz de bienvenida para el usuario donde salta
+                informacion como su nombre y la ultima conexion
+              </p>
+              <hr className="my-2" />
+              <p>
+                <strong> Ultima conexion: </strong>{" "}
+                <span>
+                  {new Date()
+                    .toJSON()
+                    .slice(0, 10)
+                    .replace(/-/g, "/")}
+                </span>
+              </p>
+              <p className="lead">
+                <Button
+                  color="primary"
+                  onClick={() => {
+                    alert("Manual de referencia para el administrador");
+                  }}
+                >
+                  Ver manual
+                </Button>
+              </p>
+            </Jumbotron>
+          </Col>
           {/* <Col xs="12" sm="6" lg="3">
             <Card className="text-white bg-info">
               <CardBody className="pb-0">

@@ -3,7 +3,7 @@ export default {
     {
       name: "Configuración",
       url: "/base",
-      icon: "",
+      icon: "icon-settings",
       children: [
         {
           name: "Pais",

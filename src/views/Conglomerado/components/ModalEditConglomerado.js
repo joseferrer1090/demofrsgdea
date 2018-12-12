@@ -22,17 +22,114 @@ class ModalEditConglomerado extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader> Conglomerado </ModalHeader>
           <ModalBody>
-            <p> Contenido del modal Editar </p>
+            <form className="form">
+              <div className="table-responsive">
+                <table className="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>Dato1</td>
+                      <td>
+                        {" "}
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          placeholder="Dato desde el primer GET"
+                        />{" "}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Dato2</td>
+                      <td>
+                        {" "}
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          placeholder="Dato desde el primer GET"
+                        />{" "}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Dato3</td>
+                      <td>
+                        {" "}
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          placeholder="Dato desde el primer GET"
+                        />{" "}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Dato4</td>
+                      <td>
+                        {" "}
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          placeholder="Dato desde el primer GET"
+                        />{" "}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Dato5</td>
+                      <td>
+                        {" "}
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          placeholder="Dato desde el primer GET"
+                        />{" "}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Dato6</td>
+                      <td>
+                        {" "}
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          placeholder="Dato desde el primer GET"
+                        />{" "}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Dato7</td>
+                      <td>
+                        {" "}
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          placeholder="Dato desde el primer GET"
+                        />{" "}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Dato8</td>
+                      <td>
+                        {" "}
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          placeholder="Dato desde el primer GET"
+                        />{" "}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </form>
           </ModalBody>
           <ModalFooter>
+            <Button className="btn btn-outline-success">
+              <i className="fa fa-pencil" /> Actualizar registro{" "}
+            </Button>
             <Button
-              className="btn btn-secondary"
+              className="btn btn-outline-secondary"
               onClick={() => {
                 this.setState({ modal: false });
               }}
             >
-              {" "}
-              Cerrar{" "}
+              <i className="fa fa-times" /> Cerrar{" "}
             </Button>
           </ModalFooter>
         </Modal>

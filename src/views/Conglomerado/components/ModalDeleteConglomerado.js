@@ -22,17 +22,37 @@ class ModalDeleteConglomerado extends Component {
         <Modal isOpen={this.state.modal} toggle={this.toggle}>
           <ModalHeader> Conglomerado </ModalHeader>
           <ModalBody>
-            <p> Contenido del modal Eliminar </p>
+            <form className="form">
+              <p className="text-center">
+                {" "}
+                Confirmar el <code> Dato </code> para eliminar el conglomerado{" "}
+              </p>
+
+              <input
+                className="form-control col-sm-6 offset-sm-3"
+                type="text"
+                placeholder="dato de eliminado"
+                style={{ textAlign: "center" }}
+              />
+              <br />
+              <p className="text-center text-danger">
+                {" "}
+                El conglomerado quedara elimando de manera permanente{" "}
+              </p>
+            </form>
           </ModalBody>
           <ModalFooter>
+            <Button className="btn btn-outline-danger">
+              {" "}
+              <i className="fa fa-trash" /> Eliminar{" "}
+            </Button>
             <Button
-              className="btn btn-secondary"
+              className="btn btn-outline-secondary"
               onClick={() => {
                 this.setState({ modal: false });
               }}
             >
-              {" "}
-              Cerrar{" "}
+              <i className="fa fa-times" /> Cerrar{" "}
             </Button>
           </ModalFooter>
         </Modal>

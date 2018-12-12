@@ -68,8 +68,7 @@ class ModalViewConglomerado extends Component {
                 this.setState({ modal: false });
               }}
             >
-              {" "}
-              Cerrar{" "}
+              <i className="fa fa-times" /> Cerrar{" "}
             </Button>
           </ModalFooter>
         </Modal>

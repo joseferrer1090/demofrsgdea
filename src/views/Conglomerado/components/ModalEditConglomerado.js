@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody, Buttom } from "reactstrap";
+import { Modal, ModalHeader, ModalFooter, ModalBody, Button } from "reactstrap";
 import PropTypes from "prop-types";
 
 class ModalEditConglomerado extends Component {
@@ -9,10 +9,33 @@ class ModalEditConglomerado extends Component {
       modal: this.props.modaleditstate
     };
   }
+
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+  };
+
   render() {
     return (
       <div>
-        <p>Probando el modal de editar</p>
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+          <ModalHeader> Conglomerado </ModalHeader>
+          <ModalBody>
+            <p> Contenido del modal Editar </p>
+          </ModalBody>
+          <ModalFooter>
+            <Button
+              className="btn btn-secondary"
+              onClick={() => {
+                this.setState({ modal: false });
+              }}
+            >
+              {" "}
+              Cerrar{" "}
+            </Button>
+          </ModalFooter>
+        </Modal>
       </div>
     );
   }

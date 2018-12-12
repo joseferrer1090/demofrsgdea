@@ -4,6 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col, Button } from "reactstrap";
 import ModalView from "./ModalViewConglomerado";
 import ModalDelete from "./ModalDeleteConglomerado";
+import ModalEdit from "./ModalEditConglomerado";
 
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 
@@ -245,7 +246,8 @@ class TableContentConglomerado extends Component {
     super(props);
     this.state = {
       modalView: false,
-      modalDelete: false
+      modalDelete: false,
+      modalEdit: false
     };
   }
 
@@ -253,6 +255,7 @@ class TableContentConglomerado extends Component {
     return (
       <div style={{ textAlign: "center", padding: "0", margin: "0" }}>
         <button
+          className="btn btn-outline-info btn-sm "
           onClick={() => {
             this.openModalView();
           }}
@@ -262,6 +265,7 @@ class TableContentConglomerado extends Component {
         </button>
         &nbsp;
         <button
+          className="btn btn-outline-danger btn-sm"
           onClick={() => {
             this.openModalDelete();
           }}
@@ -270,7 +274,12 @@ class TableContentConglomerado extends Component {
           <i className="fa fa-trash" />{" "}
         </button>
         &nbsp;
-        <button>
+        <button
+          className="btn btn-outline-secondary btn-sm"
+          onClick={() => {
+            this.openModalEdit();
+          }}
+        >
           <i className="fa fa-pencil" />
         </button>
       </div>
@@ -283,6 +292,10 @@ class TableContentConglomerado extends Component {
 
   openModalDelete() {
     this.refs.child2.toggle();
+  }
+
+  openModalEdit() {
+    this.refs.child3.toggle();
   }
 
   render() {
@@ -344,6 +357,7 @@ class TableContentConglomerado extends Component {
         </Row>
         <ModalView modalviewstate={this.state.modalView} ref="child" />
         <ModalDelete modaldeletestate={this.state.modalDelete} ref="child2" />
+        <ModalEdit modaleditstate={this.state.modalEdit} ref="child3" />
       </div>
     );
   }

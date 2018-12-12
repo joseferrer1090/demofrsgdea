@@ -17,6 +17,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import TableContent from "./components/TableContentConglomerado";
+import ImportFile from "./components/FormUploadFile";
 
 class Conglomerado extends React.Component {
   constructor(props) {
@@ -98,7 +99,7 @@ class Conglomerado extends React.Component {
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <p> Probando el tab 3 </p>
+                <ImportFile />
               </Col>
             </Row>
           </TabPane>

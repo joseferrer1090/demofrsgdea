@@ -16,6 +16,7 @@ import {
   CardHeader
 } from "reactstrap";
 import classnames from "classnames";
+import FormCreate from "./components/FormCreateConglomerado";
 import TableContent from "./components/TableContentConglomerado";
 import ImportFile from "./components/FormUploadFile";
 
@@ -74,18 +75,7 @@ class Conglomerado extends React.Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="8" md={{ offset: 2 }}>
-                <Card className="border-success">
-                  <CardHeader>Registro de Conglomerado</CardHeader>
-                  <CardBody>
-                    <p>Fomulario de Registro con los datos</p>
-                  </CardBody>
-                  <CardFooter>
-                    <Button className="btn btn-secundary pull-right">
-                      {" "}
-                      Registrar{" "}
-                    </Button>
-                  </CardFooter>
-                </Card>
+                <FormCreate />
               </Col>
             </Row>
           </TabPane>

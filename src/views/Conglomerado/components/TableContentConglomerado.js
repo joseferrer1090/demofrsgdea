@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Button } from "reactstrap";
+import ModalView from "./ModalViewConglomerado";
+import ModalDelete from "./ModalDeleteConglomerado";
+
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 
 const data = [
@@ -240,7 +243,46 @@ const data = [
 class TableContentConglomerado extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      modalView: false,
+      modalDelete: false
+    };
+  }
+
+  accionesConglomerado(cell, row) {
+    return (
+      <div style={{ textAlign: "center", padding: "0", margin: "0" }}>
+        <button
+          onClick={() => {
+            this.openModalView();
+          }}
+        >
+          {" "}
+          <i className="fa fa-eye" />{" "}
+        </button>
+        &nbsp;
+        <button
+          onClick={() => {
+            this.openModalDelete();
+          }}
+        >
+          {" "}
+          <i className="fa fa-trash" />{" "}
+        </button>
+        &nbsp;
+        <button>
+          <i className="fa fa-pencil" />
+        </button>
+      </div>
+    );
+  }
+
+  openModalView() {
+    this.refs.child.toggle();
+  }
+
+  openModalDelete() {
+    this.refs.child2.toggle();
   }
 
   render() {
@@ -287,14 +329,21 @@ class TableContentConglomerado extends Component {
                 {" "}
                 Website{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"company.name"}>
+              <TableHeaderColumn dataField={"company"}>
                 {" "}
                 Compañia{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn>Acciones</TableHeaderColumn>
+              <TableHeaderColumn
+                dataFormat={(cell, row) => this.accionesConglomerado(cell, row)}
+                className=""
+              >
+                Acciones
+              </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>
+        <ModalView modalviewstate={this.state.modalView} ref="child" />
+        <ModalDelete modaldeletestate={this.state.modalDelete} ref="child2" />
       </div>
     );
   }

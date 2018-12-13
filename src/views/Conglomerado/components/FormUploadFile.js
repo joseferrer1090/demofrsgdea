@@ -1,16 +1,27 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
-import { FilePond } from "react-filepond";
-import PropTypes from "prop-types";
-import "./../../../../node_modules/filepond/dist/filepond.css";
-import * as XLSX from "xlsx";
 class FormUploadFile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      files: []
+      file: []
     };
   }
+
+  onChange = e => {
+    let files = e.target.files;
+    this.setState({ file: e.target.files[0] });
+    let reader = new FileReader();
+    reader.readAsBinaryString(files[0]);
+    reader.onload = e => {
+      console.log(e.target.result);
+    };
+  };
+
+  onClick = () => {
+    // console.log(this.state.file);
+  };
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -58,7 +69,7 @@ class FormUploadFile extends Component {
           <Col md="8">
             <div className="card">
               <div className="card-body">
-                <form className="form">
+                <form className="form" encType="multipart/form-data">
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
@@ -99,15 +110,13 @@ class FormUploadFile extends Component {
                             <b>CSV</b> <span className="text-danger"> * </span>
                           </span>{" "}
                         </label>
-                        <FilePond
-                          maxFiles={1}
-                          onupdatefiles={filesItems => {
-                            this.setState({
-                              files: filesItems.map(fileItem => fileItem.file)
-                            });
-                            console.log(this.state.files);
-                          }}
+                        <br />
+                        <input
+                          type="file"
+                          className="form-control"
+                          onChange={this.onChange}
                         />
+                        {console.log(this.state.file)}
                       </div>
                     </div>
                   </div>
@@ -115,10 +124,10 @@ class FormUploadFile extends Component {
               </div>
               <div className="card-footer">
                 <div className="pull-right">
-                  <buttom className="btn btn-secondary">
+                  <button className="btn btn-secondary" onClick={this.onClick}>
                     {" "}
                     <i className="fa fa-upload" /> Cargar informacion
-                  </buttom>
+                  </button>
                 </div>
               </div>
             </div>
@@ -127,10 +136,10 @@ class FormUploadFile extends Component {
         <br />
         <Row>
           <Col md="12">
-            {this.state.files.length === 0 ? null : (
+            {this.state.file.length === 0 ? null : (
               <div className="card">
                 <div className="card-body">
-                  <p>hay data para mostrar</p>
+                  <p>Si hay data </p>
                 </div>
               </div>
             )}
@@ -140,7 +149,5 @@ class FormUploadFile extends Component {
     );
   }
 }
-
-FormUploadFile.propTypes = {};
 
 export default FormUploadFile;

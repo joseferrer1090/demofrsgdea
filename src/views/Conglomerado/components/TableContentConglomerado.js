@@ -316,7 +316,7 @@ class TableContentConglomerado extends Component {
                 dataSort={true}
                 isKey
                 dataField={"id"}
-                width={50}
+                width={"30"}
                 center
               >
                 #

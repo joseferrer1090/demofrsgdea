@@ -34,6 +34,11 @@ const Page500 = Loadable({
   loading
 });
 
+const Forgot = Loadable({
+  loader: () => import("./views/Pages/Forgot/Forgot"),
+  loading
+});
+
 class App extends Component {
   render() {
     return (
@@ -46,6 +51,7 @@ class App extends Component {
             name="Register Page"
             component={Register}
           /> */}
+          <Route exact path="/forgot" name="forgot" component={Forgot} />
           <Route exact path="/404" name="Page 404" component={Page404} />
           <Route exact path="/500" name="Page 500" component={Page500} />
           <Route path="/" name="Inicio" component={DefaultLayout} />

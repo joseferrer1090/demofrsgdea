@@ -147,15 +147,17 @@ class FormUploadFile extends Component {
         <br />
         <Row>
           <Col md="12">
-            <div className="card">
-              <div className="card-body">
-                <CsvToHtmlTable
-                  data={data}
-                  csvDelimiter=","
-                  tableClassName="table table-striped table-hover table-bordered"
-                />
+            {data ? (
+              <div className="card">
+                <div className="card-body">
+                  <CsvToHtmlTable
+                    data={data}
+                    csvDelimiter=","
+                    tableClassName="table table-striped table-hover table-bordered"
+                  />
+                </div>
               </div>
-            </div>
+            ) : null}
           </Col>
         </Row>
       </div>

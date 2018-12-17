@@ -4,6 +4,7 @@ import gruposUsuarios from "./views/Grupos/gruposUsuarios";
 import Pais from "./views/Pais/Pais";
 import Ciudad from "./views/Ciudad/Ciudad";
 import Departamento from "./views/Departamento/Departamento";
+import Profile from "./views/Pages/Profile/Profle";
 
 const Configuracion = React.lazy(() =>
   import("./views/Configuracion/Configuracion")
@@ -136,6 +137,12 @@ const routes = [
     exact: true,
     name: " Configuracion / Departamento",
     component: Departamento
+  },
+  {
+    path: "/configuracion/perfil",
+    exact: true,
+    name: " Configuracion / Perfil de usuario ",
+    component: Profile
   }
 ];
 

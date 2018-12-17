@@ -86,7 +86,7 @@ class DefaultHeader extends Component {
               <img
                 src={"../../assets/img/avatars/user.svg"}
                 className="img-avatar"
-                alt="admin@bootstrapmaster.com"
+                alt="administratos@image"
               />
             </DropdownToggle>
             <DropdownMenu right style={{ right: "auto" }}>
@@ -94,12 +94,21 @@ class DefaultHeader extends Component {
                 <strong>Cuenta</strong>
               </DropdownItem>
               <DropdownItem>
-                <i className="fa fa-user" /> Perfil
+                <Link
+                  style={{
+                    textDecoration: "none",
+                    cursor: "pointer !important",
+                    color: "black"
+                  }}
+                  to="/configuracion/perfil"
+                >
+                  {" "}
+                  <i className="fa fa-user" /> Perfil{" "}
+                </Link>
               </DropdownItem>
-              <DropdownItem>
+              {/* <DropdownItem>
                 <i className="fa fa-wrench" /> Herramientas
-              </DropdownItem>
-
+              </DropdownItem> */}
               <DropdownItem onClick={e => this.props.onLogout(e)}>
                 <i className="fa fa-lock" /> Salir
               </DropdownItem>

@@ -2,7 +2,7 @@ export default {
   items: [
     {
       name: "Configuración",
-      url: "/dashboard",
+      url: "/configuracion",
       icon: "icon-settings",
       children: [
         {

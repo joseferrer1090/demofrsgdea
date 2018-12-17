@@ -6,49 +6,29 @@ export default {
       icon: "icon-settings",
       children: [
         {
-          name: "Pais",
-          icon: "icon-settings"
+          name: "Conglomerado",
+          icon: "icon-settings",
+          url: "/dashboard/conglomerado"
         },
         {
           name: "Empresa",
           icon: "icon-settings"
         },
         {
-          name: "Ciudad",
+          name: "Sedes",
           icon: "icon-settings"
-        },
-        {
-          name: "Cargo",
-          icon: "icon-settings"
-        },
-        {
-          name: "Conglomerado",
-          icon: "icon-settings",
-          url: "/dashboard/conglomerado"
         },
         {
           name: "Dependencia",
           icon: "icon-settings"
         },
         {
-          name: "Departamento",
-          icon: "icon-settings"
-        },
-        {
-          name: "Remitente",
+          name: "Cargo",
           icon: "icon-settings"
         },
         {
           name: "Usuarios",
           icon: "icon-user"
-        },
-        {
-          name: "Sedes",
-          icon: "icon-settings"
-        },
-        {
-          name: "Cargo",
-          icon: "icon-settings"
         },
         {
           name: "Roles y permisos",
@@ -59,12 +39,28 @@ export default {
           icon: "icon-people"
         },
         {
+          name: "Remitente",
+          icon: "icon-settings"
+        },
+        {
           name: "Tipo documental",
           icon: "icon-folder-alt"
         },
         {
           name: "Tipo documental radicacion",
           icon: "icon-book-open"
+        },
+        {
+          name: "Pais",
+          icon: "icon-settings"
+        },
+        {
+          name: "Ciudad",
+          icon: "icon-settings"
+        },
+        {
+          name: "Departamento",
+          icon: "icon-settings"
         }
       ]
     }

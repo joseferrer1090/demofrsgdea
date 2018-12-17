@@ -58,7 +58,7 @@ class Login extends Component {
                         <Col xs="6">
                           <Link
                             to="/configuracion"
-                            className="btn btn-secondary"
+                            className="btn btn-outline-secondary btn-block"
                           >
                             Ingresar
                           </Link>

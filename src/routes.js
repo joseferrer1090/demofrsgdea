@@ -117,7 +117,7 @@ const routes = [
   {
     path: "/configuracion/tipodocumentalradicacion",
     exact: true,
-    name: " Configuración / Tipo documentale de radicacion ",
+    name: " Configuración / Tipo documental de radicacion ",
     component: TipoDocumentalesRadicacion
   },
   {

@@ -7,6 +7,7 @@ import ModalDelete from "./ModalDeleteConglomerado";
 import ModalEdit from "./ModalEditConglomerado";
 
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import "./../../../css/custom_table.css";
 
 const data = [
   {
@@ -253,9 +254,13 @@ class TableContentConglomerado extends Component {
 
   accionesConglomerado(cell, row) {
     return (
-      <div style={{ textAlign: "center", padding: "0", margin: "0" }}>
+      <div
+        className="table-menu"
+        style={{ textAlign: "center", padding: "0", marginRight: "30px" }}
+      >
         <button
-          className="btn btn-outline-info btn-sm "
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
           onClick={() => {
             this.openModalView();
           }}
@@ -265,7 +270,8 @@ class TableContentConglomerado extends Component {
         </button>
         &nbsp;
         <button
-          className="btn btn-outline-danger btn-sm"
+          className="btn btn-danger btn-sm"
+          data-trigger="hover"
           onClick={() => {
             this.openModalDelete();
           }}
@@ -275,7 +281,8 @@ class TableContentConglomerado extends Component {
         </button>
         &nbsp;
         <button
-          className="btn btn-outline-secondary btn-sm"
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
           onClick={() => {
             this.openModalEdit();
           }}
@@ -303,56 +310,62 @@ class TableContentConglomerado extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col md="12">
-            <BootstrapTable
-              data={data}
-              striped
-              hover
-              pagination={true}
-              search={true}
-              exportCSV
-              searchPlaceholder="Buscar"
-            >
-              <TableHeaderColumn
-                dataSort={true}
-                isKey
-                dataField={"id"}
-                width={"30"}
-                center
-              >
-                #
-              </TableHeaderColumn>
-              <TableHeaderColumn dataSort={true} dataField={"name"}>
-                {" "}
-                Nombre{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataSort={true} dataField={"email"}>
-                Email
-              </TableHeaderColumn>
-              <TableHeaderColumn dataSort={true} dataField={"address"}>
-                Dirección
-              </TableHeaderColumn>
-              <TableHeaderColumn dataSort={true} dataField={"phone"}>
-                {" "}
-                Teléfono
-              </TableHeaderColumn>
-              <TableHeaderColumn dataSort={true} dataField={"username"}>
-                Usuario
-              </TableHeaderColumn>
-              <TableHeaderColumn dataSort={true} dataField={"website"}>
-                {" "}
-                Website{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"company"}>
-                {" "}
-                Compañia{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataFormat={(cell, row) => this.accionesConglomerado(cell, row)}
-                className=""
-              >
-                Acciones
-              </TableHeaderColumn>
-            </BootstrapTable>
+            <div className="table-reponsive">
+              <Row>
+                <Col md="12">
+                  <BootstrapTable
+                    data={data}
+                    pagination={true}
+                    search={true}
+                    exportCSV
+                    bordered={false}
+                    searchPlaceholder="Buscar"
+                    className=" table-hover"
+                  >
+                    <TableHeaderColumn
+                      dataSort={true}
+                      isKey
+                      dataField={"id"}
+                      width={"30"}
+                      center
+                    >
+                      #
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataSort={true} dataField={"name"}>
+                      {" "}
+                      Nombre{" "}
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataSort={true} dataField={"email"}>
+                      Email
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataSort={true} dataField={"address"}>
+                      Dirección
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataSort={true} dataField={"phone"}>
+                      {" "}
+                      Teléfono
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataSort={true} dataField={"username"}>
+                      Usuario
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataSort={true} dataField={"website"}>
+                      {" "}
+                      Website{" "}
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField={"company"}>
+                      {" "}
+                      Compañia{" "}
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      dataFormat={(cell, row) =>
+                        this.accionesConglomerado(cell, row)
+                      }
+                      style={{ border: "none" }}
+                    />
+                  </BootstrapTable>
+                </Col>
+              </Row>
+            </div>
           </Col>
         </Row>
         <ModalView modalviewstate={this.state.modalView} ref="child" />

@@ -1,0 +1,39 @@
+.table-menu {
+    display: none;
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    padding-bottom: 24px;
+}
+
+tr:hover td .table-menu,
+tr:hover th .table-menu {
+    display: inline;
+    float: right;
+    position: absolute;
+    right: 0;
+}
+
+.table-menu-active {
+    display: inline;
+    float: right;
+}
+
+.table {
+    position: relative;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}

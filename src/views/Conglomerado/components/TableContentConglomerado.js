@@ -329,11 +329,11 @@ class TableContentConglomerado extends Component {
                 Email
               </TableHeaderColumn>
               <TableHeaderColumn dataSort={true} dataField={"address"}>
-                Direccion
+                Dirección
               </TableHeaderColumn>
               <TableHeaderColumn dataSort={true} dataField={"phone"}>
                 {" "}
-                Telefono
+                Teléfono
               </TableHeaderColumn>
               <TableHeaderColumn dataSort={true} dataField={"username"}>
                 Usuario

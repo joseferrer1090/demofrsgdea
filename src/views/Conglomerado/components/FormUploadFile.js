@@ -97,14 +97,14 @@ class FormUploadFile extends Component {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label>Titulos</label>
+                        <label>Títulos</label>
                         <br />
                         &nbsp;
                         <input type="checkbox" />
                         &nbsp;
                         <b>
                           {" "}
-                          (El primer registro contiene los titulos de las
+                          (El primer registro contiene los títulos de las
                           columnas){" "}
                         </b>{" "}
                       </div>
@@ -115,7 +115,7 @@ class FormUploadFile extends Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Archivo a importar en extension{" "}
+                          Archivo a importar en extensión{" "}
                           <span>
                             {" "}
                             <b>CSV</b> <span className="text-danger"> * </span>
@@ -137,7 +137,7 @@ class FormUploadFile extends Component {
                 <div className="pull-right">
                   <button className="btn btn-secondary" onClick={this.onClick}>
                     {" "}
-                    <i className="fa fa-upload" /> Cargar informacion
+                    <i className="fa fa-upload" /> Cargar información
                   </button>
                 </div>
               </div>

@@ -57,91 +57,91 @@ const routes = [
   {
     path: "/configuracion/conglomerado",
     exact: true,
-    name: "Configuracion / Conglomerado",
+    name: "Configuración / Conglomerado",
     component: Conglomerado
   },
   {
     path: "/configuracion/empresa",
     exact: true,
-    name: " Configuracion / Empresa ",
+    name: " Configuración / Empresa ",
     component: Empresa
   },
   {
     path: "/configuracion/sedes",
     exact: true,
-    name: " Configuracion / Sedes ",
+    name: " Configuración / Sedes ",
     component: Sedes
   },
   {
     path: "/configuracion/dependencias",
     exact: true,
-    name: " Configuracion / Dependencias ",
+    name: " Configuración / Dependencias ",
     component: Dependencias
   },
   {
     path: "/configuracion/cargo",
     exact: true,
-    name: " Configuracion / Cargo ",
+    name: " Configuración / Cargo ",
     component: Cargo
   },
   {
     path: "/configuracion/usuarios",
     exact: true,
-    name: " Configuracion / Usuarios ",
+    name: " Configuración / Usuarios ",
     component: Usuarios
   },
   {
     path: "/configuracion/roles",
     exact: true,
-    name: " Configuracion / Roles ",
+    name: " Configuración / Roles ",
     component: Roles
   },
   {
     path: "/configuracion/grupos",
     exact: true,
-    name: " Configuracion / Grupos ",
+    name: " Configuración / Grupos ",
     component: GruposUsuarios
   },
   {
     path: "/configuracion/remitentes",
     exact: true,
-    name: " Configuracion / Remitentes ",
+    name: " Configuración / Remitentes ",
     component: Remitentes
   },
   {
     path: "/configuracion/tipodocumental",
     exact: true,
-    name: " Configuracion / Tipo documentales ",
+    name: " Configuración / Tipo documentales ",
     component: TipoDocumentales
   },
   {
     path: "/configuracion/tipodocumentalradicacion",
     exact: true,
-    name: " Configuracion / Tipo documentale de radicacion ",
+    name: " Configuración / Tipo documentale de radicacion ",
     component: TipoDocumentalesRadicacion
   },
   {
     path: "/configuracion/pais",
     exact: true,
-    name: " Configuracion / Pais ",
+    name: " Configuración / Pais ",
     component: Pais
   },
   {
     path: "/configuracion/ciudad",
     exact: true,
-    name: " Configuracion / Ciudades",
+    name: " Configuración / Ciudades",
     component: Ciudad
   },
   {
     path: "/configuracion/departamento",
     exact: true,
-    name: " Configuracion / Departamento",
+    name: " Configuración / Departamento",
     component: Departamento
   },
   {
     path: "/configuracion/perfil",
     exact: true,
-    name: " Configuracion / Perfil de usuario ",
+    name: " Configuración / Perfil de usuario ",
     component: Profile
   }
 ];

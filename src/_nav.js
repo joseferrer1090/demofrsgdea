@@ -56,7 +56,7 @@ export default {
           url: "/configuracion/tipodocumental"
         },
         {
-          name: "Tipo documental radicacion",
+          name: "Tipo documental radicación",
           icon: "icon-book-open",
           url: "/configuracion/tipodocumentalradicacion"
         },

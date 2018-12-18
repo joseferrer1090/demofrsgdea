@@ -93,7 +93,7 @@ const routes = [
   {
     path: "/configuracion/roles",
     exact: true,
-    name: " Configuración / Roles ",
+    name: " Configuración / Roles y permisos ",
     component: Roles
   },
   {
@@ -123,7 +123,7 @@ const routes = [
   {
     path: "/configuracion/pais",
     exact: true,
-    name: " Configuración / Pais ",
+    name: " Configuración / País ",
     component: Pais
   },
   {

@@ -61,9 +61,9 @@ export default {
           url: "/configuracion/tipodocumentalradicacion"
         },
         {
-          name: "Pais",
+          name: "País",
           icon: "icon-settings",
-          url: "/configuracion/Pais"
+          url: "/configuracion/pais"
         },
         {
           name: "Ciudad",

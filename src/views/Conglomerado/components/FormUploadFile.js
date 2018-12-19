@@ -126,6 +126,7 @@ class FormUploadFile extends Component {
                           type="file"
                           className="form-control"
                           onChange={this.onChange}
+                          accept={".csv"}
                         />
                         {console.log(this.state.data)}
                       </div>

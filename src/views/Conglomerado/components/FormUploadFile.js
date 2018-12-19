@@ -39,10 +39,7 @@ class FormUploadFile extends Component {
         <Row>
           <Col md="4">
             <div className="list-group">
-              <a
-                href="#"
-                className="list-group-item list-group-item-action flex-column align-items-start"
-              >
+              <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">1. Paso</h5>
                 </div>
@@ -51,10 +48,7 @@ class FormUploadFile extends Component {
                   diam eget risus varius blandit.
                 </p>
               </a>
-              <a
-                href="#"
-                className="list-group-item list-group-item-action flex-column align-items-start"
-              >
+              <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">2. Paso</h5>
                 </div>
@@ -63,10 +57,7 @@ class FormUploadFile extends Component {
                   diam eget risus varius blandit.
                 </p>
               </a>
-              <a
-                href="#"
-                className="list-group-item list-group-item-action flex-column align-items-start"
-              >
+              <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">3. Paso</h5>
                 </div>

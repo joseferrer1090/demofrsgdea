@@ -74,7 +74,7 @@ class Conglomerado extends React.Component {
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <Row>
-              <Col sm="8" md={{ offset: 2 }}>
+              <Col sm="10" md={{ offset: 1 }}>
                 <FormCreate />
               </Col>
             </Row>

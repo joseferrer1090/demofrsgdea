@@ -26,7 +26,7 @@ class Login extends Component {
                 <Card className="p-4">
                   <CardBody>
                     <Form>
-                      <h1>Login</h1>
+                      <h1>Iniciar sesión</h1>
                       <p className="text-muted">
                         Ingresa al administrador general SGDEA
                       </p>
@@ -60,7 +60,8 @@ class Login extends Component {
                             to="/configuracion"
                             className="btn btn-outline-secondary btn-block"
                           >
-                            Ingresar
+                            Ingresar{" "}
+                            {/*<i className="fa fa-spinner fa-spin" />*/}
                           </Link>
                         </Col>
                         <Col xs="6" className="text-right">

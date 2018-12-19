@@ -91,7 +91,7 @@ class FormCreateConglomerado extends Component {
                 <CardFooter>
                   <div className="pull-right">
                     <button
-                      className="btn btn-outline-secondary"
+                      className="btn btn-default btn-sm"
                       onClick={() => {
                         console.log("probando");
                       }}

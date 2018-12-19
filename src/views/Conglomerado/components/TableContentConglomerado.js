@@ -357,6 +357,7 @@ class TableContentConglomerado extends Component {
                       Compañia{" "}
                     </TableHeaderColumn>
                     <TableHeaderColumn
+                      export={false}
                       dataFormat={(cell, row) =>
                         this.accionesConglomerado(cell, row)
                       }

@@ -17,6 +17,7 @@ import {
   CardHeader
 } from "reactstrap";
 import classnames from "classnames";
+import FormCreate from "./components/FormCreateEmpresa";
 
 class Empresa extends Component {
   constructor(props) {
@@ -72,8 +73,8 @@ class Empresa extends Component {
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <Row>
-              <Col md="12">
-                <p>Probando</p>
+              <Col sm="8" md={{ offset: 2 }}>
+                <FormCreate />
               </Col>
             </Row>
           </TabPane>

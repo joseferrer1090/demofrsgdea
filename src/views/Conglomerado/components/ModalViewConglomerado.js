@@ -26,36 +26,24 @@ class ModalViewConglomerado extends Component {
               <table className="table table-striped">
                 <tbody>
                   <tr>
-                    <td>Dato1</td>
-                    <td> dato1 </td>
+                    <td>Codigo:</td>
+                    <td> </td>
                   </tr>
                   <tr>
-                    <td>Dato2</td>
-                    <td>Dato2</td>
+                    <td>Nombre:</td>
+                    <td> </td>
                   </tr>
                   <tr>
-                    <td>Dato3</td>
-                    <td>Dato3</td>
+                    <td>Descripcion:</td>
+                    <td> </td>
                   </tr>
                   <tr>
-                    <td>Dato4</td>
-                    <td>Dato4</td>
+                    <td>Fecha de creacion:</td>
+                    <td> </td>
                   </tr>
                   <tr>
-                    <td>Dato5</td>
-                    <td>Dato5</td>
-                  </tr>
-                  <tr>
-                    <td>Dato6</td>
-                    <td>Dato6</td>
-                  </tr>
-                  <tr>
-                    <td>Dato7</td>
-                    <td>Dato7</td>
-                  </tr>
-                  <tr>
-                    <td>Dato8</td>
-                    <td>Dato8</td>
+                    <td>Fecha de modificacion:</td>
+                    <td> </td>
                   </tr>
                 </tbody>
               </table>

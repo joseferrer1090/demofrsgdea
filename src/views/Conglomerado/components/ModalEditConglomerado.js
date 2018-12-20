@@ -27,7 +27,7 @@ class ModalEditConglomerado extends Component {
                 <table className="table table-striped">
                   <tbody>
                     <tr>
-                      <td>Dato1</td>
+                      <td>Código</td>
                       <td>
                         {" "}
                         <input
@@ -38,7 +38,7 @@ class ModalEditConglomerado extends Component {
                       </td>
                     </tr>
                     <tr>
-                      <td>Dato2</td>
+                      <td>Nombre</td>
                       <td>
                         {" "}
                         <input
@@ -49,62 +49,7 @@ class ModalEditConglomerado extends Component {
                       </td>
                     </tr>
                     <tr>
-                      <td>Dato3</td>
-                      <td>
-                        {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
-                        />{" "}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Dato4</td>
-                      <td>
-                        {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
-                        />{" "}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Dato5</td>
-                      <td>
-                        {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
-                        />{" "}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Dato6</td>
-                      <td>
-                        {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
-                        />{" "}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Dato7</td>
-                      <td>
-                        {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
-                        />{" "}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Dato8</td>
+                      <td>Descripción</td>
                       <td>
                         {" "}
                         <input

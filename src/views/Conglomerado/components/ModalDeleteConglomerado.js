@@ -25,7 +25,7 @@ class ModalDeleteConglomerado extends Component {
             <form className="form">
               <p className="text-center">
                 {" "}
-                Confirmar el <code> Dato </code> para eliminar el conglomerado{" "}
+                Confirmar el <code> Nombre </code> para eliminar el conglomerado{" "}
               </p>
 
               <input

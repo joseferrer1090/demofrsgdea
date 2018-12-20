@@ -18,6 +18,8 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreate from "./components/FormCreateEmpresa";
+import TableContent from "./components/TableContentEmpresa";
+import FormImport from "./components/FormUpload";
 
 class Empresa extends Component {
   constructor(props) {
@@ -56,7 +58,7 @@ class Empresa extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar empresas
+              <i className="fa fa-gear" /> Administrar
             </NavLink>
           </NavItem>
           <NavItem>
@@ -81,14 +83,14 @@ class Empresa extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <p>Probando 2</p>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <p>Probando 3</p>
+                <FormImport />
               </Col>
             </Row>
           </TabPane>

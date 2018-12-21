@@ -17,6 +17,10 @@ import {
   CardHeader
 } from "reactstrap";
 import classnames from "classnames";
+import FromCreate from "./components/FormCreateSedes";
+import FormCreateSedes from "./components/FormCreateSedes";
+import TableContent from "./components/TableContentSedes";
+import FormImport from "./components/FormUploadSedes";
 
 class Sedes extends Component {
   constructor(props) {
@@ -73,21 +77,21 @@ class Sedes extends Component {
           <TabPane tabId="1">
             <Row>
               <Col md="12">
-                <p>Probando</p>
+                <FormCreateSedes />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <p>Probando 2</p>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <p>Probando 3</p>
+                <FormImport />
               </Col>
             </Row>
           </TabPane>

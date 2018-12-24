@@ -59,7 +59,7 @@ class Sedes extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar sedes
+              <i className="fa fa-gear" /> Administrar
             </NavLink>
           </NavItem>
           <NavItem>

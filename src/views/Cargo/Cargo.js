@@ -10,6 +10,7 @@ import {
   Col
 } from "reactstrap";
 import classnames from "classnames";
+import FormCreate from "./components/FormCreateCargo";
 
 class Cargo extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class Cargo extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar cargo
+              <i className="fa fa-gear" /> Cargos
             </NavLink>
           </NavItem>
           <NavItem>
@@ -66,7 +67,7 @@ class Cargo extends Component {
           <TabPane tabId="1">
             <Row>
               <Col md="12">
-                <p>Probando</p>
+                <FormCreate />
               </Col>
             </Row>
           </TabPane>

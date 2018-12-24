@@ -205,7 +205,7 @@ class FormCreateSedes extends Component {
                             className="form-check-label"
                             htmlFor="exampleCheck1"
                           >
-                            Activar empresa
+                            Activar sede
                           </label>
                         </div>
                         <p
@@ -214,8 +214,8 @@ class FormCreateSedes extends Component {
                         >
                           {" "}
                           Si esta opción se encuentra activada, representa que
-                          la empresa es visible en el sistemas y se podran
-                          realizar operaciones entre cada uno de los modulos
+                          la Sede es visible en el sistemas y se podran realizar
+                          operaciones entre cada uno de los modulos
                           correspondientes de la aplicación. En caso contrario
                           la empresa no se elimina del sistema solo quedara
                           inactiva e invisibles para cada uno de los modulos

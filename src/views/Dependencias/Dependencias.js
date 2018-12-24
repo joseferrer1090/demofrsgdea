@@ -10,6 +10,9 @@ import {
   NavItem
 } from "reactstrap";
 import classnames from "classnames";
+import FromCreate from "./components/FormCreateDependencia";
+import TableContent from "./components/TableContentDependencia";
+import FormUpload from "./components/FormUploadDependencias";
 
 class Dependencias extends Component {
   constructor(props) {
@@ -48,7 +51,7 @@ class Dependencias extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar dependencias
+              <i className="fa fa-gear" /> Dependencias
             </NavLink>
           </NavItem>
           <NavItem>
@@ -66,21 +69,21 @@ class Dependencias extends Component {
           <TabPane tabId="1">
             <Row>
               <Col md="12">
-                <p>Probando</p>
+                <FromCreate />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <p>Probando 2</p>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <p>Probando 3</p>
+                <FormUpload />
               </Col>
             </Row>
           </TabPane>

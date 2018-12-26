@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreateUsers from "./components/FormCreateUser";
+import UploadUsers from "./components/FormUploadUser";
 
 class Usuarios extends Component {
   constructor(props) {
@@ -67,7 +68,7 @@ class Usuarios extends Component {
           <TabPane tabId="1">
             <Row>
               <Col md="12">
-                <FormCreateUsers/>
+                <FormCreateUsers />
               </Col>
             </Row>
           </TabPane>
@@ -81,7 +82,7 @@ class Usuarios extends Component {
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <p>Probando 3</p>
+                <UploadUsers />
               </Col>
             </Row>
           </TabPane>

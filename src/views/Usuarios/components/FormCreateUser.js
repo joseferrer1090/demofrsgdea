@@ -17,9 +17,19 @@ class FormCreateUser extends Component {
               <Card>
                 <CardHeader> Registro de usuario </CardHeader>
                 <CardBody>
-                  <div className="row">
-                    
-                  </div>
+                  <form className="form">
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Nombre <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input type="text" className="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                  </form>
                 </CardBody>
                 <CardFooter>
                   <div className="float-right">

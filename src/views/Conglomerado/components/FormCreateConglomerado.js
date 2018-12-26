@@ -15,7 +15,7 @@ class FormCreateConglomerado extends Component {
               <Card>
                 <CardHeader> Registro de Conglomerado </CardHeader>
                 <CardBody>
-                  <form className="form" role="form">
+                  <form className="form">
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">

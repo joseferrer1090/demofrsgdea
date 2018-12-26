@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import {
   Nav,
   NavItem,
@@ -11,6 +10,8 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreate from "./components/FormCreateCargo";
+import TableContent from "./components/TableContentCargo";
+import FormUpload from "./components/FormUploadCargo";
 
 class Cargo extends Component {
   constructor(props) {
@@ -74,14 +75,14 @@ class Cargo extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <p>Probando 2</p>
+                <TableContent/>
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <p>Probando 3</p>
+                <FormUpload/>
               </Col>
             </Row>
           </TabPane>
@@ -90,7 +91,5 @@ class Cargo extends Component {
     );
   }
 }
-
-Cargo.propTypes = {};
 
 export default Cargo;

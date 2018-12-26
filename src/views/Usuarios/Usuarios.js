@@ -12,6 +12,7 @@ import {
 import classnames from "classnames";
 import FormCreateUsers from "./components/FormCreateUser";
 import UploadUsers from "./components/FormUploadUser";
+import TableContent from "./components/TableContentUser";
 
 class Usuarios extends Component {
   constructor(props) {
@@ -75,7 +76,7 @@ class Usuarios extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <p>Probando 2</p>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>

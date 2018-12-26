@@ -10,6 +10,7 @@ import {
   Col
 } from "reactstrap";
 import classnames from "classnames";
+import FormCreateUsers from "./components/FormCreateUser";
 
 class Usuarios extends Component {
   constructor(props) {
@@ -48,7 +49,7 @@ class Usuarios extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar usuarios
+              <i className="fa fa-gear" /> Administrar
             </NavLink>
           </NavItem>
           <NavItem>
@@ -66,7 +67,7 @@ class Usuarios extends Component {
           <TabPane tabId="1">
             <Row>
               <Col md="12">
-                <p>Probando</p>
+                <FormCreateUsers/>
               </Col>
             </Row>
           </TabPane>

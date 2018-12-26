@@ -4,12 +4,27 @@ import { Row, Col, Card, CardHeader, CardBody, CardFooter } from "reactstrap";
 import DatePicker from "react-datepicker";
 import "./../../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import "./../../../css/custom_calendar.css";
+import Select from "react-select";
+
+const dataExampleDependencia = [
+  { value: "departamento1", label: "departamento 1" },
+  { value: "departamento2", label: "departamento 2" },
+  { value: "departamento3", label: "departamento 3" }
+];
+
+const dataExampleCargo = [
+  { value: "cargo1", label: "Cargo 1" },
+  { value: "cargo2", label: "Cargo 2" },
+  { value: "cargo3", label: "Cargo 3" }
+];
 
 class FormCreateUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: ""
+      startDate: "",
+      selectedOptionDependencia: null,
+      seledtedOptionCargo: null
     };
   }
 
@@ -19,7 +34,18 @@ class FormCreateUser extends Component {
     });
   };
 
+  handleChangeSelectedOptionCargo = seledtedOptionCargo => {
+    this.setState({ seledtedOptionCargo });
+    console.log(this.state.seledtedOptionCargo);
+  };
+
+  handleSelectedOptionDependencia = selectedOptionDependencia => {
+    this.setState({ selectedOptionDependencia });
+    console.log(this.state.selectedOptionDependencia);
+  };
+
   render() {
+    const { selectedoptiondependencia, selectedoptioncargo } = this.state;
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -55,7 +81,7 @@ class FormCreateUser extends Component {
                             <div className="form-group">
                               <label>
                                 {" "}
-                                Identificacion{" "}
+                                Identificación{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <input type="text" className="form-control" />
@@ -87,7 +113,7 @@ class FormCreateUser extends Component {
                             <div className="form-group">
                               <label>
                                 {" "}
-                                Telefono <span className="text-danger">
+                                Teléfono <span className="text-danger">
                                   *
                                 </span>{" "}
                               </label>
@@ -98,7 +124,7 @@ class FormCreateUser extends Component {
                         <div className="row">
                           <div className="col-md-12">
                             <div className="form-group">
-                              <label> Direccion </label>
+                              <label> Dirección </label>
                               <textarea className="form-control" />
                             </div>
                           </div>
@@ -161,11 +187,12 @@ class FormCreateUser extends Component {
                                 Dependencia{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <select className="form-control">
-                                <option>Dependencia 1</option>
-                                <option>Dependencia 2</option>
-                                <option>Dependencia 3</option>
-                              </select>
+                              <Select
+                                value={selectedoptiondependencia}
+                                onChange={this.handleSelectedOptionDependencia}
+                                options={dataExampleDependencia}
+                                placeholder={"seleccione"}
+                              />
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -176,11 +203,12 @@ class FormCreateUser extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <select className="form-control">
-                                <option>Cargo 1</option>
-                                <option>Cargo 2</option>
-                                <option>Cargo 3</option>
-                              </select>
+                              <Select
+                                value={selectedoptioncargo}
+                                onChange={this.handleChangeSelectedOptionCargo}
+                                options={dataExampleCargo}
+                                placeholder={"selecciones"}
+                              />
                             </div>
                           </div>
                         </div>

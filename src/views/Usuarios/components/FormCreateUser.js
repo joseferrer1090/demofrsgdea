@@ -207,21 +207,60 @@ class FormCreateUser extends Component {
                                 value={selectedoptioncargo}
                                 onChange={this.handleChangeSelectedOptionCargo}
                                 options={dataExampleCargo}
-                                placeholder={"selecciones"}
+                                placeholder={"seleccione"}
                               />
                             </div>
                           </div>
-                        </div>
-                        <div
-                          className="col-md-12"
-                          style={{ border: "1px solid red" }}
-                        >
-                          <div className="form-group">
-                            <label>
-                              {" "}
-                              Roles <span className="text-danger">*</span>{" "}
-                            </label>
-                            <p> selector de roles para el usuario </p>
+                          <div
+                            className="col-md-12"
+                            style={{ border: "1px solid red" }}
+                          >
+                            <div className="form-group">
+                              <label>
+                                {" "}
+                                Roles <span className="text-danger">
+                                  *
+                                </span>{" "}
+                              </label>
+                              <p> selector de roles para el usuario </p>
+                            </div>
+                          </div>
+
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label>
+                                {" "}
+                                Estado <span className="text-danger">
+                                  *
+                                </span>{" "}
+                              </label>
+                              <div className="form-check">
+                                <input
+                                  type="checkbox"
+                                  className="form-check-input"
+                                  id="exampleCheck1"
+                                />
+                                <label
+                                  className="form-check-label"
+                                  htmlFor="exampleCheck1"
+                                >
+                                  Activar usuario en el sistema.
+                                </label>
+                                <p
+                                  className="text-muted"
+                                  style={{ textAlign: "justify" }}
+                                >
+                                  Si esta opción se encuentra activada,
+                                  representa que el Usuario es visible en el
+                                  sistemas y se podran realizar operaciones
+                                  entre cada uno de los modulos correspondientes
+                                  de la aplicación. En caso contrario el Usuario
+                                  no se elimina del sistema solo quedara
+                                  inactivo e invisibles para cada uno de los
+                                  modulos correspondiente del sistema.
+                                </p>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </form>

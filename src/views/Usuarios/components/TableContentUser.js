@@ -4,6 +4,7 @@ import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewUser";
 import ModalDelete from "./ModalDeleteUser";
+import ModalUpdate from "./ModalEditUser";
 
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import "./../../../css/custom_table.css";
@@ -102,6 +103,10 @@ class TableContentUser extends Component {
     this.refs.child2.toggle();
   }
 
+  openModalEdit() {
+    this.refs.child3.toggle();
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -153,6 +158,7 @@ class TableContentUser extends Component {
         </Row>
         <ModalView modalview={this.state.modalviewuserstate} ref="child" />
         <ModalDelete modaldel={this.state.modaldeluserstate} ref="child2" />
+        <ModalUpdate modaledit={this.state.modaledituserstate} ref="child3" />
       </div>
     );
   }

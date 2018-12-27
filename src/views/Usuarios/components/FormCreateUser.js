@@ -26,6 +26,7 @@ class FormCreateUser extends Component {
       selectedOptionDependencia: null,
       seledtedOptionCargo: null
     };
+    this.inputOpenFileRef = React.createRef();
   }
 
   handleChangeFechaNacimiento = date => {
@@ -42,6 +43,10 @@ class FormCreateUser extends Component {
   handleSelectedOptionDependencia = selectedOptionDependencia => {
     this.setState({ selectedOptionDependencia });
     console.log(this.state.selectedOptionDependencia);
+  };
+
+  showOpenFileDlg = () => {
+    this.inputOpenFileRef.current.click();
   };
 
   render() {
@@ -63,10 +68,16 @@ class FormCreateUser extends Component {
                         />
                         <br />
                         <br />
+                        <input
+                          type="file"
+                          style={{ display: "none" }}
+                          ref={this.inputOpenFileRef}
+                        />
                         <button
                           type="button"
                           className="btn btn-secondary btn-sm "
                           style={{ width: "160px" }}
+                          onClick={this.showOpenFileDlg}
                         >
                           {" "}
                           <i className="fa fa-camera" /> Cambiar imagen{" "}

@@ -53,6 +53,10 @@ class ModalViewUser extends Component {
                         <td> Nombre </td>
                         <td> Dato </td>
                       </tr>
+                      <tr>
+                        <td> Estado </td>
+                        <td> Dato </td>
+                      </tr>
                     </tbody>
                   </table>
                 </div>

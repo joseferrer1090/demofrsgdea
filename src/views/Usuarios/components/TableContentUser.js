@@ -5,6 +5,7 @@ import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewUser";
 import ModalDelete from "./ModalDeleteUser";
 import ModalUpdate from "./ModalEditUser";
+import ModalChangePassword from "./FormChangePasswordUser";
 
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import "./../../../css/custom_table.css";
@@ -50,7 +51,8 @@ class TableContentUser extends Component {
     this.state = {
       modalviewuserstate: false,
       modaledituserstate: false,
-      modaldeluserstate: false
+      modaldeluserstate: false,
+      modalchangepassword: false
     };
   }
 
@@ -91,6 +93,17 @@ class TableContentUser extends Component {
         >
           <i className="fa fa-pencil" />
         </button>
+        &nbsp;
+        <button
+          className="btn btn-warning btn-sm"
+          data-hover="hover"
+          onClick={() => {
+            this.openModalPassword();
+          }}
+        >
+          {" "}
+          <i className="fa fa-lock" />
+        </button>
       </div>
     );
   }
@@ -107,6 +120,10 @@ class TableContentUser extends Component {
     this.refs.child3.toggle();
   }
 
+  openModalPassword() {
+    this.refs.child4.toggle();
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -119,6 +136,7 @@ class TableContentUser extends Component {
               data={data}
               exportCSV
               hover
+              bordered={false}
             >
               <TableHeaderColumn
                 dataField={"id"}
@@ -159,6 +177,10 @@ class TableContentUser extends Component {
         <ModalView modalview={this.state.modalviewuserstate} ref="child" />
         <ModalDelete modaldel={this.state.modaldeluserstate} ref="child2" />
         <ModalUpdate modaledit={this.state.modaledituserstate} ref="child3" />
+        <ModalChangePassword
+          modalpassword={this.state.modalchangepassword}
+          ref="child4"
+        />
       </div>
     );
   }

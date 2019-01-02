@@ -3,9 +3,8 @@ import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewRemitente";
-
+import ModalUpdate from "./ModalUpdateRemitente";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import ModalViewRemitente from "./ModalViewRemitente";
 
 const dataExample = [
   {
@@ -42,26 +41,41 @@ class TableContentRemitente extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalViewRemitente: false
+      modalViewRemitente: false,
+      modalUpdateRemitente: false
     };
   }
 
   accionesRemitente(cel, row) {
     return (
-      <button
-        className="btn btn-secondary"
-        onClick={() => {
-          this.openModalView();
-        }}
-      >
-        {" "}
-        <i className="fa fa-eye" />{" "}
-      </button>
+      <div>
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalView();
+          }}
+        >
+          <i className="fa fa-eye" />
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalEdit();
+          }}
+        >
+          <i className="fa fa-pencil" />
+        </button>
+      </div>
     );
   }
 
   openModalView() {
     this.refs.child.toggle();
+  }
+
+  openModalEdit() {
+    this.refs.child3.toggle();
   }
 
   render() {
@@ -113,6 +127,10 @@ class TableContentRemitente extends Component {
           </Col>
         </Row>
         <ModalView modalview={this.state.modalViewRemitente} ref="child" />
+        <ModalUpdate
+          modalupdate={this.state.modalUpdateRemitente}
+          ref="child3"
+        />
       </div>
     );
   }

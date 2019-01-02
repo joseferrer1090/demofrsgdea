@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalFooter, ModalHeader, ModalBody } from "reactstrap";
+import { Modal, ModalFooter, ModalHeader, ModalBody, Button } from "reactstrap";
 
 class ModalViewRemitente extends Component {
   constructor(props) {
@@ -70,7 +70,7 @@ class ModalViewRemitente extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <button type="button" className="btn btn-secondary">
+            <Button className="btn btn-secondary">
               {" "}
               <i
                 className="fa fa-times"
@@ -79,7 +79,7 @@ class ModalViewRemitente extends Component {
                 }}
               />{" "}
               Cerrar{" "}
-            </button>
+            </Button>
           </ModalFooter>
         </Modal>
       </div>

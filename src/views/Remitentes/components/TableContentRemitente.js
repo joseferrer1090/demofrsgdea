@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
+import ModalView from "./ModalViewRemitente";
 
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import ModalViewRemitente from "./ModalViewRemitente";
 
 const dataExample = [
   {
@@ -39,8 +41,29 @@ const dataExample = [
 class TableContentRemitente extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      modalViewRemitente: false
+    };
   }
+
+  accionesRemitente(cel, row) {
+    return (
+      <button
+        className="btn btn-secondary"
+        onClick={() => {
+          this.openModalView();
+        }}
+      >
+        {" "}
+        <i className="fa fa-eye" />{" "}
+      </button>
+    );
+  }
+
+  openModalView() {
+    this.refs.child.toggle();
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -53,26 +76,43 @@ class TableContentRemitente extends Component {
               searchPlaceholder="Buscar"
               exportCSV
             >
-              <TableHeaderColumn isKey dataField={"id"}>
+              <TableHeaderColumn
+                isKey
+                dataField={"id"}
+                dataAlign="center"
+                width="50"
+              >
                 #
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"identificacion"}>
+              <TableHeaderColumn
+                dataField={"identificacion"}
+                dataAlign="center"
+              >
                 {" "}
                 identificación{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"nombre"}>
+              <TableHeaderColumn dataField={"nombre"} dataAlign="center">
                 {" "}
                 Nombre{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"email"}> Email </TableHeaderColumn>
-              <TableHeaderColumn dataField={"estado"}>
+              <TableHeaderColumn dataField={"email"} dataAlign="center">
+                {" "}
+                Email{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField={"estado"} dataAlign="center">
                 {" "}
                 Estado{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn> Acciones </TableHeaderColumn>
+              <TableHeaderColumn
+                export={false}
+                dataAlign="center"
+                dataFormat={(cell, row) => this.accionesRemitente(cell, row)}
+                style={{ border: "none" }}
+              />
             </BootstrapTable>
           </Col>
         </Row>
+        <ModalView modalview={this.state.modalViewRemitente} ref="child" />
       </div>
     );
   }

@@ -4,7 +4,9 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewRemitente";
 import ModalUpdate from "./ModalUpdateRemitente";
+import ModalDel from "./ModalDeleteRemitente";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import "./../../../css/custom_table.css";
 
 const dataExample = [
   {
@@ -42,13 +44,17 @@ class TableContentRemitente extends Component {
     super(props);
     this.state = {
       modalViewRemitente: false,
-      modalUpdateRemitente: false
+      modalUpdateRemitente: false,
+      modalDeleteRemitente: false
     };
   }
 
   accionesRemitente(cel, row) {
     return (
-      <div>
+      <div
+        className="table-menu"
+        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+      >
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
@@ -66,12 +72,25 @@ class TableContentRemitente extends Component {
         >
           <i className="fa fa-pencil" />
         </button>
+        &nbsp;
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => {
+            this.openModalDel();
+          }}
+        >
+          <i className="fa fa-trash" />
+        </button>
       </div>
     );
   }
 
   openModalView() {
     this.refs.child.toggle();
+  }
+
+  openModalDel() {
+    this.refs.child2.toggle();
   }
 
   openModalEdit() {
@@ -88,6 +107,9 @@ class TableContentRemitente extends Component {
               pagination
               search
               searchPlaceholder="Buscar"
+              hover
+              striped
+              bordered={false}
               exportCSV
             >
               <TableHeaderColumn
@@ -127,6 +149,7 @@ class TableContentRemitente extends Component {
           </Col>
         </Row>
         <ModalView modalview={this.state.modalViewRemitente} ref="child" />
+        <ModalDel modaldel={this.state.modalDeleteRemitente} ref="child2" />
         <ModalUpdate
           modalupdate={this.state.modalUpdateRemitente}
           ref="child3"

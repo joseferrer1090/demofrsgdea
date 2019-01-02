@@ -17,15 +17,14 @@ class FormCreateRemitente extends Component {
     };
   }
 
-  handleChangeSelecte = SelectedOptionCiudades => {
-    this.setState({
-      SelectedOptionCiudades
-    });
-    console.log("selected ciudad", this.setState.SelectedOptionCiudades);
+  handleChangeSelected = SelectedOptionCiudades => {
+    this.setState({ SelectedOptionCiudades });
+    console.log("selected ciudad", SelectedOptionCiudades);
   };
 
   render() {
-    const { SelectedCiudades } = this.state;
+    const { SelectedOptionCiudades } = this.state;
+
     return (
       <div className="animated fadeIn">
         <Row>
@@ -87,8 +86,8 @@ class FormCreateRemitente extends Component {
                           Ciudad <span className="text-danger"> * </span>{" "}
                         </label>
                         <Select
-                          value={SelectedCiudades}
-                          onChange={this.handleChangeSelecte}
+                          value={SelectedOptionCiudades}
+                          onChange={this.handleChangeSelected}
                           options={dataExample}
                         />
                       </div>

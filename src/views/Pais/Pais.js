@@ -10,6 +10,7 @@ import {
   Col
 } from "reactstrap";
 import classnames from "classnames";
+import FormCreate from "./components/FormCreatePais";
 
 class Pais extends Component {
   constructor(props) {
@@ -66,7 +67,7 @@ class Pais extends Component {
           <TabPane tabId="1">
             <Row>
               <Col md="12">
-                <p>Probando</p>
+                <FormCreate />
               </Col>
             </Row>
           </TabPane>

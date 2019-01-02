@@ -14,7 +14,7 @@ import FormCreate from "./components/FormCreateRemitente";
 import TableContent from "./components/TableContentRemitente";
 import FormImport from "./components/FormImportRemitente";
 
-class Remitente extends Component {
+class Remitentes extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -76,7 +76,7 @@ class Remitente extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <TabContent />
+                <TableContent />
               </Col>
             </Row>
           </TabPane>
@@ -93,6 +93,6 @@ class Remitente extends Component {
   }
 }
 
-Remitente.propTypes = {};
+Remitentes.propTypes = {};
 
-export default Remitente;
+export default Remitentes;

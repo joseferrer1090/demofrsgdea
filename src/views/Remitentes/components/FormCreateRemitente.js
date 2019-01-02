@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 
 class FormCreateRemitente extends Component {
   constructor(props) {
@@ -9,12 +8,10 @@ class FormCreateRemitente extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <p> Probando </p>
+        <div>Soy el componente del formulario</div>
       </div>
     );
   }
 }
-
-FormCreateRemitente.propTypes = {};
 
 export default FormCreateRemitente;

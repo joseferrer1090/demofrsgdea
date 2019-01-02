@@ -1,19 +1,37 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Card, CardBody, CardHeader, CardFooter, Row, Col } from "reactstrap";
+import Select from "react-select";
+
+const dataExample = [
+  { value: "ciudad1", label: "ciudad1" },
+  { value: "ciudad2", label: "ciudad2" },
+  { value: "ciudad3", label: "ciudad3" }
+];
 
 class FormCreateRemitente extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      SelectedOptionCiudades: null
+    };
   }
+
+  handleChangeSelecte = SelectedOptionCiudades => {
+    this.setState({
+      SelectedOptionCiudades
+    });
+    console.log("selected ciudad", this.setState.SelectedOptionCiudades);
+  };
+
   render() {
+    const { SelectedCiudades } = this.state;
     return (
       <div className="animated fadeIn">
         <Row>
           <Col sm="8" md={{ offset: 2 }}>
             <Card>
-              <CardHeader> Probando </CardHeader>
+              <CardHeader> Remitente </CardHeader>
               <CardBody>
                 <form className="form">
                   <div className="row">
@@ -58,6 +76,21 @@ class FormCreateRemitente extends Component {
                       <div className="form-group">
                         <label> Dirección </label>
                         <input type="text" className="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          Ciudad <span className="text-danger"> * </span>{" "}
+                        </label>
+                        <Select
+                          value={SelectedCiudades}
+                          onChange={this.handleChangeSelecte}
+                          options={dataExample}
+                        />
                       </div>
                     </div>
                   </div>

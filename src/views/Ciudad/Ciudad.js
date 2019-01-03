@@ -10,6 +10,9 @@ import {
   Col
 } from "reactstrap";
 import classnames from "classnames";
+import FormCreate from "./components/FormCreateCiudad";
+import FormImport from "./components/FormImportCiudad";
+import TableContent from "./components/TableContentCiudad";
 
 class Ciudad extends Component {
   constructor(props) {
@@ -48,7 +51,7 @@ class Ciudad extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar cargo
+              <i className="fa fa-gear" /> Administrar
             </NavLink>
           </NavItem>
           <NavItem>
@@ -66,21 +69,21 @@ class Ciudad extends Component {
           <TabPane tabId="1">
             <Row>
               <Col md="12">
-                <p>Probando</p>
+                <FormCreate />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <p>Probando 2</p>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <p>Probando 3</p>
+                <FormImport />
               </Col>
             </Row>
           </TabPane>

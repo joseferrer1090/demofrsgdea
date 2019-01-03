@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import ModalView from "./ModalViewPais";
+import ModalEdit from "./ModalEditPais";
+import ModalDelete from "./ModalDeletePais";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 
 const dataExample = [
@@ -15,7 +18,64 @@ const dataExample = [
 class TableContentPais extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      ModalViewPais: false,
+      ModalEdit: false,
+      ModalDel: false
+    };
+  }
+
+  accionesPais(cell, row) {
+    return (
+      <div
+        className="table-menu"
+        style={{ textAlign: "center", padding: "0", marginRight: "10px" }}
+      >
+        <button
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalView();
+          }}
+        >
+          {" "}
+          <i className="fa fa-eye" />{" "}
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-danger btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalDelete();
+          }}
+        >
+          {" "}
+          <i className="fa fa-trash" />{" "}
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalEdit();
+          }}
+        >
+          <i className="fa fa-pencil" />
+        </button>
+      </div>
+    );
+  }
+
+  openModalView() {
+    this.refs.child.toggle();
+  }
+
+  openModalEdit() {
+    this.refs.child3.toggle();
+  }
+
+  openModalDelete() {
+    this.refs.child2.toggle();
   }
 
   render() {
@@ -45,10 +105,19 @@ class TableContentPais extends Component {
                 {" "}
                 Estado{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn  dataAlign="center"> Acciones </TableHeaderColumn>
+              <TableHeaderColumn
+                dataAlign="center"
+                dataFormat={(cel, row) => this.accionesPais(cel, row)}
+              >
+                {" "}
+                Acciones{" "}
+              </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>
+        <ModalView modalview={this.state.ModalViewPais} ref="child" />
+        <ModalView modaledit={this.state.ModalEdit} ref="child3" />
+        <ModalDelete modaldel={this.state.ModalDelete} ref="child2" />
       </div>
     );
   }

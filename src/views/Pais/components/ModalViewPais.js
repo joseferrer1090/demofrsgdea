@@ -1,6 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalFooter, ModalBody, ModalHeader } from "reactstrap";
+import {
+  Modal,
+  ModalFooter,
+  ModalBody,
+  ModalHeader,
+  Row,
+  Col
+} from "reactstrap";
 
 class ModalViewPais extends Component {
   constructor(props) {
@@ -18,9 +25,40 @@ class ModalViewPais extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Probando </ModalHeader>
+          <ModalHeader> Pais </ModalHeader>
           <ModalBody>
-            <p>Probnado</p>
+            <Row>
+              <Col sm="12">
+                <form className="form">
+                  <div className="table-responsive">
+                    <table className="table table-hover table-striped">
+                      <tbody>
+                        <tr>
+                          <td> Código: </td>
+                          <td> </td>
+                        </tr>
+                        <tr>
+                          <td> Nombre: </td>
+                          <td> </td>
+                        </tr>
+                        <tr>
+                          <td> Estado: </td>
+                          <td> </td>
+                        </tr>
+                        <tr>
+                          <td> Fecha de Creación: </td>
+                          <td> </td>
+                        </tr>
+                        <tr>
+                          <td> Fecha de Modificación: </td>
+                          <td> </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </form>
+              </Col>
+            </Row>
           </ModalBody>
           <ModalFooter>
             <button

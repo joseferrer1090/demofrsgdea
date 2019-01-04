@@ -9,7 +9,7 @@ class FormCreateCiudad extends Component {
         <Row>
           <Col sm="8" md={{ offset: 2 }}>
             <Card>
-              <CardHeader> Paises </CardHeader>
+              <CardHeader> Ciudades </CardHeader>
               <CardBody>
                 <form className="form">
                   <div className="row">
@@ -17,7 +17,7 @@ class FormCreateCiudad extends Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Codigo <span className="text-danger">*</span>{" "}
+                          Nombre <span className="text-danger">*</span>{" "}
                         </label>
                         <input type="text" className="form-control" />
                       </div>
@@ -26,9 +26,15 @@ class FormCreateCiudad extends Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Nombre <span className="text-danger">*</span>{" "}
+                          Departamento <span className="text-danger">
+                            *
+                          </span>{" "}
                         </label>
-                        <input type="text" className="form-control" />
+                        <select className="form-control">
+                          <option> Departamento 1 </option>
+                          <option> Departamento 2 </option>
+                          <option> Departamento 3 </option>
+                        </select>
                       </div>
                     </div>
                   </div>
@@ -49,17 +55,17 @@ class FormCreateCiudad extends Component {
                             className="form-check-label"
                             htmlFor="exampleCheck1"
                           >
-                            Activar pais en el sistema.
+                            Activar ciudad en el sistema.
                           </label>
                           <p
                             className="text-muted"
                             style={{ textAlign: "justify" }}
                           >
                             Si esta opción se encuentra activada, representa que
-                            el Pais es visible en el sistemas y se podran
+                            la ciudad es visible en el sistemas y se podran
                             realizar operaciones entre cada uno de los modulos
                             correspondientes de la aplicación. En caso contrario
-                            el Pais no se elimina del sistema solo quedara
+                            la ciudad no se elimina del sistema solo quedara
                             inactivo e invisibles para cada uno de los modulos
                             correspondiente del sistema.
                           </p>

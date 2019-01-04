@@ -8,12 +8,42 @@ import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-tab
 import "./../../../css/custom_table.css";
 
 const dataExample = [
-  { id: 1, codigo: 12345, nombre: "Colombia1", estado: true },
-  { id: 2, codigo: 12345, nombre: "Colombia2", estado: true },
-  { id: 3, codigo: 12345, nombre: "Colombia3", estado: true },
-  { id: 4, codigo: 12345, nombre: "Colombia4", estado: true },
-  { id: 5, codigo: 12345, nombre: "Colombia5", estado: true },
-  { id: 6, codigo: 12345, nombre: "Colombia6", estado: true }
+  {
+    id: 1,
+    departamento: "departamento_name",
+    nombre: "Colombia1",
+    estado: true
+  },
+  {
+    id: 2,
+    departamento: "departamento_name",
+    nombre: "Colombia2",
+    estado: true
+  },
+  {
+    id: 3,
+    departamento: "departamento_name",
+    nombre: "Colombia3",
+    estado: true
+  },
+  {
+    id: 4,
+    departamento: "departamento_name",
+    nombre: "Colombia4",
+    estado: true
+  },
+  {
+    id: 5,
+    departamento: "departamento_name",
+    nombre: "Colombia5",
+    estado: true
+  },
+  {
+    id: 6,
+    departamento: "departamento_name",
+    nombre: "Colombia6",
+    estado: true
+  }
 ];
 
 class TableContentCiudad extends Component {
@@ -96,9 +126,9 @@ class TableContentCiudad extends Component {
               <TableHeaderColumn isKey dataField="id" width="50">
                 #
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="codigo" dataAlign="center">
+              <TableHeaderColumn dataField="departamento" dataAlign="center">
                 {" "}
-                Código{" "}
+                Departamento{" "}
               </TableHeaderColumn>
               <TableHeaderColumn dataField="nombre" dataAlign="center">
                 {" "}

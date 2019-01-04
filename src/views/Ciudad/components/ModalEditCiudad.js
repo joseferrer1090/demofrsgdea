@@ -34,14 +34,15 @@ class ModalEditCiudad extends Component {
                     <table className="table table-hover table-striped">
                       <tbody>
                         <tr>
-                          <td> Código: </td>
+                          <td> Departamento: </td>
                           <td>
                             {" "}
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder="Datos del primer Get"
-                            />{" "}
+                            <select className="form-control">
+                              <option> Departamento 1 </option>
+                              <option> Departamento 2 </option>
+                              <option> Departamento 3 </option>
+                              <option> Departamento 4</option>
+                            </select>
                           </td>
                         </tr>
                         <tr>
@@ -63,26 +64,6 @@ class ModalEditCiudad extends Component {
                               <option> Activo </option>
                               <option> Inactivo </option>
                             </select>{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Fecha de Creación: </td>
-                          <td>
-                            {" "}
-                            <input
-                              className="form-control"
-                              placeholder="Datos del primer Get"
-                            />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Fecha de Modificación: </td>
-                          <td>
-                            {" "}
-                            <input
-                              className="form-control"
-                              placeholder="Datos del primer Get"
-                            />{" "}
                           </td>
                         </tr>
                       </tbody>

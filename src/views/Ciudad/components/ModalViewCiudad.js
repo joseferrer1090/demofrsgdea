@@ -34,7 +34,7 @@ class ModalViewCiudad extends Component {
                     <table className="table table-hover table-striped">
                       <tbody>
                         <tr>
-                          <td> Código: </td>
+                          <td> Nombre del departamento: </td>
                           <td> </td>
                         </tr>
                         <tr>

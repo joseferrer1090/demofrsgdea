@@ -10,9 +10,11 @@ import {
   Col
 } from "reactstrap";
 import classnames from "classnames";
-import FormCreate from "./components/FormCreateDepartamento";
+import FormCreate from "./components/FormCreatePais";
+import FormImport from "./components/FormImportPais";
+import TableContent from "./components/TableContentPais";
 
-class Departamento extends Component {
+class Pais extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -74,14 +76,14 @@ class Departamento extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <p>Probando 2</p>
+                <TableContent/>
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <p>Probando 3</p>
+                <FormImport/>
               </Col>
             </Row>
           </TabPane>
@@ -91,6 +93,6 @@ class Departamento extends Component {
   }
 }
 
-Departamento.propTypes = {};
+Pais.propTypes = {};
 
-export default Departamento;
+export default Pais;

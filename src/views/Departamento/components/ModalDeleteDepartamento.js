@@ -20,12 +20,12 @@ class ModalDeleteDepartamento extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar pais </ModalHeader>
+          <ModalHeader> Eliminar departamento </ModalHeader>
           <ModalBody>
             <form className="form">
               <p className="text-center">
                 {" "}
-                Confirmar el <code> Nombre </code> para eliminar el pais{" "}
+                Confirmar el <code> Nombre </code> para eliminar el departamento{" "}
               </p>
 
               <input
@@ -37,7 +37,7 @@ class ModalDeleteDepartamento extends Component {
               <br />
               <p className="text-center text-danger">
                 {" "}
-                El usuario quedara elimando de manera permanente{" "}
+                El departamento quedara elimando de manera permanente{" "}
               </p>
             </form>
           </ModalBody>

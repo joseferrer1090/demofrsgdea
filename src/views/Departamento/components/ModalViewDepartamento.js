@@ -25,7 +25,7 @@ class ModalViewDepartamento extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Pais </ModalHeader>
+          <ModalHeader> Departamento </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="12">
@@ -35,6 +35,10 @@ class ModalViewDepartamento extends Component {
                       <tbody>
                         <tr>
                           <td> Código: </td>
+                          <td> </td>
+                        </tr>
+                        <tr>
+                          <td> Nombre de país: </td>
                           <td> </td>
                         </tr>
                         <tr>

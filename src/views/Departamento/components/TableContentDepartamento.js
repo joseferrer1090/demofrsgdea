@@ -1,19 +1,49 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import ModalView from "./ModalViewPais";
-import ModalEdit from "./ModalEditPais";
-import ModalDelete from "./ModalDeletePais";
+import ModalView from "./ModalViewDepartamento";
+import ModalEdit from "./ModalEditDepartamento";
+import ModalDelete from "./ModalDeleteDepartamento";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import "./../../../css/custom_table.css";
 
 const dataExample = [
-  { id: 1, codigo: 12345, nombre: "Colombia1", estado: true },
-  { id: 2, codigo: 12345, nombre: "Colombia2", estado: true },
-  { id: 3, codigo: 12345, nombre: "Colombia3", estado: true },
-  { id: 4, codigo: 12345, nombre: "Colombia4", estado: true },
-  { id: 5, codigo: 12345, nombre: "Colombia5", estado: true },
-  { id: 6, codigo: 12345, nombre: "Colombia6", estado: true }
+  {
+    id: 1,
+    codigo: 12345,
+    pais: "pais_name",
+    nombre: "Colombia1",
+    estado: true
+  },
+  {
+    id: 2,
+    codigo: 12345,
+    pais: "pais_name",
+    nombre: "Colombia2",
+    estado: true
+  },
+  {
+    id: 3,
+    codigo: 12345,
+    pais: "pais_name",
+    nombre: "Colombia3",
+    estado: true
+  },
+  {
+    id: 4,
+    codigo: 12345,
+    pais: "pais_name",
+    nombre: "Colombia4",
+    estado: true
+  },
+  {
+    id: 5,
+    codigo: 12345,
+    pais: "pais_name",
+    nombre: "Colombia5",
+    estado: true
+  },
+  { id: 6, codigo: 12345, pais: "pais_name", nombre: "Colombia6", estado: true }
 ];
 
 class TableContentDepartamento extends Component {
@@ -99,6 +129,10 @@ class TableContentDepartamento extends Component {
               <TableHeaderColumn dataField="codigo" dataAlign="center">
                 {" "}
                 Código{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="pais" dataAlign="center">
+                {" "}
+                País{" "}
               </TableHeaderColumn>
               <TableHeaderColumn dataField="nombre" dataAlign="center">
                 {" "}

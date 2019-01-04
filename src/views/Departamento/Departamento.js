@@ -11,6 +11,8 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreate from "./components/FormCreateDepartamento";
+import TableContent from "./components/TableContentDepartamento";
+import FormImport from "./components/FormImportDepartamento";
 
 class Departamento extends Component {
   constructor(props) {
@@ -74,14 +76,14 @@ class Departamento extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <p>Probando 2</p>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <p>Probando 3</p>
+                <FormImport />
               </Col>
             </Row>
           </TabPane>

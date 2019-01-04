@@ -25,7 +25,7 @@ class ModalEditDepartamento extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Editar pais </ModalHeader>
+          <ModalHeader> Editar departamento </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="12">
@@ -42,6 +42,17 @@ class ModalEditDepartamento extends Component {
                               className="form-control"
                               placeholder="Datos del primer Get"
                             />{" "}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> Departamento: </td>
+                          <td>
+                            {" "}
+                            <select className="form-control">
+                              <option> Departamento 1 </option>
+                              <option> Departamento 2 </option>
+                              <option> Departamento 3 </option>
+                            </select>{" "}
                           </td>
                         </tr>
                         <tr>
@@ -63,26 +74,6 @@ class ModalEditDepartamento extends Component {
                               <option> Activo </option>
                               <option> Inactivo </option>
                             </select>{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Fecha de Creación: </td>
-                          <td>
-                            {" "}
-                            <input
-                              className="form-control"
-                              placeholder="Datos del primer Get"
-                            />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Fecha de Modificación: </td>
-                          <td>
-                            {" "}
-                            <input
-                              className="form-control"
-                              placeholder="Datos del primer Get"
-                            />{" "}
                           </td>
                         </tr>
                       </tbody>

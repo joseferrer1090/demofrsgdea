@@ -74,6 +74,11 @@ export default {
           name: "Departamento",
           icon: "icon-settings",
           url: "/configuracion/departamento"
+        },
+        {
+          name: "Auditoria",
+          icons: "icon-wrench",
+          url: "/configuracion/auditoria"
         }
       ]
     }

@@ -40,6 +40,8 @@ const TipoDocumentalesRadicacion = React.lazy(() =>
   import("./views/TipoDocumentalRadicacion/TipoDocumentalRadicacion")
 );
 
+const Auditoria = React.lazy(() => import("./views/Auditoria/Auditoria"));
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   {
@@ -143,6 +145,12 @@ const routes = [
     exact: true,
     name: " Configuración / Perfil de usuario ",
     component: Profile
+  },
+  {
+    path: "/configuracion/auditoria",
+    exact: true,
+    name: " Configuracion / Auditoria ",
+    component: Auditoria
   }
 ];
 

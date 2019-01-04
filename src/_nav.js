@@ -77,7 +77,7 @@ export default {
         },
         {
           name: "Auditoria",
-          icons: "icon-wrench",
+          icon: "icon-info",
           url: "/configuracion/auditoria"
         }
       ]

@@ -1,8 +1,49 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
 import DatePicker from "react-datepicker";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import "./../../../node_modules/react-datepicker/dist/react-datepicker.css";
+import "./../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import moment from "moment";
+
+const dataExample = [
+  {
+    dato: "dato",
+    dato: "dato",
+    dato: "dato",
+    dato: "dato"
+  },
+  {
+    dato: "dato",
+    dato: "dato",
+    dato: "dato",
+    dato: "dato"
+  },
+  {
+    dato: "dato",
+    dato: "dato",
+    dato: "dato",
+    dato: "dato"
+  },
+  {
+    dato: "dato",
+    dato: "dato",
+    dato: "dato",
+    dato: "dato"
+  },
+  {
+    dato: "dato",
+    dato: "dato",
+    dato: "dato",
+    dato: "dato"
+  },
+  {
+    dato: "dato",
+    dato: "dato",
+    dato: "dato",
+    dato: "dato"
+  }
+];
 
 class Auditoria extends Component {
   constructor(props) {
@@ -68,15 +109,51 @@ class Auditoria extends Component {
             </div>
           </Col>
         </Row>
-        {/*<Row>
+        <Row>
           <Col sm="12">
             <div className="card">
               <div className="card-body">
-                <p>Probando</p>
+                <BootstrapTable
+                  data={dataExample}
+                  striped
+                  hover
+                  pagination
+                  search
+                  searchPlaceholder="Buscar"
+                >
+                  <TableHeaderColumn
+                    isKey
+                    dataField={"dato"}
+                    dataAlign="center"
+                  >
+                    {" "}
+                    Dato
+                  </TableHeaderColumn>
+                  <TableHeaderColumn data={"dato"} dataAlign="center">
+                    {" "}
+                    Dato{" "}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn data={"dato"} dataAlign="center">
+                    {" "}
+                    Dato{" "}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn data={"dato"} dataAlign="center">
+                    {" "}
+                    Dato{" "}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn data={"dato"} dataAlign="center">
+                    {" "}
+                    Dato{" "}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn data={"dato"} dataAlign="center">
+                    {" "}
+                    Dato{" "}
+                  </TableHeaderColumn>
+                </BootstrapTable>
               </div>
             </div>
           </Col>
-        </Row>*/}
+        </Row>
       </div>
     );
   }

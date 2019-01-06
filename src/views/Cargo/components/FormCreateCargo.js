@@ -52,6 +52,41 @@ class FormCreateCargo extends Component {
                         </div>
                       </div>
                     </div>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Estado <span className="text-danger">*</span>{" "}
+                          </label>
+                          <div className="form-check">
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="exampleCheck1"
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="exampleCheck1"
+                            >
+                              Activar cargo en el sistema.
+                            </label>
+                            <p
+                              className="text-muted"
+                              style={{ textAlign: "justify" }}
+                            >
+                              Si esta opción se encuentra activada, representa
+                              que el cargo es visible en el sistemas y se podran
+                              realizar operaciones entre cada uno de los modulos
+                              correspondientes de la aplicación. En caso
+                              contrario el cargo no se elimina del sistema solo
+                              quedara inactivo e invisibles para cada uno de los
+                              modulos correspondiente del sistema.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </form>
                 </CardBody>
                 <CardFooter>

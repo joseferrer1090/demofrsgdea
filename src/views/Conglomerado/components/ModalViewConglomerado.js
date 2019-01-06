@@ -19,7 +19,7 @@ class ModalViewConglomerado extends Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal isOpen={this.state.modal}>
           <ModalHeader> Conglomerado </ModalHeader>
           <ModalBody>
             <div className="table-responsive">
@@ -51,7 +51,8 @@ class ModalViewConglomerado extends Component {
           </ModalBody>
           <ModalFooter>
             <Button
-              className="btn btn-outline-secondary"
+              type="button"
+              className="btn btn-secondary"
               onClick={() => {
                 this.setState({ modal: false });
               }}

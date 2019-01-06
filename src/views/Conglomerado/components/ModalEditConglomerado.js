@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody, Button } from "reactstrap";
+import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
 import PropTypes from "prop-types";
 
 class ModalEditConglomerado extends Component {
@@ -19,7 +19,7 @@ class ModalEditConglomerado extends Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal isOpen={this.state.modal}>
           <ModalHeader> Conglomerado </ModalHeader>
           <ModalBody>
             <form className="form">
@@ -65,17 +65,18 @@ class ModalEditConglomerado extends Component {
             </form>
           </ModalBody>
           <ModalFooter>
-            <Button className="btn btn-outline-success">
+            <button type="button" className="btn btn-outline-success">
               <i className="fa fa-pencil" /> Actualizar registro{" "}
-            </Button>
-            <Button
+            </button>
+            <button
+              type="button"
               className="btn btn-outline-secondary"
               onClick={() => {
                 this.setState({ modal: false });
               }}
             >
               <i className="fa fa-times" /> Cerrar{" "}
-            </Button>
+            </button>
           </ModalFooter>
         </Modal>
       </div>

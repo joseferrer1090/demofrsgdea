@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody, Button } from "reactstrap";
+import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
 import PropTypes from "prop-types";
 
 class ModalDeleteConglomerado extends Component {
@@ -19,7 +19,7 @@ class ModalDeleteConglomerado extends Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
+        <Modal isOpen={this.state.modal}>
           <ModalHeader> Conglomerado </ModalHeader>
           <ModalBody>
             <form className="form">
@@ -42,18 +42,19 @@ class ModalDeleteConglomerado extends Component {
             </form>
           </ModalBody>
           <ModalFooter>
-            <Button className="btn btn-outline-danger">
+            <button type="button" className="btn btn-outline-danger">
               {" "}
               <i className="fa fa-trash" /> Eliminar{" "}
-            </Button>
-            <Button
-              className="btn btn-outline-secondary"
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
               onClick={() => {
                 this.setState({ modal: false });
               }}
             >
               <i className="fa fa-times" /> Cerrar{" "}
-            </Button>
+            </button>
           </ModalFooter>
         </Modal>
       </div>

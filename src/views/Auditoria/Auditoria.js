@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
 import DatePicker from "react-datepicker";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import ModalViewAditoria from "./components/ModalViewAuditoria";
 import "./../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import "./../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import "./../../css/custom_calendar.css";
@@ -9,40 +10,52 @@ import moment from "moment";
 
 const dataExample = [
   {
-    dato: "dato",
-    dato: "dato",
-    dato: "dato",
-    dato: "dato"
+    id: 1,
+    fecha: "01/01/2019",
+    accion: "Grabar",
+    tabla: "tabla_entidad",
+    usuario: "usuario_nanme",
+    tipo: "usuario_type"
   },
   {
-    dato: "dato",
-    dato: "dato",
-    dato: "dato",
-    dato: "dato"
+    id: 2,
+    fecha: "01/01/2019",
+    accion: "Grabar",
+    tabla: "tabla_entidad",
+    usuario: "usuario_nanme",
+    tipo: "usuario_type"
   },
   {
-    dato: "dato",
-    dato: "dato",
-    dato: "dato",
-    dato: "dato"
+    id: 3,
+    fecha: "01/01/2019",
+    accion: "Grabar",
+    tabla: "tabla_entidad",
+    usuario: "usuario_nanme",
+    tipo: "usuario_type"
   },
   {
-    dato: "dato",
-    dato: "dato",
-    dato: "dato",
-    dato: "dato"
+    id: 4,
+    fecha: "01/01/2019",
+    accion: "Grabar",
+    tabla: "tabla_entidad",
+    usuario: "usuario_nanme",
+    tipo: "usuario_type"
   },
   {
-    dato: "dato",
-    dato: "dato",
-    dato: "dato",
-    dato: "dato"
+    id: 5,
+    fecha: "01/01/2019",
+    accion: "Grabar",
+    tabla: "tabla_entidad",
+    usuario: "usuario_nanme",
+    tipo: "usuario_type"
   },
   {
-    dato: "dato",
-    dato: "dato",
-    dato: "dato",
-    dato: "dato"
+    id: 6,
+    fecha: "01/01/2019",
+    accion: "Grabar",
+    tabla: "tabla_entidad",
+    usuario: "usuario_nanme",
+    tipo: "usuario_type"
   }
 ];
 
@@ -50,7 +63,8 @@ class Auditoria extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date()
+      startDate: new Date(),
+      modalviewauditoria: false
     };
   }
 
@@ -65,6 +79,25 @@ class Auditoria extends Component {
       endDate: date
     });
   };
+
+  accionVerAuditoria(cel, row) {
+    return (
+      <button
+        className="btn btn-secondary btn-sm "
+        data-trigger="hover"
+        onClick={() => {
+          this.openModalView();
+        }}
+      >
+        {" "}
+        <i className="fa fa-eye" />{" "}
+      </button>
+    );
+  }
+
+  openModalView() {
+    this.refs.child1.toggle();
+  }
 
   render() {
     return (
@@ -164,41 +197,51 @@ class Auditoria extends Component {
                   hover
                   pagination
                   search
+                  bordered={false}
                   searchPlaceholder="Buscar"
                 >
                   <TableHeaderColumn
                     isKey
-                    dataField={"dato"}
+                    dataField="id"
+                    width="50"
                     dataAlign="center"
                   >
                     {" "}
-                    Dato
+                    #{" "}
                   </TableHeaderColumn>
-                  <TableHeaderColumn data={"dato"} dataAlign="center">
+                  <TableHeaderColumn dataField="fecha" dataAlign="center">
                     {" "}
-                    Dato{" "}
+                    Fecha{" "}
                   </TableHeaderColumn>
-                  <TableHeaderColumn data={"dato"} dataAlign="center">
+                  <TableHeaderColumn dataField="accion" dataAlign="center">
                     {" "}
-                    Dato{" "}
+                    Acción{" "}
                   </TableHeaderColumn>
-                  <TableHeaderColumn data={"dato"} dataAlign="center">
+                  <TableHeaderColumn dataField="tabla" dataAlign="center">
                     {" "}
-                    Dato{" "}
+                    Tabla{" "}
                   </TableHeaderColumn>
-                  <TableHeaderColumn data={"dato"} dataAlign="center">
+                  <TableHeaderColumn dataField="usuario" dataAlign="center">
                     {" "}
-                    Dato{" "}
+                    Usuario{" "}
                   </TableHeaderColumn>
-                  <TableHeaderColumn data={"dato"} dataAlign="center">
+                  <TableHeaderColumn dataField="tipo" dataAlign="center">
                     {" "}
-                    Dato{" "}
+                    Tipo{" "}
                   </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataAlign="center"
+                    dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
+                  />
                 </BootstrapTable>
               </div>
             </div>
           </Col>
         </Row>
+        <ModalViewAditoria
+          modalview={this.state.modalviewauditoria}
+          ref="child1"
+        />
       </div>
     );
   }

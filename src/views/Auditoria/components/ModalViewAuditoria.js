@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
 class ModalViewAuditoria extends Component {
   constructor(props) {
@@ -20,8 +20,38 @@ class ModalViewAuditoria extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
+          <ModalHeader> Detaller de la auditoría </ModalHeader>
           <ModalBody>
-            <p> Probando </p>
+            <div className="table-responsive">
+              <table className="table table-striped">
+                <tr>
+                  <td> Fecha y hora de la auditoria: </td>
+                  <td> Dato </td>
+                </tr>
+                <tr>
+                  <td> Acción realizada: </td>
+                  <td> Dato </td>
+                </tr>
+                <tr>
+                  <td> Tabla </td>
+                  <td> Dato </td>
+                </tr>
+                <tr>
+                  <td> Usuario que realizó la acción: </td>
+                  <td> Dato </td>
+                </tr>
+                <tr>
+                  <td> Tipo de usuario: </td>
+                  <td> Dato </td>
+                </tr>
+                <tr>
+                  <td> Sentencia ejecutada: </td>
+                  <td>
+                    <code> Setencia ejecuatada </code>
+                  </td>
+                </tr>
+              </table>
+            </div>
           </ModalBody>
           <ModalFooter>
             <button
@@ -31,8 +61,7 @@ class ModalViewAuditoria extends Component {
                 this.setState({ modal: false });
               }}
             >
-              {" "}
-              Cerrar{" "}
+              <i className="fa fa-times" /> Cerrar{" "}
             </button>
           </ModalFooter>
         </Modal>

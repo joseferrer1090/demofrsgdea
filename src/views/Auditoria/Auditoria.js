@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import "./../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import "./../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import "./../../css/custom_calendar.css";
 import moment from "moment";
 
 const dataExample = [
@@ -73,31 +74,75 @@ class Auditoria extends Component {
             <div className="card">
               <div className="card-header">Datos de consulta</div>
               <div className="card-body">
-                <form className="form-inline">
-                  <div className="form-group">
-                    <label htmlFor="">Fecha de inicio: &nbsp;</label>
-                    <DatePicker
-                      selected={this.state.startDate}
-                      selectsStart
-                      startDate={this.state.startDate}
-                      endDate={this.state.endDate}
-                      onChange={this.handleChangeStartDate}
-                      className="form-control"
-                    />
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="">Desde: </label>
+                          <br />
+                          <DatePicker
+                            selected={this.state.startDate}
+                            selectsStart
+                            startDate={this.state.startDate}
+                            endDate={this.state.endDate}
+                            onChange={this.handleChangeStartDate}
+                            className="form-control large2"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="">Hasta: </label>
+                          <br />
+                          <DatePicker
+                            selected={this.state.endDate}
+                            selectsEnd
+                            startDate={this.state.startDate}
+                            endDate={this.state.endDate}
+                            onChange={this.handleChangeEndDate}
+                            className="form-control large2"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label> Acción </label>
+                          <select className="form-control">
+                            <option>1</option>
+                            <option>1</option>
+                            <option>1</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label> Tablas </label>
+                          <select className="form-control">
+                            <option>1</option>
+                            <option>1</option>
+                            <option>1</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label> Usuario </label>
+                          <select className="form-control">
+                            <option>1</option>
+                            <option>1</option>
+                            <option>1</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <div className="form-group">
-                    <label htmlFor="">Fecha final: &nbsp; </label>
-                    <DatePicker
-                      selected={this.state.endDate}
-                      selectsEnd
-                      startDate={this.state.startDate}
-                      endDate={this.state.endDate}
-                      onChange={this.handleChangeEndDate}
-                      className="form-control"
-                    />
-                  </div>
-                </form>
+                </div>
               </div>
               <div className="card-footer">
                 <div className="float-right">

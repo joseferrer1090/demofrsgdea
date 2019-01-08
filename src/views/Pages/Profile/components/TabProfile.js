@@ -13,6 +13,9 @@ import {
   Col
 } from "reactstrap";
 import classnames from "classnames";
+import FormUpdateProfile from "./FormUpdateData";
+import FormChange from "./FormChangePassword";
+import FormAdvance from "./FormChangeAdvanceData";
 
 export default class TabProfile extends React.Component {
   constructor(props) {
@@ -47,6 +50,16 @@ export default class TabProfile extends React.Component {
           </NavItem>
           <NavItem>
             <NavLink
+              className={classnames({ active: this.state.activeTab === "3" })}
+              onClick={() => {
+                this.toggle("3");
+              }}
+            >
+              <i className="icon-settings" /> Datos adicionales
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
               className={classnames({ active: this.state.activeTab === "2" })}
               onClick={() => {
                 this.toggle("2");
@@ -60,31 +73,21 @@ export default class TabProfile extends React.Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <h4>Tab 1 Contents</h4>
+                <FormUpdateProfile />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <Card body>
-                  <form className="form">
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label> Nueva contraseña </label>
-                          <input type="password" className="form-control" />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label> Repetir nueva contraseña </label>
-                          <input type="password" className="form-control" />
-                        </div>
-                      </div>
-                    </div>
-                  </form>
-                </Card>
+                <FormChange />
+              </Col>
+            </Row>
+          </TabPane>
+          <TabPane tabId="3">
+            <Row>
+              <Col sm="12">
+                <FormAdvance />
               </Col>
             </Row>
           </TabPane>

@@ -35,10 +35,10 @@ class Forgot extends Component {
                       <InputGroup className="mb-3">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
-                            <i className="icon-envelope" />
+                            <i className="icon-user" />
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input type="text" placeholder="correo electronico" />
+                        <Input type="text" placeholder="usuario" />
                       </InputGroup>
 
                       <Row>

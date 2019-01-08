@@ -13,7 +13,7 @@ class FormCreateConglomerado extends Component {
           <div className="row">
             <div className="col-md-12">
               <Card>
-                <CardHeader> Registro de Conglomerado </CardHeader>
+                <CardHeader> Registro de conglomerado </CardHeader>
                 <CardBody>
                   <form className="form">
                     <div className="row">
@@ -26,7 +26,7 @@ class FormCreateConglomerado extends Component {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Dato alfanumerico"
+                            placeholder=""
                           />
                         </div>
                       </div>
@@ -39,7 +39,7 @@ class FormCreateConglomerado extends Component {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Dato importante"
+                            placeholder=""
                           />
                         </div>
                       </div>
@@ -48,10 +48,7 @@ class FormCreateConglomerado extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label> Descripción</label>
-                          <textarea
-                            className="form-control"
-                            placeholder="Opcional"
-                          />
+                          <textarea className="form-control" placeholder="" />
                         </div>
                       </div>
                     </div>

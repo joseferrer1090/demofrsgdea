@@ -27,7 +27,7 @@ class ModalDeleteEmpresa extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar Empresa </ModalHeader>
+          <ModalHeader> Eliminar empresa </ModalHeader>
           <ModalBody>
             <form className="form">
               <p className="text-center">
@@ -38,13 +38,13 @@ class ModalDeleteEmpresa extends Component {
               <input
                 className="form-control col-sm-6 offset-sm-3"
                 type="text"
-                placeholder="dato de eliminado"
+                placeholder=" "
                 style={{ textAlign: "center" }}
               />
               <br />
               <p className="text-center text-danger">
                 {" "}
-                La empresa quedara elimanda de manera permanente{" "}
+                La empresa quedará eliminada de manera permanente{" "}
               </p>
             </form>
           </ModalBody>

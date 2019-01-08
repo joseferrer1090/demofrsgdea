@@ -52,7 +52,7 @@ class ModalEditEmpresa extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
+                          placeholder=""
                         />{" "}
                       </td>
                     </tr>
@@ -63,7 +63,7 @@ class ModalEditEmpresa extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
+                          placeholder=""
                         />
                       </td>
                     </tr>
@@ -74,7 +74,7 @@ class ModalEditEmpresa extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
+                          placeholder=""
                         />{" "}
                       </td>
                     </tr>

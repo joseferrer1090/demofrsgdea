@@ -44,8 +44,9 @@ class FormUpload extends Component {
                   <h5 className="mb-1">1. Paso</h5>
                 </div>
                 <p className="mb-1">
-                  Donec id elit non mi porta gravida at eget metus. Maecenas sed
-                  diam eget risus varius blandit.
+                  Descargue la plantilla de formato de importación de datos
+                  (Link). Abre el archivo , proceda a rellenar los campos
+                  indicados en el formato y guarde los cambios.
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">
@@ -53,8 +54,9 @@ class FormUpload extends Component {
                   <h5 className="mb-1">2. Paso</h5>
                 </div>
                 <p className="mb-1">
-                  Donec id elit non mi porta gravida at eget metus. Maecenas sed
-                  diam eget risus varius blandit.
+                  Si desea importar un archivo plano debe indicar el separador
+                  de los campos. Si el primer registro del archivo contiene los
+                  títulos debe marcar el check “Títulos”.
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">
@@ -62,8 +64,10 @@ class FormUpload extends Component {
                   <h5 className="mb-1">3. Paso</h5>
                 </div>
                 <p className="mb-1">
-                  Donec id elit non mi porta gravida at eget metus. Maecenas sed
-                  diam eget risus varius blandit.
+                  Haga clic en la opción “Seleccionar archivo” y seleccione el
+                  archivo de formato de importación de los datos al cual le
+                  agrego los campos requeridos. Haga clic en la opción “Cargar
+                  información”.
                 </p>
               </a>
             </div>

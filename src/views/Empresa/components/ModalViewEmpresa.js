@@ -20,13 +20,13 @@ class ModalViewEmpresa extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Empresa </ModalHeader>
+          <ModalHeader> Ver empresa </ModalHeader>
           <ModalBody>
             <div className="table-responsive">
               <table className="table table-striped">
                 <tbody>
                   <tr>
-                    <td>Nombre del Conglomerado:</td>
+                    <td>Conglomerado:</td>
                     <td> </td>
                   </tr>
                   <tr>

@@ -20,7 +20,7 @@ class ModalEditConglomerado extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Conglomerado </ModalHeader>
+          <ModalHeader> Actualizar conglomerado </ModalHeader>
           <ModalBody>
             <form className="form">
               <div className="table-responsive">
@@ -33,7 +33,7 @@ class ModalEditConglomerado extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
+                          placeholder=""
                         />{" "}
                       </td>
                     </tr>
@@ -44,7 +44,7 @@ class ModalEditConglomerado extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
+                          placeholder=""
                         />{" "}
                       </td>
                     </tr>
@@ -55,7 +55,7 @@ class ModalEditConglomerado extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
+                          placeholder=""
                         />{" "}
                       </td>
                     </tr>
@@ -66,7 +66,7 @@ class ModalEditConglomerado extends Component {
           </ModalBody>
           <ModalFooter>
             <button type="button" className="btn btn-outline-success">
-              <i className="fa fa-pencil" /> Actualizar registro{" "}
+              <i className="fa fa-pencil" /> Actualizar{" "}
             </button>
             <button
               type="button"

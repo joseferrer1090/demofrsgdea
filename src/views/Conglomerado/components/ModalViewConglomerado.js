@@ -20,13 +20,13 @@ class ModalViewConglomerado extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Conglomerado </ModalHeader>
+          <ModalHeader>Ver conglomerado </ModalHeader>
           <ModalBody>
             <div className="table-responsive">
               <table className="table table-striped">
                 <tbody>
                   <tr>
-                    <td>Codigo:</td>
+                    <td>Código:</td>
                     <td> </td>
                   </tr>
                   <tr>
@@ -34,15 +34,15 @@ class ModalViewConglomerado extends Component {
                     <td> </td>
                   </tr>
                   <tr>
-                    <td>Descripcion:</td>
+                    <td>Descripción:</td>
                     <td> </td>
                   </tr>
                   <tr>
-                    <td>Fecha de creacion:</td>
+                    <td>Fecha de creación:</td>
                     <td> </td>
                   </tr>
                   <tr>
-                    <td>Fecha de modificacion:</td>
+                    <td>Fecha de modificación:</td>
                     <td> </td>
                   </tr>
                 </tbody>

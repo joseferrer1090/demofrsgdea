@@ -35,7 +35,7 @@ class FormCreateEmpresa extends Component {
         <Row>
           <Col md="12">
             <Card>
-              <CardHeader> Registro de Empresa </CardHeader>
+              <CardHeader> Registro de empresa </CardHeader>
               <CardBody>
                 <form className="form">
                   <div className="row">
@@ -52,7 +52,7 @@ class FormCreateEmpresa extends Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Codigo <span className="text-danger">*</span>{" "}
+                          Código <span className="text-danger">*</span>{" "}
                         </label>
                         <input type="text" className="form-control" />
                       </div>
@@ -105,20 +105,20 @@ class FormCreateEmpresa extends Component {
                                 className="form-check-label"
                                 htmlFor="exampleCheck1"
                               >
-                                Activar empresa en el sistema.
+                                Activar
                               </label>
                               <p
                                 className="text-muted"
                                 style={{ textAlign: "justify" }}
                               >
-                                Si esta opción se encuentra activada, representa
-                                que la empresa es visible en el sistemas y se
-                                podran realizar operaciones entre cada uno de
-                                los modulos correspondientes de la aplicación.
+                                Si esta opción se encuentra activada, Representa
+                                que la empresa es visible en el sistema y se
+                                podrán realizar operaciones entre cada uno de
+                                los módulos correspondientes de la aplicación.
                                 En caso contrario la empresa no se elimina del
-                                sistema solo quedara inactivo e invisibles para
-                                cada uno de los modulos correspondiente del
-                                sistema.
+                                sistema solo quedará inactiva e invisibles para
+                                cada uno de los módulos correspondiente del
+                                sistema
                               </p>
                             </div>
                           </div>
@@ -130,7 +130,9 @@ class FormCreateEmpresa extends Component {
               </CardBody>
               <CardFooter>
                 <div className="pull-right">
-                  <button className="btn btn-secondary"> Registrar </button>
+                  <button className="btn btn-secondary">
+                    <i className="fa fa-plus" /> Registrar{" "}
+                  </button>
                 </div>
               </CardFooter>
             </Card>

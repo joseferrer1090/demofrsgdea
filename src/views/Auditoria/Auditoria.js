@@ -103,7 +103,7 @@ class Auditoria extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col sm="7" md={{ offset: 2 }}>
+          <Col sm="8" md={{ offset: 2 }}>
             <div className="card">
               <div className="card-header">Datos de consulta</div>
               <div className="card-body">

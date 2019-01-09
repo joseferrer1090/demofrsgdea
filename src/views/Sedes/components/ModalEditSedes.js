@@ -20,7 +20,7 @@ class ModalEditSedes extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Editar sede </ModalHeader>
+          <ModalHeader> Actualizar sede </ModalHeader>
           <ModalBody>
             <div className="table-responsive">
               <table className="table table-striped">
@@ -68,12 +68,31 @@ class ModalEditSedes extends Component {
                     </td>
                   </tr>
                   <tr>
+                    <td>País:</td>
+                    <td>
+                      {" "}
+                      <select className="form-control">
+                        {" "}
+                        <option> Seleccione </option>{" "}
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Departamento:</td>
+                    <td>
+                      {" "}
+                      <select className="form-control">
+                        {" "}
+                        <option> Seleccione </option>{" "}
+                      </select>
+                    </td>
+                  </tr>
+                  <tr>
                     <td>Ciudad:</td>
                     <td>
                       <select className="form-control">
                         {" "}
-                        <option> ciudad 1 </option>
-                        <option> ciudad 2 </option> <option> ciudad 3 </option>{" "}
+                        <option> Seleccione </option>
                       </select>
                     </td>
                   </tr>
@@ -86,20 +105,6 @@ class ModalEditSedes extends Component {
                         <option> Activada </option>{" "}
                         <option> Desactivada </option>{" "}
                       </select>{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Fecha de creación:</td>
-                    <td>
-                      {" "}
-                      <input type="text" className="form-control" />{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Fecha de modificación:</td>
-                    <td>
-                      {" "}
-                      <input type="text" className="form-control" />{" "}
                     </td>
                   </tr>
                 </tbody>

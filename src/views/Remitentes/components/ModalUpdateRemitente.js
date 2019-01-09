@@ -131,7 +131,7 @@ class ModalUpdateRemitente extends Component {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Datos desde el primer Get"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>

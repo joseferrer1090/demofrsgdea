@@ -45,10 +45,7 @@ class ModalEditCiudad extends Component {
                           <td>
                             {" "}
                             <select className="form-control">
-                              <option> Departamento 1 </option>
-                              <option> Departamento 2 </option>
-                              <option> Departamento 3 </option>
-                              <option> Departamento 4</option>
+                              <option>Seleccione</option>
                             </select>
                           </td>
                         </tr>

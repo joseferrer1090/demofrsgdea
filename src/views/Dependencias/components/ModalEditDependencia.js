@@ -20,7 +20,7 @@ class ModalEditDependencia extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Actualizar dependecia </ModalHeader>
+          <ModalHeader> Actualizar dependencia </ModalHeader>
           <ModalBody>
             <form className="form">
               <div className="table-responsive">
@@ -64,9 +64,7 @@ class ModalEditDependencia extends Component {
                       <td>
                         {" "}
                         <select className="form-control">
-                          <option> Sede 1 </option>
-                          <option> Sede 2 </option>
-                          <option> Sede 3 </option>
+                          <optin>Seleccione</optin>
                         </select>{" "}
                       </td>
                     </tr>

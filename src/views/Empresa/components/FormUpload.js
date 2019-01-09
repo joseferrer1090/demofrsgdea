@@ -43,7 +43,7 @@ class FormUpload extends Component {
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">1. Paso</h5>
                 </div>
-                <p className="mb-1">
+                <p className="mb-1" style={{ textAlign: "justify" }}>
                   Descargue la plantilla de formato de importación de datos
                   (Link). Abre el archivo , proceda a rellenar los campos
                   indicados en el formato y guarde los cambios.
@@ -53,7 +53,7 @@ class FormUpload extends Component {
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">2. Paso</h5>
                 </div>
-                <p className="mb-1">
+                <p className="mb-1" style={{ textAlign: "justify" }}>
                   Si desea importar un archivo plano debe indicar el separador
                   de los campos. Si el primer registro del archivo contiene los
                   títulos debe marcar el check “Títulos”.
@@ -63,7 +63,7 @@ class FormUpload extends Component {
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">3. Paso</h5>
                 </div>
-                <p className="mb-1">
+                <p className="mb-1" style={{ textAlign: "justify" }}>
                   Haga clic en la opción “Seleccionar archivo” y seleccione el
                   archivo de formato de importación de los datos al cual le
                   agrego los campos requeridos. Haga clic en la opción “Cargar

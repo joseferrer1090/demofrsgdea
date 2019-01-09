@@ -37,7 +37,7 @@ class ModalDeletePais extends Component {
               <br />
               <p className="text-center text-danger">
                 {" "}
-                “El país quedará eliminado de manera permanente.{" "}
+                El país quedará eliminado de manera permanente.{" "}
               </p>
             </form>
           </ModalBody>

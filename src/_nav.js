@@ -66,14 +66,14 @@ export default {
           url: "/configuracion/pais"
         },
         {
-          name: "Ciudad",
-          icon: "icon-settings",
-          url: "/configuracion/ciudad"
-        },
-        {
           name: "Departamento",
           icon: "icon-settings",
           url: "/configuracion/departamento"
+        },
+        {
+          name: "Ciudad",
+          icon: "icon-settings",
+          url: "/configuracion/ciudad"
         },
         {
           name: "Auditoria",

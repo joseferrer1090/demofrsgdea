@@ -255,7 +255,7 @@ class FormCreateUser extends Component {
                                   className="form-check-label"
                                   htmlFor="exampleCheck1"
                                 >
-                                  Activar usuario en el sistema.
+                                  Activar
                                 </label>
                                 <p
                                   className="text-muted"

@@ -40,12 +40,13 @@ class ModalDeleteRemitente extends Component {
           </form>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-outline-danger">
+          <button type="button" className="btn btn-outline-danger">
             {" "}
             <i className="fa fa-trash" /> Eliminar{" "}
           </button>
           <button
-            className="btn btn-outline-secondary"
+            type="button"
+            className="btn btn-secondary"
             onClick={() => {
               this.setState({ modal: false });
             }}

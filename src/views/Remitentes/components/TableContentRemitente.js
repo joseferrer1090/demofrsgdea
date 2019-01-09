@@ -125,7 +125,7 @@ class TableContentRemitente extends Component {
                 dataAlign="center"
               >
                 {" "}
-                identificación{" "}
+                Identificación{" "}
               </TableHeaderColumn>
               <TableHeaderColumn dataField={"nombre"} dataAlign="center">
                 {" "}

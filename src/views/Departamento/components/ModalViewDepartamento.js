@@ -50,11 +50,11 @@ class ModalViewDepartamento extends Component {
                           <td> </td>
                         </tr>
                         <tr>
-                          <td> Fecha de Creación: </td>
+                          <td> Fecha de creación: </td>
                           <td> </td>
                         </tr>
                         <tr>
-                          <td> Fecha de Modificación: </td>
+                          <td> Fecha de modificación: </td>
                           <td> </td>
                         </tr>
                       </tbody>

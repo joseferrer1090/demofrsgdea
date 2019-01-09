@@ -65,26 +65,6 @@ class ModalEditPais extends Component {
                             </select>{" "}
                           </td>
                         </tr>
-                        <tr>
-                          <td> Fecha de Creación: </td>
-                          <td>
-                            {" "}
-                            <input
-                              className="form-control"
-                              placeholder=""
-                            />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Fecha de Modificación: </td>
-                          <td>
-                            {" "}
-                            <input
-                              className="form-control"
-                              placeholder=""
-                            />{" "}
-                          </td>
-                        </tr>
                       </tbody>
                     </table>
                   </div>

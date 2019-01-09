@@ -37,7 +37,7 @@ class ModalDeleteDepartamento extends Component {
               <br />
               <p className="text-center text-danger">
                 {" "}
-                El departamento quedará elimando de manera permanente{" "}
+                El departamento quedará elimanado de manera permanente{" "}
               </p>
             </form>
           </ModalBody>

@@ -29,9 +29,7 @@ class FormCreateDepartamento extends Component {
                           País <span className="text-danger">*</span>{" "}
                         </label>
                         <select className="form-control">
-                          <option> País 1 </option>
-                          <option> País 2 </option>
-                          <option> País 3 </option>
+                          <option> Seleccione </option>
                         </select>
                       </div>
                     </div>

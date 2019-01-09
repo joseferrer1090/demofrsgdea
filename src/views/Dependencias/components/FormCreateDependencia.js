@@ -36,7 +36,7 @@ class FromCreateDependencia extends Component {
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="Dato alfanumerico"
+                          placeholder=""
                         />
                       </div>
                     </div>
@@ -49,7 +49,7 @@ class FromCreateDependencia extends Component {
                         <input
                           type="text"
                           className="form-control"
-                          placeholder="Dato importante"
+                          placeholder=""
                         />
                       </div>
                     </div>
@@ -64,9 +64,7 @@ class FromCreateDependencia extends Component {
                           </span>{" "}
                         </label>
                         <select className="form-control">
-                          <option> Rol 1 </option>
-                          <option> Rol 2 </option>
-                          <option> Rol 3 </option>
+                          <option> Seleccione </option>
                         </select>
                       </div>
                     </div>
@@ -77,9 +75,7 @@ class FromCreateDependencia extends Component {
                           Sede <span className="text-danger">*</span>{" "}
                         </label>
                         <select className="form-control">
-                          <option> Sede 1</option>
-                          <option> Sede 2 </option>
-                          <option> Sede 3 </option>
+                          <opotion>Seleccione</opotion>
                         </select>
                       </div>
                     </div>

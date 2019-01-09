@@ -98,7 +98,7 @@ class FormCreateSedes extends Component {
                           type="text"
                           className="form-control"
                           maxLength={"6"}
-                          placeholder="ABCDEF"
+                          placeholder=" "
                         />
                       </div>
                     </Col>
@@ -146,9 +146,7 @@ class FormCreateSedes extends Component {
                       <div className="form-group">
                         <label>País</label>
                         <select className="form-control">
-                          <option>Departamento1</option>
-                          <option> Departamento2 </option>
-                          <optiion> Departamento3 </optiion>
+                          <option>Seleccione</option>
                         </select>
                       </div>
                     </Col>
@@ -156,9 +154,7 @@ class FormCreateSedes extends Component {
                       <div className="form-group">
                         <label>Departamento</label>
                         <select className="form-control">
-                          <option>Departamento1</option>
-                          <option> Departamento2 </option>
-                          <optiion> Departamento3 </optiion>
+                          <option> Seleccione </option>
                         </select>
                       </div>
                     </Col>
@@ -168,9 +164,7 @@ class FormCreateSedes extends Component {
                           Ciudad <span className="text-danger">*</span>
                         </label>
                         <select className="form-control">
-                          <option>Departamento1</option>
-                          <option> Departamento2 </option>
-                          <optiion> Departamento3 </optiion>
+                          <option> Seleccione </option>
                         </select>
                       </div>
                     </Col>

@@ -37,7 +37,7 @@ class ModalDeleteConglomerado extends Component {
               <br />
               <p className="text-center text-danger">
                 {" "}
-                El conglomerado quedará elimando de manera permanente{" "}
+                El conglomerado quedará elimanado de manera permanente{" "}
               </p>
             </form>
           </ModalBody>

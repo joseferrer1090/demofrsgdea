@@ -70,7 +70,7 @@ class ModalEditConglomerado extends Component {
             </button>
             <button
               type="button"
-              className="btn btn-outline-secondary"
+              className="btn btn-secondary"
               onClick={() => {
                 this.setState({ modal: false });
               }}

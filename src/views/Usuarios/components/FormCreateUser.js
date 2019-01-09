@@ -53,7 +53,7 @@ class FormCreateUser extends Component {
     const { selectedoptiondependencia, selectedoptioncargo } = this.state;
     return (
       <div className="animated fadeIn">
-        <div className="container">
+        <div className="">
           <Row>
             <Col sm="10" md={{ offset: 1 }}>
               <Card>

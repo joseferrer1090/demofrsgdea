@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import PropTypes from "prop-types";
+import ModalView from "./ModalViewGrupo";
+import ModalDelete from "./ModalDeleteGrupo";
+import ModalEdit from "./ModalEditGrupo";
+import "./../../../css/custom_table.css";
 
 const dataExample = [
   { id: 1, codigo: "gp1", nombre: "grupo_nombre", estado: true },
@@ -19,38 +22,121 @@ const dataExample = [
 class TableContent extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      modalview: false,
+      modaledit: false,
+      modaldelete: false
+    };
   }
 
+  accionesGrupo = (cel, row) => {
+    return (
+      <div
+        className="table-menu"
+        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+      >
+        <button
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalView();
+          }}
+        >
+          {" "}
+          <i className="fa fa-eye" />{" "}
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalEdit();
+          }}
+        >
+          <i className="fa fa-pencil" />
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-danger btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalDelete();
+          }}
+        >
+          {" "}
+          <i className="fa fa-trash" />{" "}
+        </button>
+      </div>
+    );
+  };
+
+  openModalView = () => {
+    this.refs.child.toggle();
+  };
+
+  openModalEdit = () => {
+    this.refs.child3.toggle();
+  };
+
+  openModalDelete = () => {
+    this.refs.child2.toggle();
+  };
   render() {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col sm="12">
+          <Col md="12">
             <BootstrapTable
               data={dataExample}
-              search
-              searchPlaceholder="Buscar"
               bordered={false}
               hover
               striped
+              search
+              searchPlaceholder="Buscar"
+              exportCSV
+              pagination
             >
-              <TableHeaderColumn isKey dataField="id" width={"50"}>
+              <TableHeaderColumn
+                isKey
+                dataField="id"
+                dataAlign="center"
+                width="50"
+              >
                 {" "}
-                #
+                #{" "}
               </TableHeaderColumn>
-              <TableContent dataField="codigo"> Codigo </TableContent>
-              <TableHeaderColumn dataField="nombre"> Nombre </TableHeaderColumn>
-              <TableHeaderColumn dataField="estado"> Estado </TableHeaderColumn>
-              <TableHeaderColumn> Acciones </TableHeaderColumn>
+              <TableHeaderColumn dataField="codigo" dataAlign="center">
+                {" "}
+                Codigo{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="nombre" dataAlign="center">
+                {" "}
+                Nombre{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="nombre" dataAlign="center">
+                {" "}
+                Nombre{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="estado" dataAlign="center">
+                {" "}
+                Estado{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataFormat={(cell, row) => this.accionesGrupo(cell, row)}
+                dataAlign="center"
+              >
+                {" "}
+                Acciones{" "}
+              </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>
+        <ModalView modalview={this.state.modalview} ref="child" />
+        <ModalDelete modaldel={this.state.modaldelete} ref="child2" />
+        <ModalEdit modaledit={this.state.modaledit} ref="child3" />
       </div>
     );
   }
 }
-
-TableContent.propTypes = {};
 
 export default TableContent;

@@ -28,6 +28,7 @@ class ModalViewUser extends Component {
   render() {
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
+        <ModalHeader> Ver usuario </ModalHeader>
         <ModalBody role="document">
           <Row>
             <Col sm="3">
@@ -46,7 +47,7 @@ class ModalViewUser extends Component {
                         <td> Dato </td>
                       </tr>
                       <tr>
-                        <td> Identificacion </td>
+                        <td> Identificación </td>
                         <td> Dato </td>
                       </tr>
                       <tr>

@@ -25,7 +25,7 @@ class ModalViewPais extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Pais </ModalHeader>
+          <ModalHeader> Ver país </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="12">

@@ -25,7 +25,7 @@ class ModalViewDepartamento extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Departamento </ModalHeader>
+          <ModalHeader> Ver departamento </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="12">

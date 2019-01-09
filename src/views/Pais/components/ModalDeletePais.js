@@ -20,7 +20,7 @@ class ModalDeletePais extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar pais </ModalHeader>
+          <ModalHeader> Eliminar país </ModalHeader>
           <ModalBody>
             <form className="form">
               <p className="text-center">
@@ -31,13 +31,13 @@ class ModalDeletePais extends Component {
               <input
                 className="form-control col-sm-6 offset-sm-3"
                 type="text"
-                placeholder="dato de eliminado"
+                placeholder=""
                 style={{ textAlign: "center" }}
               />
               <br />
               <p className="text-center text-danger">
                 {" "}
-                El usuario quedara elimando de manera permanente{" "}
+                “El país quedará eliminado de manera permanente.{" "}
               </p>
             </form>
           </ModalBody>

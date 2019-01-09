@@ -20,7 +20,7 @@ class ModalUpdateRemitente extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Remitente </ModalHeader>
+          <ModalHeader> Actualizar remitente </ModalHeader>
           <ModalBody>
             <div className="row">
               <div className="col-md-12">
@@ -35,7 +35,7 @@ class ModalUpdateRemitente extends Component {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Dato en el primer Get"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>
@@ -46,7 +46,7 @@ class ModalUpdateRemitente extends Component {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Dato del primer Get"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>
@@ -57,7 +57,7 @@ class ModalUpdateRemitente extends Component {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Dato del primer GEt"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>
@@ -68,7 +68,7 @@ class ModalUpdateRemitente extends Component {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="dato desde el primer Get"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>
@@ -79,8 +79,28 @@ class ModalUpdateRemitente extends Component {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="dato desde el primer Get"
+                              placeholder=""
                             />{" "}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> Pais </td>
+                          <td>
+                            {" "}
+                            <select className="form-control">
+                              {" "}
+                              <option> Seleccione </option>
+                            </select>{" "}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td> Departamento </td>
+                          <td>
+                            {" "}
+                            <select className="form-control">
+                              {" "}
+                              <option> Seleccione </option>
+                            </select>{" "}
                           </td>
                         </tr>
                         <tr>
@@ -89,8 +109,7 @@ class ModalUpdateRemitente extends Component {
                             {" "}
                             <select className="form-control">
                               {" "}
-                              <option> Ciudad1 </option>{" "}
-                              <option> Ciudad2 </option>{" "}
+                              <option> Seleccione </option>
                             </select>{" "}
                           </td>
                         </tr>

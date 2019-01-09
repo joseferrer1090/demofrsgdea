@@ -57,7 +57,7 @@ class FormCreateUser extends Component {
           <Row>
             <Col sm="10" md={{ offset: 1 }}>
               <Card>
-                <CardHeader>Registrar usuario </CardHeader>
+                <CardHeader>Registro de usuarios </CardHeader>
                 <CardBody>
                   <Row>
                     <Col sm="3">
@@ -152,7 +152,7 @@ class FormCreateUser extends Component {
                                 selected={this.state.startDate}
                                 onChange={this.handleChangeFechaNacimiento}
                                 className="form-control large"
-                                placeholderText="Fecha de nacimiento"
+                                placeholderText=""
                               />
                             </div>
                           </div>
@@ -202,7 +202,7 @@ class FormCreateUser extends Component {
                                 value={selectedoptiondependencia}
                                 onChange={this.handleSelectedOptionDependencia}
                                 options={dataExampleDependencia}
-                                placeholder={"seleccione"}
+                                placeholder={""}
                               />
                             </div>
                           </div>
@@ -218,7 +218,7 @@ class FormCreateUser extends Component {
                                 value={selectedoptioncargo}
                                 onChange={this.handleChangeSelectedOptionCargo}
                                 options={dataExampleCargo}
-                                placeholder={"seleccione"}
+                                placeholder={""}
                               />
                             </div>
                           </div>
@@ -262,13 +262,13 @@ class FormCreateUser extends Component {
                                   style={{ textAlign: "justify" }}
                                 >
                                   Si esta opción se encuentra activada,
-                                  representa que el Usuario es visible en el
-                                  sistemas y se podran realizar operaciones
-                                  entre cada uno de los modulos correspondientes
-                                  de la aplicación. En caso contrario el Usuario
-                                  no se elimina del sistema solo quedara
-                                  inactivo e invisibles para cada uno de los
-                                  modulos correspondiente del sistema.
+                                  representa que el usuario es visible en el
+                                  sistema y se podrán realizar operaciones entre
+                                  cada uno de los módulos correspondientes de la
+                                  aplicación. En caso contrario el usuario no se
+                                  elimina del sistema solo quedará inactivo e
+                                  invisibles para cada uno de los módulos
+                                  correspondiente del sistema.
                                 </p>
                               </div>
                             </div>
@@ -280,7 +280,10 @@ class FormCreateUser extends Component {
                 </CardBody>
                 <CardFooter>
                   <div className="float-right">
-                    <button className="btn btn-secondary"> Registrar </button>
+                    <button className="btn btn-secondary">
+                      {" "}
+                      <i className="fa fa-plus" /> Registrar{" "}
+                    </button>
                   </div>
                 </CardFooter>
               </Card>

@@ -31,13 +31,13 @@ class ModalDeleteDepartamento extends Component {
               <input
                 className="form-control col-sm-6 offset-sm-3"
                 type="text"
-                placeholder="dato de eliminado"
+                placeholder=""
                 style={{ textAlign: "center" }}
               />
               <br />
               <p className="text-center text-danger">
                 {" "}
-                El departamento quedara elimando de manera permanente{" "}
+                El departamento quedará elimando de manera permanente{" "}
               </p>
             </form>
           </ModalBody>

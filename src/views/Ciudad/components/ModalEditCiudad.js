@@ -25,7 +25,7 @@ class ModalEditCiudad extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Editar ciudad </ModalHeader>
+          <ModalHeader> Actualizar ciudad </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="12">
@@ -33,6 +33,13 @@ class ModalEditCiudad extends Component {
                   <div className="table-responsive">
                     <table className="table table-hover table-striped">
                       <tbody>
+                        <tr>
+                          <td> Código: </td>
+                          <td>
+                            {" "}
+                            <input type="text" className="form-control" />{" "}
+                          </td>
+                        </tr>
                         <tr>
                           <td> Departamento: </td>
                           <td>
@@ -52,7 +59,7 @@ class ModalEditCiudad extends Component {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Datos del primer Get"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>
@@ -74,7 +81,12 @@ class ModalEditCiudad extends Component {
             </Row>
           </ModalBody>
           <ModalFooter>
+            <button type="button" className="btn btn-outline-success">
+              {" "}
+              <i className="fa fa-pencil" /> Actualizar{" "}
+            </button>
             <button
+              type="button"
               className="btn btn-secondary"
               onClick={() => {
                 this.setState({ modal: false });

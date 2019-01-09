@@ -18,7 +18,7 @@ class ModalDeleteUser extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Probando </ModalHeader>
+        <ModalHeader> Eliminar usuario </ModalHeader>
         <ModalBody>
           <form className="form">
             <p className="text-center">
@@ -29,29 +29,30 @@ class ModalDeleteUser extends Component {
             <input
               className="form-control col-sm-6 offset-sm-3"
               type="text"
-              placeholder="dato de eliminado"
+              placeholder=" "
               style={{ textAlign: "center" }}
             />
             <br />
             <p className="text-center text-danger">
               {" "}
-              El usuario quedara elimando de manera permanente{" "}
+              El usuario quedará eliminado de manera permanente{" "}
             </p>
           </form>
         </ModalBody>
         <ModalFooter>
-          <Button className="btn btn-outline-danger">
+          <button type="button" className="btn btn-outline-danger">
             {" "}
             <i className="fa fa-trash" /> Eliminar{" "}
-          </Button>
-          <Button
-            className="btn btn-outline-secondary"
+          </button>
+          <button
+            type="button"
+            className="btn btn-secondary"
             onClick={() => {
               this.setState({ modal: false });
             }}
           >
             <i className="fa fa-times" /> Cerrar{" "}
-          </Button>
+          </button>
         </ModalFooter>
       </Modal>
     );

@@ -25,7 +25,7 @@ class ModalEditPais extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Editar pais </ModalHeader>
+          <ModalHeader> Actualizar país </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="12">
@@ -40,7 +40,7 @@ class ModalEditPais extends Component {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Datos del primer Get"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>
@@ -51,7 +51,7 @@ class ModalEditPais extends Component {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Datos del primer Get"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>
@@ -71,7 +71,7 @@ class ModalEditPais extends Component {
                             {" "}
                             <input
                               className="form-control"
-                              placeholder="Datos del primer Get"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>
@@ -81,7 +81,7 @@ class ModalEditPais extends Component {
                             {" "}
                             <input
                               className="form-control"
-                              placeholder="Datos del primer Get"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>
@@ -93,7 +93,12 @@ class ModalEditPais extends Component {
             </Row>
           </ModalBody>
           <ModalFooter>
+            <button type="button" className="btn btn-outline-success">
+              {" "}
+              <i className="fa fa-pencil" /> Actualizar{" "}
+            </button>
             <button
+              type="button"
               className="btn btn-secondary"
               onClick={() => {
                 this.setState({ modal: false });

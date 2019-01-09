@@ -33,7 +33,7 @@ class ModalEditUser extends Component {
   render() {
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader>Probando</ModalHeader>
+        <ModalHeader> Actualizar usuario</ModalHeader>
         <ModalBody>
           <form className="form">
             <Row>
@@ -171,17 +171,17 @@ class ModalEditUser extends Component {
           </form>
         </ModalBody>
         <ModalFooter>
-          <Button className="btn btn-outline-success">
-            <i className="fa fa-pencil" /> Actualizar registro{" "}
-          </Button>
-          <Button
-            className="btn btn-outline-secondary"
+          <button type="button" className="btn btn-outline-success">
+            <i className="fa fa-pencil" /> Actualizar{" "}
+          </button>
+          <button
+            className="btn btn-secondary"
             onClick={() => {
               this.setState({ modal: false });
             }}
           >
             <i className="fa fa-times" /> Cerrar{" "}
-          </Button>
+          </button>
         </ModalFooter>
       </Modal>
     );

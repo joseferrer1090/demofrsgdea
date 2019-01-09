@@ -33,10 +33,10 @@ class ModalChangePasswordUser extends Component {
           <Row>
             <Col sm="12">
               <p className="text-muted" style={{ textAlign: "justify" }}>
-                Tener en cuenta que previamente se debe notificar al usuario{" "}
-                <code>Nombre</code>, que la constraseña se va a actular. en caso
-                contrario se le puede borrar las operaciones que se esten
-                realizando en el sistema.
+                Tener en cuenta que previamente se debe notificar al usuario
+                <code> Nombre</code>, que la contraseña se va a actualizar. En
+                caso contrario se le pueden borrar las operaciones que se estén
+                realizando en el sistema
               </p>
             </Col>
           </Row>

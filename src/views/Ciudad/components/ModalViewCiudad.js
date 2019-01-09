@@ -25,7 +25,7 @@ class ModalViewCiudad extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Ciudad </ModalHeader>
+          <ModalHeader> Ver ciudad </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="12">
@@ -34,7 +34,7 @@ class ModalViewCiudad extends Component {
                     <table className="table table-hover table-striped">
                       <tbody>
                         <tr>
-                          <td> Nombre del departamento: </td>
+                          <td> Departamento: </td>
                           <td> </td>
                         </tr>
                         <tr>

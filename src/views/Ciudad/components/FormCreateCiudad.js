@@ -9,11 +9,20 @@ class FormCreateCiudad extends Component {
         <Row>
           <Col sm="8" md={{ offset: 2 }}>
             <Card>
-              <CardHeader> Ciudades </CardHeader>
+              <CardHeader> Registro de ciudad </CardHeader>
               <CardBody>
                 <form className="form">
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          Código <span className="text-danger">*</span>{" "}
+                        </label>
+                        <input type="text" className="form-control" />
+                      </div>
+                    </div>
+                    <div className="col-md-4">
                       <div className="form-group">
                         <label>
                           {" "}
@@ -22,7 +31,7 @@ class FormCreateCiudad extends Component {
                         <input type="text" className="form-control" />
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <div className="form-group">
                         <label>
                           {" "}
@@ -55,18 +64,18 @@ class FormCreateCiudad extends Component {
                             className="form-check-label"
                             htmlFor="exampleCheck1"
                           >
-                            Activar ciudad en el sistema.
+                            Activar
                           </label>
                           <p
                             className="text-muted"
                             style={{ textAlign: "justify" }}
                           >
                             Si esta opción se encuentra activada, representa que
-                            la ciudad es visible en el sistemas y se podran
-                            realizar operaciones entre cada uno de los modulos
+                            la ciudad es visible en el sistema y se podrán
+                            realizar operaciones entre cada uno de los módulos
                             correspondientes de la aplicación. En caso contrario
-                            la ciudad no se elimina del sistema solo quedara
-                            inactivo e invisibles para cada uno de los modulos
+                            la ciudad no se elimina del sistema solo quedará
+                            inactivo e invisibles para cada uno de los módulos
                             correspondiente del sistema.
                           </p>
                         </div>
@@ -79,7 +88,7 @@ class FormCreateCiudad extends Component {
                 <div className="float-right">
                   <button className="btn btn-secondary">
                     {" "}
-                    <i className="fa fa-check" /> Registrar{" "}
+                    <i className="fa fa-plus" /> Registrar{" "}
                   </button>
                 </div>
               </CardFooter>

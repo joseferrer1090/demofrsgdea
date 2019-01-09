@@ -25,7 +25,7 @@ class ModalEditDepartamento extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Editar departamento </ModalHeader>
+          <ModalHeader> Actualizar departamento </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="12">
@@ -40,18 +40,16 @@ class ModalEditDepartamento extends Component {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Datos del primer Get"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>
                         <tr>
-                          <td> Departamento: </td>
+                          <td> Pais: </td>
                           <td>
                             {" "}
                             <select className="form-control">
-                              <option> Departamento 1 </option>
-                              <option> Departamento 2 </option>
-                              <option> Departamento 3 </option>
+                              <option> Seleccione </option>
                             </select>{" "}
                           </td>
                         </tr>
@@ -62,7 +60,7 @@ class ModalEditDepartamento extends Component {
                             <input
                               type="text"
                               className="form-control"
-                              placeholder="Datos del primer Get"
+                              placeholder=""
                             />{" "}
                           </td>
                         </tr>
@@ -84,6 +82,10 @@ class ModalEditDepartamento extends Component {
             </Row>
           </ModalBody>
           <ModalFooter>
+            <button type="button" className="btn btn-outline-success">
+              {" "}
+              <i className="fa fa-pencil" /> Actualizar{" "}
+            </button>
             <button
               className="btn btn-secondary"
               onClick={() => {

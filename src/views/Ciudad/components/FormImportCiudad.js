@@ -45,7 +45,7 @@ class FormImportCiudad extends Component {
                   <h5 className="mb-1">1. Paso</h5>
                 </div>
                 <p className="mb-1" style={{ textAlign: "justify" }}>
-                  1. Descargue la plantilla de formato de importación de datos
+                  Descargue la plantilla de formato de importación de datos
                   (Link). Abre el archivo , proceda a rellenar los campos
                   indicados en el formato y guarde los cambios.
                 </p>

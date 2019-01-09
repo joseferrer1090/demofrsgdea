@@ -20,7 +20,7 @@ class ModalViewRemitente extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader>Remitente</ModalHeader>
+          <ModalHeader>Ver remitente</ModalHeader>
           <ModalBody>
             <div className="table-responsive">
               <table className="table table-hover table-striped">
@@ -70,16 +70,16 @@ class ModalViewRemitente extends Component {
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button className="btn btn-secondary">
-              {" "}
-              <i
-                className="fa fa-times"
-                onClick={() => {
-                  this.setState({ modal: false });
-                }}
-              />{" "}
-              Cerrar{" "}
-            </Button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => {
+                this.setState({ modal: false });
+              }}
+            >
+              <i className="fa fa-times" />
+              Cerrar
+            </button>
           </ModalFooter>
         </Modal>
       </div>

@@ -20,13 +20,13 @@ class ModalViewSedes extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver Sede </ModalHeader>
+          <ModalHeader> Ver sede </ModalHeader>
           <ModalBody>
             <div className="table-responsive">
               <table className="table table-striped">
                 <tbody>
                   <tr>
-                    <td>Codigo:</td>
+                    <td>Código:</td>
                     <td> </td>
                   </tr>
                   <tr>
@@ -34,7 +34,7 @@ class ModalViewSedes extends Component {
                     <td> </td>
                   </tr>
                   <tr>
-                    <td>Prefijo:</td>
+                    <td>Prefijo de radicación:</td>
                     <td> </td>
                   </tr>
                   <tr>
@@ -46,11 +46,7 @@ class ModalViewSedes extends Component {
                     <td> </td>
                   </tr>
                   <tr>
-                    <td>Prefijo:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Secuencia:</td>
+                    <td>Secuencia de radicación:</td>
                     <td> </td>
                   </tr>
                   <tr>
@@ -62,11 +58,11 @@ class ModalViewSedes extends Component {
                     <td> </td>
                   </tr>
                   <tr>
-                    <td>Fecha de creacion:</td>
+                    <td>Fecha de creación:</td>
                     <td> </td>
                   </tr>
                   <tr>
-                    <td>Fecha de modificacion:</td>
+                    <td>Fecha de modificación:</td>
                     <td> </td>
                   </tr>
                 </tbody>

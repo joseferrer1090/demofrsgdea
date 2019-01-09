@@ -48,7 +48,7 @@ class FormCreateSedes extends Component {
         <Row>
           <Col sm="8" md={{ offset: 2 }}>
             <Card>
-              <CardHeader>Registro Sede</CardHeader>
+              <CardHeader>Registro de sede</CardHeader>
               <CardBody>
                 <form className="form">
                   <Row>
@@ -104,7 +104,11 @@ class FormCreateSedes extends Component {
                     </Col>
                     <Col sm="4">
                       <div className="form-group">
-                        <label> Secuencia de inicio </label>
+                        <label>
+                          {" "}
+                          Secuencia de radicación{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
                           type="number"
                           className="form-control"
@@ -122,14 +126,16 @@ class FormCreateSedes extends Component {
                       >
                         <h4 className="alert-heading">¡ Importante !</h4>
                         <p>
-                          Los campos de <b>Secuencia de radicación</b> y{" "}
-                          <b> Prefijo </b>, son campos que se reflejaran en los
-                          formularios de radicación
+                          Los campos de{" "}
+                          <b>Prefijo de radicación y Secuencia de radicación</b>
+                          , son campos que se reflejaran en el formulario de
+                          radicación.
                         </p>
                         <hr />
                         <p className="mb-0">
-                          Es recomendable que en el campo <b>Prefijo</b>,
-                          describa acorde al proceso de radicación.
+                          Es recomendable que el campo{" "}
+                          <b>Prefijo de radicación</b>, se describa acorde al
+                          proceso de radicación.
                         </p>
                       </Alert>
                     </Col>
@@ -181,7 +187,7 @@ class FormCreateSedes extends Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Telefono <span className="text-danger">*</span>{" "}
+                          Teléfono <span className="text-danger">*</span>{" "}
                         </label>
                         <input type="text" className="form-control" />
                       </div>
@@ -205,7 +211,7 @@ class FormCreateSedes extends Component {
                             className="form-check-label"
                             htmlFor="exampleCheck1"
                           >
-                            Activar sede
+                            Activar
                           </label>
                         </div>
                         <p
@@ -213,12 +219,12 @@ class FormCreateSedes extends Component {
                           style={{ textAlign: "justify" }}
                         >
                           {" "}
-                          Si esta opción se encuentra activada, representa que
-                          la Sede es visible en el sistemas y se podran realizar
-                          operaciones entre cada uno de los modulos
+                          Si esta opción se encuentra activada, Representa que
+                          la sede es visible en el sistema y se podrán realizar
+                          operaciones entre cada uno de los módulos
                           correspondientes de la aplicación. En caso contrario
-                          la empresa no se elimina del sistema solo quedara
-                          inactiva e invisibles para cada uno de los modulos
+                          la sede no se elimina del sistema solo quedará
+                          inactiva e invisibles para cada uno de los módulos
                           correspondiente del sistema.
                         </p>
                       </div>
@@ -228,7 +234,10 @@ class FormCreateSedes extends Component {
               </CardBody>
               <CardFooter>
                 <div className="float-right">
-                  <button className="btn btn-secondary"> Registrar </button>
+                  <button className="btn btn-secondary">
+                    {" "}
+                    <i className="fa fa-plus" /> Registrar{" "}
+                  </button>
                 </div>
               </CardFooter>
             </Card>

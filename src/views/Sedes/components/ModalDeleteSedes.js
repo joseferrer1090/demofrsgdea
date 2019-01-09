@@ -20,34 +20,35 @@ class ModalDeleteSedes extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar Sede </ModalHeader>
+          <ModalHeader> Eliminar sede </ModalHeader>
           <ModalBody>
             <form className="form">
               <p className="text-center">
                 {" "}
-                Confirmar el <code> Nombre </code> para eliminar el conglomerado{" "}
+                Confirmar el <code> Nombre </code> para eliminar el sede{" "}
               </p>
 
               <input
                 className="form-control col-sm-6 offset-sm-3"
                 type="text"
-                placeholder="dato de eliminado"
+                placeholder=""
                 style={{ textAlign: "center" }}
               />
               <br />
               <p className="text-center text-danger">
                 {" "}
-                El conglomerado quedara elimando de manera permanente{" "}
+                La sede quedará eliminada de manera permanente.{" "}
               </p>
             </form>
           </ModalBody>
           <ModalFooter>
-            <Button className="btn btn-outline-danger">
+            <Button type="button" className="btn btn-danger">
               {" "}
               <i className="fa fa-trash" /> Eliminar{" "}
             </Button>
             <Button
-              className="btn btn-outline-secondary"
+              type="button"
+              className="btn btn-secondary"
               onClick={() => {
                 this.setState({ modal: false });
               }}

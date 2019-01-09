@@ -45,198 +45,204 @@ class FormCreateSedes extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col sm="8" md={{ offset: 2 }}>
-            <Card>
-              <CardHeader>Registro de sede</CardHeader>
-              <CardBody>
-                <form className="form">
-                  <Row>
-                    <Col sm="6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Código <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input type="text" className="form-control" />
-                      </div>
-                    </Col>
-                    <Col sm="6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Nombre <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input type="text" className="form-control" />
-                      </div>
-                    </Col>
-                  </Row>
-                  <hr />
-                  <Row>
-                    <Col sm="4">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Empresa <span className="text-danger">*</span>{" "}
-                        </label>
-                        <br />
-                        <Select
-                          value={this.state.selectedOptionEmpresa}
-                          onChange={this.handleChangeOptionEmpresa}
-                          options={dataEmpresa}
-                        />
-                      </div>
-                    </Col>
-                    <Col sm="4">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Prefijo de radicación{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control"
-                          maxLength={"6"}
-                          placeholder=" "
-                        />
-                      </div>
-                    </Col>
-                    <Col sm="4">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Secuencia de radicación{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          type="number"
-                          className="form-control"
-                          defaultValue={this.state.secuencia}
-                          min={0}
-                        />
-                      </div>
-                    </Col>
-                    <Col sm="12">
-                      <Alert
-                        color="secondary"
-                        isOpen={this.state.visibleAlert}
-                        toggle={this.onDismiss}
-                        fade={true}
-                      >
-                        <h4 className="alert-heading">¡ Importante !</h4>
-                        <p>
-                          Los campos de{" "}
-                          <b>Prefijo de radicación y Secuencia de radicación</b>
-                          , son campos que se reflejaran en el formulario de
-                          radicación.
-                        </p>
-                        <hr />
-                        <p className="mb-0">
-                          Es recomendable que el campo{" "}
-                          <b>Prefijo de radicación</b>, se describa acorde al
-                          proceso de radicación.
-                        </p>
-                      </Alert>
-                    </Col>
-                  </Row>
-                  <hr />
-                  <Row>
-                    <Col sm="4">
-                      <div className="form-group">
-                        <label>País</label>
-                        <select className="form-control">
-                          <option>Seleccione</option>
-                        </select>
-                      </div>
-                    </Col>
-                    <Col sm="4">
-                      <div className="form-group">
-                        <label>Departamento</label>
-                        <select className="form-control">
-                          <option> Seleccione </option>
-                        </select>
-                      </div>
-                    </Col>
-                    <Col sm="4">
-                      <div className="form-group">
-                        <label>
-                          Ciudad <span className="text-danger">*</span>
-                        </label>
-                        <select className="form-control">
-                          <option> Seleccione </option>
-                        </select>
-                      </div>
-                    </Col>
-                    <Col sm="7">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Dirección <span className="text-danger">*</span>{" "}
-                        </label>
-                        <textarea className="form-control" />
-                      </div>
-                    </Col>
-                    <Col sm="5">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Teléfono <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input type="text" className="form-control" />
-                      </div>
-                    </Col>
-                  </Row>
-                  <hr />
-                  <Row>
-                    <Col sm="12">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Estado <span className="text-danger">*</span>{" "}
-                        </label>
-                        <div className="form-group form-check">
-                          <input
-                            type="checkbox"
-                            className="form-check-input"
-                            id="exampleCheck1"
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="exampleCheck1"
-                          >
-                            Activar
+        <div className="container">
+          <Row>
+            <Col>
+              <Card>
+                <CardHeader>Registro de sede</CardHeader>
+                <CardBody>
+                  <form className="form">
+                    <Row>
+                      <Col sm="6">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Código <span className="text-danger">*</span>{" "}
                           </label>
+                          <input type="text" className="form-control" />
                         </div>
-                        <p
-                          className="text-muted"
-                          style={{ textAlign: "justify" }}
+                      </Col>
+                      <Col sm="6">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Nombre <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input type="text" className="form-control" />
+                        </div>
+                      </Col>
+                    </Row>
+                    <hr />
+                    <Row>
+                      <Col sm="4">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Empresa <span className="text-danger">*</span>{" "}
+                          </label>
+                          <br />
+                          <Select
+                            value={this.state.selectedOptionEmpresa}
+                            onChange={this.handleChangeOptionEmpresa}
+                            options={dataEmpresa}
+                          />
+                        </div>
+                      </Col>
+                      <Col sm="4">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Prefijo de radicación{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control"
+                            maxLength={"6"}
+                            placeholder=" "
+                          />
+                        </div>
+                      </Col>
+                      <Col sm="4">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Secuencia de radicación{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            type="number"
+                            className="form-control"
+                            defaultValue={this.state.secuencia}
+                            min={0}
+                          />
+                        </div>
+                      </Col>
+                      <Col sm="12">
+                        <Alert
+                          color="secondary"
+                          isOpen={this.state.visibleAlert}
+                          toggle={this.onDismiss}
+                          fade={true}
                         >
-                          {" "}
-                          Si esta opción se encuentra activada, Representa que
-                          la sede es visible en el sistema y se podrán realizar
-                          operaciones entre cada uno de los módulos
-                          correspondientes de la aplicación. En caso contrario
-                          la sede no se elimina del sistema solo quedará
-                          inactiva e invisibles para cada uno de los módulos
-                          correspondiente del sistema.
-                        </p>
-                      </div>
-                    </Col>
-                  </Row>
-                </form>
-              </CardBody>
-              <CardFooter>
-                <div className="float-right">
-                  <button className="btn btn-secondary">
-                    {" "}
-                    <i className="fa fa-plus" /> Registrar{" "}
-                  </button>
-                </div>
-              </CardFooter>
-            </Card>
-          </Col>
-        </Row>
+                          <h4 className="alert-heading">¡ Importante !</h4>
+                          <p>
+                            Los campos de{" "}
+                            <b>
+                              Prefijo de radicación y Secuencia de radicación
+                            </b>
+                            , son campos que se reflejaran en el formulario de
+                            radicación.
+                          </p>
+                          <hr />
+                          <p className="mb-0">
+                            Es recomendable que el campo{" "}
+                            <b>Prefijo de radicación</b>, se describa acorde al
+                            proceso de radicación.
+                          </p>
+                        </Alert>
+                      </Col>
+                    </Row>
+                    <hr />
+                    <Row>
+                      <Col sm="4">
+                        <div className="form-group">
+                          <label>País</label>
+                          <select className="form-control">
+                            <option>Seleccione</option>
+                          </select>
+                        </div>
+                      </Col>
+                      <Col sm="4">
+                        <div className="form-group">
+                          <label>Departamento</label>
+                          <select className="form-control">
+                            <option> Seleccione </option>
+                          </select>
+                        </div>
+                      </Col>
+                      <Col sm="4">
+                        <div className="form-group">
+                          <label>
+                            Ciudad <span className="text-danger">*</span>
+                          </label>
+                          <select className="form-control">
+                            <option> Seleccione </option>
+                          </select>
+                        </div>
+                      </Col>
+                      <Col sm="7">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Dirección <span className="text-danger">
+                              *
+                            </span>{" "}
+                          </label>
+                          <textarea className="form-control" />
+                        </div>
+                      </Col>
+                      <Col sm="5">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Teléfono <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input type="text" className="form-control" />
+                        </div>
+                      </Col>
+                    </Row>
+                    <hr />
+                    <Row>
+                      <Col sm="12">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Estado <span className="text-danger">*</span>{" "}
+                          </label>
+                          <div className="form-group form-check">
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="exampleCheck1"
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="exampleCheck1"
+                            >
+                              Activar
+                            </label>
+                          </div>
+                          <p
+                            className="text-muted"
+                            style={{ textAlign: "justify" }}
+                          >
+                            {" "}
+                            Si esta opción se encuentra activada, Representa que
+                            la sede es visible en el sistema y se podrán
+                            realizar operaciones entre cada uno de los módulos
+                            correspondientes de la aplicación. En caso contrario
+                            la sede no se elimina del sistema solo quedará
+                            inactiva e invisibles para cada uno de los módulos
+                            correspondiente del sistema.
+                          </p>
+                        </div>
+                      </Col>
+                    </Row>
+                  </form>
+                </CardBody>
+                <CardFooter>
+                  <div className="float-right">
+                    <button className="btn btn-secondary">
+                      {" "}
+                      <i className="fa fa-plus" /> Registrar{" "}
+                    </button>
+                  </div>
+                </CardFooter>
+              </Card>
+            </Col>
+          </Row>
+        </div>
       </div>
     );
   }

@@ -6,13 +6,13 @@ class FormCreateCargo extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-12">
+        <div className="">
+          <>
+            <div className="col-sm-8 offset-md-2">
               <Card>
                 <CardHeader> Registro de cargo </CardHeader>
                 <CardBody>
-                  <form className="form" role="form">
+                  <form className="form">
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
@@ -102,7 +102,7 @@ class FormCreateCargo extends Component {
                 </CardFooter>
               </Card>
             </div>
-          </div>
+          </>
         </div>
       </div>
     );

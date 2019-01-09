@@ -19,24 +19,24 @@ class ModalDeleteCargo extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Probando </ModalHeader>
+        <ModalHeader> Eliminar cargo </ModalHeader>
         <ModalBody>
           <form className="form">
             <p className="text-center">
               {" "}
-              Confirmar el <code> Nombre </code> para eliminar el conglomerado{" "}
+              Confirmar el <code> Nombre </code> para eliminar el cargo{" "}
             </p>
 
             <input
               className="form-control col-sm-6 offset-sm-3"
               type="text"
-              placeholder="dato de eliminado"
+              placeholder=""
               style={{ textAlign: "center" }}
             />
             <br />
             <p className="text-center text-danger">
               {" "}
-              El conglomerado quedara elimando de manera permanente{" "}
+              El cargo quedará eliminado de manera permanente.{" "}
             </p>
           </form>
         </ModalBody>

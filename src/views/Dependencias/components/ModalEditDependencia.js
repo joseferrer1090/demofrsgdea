@@ -20,7 +20,7 @@ class ModalEditDependencia extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Probando el edit </ModalHeader>
+          <ModalHeader> Actualizar dependecia </ModalHeader>
           <ModalBody>
             <form className="form">
               <div className="table-responsive">
@@ -33,7 +33,7 @@ class ModalEditDependencia extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
+                          placeholder=""
                         />{" "}
                       </td>
                     </tr>
@@ -44,7 +44,7 @@ class ModalEditDependencia extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
+                          placeholder=""
                         />{" "}
                       </td>
                     </tr>
@@ -55,7 +55,7 @@ class ModalEditDependencia extends Component {
                         <input
                           type="text"
                           className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
+                          placeholder=""
                         />{" "}
                       </td>
                     </tr>
@@ -63,11 +63,11 @@ class ModalEditDependencia extends Component {
                       <td>Sede</td>
                       <td>
                         {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder="Dato desde el primer GET"
-                        />{" "}
+                        <select className="form-control">
+                          <option> Sede 1 </option>
+                          <option> Sede 2 </option>
+                          <option> Sede 3 </option>
+                        </select>{" "}
                       </td>
                     </tr>
                     <tr>
@@ -86,6 +86,10 @@ class ModalEditDependencia extends Component {
             </form>
           </ModalBody>
           <ModalFooter>
+            <button className="btn btn-outline-success">
+              {" "}
+              <i className="fa fa-pencil" /> Actualizar{" "}
+            </button>
             <Button
               className="btn btn-secondary"
               onClick={() => {
@@ -94,8 +98,7 @@ class ModalEditDependencia extends Component {
                 });
               }}
             >
-              {" "}
-              Cerrar{" "}
+              <i className="fa fa-times" /> Cerrar{" "}
             </Button>
           </ModalFooter>
         </Modal>

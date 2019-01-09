@@ -10,7 +10,7 @@ class FormCreateCargo extends Component {
           <div className="row">
             <div className="col-md-12">
               <Card>
-                <CardHeader> Registro de Conglomerado </CardHeader>
+                <CardHeader> Registro de cargo </CardHeader>
                 <CardBody>
                   <form className="form" role="form">
                     <div className="row">
@@ -23,7 +23,7 @@ class FormCreateCargo extends Component {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Dato alfanumerico"
+                            placeholder=""
                           />
                         </div>
                       </div>
@@ -36,7 +36,7 @@ class FormCreateCargo extends Component {
                           <input
                             type="text"
                             className="form-control"
-                            placeholder="Dato importante"
+                            placeholder=""
                           />
                         </div>
                       </div>
@@ -45,10 +45,7 @@ class FormCreateCargo extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label> Descripción</label>
-                          <textarea
-                            className="form-control"
-                            placeholder="Opcional"
-                          />
+                          <textarea className="form-control" placeholder="" />
                         </div>
                       </div>
                     </div>
@@ -69,19 +66,19 @@ class FormCreateCargo extends Component {
                               className="form-check-label"
                               htmlFor="exampleCheck1"
                             >
-                              Activar cargo en el sistema.
+                              Activar
                             </label>
                             <p
                               className="text-muted"
                               style={{ textAlign: "justify" }}
                             >
                               Si esta opción se encuentra activada, representa
-                              que el cargo es visible en el sistemas y se podran
-                              realizar operaciones entre cada uno de los modulos
+                              que el cargo es visible en el sistema y se podrán
+                              realizar operaciones entre cada uno de los módulos
                               correspondientes de la aplicación. En caso
                               contrario el cargo no se elimina del sistema solo
-                              quedara inactivo e invisibles para cada uno de los
-                              modulos correspondiente del sistema.
+                              quedará inactivo e invisibles para cada uno de los
+                              módulos correspondiente del sistema.
                             </p>
                           </div>
                         </div>
@@ -92,7 +89,8 @@ class FormCreateCargo extends Component {
                 <CardFooter>
                   <div className="pull-right">
                     <button
-                      className="btn btn-default btn-sm"
+                      type="button"
+                      className="btn btn-secondary btn-sm"
                       onClick={() => {
                         console.log("probando");
                       }}

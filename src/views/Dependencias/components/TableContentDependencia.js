@@ -78,6 +78,16 @@ class TableContentDependencia extends Component {
         </button>
         &nbsp;
         <button
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalEdit();
+          }}
+        >
+          <i className="fa fa-pencil" />
+        </button>
+        &nbsp;
+        <button
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -86,16 +96,6 @@ class TableContentDependencia extends Component {
         >
           {" "}
           <i className="fa fa-trash" />{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalEdit();
-          }}
-        >
-          <i className="fa fa-pencil" />
         </button>
       </div>
     );
@@ -133,7 +133,7 @@ class TableContentDependencia extends Component {
               </TableHeaderColumn>
               <TableHeaderColumn dataField={"codigo"}>
                 {" "}
-                Codigo{" "}
+                Código{" "}
               </TableHeaderColumn>
               <TableHeaderColumn dataField={"nombre"}>Nombre</TableHeaderColumn>
               <TableHeaderColumn dataField={"rol_responsable"}>

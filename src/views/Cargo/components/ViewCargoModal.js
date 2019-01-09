@@ -19,13 +19,13 @@ class ModalViewCargo extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Cargo </ModalHeader>
+        <ModalHeader> Ver cargo </ModalHeader>
         <ModalBody>
           <div className="table-responsive">
             <table className="table table-striped">
               <tbody>
                 <tr>
-                  <td>Codigo:</td>
+                  <td>Código:</td>
                   <td> </td>
                 </tr>
                 <tr>
@@ -33,7 +33,7 @@ class ModalViewCargo extends Component {
                   <td> </td>
                 </tr>
                 <tr>
-                  <td>Descripcion:</td>
+                  <td>Descripción:</td>
                   <td> </td>
                 </tr>
                 <tr>
@@ -41,11 +41,11 @@ class ModalViewCargo extends Component {
                   <td> </td>
                 </tr>
                 <tr>
-                  <td>Fecha de creacion:</td>
+                  <td>Fecha de creación:</td>
                   <td> </td>
                 </tr>
                 <tr>
-                  <td>Fecha de modificacion:</td>
+                  <td>Fecha de modificación:</td>
                   <td> </td>
                 </tr>
               </tbody>
@@ -59,8 +59,7 @@ class ModalViewCargo extends Component {
               this.setState({ modal: false });
             }}
           >
-            {" "}
-            Cerrar{" "}
+            <i className="fa fa-times" /> Cerrar{" "}
           </button>
         </ModalFooter>
       </Modal>

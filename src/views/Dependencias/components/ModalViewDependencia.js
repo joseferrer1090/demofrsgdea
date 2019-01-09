@@ -20,13 +20,13 @@ class ModalViewDependencia extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Probando </ModalHeader>
+          <ModalHeader> Ver dependencia </ModalHeader>
           <ModalBody>
             <div className="table-responsive">
               <table className="table table-striped">
                 <tbody>
                   <tr>
-                    <td>Codigo:</td>
+                    <td>Código:</td>
                     <td> </td>
                   </tr>
                   <tr>
@@ -38,19 +38,19 @@ class ModalViewDependencia extends Component {
                     <td> </td>
                   </tr>
                   <tr>
-                    <td>Nombre de la sede</td>
+                    <td>Sede:</td>
                     <td> </td>
                   </tr>
                   <tr>
-                    <td>Estado</td>
+                    <td>Estado:</td>
                     <td> </td>
                   </tr>
                   <tr>
-                    <td>Fecha de creacion:</td>
+                    <td>Fecha de creación:</td>
                     <td> </td>
                   </tr>
                   <tr>
-                    <td>Fecha de modificacion:</td>
+                    <td>Fecha de modificación:</td>
                     <td> </td>
                   </tr>
                 </tbody>
@@ -66,8 +66,7 @@ class ModalViewDependencia extends Component {
                 });
               }}
             >
-              {" "}
-              Cerrar{" "}
+              <i className="fa fa-times" /> Cerrar{" "}
             </Button>
           </ModalFooter>
         </Modal>

@@ -101,19 +101,19 @@ class FromCreateDependencia extends Component {
                             className="form-check-label"
                             htmlFor="exampleCheck1"
                           >
-                            Activar dependencia en el sistema.
+                            Activar
                           </label>
                           <p
                             className="text-muted"
                             style={{ textAlign: "justify" }}
                           >
                             Si esta opción se encuentra activada, representa que
-                            la dependencia es visible en el sistemas y se podran
-                            realizar operaciones entre cada uno de los modulos
+                            la dependencia es visible en el sistema y se podrán
+                            realizar operaciones entre cada uno de los módulos
                             correspondientes de la aplicación. En caso contrario
                             la dependencia no se elimina del sistema solo
-                            quedara inactivo e invisibles para cada uno de los
-                            modulos correspondiente del sistema.
+                            quedará inactivo e invisibles para cada uno de los
+                            módulos correspondiente del sistema.
                           </p>
                         </div>
                       </div>
@@ -123,7 +123,10 @@ class FromCreateDependencia extends Component {
               </CardBody>
               <CardFooter>
                 <div className="float-right">
-                  <Button className="bntn btn-secondary"> Registrar </Button>
+                  <Button className="bntn btn-secondary">
+                    {" "}
+                    <i className="fa fa-plus" /> Registrar{" "}
+                  </Button>
                 </div>
               </CardFooter>
             </Card>

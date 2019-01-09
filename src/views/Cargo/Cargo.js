@@ -50,7 +50,7 @@ class Cargo extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Cargos
+              <i className="fa fa-gear" /> Administrar
             </NavLink>
           </NavItem>
           <NavItem>
@@ -75,14 +75,14 @@ class Cargo extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <TableContent/>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <FormUpload/>
+                <FormUpload />
               </Col>
             </Row>
           </TabPane>

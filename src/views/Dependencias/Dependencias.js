@@ -51,7 +51,7 @@ class Dependencias extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Dependencias
+              <i className="fa fa-gear" /> Administrar
             </NavLink>
           </NavItem>
           <NavItem>

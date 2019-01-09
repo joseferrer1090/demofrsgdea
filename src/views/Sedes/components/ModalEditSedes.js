@@ -20,61 +20,104 @@ class ModalEditSedes extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Editar Sede </ModalHeader>
+          <ModalHeader> Editar sede </ModalHeader>
           <ModalBody>
             <div className="table-responsive">
               <table className="table table-striped">
                 <tbody>
                   <tr>
                     <td>Código:</td>
-                    <td> </td>
+                    <td>
+                      {" "}
+                      <input type="text" className="form-control" />{" "}
+                    </td>
                   </tr>
                   <tr>
                     <td>Nombre:</td>
-                    <td> </td>
+                    <td>
+                      {" "}
+                      <input type="text" className="form-control" />{" "}
+                    </td>
                   </tr>
                   <tr>
                     <td>Prefijo de radicación:</td>
-                    <td> </td>
+                    <td>
+                      {" "}
+                      <input type="text" className="form-control" />{" "}
+                    </td>
                   </tr>
                   <tr>
                     <td>Dirección:</td>
-                    <td> </td>
+                    <td>
+                      {" "}
+                      <input type="text" className="form-control" />{" "}
+                    </td>
                   </tr>
                   <tr>
                     <td>Teléfono:</td>
-                    <td> </td>
+                    <td>
+                      {" "}
+                      <input type="text" className="form-control" />{" "}
+                    </td>
                   </tr>
                   <tr>
                     <td>Secuencia de radicación:</td>
-                    <td> </td>
+                    <td>
+                      {" "}
+                      <input type="text" className="form-control" />{" "}
+                    </td>
                   </tr>
                   <tr>
                     <td>Ciudad:</td>
-                    <td> </td>
+                    <td>
+                      <select className="form-control">
+                        {" "}
+                        <option> ciudad 1 </option>
+                        <option> ciudad 2 </option> <option> ciudad 3 </option>{" "}
+                      </select>
+                    </td>
                   </tr>
                   <tr>
                     <td>Estado:</td>
-                    <td> </td>
+                    <td>
+                      {" "}
+                      <select className="form-control">
+                        {" "}
+                        <option> Activada </option>{" "}
+                        <option> Desactivada </option>{" "}
+                      </select>{" "}
+                    </td>
                   </tr>
                   <tr>
                     <td>Fecha de creación:</td>
-                    <td> </td>
+                    <td>
+                      {" "}
+                      <input type="text" className="form-control" />{" "}
+                    </td>
                   </tr>
                   <tr>
                     <td>Fecha de modificación:</td>
-                    <td> </td>
+                    <td>
+                      {" "}
+                      <input type="text" className="form-control" />{" "}
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
           </ModalBody>
           <ModalFooter>
-            <button className="btn btn-outline-success">
+            <button type="button" className="btn btn-outline-success">
               {" "}
               <i className="fa fa-pencil" /> Actualizar{" "}
             </button>
-            <button className="btn btn-secondary">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => {
+                this.setState({ modal: false });
+              }}
+            >
               {" "}
               <i className="fa fa-times" /> Cerrar{" "}
             </button>

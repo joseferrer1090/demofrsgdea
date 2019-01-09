@@ -80,6 +80,16 @@ class TableContentCargo extends Component {
         </button>
         &nbsp;
         <button
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalEdit();
+          }}
+        >
+          <i className="fa fa-pencil" />
+        </button>
+        &nbsp;
+        <button
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
@@ -89,16 +99,6 @@ class TableContentCargo extends Component {
           {" "}
           <i className="fa fa-trash" />{" "}
         </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalEdit();
-          }}
-        >
-          <i className="fa fa-pencil" />
-        </button>
       </div>
     );
   }
@@ -107,12 +107,12 @@ class TableContentCargo extends Component {
     this.refs.child1.toggle();
   }
 
-  openModalEdit(){
-      this.refs.child2.toggle();
+  openModalEdit() {
+    this.refs.child2.toggle();
   }
 
-  openModalDelete(){
-      this.refs.child3.toggle();
+  openModalDelete() {
+    this.refs.child3.toggle();
   }
 
   render() {
@@ -125,7 +125,7 @@ class TableContentCargo extends Component {
               exportCSV
               data={dataExample}
               search
-              searchPlaceholder="Buscar Cargo"
+              searchPlaceholder="Buscar"
               bordered={false}
               hover
               striped
@@ -140,7 +140,7 @@ class TableContentCargo extends Component {
                 #{" "}
               </TableHeaderColumn>
               <TableHeaderColumn dataAlign="center" dataField={"codigo"}>
-                Còdigo
+                Código
               </TableHeaderColumn>
               <TableHeaderColumn dataAlign="center" dataField={"nombre"}>
                 {" "}
@@ -148,13 +148,14 @@ class TableContentCargo extends Component {
               </TableHeaderColumn>
               <TableHeaderColumn dataAlign="center" dataField={"descripcion"}>
                 {" "}
-                Descripciòn{" "}
+                Descripción{" "}
               </TableHeaderColumn>
               <TableHeaderColumn dataAlign="center" dataField={"estado"}>
                 {" "}
                 Estado
               </TableHeaderColumn>
               <TableHeaderColumn
+                dataAlign="center"
                 dataFormat={(cell, row) => this.accionesCargo(cell, row)}
               >
                 {" "}
@@ -164,8 +165,8 @@ class TableContentCargo extends Component {
           </Col>
         </Row>
         <ModalView modalviewcargo={this.state.modalview} ref="child1" />
-        <ModalEdit modaleditcargo={this.state.modaledit} ref="child2"/>
-        <ModalDel modaldelete={this.state.modaldelete} ref="child3"/>
+        <ModalEdit modaleditcargo={this.state.modaledit} ref="child2" />
+        <ModalDel modaldelete={this.state.modaldelete} ref="child3" />
       </div>
     );
   }

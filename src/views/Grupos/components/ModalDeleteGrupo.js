@@ -25,7 +25,8 @@ class ModalDeletePais extends Component {
             <form className="form">
               <p className="text-center">
                 {" "}
-                Confirmar el <code> Nombre </code> para eliminar el grupo{" "}
+                Confirmar el <code> Nombre </code> para eliminar el grupo de
+                usuarios{" "}
               </p>
 
               <input
@@ -37,7 +38,7 @@ class ModalDeletePais extends Component {
               <br />
               <p className="text-center text-danger">
                 {" "}
-                El grupo quedará eliminado de manera permanente.{" "}
+                El grupo de usuarios quedará eliminado de manera permanente.{" "}
               </p>
             </form>
           </ModalBody>

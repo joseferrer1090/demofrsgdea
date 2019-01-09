@@ -38,7 +38,7 @@ class ModalDeletePais extends Component {
               <br />
               <p className="text-center text-danger">
                 {" "}
-                El grupo de usuarios quedará eliminado de manera permanente.{" "}
+                El grupo de usuariosgit quedará eliminado de manera permanente.{" "}
               </p>
             </form>
           </ModalBody>

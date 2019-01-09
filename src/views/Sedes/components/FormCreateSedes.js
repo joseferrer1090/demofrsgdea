@@ -47,7 +47,7 @@ class FormCreateSedes extends Component {
       <div className="animated fadeIn">
         <div className="container">
           <Row>
-            <Col>
+            <div className="col-md-8 offset-md-2">
               <Card>
                 <CardHeader>Registro de sede</CardHeader>
                 <CardBody>
@@ -240,7 +240,7 @@ class FormCreateSedes extends Component {
                   </div>
                 </CardFooter>
               </Card>
-            </Col>
+            </div>
           </Row>
         </div>
       </div>

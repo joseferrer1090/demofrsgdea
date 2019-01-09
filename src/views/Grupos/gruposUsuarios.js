@@ -13,6 +13,7 @@ import {
   Col
 } from "reactstrap";
 import classnames from "classnames";
+import FormCreate from "./components/FormCreateGrupos";
 
 export default class GrupoUsuarios extends React.Component {
   constructor(props) {
@@ -52,7 +53,7 @@ export default class GrupoUsuarios extends React.Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa.gear" /> Administrar
+              <i className="fa fa-gear" /> Administrar
             </NavLink>
           </NavItem>
           <NavItem>
@@ -70,7 +71,7 @@ export default class GrupoUsuarios extends React.Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <h4>Tab 1 Contents</h4>
+                <FormCreate />
               </Col>
             </Row>
           </TabPane>

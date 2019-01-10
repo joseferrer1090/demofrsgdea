@@ -45,7 +45,9 @@ class ModalEditPermissionRoles extends Component {
               <Row>
                 <Col sm="12">
                   <UncontrolledAlert color="warning">
-                    This is a warning alert — check it out!
+                    <i className="fa fa-exclamation-triangle" /> Tener en cuenta
+                    que cuando se editan los permisos, puede afectar la sesion
+                    de los usuario <i className="fa fa-exclamation-triangle" />
                   </UncontrolledAlert>
                 </Col>
               </Row>

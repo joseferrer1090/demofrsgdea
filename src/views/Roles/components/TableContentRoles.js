@@ -3,6 +3,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewRoles";
 import ModalDelete from "./ModalDeleteRoles";
+import ModalEdit from "./ModalEditRoles";
 
 const dataExample = [
   { id: 1, codigo: "rol1", nombre: "rol_nombre", estado: true },
@@ -22,7 +23,8 @@ class TableContentRoles extends Component {
     super(props);
     this.state = {
       modalview: false,
-      modaldel: false
+      modaldel: false,
+      modaledit: false
     };
   }
 
@@ -30,7 +32,7 @@ class TableContentRoles extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -68,6 +70,10 @@ class TableContentRoles extends Component {
 
   openModalDel() {
     this.refs.child3.toggle();
+  }
+
+  openModalEdit() {
+    this.refs.child2.toggle();
   }
 
   render() {
@@ -116,6 +122,7 @@ class TableContentRoles extends Component {
           </Col>
         </Row>
         <ModalView modalviewroles={this.state.modalview} ref="child" />
+        <ModalEdit modaledit={this.state.modaledit} ref="child2" />
         <ModalDelete modaldelete={this.state.modaldel} ref="child3" />
       </div>
     );

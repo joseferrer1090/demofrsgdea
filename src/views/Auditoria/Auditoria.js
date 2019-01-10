@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Row, Col } from "reactstrap";
 import DatePicker from "react-datepicker";
+import { Card, CardBody, CardHeader, CardFooter } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewAditoria from "./components/ModalViewAuditoria";
 import "./../../../node_modules/react-datepicker/dist/react-datepicker.css";
@@ -102,146 +102,17 @@ class Auditoria extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col sm="8" md={{ offset: 2 }}>
-            <div className="card">
-              <div className="card-header">Datos de consulta</div>
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label htmlFor="">Desde: </label>
-                          <br />
-                          <DatePicker
-                            selected={this.state.startDate}
-                            selectsStart
-                            startDate={this.state.startDate}
-                            endDate={this.state.endDate}
-                            onChange={this.handleChangeStartDate}
-                            className="form-control large2"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label htmlFor="">Hasta: </label>
-                          <br />
-                          <DatePicker
-                            selected={this.state.endDate}
-                            selectsEnd
-                            startDate={this.state.startDate}
-                            endDate={this.state.endDate}
-                            onChange={this.handleChangeEndDate}
-                            className="form-control large2"
-                          />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label> Acción </label>
-                          <select className="form-control">
-                            <option>1</option>
-                            <option>1</option>
-                            <option>1</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label> Tablas </label>
-                          <select className="form-control">
-                            <option>1</option>
-                            <option>1</option>
-                            <option>1</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label> Usuario </label>
-                          <select className="form-control">
-                            <option>1</option>
-                            <option>1</option>
-                            <option>1</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="card-footer">
-                <div className="float-right">
-                  <button type="button" className="btn btn-secondary">
-                    <i className="fa fa-search" /> Consultar{" "}
-                  </button>
-                </div>
-              </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-12">
+              <Card>
+                <CardHeader> p </CardHeader>
+                <CardBody>p</CardBody>
+                <CardFooter>p</CardFooter>
+              </Card>
             </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col sm="12">
-            <div className="card">
-              <div className="card-body">
-                <BootstrapTable
-                  data={dataExample}
-                  striped
-                  hover
-                  pagination
-                  search
-                  bordered={false}
-                  searchPlaceholder="Buscar"
-                >
-                  <TableHeaderColumn
-                    isKey
-                    dataField="id"
-                    width="50"
-                    dataAlign="center"
-                  >
-                    {" "}
-                    #{" "}
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField="fecha" dataAlign="center">
-                    {" "}
-                    Fecha{" "}
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField="accion" dataAlign="center">
-                    {" "}
-                    Acción{" "}
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField="tabla" dataAlign="center">
-                    {" "}
-                    Tabla{" "}
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField="usuario" dataAlign="center">
-                    {" "}
-                    Usuario{" "}
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField="tipo" dataAlign="center">
-                    {" "}
-                    Tipo{" "}
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataAlign="center"
-                    dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
-                  />
-                </BootstrapTable>
-              </div>
-            </div>
-          </Col>
-        </Row>
-        <ModalViewAditoria
-          modalview={this.state.modalviewauditoria}
-          ref="child1"
-        />
+          </div>
+        </div>
       </div>
     );
   }

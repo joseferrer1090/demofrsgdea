@@ -11,7 +11,7 @@ class FormCreateConglomerado extends Component {
       <div className="anitmated fadeIn">
         <div className="container">
           <div className="row">
-            <div className="col-md-12">
+            <div className="col-md-8 offset-md-2">
               <Card>
                 <CardHeader> Registro de conglomerado </CardHeader>
                 <CardBody>

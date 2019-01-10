@@ -13,6 +13,7 @@ import {
   Col
 } from "reactstrap";
 import classnames from "classnames";
+import FormCreate from "./components/FormCreateRoles";
 import TableContent from "./components/TableContentRoles";
 import FormImport from "./components/FormUploadRoles";
 
@@ -72,7 +73,7 @@ export default class Roles extends React.Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <h4>Tab 1 Contents</h4>
+                <FormCreate />
               </Col>
             </Row>
           </TabPane>

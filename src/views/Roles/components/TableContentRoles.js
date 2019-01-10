@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewRoles";
+import ModalDelete from "./ModalDeleteRoles";
 
 const dataExample = [
   { id: 1, codigo: "rol1", nombre: "rol_nombre", estado: true },
@@ -20,7 +21,8 @@ class TableContentRoles extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalview: false
+      modalview: false,
+      modaldel: false
     };
   }
 
@@ -64,6 +66,10 @@ class TableContentRoles extends Component {
     this.refs.child.toggle();
   }
 
+  openModalDel() {
+    this.refs.child3.toggle();
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -76,6 +82,7 @@ class TableContentRoles extends Component {
               pagination
               bordered={false}
               hover
+              exportCSV
             >
               <TableHeaderColumn
                 isKey
@@ -109,6 +116,7 @@ class TableContentRoles extends Component {
           </Col>
         </Row>
         <ModalView modalviewroles={this.state.modalview} ref="child" />
+        <ModalDelete modaldelete={this.state.modaldel} ref="child3" />
       </div>
     );
   }

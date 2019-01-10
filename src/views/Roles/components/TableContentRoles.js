@@ -4,6 +4,7 @@ import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewRoles";
 import ModalDelete from "./ModalDeleteRoles";
 import ModalEdit from "./ModalEditRoles";
+import ModalPermission from "./ModalEditPermissionRoles";
 
 const dataExample = [
   { id: 1, codigo: "rol1", nombre: "rol_nombre", estado: true },
@@ -24,7 +25,8 @@ class TableContentRoles extends Component {
     this.state = {
       modalview: false,
       modaldel: false,
-      modaledit: false
+      modaledit: false,
+      modalpermission: false
     };
   }
 
@@ -53,6 +55,15 @@ class TableContentRoles extends Component {
         </button>
         &nbsp;
         <button
+          className="btn btn-warning btn-sm"
+          onClick={() => {
+            this.openModalPermission();
+          }}
+        >
+          <i className="fa fa-lock" />
+        </button>
+        &nbsp;
+        <button
           className="btn btn-danger btn-sm"
           onClick={() => {
             this.openModalDel();
@@ -74,6 +85,10 @@ class TableContentRoles extends Component {
 
   openModalEdit() {
     this.refs.child2.toggle();
+  }
+
+  openModalPermission() {
+    this.refs.child4.toggle();
   }
 
   render() {
@@ -124,6 +139,10 @@ class TableContentRoles extends Component {
         <ModalView modalviewroles={this.state.modalview} ref="child" />
         <ModalEdit modaledit={this.state.modaledit} ref="child2" />
         <ModalDelete modaldelete={this.state.modaldel} ref="child3" />
+        <ModalPermission
+          modaleditpermission={this.state.modalpermission}
+          ref="child4"
+        />
       </div>
     );
   }

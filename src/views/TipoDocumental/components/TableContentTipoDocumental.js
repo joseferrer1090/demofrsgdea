@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
+import ModalView from "./ModalViewTipoDocumental";
+import ModalDelete from "./ModalDeleteTipoDocumental";
 
 const dataExample = [
   {
@@ -47,31 +49,118 @@ const dataExample = [
 ];
 
 class TableContentTipoDocumental extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modalview: false,
+      modaldel: false
+    };
+  }
+
+  accionesTipoDocumental(cel, row) {
+    return (
+      <div
+        className="table-menu"
+        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
+      >
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalView();
+          }}
+        >
+          <i className="fa fa-eye" />
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalEdit();
+          }}
+        >
+          <i className="fa fa-pencil" />
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-warning btn-sm"
+          onClick={() => {
+            this.openModalPermission();
+          }}
+        >
+          <i className="fa fa-lock" />
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => {
+            this.openModalDel();
+          }}
+        >
+          <i className="fa fa-trash" />
+        </button>
+      </div>
+    );
+  }
+
+  openModalView() {
+    this.refs.child.toggle();
+  }
+
+  openModalDel() {
+    this.refs.child4.toggle();
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
         <Row>
           <Col sm="12">
-            <BootstrapTable data={dataExample}>
+            <BootstrapTable
+              data={dataExample}
+              pagination
+              search
+              searchPlaceholder="Buscar"
+              bordered={false}
+              hover
+              striped
+              exportCSV
+            >
               <TableHeaderColumn isKey dataField="id" width="50">
                 {" "}
                 #
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="codigo"> Código </TableHeaderColumn>
-              <TableHeaderColumn dataField="nombre"> Nombre </TableHeaderColumn>
-              <TableHeaderColumn dataField="dependencia">
+              <TableHeaderColumn dataField="codigo" dataAlign="center">
+                {" "}
+                Código{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="nombre" dataAlign="center">
+                {" "}
+                Nombre{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="dependencia" dataAlign="center">
                 {" "}
                 Dependencia{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="hr">
+              <TableHeaderColumn dataField="hr" dataAlign="center">
                 {" "}
                 Horas de respuesta{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="estado"> Estado </TableHeaderColumn>
-              <TableHeaderColumn> Acciones </TableHeaderColumn>
+              <TableHeaderColumn dataField="estado" dataAlign="center">
+                {" "}
+                Estado{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataAlign="center"
+                dataFormat={(cel, row) => this.accionesTipoDocumental(cel, row)}
+              >
+                {" "}
+                Acciones{" "}
+              </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>
+        <ModalView modalview={this.state.modalview} ref="child" />
+        <ModalDelete modaldelete={this.state.modaldel} ref="child4" />
       </div>
     );
   }

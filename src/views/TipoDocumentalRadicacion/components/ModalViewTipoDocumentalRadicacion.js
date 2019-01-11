@@ -19,7 +19,7 @@ class ModalViewTipoDocumental extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Ver tipo documental </ModalHeader>
+        <ModalHeader> Ver tipo documental radicación</ModalHeader>
         <ModalBody>
           <div className="table-responsive">
             <table className="table table-striped">
@@ -31,14 +31,6 @@ class ModalViewTipoDocumental extends Component {
                 <tr>
                   <td> Nombre </td>
                   <td> </td>
-                </tr>
-                <tr>
-                  <td> Dependencia </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Horas de respuestas </td>
-                  <td />
                 </tr>
                 <tr>
                   <td> Indices documentales </td>

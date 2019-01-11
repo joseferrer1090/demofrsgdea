@@ -18,7 +18,7 @@ class FormEditTipoDocumental extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Actualizar tipo documental </ModalHeader>
+        <ModalHeader> Actualizar tipo documental radicación </ModalHeader>
         <ModalBody>
           <div className="table-responsive">
             <table className="table table-striped">
@@ -31,23 +31,6 @@ class FormEditTipoDocumental extends Component {
               </tr>
               <tr>
                 <td> Nombre </td>
-                <td>
-                  {" "}
-                  <input type="text" className="form-control" />{" "}
-                </td>
-              </tr>
-              <tr>
-                <td> Dependencia </td>
-                <td>
-                  {" "}
-                  <select className="form-control">
-                    {" "}
-                    <option>Seleccione</option>{" "}
-                  </select>{" "}
-                </td>
-              </tr>
-              <tr>
-                <td> Horas de respuesta </td>
                 <td>
                   {" "}
                   <input type="text" className="form-control" />{" "}

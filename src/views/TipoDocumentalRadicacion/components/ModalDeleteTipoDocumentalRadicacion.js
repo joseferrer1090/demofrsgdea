@@ -17,13 +17,13 @@ class ModalDeleteTipoDocumental extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Eliminar tipo documental </ModalHeader>
+        <ModalHeader> Eliminar tipo documental radicación </ModalHeader>
         <ModalBody>
           <form className="form">
             <p className="text-center">
               {" "}
               Confirmar el <code> Nombre </code> para eliminar el tipo
-              documental{" "}
+              documental radicación{" "}
             </p>
 
             <input
@@ -35,7 +35,8 @@ class ModalDeleteTipoDocumental extends Component {
             <br />
             <p className="text-center text-danger">
               {" "}
-              El tipo documental quedará eliminado de manera permanente.{" "}
+              El tipo documental radicación quedará eliminado de manera
+              permanente.{" "}
             </p>
           </form>
         </ModalBody>

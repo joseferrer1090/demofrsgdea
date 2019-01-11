@@ -6,6 +6,8 @@ import ModalView from "./ModalViewTipoDocumentalRadicacion";
 import ModalDelete from "./ModalDeleteTipoDocumentalRadicacion";
 import ModalEdit from "./ModalEditTipoDocumentalRadicacion";
 import ModalIndices from "./ModalEditIndicesTipoDocumentalRadicacion";
+import ModalUsers from "./ModalViewUserTipoDocumentalRadicacion";
+import ModalEditUsers from "./ModalEditUsersTipoDocumentalRadicacion";
 import "./../../../css/custom_css.css";
 
 const dataExample = [
@@ -53,7 +55,9 @@ class TableContentTipoDocumental extends Component {
       modalview: false,
       modaldel: false,
       modaledit: false,
-      modalindices: false
+      modalindices: false,
+      modalviewusers: false,
+      modaleditusers: false
     };
   }
 
@@ -79,6 +83,15 @@ class TableContentTipoDocumental extends Component {
           }}
         >
           <i className="fa fa-pencil" />
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalEditUsers();
+          }}
+        >
+          <i className="fa fa-user" />
         </button>
         &nbsp;
         <button
@@ -108,7 +121,7 @@ class TableContentTipoDocumental extends Component {
         <Button
           color="link"
           onClick={() => {
-            alert("hola mundo");
+            this.openModalViewUsers();
           }}
           style={{}}
         >
@@ -117,6 +130,10 @@ class TableContentTipoDocumental extends Component {
         </Button>
       </div>
     );
+  }
+
+  openModalViewUsers() {
+    this.refs.child5.toggle();
   }
 
   openModalView() {
@@ -133,6 +150,10 @@ class TableContentTipoDocumental extends Component {
 
   openModalEdit() {
     this.refs.child3.toggle();
+  }
+
+  openModalEditUsers() {
+    this.refs.child6.toggle();
   }
 
   render() {
@@ -191,6 +212,11 @@ class TableContentTipoDocumental extends Component {
         <ModalDelete modaldelete={this.state.modaldel} ref="child4" />
         <ModalEdit modaledit={this.state.modaledit} ref="child3" />
         <ModalIndices modalindices={this.state.modalindices} ref="child2" />
+        <ModalUsers modalviewusers={this.state.modaluserview} ref="child5" />
+        <ModalEditUsers
+          modaleditusers={this.state.modaleditusers}
+          ref={"child6"}
+        />
       </div>
     );
   }

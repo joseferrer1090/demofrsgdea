@@ -40,6 +40,7 @@
     "react-router-dom": "^4.3.1",
     "react-select": "^2.2.0",
     "react-switch": "^3.0.4",
+    "react-table-container": "^2.0.1",
     "react-test-renderer": "^16.7.0",
     "reactstrap": "^6.5.0",
     "simple-line-icons": "^2.4.1"

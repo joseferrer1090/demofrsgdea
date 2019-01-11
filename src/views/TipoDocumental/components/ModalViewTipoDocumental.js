@@ -21,7 +21,43 @@ class ModalViewTipoDocumental extends Component {
       <Modal isOpen={this.state.modal}>
         <ModalHeader> Ver tipo documental </ModalHeader>
         <ModalBody>
-          <p> Hola mundo </p>
+          <div className="table-responsive">
+            <table className="table table-striped">
+              <tbody>
+                <tr>
+                  <td> Código </td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td> Nombre </td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td> Dependencia </td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td> Horas de respuestas </td>
+                  <td />
+                </tr>
+                <tr>
+                  <td> Indices documentales </td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td> Estado </td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td> Fecha de creación </td>
+                  <td> </td>
+                </tr>
+                <tr>
+                  <td> Fecha de modificación </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </ModalBody>
         <ModalFooter>
           <button

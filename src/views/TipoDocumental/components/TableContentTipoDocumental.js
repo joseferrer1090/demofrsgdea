@@ -65,7 +65,7 @@ class TableContentTipoDocumental extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

@@ -19,7 +19,25 @@ class ModalDeleteTipoDocumental extends Component {
       <Modal isOpen={this.state.modal}>
         <ModalHeader> Eliminar tipo documental </ModalHeader>
         <ModalBody>
-          <p> Probando </p>
+          <form className="form">
+            <p className="text-center">
+              {" "}
+              Confirmar el <code> Nombre </code> para eliminar el tipo
+              documental{" "}
+            </p>
+
+            <input
+              className="form-control col-sm-6 offset-sm-3"
+              type="text"
+              placeholder=""
+              style={{ textAlign: "center" }}
+            />
+            <br />
+            <p className="text-center text-danger">
+              {" "}
+              El tipo documental quedará eliminado de manera permanente.{" "}
+            </p>
+          </form>
         </ModalBody>
         <ModalFooter>
           <button

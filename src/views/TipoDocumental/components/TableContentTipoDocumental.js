@@ -4,6 +4,8 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewTipoDocumental";
 import ModalDelete from "./ModalDeleteTipoDocumental";
+import ModalEdit from "./ModalEditTipoDocumental";
+import ModalIndices from "./ModalEditIndicesTipoDocumental";
 
 const dataExample = [
   {
@@ -53,7 +55,9 @@ class TableContentTipoDocumental extends Component {
     super(props);
     this.state = {
       modalview: false,
-      modaldel: false
+      modaldel: false,
+      modaledit: false,
+      modalindices: false
     };
   }
 
@@ -84,7 +88,7 @@ class TableContentTipoDocumental extends Component {
         <button
           className="btn btn-warning btn-sm"
           onClick={() => {
-            this.openModalPermission();
+            this.openModalIndices();
           }}
         >
           <i className="fa fa-lock" />
@@ -106,8 +110,16 @@ class TableContentTipoDocumental extends Component {
     this.refs.child.toggle();
   }
 
+  openModalIndices() {
+    this.refs.child2.toggle();
+  }
+
   openModalDel() {
     this.refs.child4.toggle();
+  }
+
+  openModalEdit() {
+    this.refs.child3.toggle();
   }
 
   render() {
@@ -161,6 +173,8 @@ class TableContentTipoDocumental extends Component {
         </Row>
         <ModalView modalview={this.state.modalview} ref="child" />
         <ModalDelete modaldelete={this.state.modaldel} ref="child4" />
+        <ModalEdit modaledit={this.state.modaledit} ref="child3" />
+        <ModalIndices modalindices={this.state.modalindices} ref="child2" />
       </div>
     );
   }

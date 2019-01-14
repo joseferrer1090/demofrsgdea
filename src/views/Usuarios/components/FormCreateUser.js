@@ -18,13 +18,21 @@ const dataExampleCargo = [
   { value: "cargo3", label: "Cargo 3" }
 ];
 
+const dataExmapleRoles = [
+  { value: "rol1", label: "rol 1" },
+  { value: "rol2", label: "rol 2" },
+  { value: "rol3", label: "rol 3" },
+  { value: "rol4", label: "rol 4" }
+];
+
 class FormCreateUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
       startDate: "",
       selectedOptionDependencia: null,
-      seledtedOptionCargo: null
+      seledtedOptionCargo: null,
+      selectedOptionRoles: null
     };
     this.inputOpenFileRef = React.createRef();
   }
@@ -45,12 +53,21 @@ class FormCreateUser extends Component {
     console.log(this.state.selectedOptionDependencia);
   };
 
+  handleSelectedOptionRoles = selectedOptionRoles => {
+    this.setState({ selectedOptionRoles });
+    console.log(this.state.selectedOptionRoles);
+  };
+
   showOpenFileDlg = () => {
     this.inputOpenFileRef.current.click();
   };
 
   render() {
-    const { selectedoptiondependencia, selectedoptioncargo } = this.state;
+    const {
+      selectedoptiondependencia,
+      selectedoptioncargo,
+      selectedOptionRoles
+    } = this.state;
     return (
       <div className="animated fadeIn">
         <div className="git">
@@ -222,10 +239,7 @@ class FormCreateUser extends Component {
                               />
                             </div>
                           </div>
-                          <div
-                            className="col-md-12"
-                            style={{ border: "1px solid red" }}
-                          >
+                          <div className="col-md-12">
                             <div className="form-group">
                               <label>
                                 {" "}
@@ -233,10 +247,15 @@ class FormCreateUser extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <p> selector de roles para el usuario </p>
+                              <Select
+                                value={selectedOptionRoles}
+                                onChange={this.handleSelectedOptionRoles}
+                                options={dataExmapleRoles}
+                                placeholder={"Selecciones los roles"}
+                                isMulti
+                              />
                             </div>
                           </div>
-
                           <div className="col-md-12">
                             <div className="form-group">
                               <label>

@@ -20,7 +20,7 @@ class ModalViewAuditoria extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Detaller de la auditoría </ModalHeader>
+          <ModalHeader> Detalle de la auditoría </ModalHeader>
           <ModalBody>
             <div className="table-responsive">
               <table className="table table-striped">

@@ -6,7 +6,8 @@ import {
   CardHeader,
   CardFooter,
   CardBody,
-  CardTitle
+  CardTitle,
+  CardText
 } from "reactstrap";
 
 class FormCreateTipoDocumental extends Component {
@@ -133,22 +134,20 @@ class FormCreateTipoDocumental extends Component {
                             <Card body>
                               <div className="row">
                                 <div className="col-md-12">
-                                  <div className="input-group mb-3">
-                                    <input
-                                      type="text"
-                                      className="form-control"
-                                      value={this.state.NombreTipoDocumental}
-                                      readOnly
-                                    />
-                                    <div className="input-group-append">
-                                      <button
-                                        className="btn btn-secondary"
-                                        onClick={this.addClick.bind(this)}
-                                      >
-                                        {" "}
-                                        Agregar
-                                      </button>
-                                    </div>
+                                  <div className="text-center">
+                                    <p>
+                                      {" "}
+                                      A continuacion se deben agregar los
+                                      indices documentales del tipo documental{" "}
+                                    </p>
+                                    <button
+                                      className="btn btn-secondary"
+                                      onClick={this.addClick.bind(this)}
+                                      style={{ width: "150px" }}
+                                    >
+                                      {" "}
+                                      Agregar
+                                    </button>
                                   </div>
                                   <hr />
                                   {this.createUI()}

@@ -76,7 +76,8 @@ class Auditoria extends Component {
     super(props);
     this.state = {
       startDate: new Date(),
-      modalviewauditoria: false
+      modalviewauditoria: false,
+      visible: false
     };
   }
 
@@ -112,6 +113,7 @@ class Auditoria extends Component {
   }
 
   render() {
+    const { visible } = this.state;
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -196,7 +198,12 @@ class Auditoria extends Component {
                 </CardBody>
                 <CardFooter>
                   <div className="float-right">
-                    <button className="btn btn-secondary">
+                    <button
+                      className="btn btn-secondary"
+                      onClick={() => {
+                        this.setState({ visible: !this.state.visible });
+                      }}
+                    >
                       {" "}
                       <i className="fa fa-search" /> Consultar{" "}
                     </button>
@@ -206,44 +213,53 @@ class Auditoria extends Component {
             </Col>
           </Row>
         </div>
-        <Row sm="12">
-          <Card body>
-            <BootstrapTable data={dataExample} bordered={false} striped hover>
-              <TableHeaderColumn
-                dataField="id"
-                isKey
-                dataAlign={"center"}
-                width="50"
-              >
-                #
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="fecha" dataAlign={"center"}>
-                {" "}
-                Fecha{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="accion" dataAlign={"center"}>
-                {" "}
-                Accion{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="tabla" dataAlign={"center"}>
-                {" "}
-                Tabla{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="usuario" dataAlign={"center"}>
-                {" "}
-                Usuario{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="tipo" dataAlign={"center"}>
-                {" "}
-                Tipo{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataAlign="center"
-                dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
-              />
-            </BootstrapTable>
-          </Card>
-        </Row>
+        {visible ? (
+          <div className="animated fadeIn">
+            <Row sm="12">
+              <Card body>
+                <BootstrapTable
+                  data={dataExample}
+                  bordered={false}
+                  striped
+                  hover
+                >
+                  <TableHeaderColumn
+                    dataField="id"
+                    isKey
+                    dataAlign={"center"}
+                    width="50"
+                  >
+                    #
+                  </TableHeaderColumn>
+                  <TableHeaderColumn dataField="fecha" dataAlign={"center"}>
+                    {" "}
+                    Fecha{" "}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn dataField="accion" dataAlign={"center"}>
+                    {" "}
+                    Accion{" "}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn dataField="tabla" dataAlign={"center"}>
+                    {" "}
+                    Tabla{" "}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn dataField="usuario" dataAlign={"center"}>
+                    {" "}
+                    Usuario{" "}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn dataField="tipo" dataAlign={"center"}>
+                    {" "}
+                    Tipo{" "}
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataAlign="center"
+                    dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
+                  />
+                </BootstrapTable>
+              </Card>
+            </Row>
+          </div>
+        ) : null}
         <ModalViewAditoria
           modalview={this.state.modalviewauditoria}
           ref="child1"

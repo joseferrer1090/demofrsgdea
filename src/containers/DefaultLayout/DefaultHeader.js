@@ -17,8 +17,9 @@ import {
   AppNavbarBrand,
   AppSidebarToggler
 } from "@coreui/react";
-// import logo from "../../assets/img/brand/logo.svg";
-// import sygnet from "../../assets/img/brand/sygnet.svg";
+
+import logo from "../../assets/img/sevenet_ori.svg";
+import sygnet from "../../assets/img/sevenet_ori.svg";
 
 const propTypes = {
   children: PropTypes.node
@@ -30,8 +31,8 @@ class DefaultHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      logoFull: "https://via.placeholder.com/200",
-      logoMin: "https://via.placeholder.com/90"
+      logoFull: logo,
+      logoMin: sygnet
     };
   }
   render() {

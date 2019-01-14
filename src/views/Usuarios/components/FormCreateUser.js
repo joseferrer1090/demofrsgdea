@@ -80,7 +80,7 @@ class FormCreateUser extends Component {
                     <Col sm="3">
                       <div className="text-center">
                         <img
-                          src={"https://via.placeholder.com/150"}
+                          src={"/assets/img/avatar2.png"}
                           className="img-thumbnail"
                         />
                         <br />

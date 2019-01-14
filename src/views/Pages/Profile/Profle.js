@@ -19,7 +19,7 @@ class Profle extends Component {
               >
                 <img
                   className="img-responsive "
-                  src="http://via.placeholder.com/200x200"
+                  src="/assets/img/avatars/user2.jpg"
                   style={{ margin: "10px" }}
                 />
               </a>

@@ -240,10 +240,7 @@ class Auditoria extends Component {
               <TableHeaderColumn
                 dataAlign="center"
                 dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
-              >
-                {" "}
-                Accion{" "}
-              </TableHeaderColumn>
+              />
             </BootstrapTable>
           </Card>
         </Row>

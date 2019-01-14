@@ -207,7 +207,7 @@ class Auditoria extends Component {
           </Row>
         </div>
         <Row sm="12">
-          <Card>
+          <Card body>
             <BootstrapTable data={dataExample} bordered={false} striped hover>
               <TableHeaderColumn
                 dataField="id"

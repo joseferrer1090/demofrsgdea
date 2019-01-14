@@ -124,12 +124,22 @@ class FormCreateTipoDocumental extends Component {
                   </Row>
                   <Row>
                     <Col sm="12">
-                      <Card body>
-                        <CardTitle>
-                          {" "}
-                          Indices documentales <hr />{" "}
-                        </CardTitle>
-                        <p> Indices de tipo documental dinamico </p>
+                      <Card>
+                        <CardBody>
+                          <CardTitle>
+                            {" "}
+                            Indices documentales <hr />{" "}
+                          </CardTitle>
+                          <p> Indices de tipo documental dinamico </p>
+                        </CardBody>
+                        <CardFooter>
+                          <div className="float-right">
+                            <button className="btn btn-secondary">
+                              {" "}
+                              <i className="fa fa-check" /> Crear indices
+                            </button>
+                          </div>
+                        </CardFooter>
                       </Card>
                     </Col>
                   </Row>

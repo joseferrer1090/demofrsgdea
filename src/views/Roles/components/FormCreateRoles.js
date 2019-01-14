@@ -59,7 +59,12 @@ class FormCreateRoles extends Component {
                           </h4>
                         </CardTitle>
                         <Row>
-                          <Col sm="4">
+                          <Col
+                            sm="4"
+                            style={{
+                              height: "200px !important"
+                            }}
+                          >
                             <div className="card">
                               <div className="card-header">
                                 {" "}

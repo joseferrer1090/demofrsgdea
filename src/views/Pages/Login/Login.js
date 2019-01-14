@@ -26,8 +26,8 @@ class Login extends Component {
                 <Card className="p-4">
                   <CardBody>
                     <Form>
-                      <h1>Iniciar sesión</h1>
-                      <p className="text-muted">
+                      <h1 className="text-center">Iniciar sesión</h1>
+                      <p className="text-muted text-center">
                         Ingresa al administrador general SGDEA
                       </p>
                       <InputGroup className="mb-3">

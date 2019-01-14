@@ -12,8 +12,65 @@ import {
 class FormCreateTipoDocumental extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { values: [], TypeDocumentName: "nombre del tipo documental" };
   }
+  createUI() {
+    return this.state.values.map((el, i) => (
+      <div key={i}>
+        <div className="col-md-10 offset-md-1">
+          <div className="input-group mb-3">
+            <div className="input-group-prepend">
+              <button
+                className="btn btn-secondary"
+                type="button"
+                id="inputGroupFileAddon03"
+                onClick={this.removeClick.bind(this, i)}
+              >
+                <i className="fa fa-trash" />
+              </button>
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="nombre del indice"
+            />
+            <div className="input-group-append">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={this.addClick.bind(this)}
+              >
+                {" "}
+                <i className="fa fa-plus" />{" "}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    ));
+  }
+
+  handleChange(i, event) {
+    let values = [...this.state.values];
+    values[i] = event.target.value;
+    this.setState({
+      values
+    });
+  }
+
+  addClick() {
+    this.setState(prevState => ({ values: [...prevState.values, ""] }));
+  }
+
+  removeClick(i) {
+    let values = [...this.state.values];
+    values.splice(i, 1);
+    this.setState({ values });
+  }
+  handleSubmit = event => {
+    alert("A name was submitted: " + this.state.values.join(", "));
+    event.preventDefault();
+  };
   render() {
     return (
       <div className="animated fadeIn">
@@ -124,12 +181,48 @@ class FormCreateTipoDocumental extends Component {
                   </Row>
                   <Row>
                     <Col sm="12">
-                      <Card body>
-                        <CardTitle>
-                          {" "}
-                          Indices documentales <hr />{" "}
-                        </CardTitle>
-                        <p> Indices de tipo documental dinamico </p>
+                      <Card>
+                        <CardBody>
+                          <CardTitle>
+                            {" "}
+                            Indices documentales <hr />{" "}
+                          </CardTitle>
+                          <form className="form">
+                            <Card body>
+                              <div className="row">
+                                <div className="col-md-12">
+                                  <div className="input-group mb-3">
+                                    <input
+                                      type="text"
+                                      className="form-control"
+                                      value={this.state.TypeDocumentName}
+                                      readOnly
+                                    />
+                                    <div className="input-group-append">
+                                      <button
+                                        className="btn btn-secondary"
+                                        onClick={this.addClick.bind(this)}
+                                      >
+                                        {" "}
+                                        Agregar
+                                      </button>
+                                    </div>
+                                  </div>
+                                  <hr />
+                                  {this.createUI()}
+                                </div>
+                              </div>
+                            </Card>
+                          </form>
+                        </CardBody>
+                        <CardFooter>
+                          <div className="float-right">
+                            <button className="btn btn-secondary">
+                              {" "}
+                              <i className="fa fa-check" /> Crear indices
+                            </button>
+                          </div>
+                        </CardFooter>
                       </Card>
                     </Col>
                   </Row>

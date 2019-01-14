@@ -18,9 +18,9 @@ class Page500 extends Component {
           <Row className="justify-content-center">
             <Col md="6">
               <span className="clearfix">
-                <h1 className="float-left display-3 mr-4">500</h1>
-                <h4 className="pt-3">Houston, tenemos un problema!</h4>
-                <p className="text-muted float-left">
+                <h1 className=" display-4 text-center">500</h1>
+                <h4 className="text-center">Houston, tenemos un problema!</h4>
+                <p className="text-muted text-center">
                   La página que está buscando no está disponible temporalmente.
                 </p>
               </span>

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Button, Col, Row, Jumbotron } from "reactstrap";
+import { Button, Col, Row, Jumbotron, Card } from "reactstrap";
+import Img1 from "./../../assets/img/proceso-de-gestion-documental.svg";
+import "./../../css/custom_css.css";
 
 class Configuracion extends Component {
   constructor(props) {
@@ -33,38 +35,44 @@ class Configuracion extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col md="12">
-            <Jumbotron className="border border-secondary">
-              <h1 className="display-3">Bienvenido, administrador!</h1>
-              <p className="lead">
-                Esta la interfaz de bienvenida para el usuario donde salta
-                información como su nombre y la ultima conexión
-              </p>
-              <hr className="my-2" />
-              <p>
-                <strong> Ultima conexión: </strong>{" "}
-                <span>
-                  {new Date()
-                    .toJSON()
-                    .slice(0, 10)
-                    .replace(/-/g, "/")}
-                </span>
-              </p>
-              <p className="lead">
-                <Button
-                  color="primary"
-                  onClick={() => {
-                    alert("Manual de referencia para el administrador");
+        <div className="card">
+          <section className="showcase">
+            <div className="container-fluid p-0">
+              <div className="row no-gutters">
+                <div
+                  className="col-lg-6 order-lg-2 text-white showcase-img"
+                  style={{
+                    backgroundImage:
+                      "url(" + "assets/img/GESTIONDOCUMENTAL.jpg" + ")",
+                    height: "480px"
                   }}
-                >
-                  Ver manual
-                </Button>
-              </p>
-            </Jumbotron>
-          </Col>
-        </Row>
-        <Row />
+                />
+                <div className="col-lg-6 order-lg-2 my-auto showcase-text">
+                  <div className="container">
+                    <h2>Fully Responsive Design</h2>
+                    <p className="lead mb-0">
+                      When you use a theme created by Start Bootstrap, you know
+                      that the theme will look great on any device, whether it's
+                      a phone, tablet, or desktop the page will behave
+                      responsively!
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div className="row">
+          <div className="col-md-4">
+            <div className="card card-body" />
+          </div>
+          <div className="col-md-4">
+            <div className="card card-body" />
+          </div>
+          <div className="col-md-4">
+            <div className="card card-body" />
+          </div>
+        </div>
       </div>
     );
   }

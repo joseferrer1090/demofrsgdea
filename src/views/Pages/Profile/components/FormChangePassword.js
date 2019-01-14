@@ -10,10 +10,7 @@ class FormChangePassword extends Component {
     return (
       <div className="animated fadeIn">
         <div className="row">
-          <div className="col-md-6 offset-3">
-            <Row>
-              <Col sm="12" />
-            </Row>
+          <div className="col-md-8 offset-2">
             <Row>
               <Col sm="12">
                 <Card>

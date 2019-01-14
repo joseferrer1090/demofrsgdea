@@ -85,7 +85,7 @@ class DefaultHeader extends Component {
             <DropdownToggle nav style={{ marginRight: "4px !important" }}>
               Administrador
               <img
-                src={"../../assets/img/avatars/user.svg"}
+                src={"../../assets/img/avatars/user2.jpg"}
                 className="img-avatar"
                 alt="administratos@image"
               />

@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Button, Col, Row, Jumbotron, Card } from "reactstrap";
+import {
+  Button,
+  Col,
+  Row,
+  Jumbotron,
+  Card,
+  CardTitle,
+  CardText
+} from "reactstrap";
 import Img1 from "./../../assets/img/proceso-de-gestion-documental.svg";
 import "./../../css/custom_css.css";
 
@@ -64,13 +72,41 @@ class Configuracion extends Component {
         </div>
         <div className="row">
           <div className="col-md-4">
-            <div className="card card-body" />
+            <Card body>
+              <CardTitle>Manual módulo de correspondencia</CardTitle>
+              <CardText className="text-justify">
+                Si deseas saber como funciona el manual de correspondencia y
+                todas sus funcionales presiona el boton
+              </CardText>
+              <Button>
+                <i className="fa fa-download" /> Descargar
+              </Button>
+            </Card>
           </div>
           <div className="col-md-4">
-            <div className="card card-body" />
+            <Card body>
+              <CardTitle>Manual módulo de archivo</CardTitle>
+              <CardText className="text-justify">
+                Si deseas saber como funciona el manual de archivo y todas sus
+                funcionales presiona el boton
+              </CardText>
+              <Button>
+                <i className="fa fa-download" /> Descargar
+              </Button>
+            </Card>
           </div>
           <div className="col-md-4">
-            <div className="card card-body" />
+            <Card body>
+              <CardTitle>Manual módulo de workflow</CardTitle>
+              <CardText className="text-justify">
+                Si deseas saber como funciona el manual de workflow y todas sus
+                funcionales presiona el boton
+              </CardText>
+              <Button>
+                {" "}
+                <i className="fa fa-download" /> Descargar
+              </Button>
+            </Card>
           </div>
         </div>
       </div>

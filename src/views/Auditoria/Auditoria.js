@@ -237,9 +237,20 @@ class Auditoria extends Component {
                 {" "}
                 Tipo{" "}
               </TableHeaderColumn>
+              <TableHeaderColumn
+                dataAlign="center"
+                dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
+              >
+                {" "}
+                Accion{" "}
+              </TableHeaderColumn>
             </BootstrapTable>
           </Card>
         </Row>
+        <ModalViewAditoria
+          modalview={this.state.modalviewauditoria}
+          ref="child1"
+        />
       </div>
     );
   }

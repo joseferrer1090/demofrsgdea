@@ -206,6 +206,40 @@ class Auditoria extends Component {
             </Col>
           </Row>
         </div>
+        <Row sm="12">
+          <Card>
+            <BootstrapTable data={dataExample} bordered={false} striped hover>
+              <TableHeaderColumn
+                dataField="id"
+                isKey
+                dataAlign={"center"}
+                width="50"
+              >
+                #
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="fecha" dataAlign={"center"}>
+                {" "}
+                Fecha{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="accion" dataAlign={"center"}>
+                {" "}
+                Accion{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="tabla" dataAlign={"center"}>
+                {" "}
+                Tabla{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="usuario" dataAlign={"center"}>
+                {" "}
+                Usuario{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn dataField="tipo" dataAlign={"center"}>
+                {" "}
+                Tipo{" "}
+              </TableHeaderColumn>
+            </BootstrapTable>
+          </Card>
+        </Row>
       </div>
     );
   }

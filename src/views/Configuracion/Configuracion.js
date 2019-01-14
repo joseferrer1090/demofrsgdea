@@ -75,8 +75,8 @@ class Configuracion extends Component {
             <Card body>
               <CardTitle>Manual módulo de correspondencia</CardTitle>
               <CardText className="text-justify">
-                Si deseas saber como funciona el manual de correspondencia y
-                todas sus funcionales presiona el boton
+                Si deseas saber como funciona el módulo de correspondencia y
+                todas sus funcionalidades presiona el boton
               </CardText>
               <Button>
                 <i className="fa fa-download" /> Descargar
@@ -87,8 +87,8 @@ class Configuracion extends Component {
             <Card body>
               <CardTitle>Manual módulo de archivo</CardTitle>
               <CardText className="text-justify">
-                Si deseas saber como funciona el manual de archivo y todas sus
-                funcionales presiona el boton
+                Si deseas saber como funciona el módulo de archivo y todas sus
+                funcionalidades presiona el boton
               </CardText>
               <Button>
                 <i className="fa fa-download" /> Descargar
@@ -99,8 +99,8 @@ class Configuracion extends Component {
             <Card body>
               <CardTitle>Manual módulo de workflow</CardTitle>
               <CardText className="text-justify">
-                Si deseas saber como funciona el manual de workflow y todas sus
-                funcionales presiona el boton
+                Si deseas saber como funciona el módulo de workflow y todas sus
+                funcionalidades presiona el boton
               </CardText>
               <Button>
                 {" "}

@@ -27,9 +27,16 @@ class Login extends Component {
                   <CardBody>
                     <Form>
                       <div className="row">
-                        <div className="col-md-12">
+                        <div
+                          className="col-md-12"
+                          style={{ marginTop: "-42px" }}
+                        >
                           <div className="text-center">
-                            <img src="/assets/img/sevenet.svg" width="150" />
+                            <img
+                              src="/assets/img/sevenet.svg"
+                              width="150"
+                              height="100"
+                            />
                           </div>
                         </div>
                       </div>

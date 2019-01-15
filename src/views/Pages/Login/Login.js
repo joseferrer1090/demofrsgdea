@@ -26,6 +26,13 @@ class Login extends Component {
                 <Card className="p-4">
                   <CardBody>
                     <Form>
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="text-center">
+                            <img src="/assets/img/sevenet.svg" width="150" />
+                          </div>
+                        </div>
+                      </div>
                       <h1 className="text-center">Iniciar sesión</h1>
                       <p className="text-muted text-center">
                         Ingresa al administrador general SGDEA

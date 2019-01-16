@@ -35,7 +35,7 @@ class FormCreateTipoDocumental extends Component {
               type="text"
               className="form-control"
               placeholder="nombre del indice"
-            />
+            />{" "}
             <div className="input-group-append">
               <button
                 type="button"

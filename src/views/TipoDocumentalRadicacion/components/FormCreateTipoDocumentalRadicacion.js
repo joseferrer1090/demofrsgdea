@@ -17,7 +17,7 @@ class FormCreateTipoDocumental extends Component {
   createUI() {
     return this.state.values.map((el, i) => (
       <div key={i}>
-        <div className="col-md-10 offset-md-1">
+        <div className="col-md-10 offset-md-3">
           <div className="input-group mb-3">
             <div className="input-group-prepend">
               <button
@@ -33,6 +33,12 @@ class FormCreateTipoDocumental extends Component {
               type="text"
               className="form-control"
               placeholder="nombre del indice"
+            />{" "}
+            &nbsp;
+            <input
+              type="text"
+              className="form-control"
+              placeholder="valor del indice"
             />
             <div className="input-group-append">
               <button

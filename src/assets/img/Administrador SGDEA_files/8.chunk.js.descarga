@@ -1,0 +1,1512 @@
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[8],{
+
+/***/ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js":
+/*!****************************************************************************************************************!*\
+  !*** ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js ***!
+  \****************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectWithoutProperties; });
+/* harmony import */ var _objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./objectWithoutPropertiesLoose */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js");
+
+function _objectWithoutProperties(source, excluded) {
+  if (source == null) return {};
+  var target = Object(_objectWithoutPropertiesLoose__WEBPACK_IMPORTED_MODULE_0__["default"])(source, excluded);
+  var key, i;
+
+  if (Object.getOwnPropertySymbols) {
+    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
+
+    for (i = 0; i < sourceSymbolKeys.length; i++) {
+      key = sourceSymbolKeys[i];
+      if (excluded.indexOf(key) >= 0) continue;
+      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
+      target[key] = source[key];
+    }
+  }
+
+  return target;
+}
+
+/***/ }),
+
+/***/ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js":
+/*!*********************************************************************************************************************!*\
+  !*** ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/objectWithoutPropertiesLoose.js ***!
+  \*********************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return _objectWithoutPropertiesLoose; });
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+/***/ }),
+
+/***/ "./src/containers/DefaultLayout/DefaultAside.js":
+/*!******************************************************!*\
+  !*** ./src/containers/DefaultLayout/DefaultAside.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/objectWithoutProperties */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js");
+/* harmony import */ var _mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/classCallCheck.js");
+/* harmony import */ var _mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/createClass.js");
+/* harmony import */ var _mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/possibleConstructorReturn.js");
+/* harmony import */ var _mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/getPrototypeOf */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/getPrototypeOf.js");
+/* harmony import */ var _mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/inherits.js");
+/* harmony import */ var _mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/assertThisInitialized */ "./node_modules/babel-preset-react-app/node_modules/@babel/runtime/helpers/esm/assertThisInitialized.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var reactstrap__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! reactstrap */ "./node_modules/reactstrap/dist/reactstrap.es.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js");
+/* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! classnames */ "./node_modules/classnames/index.js");
+/* harmony import */ var classnames__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(classnames__WEBPACK_IMPORTED_MODULE_10__);
+/* harmony import */ var _coreui_react__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @coreui/react */ "./node_modules/@coreui/react/es/index.js");
+
+
+
+
+
+
+
+var _jsxFileName = "/mnt/c/Users/Software2/Desktop/demofrsgdea/src/containers/DefaultLayout/DefaultAside.js";
+
+
+
+
+
+var propTypes = {
+  children: prop_types__WEBPACK_IMPORTED_MODULE_9___default.a.node
+};
+var defaultProps = {};
+
+var DefaultAside =
+/*#__PURE__*/
+function (_Component) {
+  Object(_mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_inherits__WEBPACK_IMPORTED_MODULE_5__["default"])(DefaultAside, _Component);
+
+  function DefaultAside(props) {
+    var _this;
+
+    Object(_mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_classCallCheck__WEBPACK_IMPORTED_MODULE_1__["default"])(this, DefaultAside);
+
+    _this = Object(_mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_3__["default"])(this, Object(_mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_4__["default"])(DefaultAside).call(this, props));
+    _this.toggle = _this.toggle.bind(Object(_mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__["default"])(Object(_mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_assertThisInitialized__WEBPACK_IMPORTED_MODULE_6__["default"])(_this)));
+    _this.state = {
+      activeTab: "1"
+    };
+    return _this;
+  }
+
+  Object(_mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_createClass__WEBPACK_IMPORTED_MODULE_2__["default"])(DefaultAside, [{
+    key: "toggle",
+    value: function toggle(tab) {
+      if (this.state.activeTab !== tab) {
+        this.setState({
+          activeTab: tab
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this2 = this;
+
+      // eslint-disable-next-line
+      var _this$props = this.props,
+          children = _this$props.children,
+          attributes = Object(_mnt_c_Users_Software2_Desktop_demofrsgdea_node_modules_babel_preset_react_app_node_modules_babel_runtime_helpers_esm_objectWithoutProperties__WEBPACK_IMPORTED_MODULE_0__["default"])(_this$props, ["children"]);
+
+      return react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_7___default.a.Fragment, {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 45
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["Nav"], {
+        tabs: true,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 46
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["NavItem"], {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 47
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["NavLink"], {
+        className: classnames__WEBPACK_IMPORTED_MODULE_10___default()({
+          active: this.state.activeTab === "1"
+        }),
+        onClick: function onClick() {
+          _this2.toggle("1");
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 48
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-list",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 54
+        },
+        __self: this
+      }))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["NavItem"], {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 57
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["NavLink"], {
+        className: classnames__WEBPACK_IMPORTED_MODULE_10___default()({
+          active: this.state.activeTab === "2"
+        }),
+        onClick: function onClick() {
+          _this2.toggle("2");
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 58
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-speech",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 64
+        },
+        __self: this
+      }))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["NavItem"], {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 67
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["NavLink"], {
+        className: classnames__WEBPACK_IMPORTED_MODULE_10___default()({
+          active: this.state.activeTab === "3"
+        }),
+        onClick: function onClick() {
+          _this2.toggle("3");
+        },
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 68
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-settings",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 74
+        },
+        __self: this
+      })))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["TabContent"], {
+        activeTab: this.state.activeTab,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 78
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["TabPane"], {
+        tabId: "1",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 79
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["ListGroup"], {
+        className: "list-group-accent",
+        tag: "div",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 80
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["ListGroupItem"], {
+        className: "list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 81
+        },
+        __self: this
+      }, "Today"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["ListGroupItem"], {
+        action: true,
+        tag: "a",
+        href: "#",
+        className: "list-group-item-accent-warning list-group-item-divider",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 84
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar float-right",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 90
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        className: "img-avatar",
+        src: "assets/img/avatars/7.jpg",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 91
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 97
+        },
+        __self: this
+      }, "Meeting with ", react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("strong", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 98
+        },
+        __self: this
+      }, "Lucas"), " "), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted mr-3",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 100
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-calendar",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 101
+        },
+        __self: this
+      }), "\xA0 1 - 3pm"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 104
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-location-pin",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 105
+        },
+        __self: this
+      }), " Palo Alto, CA")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["ListGroupItem"], {
+        action: true,
+        tag: "a",
+        href: "#",
+        className: "list-group-item-accent-info list-group-item-divider",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 108
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar float-right",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 114
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        className: "img-avatar",
+        src: "assets/img/avatars/4.jpg",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 115
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 121
+        },
+        __self: this
+      }, "Skype with ", react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("strong", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 122
+        },
+        __self: this
+      }, "Megan")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted mr-3",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 124
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-calendar",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 125
+        },
+        __self: this
+      }), "\xA0 4 - 5pm"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 128
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-social-skype",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 129
+        },
+        __self: this
+      }), " On-line")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["ListGroupItem"], {
+        className: "list-group-item-accent-secondary bg-light text-center font-weight-bold text-muted text-uppercase small",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 132
+        },
+        __self: this
+      }, "Tomorrow"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["ListGroupItem"], {
+        action: true,
+        tag: "a",
+        href: "#",
+        className: "list-group-item-accent-danger list-group-item-divider",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 135
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 141
+        },
+        __self: this
+      }, "New UI Project - ", react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("strong", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 142
+        },
+        __self: this
+      }, "deadline")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted mr-3",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 144
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-calendar",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 145
+        },
+        __self: this
+      }), "\xA0 10 - 11pm"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 148
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-home",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 149
+        },
+        __self: this
+      }), "\xA0 creativeLabs HQ"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatars-stack mt-2",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 152
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 153
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/2.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 154
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 160
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/3.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 161
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 167
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/4.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 168
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 174
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/5.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 175
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 181
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/6.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 182
+        },
+        __self: this
+      })))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["ListGroupItem"], {
+        action: true,
+        tag: "a",
+        href: "#",
+        className: "list-group-item-accent-success list-group-item-divider",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 190
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 196
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("strong", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 197
+        },
+        __self: this
+      }, "#10 Startups.Garden"), " Meetup"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted mr-3",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 199
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-calendar",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 200
+        },
+        __self: this
+      }), "\xA0 1 - 3pm"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 203
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-location-pin",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 204
+        },
+        __self: this
+      }), "\xA0 Palo Alto, CA")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["ListGroupItem"], {
+        action: true,
+        tag: "a",
+        href: "#",
+        className: "list-group-item-accent-primary list-group-item-divider",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 208
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 214
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("strong", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 215
+        },
+        __self: this
+      }, "Team meeting")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted mr-3",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 217
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-calendar",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 218
+        },
+        __self: this
+      }), "\xA0 4 - 6pm"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 221
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("i", {
+        className: "icon-home",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 222
+        },
+        __self: this
+      }), "\xA0 creativeLabs HQ"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatars-stack mt-2",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 225
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 226
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/2.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 227
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 233
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/3.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 234
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 240
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/4.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 241
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 247
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/5.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 248
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 254
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/6.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 255
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 261
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/7.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 262
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar avatar-xs",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 268
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/8.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 269
+        },
+        __self: this
+      })))))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["TabPane"], {
+        tabId: "2",
+        className: "p-3",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 279
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "message",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 280
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "py-3 pb-5 mr-3 float-left",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 281
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 282
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/7.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 283
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("span", {
+        className: "avatar-status badge-success",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 288
+        },
+        __self: this
+      }))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 291
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 292
+        },
+        __self: this
+      }, "Lukasz Holeczek"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted float-right mt-1",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 293
+        },
+        __self: this
+      }, "1:52 PM")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "text-truncate font-weight-bold",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 295
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 298
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("hr", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 303
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "message",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 304
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "py-3 pb-5 mr-3 float-left",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 305
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 306
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/7.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 307
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("span", {
+        className: "avatar-status badge-success",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 312
+        },
+        __self: this
+      }))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 315
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 316
+        },
+        __self: this
+      }, "Lukasz Holeczek"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted float-right mt-1",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 317
+        },
+        __self: this
+      }, "1:52 PM")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "text-truncate font-weight-bold",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 319
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 322
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("hr", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 327
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "message",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 328
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "py-3 pb-5 mr-3 float-left",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 329
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 330
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/7.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 331
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("span", {
+        className: "avatar-status badge-success",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 336
+        },
+        __self: this
+      }))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 339
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 340
+        },
+        __self: this
+      }, "Lukasz Holeczek"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted float-right mt-1",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 341
+        },
+        __self: this
+      }, "1:52 PM")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "text-truncate font-weight-bold",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 343
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 346
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("hr", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 351
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "message",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 352
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "py-3 pb-5 mr-3 float-left",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 353
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 354
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/7.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 355
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("span", {
+        className: "avatar-status badge-success",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 360
+        },
+        __self: this
+      }))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 363
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 364
+        },
+        __self: this
+      }, "Lukasz Holeczek"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted float-right mt-1",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 365
+        },
+        __self: this
+      }, "1:52 PM")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "text-truncate font-weight-bold",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 367
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 370
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt...")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("hr", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 375
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "message",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 376
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "py-3 pb-5 mr-3 float-left",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 377
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "avatar",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 378
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("img", {
+        src: "assets/img/avatars/7.jpg",
+        className: "img-avatar",
+        alt: "admin@bootstrapmaster.com",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 379
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("span", {
+        className: "avatar-status badge-success",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 384
+        },
+        __self: this
+      }))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 387
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 388
+        },
+        __self: this
+      }, "Lukasz Holeczek"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted float-right mt-1",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 389
+        },
+        __self: this
+      }, "1:52 PM")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "text-truncate font-weight-bold",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 391
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 394
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt..."))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["TabPane"], {
+        tabId: "3",
+        className: "p-3",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 400
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("h6", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 401
+        },
+        __self: this
+      }, "Settings"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "aside-options",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 403
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "clearfix mt-4",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 404
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 405
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("b", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 406
+        },
+        __self: this
+      }, "Option 1")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_coreui_react__WEBPACK_IMPORTED_MODULE_11__["AppSwitch"], {
+        className: "float-right",
+        variant: "pill",
+        label: true,
+        color: "success",
+        defaultChecked: true,
+        size: "sm",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 408
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 417
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 418
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "aside-options",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 425
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "clearfix mt-3",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 426
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 427
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("b", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 428
+        },
+        __self: this
+      }, "Option 2")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_coreui_react__WEBPACK_IMPORTED_MODULE_11__["AppSwitch"], {
+        className: "float-right",
+        variant: "pill",
+        label: true,
+        color: "success",
+        size: "sm",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 430
+        },
+        __self: this
+      })), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 438
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 439
+        },
+        __self: this
+      }, "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "aside-options",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 446
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "clearfix mt-3",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 447
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 448
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("b", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 449
+        },
+        __self: this
+      }, "Option 3")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_coreui_react__WEBPACK_IMPORTED_MODULE_11__["AppSwitch"], {
+        className: "float-right",
+        variant: "pill",
+        label: true,
+        color: "success",
+        defaultChecked: true,
+        size: "sm",
+        disabled: true,
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 451
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 460
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 461
+        },
+        __self: this
+      }, "Option disabled.")))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "aside-options",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 466
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "clearfix mt-3",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 467
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 468
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("b", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 469
+        },
+        __self: this
+      }, "Option 4")), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(_coreui_react__WEBPACK_IMPORTED_MODULE_11__["AppSwitch"], {
+        className: "float-right",
+        variant: "pill",
+        label: true,
+        color: "success",
+        defaultChecked: true,
+        size: "sm",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 471
+        },
+        __self: this
+      }))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("hr", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 482
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("h6", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 483
+        },
+        __self: this
+      }, "System Utilization"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "text-uppercase mb-1 mt-4",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 485
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 486
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("b", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 487
+        },
+        __self: this
+      }, "CPU Usage"))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["Progress"], {
+        className: "progress-xs",
+        color: "info",
+        value: "25",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 490
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 491
+        },
+        __self: this
+      }, "348 Processes. 1/4 Cores."), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "text-uppercase mb-1 mt-2",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 493
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 494
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("b", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 495
+        },
+        __self: this
+      }, "Memory Usage"))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["Progress"], {
+        className: "progress-xs",
+        color: "warning",
+        value: "70",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 498
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 499
+        },
+        __self: this
+      }, "11444GB/16384MB"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "text-uppercase mb-1 mt-2",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 501
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 502
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("b", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 503
+        },
+        __self: this
+      }, "SSD 1 Usage"))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["Progress"], {
+        className: "progress-xs",
+        color: "danger",
+        value: "95",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 506
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 507
+        },
+        __self: this
+      }, "243GB/256GB"), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("div", {
+        className: "text-uppercase mb-1 mt-2",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 509
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 510
+        },
+        __self: this
+      }, react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("b", {
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 511
+        },
+        __self: this
+      }, "SSD 2 Usage"))), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement(reactstrap__WEBPACK_IMPORTED_MODULE_8__["Progress"], {
+        className: "progress-xs",
+        color: "success",
+        value: "10",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 514
+        },
+        __self: this
+      }), react__WEBPACK_IMPORTED_MODULE_7___default.a.createElement("small", {
+        className: "text-muted",
+        __source: {
+          fileName: _jsxFileName,
+          lineNumber: 515
+        },
+        __self: this
+      }, "25GB/256GB"))));
+    }
+  }]);
+
+  return DefaultAside;
+}(react__WEBPACK_IMPORTED_MODULE_7__["Component"]);
+
+DefaultAside.propTypes = propTypes;
+DefaultAside.defaultProps = defaultProps;
+/* harmony default export */ __webpack_exports__["default"] = (DefaultAside);
+
+/***/ })
+
+}]);
+//# sourceMappingURL=8.chunk.js.map

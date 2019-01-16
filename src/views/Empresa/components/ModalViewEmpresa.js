@@ -42,6 +42,10 @@ class ModalViewEmpresa extends Component {
                     <td> </td>
                   </tr>
                   <tr>
+                    <td> Rol responsable: </td>
+                    <td> </td>
+                  </tr>
+                  <tr>
                     <td>Fecha de creación:</td>
                     <td> </td>
                   </tr>

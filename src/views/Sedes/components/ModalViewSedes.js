@@ -26,44 +26,12 @@ class ModalViewSedes extends Component {
               <table className="table table-striped">
                 <tbody>
                   <tr>
-                    <td>Código:</td>
-                    <td> </td>
+                    <td> Código: </td>
+                    <td> Dato </td>
                   </tr>
                   <tr>
-                    <td>Nombre:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Prefijo de radicación:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Dirección:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Teléfono:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Secuencia de radicación:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Ciudad:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Estado:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Fecha de creación:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Fecha de modificación:</td>
-                    <td> </td>
+                    <td> Empresa: </td>
+                    <td> Dato </td>
                   </tr>
                 </tbody>
               </table>

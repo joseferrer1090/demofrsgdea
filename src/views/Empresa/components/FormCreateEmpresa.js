@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Row, Col, Card, CardBody, CardFooter, CardHeader } from "reactstrap";
 import Select from "react-select";
+import { isNull } from "util";
 
 const dataConglomerado = [
   { value: "1", label: "Conglomerado 1" },
@@ -9,12 +10,15 @@ const dataConglomerado = [
   { value: "3", label: "Conglomerado 3" }
 ];
 
+const dataRolResponsable = [{ value: "0", label: "Rol responsable" }];
+
 class FormCreateEmpresa extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedOptionConglomerado: null,
-      checked: true
+      checked: true,
+      selectedOptionRolResponsable: isNull
     };
   }
 
@@ -23,13 +27,17 @@ class FormCreateEmpresa extends Component {
     console.log(`Option selected:`, selectedOptionConglomerado);
   };
 
+  handleChangeRolResponsable = selectedOptionRolResponsable => {
+    this.setState({ selectedOptionRolResponsable });
+  };
+
   handleChangeSwitch = checked => {
     this.setState({ checked });
     console.log("estado es: ", this.state.checked);
   };
 
   render() {
-    const { selectedOption } = this.state;
+    const { selectedOption, selectedOptionRolResponsable } = this.state;
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -83,6 +91,20 @@ class FormCreateEmpresa extends Component {
                             value={selectedOption}
                             onChange={this.handleChange}
                             options={dataConglomerado}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Rol responsable{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <Select
+                            value={selectedOptionRolResponsable}
+                            onChange={this.handleChangeRolResponsable}
+                            options={dataRolResponsable}
                           />
                         </div>
                       </div>

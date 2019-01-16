@@ -213,14 +213,7 @@ class FormCreateTipoDocumental extends Component {
                             </Card>
                           </form>
                         </CardBody>
-                        <CardFooter>
-                          <div className="float-right">
-                            <button className="btn btn-secondary">
-                              {" "}
-                              <i className="fa fa-check" /> Crear indices
-                            </button>
-                          </div>
-                        </CardFooter>
+                        
                       </Card>
                     </Col>
                   </Row>

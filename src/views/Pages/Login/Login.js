@@ -63,7 +63,7 @@ class Login extends Component {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          type="password"
+                          type="password"anel 
                           placeholder="contraseña"
                           autoComplete="current-password"
                         />

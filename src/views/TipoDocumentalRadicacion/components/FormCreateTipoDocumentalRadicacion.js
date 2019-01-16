@@ -58,9 +58,9 @@ class FormCreateTipoDocumental extends Component {
     });
   }
 
-  addClick() {
+  addClick = () => {
     this.setState(prevState => ({ values: [...prevState.values, ""] }));
-  }
+  };
 
   removeClick(i) {
     let values = [...this.state.values];
@@ -187,7 +187,7 @@ class FormCreateTipoDocumental extends Component {
                             {" "}
                             Indices documentales <hr />{" "}
                           </CardTitle>
-                          <form className="form">
+                          <div className="form">
                             <Card body>
                               <div className="row">
                                 <div className="col-md-12">
@@ -199,7 +199,7 @@ class FormCreateTipoDocumental extends Component {
                                     </p>
                                     <button
                                       className="btn btn-secondary"
-                                      onClick={this.addClick.bind(this)}
+                                      onClick={this.addClick}
                                       style={{ width: "150px" }}
                                     >
                                       {" "}
@@ -211,9 +211,8 @@ class FormCreateTipoDocumental extends Component {
                                 {this.createUI()}
                               </div>
                             </Card>
-                          </form>
+                          </div>
                         </CardBody>
-                        
                       </Card>
                     </Col>
                   </Row>

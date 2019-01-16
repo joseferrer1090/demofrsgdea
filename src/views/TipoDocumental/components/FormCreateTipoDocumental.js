@@ -130,7 +130,7 @@ class FormCreateTipoDocumental extends Component {
                             {" "}
                             Indices documentales <hr />{" "}
                           </CardTitle>
-                          <form className="form">
+                          <div className="">
                             <Card body>
                               <div className="row">
                                 <div className="col-md-12">
@@ -154,9 +154,8 @@ class FormCreateTipoDocumental extends Component {
                                 </div>
                               </div>
                             </Card>
-                          </form>
+                          </div>
                         </CardBody>
-                        
                       </Card>
                     </Col>
                   </Row>

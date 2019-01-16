@@ -79,7 +79,7 @@ class FormCreateEmpresa extends Component {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-12">
+                      <div className="col-md-6">
                         <div className="form-group">
                           <label>
                             {" "}
@@ -94,7 +94,7 @@ class FormCreateEmpresa extends Component {
                           />
                         </div>
                       </div>
-                      <div className="col-md-12">
+                      <div className="col-md-6">
                         <div className="form-group">
                           <label>
                             {" "}

@@ -61,7 +61,7 @@ class Configuracion extends Component {
                 />
                 <div className="col-lg-6 order-lg-2 my-auto showcase-text">
                   <div className="container">
-                    <h2>Gestion documental</h2>
+                    <h2>Gestión documental</h2>
                     <p className="lead mb-0 text-justify">
                       La gestión documental o gestión de documentos, es el
                       conjunto de normas técnicas y prácticas usadas para

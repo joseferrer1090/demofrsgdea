@@ -19,13 +19,16 @@ const dataEmpresa = [
   { value: "5", label: "Empresa5" }
 ];
 
+const dataExampleRolResponsable = [{ value: "1", label: "rol responsable" }];
+
 class FormCreateSedes extends Component {
   constructor(props) {
     super(props);
     this.state = {
       selectedOptionEmpresa: null,
       visibleAlert: true,
-      secuencia: 1
+      secuencia: 1,
+      selectedOptionOptionRolResponsable: null
     };
   }
 
@@ -42,7 +45,12 @@ class FormCreateSedes extends Component {
     console.log(selectedOptionEmpresa);
   };
 
+  handleChangeOptionRolResponsable = selectedOptionOptionRolResponsable => {
+    this.setState({ selectedOptionOptionRolResponsable });
+  };
+
   render() {
+    const { selectedOptionOptionRolResponsable } = this.state;
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -194,6 +202,16 @@ class FormCreateSedes extends Component {
                     </Row>
                     <hr />
                     <Row>
+                      <Col sm="12">
+                        <div className="form-group">
+                          <label> Rol responsable </label>
+                          <Select
+                            value={selectedOptionOptionRolResponsable}
+                            onChange={this.handleChangeOptionRolResponsable}
+                            options={dataExampleRolResponsable}
+                          />
+                        </div>
+                      </Col>
                       <Col sm="12">
                         <div className="form-group">
                           <label>

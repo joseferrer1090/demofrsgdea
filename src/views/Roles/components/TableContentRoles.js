@@ -34,7 +34,7 @@ class TableContentRoles extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -94,48 +94,47 @@ class TableContentRoles extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col sm="12">
-            <BootstrapTable
-              data={dataExample}
-              search
-              searchPlaceholder="Buscar"
-              pagination
-              bordered={false}
-              hover
-              exportCSV
+        <div className="col-md-12">
+          <BootstrapTable
+            data={dataExample}
+            search
+            searchPlaceholder="Buscar"
+            pagination
+            bordered={false}
+            hover
+            exportCSV
+          >
+            <TableHeaderColumn
+              isKey
+              dataField="id"
+              dataAlign="center"
+              width={"50"}
             >
-              <TableHeaderColumn
-                isKey
-                dataField="id"
-                dataAlign="center"
-                width={"50"}
-              >
-                {" "}
-                #{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="codigo" dataAlign="center">
-                {" "}
-                Codigo{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="nombre" dataAlign="center">
-                {" "}
-                Nombre{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="estado" dataAlign="center">
-                {" "}
-                Estado{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataAlign="center"
-                dataFormat={(cell, row) => this.accionesRoles(cell, row)}
-              >
-                {" "}
-                Acciones{" "}
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
+              {" "}
+              #{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="codigo" dataAlign="center">
+              {" "}
+              Codigo{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="nombre" dataAlign="center">
+              {" "}
+              Nombre{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="estado" dataAlign="center">
+              {" "}
+              Estado{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataAlign="center"
+              dataFormat={(cell, row) => this.accionesRoles(cell, row)}
+            >
+              {" "}
+              Acciones{" "}
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </div>
+
         <ModalView modalviewroles={this.state.modalview} ref="child" />
         <ModalEdit modaledit={this.state.modaledit} ref="child2" />
         <ModalDelete modaldelete={this.state.modaldel} ref="child3" />

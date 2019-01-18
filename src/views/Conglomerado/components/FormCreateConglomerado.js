@@ -52,6 +52,42 @@ class FormCreateConglomerado extends Component {
                         </div>
                       </div>
                     </div>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Estado <span className="text-danger">*</span>{" "}
+                          </label>
+                          <div className="form-check">
+                            <input
+                              type="checkbox"
+                              className="form-check-input"
+                              id="exampleCheck1"
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="exampleCheck1"
+                            >
+                              Activar
+                            </label>
+                            <p
+                              className="text-muted"
+                              style={{ textAlign: "justify" }}
+                            >
+                              Si esta opción se encuentra activada, representa
+                              que el conglomerado es visible en el sistema y se
+                              podrán realizar operaciones entre cada uno de los
+                              módulos correspondientes de la aplicación. En caso
+                              contrario el conglomerado no se elimina del
+                              sistema solo quedará inactivo e invisibles para
+                              cada uno de los módulos correspondiente del
+                              sistema.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </form>
                 </CardBody>
                 <CardFooter>

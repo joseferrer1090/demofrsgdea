@@ -84,53 +84,52 @@ class TableContent extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col md="12">
-            <BootstrapTable
-              data={dataExample}
-              bordered={false}
-              hover
-              striped
-              search
-              searchPlaceholder="Buscar"
-              exportCSV
-              pagination
+        <Col md="12">
+          <BootstrapTable
+            data={dataExample}
+            bordered={false}
+            hover
+            striped
+            search
+            searchPlaceholder="Buscar"
+            exportCSV
+            pagination
+          >
+            <TableHeaderColumn
+              isKey
+              dataField="id"
+              dataAlign="center"
+              width="50"
             >
-              <TableHeaderColumn
-                isKey
-                dataField="id"
-                dataAlign="center"
-                width="50"
-              >
-                {" "}
-                #{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="codigo" dataAlign="center">
-                {" "}
-                Codigo{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="nombre" dataAlign="center">
-                {" "}
-                Nombre{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="nombre" dataAlign="center">
-                {" "}
-                Nombre{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="estado" dataAlign="center">
-                {" "}
-                Estado{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataFormat={(cell, row) => this.accionesGrupo(cell, row)}
-                dataAlign="center"
-              >
-                {" "}
-                Acciones{" "}
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
+              {" "}
+              #{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="codigo" dataAlign="center">
+              {" "}
+              Codigo{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="nombre" dataAlign="center">
+              {" "}
+              Nombre{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="nombre" dataAlign="center">
+              {" "}
+              Nombre{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="estado" dataAlign="center">
+              {" "}
+              Estado{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataFormat={(cell, row) => this.accionesGrupo(cell, row)}
+              dataAlign="center"
+            >
+              {" "}
+              Acciones{" "}
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </Col>
+
         <ModalView modalview={this.state.modalview} ref="child" />
         <ModalDelete modaldel={this.state.modaldelete} ref="child2" />
         <ModalEdit modaledit={this.state.modaledit} ref="child3" />

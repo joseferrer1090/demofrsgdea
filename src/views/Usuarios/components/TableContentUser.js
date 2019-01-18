@@ -127,55 +127,54 @@ class TableContentUser extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col sm="12">
-            <BootstrapTable
-              pagination
-              search
-              searchPlaceholder="Buscar"
-              data={data}
-              exportCSV
-              hover
-              bordered={false}
+        <Col sm="12">
+          <BootstrapTable
+            pagination
+            search
+            searchPlaceholder="Buscar"
+            data={data}
+            exportCSV
+            hover
+            bordered={false}
+          >
+            <TableHeaderColumn
+              dataField={"id"}
+              isKey
+              width={50}
+              dataAlign="center"
             >
-              <TableHeaderColumn
-                dataField={"id"}
-                isKey
-                width={50}
-                dataAlign="center"
-              >
-                #
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"nombre"} dataAlign="center">
-                {" "}
-                Nombre{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"username"} dataAlign="center">
-                {" "}
-                Usuario{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"dependencia"} dataAlign="center">
-                {" "}
-                Dependencia{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"cargo"} dataAlign="center">
-                Cargo
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"estado"} dataAlign="center">
-                {" "}
-                Estado{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                export={false}
-                dataAlign="center"
-                dataFormat={(cell, row) => this.accionesUsuario(cell, row)}
-                style={{ border: "none" }}
-              >
-                Acciones
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
+              #
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"nombre"} dataAlign="center">
+              {" "}
+              Nombre{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"username"} dataAlign="center">
+              {" "}
+              Usuario{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"dependencia"} dataAlign="center">
+              {" "}
+              Dependencia{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"cargo"} dataAlign="center">
+              Cargo
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"estado"} dataAlign="center">
+              {" "}
+              Estado{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              export={false}
+              dataAlign="center"
+              dataFormat={(cell, row) => this.accionesUsuario(cell, row)}
+              style={{ border: "none" }}
+            >
+              Acciones
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </Col>
+
         <ModalView modalview={this.state.modalviewuserstate} ref="child" />
         <ModalDelete modaldel={this.state.modaldeluserstate} ref="child2" />
         <ModalUpdate modaledit={this.state.modaledituserstate} ref="child3" />

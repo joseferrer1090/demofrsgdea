@@ -125,52 +125,50 @@ class TableContentTipoDocumental extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col sm="12">
-            <BootstrapTable
-              data={dataExample}
-              pagination
-              search
-              searchPlaceholder="Buscar"
-              bordered={false}
-              hover
-              striped
-              exportCSV
+        <Col sm="12">
+          <BootstrapTable
+            data={dataExample}
+            pagination
+            search
+            searchPlaceholder="Buscar"
+            bordered={false}
+            hover
+            striped
+            exportCSV
+          >
+            <TableHeaderColumn isKey dataField="id" width="50">
+              {" "}
+              #
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="codigo" dataAlign="center">
+              {" "}
+              Código{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="nombre" dataAlign="center">
+              {" "}
+              Nombre{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="dependencia" dataAlign="center">
+              {" "}
+              Dependencia{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="hr" dataAlign="center">
+              {" "}
+              Horas de respuesta{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="estado" dataAlign="center">
+              {" "}
+              Estado{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataAlign="center"
+              dataFormat={(cel, row) => this.accionesTipoDocumental(cel, row)}
             >
-              <TableHeaderColumn isKey dataField="id" width="50">
-                {" "}
-                #
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="codigo" dataAlign="center">
-                {" "}
-                Código{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="nombre" dataAlign="center">
-                {" "}
-                Nombre{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="dependencia" dataAlign="center">
-                {" "}
-                Dependencia{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="hr" dataAlign="center">
-                {" "}
-                Horas de respuesta{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="estado" dataAlign="center">
-                {" "}
-                Estado{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataAlign="center"
-                dataFormat={(cel, row) => this.accionesTipoDocumental(cel, row)}
-              >
-                {" "}
-                Acciones{" "}
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
+              {" "}
+              Acciones{" "}
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </Col>
         <ModalView modalview={this.state.modalview} ref="child" />
         <ModalDelete modaldelete={this.state.modaldel} ref="child4" />
         <ModalEdit modaledit={this.state.modaledit} ref="child3" />

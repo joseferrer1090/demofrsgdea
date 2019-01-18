@@ -116,41 +116,37 @@ class TableContentDependencia extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col md="12">
-            <BootstrapTable
-              search={true}
-              searchPlaceholder={"Buscar"}
-              pagination={true}
-              data={dataExample}
-              exportCSV
-              bordered={false}
-              hover
+        <Col md="12">
+          <BootstrapTable
+            search={true}
+            searchPlaceholder={"Buscar"}
+            pagination={true}
+            data={dataExample}
+            exportCSV
+            bordered={false}
+            hover
+          >
+            <TableHeaderColumn isKey dataField={"id"} width="100">
+              {" "}
+              #{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"codigo"}> Código </TableHeaderColumn>
+            <TableHeaderColumn dataField={"nombre"}>Nombre</TableHeaderColumn>
+            <TableHeaderColumn dataField={"rol_responsable"}>
+              {" "}
+              Rol respondable{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"sede"}> Sede </TableHeaderColumn>
+            <TableHeaderColumn dataField={"estado"}>Estado</TableHeaderColumn>
+            <TableHeaderColumn
+              dataFormat={(cell, row) => this.accionesDependencias(cell, row)}
             >
-              <TableHeaderColumn isKey dataField={"id"} width="100">
-                {" "}
-                #{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"codigo"}>
-                {" "}
-                Código{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"nombre"}>Nombre</TableHeaderColumn>
-              <TableHeaderColumn dataField={"rol_responsable"}>
-                {" "}
-                Rol respondable{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"sede"}> Sede </TableHeaderColumn>
-              <TableHeaderColumn dataField={"estado"}>Estado</TableHeaderColumn>
-              <TableHeaderColumn
-                dataFormat={(cell, row) => this.accionesDependencias(cell, row)}
-              >
-                {" "}
-                Acciones{" "}
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
+              {" "}
+              Acciones{" "}
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </Col>
+
         <ModalView modalView={this.state.modalviewstate} ref="child1" />
         <ModalEdit modalEdit={this.state.modaleditstate} ref="child2" />
         <ModalDelete modalDel={this.state.modaldelstate} ref="child3" />

@@ -13,11 +13,11 @@ class FormChangeAdvanceData extends Component {
             <Card>
               <CardHeader> Datos adicionales</CardHeader>
               <CardBody>
-                <div className="col-md-10 offset-1">
+                <div className="">
                   <table className="table">
                     <tbody>
                       <tr>
-                        <td> Sede </td>
+                        <td> Sede: </td>
                         <td> </td>
                       </tr>
                       <tr>
@@ -29,12 +29,12 @@ class FormChangeAdvanceData extends Component {
                         <td> </td>
                       </tr>
                       <tr>
-                        <td>Roles</td>
+                        <td>Roles:</td>
                         <td> </td>
                       </tr>
                       <tr />
                       <tr>
-                        <td>Permisos</td>
+                        <td>Permisos:</td>
                         <td> </td>
                       </tr>
                     </tbody>

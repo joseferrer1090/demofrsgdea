@@ -159,55 +159,53 @@ class TableContentTipoDocumental extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col sm="12">
-            <BootstrapTable
-              data={dataExample}
-              pagination
-              search
-              searchPlaceholder="Buscar"
-              bordered={false}
-              hover
-              striped
-              exportCSV
+        <Col sm="12">
+          <BootstrapTable
+            data={dataExample}
+            pagination
+            search
+            searchPlaceholder="Buscar"
+            bordered={false}
+            hover
+            striped
+            exportCSV
+          >
+            <TableHeaderColumn isKey dataField="id" width="50">
+              {" "}
+              #
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="codigo" dataAlign="center">
+              {" "}
+              Código{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="nombre" dataAlign="center">
+              {" "}
+              Nombre{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="usuarios"
+              dataAlign="center"
+              dataFormat={(cel, row) => this.accionusuarios(cel, row)}
             >
-              <TableHeaderColumn isKey dataField="id" width="50">
-                {" "}
-                #
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="codigo" dataAlign="center">
-                {" "}
-                Código{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="nombre" dataAlign="center">
-                {" "}
-                Nombre{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataField="usuarios"
-                dataAlign="center"
-                dataFormat={(cel, row) => this.accionusuarios(cel, row)}
-              >
-                {" "}
-                Usuarios{" "}
-              </TableHeaderColumn>
+              {" "}
+              Usuarios{" "}
+            </TableHeaderColumn>
 
-              <TableHeaderColumn dataField="estado" dataAlign="center">
-                {" "}
-                Estado{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataAlign="center"
-                dataFormat={(cel, row) =>
-                  this.accionesTipoDocumentalRadicacion(cel, row)
-                }
-              >
-                {" "}
-                Acciones{" "}
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
+            <TableHeaderColumn dataField="estado" dataAlign="center">
+              {" "}
+              Estado{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataAlign="center"
+              dataFormat={(cel, row) =>
+                this.accionesTipoDocumentalRadicacion(cel, row)
+              }
+            >
+              {" "}
+              Acciones{" "}
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </Col>
         <ModalView modalview={this.state.modalview} ref="child" />
         <ModalDelete modaldelete={this.state.modaldel} ref="child4" />
         <ModalEdit modaledit={this.state.modaledit} ref="child3" />

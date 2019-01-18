@@ -82,42 +82,40 @@ class TableContentPais extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col sm="12">
-            <BootstrapTable
-              exportCSV
-              pagination
-              search
-              searchPlaceholder="Buscar"
-              data={dataExample}
-              hover
-              bordered={false}
+        <div className="col-md-12">
+          <BootstrapTable
+            exportCSV
+            pagination
+            search
+            searchPlaceholder="Buscar"
+            data={dataExample}
+            hover
+            bordered={false}
+          >
+            <TableHeaderColumn isKey dataField="id" width="50">
+              #
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="codigo" dataAlign="center">
+              {" "}
+              Código{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="nombre" dataAlign="center">
+              {" "}
+              Nombre{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="estado" dataAlign="center">
+              {" "}
+              Estado{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataAlign="center"
+              dataFormat={(cel, row) => this.accionesPais(cel, row)}
             >
-              <TableHeaderColumn isKey dataField="id" width="50">
-                #
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="codigo" dataAlign="center">
-                {" "}
-                Código{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="nombre" dataAlign="center">
-                {" "}
-                Nombre{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="estado" dataAlign="center">
-                {" "}
-                Estado{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataAlign="center"
-                dataFormat={(cel, row) => this.accionesPais(cel, row)}
-              >
-                {" "}
-                Acciones{" "}
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
+              {" "}
+              Acciones{" "}
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </div>
         <ModalView modalview={this.state.ModalViewPais} ref="child" />
         <ModalEdit modaledit={this.state.ModalEdit} ref="child3" />
         <ModalDelete modaldel={this.state.ModalDelete} ref="child2" />

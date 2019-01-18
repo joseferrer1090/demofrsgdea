@@ -122,6 +122,7 @@ class TableContentSedes extends Component {
                 pagination
                 bordered={false}
                 searchPlaceholder={"Buscar"}
+                exportCSV
               >
                 <TableHeaderColumn
                   width={"30"}

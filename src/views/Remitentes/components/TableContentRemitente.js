@@ -100,57 +100,53 @@ class TableContentRemitente extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col sm="12">
-            <BootstrapTable
-              data={dataExample}
-              pagination
-              search
-              searchPlaceholder="Buscar"
-              hover
-              striped
-              bordered={false}
-              exportCSV
+        <Col sm="12">
+          <BootstrapTable
+            data={dataExample}
+            pagination
+            search
+            searchPlaceholder="Buscar"
+            hover
+            striped
+            bordered={false}
+            exportCSV
+          >
+            <TableHeaderColumn
+              isKey
+              dataField={"id"}
+              dataAlign="center"
+              width="50"
             >
-              <TableHeaderColumn
-                isKey
-                dataField={"id"}
-                dataAlign="center"
-                width="50"
-              >
-                #
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataField={"identificacion"}
-                dataAlign="center"
-              >
-                {" "}
-                Identificación{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"nombre"} dataAlign="center">
-                {" "}
-                Nombre{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"email"} dataAlign="center">
-                {" "}
-                Email{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"estado"} dataAlign="center">
-                {" "}
-                Estado{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                export={false}
-                dataAlign="center"
-                dataFormat={(cell, row) => this.accionesRemitente(cell, row)}
-                style={{ border: "none" }}
-              >
-                {" "}
-                Acciones{" "}
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
+              #
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"identificacion"} dataAlign="center">
+              {" "}
+              Identificación{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"nombre"} dataAlign="center">
+              {" "}
+              Nombre{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"email"} dataAlign="center">
+              {" "}
+              Email{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"estado"} dataAlign="center">
+              {" "}
+              Estado{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              export={false}
+              dataAlign="center"
+              dataFormat={(cell, row) => this.accionesRemitente(cell, row)}
+              style={{ border: "none" }}
+            >
+              {" "}
+              Acciones{" "}
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </Col>
+
         <ModalView modalview={this.state.modalViewRemitente} ref="child" />
         <ModalDel modaldel={this.state.modalDeleteRemitente} ref="child2" />
         <ModalUpdate

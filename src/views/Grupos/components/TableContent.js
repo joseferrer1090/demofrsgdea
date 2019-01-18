@@ -129,7 +129,6 @@ class TableContent extends Component {
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
-
         <ModalView modalview={this.state.modalview} ref="child" />
         <ModalDelete modaldel={this.state.modaldelete} ref="child2" />
         <ModalEdit modaledit={this.state.modaledit} ref="child3" />

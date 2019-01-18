@@ -21,7 +21,7 @@ class ModalEditPermissionRoles extends Component {
     super(props);
     this.state = {
       modal: this.props.modaleditpermission,
-      backdrop: false
+      backdrop: true
     };
   }
 

@@ -60,7 +60,7 @@ class TableContentDepartamento extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "85px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "75px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

@@ -25,12 +25,11 @@ export default {
           icon: "icon-settings",
           url: "/configuracion/dependencias"
         },
-        // {
-        //   name: "Cargo",
-        //   icon: "icon-settings",
-        //   url: "/configuracion/cargo"
-        // },
-
+        {
+          name: "Cargo",
+          icon: "icon-settings",
+          url: "/configuracion/cargo"
+        },
         {
           name: "Usuarios",
           icon: "icon-user",

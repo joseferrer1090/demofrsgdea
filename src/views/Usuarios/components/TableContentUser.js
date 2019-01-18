@@ -170,7 +170,9 @@ class TableContentUser extends Component {
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesUsuario(cell, row)}
                 style={{ border: "none" }}
-              />
+              >
+                Acciones
+              </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>

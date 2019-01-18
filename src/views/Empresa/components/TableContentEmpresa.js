@@ -169,7 +169,9 @@ class TableContentEmpresa extends Component {
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesEmpresa(cell, row)}
                 style={{ border: "none" }}
-              />
+              >
+                Acciones
+              </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>

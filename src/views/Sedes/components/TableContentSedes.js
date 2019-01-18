@@ -60,7 +60,7 @@ class TableContentSedes extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -149,7 +149,10 @@ class TableContentSedes extends Component {
                   dataAlign="center"
                   dataFormat={(cell, row) => this.accionesSedes(cell, row)}
                   style={{ border: "none" }}
-                />
+                >
+                  {" "}
+                  Acciones{" "}
+                </TableHeaderColumn>
               </BootstrapTable>
             </div>
           </Col>

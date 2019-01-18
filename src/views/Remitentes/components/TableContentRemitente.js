@@ -53,7 +53,7 @@ class TableContentRemitente extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -144,7 +144,10 @@ class TableContentRemitente extends Component {
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesRemitente(cell, row)}
                 style={{ border: "none" }}
-              />
+              >
+                {" "}
+                Acciones{" "}
+              </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>

@@ -44,7 +44,7 @@ class TableContentConglomerado extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -148,7 +148,9 @@ class TableContentConglomerado extends Component {
                         this.accionesConglomerado(cell, row)
                       }
                       style={{ border: "none" }}
-                    />
+                    >
+                      Acciones
+                    </TableHeaderColumn>
                   </BootstrapTable>
                 </Col>
               </Row>

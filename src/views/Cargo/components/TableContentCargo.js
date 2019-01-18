@@ -66,7 +66,7 @@ class TableContentCargo extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -118,52 +118,51 @@ class TableContentCargo extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col md="12">
-            <BootstrapTable
-              pagination
-              exportCSV
-              data={dataExample}
-              search
-              searchPlaceholder="Buscar"
-              bordered={false}
-              hover
-              striped
+        <Col md="12">
+          <BootstrapTable
+            pagination
+            exportCSV
+            data={dataExample}
+            search
+            searchPlaceholder="Buscar"
+            bordered={false}
+            hover
+            striped
+          >
+            <TableHeaderColumn
+              dataAlign="center"
+              dataField={"id"}
+              isKey
+              width={50}
             >
-              <TableHeaderColumn
-                dataAlign="center"
-                dataField={"id"}
-                isKey
-                width={50}
-              >
-                {" "}
-                #{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataAlign="center" dataField={"codigo"}>
-                Código
-              </TableHeaderColumn>
-              <TableHeaderColumn dataAlign="center" dataField={"nombre"}>
-                {" "}
-                Nombre{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataAlign="center" dataField={"descripcion"}>
-                {" "}
-                Descripción{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataAlign="center" dataField={"estado"}>
-                {" "}
-                Estado
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataAlign="center"
-                dataFormat={(cell, row) => this.accionesCargo(cell, row)}
-              >
-                {" "}
-                Acciones{" "}
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
+              {" "}
+              #{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataAlign="center" dataField={"codigo"}>
+              Código
+            </TableHeaderColumn>
+            <TableHeaderColumn dataAlign="center" dataField={"nombre"}>
+              {" "}
+              Nombre{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataAlign="center" dataField={"descripcion"}>
+              {" "}
+              Descripción{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataAlign="center" dataField={"estado"}>
+              {" "}
+              Estado
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataAlign="center"
+              dataFormat={(cell, row) => this.accionesCargo(cell, row)}
+            >
+              {" "}
+              Acciones{" "}
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </Col>
+
         <ModalView modalviewcargo={this.state.modalview} ref="child1" />
         <ModalEdit modaleditcargo={this.state.modaledit} ref="child2" />
         <ModalDel modaldelete={this.state.modaldelete} ref="child3" />

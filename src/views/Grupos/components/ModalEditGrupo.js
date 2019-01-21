@@ -9,7 +9,8 @@ import {
   Col,
   Card,
   CardBody,
-  CardFooter
+  CardFooter,
+  CardTitle
 } from "reactstrap";
 
 class ModalEditPais extends Component {
@@ -35,22 +36,37 @@ class ModalEditPais extends Component {
                 <div className="row">
                   <div className="col-sm-4">
                     <div className="form-group">
-                      <label> Código </label>
+                      <label>
+                        {" "}
+                        Código <span className="text-danger">*</span>{" "}
+                      </label>
                       <input className="form-control" type="text" />
                     </div>
                   </div>
                   <div className="col-sm-4">
                     <div className="form-group">
-                      <label> Nombre </label>
+                      <label>
+                        {" "}
+                        Nombre <span className="text-danger">*</span>{" "}
+                      </label>
                       <input type="text" className="form-control" />
                     </div>
                   </div>
                   <div className="col-sm-4">
                     <div className="form-group">
-                      <label> Estado </label>
+                      <label>
+                        {" "}
+                        Estado <span className="text-danger">*</span>{" "}
+                      </label>
                       <select className="form-control">
                         <option> Seleccione </option>
                       </select>
+                    </div>
+                  </div>
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label> Descripción </label>
+                      <input type="text" className="form-control" />
                     </div>
                   </div>
                 </div>
@@ -58,9 +74,10 @@ class ModalEditPais extends Component {
                   <div className="col-sm-12">
                     <Card>
                       <CardBody>
-                        <h4 className=""> Búsqueda de usuarios </h4>
-                        <hr />
-                        <br />
+                        <CardTitle className="">
+                          {" "}
+                          Búsqueda de usuarios{" "}
+                        </CardTitle>
                         <form className="form">
                           <div className="row">
                             <div className="col-md-4">

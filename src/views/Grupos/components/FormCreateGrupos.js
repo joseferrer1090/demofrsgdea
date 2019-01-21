@@ -41,7 +41,18 @@ class FormCreateGrupos extends Component {
                         <div className="form-group">
                           <label>
                             {" "}
-                            Nombre <span className="text-dange">*</span>
+                            Nombre <span className="text-danger">*</span>
+                          </label>
+                          <input type="text" className="form-control" />
+                        </div>
+                      </div>
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Descripción <span className="text-danger">
+                              *{" "}
+                            </span>{" "}
                           </label>
                           <input type="text" className="form-control" />
                         </div>

@@ -7,7 +7,8 @@ import {
   Row,
   Col,
   Card,
-  CardBody
+  CardBody,
+  Collapse
 } from "reactstrap";
 import PropTypes from "prop-types";
 
@@ -15,7 +16,9 @@ class ModalViewUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalview
+      modal: this.props.modalview,
+      collapse: false,
+      collapse2: false
     };
   }
 
@@ -23,6 +26,14 @@ class ModalViewUser extends Component {
     this.setState({
       modal: !this.state.modal
     });
+  };
+
+  toggleCollapse = () => {
+    this.setState({ collapse: !this.state.collapse, collapse2: false });
+  };
+
+  toogleCollapse2 = () => {
+    this.setState({ collapse2: !this.state.collapse2, collapse: false });
   };
 
   render() {
@@ -38,78 +49,188 @@ class ModalViewUser extends Component {
               />
             </Col>
             <Col sm="9">
-              <Card>
-                <div className="table-responsive">
-                  <table className="table table-striped table-sm">
-                    <tbody>
-                      <tr>
-                        <td> Usuario </td>
-                        <td> Dato </td>
-                      </tr>
-                      <tr>
-                        <td> Identificación </td>
-                        <td> Dato </td>
-                      </tr>
-                      <tr>
-                        <td> Nombre </td>
-                        <td> Dato </td>
-                      </tr>
-                      <tr>
-                        <td> Estado </td>
-                        <td> Dato </td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <div className="">
+                {" "}
+                <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                  {" "}
+                  Datos personales{" "}
+                </h5>{" "}
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Identificación </dt>
+                      <dd> 1047425246 </dd>
+                    </dl>
+                  </div>
                 </div>
-              </Card>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Nombre </dt>
+                      <dd> Jose Carlos Ferrer Bermudez</dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>E-mail </dt>
+                      <dd> jcfb90@gmail.com </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Teléfono </dt>
+                      <dd> 301-7923-466 </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Dirección </dt>
+                      <dd> Cra 44c # 22 - 86 int 702</dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Fecha de nacimiento </dt>
+                      <dd>10/09/1990</dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
             </Col>
+          </Row>
+          <br />
+          <Row>
             <div className="col-md-12">
-              <Card>
-                <div className="table-responsive">
-                  <table className="table table-sm table-striped">
-                    <tbody>
-                      <tr>
-                        <td> E-mail </td>
-                        <td> Dato </td>
-
-                        <td> Teléfono </td>
-                        <td> Dato </td>
-                      </tr>
-                      <tr>
-                        <td> Dirección </td>
-                        <td> Dato </td>
-
-                        <td> Fecha de nacimiento </td>
-                        <td> Dato </td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <div className="card card-secondary">
+                <div className="card-header">
+                  <a
+                    onClick={() => {
+                      this.toggleCollapse();
+                    }}
+                  >
+                    {" "}
+                    Datos laborales{" "}
+                  </a>
                 </div>
-              </Card>
+                <Collapse isOpen={this.state.collapse}>
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Conglomerado </dt>
+                            <dd> conglomerado </dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Empresa </dt>
+                            <dd> empresa </dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Sede </dt>
+                            <dd> sede </dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Dependencia </dt>
+                            <dd> dependencia </dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Cargo </dt>
+                            <dd> cargo </dd>
+                          </dl>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Collapse>
+              </div>
             </div>
+          </Row>
+          <Row>
             <div className="col-md-12">
-              <Card>
-                <div className="table-responsive">
-                  <table className="table table-sm table-striped">
-                    <tbody>
-                      <tr>
-                        <td> Roles </td>
-                        <td> Dato </td>
-
-                        <td> Cargo </td>
-                        <td> Dato </td>
-                      </tr>
-                      <tr>
-                        <td> Fecha de creación </td>
-                        <td> Datos </td>
-
-                        <td> Fecha de Modificación </td>
-                        <td> Dato </td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <div className="card card-secondary">
+                <div className="card-header">
+                  <a
+                    onClick={() => {
+                      this.toogleCollapse2();
+                    }}
+                  >
+                    {" "}
+                    Datos de seguridad{" "}
+                  </a>
                 </div>
-              </Card>
+                <Collapse isOpen={this.state.collapse2}>
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Usuario </dt>
+                            <dd> usuario </dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Roles </dt>
+                            <dd> roles </dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Estado </dt>
+                            <dd> estado </dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Fecha de creación </dt>
+                            <dd> fecha de creación </dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Fecha de modificación </dt>
+                            <dd> fecha de modificación </dd>
+                          </dl>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Collapse>
+              </div>
             </div>
           </Row>
         </ModalBody>

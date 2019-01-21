@@ -199,7 +199,7 @@ class FormCreateUser extends Component {
                             <div className="form-group">
                               <label>
                                 {" "}
-                                Repetir contaseña{" "}
+                                Confirmar contraseña{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <input className="form-control" type="password" />
@@ -208,6 +208,45 @@ class FormCreateUser extends Component {
                         </div>
                         <hr style={{ border: "1px dashed #ccc" }} />
                         <div className="row">
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label>
+                                {" "}
+                                Conglomerado{" "}
+                                <span className="text-danger">*</span>{" "}
+                              </label>
+                              <select className="form-control">
+                                {" "}
+                                <option>Seleccione...</option>{" "}
+                              </select>
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label>
+                                {" "}
+                                Empresa <span className="text-danger">
+                                  *
+                                </span>{" "}
+                              </label>
+                              <select className="form-control">
+                                {" "}
+                                <option>Seleccione... </option>{" "}
+                              </select>
+                            </div>
+                          </div>
+                          <div className="col-md-4">
+                            <div className="form-group">
+                              <label>
+                                {" "}
+                                Sede <span className="text-danger">*</span>{" "}
+                              </label>
+                              <select className="form-control">
+                                {" "}
+                                <option> Seleccione... </option>{" "}
+                              </select>
+                            </div>
+                          </div>
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
+import { Modal, ModalHeader, ModalFooter, ModalBody, Card } from "reactstrap";
 import PropTypes from "prop-types";
 
 class ModalEditSedes extends Component {
@@ -22,94 +22,170 @@ class ModalEditSedes extends Component {
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar sede </ModalHeader>
           <ModalBody>
-            <div className="table-responsive">
-              <table className="table table-striped">
-                <tbody>
-                  <tr>
-                    <td>Código:</td>
-                    <td>
-                      {" "}
-                      <input type="text" className="form-control" />{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Nombre:</td>
-                    <td>
-                      {" "}
-                      <input type="text" className="form-control" />{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Prefijo de radicación:</td>
-                    <td>
-                      {" "}
-                      <input type="text" className="form-control" />{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Dirección:</td>
-                    <td>
-                      {" "}
-                      <input type="text" className="form-control" />{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Teléfono:</td>
-                    <td>
-                      {" "}
-                      <input type="text" className="form-control" />{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Secuencia de radicación:</td>
-                    <td>
-                      {" "}
-                      <input type="text" className="form-control" />{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>País:</td>
-                    <td>
-                      {" "}
+            <form className="form">
+              <Card body>
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Codigo <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input type="text" className="form-control" />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Nombre <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input type="text" className="form-control" />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label> Descripcion </label>
+                      <input type="text" className="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Conglomerado <span className="text-danger">*</span>{" "}
+                      </label>
                       <select className="form-control">
                         {" "}
-                        <option> Seleccione </option>{" "}
+                        <option>Seleccione...</option>{" "}
                       </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Departamento:</td>
-                    <td>
-                      {" "}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Empresa <span className="text-danger">*</span>{" "}
+                      </label>
                       <select className="form-control">
                         {" "}
-                        <option> Seleccione </option>{" "}
+                        <option>Seleccione...</option>{" "}
                       </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Ciudad:</td>
-                    <td>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Prefijo de radicacion{" "}
+                        <span className="text-danger">*</span>{" "}
+                      </label>
                       <select className="form-control">
                         {" "}
-                        <option> Seleccione </option>
+                        <option>Seleccione...</option>{" "}
                       </select>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Estado:</td>
-                    <td>
-                      {" "}
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Secuencia de radicacion{" "}
+                        <span className="text-danger">*</span>{" "}
+                      </label>
                       <select className="form-control">
                         {" "}
-                        <option> Activada </option>{" "}
-                        <option> Desactivada </option>{" "}
-                      </select>{" "}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+                        <option>Seleccione...</option>{" "}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label> Pais</label>
+                      <select className="form-control">
+                        {" "}
+                        <option>Seleccione...</option>{" "}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label> Departamento</label>
+                      <select className="form-control">
+                        {" "}
+                        <option>Seleccione...</option>{" "}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Ciudad <span className="text-danger">*</span>{" "}
+                      </label>
+                      <select className="form-control">
+                        {" "}
+                        <option> Seleccione... </option>{" "}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Direccion <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input type="text" className="form-control" />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="from-group">
+                      <label>
+                        {" "}
+                        Telefono <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input type="text" className="form-control" />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label> Cargo </label>
+                      <select className="form-control">
+                        {" "}
+                        <option>Seleccione...</option>{" "}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Estado <span className="text-danger">*</span>{" "}
+                      </label>
+                      <select className="form-control">
+                        {" "}
+                        <option> Seleccione... </option>{" "}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+            </form>
           </ModalBody>
           <ModalFooter>
             <button type="button" className="btn btn-outline-success">

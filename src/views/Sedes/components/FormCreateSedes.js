@@ -79,9 +79,29 @@ class FormCreateSedes extends Component {
                           <input type="text" className="form-control" />
                         </div>
                       </Col>
+                      <Col sm="12">
+                        <div className="form-group">
+                          <label> Descripción </label>
+                          <textarea className="form-control" />
+                        </div>
+                      </Col>
                     </Row>
                     <hr />
                     <Row>
+                      <Col sm="12">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Conglomerado <span className="text-danger">
+                              *
+                            </span>{" "}
+                          </label>
+                          <select className="form-control">
+                            {" "}
+                            <option> Seleccione... </option>{" "}
+                          </select>
+                        </div>
+                      </Col>
                       <Col sm="4">
                         <div className="form-group">
                           <label>
@@ -204,7 +224,7 @@ class FormCreateSedes extends Component {
                     <Row>
                       <Col sm="12">
                         <div className="form-group">
-                          <label> Rol responsable </label>
+                          <label> Cargo </label>
                           <Select
                             value={selectedOptionOptionRolResponsable}
                             onChange={this.handleChangeOptionRolResponsable}

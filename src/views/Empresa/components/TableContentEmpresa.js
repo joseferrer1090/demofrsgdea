@@ -109,72 +109,71 @@ class TableContentEmpresa extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col md="12">
-            <BootstrapTable
-              data={data}
-              pagination={true}
-              search={true}
-              exportCSV
-              bordered={false}
-              searchPlaceholder="Buscar"
-              className=" table-hover"
+        <Col md="12">
+          <BootstrapTable
+            data={data}
+            pagination={true}
+            search={true}
+            exportCSV
+            bordered={false}
+            searchPlaceholder="Buscar"
+            className=" table-hover"
+          >
+            <TableHeaderColumn
+              dataSort={true}
+              isKey
+              dataField={"id"}
+              width={"60"}
+              dataAlign="center"
             >
-              <TableHeaderColumn
-                dataSort={true}
-                isKey
-                dataField={"id"}
-                width={"60"}
-                dataAlign="center"
-              >
-                #
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataSort={true}
-                dataField={"conglomerado"}
-                dataAlign="center"
-              >
-                Conglomerado
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataSort={true}
-                dataField={"codigo"}
-                dataAlign="center"
-              >
-                Código
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataSort={true}
-                dataField={"nit"}
-                dataAlign="center"
-              >
-                Nit
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataSort={true}
-                dataField={"nombre"}
-                dataAlign="center"
-              >
-                Nombre
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                dataSort={true}
-                dataField={"estado"}
-                dataAlign="center"
-              >
-                Estado
-              </TableHeaderColumn>
-              <TableHeaderColumn
-                export={false}
-                dataAlign="center"
-                dataFormat={(cell, row) => this.accionesEmpresa(cell, row)}
-                style={{ border: "none" }}
-              >
-                Acciones
-              </TableHeaderColumn>
-            </BootstrapTable>
-          </Col>
-        </Row>
+              #
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={"conglomerado"}
+              dataAlign="center"
+            >
+              Conglomerado
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={"codigo"}
+              dataAlign="center"
+            >
+              Código
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={"nit"}
+              dataAlign="center"
+            >
+              Nit
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={"nombre"}
+              dataAlign="center"
+            >
+              Nombre
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={"estado"}
+              dataAlign="center"
+            >
+              Estado
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              export={false}
+              dataAlign="center"
+              dataFormat={(cell, row) => this.accionesEmpresa(cell, row)}
+              style={{ border: "none" }}
+            >
+              Acciones
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </Col>
+
         <ModalView modalviewempesa={this.state.modalview} ref={"child"} />
         <ModalEdit modaleditempresa={this.state.modaledit} ref={"child2"} />
         <ModalDel modaldelempresa={this.state.modaldel} ref="child3" />

@@ -17,7 +17,8 @@ class ModalEditPais extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modaledit
+      modal: this.props.modalgitedit,
+      dataOk: false
     };
   }
   toggle = () => {
@@ -26,6 +27,7 @@ class ModalEditPais extends Component {
     });
   };
   render() {
+    const { dataOk } = this.state;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -80,7 +82,20 @@ class ModalEditPais extends Component {
                         </CardTitle>
                         <form className="form">
                           <div className="row">
-                            <div className="col-md-4">
+                            <div className="col-md-3">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  Conglomerado{" "}
+                                  <span className="text-danger"> *</span>{" "}
+                                </label>
+                                <select className="form-control">
+                                  {" "}
+                                  <option> Seleccione... </option>{" "}
+                                </select>
+                              </div>
+                            </div>
+                            <div className="col-md-3">
                               <div className="form-group">
                                 <label>
                                   {" "}
@@ -94,7 +109,7 @@ class ModalEditPais extends Component {
                                 </select>
                               </div>
                             </div>
-                            <div className="col-md-4">
+                            <div className="col-md-3">
                               <div className="form-group">
                                 <label>
                                   {" "}
@@ -108,7 +123,7 @@ class ModalEditPais extends Component {
                                 </select>
                               </div>
                             </div>
-                            <div className="col-md-4">
+                            <div className="col-md-3">
                               <div className="form-group">
                                 <label>
                                   {" "}
@@ -122,20 +137,28 @@ class ModalEditPais extends Component {
                               </div>
                             </div>
                           </div>
-                          <div className="form-group">
-                            <label> Usuarios disponibles </label>
-                            <textarea className="form-control" disabled />
+                          <div className="">
+                            <button
+                              type="button"
+                              className="btn btn-secondary "
+                              onClick={() => {
+                                this.setState({ dataOk: true });
+                              }}
+                              style={{ width: "150px" }}
+                            >
+                              {" "}
+                              <i className="fa fa-search" /> Buscar
+                            </button>{" "}
                           </div>
+                          <br />
+                          {dataOk ? (
+                            <div className="form-group">
+                              <label> Usuarios disponibles </label>
+                              <textarea className="form-control" disabled />
+                            </div>
+                          ) : null}
                         </form>
                       </CardBody>
-                      <CardFooter>
-                        <div className="float-right">
-                          <button className="btn btn-secondary btn-sm">
-                            {" "}
-                            <i className="fa fa-search" /> Buscar
-                          </button>{" "}
-                        </div>
-                      </CardFooter>
                     </Card>
                   </div>
                 </div>

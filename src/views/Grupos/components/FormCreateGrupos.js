@@ -14,10 +14,13 @@ import Select from "react-select";
 class FormCreateGrupos extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      dataOk: false
+    };
   }
 
   render() {
+    const { dataOk } = this.state;
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -68,7 +71,20 @@ class FormCreateGrupos extends Component {
                           <br />
                           <form className="form">
                             <div className="row">
-                              <div className="col-md-4">
+                              <div className="col-md-3">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    Conglomerado{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <select className="form-control">
+                                    {" "}
+                                    <option> Seleccione </option>{" "}
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="col-md-3">
                                 <div className="form-group">
                                   <label>
                                     {" "}
@@ -81,7 +97,7 @@ class FormCreateGrupos extends Component {
                                   </select>
                                 </div>
                               </div>
-                              <div className="col-md-4">
+                              <div className="col-md-3">
                                 <div className="form-group">
                                   <label>
                                     {" "}
@@ -95,7 +111,7 @@ class FormCreateGrupos extends Component {
                                   </select>
                                 </div>
                               </div>
-                              <div className="col-md-4">
+                              <div className="col-md-3">
                                 <div className="form-group">
                                   <label>
                                     {" "}
@@ -109,15 +125,23 @@ class FormCreateGrupos extends Component {
                                 </div>
                               </div>
                             </div>
-                            <div className="form-group">
-                              <label> Usuarios disponibles </label>
-                              <textarea className="form-control" disabled />
-                            </div>
+                            {dataOk ? (
+                              <div className="form-group">
+                                <label> Usuarios disponibles </label>
+                                <textarea className="form-control" disabled />
+                              </div>
+                            ) : null}
                           </form>
                         </CardBody>
                         <CardFooter>
                           <div className="float-right">
-                            <button className="btn btn-secondary btn-sm">
+                            <button
+                              type="button"
+                              className="btn btn-secondary btn-sm"
+                              onClick={() => {
+                                this.setState({ dataOk: !this.state.dataOk });
+                              }}
+                            >
                               {" "}
                               <i className="fa fa-search" /> Buscar
                             </button>{" "}

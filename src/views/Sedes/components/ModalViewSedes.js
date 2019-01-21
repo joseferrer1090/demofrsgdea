@@ -23,92 +23,103 @@ class ModalViewSedes extends Component {
           <ModalHeader> Ver sede </ModalHeader>
           <ModalBody>
             <div className="container">
-              <div className="row">
-                <div className="col-md-12">
-                  <table className="table table-striped table-hover">
-                    <tbody>
-                      <tr>
-                        <td>
-                          <dl className="param">
-                            <dt>Código: </dt>
-                            <dd> THE WORLD BANK</dd>
-                          </dl>
-                        </td>
-                        <td>
-                          <dl className="param">
-                            <dt>Empresa: </dt>
-                            <dd> 12345678912345</dd>
-                          </dl>
-                        </td>
-                        <td>
-                          <dl className="param">
-                            <dt>Nombre: </dt>
-                            <dd> 123456789</dd>
-                          </dl>
-                        </td>
-                        <td>
-                          <dl className="param">
-                            <dt>Fecha de creación: </dt>
-                            <dd> dd/mm/aaaa</dd>
-                          </dl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <dl className="param">
-                            <dt>Prefijo de radicación: </dt>
-                            <dd> THE WORLD BANK</dd>
-                          </dl>
-                        </td>
-                        <td>
-                          <dl className="param">
-                            <dt>Dirección: </dt>
-                            <dd> 12345678912345</dd>
-                          </dl>
-                        </td>
-                        <td>
-                          <dl className="param">
-                            <dt>Teléfono: </dt>
-                            <dd> 123456789</dd>
-                          </dl>
-                        </td>
-                        <td>
-                          <dl className="param">
-                            <dt>Fecha de modificación: </dt>
-                            <dd> dd/mm/aaaa</dd>
-                          </dl>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <dl className="param">
-                            <dt>Secuencia de radicación: </dt>
-                            <dd> THE WORLD BANK</dd>
-                          </dl>
-                        </td>
-                        <td>
-                          <dl className="param">
-                            <dt>Ciudad: </dt>
-                            <dd> 12345678912345</dd>
-                          </dl>
-                        </td>
-                        <td>
-                          <dl className="param">
-                            <dt>Rol responsable: </dt>
-                            <dd> 123456789</dd>
-                          </dl>
-                        </td>
-                        <td>
-                          <dl className="param">
-                            <dt>Estado: </dt>
-                            <dd> activo / inactivo </dd>
-                          </dl>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
+              <form className="form">
+                <div className="row">
+                  <div className="col-md-4">
+                    <dl className="param">
+                      <dt>Código </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-4">
+                    <dl className="param">
+                      <dt>Nombre </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-4">
+                    <dl className="param">
+                      <dt>Descripción </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
                 </div>
-              </div>
+                <hr />
+                <div className="row">
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt>Conglomerado </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt>Empresa: </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt>Prefijo de radicación </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt>Secuencia de radicacioón </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-md-4">
+                    <dl className="param">
+                      <dt>Pais </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-4">
+                    <dl className="param">
+                      <dt>Departamento </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-4">
+                    <dl className="param">
+                      <dt>Ciudad </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-4">
+                    <dl className="param">
+                      <dt>Dirección: </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-4">
+                    <dl className="param">
+                      <dt>Telefono </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                </div>
+                <hr />
+                <div className="row">
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt>Cargo </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt>Estado </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                </div>
+              </form>
             </div>
           </ModalBody>
           <ModalFooter>

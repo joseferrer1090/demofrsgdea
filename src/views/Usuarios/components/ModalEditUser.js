@@ -9,17 +9,35 @@ import {
   Card,
   CardBody,
   Col,
-  Row
+  Row,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  CardTitle,
+  CardText,
+  NavLink
 } from "reactstrap";
+
+import classnames from "classnames";
 
 class ModalEditUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modaledit
+      modal: this.props.modaledit,
+      activeTab: "1"
     };
     this.inputOpenFileRef = React.createRef();
   }
+
+  toogleTab = tab => {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
+  };
 
   toggle = () => {
     this.setState({
@@ -56,117 +74,240 @@ class ModalEditUser extends Component {
                 </button>
               </Col>
               <Col sm="9">
-                <Card>
-                  <div className="table-responsive">
-                    <table className="table table-striped table-sm">
-                      <tbody>
-                        <tr>
-                          <td> Usuario </td>
-                          <td>
-                            {" "}
-                            <input
-                              type="text"
-                              className="form-control"
-                              disabled
-                            />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Identificacion </td>
-                          <td>
-                            {" "}
-                            <input type="text" className="form-control" />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Nombre </td>
-                          <td>
-                            {" "}
-                            <input type="text" className="form-control" />{" "}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                <div className="">
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    Datos personales{" "}
+                  </h5>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Identificación </dt>
+                        <dd>
+                          <input type="text" className="form-control" />{" "}
+                        </dd>
+                      </dl>
+                    </div>
                   </div>
-                </Card>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Nombre </dt>
+                        <dd>
+                          {" "}
+                          <input type="text" className="form-control" />{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>E-mail </dt>
+                        <dd>
+                          <input type="text" className="form-control" />{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Teléfono </dt>
+                        <dd>
+                          {" "}
+                          <input type="text" className="form-control" />{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Dirección </dt>
+                        <dd>
+                          {" "}
+                          <input type="text" className="form-control" />{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Fecha de nacimiento </dt>
+                        <dd>
+                          {" "}
+                          <input type="text" className="form-control" />{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
               </Col>
-              <div className="col-md-12">
-                <Card>
-                  <div className="table-responsive">
-                    <table className="table table-sm table-striped">
-                      <tbody>
-                        <tr>
-                          <td> E-mail </td>
-                          <td>
-                            {" "}
-                            <input className="form-control" type="text" />{" "}
-                          </td>
-
-                          <td> Teléfono </td>
-                          <td>
-                            {" "}
-                            <input className="form-control" type="text" />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Dirección </td>
-                          <td>
-                            {" "}
-                            <input type="text" className="form-control" />{" "}
-                          </td>
-
-                          <td> Fecha de nacimiento </td>
-                          <td>
-                            {" "}
-                            <input type="text" className="form-control" />{" "}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </Card>
-              </div>
-              <div className="col-md-12">
-                <Card>
-                  <div className="table-responsive">
-                    <table className="table table-sm table-striped">
-                      <tbody>
-                        <tr>
-                          <td> Roles </td>
-                          <td>
-                            {" "}
-                            <select className="form-control">
-                              <option> Rol 1 </option>
-                              <option> Rol 2 </option>
-                              <option> Rol 3 </option>
-                            </select>{" "}
-                          </td>
-
-                          <td> Cargo </td>
-                          <td>
-                            {" "}
-                            <select className="form-control">
-                              <option> Cargo 1 </option>
-                              <option> Cargo 2 </option>
-                              <option> Cargo 3 </option>
-                            </select>{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Estado </td>
-                          <td>
-                            {" "}
-                            <select className="form-control">
-                              <option> Activo </option>
-                              <option> Inactivo </option>
-                            </select>{" "}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </Card>
-              </div>
+            </Row>
+            <Row>
+              <Col sm="12">
+                <Nav tabs>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({
+                        active: this.state.activeTab === "1"
+                      })}
+                      onClick={() => {
+                        this.toogleTab("1");
+                      }}
+                    >
+                      Datos laborales
+                    </NavLink>
+                  </NavItem>
+                  <NavItem>
+                    <NavLink
+                      className={classnames({
+                        active: this.state.activeTab === "2"
+                      })}
+                      onClick={() => {
+                        this.toogleTab("2");
+                      }}
+                    >
+                      Datos de seguridad
+                    </NavLink>
+                  </NavItem>
+                </Nav>
+                <TabContent activeTab={this.state.activeTab}>
+                  <TabPane tabId="1">
+                    <Row>
+                      <Col sm="12">
+                        <Card body>
+                          <form className="form">
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    Conglomerado{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <select className="form-control">
+                                    {" "}
+                                    <option> Seleccione... </option>{" "}
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    Empresa{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <select className="form-control">
+                                    {" "}
+                                    <option> Seleccione... </option>{" "}
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    Sede <span className="text-danger">
+                                      *
+                                    </span>{" "}
+                                  </label>
+                                  <select className="form-control">
+                                    {" "}
+                                    <option> Seleccione... </option>{" "}
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    Dependencia{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <select className="form-control">
+                                    {" "}
+                                    <option> Seleccione... </option>{" "}
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    Cargo <span className="text-danger">
+                                      *
+                                    </span>{" "}
+                                  </label>
+                                  <select className="form-control">
+                                    {" "}
+                                    <option> Seleccione... </option>{" "}
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </Card>
+                      </Col>
+                    </Row>
+                  </TabPane>
+                  <TabPane tabId="2">
+                    <Row>
+                      <Col sm="12">
+                        <Card body>
+                          <form className="form">
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <label>
+                                    Usuario{" "}
+                                    <span className="text-danger">*</span>
+                                  </label>
+                                  <input type="text" className="form-control" />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    Roles <span className="text-danger">
+                                      *
+                                    </span>{" "}
+                                  </label>
+                                  <select className="form-control">
+                                    {" "}
+                                    <option> Seleccione... </option>{" "}
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    Estado{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <select className="form-control">
+                                    {" "}
+                                    <option> Activo </option>{" "}
+                                    <option> Desactivado </option>{" "}
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </Card>
+                      </Col>
+                    </Row>
+                  </TabPane>
+                </TabContent>
+              </Col>
             </Row>
           </form>
         </ModalBody>

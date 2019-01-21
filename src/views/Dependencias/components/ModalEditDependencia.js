@@ -49,7 +49,14 @@ class ModalEditDependencia extends Component {
                       </td>
                     </tr>
                     <tr>
-                      <td>Rol responsable</td>
+                      <td> Descripcion </td>
+                      <td>
+                        {" "}
+                        <textarea className="form-control" />{" "}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td> Cargo </td>
                       <td>
                         {" "}
                         <input
@@ -57,6 +64,26 @@ class ModalEditDependencia extends Component {
                           className="form-control form-control-sm"
                           placeholder=""
                         />{" "}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Conglomerado </td>
+                      <td>
+                        {" "}
+                        <select className="form-control">
+                          {" "}
+                          <option> Seleccione... </option>{" "}
+                        </select>{" "}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td> Empresa </td>
+                      <td>
+                        {" "}
+                        <select className="form-control">
+                          {" "}
+                          <option> Seleccione... </option>{" "}
+                        </select>{" "}
                       </td>
                     </tr>
                     <tr>

@@ -119,6 +119,21 @@ class ModalViewSedes extends Component {
                     </dl>
                   </div>
                 </div>
+                <hr />
+                <div className="row">
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt>Fecha de creación </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt>Fecha de modificación </dt>
+                      <dd> THE WORLD BANK</dd>
+                    </dl>
+                  </div>
+                </div>
               </form>
             </div>
           </ModalBody>

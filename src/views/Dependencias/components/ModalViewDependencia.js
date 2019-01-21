@@ -19,42 +19,56 @@ class ModalViewDependencia extends Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal}>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Ver dependencia </ModalHeader>
           <ModalBody>
-            <div className="table-responsive">
-              <table className="table table-striped">
-                <tbody>
-                  <tr>
-                    <td>Código:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Nombre:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Rol responsable:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Sede:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Estado:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Fecha de creación:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Fecha de modificación:</td>
-                    <td> </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div style={{ height: "450px !important" }}>
+              <div className="table-responsive">
+                <table className="table table-striped">
+                  <tbody>
+                    <tr>
+                      <td>Código:</td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>Nombre:</td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td> Descripcion: </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>Conglomerado:</td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td> Empresa: </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>Sede:</td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td> Cargo: </td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>Estado:</td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>Fecha de creación:</td>
+                      <td> </td>
+                    </tr>
+                    <tr>
+                      <td>Fecha de modificación:</td>
+                      <td> </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </ModalBody>
           <ModalFooter>

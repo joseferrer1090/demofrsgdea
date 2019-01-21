@@ -53,13 +53,19 @@ class FromCreateDependencia extends Component {
                         />
                       </div>
                     </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label> Descripción </label>
+                        <textarea className="form-control" />
+                      </div>
+                    </div>
                   </div>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <div className="form-group">
                         <label>
                           {" "}
-                          Rol responsable <span className="text-danger">
+                          Conglomerado <span className="text-danger">
                             *
                           </span>{" "}
                         </label>
@@ -68,7 +74,19 @@ class FromCreateDependencia extends Component {
                         </select>
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          Empresa <span className="text-danger">*</span>{" "}
+                        </label>
+                        <select className="form-control">
+                          {" "}
+                          <option> Seleccione... </option>{" "}
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col-md-4">
                       <div className="form-group">
                         <label>
                           {" "}
@@ -81,6 +99,15 @@ class FromCreateDependencia extends Component {
                     </div>
                   </div>
                   <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label> Cargo </label>
+                        <select className="form-control">
+                          {" "}
+                          <option> Seleccione... </option>{" "}
+                        </select>
+                      </div>
+                    </div>
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>

@@ -92,6 +92,13 @@ class ModalEditEmpresa extends Component {
                       </td>
                     </tr>
                     <tr>
+                      <td> Descripción: </td>
+                      <td>
+                        {" "}
+                        <textarea className="form-control" />{" "}
+                      </td>
+                    </tr>
+                    <tr>
                       <td> Estado </td>
                       <td>
                         <select className="form-control">

@@ -112,6 +112,14 @@ class FormCreateEmpresa extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
+                          <label> Descripción </label>
+                          <textarea className="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
                           <div className="">
                             <div className="form-group">
                               <label>

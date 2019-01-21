@@ -38,6 +38,10 @@ class ModalViewEmpresa extends Component {
                     <td> </td>
                   </tr>
                   <tr>
+                    <td> Descripcion: </td>
+                    <td> </td>
+                  </tr>
+                  <tr>
                     <td> Estado: </td>
                     <td> </td>
                   </tr>

@@ -71,11 +71,7 @@ export default class Roles extends React.Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Row>
-              <Col sm="12">
-                <FormCreate />
-              </Col>
-            </Row>
+            <FormCreate />
           </TabPane>
           <TabPane tabId="2">
             <Row>

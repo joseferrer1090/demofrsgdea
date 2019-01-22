@@ -121,6 +121,17 @@ class FormCreateTipoDocumental extends Component {
                         <input type="text" className="form-control" />
                       </div>
                     </Col>
+                    <Col sm="12">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          Descripción <span className="text-danger">
+                            *
+                          </span>{" "}
+                        </label>
+                        <textarea className="form-control" />
+                      </div>
+                    </Col>
                   </Row>
                   <Row>
                     <Col sm="12">

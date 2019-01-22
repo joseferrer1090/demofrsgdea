@@ -13,6 +13,7 @@ const dataExample = [
     codigo: "tpd1",
     nombre: "tipo_documental_nombre",
     dependencia: "dependencia_nombre",
+    descripcion: "descripcion general",
     hr: 12,
     estado: true
   },
@@ -21,6 +22,7 @@ const dataExample = [
     codigo: "tpd2",
     nombre: "tipo_documental_nombre",
     dependencia: "dependencia_nombre",
+    descripcion: "descripcion general",
     hr: 12,
     estado: true
   },
@@ -29,6 +31,7 @@ const dataExample = [
     codigo: "tpd3",
     nombre: "tipo_documental_nombre",
     dependencia: "dependencia_nombre",
+    descripcion: "descripcion general",
     hr: 12,
     estado: true
   },
@@ -37,6 +40,7 @@ const dataExample = [
     codigo: "tpd4",
     nombre: "tipo_documental_nombre",
     dependencia: "dependencia_nombre",
+    descripcion: "descripcion general",
     hr: 12,
     estado: true
   },
@@ -45,6 +49,7 @@ const dataExample = [
     codigo: "tpd5",
     nombre: "tipo_documental_nombre",
     dependencia: "dependencia_nombre",
+    descripcion: "descripcion general",
     hr: 12,
     estado: true
   }
@@ -155,6 +160,10 @@ class TableContentTipoDocumental extends Component {
             <TableHeaderColumn dataField="hr" dataAlign="center">
               {" "}
               Horas de respuesta{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataAlign="center" dataField="descripcion">
+              {" "}
+              Descripción{" "}
             </TableHeaderColumn>
             <TableHeaderColumn dataField="estado" dataAlign="center">
               {" "}

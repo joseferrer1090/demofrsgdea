@@ -98,7 +98,7 @@ class FormCreateEmpresa extends Component {
                         <div className="form-group">
                           <label>
                             {" "}
-                            Cargo{" "}
+                            Cargo responsable{" "}
                             <span className="text-danger">*</span>{" "}
                           </label>
                           <Select

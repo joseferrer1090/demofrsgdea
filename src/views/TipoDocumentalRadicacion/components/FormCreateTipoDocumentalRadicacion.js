@@ -12,7 +12,11 @@ import {
 class FormCreateTipoDocumental extends Component {
   constructor(props) {
     super(props);
-    this.state = { values: [], TypeDocumentName: "nombre del tipo documental" };
+    this.state = {
+      values: [],
+      TypeDocumentName: "nombre del tipo documental",
+      dataOk: false
+    };
   }
   createUI() {
     return this.state.values.map((el, i) => (
@@ -78,6 +82,7 @@ class FormCreateTipoDocumental extends Component {
     event.preventDefault();
   };
   render() {
+    const { dataOk } = this.state;
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -105,6 +110,17 @@ class FormCreateTipoDocumental extends Component {
                         <input type="text" className="form-control" />
                       </div>
                     </Col>
+                    <Col sm="12">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          Descripción <span className="text-danger">
+                            *
+                          </span>{" "}
+                        </label>
+                        <input type="text" className="form-control" />
+                      </div>
+                    </Col>
                   </Row>
                   <Row>
                     <Col sm="12">
@@ -112,10 +128,22 @@ class FormCreateTipoDocumental extends Component {
                         <CardBody>
                           <h4 className=""> Búsqueda de usuarios </h4>
                           <hr />
-                          <br />
                           <form className="form">
                             <div className="row">
-                              <div className="col-md-4">
+                              <div className="col-md-3">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    Conglomerado{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <select className="form-control">
+                                    {" "}
+                                    <option> Seleccione... </option>{" "}
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="col-md-3">
                                 <div className="form-group">
                                   <label>
                                     {" "}
@@ -128,7 +156,7 @@ class FormCreateTipoDocumental extends Component {
                                   </select>
                                 </div>
                               </div>
-                              <div className="col-md-4">
+                              <div className="col-md-3">
                                 <div className="form-group">
                                   <label>
                                     {" "}
@@ -142,7 +170,7 @@ class FormCreateTipoDocumental extends Component {
                                   </select>
                                 </div>
                               </div>
-                              <div className="col-md-4">
+                              <div className="col-md-3">
                                 <div className="form-group">
                                   <label>
                                     {" "}
@@ -156,15 +184,23 @@ class FormCreateTipoDocumental extends Component {
                                 </div>
                               </div>
                             </div>
-                            <div className="form-group">
-                              <label> Usuarios disponibles </label>
-                              <textarea className="form-control" disabled />
-                            </div>
+                            {dataOk ? (
+                              <div className="form-group">
+                                <label> Usuarios disponibles </label>
+                                <textarea className="form-control" disabled />
+                              </div>
+                            ) : null}
                           </form>
                         </CardBody>
                         <CardFooter>
                           <div className="float-right">
-                            <button className="btn btn-secondary btn-sm">
+                            <button
+                              type="button"
+                              className="btn btn-secondary btn-sm"
+                              onClick={() => {
+                                this.setState({ dataOk: true });
+                              }}
+                            >
                               {" "}
                               <i className="fa fa-search" /> Buscar
                             </button>{" "}

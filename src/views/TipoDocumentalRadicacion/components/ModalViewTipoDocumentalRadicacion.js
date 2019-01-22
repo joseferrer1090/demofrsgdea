@@ -37,6 +37,10 @@ class ModalViewTipoDocumental extends Component {
                   <td> </td>
                 </tr>
                 <tr>
+                  <td> Descripción </td>
+                  <td> </td>
+                </tr>
+                <tr>
                   <td> Estado </td>
                   <td> </td>
                 </tr>
@@ -46,6 +50,7 @@ class ModalViewTipoDocumental extends Component {
                 </tr>
                 <tr>
                   <td> Fecha de modificación </td>
+                  <td> </td>
                 </tr>
               </tbody>
             </table>

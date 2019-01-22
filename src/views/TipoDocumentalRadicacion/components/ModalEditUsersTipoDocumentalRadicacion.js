@@ -16,7 +16,8 @@ class ModalEditUsersTipoDocumentalRadicacion extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modaleditusers
+      modal: this.props.modaleditusers,
+      dataOk: false
     };
   }
 
@@ -27,6 +28,7 @@ class ModalEditUsersTipoDocumentalRadicacion extends Component {
   };
 
   render() {
+    const { dataOk } = this.state;
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader> Actualizar asignación de usuarios </ModalHeader>
@@ -37,9 +39,22 @@ class ModalEditUsersTipoDocumentalRadicacion extends Component {
                 <CardBody>
                   <h4 className=""> Búsqueda de usuarios </h4>
                   <hr />
-                  <br />
                   <form className="form">
                     <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Conglomerado <span className="text-danger">
+                              *
+                            </span>{" "}
+                          </label>
+                          <select className="form-control">
+                            {" "}
+                            <option> Seleccione... </option>{" "}
+                          </select>
+                        </div>
+                      </div>
                       <div className="col-md-4">
                         <div className="form-group">
                           <label>
@@ -79,15 +94,23 @@ class ModalEditUsersTipoDocumentalRadicacion extends Component {
                         </div>
                       </div>
                     </div>
-                    <div className="form-group">
-                      <label> Usuarios disponibles </label>
-                      <textarea className="form-control" disabled />
-                    </div>
+                    {dataOk ? (
+                      <div className="form-group">
+                        <label> Usuarios disponibles </label>
+                        <textarea className="form-control" disabled />
+                      </div>
+                    ) : null}
                   </form>
                 </CardBody>
                 <CardFooter>
                   <div className="float-right">
-                    <button className="btn btn-secondary btn-sm">
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => {
+                        this.setState({ dataOk: true });
+                      }}
+                    >
                       {" "}
                       <i className="fa fa-search" /> Buscar
                     </button>{" "}

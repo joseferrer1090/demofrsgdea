@@ -8,7 +8,7 @@ class ModalViewUserTipoDocumentalRadicacion extends Component {
     super(props);
     this.state = {
       modal: this.props.modalviewusers,
-      backdrop: false
+      backdrop: true
     };
   }
 

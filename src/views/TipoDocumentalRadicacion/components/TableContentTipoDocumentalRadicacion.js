@@ -15,6 +15,7 @@ const dataExample = [
     id: 1,
     codigo: "tpd1",
     nombre: "tipo_documental_radicacion_nombre",
+    descripcion: "descripcion general",
     usuarios: "",
     estado: true
   },
@@ -22,6 +23,7 @@ const dataExample = [
     id: 1,
     codigo: "tpd2",
     nombre: "tipo_documental_radicacion_nombre",
+    descripcion: "descripcion general",
     usuarios: "",
     estado: true
   },
@@ -29,6 +31,7 @@ const dataExample = [
     id: 1,
     codigo: "tpd3",
     nombre: "tipo_documental_radicacion_nombre",
+    descripcion: "descripcion general",
     usuarios: "",
     estado: true
   },
@@ -36,6 +39,7 @@ const dataExample = [
     id: 1,
     codigo: "tpd4",
     nombre: "tipo_documental_radicacion_nombre",
+    descripcion: "descripcion general",
     usuairos: "",
     estado: true
   },
@@ -43,6 +47,7 @@ const dataExample = [
     id: 1,
     codigo: "tpd5",
     nombre: "tipo_documental:_radicacion_nombre",
+    descripcion: "descripcion general",
     usuarios: "",
     estado: true
   }
@@ -65,7 +70,7 @@ class TableContentTipoDocumental extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "25px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -170,7 +175,7 @@ class TableContentTipoDocumental extends Component {
             striped
             exportCSV
           >
-            <TableHeaderColumn isKey dataField="id" width="50">
+            <TableHeaderColumn isKey dataField="id" width="40">
               {" "}
               #
             </TableHeaderColumn>
@@ -181,6 +186,10 @@ class TableContentTipoDocumental extends Component {
             <TableHeaderColumn dataField="nombre" dataAlign="center">
               {" "}
               Nombre{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="descripcion" dataAlign="center">
+              {" "}
+              Descripcion{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="usuarios"

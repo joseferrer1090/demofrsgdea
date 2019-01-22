@@ -7,16 +7,76 @@ import ModalEdit from "./ModalEditRoles";
 import ModalPermission from "./ModalEditPermissionRoles";
 
 const dataExample = [
-  { id: 1, codigo: "rol1", nombre: "rol_nombre", estado: true },
-  { id: 2, codigo: "rol2", nombre: "rol_nombre", estado: false },
-  { id: 3, codigo: "rol3", nombre: "rol_nombre", estado: true },
-  { id: 4, codigo: "rol4", nombre: "rol_nombre", estado: false },
-  { id: 5, codigo: "rol5", nombre: "rol_nombre", estado: true },
-  { id: 6, codigo: "rol6", nombre: "rol_nombre", estado: false },
-  { id: 7, codigo: "rol7", nombre: "rol_nombre", estado: true },
-  { id: 8, codigo: "rol8", nombre: "rol_nombre", estado: false },
-  { id: 9, codigo: "rol9", nombre: "rol_nombre", estado: true },
-  { id: 10, codigo: "rol10", nombre: "rol_nombre", estado: true }
+  {
+    id: 1,
+    codigo: "rol1",
+    nombre: "rol_nombre",
+    descripcion: "descripcion general del rol",
+    estado: true
+  },
+  {
+    id: 2,
+    codigo: "rol2",
+    nombre: "rol_nombre",
+    descripcion: "descripcion general del rol",
+    estado: false
+  },
+  {
+    id: 3,
+    codigo: "rol3",
+    nombre: "rol_nombre",
+    descripcion: "descripcion general del rol",
+    estado: true
+  },
+  {
+    id: 4,
+    codigo: "rol4",
+    nombre: "rol_nombre",
+    descripcion: "descripcion general del rol",
+    estado: false
+  },
+  {
+    id: 5,
+    codigo: "rol5",
+    nombre: "rol_nombre",
+    descripcion: "descripcion general del rol",
+    estado: true
+  },
+  {
+    id: 6,
+    codigo: "rol6",
+    nombre: "rol_nombre",
+    descripcion: "descripcion general del rol",
+    estado: false
+  },
+  {
+    id: 7,
+    codigo: "rol7",
+    nombre: "rol_nombre",
+    descripcion: "descripcion general del rol",
+    estado: true
+  },
+  {
+    id: 8,
+    codigo: "rol8",
+    nombre: "rol_nombre",
+    descripcion: "descripcion general del rol",
+    estado: false
+  },
+  {
+    id: 9,
+    codigo: "rol9",
+    nombre: "rol_nombre",
+    descripcion: "descripcion general del rol",
+    estado: true
+  },
+  {
+    id: 10,
+    codigo: "rol10",
+    nombre: "rol_nombre",
+    descripcion: "descripcion general del rol",
+    estado: true
+  }
 ];
 
 class TableContentRoles extends Component {
@@ -34,7 +94,7 @@ class TableContentRoles extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -120,6 +180,10 @@ class TableContentRoles extends Component {
             <TableHeaderColumn dataField="nombre" dataAlign="center">
               {" "}
               Nombre{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="descripcion" dataAlign="center">
+              {" "}
+              Descripción{" "}
             </TableHeaderColumn>
             <TableHeaderColumn dataField="estado" dataAlign="center">
               {" "}

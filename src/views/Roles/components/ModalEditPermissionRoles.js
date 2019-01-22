@@ -45,9 +45,12 @@ class ModalEditPermissionRoles extends Component {
               <Row>
                 <Col sm="12">
                   <UncontrolledAlert color="warning">
-                    <i className="fa fa-exclamation-triangle" /> Tener en cuenta
-                    que cuando se editan los permisos, puede afectar la sesion
-                    de los usuario <i className="fa fa-exclamation-triangle" />
+                    <div className="text-center">
+                      <i className="fa fa-exclamation-triangle" /> Tener en
+                      cuenta que cuando se editan los permisos, puede afectar la
+                      sesion de los usuario{" "}
+                      <i className="fa fa-exclamation-triangle" />
+                    </div>
                   </UncontrolledAlert>
                 </Col>
               </Row>
@@ -63,149 +66,15 @@ class ModalEditPermissionRoles extends Component {
                       </h4>
                     </CardTitle>
                     <Row>
-                      <Col sm="4">
-                        <div className="card">
-                          <div className="card-header">
-                            {" "}
-                            <input type="checkbox" /> Conglomerado{" "}
-                          </div>
-                          <div className="card-body">
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" />{" "}
-                                Registrar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" />{" "}
-                                Consultar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Ver
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" />{" "}
-                                Actualizar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Eliminar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Exportar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Importar
-                              </Label>
-                            </FormGroup>
-                          </div>
-                        </div>
+                      <Col sm="6">
+                        <Card body>
+                          <p className="text-center"> Permisos disponibles </p>
+                        </Card>
                       </Col>
-                      <Col sm="4">
-                        <div className="card">
-                          <div className="card-header">
-                            {" "}
-                            <input type="checkbox" /> Empresa{" "}
-                          </div>
-                          <div className="card-body">
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" />{" "}
-                                Registrar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" />{" "}
-                                Consultar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Ver
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" />{" "}
-                                Actualizar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Eliminar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Exportar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Importar
-                              </Label>
-                            </FormGroup>
-                          </div>
-                        </div>
-                      </Col>
-                      <Col sm="4">
-                        <div className="card">
-                          <div className="card-header">
-                            {" "}
-                            <input type="checkbox" /> Sede{" "}
-                          </div>
-                          <div className="card-body">
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" />{" "}
-                                Registrar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" />{" "}
-                                Consultar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Ver
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" />{" "}
-                                Actualizar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Eliminar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Exportar
-                              </Label>
-                            </FormGroup>
-                            <FormGroup check>
-                              <Label check>
-                                <Input type="checkbox" name="radio1" /> Importar
-                              </Label>
-                            </FormGroup>
-                          </div>
-                        </div>
+                      <Col sm="6">
+                        <Card body>
+                          <p className="text-center"> Permisos asignados </p>
+                        </Card>
                       </Col>
                     </Row>
                   </Card>

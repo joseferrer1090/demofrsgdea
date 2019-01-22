@@ -33,6 +33,10 @@ class ModalViewRoles extends Component {
                   <td> </td>
                 </tr>
                 <tr>
+                  <td> Descripción: </td>
+                  <td> </td>
+                </tr>
+                <tr>
                   <td> Estado: </td>
                   <td> </td>
                 </tr>

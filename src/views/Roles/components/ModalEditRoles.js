@@ -24,7 +24,7 @@ class ModalEditRoles extends Component {
             <table className="table table-striped">
               <tbody>
                 <tr>
-                  <td> Codigo: </td>
+                  <td> Código: </td>
                   <td>
                     {" "}
                     <input type="text" className="form-control" />{" "}
@@ -35,6 +35,13 @@ class ModalEditRoles extends Component {
                   <td>
                     {" "}
                     <input type="text" className="form-control" />{" "}
+                  </td>
+                </tr>
+                <tr>
+                  <td> Descripción: </td>
+                  <td>
+                    {" "}
+                    <textarea className="form-control" />{" "}
                   </td>
                 </tr>
                 <tr>

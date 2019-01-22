@@ -58,6 +58,7 @@ class ModalViewTipoDocumental extends Component {
                 </tr>
                 <tr>
                   <td> Fecha de modificación </td>
+                  <td> </td>
                 </tr>
               </tbody>
             </table>

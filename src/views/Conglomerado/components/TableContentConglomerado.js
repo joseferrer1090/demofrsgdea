@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewConglomerado";
 import ModalDelete from "./ModalDeleteConglomerado";
 import ModalEdit from "./ModalEditConglomerado";
@@ -81,6 +81,24 @@ class TableContentConglomerado extends Component {
     );
   }
 
+  createButtonCustom = props => {
+    return (
+      <div className="btn-group btn-group-sm">
+        {props.exportCSVBtn}
+        &nbsp;
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            alert("desde el boton");
+          }}
+        >
+          {" "}
+          <i className="fa fa-pencil" /> Personalizar{" "}
+        </button>
+      </div>
+    );
+  };
+
   openModalView() {
     this.refs.child.toggle();
   }
@@ -94,6 +112,9 @@ class TableContentConglomerado extends Component {
   }
 
   render() {
+    const options = {
+      btnGroup: this.createButtonCustom
+    };
     return (
       <div className="animated fadeIn">
         <Row>
@@ -102,6 +123,7 @@ class TableContentConglomerado extends Component {
               <Row>
                 <Col md="12">
                   <BootstrapTable
+                    options={options}
                     data={data}
                     pagination={true}
                     search={true}

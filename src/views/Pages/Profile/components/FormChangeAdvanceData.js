@@ -8,8 +8,8 @@ class FormChangeAdvanceData extends Component {
   render() {
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col sm="10" md={{ offset: 1 }}>
+        <div className="row">
+          <div className="col-md-8 offset-md-2  ">
             <Card>
               <CardHeader> Datos adicionales</CardHeader>
               <CardBody>
@@ -42,8 +42,8 @@ class FormChangeAdvanceData extends Component {
                 </div>
               </CardBody>
             </Card>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </div>
     );
   }

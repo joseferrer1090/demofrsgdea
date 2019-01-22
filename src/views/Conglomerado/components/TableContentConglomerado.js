@@ -5,6 +5,7 @@ import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewConglomerado";
 import ModalDelete from "./ModalDeleteConglomerado";
 import ModalEdit from "./ModalEditConglomerado";
+import ModalCustom from "./../customcomponent/CustomModalTable";
 
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import "./../../../css/custom_table.css";
@@ -36,7 +37,8 @@ class TableContentConglomerado extends Component {
     this.state = {
       modalView: false,
       modalDelete: false,
-      modalEdit: false
+      modalEdit: false,
+      modalCustom: false
     };
   }
 
@@ -89,7 +91,7 @@ class TableContentConglomerado extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            alert("desde el boton");
+            this.openModalCustom();
           }}
         >
           {" "}
@@ -110,6 +112,10 @@ class TableContentConglomerado extends Component {
   openModalEdit() {
     this.refs.child3.toggle();
   }
+
+  openModalCustom = () => {
+    this.refs.child4.toggle();
+  };
 
   render() {
     const options = {
@@ -182,6 +188,7 @@ class TableContentConglomerado extends Component {
         <ModalView modalviewstate={this.state.modalView} ref="child" />
         <ModalDelete modaldeletestate={this.state.modalDelete} ref="child2" />
         <ModalEdit modaleditstate={this.state.modalEdit} ref="child3" />
+        <ModalCustom modalcustom={this.state.modalCustom} ref="child4" />
       </div>
     );
   }

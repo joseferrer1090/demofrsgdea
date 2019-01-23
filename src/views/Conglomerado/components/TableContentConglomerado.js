@@ -6,6 +6,7 @@ import ModalView from "./ModalViewConglomerado";
 import ModalDelete from "./ModalDeleteConglomerado";
 import ModalEdit from "./ModalEditConglomerado";
 import ModalCustom from "./../customcomponent/CustomModalTable";
+import ModalCustom2 from "./../customcomponent/CustomModalTable2";
 
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import "./../../../css/custom_table.css";
@@ -38,7 +39,8 @@ class TableContentConglomerado extends Component {
       modalView: false,
       modalDelete: false,
       modalEdit: false,
-      modalCustom: false
+      modalCustom: false,
+      modalCustom2: false
     };
   }
 
@@ -97,6 +99,16 @@ class TableContentConglomerado extends Component {
           {" "}
           <i className="fa fa-pencil" /> Personalizar{" "}
         </button>
+        &nbsp;
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalCustom2();
+          }}
+        >
+          {" "}
+          <i className="fa fa-pencil" /> Personalizar 2{" "}
+        </button>
       </div>
     );
   };
@@ -113,9 +125,16 @@ class TableContentConglomerado extends Component {
     this.refs.child3.toggle();
   }
 
+  // Esta son los modal de personalizacion
   openModalCustom = () => {
     this.refs.child4.toggle();
   };
+
+  openModalCustom2 = () => {
+    this.refs.child5.toggle();
+  };
+
+  //
 
   render() {
     const options = {
@@ -189,6 +208,7 @@ class TableContentConglomerado extends Component {
         <ModalDelete modaldeletestate={this.state.modalDelete} ref="child2" />
         <ModalEdit modaleditstate={this.state.modalEdit} ref="child3" />
         <ModalCustom modalcustom={this.state.modalCustom} ref="child4" />
+        <ModalCustom2 modalcustom2={this.state.modalCustom2} ref="child5" />
       </div>
     );
   }

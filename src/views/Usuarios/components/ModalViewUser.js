@@ -117,6 +117,7 @@ class ModalViewUser extends Component {
                     onClick={() => {
                       this.toggleCollapse();
                     }}
+                    style={{ cursor: "pointer" }}
                   >
                     {" "}
                     Datos laborales{" "}
@@ -179,6 +180,7 @@ class ModalViewUser extends Component {
                     onClick={() => {
                       this.toogleCollapse2();
                     }}
+                    style={{ cursor: "pointer" }}
                   >
                     {" "}
                     Datos de seguridad{" "}

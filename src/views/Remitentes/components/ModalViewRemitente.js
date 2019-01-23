@@ -107,7 +107,13 @@ class ModalViewRemitente extends Component {
                 <Card>
                   <CardHeader>
                     {" "}
-                    <a onClick={this.toggleCollapse}> Mas información </a>{" "}
+                    <a
+                      onClick={this.toggleCollapse}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {" "}
+                      Mas información{" "}
+                    </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapse}>
                     <CardBody>

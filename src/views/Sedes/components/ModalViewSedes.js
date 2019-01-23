@@ -61,7 +61,7 @@ class ModalViewSedes extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Código </dt>
-                        <dd> 1047425246 </dd>
+                        <dd> </dd>
                       </dl>
                     </div>
                   </div>
@@ -69,7 +69,7 @@ class ModalViewSedes extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Nombre </dt>
-                        <dd> 1047425246 </dd>
+                        <dd> </dd>
                       </dl>
                     </div>
                   </div>
@@ -77,7 +77,7 @@ class ModalViewSedes extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Descripción </dt>
-                        <dd> 1047425246 </dd>
+                        <dd> </dd>
                       </dl>
                     </div>
                   </div>
@@ -85,7 +85,7 @@ class ModalViewSedes extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Estado </dt>
-                        <dd> 1047425246 </dd>
+                        <dd> </dd>
                       </dl>
                     </div>
                   </div>
@@ -93,7 +93,7 @@ class ModalViewSedes extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Descripción </dt>
-                        <dd> 1047425246 </dd>
+                        <dd> </dd>
                       </dl>
                     </div>
                   </div>
@@ -101,13 +101,14 @@ class ModalViewSedes extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Telefono </dt>
-                        <dd> 1047425246 </dd>
+                        <dd> </dd>
                       </dl>
                     </div>
                   </div>
                 </div>
               </Col>
             </Row>
+            <br />
             <Row>
               <Col sm="12">
                 <Card>
@@ -130,7 +131,7 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Conglomerado </dt>
-                              <dd> 1047425246 </dd>
+                              <dd> </dd>
                             </dl>
                           </div>
                         </div>
@@ -138,7 +139,7 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Empresa </dt>
-                              <dd> 1047425246 </dd>
+                              <dd> </dd>
                             </dl>
                           </div>
                         </div>
@@ -146,7 +147,7 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Ciudad </dt>
-                              <dd> 1047425246 </dd>
+                              <dd> </dd>
                             </dl>
                           </div>
                         </div>
@@ -154,7 +155,7 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Dirección </dt>
-                              <dd> 1047425246 </dd>
+                              <dd> </dd>
                             </dl>
                           </div>
                         </div>
@@ -162,7 +163,7 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Secuencia de radicación </dt>
-                              <dd> 1047425246 </dd>
+                              <dd> </dd>
                             </dl>
                           </div>
                         </div>
@@ -170,7 +171,7 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Prefijo de radicación </dt>
-                              <dd> 1047425246 </dd>
+                              <dd> </dd>
                             </dl>
                           </div>
                         </div>
@@ -179,6 +180,7 @@ class ModalViewSedes extends Component {
                   </Collapse>
                 </Card>
               </Col>
+
               <Col sm="12">
                 <Card>
                   <CardHeader>
@@ -200,7 +202,7 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Cargo responsable </dt>
-                              <dd> 1047425246 </dd>
+                              <dd> </dd>
                             </dl>
                           </div>
                         </div>
@@ -208,7 +210,7 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt> Fecha de creación </dt>
-                              <dd> 1047425246 </dd>
+                              <dd> </dd>
                             </dl>
                           </div>
                         </div>
@@ -216,7 +218,7 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Fecha de modificación </dt>
-                              <dd> 1047425246 </dd>
+                              <dd> </dd>
                             </dl>
                           </div>
                         </div>

@@ -133,7 +133,6 @@ class TableContentConglomerado extends Component {
   openModalCustom2 = () => {
     this.refs.child5.toggle();
   };
-
   //
 
   render() {

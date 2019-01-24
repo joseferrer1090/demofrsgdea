@@ -135,7 +135,7 @@ class ModalEditDependencia extends Component {
                       </Col>
                       <Col sm="6">
                         <div className="form-group">
-                          <label> Cargo </label>
+                          <label> Cargo responsable </label>
                           <input type="text" className="form-control" />
                         </div>
                       </Col>

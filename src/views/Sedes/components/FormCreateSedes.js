@@ -224,7 +224,7 @@ class FormCreateSedes extends Component {
                     <Row>
                       <Col sm="12">
                         <div className="form-group">
-                          <label> Cargo </label>
+                          <label> Cargo responsable </label>
                           <Select
                             value={selectedOptionOptionRolResponsable}
                             onChange={this.handleChangeOptionRolResponsable}

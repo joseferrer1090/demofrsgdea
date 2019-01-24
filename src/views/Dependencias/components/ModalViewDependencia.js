@@ -125,8 +125,8 @@ class ModalViewDependencia extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Cargo </dt>
-                              <dd>cargo </dd>
+                              <dt>Cargo responsable </dt>
+                              <dd>cargo responsable </dd>
                             </dl>
                           </div>
                         </div>

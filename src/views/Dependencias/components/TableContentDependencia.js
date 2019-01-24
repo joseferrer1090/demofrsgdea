@@ -134,7 +134,7 @@ class TableContentDependencia extends Component {
             <TableHeaderColumn dataField={"nombre"}>Nombre</TableHeaderColumn>
             <TableHeaderColumn dataField={"rol_responsable"}>
               {" "}
-              Rol respondable{" "}
+              Cargo respondable{" "}
             </TableHeaderColumn>
             <TableHeaderColumn dataField={"sede"}> Sede </TableHeaderColumn>
             <TableHeaderColumn dataField={"estado"}>Estado</TableHeaderColumn>

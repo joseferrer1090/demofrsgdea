@@ -102,7 +102,7 @@ class FromCreateDependencia extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label> Cargo </label>
+                          <label> Cargo responsable </label>
                           <select className="form-control">
                             {" "}
                             <option> Seleccione... </option>{" "}

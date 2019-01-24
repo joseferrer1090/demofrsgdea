@@ -10,8 +10,12 @@ import {
   Label,
   Input,
   CardText,
-  CardTitle
+  CardTitle,
+  Badge
 } from "reactstrap";
+
+import ListPermission from "./PermissionList";
+import data from "./../../../data/data";
 
 class FormCreateRoles extends Component {
   constructor(props) {
@@ -20,6 +24,7 @@ class FormCreateRoles extends Component {
   }
 
   render() {
+    console.log(data);
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -100,7 +105,14 @@ class FormCreateRoles extends Component {
                             </Col>
                             <Col sm="12">
                               <Card body>
-                                <p> tener en cuenta la funcion </p>
+                                <div className="row">
+                                  <ListPermission />
+                                </div>
+                              </Card>
+                            </Col>
+                            <Col sm="12">
+                              <Card body>
+                                <p> Permisos disponibles </p>
                               </Card>
                             </Col>
                           </Row>

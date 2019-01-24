@@ -14,7 +14,6 @@ import {
   Badge
 } from "reactstrap";
 
-import ListPermission from "./PermissionList";
 import data from "./../../../data/data";
 
 class FormCreateRoles extends Component {
@@ -105,9 +104,7 @@ class FormCreateRoles extends Component {
                             </Col>
                             <Col sm="12">
                               <Card body>
-                                <div className="row">
-                                  <ListPermission />
-                                </div>
+                                <div className="row" />
                               </Card>
                             </Col>
                             <Col sm="12">

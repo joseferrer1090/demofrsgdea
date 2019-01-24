@@ -14,16 +14,37 @@ import {
   Badge
 } from "reactstrap";
 
-import data from "./../../../data/data";
+import PermissionList from "./../componentsPermission/PermissionList";
+import data from "./../../../data/data.json";
 
 class FormCreateRoles extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      favPermission: []
+    };
+  }
+
+  addPermission(id) {
+    const newSet = this.state.favPermission.concat([id]);
+    this.setState({
+      favPermission: newSet
+    });
+  }
+
+  deletePermission(id) {
+    const { favPermission } = this.state;
+    const newList = [
+      ...favPermission.slice(0, id),
+      ...favPermission.slice(id + 1)
+    ];
+    this.setState({
+      favPermission: newList
+    });
   }
 
   render() {
-    console.log(data);
+    const { data } = this.state;
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -102,16 +123,23 @@ class FormCreateRoles extends Component {
                                 </select>
                               </div>
                             </Col>
+                            {/*  Aqui va la funcionalidad    */}
+
                             <Col sm="12">
-                              <Card body>
-                                <div className="row" />
-                              </Card>
+                              <PermissionList
+                                favourites={this.state.favourites}
+                                addPermssionAssigned={this.addPermission.bind(
+                                  this
+                                )}
+                              />
                             </Col>
                             <Col sm="12">
                               <Card body>
-                                <p> Permisos disponibles </p>
+                                <p> otra lista </p>
                               </Card>
                             </Col>
+
+                            {/*  Fin   */}
                           </Row>
                         </Card>
                       </Col>

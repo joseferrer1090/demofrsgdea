@@ -1,17 +1,22 @@
 import React from "react";
-import Permission from "./Permission";
+import Permiso from "./Permission";
+import data from "./../../../data/data.json";
+import { Card } from "reactstrap";
 
-export default ({ data, addPermssionAssigned, permissions }) => {
-  const permissions = data.map((permi, id) => {
+const PermissionList = () => {
+  const permisos = data.map((p, i) => {
     return (
-      <Permission
-        id={permi.id}
-        info={permi.display_name}
-        name={permi.name}
-        handleAddPermission={id => addPermssionAssigned(id)}
-      />
+      <div key={i}>
+        <span className="badge badge-secondary"> {p.display_name} </span>
+      </div>
     );
   });
 
-  return <ul>{permissions}</ul>;
+  return (
+    <div>
+      <Card>{permisos}</Card>
+    </div>
+  );
 };
+
+export default PermissionList;

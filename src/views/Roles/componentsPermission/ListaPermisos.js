@@ -1,20 +1,16 @@
 import React from "react";
 import Permiso from "./Permiso";
 
-export default ({ data, permiso, addPermiso }) => {
-  const auxilar = data.map((permiso, i) => {
+export default ({ data, filter, favourites, addFavourite }) => {
+  const names = data.map((person, i) => {
     return (
       <Permiso
-        id={permiso.id}
+        id={person.id}
         key={i}
-        name={permiso.name}
-        display_name={permiso.display_name}
-        handleAssignedPermiso={id => {
-          addPermiso(id);
-        }}
+        info={person}
+        handleFavourite={id => addFavourite(id)}
       />
     );
   });
-
-  return <ul>{auxilar}</ul>;
+  return <ul>{names}</ul>;
 };

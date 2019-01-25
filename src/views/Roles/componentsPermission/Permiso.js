@@ -1,7 +1,5 @@
 import React from "react";
 
-export default ({ id, name, display_name, handleAssignedPermiso }) => (
-  <li className="" onClick={() => handleAssignedPermiso(id)}>
-    {display_name}
-  </li>
+export default ({ id, info, handleFavourite }) => (
+  <li onClick={() => handleFavourite(id)}> {info.display_name}</li>
 );

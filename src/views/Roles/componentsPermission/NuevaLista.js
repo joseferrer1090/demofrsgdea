@@ -1,19 +1,26 @@
 import React from "react";
+
 import Permiso from "./Permiso";
 
-export default ({ data, addPermiso }) => {
-  const auxiliar = data.map((permiso, i) => {
+export default ({ favourites, data, deleteFavourite }) => {
+  const hasFavourites = favourites.length > 0;
+  const favList = favourites.map((fav, i) => {
     return (
       <Permiso
-        id={permiso.id}
+        id={i}
         key={i}
-        name={permiso.name}
-        display_name={permiso.display_name}
-        handleAssignedPermiso={id => {
-          addPermiso(id);
-        }}
+        info={data[fav]}
+        handleFavourite={id => deleteFavourite(id)}
       />
     );
   });
-  return <ul>{auxiliar}</ul>;
+  return (
+    <div className="favourites">
+      <h4>
+        {hasFavourites ? "Your Shortlist" : "Click on a name to shortlist it.."}
+      </h4>
+      <ul>{favList}</ul>
+      {hasFavourites && <hr />}
+    </div>
+  );
 };

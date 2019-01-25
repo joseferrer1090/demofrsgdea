@@ -127,11 +127,12 @@ class FormCreateRoles extends Component {
                             </Col>
                             {/*  Aqui va la funcionalidad    */}
                             <div className="row">
+                              <div className="col-md-12" />
                               <div className="col-md-12">
                                 <ListaPermisos
                                   data={data}
-                                  permiso={this.state.dataPermisos}
-                                  addPermiso={this.addPermiso.bind(this)}
+                                  favourites={this.state.dataPermisos}
+                                  addFavourite={this.addPermiso.bind(this)}
                                 />
                               </div>
                             </div>

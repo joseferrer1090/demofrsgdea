@@ -14,37 +14,39 @@ import {
   Badge
 } from "reactstrap";
 
-import PermissionList from "./../componentsPermission/PermissionList";
+import ListaPermisos from "./../componentsPermission/ListaPermisos";
+import NuevaLista from "./../componentsPermission/NuevaLista";
 import data from "./../../../data/data.json";
 
 class FormCreateRoles extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      favPermission: []
+      dataPermisos: [],
+      data: data
     };
   }
 
-  addPermission(id) {
-    const newSet = this.state.favPermission.concat([id]);
+  addPermiso(id) {
+    const newSet = this.state.dataPermisos.concat([id]);
     this.setState({
-      favPermission: newSet
+      dataPermisos: newSet
     });
   }
 
-  deletePermission(id) {
-    const { favPermission } = this.state;
+  deletePermiso(id) {
+    const { dataPermisos } = this.state;
     const newList = [
-      ...favPermission.slice(0, id),
-      ...favPermission.slice(id + 1)
+      ...dataPermisos.slice(0, id),
+      ...dataPermisos.slice(id + 1)
     ];
     this.setState({
-      favPermission: newList
+      dataPermisos: newList
     });
   }
 
   render() {
-    const { data } = this.state;
+    console.log(data);
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -124,21 +126,15 @@ class FormCreateRoles extends Component {
                               </div>
                             </Col>
                             {/*  Aqui va la funcionalidad    */}
-
-                            <Col sm="12">
-                              <PermissionList
-                                favourites={this.state.favourites}
-                                addPermssionAssigned={this.addPermission.bind(
-                                  this
-                                )}
-                              />
-                            </Col>
-                            <Col sm="12">
-                              <Card body>
-                                <p> otra lista </p>
-                              </Card>
-                            </Col>
-
+                            <div className="row">
+                              <div className="col-md-12">
+                                <ListaPermisos
+                                  data={data}
+                                  permiso={this.state.dataPermisos}
+                                  addPermiso={this.addPermiso.bind(this)}
+                                />
+                              </div>
+                            </div>
                             {/*  Fin   */}
                           </Row>
                         </Card>

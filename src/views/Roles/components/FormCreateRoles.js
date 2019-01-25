@@ -16,7 +16,7 @@ import {
 
 import ListaPermisos from "./../componentsPermission/ListaPermisos";
 import NuevaLista from "./../componentsPermission/NuevaLista";
-import data from "./../../../data/data.json";
+import data from "./../../../data/data";
 
 class FormCreateRoles extends Component {
   constructor(props) {
@@ -27,8 +27,8 @@ class FormCreateRoles extends Component {
     };
   }
 
-  addPermiso(id) {
-    const newSet = this.state.dataPermisos.concat([id]);
+  addPermiso(display_name) {
+    const newSet = this.state.dataPermisos.concat([display_name]);
     this.setState({
       dataPermisos: newSet
     });
@@ -46,7 +46,8 @@ class FormCreateRoles extends Component {
   }
 
   render() {
-    console.log(data);
+    console.log(data.slice(0));
+    console.log(this.state.dataPermisos);
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -127,6 +128,9 @@ class FormCreateRoles extends Component {
                             </Col>
                             {/*  Aqui va la funcionalidad    */}
                             <div className="row">
+                              <div className="col-md-12">
+                                <input className="form-control" type="text" />
+                              </div>
                               <div className="col-md-6">
                                 <ListaPermisos
                                   data={data}

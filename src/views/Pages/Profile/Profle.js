@@ -50,19 +50,19 @@ class Profle extends Component {
               </div>
               <ul className="list-group">
                 <li className="list-group-item d-flex justify-content-between align-items-center">
-                  Cras justo odio
+                  Gestionar usuarios
                   <span className="badge badge-success badge-pill">
                     activado
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
-                  Dapibus ac facilisis in
+                  Gestion tipo documental radicación
                   <span className="badge badge-success badge-pill">
                     activado
                   </span>
                 </li>
                 <li className="list-group-item d-flex justify-content-between align-items-center">
-                  Morbi leo risus
+                  Gestion radicación
                   <span className="badge badge-success badge-pill">
                     activado
                   </span>

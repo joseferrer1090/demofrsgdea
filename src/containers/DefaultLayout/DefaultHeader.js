@@ -51,8 +51,8 @@ class DefaultHeader extends Component {
           }}
           minimized={{
             src: this.state.logoMin,
-            width: 30,
-            height: 30,
+            width: 40,
+            height: 40,
             alt: "Logo Lexco"
           }}
         />

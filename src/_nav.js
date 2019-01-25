@@ -6,6 +6,11 @@ export default {
       icon: "icon-settings",
       children: [
         {
+          name: "Inicio",
+          icon: "icon-home",
+          url: "/configuracion"
+        },
+        {
           name: "Conglomerado",
           icon: "icon-settings",
           url: "/configuracion/conglomerado"

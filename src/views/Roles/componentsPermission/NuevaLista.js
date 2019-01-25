@@ -17,7 +17,9 @@ export default ({ favourites, data, deleteFavourite }) => {
   return (
     <div className="favourites">
       <h4>
-        {hasFavourites ? "Your Shortlist" : "Click on a name to shortlist it.."}
+        {hasFavourites
+          ? "Permisos asignados"
+          : "Haga clic en un permiso para agregarlos."}
       </h4>
       <ul>{favList}</ul>
       {hasFavourites && <hr />}

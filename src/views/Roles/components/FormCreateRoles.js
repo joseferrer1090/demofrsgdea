@@ -14,6 +14,7 @@ import {
   Badge
 } from "reactstrap";
 
+import SearchPermisos from "./../componentsPermission/BuscadorPermisos";
 import ListaPermisos from "./../componentsPermission/ListaPermisos";
 import NuevaLista from "./../componentsPermission/NuevaLista";
 import data from "./../../../data/data";
@@ -23,8 +24,15 @@ class FormCreateRoles extends Component {
     super(props);
     this.state = {
       dataPermisos: [],
-      data: data
+      data: data,
+      filterText: ""
     };
+  }
+
+  filterUpdate(value) {
+    this.setState({
+      filterText: value
+    });
   }
 
   addPermiso(display_name) {
@@ -127,10 +135,14 @@ class FormCreateRoles extends Component {
                               </div>
                             </Col>
                             {/*  Aqui va la funcionalidad    */}
+                            <div className="col-md-12">
+                              <SearchPermisos
+                                filterVal={this.state.filterText}
+                                filterUpdate={this.filterUpdate.bind(this)}
+                              />
+                            </div>
+
                             <div className="row">
-                              <div className="col-md-12">
-                                <input className="form-control" type="text" />
-                              </div>
                               <div className="col-md-6">
                                 <ListaPermisos
                                   data={data}

@@ -16,7 +16,12 @@ class FormUpdateData extends Component {
                 <Col sm="6">
                   <div className="form-group">
                     <label> Identificación </label>
-                    <p> Dato </p>
+                    <input
+                      type="text"
+                      className="form-control"
+                      disabled
+                      placeholder="identificación"
+                    />
                   </div>
                 </Col>
                 <Col sm="6">
@@ -52,13 +57,23 @@ class FormUpdateData extends Component {
                 <Col sm="6">
                   <div className="form-group">
                     <label> Email </label>
-                    <p> Dato </p>
+                    <input
+                      type="text"
+                      className="form-control"
+                      disabled
+                      placeholder="email"
+                    />
                   </div>
                 </Col>
                 <Col sm="6">
                   <div className="form-group">
                     <label> Usuario </label>
-                    <p> Dato </p>
+                    <input
+                      type="text"
+                      className="form-control"
+                      disabled
+                      placeholder="usuario"
+                    />
                   </div>
                 </Col>
               </Row>

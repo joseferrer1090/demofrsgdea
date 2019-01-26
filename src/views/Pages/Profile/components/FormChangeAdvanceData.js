@@ -13,8 +13,8 @@ class FormChangeAdvanceData extends Component {
             <Card>
               <CardHeader> Datos adicionales</CardHeader>
               <CardBody>
-                <div className="">
-                  <table className="table">
+                <div className="table-responsive">
+                  <table className="table table-striped">
                     <tbody>
                       <tr>
                         <td> Sede: </td>
@@ -32,7 +32,6 @@ class FormChangeAdvanceData extends Component {
                         <td>Roles:</td>
                         <td> </td>
                       </tr>
-                      <tr />
                       <tr>
                         <td>Permisos:</td>
                         <td> </td>

@@ -69,7 +69,13 @@ class ModalEditEmpresa extends Component {
                         </dt>
                         <dd>
                           {" "}
-                          <input type="text" className="form-control" />
+                          <Select
+                            onChange={
+                              this.handleChangeSelectedOptionUpdateConglomerado
+                            }
+                            value={this.selectedOptionUpdateConglomerado}
+                            options={dataConglomeradoExample}
+                          />
                         </dd>
                       </dl>
                     </div>
@@ -144,7 +150,10 @@ class ModalEditEmpresa extends Component {
                             {" "}
                             Estado <span className="text-danger">*</span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <select className="form-control">
+                            {" "}
+                            <option> Seleccione... </option>{" "}
+                          </select>
                         </div>
                       </div>
                     </div>

@@ -10,38 +10,44 @@ import "./../../../css/custom_table.css";
 const dataExample = [
   {
     id: 1,
+    pais: "pais_nombre",
     departamento: "departamento_name",
-    nombre: "Colombia1",
+    nombre: "Ciudad_nombre",
     estado: true
   },
   {
     id: 2,
+    pais: "pais_nombre",
     departamento: "departamento_name",
-    nombre: "Colombia2",
+    nombre: "Ciudad_nombre",
     estado: true
   },
   {
     id: 3,
+    pais: "pais_nombre",
     departamento: "departamento_name",
-    nombre: "Colombia3",
+    nombre: "Ciudad_nombre",
     estado: true
   },
   {
     id: 4,
+    pais: "pais_nombre",
     departamento: "departamento_name",
-    nombre: "Colombia4",
+    nombre: "Ciudad_nombre",
     estado: true
   },
   {
     id: 5,
+    pais: "pais_nombre",
     departamento: "departamento_name",
-    nombre: "Colombia5",
+    nombre: "Ciudad_nombre",
     estado: true
   },
   {
     id: 6,
+    pais: "pais_nombre",
     departamento: "departamento_name",
-    nombre: "Colombia6",
+    nombre: "Ciudad_nombre",
     estado: true
   }
 ];
@@ -60,7 +66,7 @@ class TableContentCiudad extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "85px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -125,6 +131,11 @@ class TableContentCiudad extends Component {
             <TableHeaderColumn isKey dataField="id" width="50">
               #
             </TableHeaderColumn>
+            <TableHeaderColumn dataField="pais" dataAlign="center">
+              {" "}
+              País{" "}
+            </TableHeaderColumn>
+
             <TableHeaderColumn dataField="departamento" dataAlign="center">
               {" "}
               Departamento{" "}

@@ -9,6 +9,8 @@ import {
   Col
 } from "reactstrap";
 
+import IMGPAIS from "./../../../assets/img/flag.svg";
+
 class ModalViewPais extends Component {
   constructor(props) {
     super(props);
@@ -24,39 +26,63 @@ class ModalViewPais extends Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal}>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Ver país </ModalHeader>
           <ModalBody>
             <Row>
-              <Col sm="12">
-                <form className="form">
-                  <div className="table-responsive">
-                    <table className="table table-hover table-striped">
-                      <tbody>
-                        <tr>
-                          <td> Código: </td>
-                          <td> </td>
-                        </tr>
-                        <tr>
-                          <td> Nombre: </td>
-                          <td> </td>
-                        </tr>
-                        <tr>
-                          <td> Estado: </td>
-                          <td> </td>
-                        </tr>
-                        <tr>
-                          <td> Fecha de creación: </td>
-                          <td> </td>
-                        </tr>
-                        <tr>
-                          <td> Fecha de modificación: </td>
-                          <td> </td>
-                        </tr>
-                      </tbody>
-                    </table>
+              <Col sm="3">
+                <img src={IMGPAIS} className="img-thumbnail" />
+              </Col>
+              <Col sm="9">
+                <div className="">
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    Datos{" "}
+                  </h5>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> Código </dt>
+                        <dd> código </dd>
+                      </dl>
+                    </div>
                   </div>
-                </form>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> Nombre </dt>
+                        <dd> nombre </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> Estado </dt>
+                        <dd> estado </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> Fecha de creación </dt>
+                        <dd> fecha de creación </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> Fecha de modificación </dt>
+                        <dd> fecha de modificación </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
               </Col>
             </Row>
           </ModalBody>

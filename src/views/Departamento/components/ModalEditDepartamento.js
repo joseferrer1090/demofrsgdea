@@ -9,6 +9,8 @@ import {
   Col
 } from "reactstrap";
 
+import IMGDEPARTAMENTO from "./../../../assets/img/map-marker.svg";
+
 class ModalEditDepartamento extends Component {
   constructor(props) {
     super(props);
@@ -24,60 +26,53 @@ class ModalEditDepartamento extends Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal}>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar departamento </ModalHeader>
           <ModalBody>
             <Row>
-              <Col sm="12">
-                <form className="form">
-                  <div className="table-responsive">
-                    <table className="table table-hover table-striped">
-                      <tbody>
-                        <tr>
-                          <td> Código: </td>
-                          <td>
-                            {" "}
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder=""
-                            />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Pais: </td>
-                          <td>
-                            {" "}
-                            <select className="form-control">
-                              <option> Seleccione </option>
-                            </select>{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Nombre: </td>
-                          <td>
-                            {" "}
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder=""
-                            />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Estado: </td>
-                          <td>
-                            {" "}
-                            <select className="form-control">
-                              <option> Activo </option>
-                              <option> Inactivo </option>
-                            </select>{" "}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+              <Col sm="3">
+                <img src={IMGDEPARTAMENTO} className="img-thumbnail" />
+              </Col>
+              <Col sm="9">
+                <div className="">
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    Datos{" "}
+                  </h5>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label> Código </label>
+                      <input type="text" className="form-control" />
+                    </div>
                   </div>
-                </form>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label> País </label>
+                      <select className="form-control">
+                        {" "}
+                        <option> Seleccione... </option>{" "}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label> Nombre </label>
+                      <input type="text" className="form-control" />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label> Estado </label>
+                      <select className="form-control">
+                        {" "}
+                        <option> Seleccione... </option>{" "}
+                      </select>
+                    </div>
+                  </div>
+                </div>
               </Col>
             </Row>
           </ModalBody>

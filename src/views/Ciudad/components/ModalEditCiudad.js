@@ -9,6 +9,8 @@ import {
   Col
 } from "reactstrap";
 
+import IMGCITY from "./../../../assets/img/skyline.svg";
+
 class ModalEditCiudad extends Component {
   constructor(props) {
     super(props);
@@ -24,56 +26,87 @@ class ModalEditCiudad extends Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal}>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar ciudad </ModalHeader>
           <ModalBody>
             <Row>
-              <Col sm="12">
-                <form className="form">
-                  <div className="table-responsive">
-                    <table className="table table-hover table-striped">
-                      <tbody>
-                        <tr>
-                          <td> Código: </td>
-                          <td>
-                            {" "}
-                            <input type="text" className="form-control" />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Departamento: </td>
-                          <td>
-                            {" "}
-                            <select className="form-control">
-                              <option>Seleccione</option>
-                            </select>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Nombre: </td>
-                          <td>
-                            {" "}
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder=""
-                            />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Estado: </td>
-                          <td>
-                            {" "}
-                            <select className="form-control">
-                              <option> Activo </option>
-                              <option> Inactivo </option>
-                            </select>{" "}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+              <Col sm="3">
+                <img src={IMGCITY} className="img-thumbnail" />
+              </Col>
+              <Col sm="9">
+                <div className="">
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    Datos{" "}
+                  </h5>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Código </dt>
+                        <dd>
+                          {" "}
+                          <input type="text" className="form-control" />
+                        </dd>
+                      </dl>
+                    </div>
                   </div>
-                </form>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Departamento </dt>
+                        <dd>
+                          {" "}
+                          <select className="form-control">
+                            {" "}
+                            <option> Seleccione... </option>{" "}
+                          </select>{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> Nombre </dt>
+                        <dd>
+                          {" "}
+                          <input type="text" className="form-control" />{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> Estado </dt>
+                        <dd>
+                          {" "}
+                          <select className="form-control">
+                            {" "}
+                            <option> Seleccione... </option>{" "}
+                          </select>{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>País </dt>
+                        <dd>
+                          {" "}
+                          <select className="form-control">
+                            {" "}
+                            <option> Seleccione... </option>{" "}
+                          </select>{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
               </Col>
             </Row>
           </ModalBody>

@@ -9,6 +9,8 @@ import {
   Col
 } from "reactstrap";
 
+import IMGDEPARTAMENTO from "./../../../assets/img/map-marker.svg";
+
 class ModalViewDepartamento extends Component {
   constructor(props) {
     super(props);
@@ -24,43 +26,53 @@ class ModalViewDepartamento extends Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal}>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Ver departamento </ModalHeader>
           <ModalBody>
             <Row>
-              <Col sm="12">
-                <form className="form">
-                  <div className="table-responsive">
-                    <table className="table table-hover table-striped">
-                      <tbody>
-                        <tr>
-                          <td> Código: </td>
-                          <td> </td>
-                        </tr>
-                        <tr>
-                          <td> Nombre de país: </td>
-                          <td> </td>
-                        </tr>
-                        <tr>
-                          <td> Nombre: </td>
-                          <td> </td>
-                        </tr>
-                        <tr>
-                          <td> Estado: </td>
-                          <td> </td>
-                        </tr>
-                        <tr>
-                          <td> Fecha de creación: </td>
-                          <td> </td>
-                        </tr>
-                        <tr>
-                          <td> Fecha de modificación: </td>
-                          <td> </td>
-                        </tr>
-                      </tbody>
-                    </table>
+              <Col sm="3">
+                <img src={IMGDEPARTAMENTO} className="img-thumbnail" />
+              </Col>
+              <Col sm="9">
+                <div className="">
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    Datos{" "}
+                  </h5>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt> Código </dt>
+                      <dd> codigo </dd>
+                    </dl>
                   </div>
-                </form>
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt> Nombre del país </dt>
+                      <dd> nombre del país </dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt> Estado </dt>
+                      <dd> estado </dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt> Fecha de creación </dt>
+                      <dd> fecha de creación </dd>
+                    </dl>
+                  </div>
+                  <div className="col-md-6">
+                    <dl className="param">
+                      <dt> Fecha de modificacíoon </dt>
+                      <dd> fecha de modificacíoon </dd>
+                    </dl>
+                  </div>
+                </div>
               </Col>
             </Row>
           </ModalBody>

@@ -9,6 +9,8 @@ import {
   Col
 } from "reactstrap";
 
+import IMGCOUNTRY from "./../../../assets/img/flag.svg";
+
 class ModalEditPais extends Component {
   constructor(props) {
     super(props);
@@ -24,50 +26,53 @@ class ModalEditPais extends Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal}>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar país </ModalHeader>
           <ModalBody>
             <Row>
-              <Col sm="12">
+              <Col sm="3">
+                <img src={IMGCOUNTRY} className="img-thumbnail" />
+              </Col>
+              <Col sm="9">
+                <div className="">
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    Datos{" "}
+                  </h5>{" "}
+                </div>
                 <form className="form">
-                  <div className="table-responsive">
-                    <table className="table table-hover table-striped">
-                      <tbody>
-                        <tr>
-                          <td> Código: </td>
-                          <td>
-                            {" "}
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder=""
-                            />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Nombre: </td>
-                          <td>
-                            {" "}
-                            <input
-                              type="text"
-                              className="form-control"
-                              placeholder=""
-                            />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> Estado: </td>
-                          <td>
-                            {" "}
-                            <select className="form-control">
-                              <option> Activo </option>
-                              <option> Inactivo </option>
-                            </select>{" "}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <label>
+                        {" "}
+                        Código <span className="text-danger">*</span>
+                      </label>
+                      <input type="text" className="form-control" />
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          Nombre <span className="text-danger">*</span>{" "}
+                        </label>
+                        <input type="text" className="form-control" />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          Estado <span className="text-danger">*</span>{" "}
+                        </label>
+                        <select className="form-control">
+                          {" "}
+                          <option> Seleccione... </option>{" "}
+                        </select>
+                      </div>
+                    </div>
                   </div>
+                  .
                 </form>
               </Col>
             </Row>

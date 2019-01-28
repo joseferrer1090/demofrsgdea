@@ -1,6 +1,16 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Card,
+  CardHeader,
+  CardFooter,
+  CardBody
+} from "reactstrap";
 import PropTypes from "prop-types";
+import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
 
 class ModalEditConglomerado extends Component {
   constructor(props) {
@@ -19,50 +29,49 @@ class ModalEditConglomerado extends Component {
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal}>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar conglomerado </ModalHeader>
           <ModalBody>
-            <form className="form">
-              <div className="table-responsive">
-                <table className="table table-striped">
-                  <tbody>
-                    <tr>
-                      <td>Código</td>
-                      <td>
-                        {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder=""
-                        />{" "}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Nombre</td>
-                      <td>
-                        {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder=""
-                        />{" "}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Descripción</td>
-                      <td>
-                        {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder=""
-                        />{" "}
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+            <div className="row">
+              <div className="col-md-3">
+                <img src={IMGCONGLOMERADO} className="img-thumbnail" />
               </div>
-            </form>
+              <div className="col-md-9">
+                <div className="">
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    Datos{" "}
+                  </h5>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Código <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input type="text" className="form-control" />
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Nombre <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input type="text" className="form-control" />
+                    </div>
+                  </div>
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label> Descripción </label>
+                      <textarea className="form-control" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </ModalBody>
           <ModalFooter>
             <button type="button" className="btn btn-outline-success">

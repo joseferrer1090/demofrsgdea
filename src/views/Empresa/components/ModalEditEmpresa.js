@@ -6,8 +6,15 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  Card,
+  CardBody,
+  CardHeader,
+  CardFooter
 } from "reactstrap";
+
+import IMGEMPRESA from "./../../../assets/img/company.svg";
+
 import Select from "react-select";
 
 const dataConglomeradoExample = [
@@ -38,79 +45,113 @@ class ModalEditEmpresa extends Component {
     const { selectedOptionUpdateConglomerado } = this.state;
     return (
       <div>
-        <Modal isOpen={this.state.modal}>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar empresa </ModalHeader>
           <ModalBody>
-            <form className="form">
-              <div className="table-responsive">
-                <table className="table table-striped">
-                  <tbody>
-                    <tr>
-                      <td>Código</td>
-                      <td>
-                        {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder=""
-                        />{" "}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td> NIT </td>
-                      <td>
-                        {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder=""
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Nombre</td>
-                      <td>
-                        {" "}
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          placeholder=""
-                        />{" "}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Conglomerado</td>
-                      <td>
-                        {" "}
-                        <Select
-                          onChange={
-                            this.handleChangeSelectedOptionUpdateConglomerado
-                          }
-                          value={selectedOptionUpdateConglomerado}
-                          options={dataConglomeradoExample}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <td> Descripción: </td>
-                      <td>
-                        {" "}
-                        <textarea className="form-control" />{" "}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td> Estado </td>
-                      <td>
-                        <select className="form-control">
-                          <option> Activa </option>
-                          <option> Desactivo </option>
-                        </select>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </form>
+            <Row>
+              <Col sm="3">
+                <img src={IMGEMPRESA} className="img-thumbnail" />
+              </Col>
+              <Col sm="9">
+                <div className="">
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    Datos{" "}
+                  </h5>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>
+                          Conglomerado <span className="text-danger">*</span>{" "}
+                        </dt>
+                        <dd>
+                          {" "}
+                          <input type="text" className="form-control" />
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>
+                          Código <span className="text-danger">*</span>{" "}
+                        </dt>
+                        <dd>
+                          <input type="text" className="form-control" />
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>
+                          NIT <span className="text-danger">*</span>{" "}
+                        </dt>
+                        <dd>
+                          {" "}
+                          <input type="text" className="form-control" />{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>
+                          Nombre<span className="text-danger">*</span>{" "}
+                        </dt>
+                        <dd>
+                          {" "}
+                          <input type="text" className="form-control" />{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+            <br />
+            <Row>
+              <Col sm="12">
+                <Card>
+                  <CardHeader> Mas informacion </CardHeader>
+                  <CardBody>
+                    <div className="row">
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <label> Descripción </label>
+                          <input type="text" className="form-control" />
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Cargo responsable{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input type="text" className="form-control" />
+                        </div>
+                      </div>
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Estado <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input type="text" className="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
           </ModalBody>
           <ModalFooter>
             <button className="btn btn-outline-success">

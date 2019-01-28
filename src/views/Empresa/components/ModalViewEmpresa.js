@@ -1,12 +1,26 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Row,
+  Col,
+  Collapse,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader
+} from "reactstrap";
+import IMGCOMPANY from "./../../../assets/img/company.svg";
 
 class ModalViewEmpresa extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalviewempresa
+      modal: this.props.modalviewempresa,
+      collapase: false
     };
   }
 
@@ -16,50 +30,115 @@ class ModalViewEmpresa extends Component {
     });
   };
 
+  toggleCollapse = () => {
+    this.setState({
+      collapase: !this.state.collapase
+    });
+  };
+
   render() {
     return (
       <div>
-        <Modal isOpen={this.state.modal}>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Ver empresa </ModalHeader>
           <ModalBody>
-            <div className="table-responsive">
-              <table className="table table-striped">
-                <tbody>
-                  <tr>
-                    <td>Conglomerado:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Código:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Nombre:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td> Descripcion: </td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td> Estado: </td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td> Cargo responsable: </td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Fecha de creación:</td>
-                    <td> </td>
-                  </tr>
-                  <tr>
-                    <td>Fecha de modificación:</td>
-                    <td> </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+            <Row>
+              <Col sm="3">
+                <img src={IMGCOMPANY} className="img-thumbnail" />
+              </Col>
+              <Col sm="9">
+                <div className="">
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    Datos{" "}
+                  </h5>{" "}
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Conglomerado </dt>
+                        <dd>conglomerado </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Código </dt>
+                        <dd> codigo </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Descripción </dt>
+                        <dd> descripción </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Estado </dt>
+                        <dd> estado </dd>
+                      </dl>
+                    </div>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+            <br />
+            <Row>
+              <Col sm="12">
+                <Card>
+                  <CardHeader>
+                    {" "}
+                    <a
+                      onClick={() => {
+                        this.toggleCollapse();
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {" "}
+                      + mas información{" "}
+                    </a>{" "}
+                  </CardHeader>
+                  <Collapse isOpen={this.state.collapase}>
+                    <CardBody>
+                      <div className="row">
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <dl className="param">
+                              <dt>Cargo responsable </dt>
+                              <dd> cargo responsable </dd>
+                            </dl>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <dl className="param">
+                              <dt> Fecha de creación </dt>
+                              <dd> fecha de creación </dd>
+                            </dl>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <dl className="param">
+                              <dt> Fecha de modificación </dt>
+                              <dd> fecha de modificación </dd>
+                            </dl>
+                          </div>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Collapse>
+                </Card>
+              </Col>
+            </Row>
           </ModalBody>
           <ModalFooter>
             <button

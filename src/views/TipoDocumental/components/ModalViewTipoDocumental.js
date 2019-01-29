@@ -1,12 +1,26 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Row,
+  Col,
+  Collapse,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter
+} from "reactstrap";
 import PropTypes from "prop-types";
+import IMGTIPODOCUMENTAL from "./../../../assets/img/list-document-interface-symbol.svg";
 
 class ModalViewTipoDocumental extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalview
+      modal: this.props.modalview,
+      collapse: false
     };
   }
 
@@ -16,53 +30,132 @@ class ModalViewTipoDocumental extends Component {
     });
   };
 
+  toggleCollapse = () => {
+    this.setState({
+      collapse: !this.state.collapse
+    });
+  };
+
   render() {
     return (
-      <Modal isOpen={this.state.modal}>
+      <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader> Ver tipo documental </ModalHeader>
         <ModalBody>
-          <div className="table-responsive">
-            <table className="table table-striped">
-              <tbody>
-                <tr>
-                  <td> Código </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Nombre </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Dependencia </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Horas de respuestas </td>
-                  <td />
-                </tr>
-                <tr>
-                  <td> Indices documentales </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Descripción </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Estado </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Fecha de creación </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Fecha de modificación </td>
-                  <td> </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <Row>
+            <Col sm="3">
+              <img
+                src={IMGTIPODOCUMENTAL}
+                className="img-thumbnail"
+                width="170"
+              />
+            </Col>
+            <Col sm="9">
+              <div className="">
+                {" "}
+                <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                  {" "}
+                  Datos{" "}
+                </h5>{" "}
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Código </dt>
+                      <dd> código </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Nombre </dt>
+                      <dd> nombre </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Dependencia </dt>
+                      <dd> dependencia </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Tiempo de respuesta </dt>
+                      <dd> tiempo de respuesta </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Indices documentales</dt>
+                      <dd>indices documentales</dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Descripción</dt>
+                      <dd> descripción </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col sm="12">
+              <Card>
+                <CardHeader>
+                  {" "}
+                  <a
+                    onClick={() => {
+                      this.toggleCollapse();
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
+                    Más información
+                  </a>{" "}
+                </CardHeader>
+                <Collapse isOpen={this.state.collapse}>
+                  <CardBody>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt> Fecha de creación </dt>
+                            <dd> fecha de creación </dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt> Fecha de modificación </dt>
+                            <dd> fecha de modificación </dd>
+                          </dl>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt> Estado </dt>
+                            <dd> estado </dd>
+                          </dl>
+                        </div>
+                      </div>
+                    </div>
+                  </CardBody>
+                </Collapse>
+              </Card>
+            </Col>
+          </Row>
         </ModalBody>
         <ModalFooter>
           <button

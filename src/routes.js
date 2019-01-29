@@ -48,7 +48,7 @@ const routes = [
   {
     path: "/middleware",
     exact: true,
-    name: "Middleware",
+
     component: ViewMiddleware
   },
   {

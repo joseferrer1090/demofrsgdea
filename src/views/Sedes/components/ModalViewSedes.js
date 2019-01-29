@@ -121,7 +121,7 @@ class ModalViewSedes extends Component {
                       style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      + Mas información{" "}
+                      Más información{" "}
                     </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapse}>
@@ -192,7 +192,7 @@ class ModalViewSedes extends Component {
                       style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      + Mas información{" "}
+                      Más información{" "}
                     </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapse2}>

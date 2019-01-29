@@ -103,7 +103,7 @@ class ModalViewEmpresa extends Component {
                       style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      + mas información{" "}
+                      Más información{" "}
                     </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapase}>

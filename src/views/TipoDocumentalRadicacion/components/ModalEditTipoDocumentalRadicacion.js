@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Row,
+  Col
+} from "reactstrap";
+
+import IMGTIPODOCUMENTALRADICACION from "./../../../assets/img/file-path.svg";
 
 class FormEditTipoDocumental extends Component {
   constructor(props) {
@@ -17,46 +26,68 @@ class FormEditTipoDocumental extends Component {
   };
   render() {
     return (
-      <Modal isOpen={this.state.modal}>
+      <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader> Actualizar tipo documental radicación </ModalHeader>
         <ModalBody>
-          <div className="table-responsive">
-            <table className="table table-striped">
-              <tbody>
-                <tr>
-                  <td> Código </td>
-                  <td>
-                    {" "}
-                    <input type="text" className="form-control" />{" "}
-                  </td>
-                </tr>
-                <tr>
-                  <td> Nombre </td>
-                  <td>
-                    {" "}
-                    <input type="text" className="form-control" />{" "}
-                  </td>
-                </tr>
-                <tr>
-                  <td> Descripción </td>
-                  <td>
-                    {" "}
-                    <textarea className="form-control" />{" "}
-                  </td>
-                </tr>
-                <tr>
-                  <td> Estado </td>
-                  <td>
-                    {" "}
+          <Row>
+            <Col sm="3">
+              <img
+                src={IMGTIPODOCUMENTALRADICACION}
+                className="img-thumbnail"
+                width="170"
+              />
+            </Col>
+            <Col sm="9">
+              <div className="">
+                {" "}
+                <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                  {" "}
+                  Datos{" "}
+                </h5>{" "}
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label>
+                      {" "}
+                      Código <span className="text-danger">*</span>{" "}
+                    </label>
+                    <input type="text" className="form-control" />
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label>
+                      {" "}
+                      Nombre <span className="text-danger">*</span>{" "}
+                    </label>
+                    <input type="text" className="form-control" />
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label>
+                      {" "}
+                      Descripción <span className="text-danger">*</span>{" "}
+                    </label>
+                    <input type="text" className="form-control" />
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label>
+                      {" "}
+                      Estado <span className="text-danger">*</span>{" "}
+                    </label>
                     <select className="form-control">
-                      <option> Activo </option>
-                      <option> Inactivo </option>
-                    </select>{" "}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                      {" "}
+                      <option> Seleccione... </option>{" "}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
         </ModalBody>
         <ModalFooter>
           <button

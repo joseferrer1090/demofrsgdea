@@ -33,11 +33,7 @@ class FormCreateTipoDocumental extends Component {
                 <i className="fa fa-trash" />
               </button>
             </div>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="nombre del indice"
-            />{" "}
+            <input type="text" className="form-control" placeholder="Asunto" />{" "}
             &nbsp;
             <input
               type="text"

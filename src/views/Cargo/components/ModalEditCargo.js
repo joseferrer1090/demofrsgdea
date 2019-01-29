@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Row,
+  Col
+} from "reactstrap";
+import IMGCARGO from "./../../../assets/img/employee.svg";
 
 class ModalEditCargo extends Component {
   constructor(props) {
@@ -18,59 +26,71 @@ class ModalEditCargo extends Component {
 
   render() {
     return (
-      <Modal isOpen={this.state.modal}>
+      <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader> Actualizar cargo </ModalHeader>
         <ModalBody>
-          <form className="form">
-            <div className="table-responsive">
-              <table className="table table-striped">
-                <tbody>
-                  <tr>
-                    <td>Código</td>
-                    <td>
-                      {" "}
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                        placeholder=""
-                      />{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Nombre</td>
-                    <td>
-                      {" "}
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                        placeholder=""
-                      />{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Descripción</td>
-                    <td>
-                      {" "}
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                        placeholder=""
-                      />{" "}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>Estado</td>
-                    <td>
-                      <select className="form-control">
-                        <option>Activo</option>
-                        <option> Inactivo </option>
-                      </select>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </form>
+          <Row>
+            <Col sm="3">
+              <img src={IMGCARGO} className="img-thumbnail" />
+            </Col>
+            <Col sm="9">
+              <div className="">
+                {" "}
+                <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                  {" "}
+                  Datos{" "}
+                </h5>{" "}
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Código </dt>
+                      <dd>
+                        {" "}
+                        <input type="text" className="form-control" />{" "}
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Nombre </dt>
+                      <dd>
+                        <input type="text" className="form-control" />
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Descripción </dt>
+                      <dd>
+                        {" "}
+                        <input type="text" className="form-control" />{" "}
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Estado </dt>
+                      <dd>
+                        {" "}
+                        <select className="form-control">
+                          {" "}
+                          <option> Seleccione... </option>{" "}
+                        </select>{" "}
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
         </ModalBody>
         <ModalFooter>
           <button className="btn btn-outline-success">

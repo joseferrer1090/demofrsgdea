@@ -1,6 +1,14 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Row,
+  Col
+} from "reactstrap";
 import PropTypes from "prop-types";
+import IMGROLES from "./../../../assets/img/shield.svg";
 
 class ModalViewRoles extends Component {
   constructor(props) {
@@ -18,39 +26,73 @@ class ModalViewRoles extends Component {
 
   render() {
     return (
-      <Modal isOpen={this.state.modal}>
+      <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader> Ver roles </ModalHeader>
         <ModalBody>
-          <div className="table-responsinve">
-            <table className="table table-striped">
-              <tbody>
-                <tr>
-                  <td> Código: </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Nombre: </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Descripción: </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Estado: </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Fecha de creación: </td>
-                  <td> </td>
-                </tr>
-                <tr>
-                  <td> Fecha de modificación: </td>
-                  <td> </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <Row>
+            <Col sm="3">
+              <img src={IMGROLES} className="img-thumbnail" />
+            </Col>
+            <Col sm="9">
+              <div className="">
+                {" "}
+                <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                  {" "}
+                  Datos{" "}
+                </h5>{" "}
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Código </dt>
+                      <dd> código </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Nombre </dt>
+                      <dd> nombre </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Descripción </dt>
+                      <dd> descripción </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Estado </dt>
+                      <dd> estado </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Fecha de creación </dt>
+                      <dd> fecha de creación </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Fecha de modificación </dt>
+                      <dd> fecha de modificación </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
         </ModalBody>
         <ModalFooter>
           <button

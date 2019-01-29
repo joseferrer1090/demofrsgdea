@@ -114,6 +114,7 @@ class ModalViewDependencia extends Component {
                       onClick={() => {
                         this.toggleCollapse();
                       }}
+                      style={{ cursor: "pointer" }}
                     >
                       {" "}
                       Mas información{" "}

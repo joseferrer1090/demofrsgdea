@@ -13,10 +13,17 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Card
+  Card,
+  Col,
+  Row
 } from "reactstrap";
 
 import "./../../../css/custom_footer.css";
+import "./../../../../node_modules/hover.css/css/hover.css";
+import MODULOCONFIGURACON from "./../../../assets/img/icon.svg";
+import MODULOCORRESPONDENCIA from "./../../../assets/img/close-envelope.svg";
+import MODULOARCHIVO from "./../../../assets/img/archive.svg";
+import MODULOWORKFLOW from "./../../../assets/img/workflow2.svg";
 
 class ViewMiddleware extends Component {
   constructor(props) {
@@ -38,105 +45,88 @@ class ViewMiddleware extends Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/components/">Components</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">
-                  GitHub
-                </NavLink>
-              </NavItem>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  Options
+                  Usuario
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem>Option 1</DropdownItem>
-                  <DropdownItem>Option 2</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>Reset</DropdownItem>
+                  <DropdownItem>Cerrar session</DropdownItem>{" "}
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
           </Collapse>
         </Navbar>
 
-        <div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-          <h1 className="display-4">Pricing</h1>
-          <p className="lead">
-            Quickly build an effective pricing table for your potential
-            customers with this Bootstrap example. It's built with default
-            Bootstrap components and utilities with little customization.
-          </p>
-        </div>
+        <div className="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center" />
 
         <div className="container">
+          <br />
+          <br />
+          <br />
+          <br />
           <div className="card-deck mb-3 text-center">
-            <div className="card mb-4 box-shadow">
-              <div className="card-header">
-                <h4 className="my-0 font-weight-normal">Free</h4>
-              </div>
-              <div className="card-body">
-                <h1 className="card-title pricing-card-title">
-                  $0 <small className="text-muted">/ mo</small>
-                </h1>
-                <ul className="list-unstyled mt-3 mb-4">
-                  <li>10 users included</li>
-                  <li>2 GB of storage</li>
-                  <li>Email support</li>
-                  <li>Help center access</li>
-                </ul>
-                <button
-                  type="button"
-                  className="btn btn-lg btn-block btn-outline-primary"
-                >
-                  Sign up for free
-                </button>
-              </div>
+            <div className="col-md-3">
+              <a
+                onClick={() => {
+                  alert("hola mudno");
+                }}
+                className="hvr-grow"
+              >
+                <div className="card">
+                  <div className="card-body">
+                    <img src={MODULOCONFIGURACON} width="180" />
+                    <div className="text-center">
+                      <br />
+                      <a style={{ fontSize: "20px" }}>
+                        Modulo de configuración
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </a>
             </div>
-            <div className="card mb-4 box-shadow">
-              <div className="card-header">
-                <h4 className="my-0 font-weight-normal">Pro</h4>
-              </div>
-              <div className="card-body">
-                <h1 className="card-title pricing-card-title">
-                  $15 <small className="text-muted">/ mo</small>
-                </h1>
-                <ul className="list-unstyled mt-3 mb-4">
-                  <li>20 users included</li>
-                  <li>10 GB of storage</li>
-                  <li>Priority email support</li>
-                  <li>Help center access</li>
-                </ul>
-                <button
-                  type="button"
-                  className="btn btn-lg btn-block btn-primary"
-                >
-                  Get started
-                </button>
-              </div>
+            <div className="col-md-3">
+              <a className="hvr-grow">
+                <div className="card">
+                  <div className="card-body">
+                    <img src={MODULOCORRESPONDENCIA} width="200" />
+                    <div className="text-center">
+                      <a style={{ fontSize: "19px" }}>
+                        Modulo de correspondencia
+                      </a>{" "}
+                    </div>
+                  </div>
+                </div>
+              </a>
             </div>
-            <div className="card mb-4 box-shadow">
-              <div className="card-header">
-                <h4 className="my-0 font-weight-normal">Enterprise</h4>
-              </div>
-              <div className="card-body">
-                <h1 className="card-title pricing-card-title">
-                  $29 <small className="text-muted">/ mo</small>
-                </h1>
-                <ul className="list-unstyled mt-3 mb-4">
-                  <li>30 users included</li>
-                  <li>15 GB of storage</li>
-                  <li>Phone and email support</li>
-                  <li>Help center access</li>
-                </ul>
-                <button
-                  type="button"
-                  className="btn btn-lg btn-block btn-primary"
-                >
-                  Contact us
-                </button>
-              </div>
+            <div className="col-md-3">
+              <a className="hvr-grow">
+                <div className="card">
+                  <div className="card-body">
+                    <img src={MODULOARCHIVO} width="200" />
+                    <div className="text-center">
+                      <br />
+                      <a style={{ fontSize: "20px" }}>Modulo de archivo </a>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+            <div className="col-md-3">
+              <a className="hvr-grow">
+                <div className="card">
+                  <div className="card-body">
+                    <img src={MODULOWORKFLOW} width="200" />
+                    <div className="text-center">
+                      <br />
+                      <a style={{ fontSize: "20px" }}>
+                        {" "}
+                        Modulo de workflow{" "}
+                      </a>{" "}
+                    </div>
+                  </div>
+                </div>
+              </a>
             </div>
           </div>
         </div>

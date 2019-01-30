@@ -32,10 +32,10 @@ class ModalViewAuditoria extends Component {
                   <td> Acción realizada: </td>
                   <td> Dato </td>
                 </tr>
-                <tr>
+                {/* <tr>
                   <td> Tabla </td>
                   <td> Dato </td>
-                </tr>
+                </tr> */}
                 <tr>
                   <td> Usuario que realizó la acción: </td>
                   <td> Dato </td>
@@ -44,12 +44,12 @@ class ModalViewAuditoria extends Component {
                   <td> Tipo de usuario: </td>
                   <td> Dato </td>
                 </tr>
-                <tr>
+                {/* <tr>
                   <td> Sentencia ejecutada: </td>
                   <td>
                     <code> Setencia ejecuatada </code>
                   </td>
-                </tr>
+                </tr> */}
               </table>
             </div>
           </ModalBody>

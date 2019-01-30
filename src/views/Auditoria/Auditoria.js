@@ -173,7 +173,7 @@ class Auditoria extends Component {
                           </select>
                         </div>
                       </Col>
-                      <Col sm="6">
+                      {/* <Col sm="6">
                         <div className="form-group">
                           <label> Tablas: </label>
                           <select className="form-control">
@@ -181,10 +181,9 @@ class Auditoria extends Component {
                             <option> Seleccione </option>{" "}
                           </select>
                         </div>
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col sm="12">
+                      </Col> */}
+
+                      <Col sm="6">
                         <div className="form-group">
                           <label> Usuarios: </label>
                           <select className="form-control">
@@ -239,10 +238,10 @@ class Auditoria extends Component {
                     {" "}
                     Accion{" "}
                   </TableHeaderColumn>
-                  <TableHeaderColumn dataField="tabla" dataAlign={"center"}>
+                  {/* <TableHeaderColumn dataField="tabla" dataAlign={"center"}>
                     {" "}
                     Tabla{" "}
-                  </TableHeaderColumn>
+                  </TableHeaderColumn> */}
                   <TableHeaderColumn dataField="usuario" dataAlign={"center"}>
                     {" "}
                     Usuario{" "}

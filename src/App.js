@@ -39,8 +39,8 @@ const Forgot = Loadable({
   loading
 });
 
-const ViewMiddlewate = Loadable({
-  loader: () => import("./views/Pages/Middleware/ViewMiddleware"),
+const ViewMiddleware = Loadable({
+  loader: () => import("./views/Pages/ViewMiddleware/ViewMiddleware"),
   loading
 });
 
@@ -50,22 +50,16 @@ class App extends Component {
       <HashRouter>
         <Switch>
           <Route exact path="/" name="Login Page" component={Login} />
-          {/* <Route
-            exact
-            path="/register"
-            name="Register Page"
-            component={Register}
-          /> */}
           <Route exact path="/forgot" name="forgot" component={Forgot} />
           <Route exact path="/404" name="Page 404" component={Page404} />
           <Route exact path="/500" name="Page 500" component={Page500} />
-          <Route path="/" name="Inicio" component={DefaultLayout} />
           <Route
             exact
             path="/middleware"
-            name="viewMiddleware"
-            component={ViewMiddlewate}
+            name="Middleware security"
+            component={ViewMiddleware}
           />
+          <Route path="/" name="Inicio" component={DefaultLayout} />
         </Switch>
       </HashRouter>
     );

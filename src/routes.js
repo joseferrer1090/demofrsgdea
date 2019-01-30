@@ -5,7 +5,6 @@ import Pais from "./views/Pais/Pais";
 import Ciudad from "./views/Ciudad/Ciudad";
 import Departamento from "./views/Departamento/Departamento";
 import Profile from "./views/Pages/Profile/Profle";
-import ViewMiddleware from "./views/Pages/Middleware/ViewMiddleware";
 
 const Configuracion = React.lazy(() =>
   import("./views/Configuracion/Configuracion")
@@ -45,12 +44,6 @@ const Auditoria = React.lazy(() => import("./views/Auditoria/Auditoria"));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
-  {
-    path: "/middleware",
-    exact: true,
-
-    component: ViewMiddleware
-  },
   {
     path: "/configuracion",
     exact: true,

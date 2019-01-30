@@ -63,7 +63,8 @@ class Login extends Component {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          type="password"anel 
+                          type="password"
+                          anel
                           placeholder="contraseña"
                           autoComplete="current-password"
                         />
@@ -71,7 +72,7 @@ class Login extends Component {
                       <Row>
                         <Col xs="6">
                           <Link
-                            to="/configuracion"
+                            to="/middleware"
                             className="btn btn-outline-secondary btn-block"
                           >
                             Ingresar{" "}

@@ -41,7 +41,7 @@ class ViewMiddleware extends Component {
     return (
       <div className="animated fadeIn">
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">reactstrap</NavbarBrand>
+          <NavbarBrand>Lexco S.A SGDEA</NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
@@ -50,7 +50,12 @@ class ViewMiddleware extends Component {
                   Usuario
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem>Cerrar session</DropdownItem>{" "}
+                  <DropdownItem>
+                    {" "}
+                    <a href="/" onClick={() => {}}>
+                      <i className="fa fa-times" /> Cerrar session
+                    </a>
+                  </DropdownItem>{" "}
                 </DropdownMenu>
               </UncontrolledDropdown>
             </Nav>
@@ -66,12 +71,7 @@ class ViewMiddleware extends Component {
           <br />
           <div className="card-deck mb-3 text-center">
             <div className="col-md-3">
-              <a
-                onClick={() => {
-                  alert("hola mudno");
-                }}
-                className="hvr-grow"
-              >
+              <Link to="/configuracion" className="hvr-grow">
                 <div className="card">
                   <div className="card-body">
                     <img src={MODULOCONFIGURACON} width="180" />
@@ -83,7 +83,7 @@ class ViewMiddleware extends Component {
                     </div>
                   </div>
                 </div>
-              </a>
+              </Link>
             </div>
             <div className="col-md-3">
               <a className="hvr-grow">

@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { browserHistory } from "react-router";
+
 import {
   Badge,
   DropdownItem,
@@ -35,6 +37,11 @@ class DefaultHeader extends Component {
       logoMin: sygnet
     };
   }
+
+  // pagePrincipal = () => {
+  //   browserHistory.push("/path");
+  // };
+
   render() {
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
@@ -107,9 +114,19 @@ class DefaultHeader extends Component {
                   <i className="fa fa-user" /> Perfil{" "}
                 </Link>
               </DropdownItem>
-              {/* <DropdownItem>
-                <i className="fa fa-wrench" /> Herramientas
-              </DropdownItem> */}
+              <DropdownItem>
+                <Link
+                  to="/middleware"
+                  style={{
+                    textDecoration: "none",
+                    cursor: "pointer !important",
+                    color: "black"
+                  }}
+                >
+                  {" "}
+                  <i className="fa fa-wrench" /> Principal{" "}
+                </Link>
+              </DropdownItem>
               <DropdownItem onClick={e => this.props.onLogout(e)}>
                 <i className="fa fa-lock" /> Salir
               </DropdownItem>

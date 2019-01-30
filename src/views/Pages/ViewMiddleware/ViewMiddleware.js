@@ -72,7 +72,7 @@ class ViewMiddleware extends Component {
           <div className="card-deck mb-3 text-center">
             <div className="col-md-3">
               <Link to="/configuracion" className="hvr-grow">
-                <div className="card">
+                <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOCONFIGURACON} width="180" />
                     <div className="text-center">
@@ -87,7 +87,7 @@ class ViewMiddleware extends Component {
             </div>
             <div className="col-md-3">
               <a className="hvr-grow">
-                <div className="card">
+                <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOCORRESPONDENCIA} width="200" />
                     <div className="text-center">
@@ -101,7 +101,7 @@ class ViewMiddleware extends Component {
             </div>
             <div className="col-md-3">
               <a className="hvr-grow">
-                <div className="card">
+                <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOARCHIVO} width="200" />
                     <div className="text-center">
@@ -114,7 +114,7 @@ class ViewMiddleware extends Component {
             </div>
             <div className="col-md-3">
               <a className="hvr-grow">
-                <div className="card">
+                <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOWORKFLOW} width="200" />
                     <div className="text-center">

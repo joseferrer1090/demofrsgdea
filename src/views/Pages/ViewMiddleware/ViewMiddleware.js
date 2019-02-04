@@ -37,11 +37,12 @@ class ViewMiddleware extends Component {
     });
   };
 
+  redirectCorrespondencia = () => {
+    window.location = "http://localhost:3001/";
+    return null;
+  };
+
   render() {
-    const customlink = () => {
-      window.location = "http://localhost:3001/";
-      return null;
-    };
     return (
       <div className="animated fadeIn">
         <Navbar color="light" light expand="md">
@@ -90,7 +91,7 @@ class ViewMiddleware extends Component {
               </Link>
             </div>
             <div className="col-md-3">
-              <Link to="/" innerRef={customlink} className="hvr-grow">
+              <a href="http://localhost:3001/" className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOCORRESPONDENCIA} width="200" />
@@ -101,10 +102,10 @@ class ViewMiddleware extends Component {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </a>
             </div>
             <div className="col-md-3">
-              <Link to="/" className="hvr-grow">
+              <a href="" className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOARCHIVO} width="200" />
@@ -114,10 +115,10 @@ class ViewMiddleware extends Component {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </a>
             </div>
             <div className="col-md-3">
-              <Link to="/" className="hvr-grow">
+              <a href="" className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOWORKFLOW} width="200" />
@@ -130,7 +131,7 @@ class ViewMiddleware extends Component {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </a>
             </div>
           </div>
         </div>

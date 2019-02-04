@@ -263,6 +263,7 @@ class Auditoria extends Component {
           modalview={this.state.modalviewauditoria}
           ref="child1"
         />
+        
       </div>
     );
   }

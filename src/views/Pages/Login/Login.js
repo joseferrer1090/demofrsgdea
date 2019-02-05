@@ -75,8 +75,8 @@ class Login extends Component {
                             to="/middleware"
                             className="btn btn-outline-secondary btn-block"
                           >
-                            Ingresar{" "}
-                            {/*<i className="fa fa-spinner fa-spin" />*/}
+                            Ingresar <i className="fa fa-arrow-circle-right" />
+                            {/* <i className="fa fa-spinner fa-spin" /> */}
                           </Link>
                         </Col>
                         <Col xs="6" className="text-right">

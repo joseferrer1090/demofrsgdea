@@ -24,6 +24,7 @@ import MODULOCONFIGURACON from "./../../../assets/img/icon.svg";
 import MODULOCORRESPONDENCIA from "./../../../assets/img/close-envelope.svg";
 import MODULOARCHIVO from "./../../../assets/img/archive.svg";
 import MODULOWORKFLOW from "./../../../assets/img/workflow2.svg";
+import url from "./../../../services/deploymentdata";
 
 class ViewMiddleware extends Component {
   constructor(props) {
@@ -91,7 +92,7 @@ class ViewMiddleware extends Component {
               </Link>
             </div>
             <div className="col-md-3">
-              <a href="http://localhost:3001/" className="hvr-grow">
+              <a href={`${url.defaultLocal}3001`} className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOCORRESPONDENCIA} width="200" />
@@ -105,7 +106,7 @@ class ViewMiddleware extends Component {
               </a>
             </div>
             <div className="col-md-3">
-              <a href="http://localhost:3002/" className="hvr-grow">
+              <a href={`${url.defaultLocal}3002`} className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOARCHIVO} width="200" />
@@ -118,7 +119,7 @@ class ViewMiddleware extends Component {
               </a>
             </div>
             <div className="col-md-3">
-              <a href="http://localhost:3003/" className="hvr-grow">
+              <a href={`${url.defaultLocal}3003`} className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOWORKFLOW} width="200" />

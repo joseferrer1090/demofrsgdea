@@ -105,7 +105,7 @@ class ViewMiddleware extends Component {
               </a>
             </div>
             <div className="col-md-3">
-              <a href="" className="hvr-grow">
+              <a href="http://localhost:3002/" className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOARCHIVO} width="200" />
@@ -118,7 +118,7 @@ class ViewMiddleware extends Component {
               </a>
             </div>
             <div className="col-md-3">
-              <a href="" className="hvr-grow">
+              <a href="http://localhost:3003/" className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOWORKFLOW} width="200" />

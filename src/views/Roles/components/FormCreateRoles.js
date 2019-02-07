@@ -134,6 +134,13 @@ class FormCreateRoles extends Component {
                               </div>
                               <div className="col-md-6">
                                 {/* La nueva lista de los permisos */}
+                                <ShortList
+                                  data={this.props.data}
+                                  favourites={this.state.favourites}
+                                  deleteFavourite={this.deleteFavourite.bind(
+                                    this
+                                  )}
+                                />
                               </div>
                             </div>
                             {/*  Fin   */}

@@ -17,7 +17,9 @@ export default ({ favourites, data, deleteFavourite }) => {
   return (
     <div className="favourites">
       <h4>
-        {hasFavourites ? "Your Shortlist" : "Click on a name to shortlist it.."}
+        {hasFavourites
+          ? "Roles asignados"
+          : "Seleccione los roles para el usuario."}
       </h4>
       <ul>{favList}</ul>
       {hasFavourites && <hr />}

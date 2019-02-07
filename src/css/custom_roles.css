@@ -1,8 +1,8 @@
-ul .list-roles {
+.list-roles {
     padding: 0;
 }
 
-li .list-item-roles {
+.list-item-roles {
     position: relative;
     list-style: none;
     display: inline-block;
@@ -10,16 +10,14 @@ li .list-item-roles {
     margin: 2px;
     border-right: 3px;
 }
-
-li .list-item-roles:hover{
+.list-item-roles:hover{
     cursor: pointer;
 }
-li .theme-role {
+ .theme-role {
     background: #a0cfee;
     color: #16527a;
 }
-
-li .theme-role:hover{
+ .theme-role:hover{
     background: #8bc4ea;
 }
 

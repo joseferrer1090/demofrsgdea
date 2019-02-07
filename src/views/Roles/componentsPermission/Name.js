@@ -1,8 +1,8 @@
 import React from "react";
+import "./../../../css/custom_roles.css";
 
 export default ({ id, info, handleFavourite }) => (
-  <li className={info.sex} onClick={() => handleFavourite(id)}>
-    {" "}
-    {info.name}{" "}
+  <li className="list-item-roles" onClick={() => handleFavourite(id)}>
+    <div className="badge badge-light">{info.name}</div>
   </li>
 );

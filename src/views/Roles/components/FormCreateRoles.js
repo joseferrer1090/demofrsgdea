@@ -16,6 +16,8 @@ import {
 import ShortList from "./../componentsPermission/ShortList";
 import NamesList from "./../componentsPermission/NamesList";
 
+import "./../../../css/custom_roles.css";
+
 class FormCreateRoles extends Component {
   constructor(props) {
     super(props);
@@ -41,6 +43,7 @@ class FormCreateRoles extends Component {
   }
 
   render() {
+    console.log(this.state.favourites);
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -121,25 +124,24 @@ class FormCreateRoles extends Component {
                             </Col>
                             {/*  Aqui va la funcionalidad    */}
                             {/* Buscador de permisos */}
-
                             <div className="row">
-                              <div className="col-md-6">
+                              <div className="col-md-12">
                                 {/* Lista de los permisos  */}
-                                <NamesList
-                                  data={this.props.data}
-                                  filter={this.state.filterText}
-                                  favourites={this.state.favourites}
-                                  addFavourite={this.addFavourite.bind(this)}
-                                />
-                              </div>
-                              <div className="col-md-6">
-                                {/* La nueva lista de los permisos */}
                                 <ShortList
                                   data={this.props.data}
                                   favourites={this.state.favourites}
                                   deleteFavourite={this.deleteFavourite.bind(
                                     this
                                   )}
+                                />
+                              </div>
+                              <div className="col-md-12">
+                                {/* La nueva lista de los permisos */}
+                                <NamesList
+                                  data={this.props.data}
+                                  filter={this.state.filterText}
+                                  favourites={this.state.favourites}
+                                  addFavourite={this.addFavourite.bind(this)}
                                 />
                               </div>
                             </div>

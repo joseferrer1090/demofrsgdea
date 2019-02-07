@@ -1,6 +1,7 @@
 import React from "react";
 
 import Name from "./Name";
+import "./../../../css/custom_roles.css";
 
 export default ({ data, filter, favourites, addFavourite }) => {
   const input = filter.toLowerCase();
@@ -15,5 +16,5 @@ export default ({ data, filter, favourites, addFavourite }) => {
       />
     );
   });
-  return <ul>{names}</ul>;
+  return <ul className="list-roles">{names}</ul>;
 };

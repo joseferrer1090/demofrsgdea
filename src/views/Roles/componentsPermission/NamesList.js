@@ -1,13 +1,16 @@
 import React from "react";
-import Permiso from "./Permiso";
+
+import Name from "./Name";
 
 export default ({ data, filter, favourites, addFavourite }) => {
-  const names = data.map((person, i) => {
+  const input = filter.toLowerCase();
+
+  const names = data.map((aux, i) => {
     return (
-      <Permiso
-        id={person.id}
+      <Name
+        id={aux.id}
         key={i}
-        info={person}
+        info={aux}
         handleFavourite={id => addFavourite(id)}
       />
     );

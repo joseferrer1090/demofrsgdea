@@ -1,12 +1,12 @@
 import React from "react";
 
-import Permiso from "./Permiso";
+import Name from "./Name";
 
 export default ({ favourites, data, deleteFavourite }) => {
   const hasFavourites = favourites.length > 0;
   const favList = favourites.map((fav, i) => {
     return (
-      <Permiso
+      <Name
         id={i}
         key={i}
         info={data[fav]}
@@ -17,9 +17,7 @@ export default ({ favourites, data, deleteFavourite }) => {
   return (
     <div className="favourites">
       <h4>
-        {hasFavourites
-          ? "Permisos asignados"
-          : "Haga clic en un permiso para agregarlos."}
+        {hasFavourites ? "Your Shortlist" : "Click on a name to shortlist it.."}
       </h4>
       <ul>{favList}</ul>
       {hasFavourites && <hr />}

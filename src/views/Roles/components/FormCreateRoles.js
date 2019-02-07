@@ -13,49 +13,34 @@ import {
   CardTitle,
   Badge
 } from "reactstrap";
-
-import SearchPermisos from "./../componentsPermission/BuscadorPermisos";
-import ListaPermisos from "./../componentsPermission/ListaPermisos";
-import NuevaLista from "./../componentsPermission/NuevaLista";
-import data from "./../../../data/data";
+import ShortList from "./../componentsPermission/ShortList";
+import NamesList from "./../componentsPermission/NamesList";
 
 class FormCreateRoles extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataPermisos: [],
-      data: data,
-      filterText: ""
+      filterText: "",
+      favourites: []
     };
   }
 
-  filterUpdate(value) {
+  addFavourite(id) {
+    const newSet = this.state.favourites.concat([id]);
     this.setState({
-      filterText: value
+      favourites: newSet
     });
   }
 
-  addPermiso(display_name) {
-    const newSet = this.state.dataPermisos.concat([display_name]);
+  deleteFavourite(id) {
+    const { favourites } = this.state;
+    const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
     this.setState({
-      dataPermisos: newSet
-    });
-  }
-
-  deletePermiso(id) {
-    const { dataPermisos } = this.state;
-    const newList = [
-      ...dataPermisos.slice(0, id),
-      ...dataPermisos.slice(id + 1)
-    ];
-    this.setState({
-      dataPermisos: newList
+      favourites: newList
     });
   }
 
   render() {
-    console.log(data.slice(0));
-    console.log(this.state.dataPermisos);
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -135,29 +120,20 @@ class FormCreateRoles extends Component {
                               </div>
                             </Col>
                             {/*  Aqui va la funcionalidad    */}
-                            <div className="col-md-12">
-                              <SearchPermisos
-                                filterVal={this.state.filterText}
-                                filterUpdate={this.filterUpdate.bind(this)}
-                              />
-                            </div>
+                            {/* Buscador de permisos */}
 
                             <div className="row">
                               <div className="col-md-6">
-                                <ListaPermisos
-                                  data={data}
-                                  favourites={this.state.dataPermisos}
-                                  addFavourite={this.addPermiso.bind(this)}
+                                {/* Lista de los permisos  */}
+                                <NamesList
+                                  data={this.props.data}
+                                  filter={this.state.filterText}
+                                  favourites={this.state.favourites}
+                                  addFavourite={this.addFavourite.bind(this)}
                                 />
                               </div>
                               <div className="col-md-6">
-                                <NuevaLista
-                                  data={data}
-                                  favourites={this.state.dataPermisos}
-                                  deleteFavourite={this.deletePermiso.bind(
-                                    this
-                                  )}
-                                />
+                                {/* La nueva lista de los permisos */}
                               </div>
                             </div>
                             {/*  Fin   */}

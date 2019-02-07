@@ -17,6 +17,8 @@ import FormCreate from "./components/FormCreateRoles";
 import TableContent from "./components/TableContentRoles";
 import FormImport from "./components/FormUploadRoles";
 
+import data from "./../../data/data";
+
 export default class Roles extends React.Component {
   constructor(props) {
     super(props);
@@ -71,7 +73,7 @@ export default class Roles extends React.Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <FormCreate />
+            <FormCreate data={data} />
           </TabPane>
           <TabPane tabId="2">
             <Row>

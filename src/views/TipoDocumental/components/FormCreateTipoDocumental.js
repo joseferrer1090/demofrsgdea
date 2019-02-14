@@ -7,7 +7,10 @@ import {
   CardFooter,
   CardBody,
   CardTitle,
-  CardText
+  CardText,
+  FormGroup,
+  Label,
+  CustomInput
 } from "reactstrap";
 
 class FormCreateTipoDocumental extends Component {
@@ -173,19 +176,20 @@ class FormCreateTipoDocumental extends Component {
                         {" "}
                         Estado <span className="text-danger">*</span>{" "}
                       </label>
-                      <div className="form-check">
-                        <input
+                      <div className="">
+                        <CustomInput
                           type="checkbox"
-                          className="form-check-input"
-                          id="exampleCheck1"
+                          id="exampleCustomCheckbox"
+                          label="Si esta opción se encuentra activada, representa que
+                          el Tipo documental es visible en el sistema y se
+                          podrán realizar operaciones entre cada uno de los
+                          módulos correspondientes de la aplicación. En caso
+                          contrario el Tipo documental no se elimina del sistema
+                          solo quedará inactivo e invisibles para cada uno de
+                          los módulos correspondiente del sistema."
                         />
-                        <label
-                          className="form-check-label"
-                          htmlFor="exampleCheck1"
-                        >
-                          Activar
-                        </label>
-                        <p
+
+                        {/* <p
                           className="text-muted"
                           style={{ textAlign: "justify" }}
                         >
@@ -196,7 +200,7 @@ class FormCreateTipoDocumental extends Component {
                           contrario el Tipo documental no se elimina del sistema
                           solo quedará inactivo e invisibles para cada uno de
                           los módulos correspondiente del sistema.
-                        </p>
+                        </p> */}
                       </div>
                     </div>
                   </Col>

@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Card, CardBody, CardFooter, CardHeader } from "reactstrap";
+import {
+  Row,
+  Col,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  CustomInput
+} from "reactstrap";
 import Select from "react-select";
 import { isNull } from "util";
 
@@ -128,19 +136,21 @@ class FormCreateEmpresa extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <div className="form-check">
-                                <input
+                              <div className="">
+                                <CustomInput
                                   type="checkbox"
-                                  className="form-check-input"
                                   id="exampleCheck1"
+                                  label="Si esta opción se encuentra activada,
+                                  Representa que la empresa es visible en el
+                                  sistema y se podrán realizar operaciones entre
+                                  cada uno de los módulos correspondientes de la
+                                  aplicación. En caso contrario la empresa no se
+                                  elimina del sistema solo quedará inactiva e
+                                  invisibles para cada uno de los módulos
+                                  correspondiente del sistema."
                                 />
-                                <label
-                                  className="form-check-label"
-                                  htmlFor="exampleCheck1"
-                                >
-                                  Activar
-                                </label>
-                                <p
+
+                                {/* <p
                                   className="text-muted"
                                   style={{ textAlign: "justify" }}
                                 >
@@ -151,8 +161,8 @@ class FormCreateEmpresa extends Component {
                                   aplicación. En caso contrario la empresa no se
                                   elimina del sistema solo quedará inactiva e
                                   invisibles para cada uno de los módulos
-                                  correspondiente del sistema
-                                </p>
+                                  correspondiente del sistema.
+                                </p> */}
                               </div>
                             </div>
                           </div>

@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Row, Col, Card, CardHeader, CardBody, CardFooter } from "reactstrap";
+import {
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CustomInput
+} from "reactstrap";
 
 class FormCreateCargo extends Component {
   render() {
@@ -56,19 +64,25 @@ class FormCreateCargo extends Component {
                             {" "}
                             Estado <span className="text-danger">*</span>{" "}
                           </label>
-                          <div className="form-check">
-                            <input
+                          <div className="">
+                            <CustomInput
                               type="checkbox"
-                              className="form-check-input"
-                              id="exampleCheck1"
+                              id="ExampleCheckboxInput"
+                              label=" Si esta opción se encuentra activada, representa
+                              que el cargo es visible en el sistema y se podrán
+                              realizar operaciones entre cada uno de los módulos
+                              correspondientes de la aplicación. En caso
+                              contrario el cargo no se elimina del sistema solo
+                              quedará inactivo e invisibles para cada uno de los
+                              módulos correspondiente del sistema."
                             />
-                            <label
+                            {/* <label
                               className="form-check-label"
                               htmlFor="exampleCheck1"
                             >
                               Activar
-                            </label>
-                            <p
+                            </label> */}
+                            {/* <p
                               className="text-muted"
                               style={{ textAlign: "justify" }}
                             >
@@ -79,7 +93,7 @@ class FormCreateCargo extends Component {
                               contrario el cargo no se elimina del sistema solo
                               quedará inactivo e invisibles para cada uno de los
                               módulos correspondiente del sistema.
-                            </p>
+                            </p> */}
                           </div>
                         </div>
                       </div>

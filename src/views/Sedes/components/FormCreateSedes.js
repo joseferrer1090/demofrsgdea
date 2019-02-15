@@ -7,7 +7,8 @@ import {
   CardHeader,
   CardBody,
   CardFooter,
-  Alert
+  Alert,
+  CustomInput
 } from "reactstrap";
 import Select from "react-select";
 
@@ -238,20 +239,20 @@ class FormCreateSedes extends Component {
                             {" "}
                             Estado <span className="text-danger">*</span>{" "}
                           </label>
-                          <div className="form-group form-check">
-                            <input
+                          <div className="">
+                            <CustomInput
                               type="checkbox"
-                              className="form-check-input"
-                              id="exampleCheck1"
+                              id="ExampleInputCheckbox"
+                              label="Si esta opción se encuentra activada, Representa que
+                             la sede es visible en el sistema y se podrán
+                             realizar operaciones entre cada uno de los módulos
+                             correspondientes de la aplicación. En caso contrario
+                             la sede no se elimina del sistema solo quedará
+                             inactiva e invisibles para cada uno de los módulos
+                             correspondiente del sistema."
                             />
-                            <label
-                              className="form-check-label"
-                              htmlFor="exampleCheck1"
-                            >
-                              Activar
-                            </label>
                           </div>
-                          <p
+                          {/* <p
                             className="text-muted"
                             style={{ textAlign: "justify" }}
                           >
@@ -263,7 +264,7 @@ class FormCreateSedes extends Component {
                             la sede no se elimina del sistema solo quedará
                             inactiva e invisibles para cada uno de los módulos
                             correspondiente del sistema.
-                          </p>
+                          </p> */}
                         </div>
                       </Col>
                     </Row>

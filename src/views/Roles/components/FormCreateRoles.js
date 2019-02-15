@@ -11,7 +11,8 @@ import {
   Input,
   CardText,
   CardTitle,
-  Badge
+  Badge,
+  CustomInput
 } from "reactstrap";
 import ShortList from "./../componentsPermission/ShortList";
 import NamesList from "./../componentsPermission/NamesList";
@@ -157,19 +158,25 @@ class FormCreateRoles extends Component {
                             {" "}
                             Estado <span className="text-danger">*</span>{" "}
                           </label>
-                          <div className="form-check">
-                            <input
+                          <div className="">
+                            <CustomInput
                               type="checkbox"
-                              className="form-check-input"
-                              id="exampleCheck1"
+                              id="ExampleCheckBoxInput"
+                              label=" Si esta opción se encuentra activada, representa
+                            que el rol es visible en el sistema y se podrán
+                            realizar operaciones entre cada uno de los módulos
+                            correspondientes de la aplicación. En caso
+                            contrario el rol no se elimina del sistema solo
+                            quedará inactivo e invisibles para cada uno de los
+                            módulos correspondiente del sistema."
                             />
-                            <label
+                            {/* <label
                               className="form-check-label"
                               htmlFor="exampleCheck1"
                             >
                               Activar
-                            </label>
-                            <p
+                            </label> */}
+                            {/* <p
                               className="text-muted"
                               style={{ textAlign: "justify" }}
                             >
@@ -180,7 +187,7 @@ class FormCreateRoles extends Component {
                               contrario el rol no se elimina del sistema solo
                               quedará inactivo e invisibles para cada uno de los
                               módulos correspondiente del sistema.
-                            </p>
+                            </p> */}
                           </div>
                         </div>
                       </Col>

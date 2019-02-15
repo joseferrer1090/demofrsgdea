@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Card, CardHeader, CardBody, CardFooter, Row, Col } from "reactstrap";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Row,
+  Col,
+  CustomInput
+} from "reactstrap";
 
 class FormCreateDepartamento extends Component {
   render() {
@@ -50,19 +58,25 @@ class FormCreateDepartamento extends Component {
                           {" "}
                           Estado <span className="text-danger">*</span>{" "}
                         </label>
-                        <div className="form-check">
-                          <input
+                        <div className="">
+                          <CustomInput
                             type="checkbox"
-                            className="form-check-input"
-                            id="exampleCheck1"
+                            id="ExampleCheckboxInput"
+                            label=" Si esta opción se encuentra activada, representa que
+                          el departamento es visible en el sistema y se podrán
+                          realizar operaciones entre cada uno de los módulos
+                          correspondientes de la aplicación. En caso contrario
+                          el departamento no se elimina del sistema solo
+                          quedará inactivo e invisibles para cada uno de los
+                          módulos correspondiente del sistema."
                           />
-                          <label
+                          {/* <label
                             className="form-check-label"
                             htmlFor="exampleCheck1"
                           >
                             Activar
-                          </label>
-                          <p
+                          </label> */}
+                          {/* <p
                             className="text-muted"
                             style={{ textAlign: "justify" }}
                           >
@@ -73,7 +87,7 @@ class FormCreateDepartamento extends Component {
                             el departamento no se elimina del sistema solo
                             quedará inactivo e invisibles para cada uno de los
                             módulos correspondiente del sistema.
-                          </p>
+                          </p> */}
                         </div>
                       </div>
                     </div>

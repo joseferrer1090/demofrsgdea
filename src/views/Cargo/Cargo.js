@@ -6,18 +6,21 @@ import {
   TabContent,
   TabPane,
   Row,
-  Col
+  Col,
+  Input
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreate from "./components/FormCreateCargo";
 import TableContent from "./components/TableContentCargo";
 import FormUpload from "./components/FormUploadCargo";
+import data from "./../../data/data";
 
 class Cargo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1"
+      activeTab: "1",
+      dataTextArea: data
     };
   }
 

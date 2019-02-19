@@ -6,7 +6,12 @@ import {
   ModalBody,
   ModalFooter,
   Row,
-  Col
+  Col,
+  Card,
+  CardBody,
+  CardHeader,
+  Table,
+  CustomInput
 } from "reactstrap";
 import IMGCARGO from "./../../../assets/img/employee.svg";
 
@@ -89,6 +94,70 @@ class ModalEditCargo extends Component {
                   </div>
                 </div>
               </div>
+            </Col>
+          </Row>
+          <br />
+          <Row>
+            <Col sm="12">
+              <Table size="sm" striped hover>
+                <thead>
+                  <tr className="text-center">
+                    <th> Entidad </th>
+                    <th> Area </th>
+                    <th> Responsable </th>
+                  </tr>
+                </thead>
+                <tbody className="text-center">
+                  <tr>
+                    <td>Conglomerado</td>
+                    <td>
+                      <select className="form-control">
+                        {" "}
+                        <option>Seleccione</option>{" "}
+                      </select>{" "}
+                    </td>
+                    <td>
+                      <CustomInput type="checkbox" id="ExampleCheckbox" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Empresa</td>
+                    <td>
+                      <select className="form-control">
+                        {" "}
+                        <option>Seleccione</option>{" "}
+                      </select>{" "}
+                    </td>
+                    <td>
+                      <CustomInput type="checkbox" id="ExampleCheckbox2" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Sede</td>
+                    <td>
+                      <select className="form-control">
+                        {" "}
+                        <option>Seleccione</option>{" "}
+                      </select>{" "}
+                    </td>
+                    <td>
+                      <CustomInput type="checkbox" id="ExampleCheckbox3" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Dependencia</td>
+                    <td>
+                      <select className="form-control">
+                        {" "}
+                        <option>Seleccione</option>{" "}
+                      </select>{" "}
+                    </td>
+                    <td>
+                      <CustomInput type="checkbox" id="ExampleCheckbox4" />
+                    </td>
+                  </tr>
+                </tbody>
+              </Table>
             </Col>
           </Row>
         </ModalBody>

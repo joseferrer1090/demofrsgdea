@@ -10,39 +10,67 @@ import "./../../../css/custom_table.css";
 
 const dataExample = [
   {
-    id: 1,
-    empresa: "empresa1",
-    codigo: 123456890,
-    nombre: "Sede1",
-    estado: true
+    IdSede: "1",
+    Nombre: "BOGOTA PRINCIPAL",
+    Prefijo: "BP",
+    Estado: "activo",
+    Direccion: "AUTOPISTA SUR  60-51",
+    Telefono: "711 90 05",
+    Ciudad: "BOGOTA - DISTRITO CAPITAL"
   },
   {
-    id: 2,
-    empresa: "empresa2",
-    codigo: 123645879,
-    nombre: "Sede2",
-    estado: false
+    IdSede: "3",
+    Nombre: "REGIONAL ATLANTICO",
+    Prefijo: "ATLAN",
+    Estado: "activo",
+    Direccion: "CALLE 110 9G-330 BODEGA 1415",
+    Telefono: "310 398 74 11",
+    Ciudad: "BARRANQUILLA - ATLANTICO"
   },
   {
-    id: 3,
-    empresa: "empresa3",
-    codigo: 13648579,
-    nombre: "Sede3",
-    estado: true
+    IdSede: "2",
+    Nombre: "BOGOTA CENTRO DE LOGISTICA",
+    Prefijo: "BCLED",
+    Estado: "activo",
+    Direccion: "CALLE 25D 95A-90",
+    Telefono: "426 34 44",
+    Ciudad: "BOGOTA - DISTRITO CAPITAL"
   },
   {
-    id: 4,
-    empresa: "empresa4",
-    codigo: 126547896,
-    nombre: "Sede4",
-    estado: true
+    IdSede: "6",
+    Nombre: "REGIONAL ANTIOQUIA",
+    Prefijo: "ANTI",
+    Estado: "activo",
+    Direccion: "CRA 42 54A-155 BODEGA A 101 ITAGUI",
+    Telefono: "4-372 12 45",
+    Ciudad: "MEDELLIN - ANTIOQUIA"
   },
   {
-    id: 5,
-    empresa: "empresa5",
-    codigo: 165478960,
-    nombre: "Sede5",
-    estado: false
+    IdSede: "7",
+    Nombre: "REGIONAL EJE CAFETERO",
+    Prefijo: "EJECAF",
+    Estado: "activo",
+    Direccion: "CRA 14 88-00 BODEGA MONSERRATE BOD 1 SEC. BELMONTE",
+    Telefono: "6-320 51 55",
+    Ciudad: "PEREIRA - RISARALDA"
+  },
+  {
+    IdSede: "5",
+    Nombre: "REGIONAL OCCIDENTE",
+    Prefijo: "OCCI",
+    Estado: "activo",
+    Direccion: "CRA 27B 13-141 ZONA INDUS. BL 8 BOD 15 ARROYOHONDO",
+    Telefono: "2-691 37 07",
+    Ciudad: "CALI - VALLE DEL CAUCA"
+  },
+  {
+    IdSede: "4",
+    Nombre: "REGIONAL SANTANDER",
+    Prefijo: "SANT",
+    Estado: "activo",
+    Direccion: "MANZANA D BODEGA 1 PARQUE INDUSTRIAL VIA CHIMITA",
+    Telefono: "7-676 00 78",
+    Ciudad: "BUCARAMANGA - SANTANDER"
   }
 ];
 
@@ -60,7 +88,7 @@ class TableContentSedes extends Component {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "30px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -125,24 +153,61 @@ class TableContentSedes extends Component {
                 exportCSV
               >
                 <TableHeaderColumn
-                  width={"30"}
-                  dataField={"id"}
                   isKey
+                  dataField={"IdSede"}
+                  width={"50"}
                   dataAlign="center"
+                  dataSort={true}
                 >
                   #
                 </TableHeaderColumn>
-                <TableHeaderColumn dataAlign="center" dataField={"empresa"}>
-                  Empresa
-                </TableHeaderColumn>
-                <TableHeaderColumn dataAlign="center" dataField={"codigo"}>
-                  Código
-                </TableHeaderColumn>
-                <TableHeaderColumn dataAlign="center" dataField={"nombre"}>
+                <TableHeaderColumn
+                  dataField={"Nombre"}
+                  dataAlign="center"
+                  width={""}
+                  dataSort={true}
+                >
                   Nombre
                 </TableHeaderColumn>
-                <TableHeaderColumn dataAlign="center" dataField={"estado"}>
-                  Estado
+                <TableHeaderColumn
+                  dataField={"Prefijo"}
+                  dataAlign="center"
+                  width={"100"}
+                  dataSort={true}
+                >
+                  Prefijo
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataField={"Ciudad"}
+                  dataAlign={"center"}
+                  width={"250"}
+                  dataSort={true}
+                >
+                  {" "}
+                  Ciudad{" "}
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataField={"Direccion"}
+                  dataAlign={"center"}
+                  width={"250"}
+                  dataSort={true}
+                >
+                  Dirección
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataField={"Telefono"}
+                  dataAlign={"center"}
+                  dataSort={true}
+                >
+                  Teléfono
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataField={"Estado"}
+                  dataAlign={"center"}
+                  dataSort={true}
+                >
+                  {" "}
+                  Estado{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   export={false}

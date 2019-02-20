@@ -10,44 +10,292 @@ import "./../../../css/custom_table.css";
 
 const dataExample = [
   {
-    id: 1,
-    codigo: 123649785,
-    nombre: "Dependencia 1",
-    rol_responsable: "Administrador",
-    sede: "sede 1",
-    estado: true
+    IdDependencia: 3,
+    Nombre: "GERENCIA GENERAL",
+    Cargo: "GERENTE GENERAL",
+    Codigo: 1000,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
   },
   {
-    id: 2,
-    codigo: 123546879,
-    nombre: "Dependencia 2",
-    rol_responsable: "Administador 2",
-    sede: "sede 2",
-    estado: true
+    IdDependencia: 4,
+    Nombre: "CONTROL INTERNO",
+    Cargo: "JEFE DE CONTROL INTERNO",
+    Codigo: 1100,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
   },
   {
-    id: 3,
-    codigo: 123645879,
-    nombre: "Dependencia 3 ",
-    rol_responsable: "Administrador 3",
-    sede: "Sede 3",
-    estado: true
+    IdDependencia: 5,
+    Nombre: "SSTA",
+    Cargo: "JEFE DE SSMA",
+    Codigo: 1200,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
   },
   {
-    id: 4,
-    codigo: 123546879,
-    nombre: "Dependencia 4 ",
-    rol_responsable: "Administrador 4",
-    sede: "Sede 4",
-    estado: true
+    IdDependencia: 6,
+    Nombre: "DIRECCION TECNICA",
+    Cargo: "DIRECTOR TECNICO",
+    Codigo: 1300,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
   },
   {
-    id: 5,
-    codigo: 123546879,
-    nombre: "Dependencia 5",
-    rol_responsable: "Administrador 5",
-    sede: "Sede 5",
-    estado: true
+    IdDependencia: 7,
+    Nombre: "GERENCIA OPERATIVA",
+    Cargo: "GERENTE OPERATIVO",
+    Codigo: 2000,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 1,
+    Nombre: "DIRECCION ADMINISTRATIVA",
+    Cargo: "DIRECTOR ADMINISTRATIVO",
+    Codigo: 3000,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 8,
+    Nombre: "SEGURIDAD FISICA",
+    Cargo: "JEFE DE SEGURIDAD",
+    Codigo: 3100,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 9,
+    Nombre: "TALENTO HUMANO",
+    Cargo: "COORDINADOR DE TALENTO HUMANO",
+    Codigo: 3200,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 10,
+    Nombre: "SERVICIOS ADMINISTRATIVOS",
+    Cargo: "COORDINADOR DE SERVICIOS ADMINISTRATIVOS",
+    Codigo: 3300,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 11,
+    Nombre: "NOMINA",
+    Cargo: "JEFE DE NOMINA",
+    Codigo: 3400,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 12,
+    Nombre: "CONTRATACION Y SEGURIDAD SOCIAL",
+    Cargo: "COORDINADOR DE CONTRATACION Y SEGURIDAD SOCIAL",
+    Codigo: 3500,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 13,
+    Nombre: "ARCHIVO",
+    Cargo: "AUXILIAR DE ARCHIVO",
+    Codigo: 3600,
+    Sede: "BOGOTA CENTRO DE LOGISTICA",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 14,
+    Nombre: "GERENCIA DE PLANTA",
+    Cargo: "GERENTE DE PLANTA",
+    Codigo: 4000,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 15,
+    Nombre: "CONTROL DE CALIDAD",
+    Cargo: "JEFE DE CONTROL DE CALIDAD",
+    Codigo: 4100,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 16,
+    Nombre: "MANTENIMIENTO",
+    Cargo: "JEFE DE MANTENIMIENTO",
+    Codigo: 4200,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 17,
+    Nombre: "PRODUCCION",
+    Cargo: "JEFE DE PRODUCCION",
+    Codigo: 4300,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 19,
+    Nombre: "DIRECCION DE CATEGORIA",
+    Cargo: "DIRECTOR DE CATEGORIA",
+    Codigo: 5100,
+    Sede: "BOGOTA CENTRO DE LOGISTICA",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 18,
+    Nombre: "GERENCIA DE MERCADEO",
+    Cargo: "GERENTE OPERATIVO",
+    Codigo: 5000,
+    Sede: "BOGOTA CENTRO DE LOGISTICA",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 20,
+    Nombre: "TRADE MARKETING",
+    Cargo: "JEFE DE TRADE MARKETING",
+    Codigo: 5200,
+    Sede: "BOGOTA CENTRO DE LOGISTICA",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 21,
+    Nombre: "GERENCIA NACIONAL DE VENTAS",
+    Cargo: "GERENTE NACIONAL DE VENTAS",
+    Codigo: 6000,
+    Sede: "BOGOTA CENTRO DE LOGISTICA",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 22,
+    Nombre: "CANAL MERKA Y GANA",
+    Cargo: "COORDINADOR CANAL MERKA Y GANA",
+    Codigo: 6100,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 23,
+    Nombre: "GERENCIA DE LOGISTICA",
+    Cargo: "GERENTE DE LOGISTICA",
+    Codigo: 7000,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 24,
+    Nombre: "LOGISTICA DE APROVISIONAMIENTO",
+    Cargo: "JEFE DE APROVISIONAMIENTO",
+    Codigo: 7100,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 25,
+    Nombre: "ALMACEN",
+    Cargo: "JEFE DE ALMACEN",
+    Codigo: 7200,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 26,
+    Nombre: "DISTRIBUCION BOGOTA",
+    Cargo: "JEFE DE DISTRIBUCION",
+    Codigo: 7300,
+    Sede: "BOGOTA CENTRO DE LOGISTICA",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 27,
+    Nombre: "BODEGA REGIONAL",
+    Cargo: "GERENTE DE LOGISTICA",
+    Codigo: 7400,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 2,
+    Nombre: "DIRECCION FINANCIERA",
+    Cargo: "DIRECTOR",
+    Codigo: 8000,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 28,
+    Nombre: "CONTABILIDAD",
+    Cargo: "DIRECTOR DE CONTABILIDAD",
+    Codigo: 8100,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 29,
+    Nombre: "SISTEMAS",
+    Cargo: "DIRECTOR DE SISTEMAS",
+    Codigo: 8200,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 30,
+    Nombre: "CREDITO Y CARTERA",
+    Cargo: "JEFE DE CARTERA",
+    Codigo: 8300,
+    Sede: "BOGOTA CENTRO DE LOGISTICA",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 31,
+    Nombre: "TESORERIA",
+    Cargo: "JEFE DE TESORERIA",
+    Codigo: 8400,
+    Sede: "BOGOTA PRINCIPAL",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 33,
+    Nombre: "LOGISTICA BUCARAMANGA",
+    Cargo: "JEFE DE BODEGA",
+    Codigo: 7420,
+    Sede: "REGIONAL SANTANDER",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 34,
+    Nombre: "LOGISTICA CALI",
+    Cargo: "JEFE DE BODEGA",
+    Codigo: 7430,
+    Sede: "REGIONAL OCCIDENTE",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 35,
+    Nombre: "LOGISTICA MEDELLIN",
+    Cargo: "JEFE DE BODEGA",
+    Codigo: 7440,
+    Sede: "REGIONAL ANTIOQUIA",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 36,
+    Nombre: "LOGISTICA PEREIRA",
+    Cargo: "JEFE DE BODEGA",
+    Codigo: 7450,
+    Sede: "REGIONAL EJE CAFETERO",
+    Estado: "activo"
+  },
+  {
+    IdDependencia: 32,
+    Nombre: "LOGISTICA BARRANQUILLA",
+    Cargo: "JEFE DE BODEGA",
+    Codigo: 7410,
+    Sede: "REGIONAL ATLANTICO",
+    Estado: "activo"
   }
 ];
 
@@ -57,7 +305,8 @@ class TableContentDependencia extends Component {
     this.state = {
       modalviewstate: false,
       modaleditstate: false,
-      modaldelstate: false
+      modaldelstate: false,
+      columns: [{}]
     };
   }
   accionesDependencias(cell, row) {
@@ -118,35 +367,20 @@ class TableContentDependencia extends Component {
       <div className="animated fadeIn">
         <Col md="12">
           <BootstrapTable
-            search={true}
+            search
             searchPlaceholder={"Buscar"}
             pagination={true}
-            data={dataExample}
-            exportCSV
-            bordered={false}
+            striped
             hover
+            bordered={true}
+            data={dataExample}
           >
-            <TableHeaderColumn isKey dataField={"id"} width="100">
-              {" "}
-              #{" "}
+            <TableHeaderColumn isKey dataField="idDependencia">
+              #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"codigo"}> Código </TableHeaderColumn>
-            <TableHeaderColumn dataField={"nombre"}>Nombre</TableHeaderColumn>
-            <TableHeaderColumn dataField={"rol_responsable"}>
-              {" "}
-              Cargo respondable{" "}
-            </TableHeaderColumn>
-            <TableHeaderColumn dataField={"sede"}> Sede </TableHeaderColumn>
-            <TableHeaderColumn dataField={"estado"}>Estado</TableHeaderColumn>
-            <TableHeaderColumn
-              dataFormat={(cell, row) => this.accionesDependencias(cell, row)}
-            >
-              {" "}
-              Acciones{" "}
-            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"Codigo"}>Código</TableHeaderColumn>
           </BootstrapTable>
         </Col>
-
         <ModalView modalView={this.state.modalviewstate} ref="child1" />
         <ModalEdit modalEdit={this.state.modaleditstate} ref="child2" />
         <ModalDelete modalDel={this.state.modaldelstate} ref="child3" />

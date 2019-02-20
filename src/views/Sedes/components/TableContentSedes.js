@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Badge } from "reactstrap";
 import ModalEdit from "./ModalEditSedes";
 import ModalView from "./ModalViewSedes";
 import ModalDelete from "./ModalDeleteSedes";
@@ -13,7 +13,7 @@ const dataExample = [
     IdSede: "1",
     Nombre: "BOGOTA PRINCIPAL",
     Prefijo: "BP",
-    Estado: "activo",
+    Estado: 0,
     Direccion: "AUTOPISTA SUR  60-51",
     Telefono: "711 90 05",
     Ciudad: "BOGOTA - DISTRITO CAPITAL"
@@ -22,7 +22,7 @@ const dataExample = [
     IdSede: "3",
     Nombre: "REGIONAL ATLANTICO",
     Prefijo: "ATLAN",
-    Estado: "activo",
+    Estado: 1,
     Direccion: "CALLE 110 9G-330 BODEGA 1415",
     Telefono: "310 398 74 11",
     Ciudad: "BARRANQUILLA - ATLANTICO"
@@ -31,7 +31,7 @@ const dataExample = [
     IdSede: "2",
     Nombre: "BOGOTA CENTRO DE LOGISTICA",
     Prefijo: "BCLED",
-    Estado: "activo",
+    Estado: 1,
     Direccion: "CALLE 25D 95A-90",
     Telefono: "426 34 44",
     Ciudad: "BOGOTA - DISTRITO CAPITAL"
@@ -40,7 +40,7 @@ const dataExample = [
     IdSede: "6",
     Nombre: "REGIONAL ANTIOQUIA",
     Prefijo: "ANTI",
-    Estado: "activo",
+    Estado: 0,
     Direccion: "CRA 42 54A-155 BODEGA A 101 ITAGUI",
     Telefono: "4-372 12 45",
     Ciudad: "MEDELLIN - ANTIOQUIA"
@@ -49,7 +49,7 @@ const dataExample = [
     IdSede: "7",
     Nombre: "REGIONAL EJE CAFETERO",
     Prefijo: "EJECAF",
-    Estado: "activo",
+    Estado: 1,
     Direccion: "CRA 14 88-00 BODEGA MONSERRATE BOD 1 SEC. BELMONTE",
     Telefono: "6-320 51 55",
     Ciudad: "PEREIRA - RISARALDA"
@@ -58,7 +58,7 @@ const dataExample = [
     IdSede: "5",
     Nombre: "REGIONAL OCCIDENTE",
     Prefijo: "OCCI",
-    Estado: "activo",
+    Estado: 0,
     Direccion: "CRA 27B 13-141 ZONA INDUS. BL 8 BOD 15 ARROYOHONDO",
     Telefono: "2-691 37 07",
     Ciudad: "CALI - VALLE DEL CAUCA"
@@ -67,7 +67,7 @@ const dataExample = [
     IdSede: "4",
     Nombre: "REGIONAL SANTANDER",
     Prefijo: "SANT",
-    Estado: "activo",
+    Estado: 1,
     Direccion: "MANZANA D BODEGA 1 PARQUE INDUSTRIAL VIA CHIMITA",
     Telefono: "7-676 00 78",
     Ciudad: "BUCARAMANGA - SANTANDER"
@@ -82,6 +82,15 @@ class TableContentSedes extends Component {
       modalEdit: false,
       modalDel: false
     };
+  }
+
+  SedesStatus(cell, row) {
+    let status;
+    if (row.Estado === 1) status = <Badge color="success">ACTIVO</Badge>;
+    else if (row.Estado === 0) {
+      status = <Badge color="danger">INACTIVO</Badge>;
+    }
+    return status;
   }
 
   accionesSedes = (cell, row) => {
@@ -205,6 +214,7 @@ class TableContentSedes extends Component {
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataField={"Estado"}
+                  dataFormat={(cell, row) => this.SedesStatus(cell, row)}
                   dataAlign={"center"}
                   dataSort={true}
                 >

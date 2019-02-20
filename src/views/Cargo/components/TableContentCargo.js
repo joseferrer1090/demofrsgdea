@@ -36,7 +36,7 @@ const dataExample = [
     codigo: 34567890,
     nombre: "Cargo 3",
     descripcion: "Descripcion del cargo 4",
-    estado: true,
+    estado: false,
     observacion: ""
   },
   {
@@ -44,7 +44,7 @@ const dataExample = [
     codigo: 9987767,
     nombre: "Cargo 5",
     descripcion: "Descripcion del cargo 5",
-    estado: true,
+    estado: false,
     observacion: ""
   },
   {

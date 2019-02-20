@@ -6,7 +6,7 @@ import ModalEdit from "./ModalEditSedes";
 import ModalView from "./ModalViewSedes";
 import ModalDelete from "./ModalDeleteSedes";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
+import "./../../../css/table_data.css";
 
 const dataExample = [
   {
@@ -149,8 +149,10 @@ class TableContentSedes extends Component {
                 hover
                 pagination
                 bordered={false}
+                striped
                 searchPlaceholder={"Buscar"}
                 exportCSV
+                className="texto-small"
               >
                 <TableHeaderColumn
                   isKey

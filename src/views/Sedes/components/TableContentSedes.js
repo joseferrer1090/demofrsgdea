@@ -86,9 +86,9 @@ class TableContentSedes extends Component {
 
   SedesStatus(cell, row) {
     let status;
-    if (row.Estado === 1) status = <Badge color="success">ACTIVO</Badge>;
+    if (row.Estado === 1) status = <b className="text-success">ACTIVO</b>;
     else if (row.Estado === 0) {
-      status = <Badge color="danger">INACTIVO</Badge>;
+      status = <b className="text-danger">INACTIVO</b>;
     }
     return status;
   }
@@ -162,6 +162,7 @@ class TableContentSedes extends Component {
                 searchPlaceholder={"Buscar"}
                 exportCSV
                 className="texto-small"
+                headerStyle={{ height: "39px" }}
               >
                 <TableHeaderColumn
                   isKey

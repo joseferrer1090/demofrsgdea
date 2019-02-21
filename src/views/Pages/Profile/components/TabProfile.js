@@ -75,7 +75,7 @@ export default class TabProfile extends React.Component {
                 this.toggle("4");
               }}
             >
-              <i className="cui-brush" /> Tema
+              <i className="cui-brush" /> Temas
             </NavLink>
           </NavItem>
           <NavItem>

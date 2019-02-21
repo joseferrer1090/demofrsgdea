@@ -6,8 +6,7 @@ import ModalView from "./ModalViewDependencia";
 import ModalEdit from "./ModalEditDependencia";
 import ModalDelete from "./ModalDeleteDependencia";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
-
+import "./../../../css/table_data.css";
 const dataExample = [
   {
     IdDependencia: 3,
@@ -15,7 +14,7 @@ const dataExample = [
     Cargo: "GERENTE GENERAL",
     Codigo: 1000,
     Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
+    Estado: "inactivo"
   },
   {
     IdDependencia: 4,
@@ -305,15 +304,14 @@ class TableContentDependencia extends Component {
     this.state = {
       modalviewstate: false,
       modaleditstate: false,
-      modaldelstate: false,
-      columns: [{}]
+      modaldelstate: false
     };
   }
   accionesDependencias(cell, row) {
     return (
       <div
         className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "50px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -350,6 +348,16 @@ class TableContentDependencia extends Component {
     );
   }
 
+  StatusDependencia(cell, row) {
+    let status;
+    if (row.Estado === "activo") {
+      status = <p className="text-success">ACTIVADA</p>;
+    } else if (row.Estado !== "activo") {
+      status = <p className="text-danger">INACTIVADA</p>;
+    }
+    return status;
+  }
+
   openModalView() {
     this.refs.child1.toggle();
   }
@@ -367,18 +375,62 @@ class TableContentDependencia extends Component {
       <div className="animated fadeIn">
         <Col md="12">
           <BootstrapTable
-            search
-            searchPlaceholder={"Buscar"}
-            pagination={true}
-            striped
-            hover
-            bordered={true}
             data={dataExample}
+            pagination
+            search
+            searchPlaceholder="Buscar"
+            exportCSV
+            bordered={false}
+            hover
+            striped
+            className="texto-small"
+            headerStyle={{ height: "39px" }}
+            containerStyle={{ height: "80%" }}
           >
-            <TableHeaderColumn isKey dataField="idDependencia">
-              #
+            <TableHeaderColumn
+              dataField="Codigo"
+              isKey={true}
+              dataAlign="center"
+              dataSort={true}
+            >
+              Código
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"Codigo"}>Código</TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="Nombre"
+              dataSort={true}
+              dataAlign="center"
+            >
+              Nombre
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="Cargo"
+              dataAlign="center"
+              dataSort={true}
+            >
+              Cargo responsable
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="Sede"
+              dataAlign="center"
+              dataSort={true}
+            >
+              Sede
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="Estado"
+              dataAlign="center"
+              dataSort={true}
+              dataFormat={(cell, row) => this.StatusDependencia(cell, row)}
+            >
+              {" "}
+              Estado{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataAlign="center"
+              dataFormat={(cell, row) => this.accionesDependencias(cell, row)}
+            >
+              Acciones
+            </TableHeaderColumn>
           </BootstrapTable>
         </Col>
         <ModalView modalView={this.state.modalviewstate} ref="child1" />

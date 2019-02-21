@@ -385,7 +385,6 @@ class TableContentDependencia extends Component {
             striped
             className="texto-small"
             headerStyle={{ height: "39px" }}
-            containerStyle={{ height: "80%" }}
           >
             <TableHeaderColumn
               dataField="Codigo"

@@ -5,6 +5,7 @@ import Pais from "./views/Pais/Pais";
 import Ciudad from "./views/Ciudad/Ciudad";
 import Departamento from "./views/Departamento/Departamento";
 import Profile from "./views/Pages/Profile/Profle";
+import Diseño from "./views/Diseño/Diseño";
 
 const Configuracion = React.lazy(() =>
   import("./views/Configuracion/Configuracion")
@@ -151,6 +152,12 @@ const routes = [
     exact: true,
     name: " Configuracion / Auditoria ",
     component: Auditoria
+  },
+  {
+    path: "/configuracion/diseño",
+    exact: true,
+    name: " Configuracion / Diseño  ",
+    component: Diseño
   }
 ];
 

@@ -84,6 +84,11 @@ export default {
           name: "Auditoria",
           icon: "icon-info",
           url: "/configuracion/auditoria"
+        },
+        {
+          name: "Diseño",
+          icon: "icon-pencil",
+          url: "/configuracion/diseño"
         }
       ]
     }

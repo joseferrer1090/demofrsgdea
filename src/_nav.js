@@ -83,7 +83,17 @@ export default {
         {
           name: "Auditoria",
           icon: "icon-info",
-          url: "/configuracion/auditoria"
+          url: "",
+          children: [
+            {
+              name: "Consultar",
+              url: "/configuracion/auditoria"
+            },
+            {
+              name: "Mover a historico",
+              url: "/configuracion/auditoria/moverhistorico"
+            }
+          ]
         },
         {
           name: "Diseño",

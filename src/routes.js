@@ -43,6 +43,10 @@ const TipoDocumentalesRadicacion = React.lazy(() =>
 
 const Auditoria = React.lazy(() => import("./views/Auditoria/Auditoria"));
 
+const MoverHistorico = React.lazy(() =>
+  import("./views/Auditoria/components/MoverHistorico/MoverHistorico")
+);
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   {
@@ -152,6 +156,12 @@ const routes = [
     exact: true,
     name: " Configuracion / Auditoria ",
     component: Auditoria
+  },
+  {
+    path: "/configuracion/auditoria/moverhistorico",
+    exact: true,
+    name: "Configuracion / Auditoria / Mover historico",
+    component: MoverHistorico
   },
   {
     path: "/configuracion/diseño",

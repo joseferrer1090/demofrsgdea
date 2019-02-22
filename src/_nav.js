@@ -87,11 +87,13 @@ export default {
           children: [
             {
               name: "Consultar",
-              url: "/configuracion/auditoria"
+              url: "/configuracion/auditoria",
+              icon: "fa fa-search"
             },
             {
               name: "Mover a historico",
-              url: "/configuracion/auditoria/moverhistorico"
+              url: "/configuracion/auditoria/moverhistorico",
+              icon: "fa fa-server"
             }
           ]
         },

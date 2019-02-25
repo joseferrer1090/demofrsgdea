@@ -83,7 +83,7 @@ export default {
         {
           name: "Auditoria",
           icon: "icon-info",
-          url: "",
+          url: "/configuracion/auditoria",
           children: [
             {
               name: "Consultar",

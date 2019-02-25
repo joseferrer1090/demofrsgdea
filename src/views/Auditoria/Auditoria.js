@@ -15,9 +15,13 @@ import {
 } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewAditoria from "./components/ModalViewAuditoria";
+import ModalSearch from "./components/ModalSearchAuditoria";
 import "./../../../node_modules/react-datepicker/dist/react-datepicker.css";
 import "./../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import "./../../css/custom_calendar.css";
+import "./../../css/table_data.css";
+import "./components/customstyle.css";
+import styled from "styled-components";
 import moment from "moment";
 
 const dataExample = [
@@ -77,6 +81,7 @@ class Auditoria extends Component {
     this.state = {
       startDate: new Date(),
       modalviewauditoria: false,
+      modalSearch: false,
       visible: false
     };
   }
@@ -108,162 +113,92 @@ class Auditoria extends Component {
     );
   }
 
+  createButtonCustom = props => {
+    return (
+      <div className="btn-group btn-group-sm">
+        {props.exportCSVBtn}
+        &nbsp;
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalSearch();
+          }}
+        >
+          {" "}
+          <i className="fa fa-pencil" /> Consultar auditoría{" "}
+        </button>
+      </div>
+    );
+  };
+
   openModalView() {
     this.refs.child1.toggle();
   }
 
+  openModalSearch() {
+    this.refs.child2.toggle();
+  }
+
   render() {
-    const { visible } = this.state;
+    const options = {
+      btnGroup: this.createButtonCustom
+    };
+
     return (
       <div className="animated fadeIn">
-        <div className="container">
-          <Row>
-            <Col sm="10" md={{ offset: 1 }}>
-              <Card>
-                <CardBody>
-                  <CardTitle>
-                    {" "}
-                    Parametros de busqueda <hr />{" "}
-                  </CardTitle>
-                  <br />
-                  <Form>
-                    <Card body>
-                      <Row form>
-                        <Col md={6}>
-                          <FormGroup>
-                            <Label for="exampleEmail">
-                              {" "}
-                              Desde: <span className="text-danger">*</span>{" "}
-                            </Label>
-                            <DatePicker
-                              selected={this.state.startDate}
-                              selectsStart
-                              startDate={this.state.startDate}
-                              endDate={this.state.endDate}
-                              onChange={this.handleChangeStartDate}
-                              className="form-control large2"
-                            />
-                          </FormGroup>
-                        </Col>
-                        <Col md={6}>
-                          <FormGroup>
-                            <Label for="exampleEmail">
-                              {" "}
-                              Hasta: <span className="text-danger">*</span>{" "}
-                            </Label>
-                            <DatePicker
-                              selected={this.state.endDate}
-                              selectsEnd
-                              startDate={this.state.startDate}
-                              endDate={this.state.endDate}
-                              onChange={this.handleChangeEndDate}
-                              className="form-control large2"
-                            />
-                          </FormGroup>
-                        </Col>
-                      </Row>
-                    </Card>
-                    <Row>
-                      <Col sm="6">
-                        <div className="form-group">
-                          <label> Acción: </label>
-                          <select className="form-control">
-                            {" "}
-                            <option> seleccione </option>{" "}
-                          </select>
-                        </div>
-                      </Col>
-                      {/* <Col sm="6">
-                        <div className="form-group">
-                          <label> Tablas: </label>
-                          <select className="form-control">
-                            {" "}
-                            <option> Seleccione </option>{" "}
-                          </select>
-                        </div>
-                      </Col> */}
+        <div className="row">
+          <div className="col-md-12">
+            <Card body>
+              <BootstrapTable
+                data={dataExample}
+                options={options}
+                bordered={false}
+                hover
+                exportCSV
+                search
+                searchPlaceholder="Buscar"
+                pagination
+                striped
+                className="texto-small"
+                headerStyle={{ height: "39px" }}
+                bod
+              >
+                <TableHeaderColumn isKey dataField="fecha" dataAlign="center">
+                  {" "}
+                  Fecha{" "}
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="accion" dataAlign="center">
+                  {" "}
+                  Accion{" "}
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="tabla" dataAlign="center">
+                  {" "}
+                  Tabla{" "}
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="usuario" dataAlign="center">
+                  {" "}
+                  Usuario{" "}
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="tipo" dataAlign="center">
+                  {" "}
+                  Tipo{" "}
+                </TableHeaderColumn>
 
-                      <Col sm="6">
-                        <div className="form-group">
-                          <label> Usuarios: </label>
-                          <select className="form-control">
-                            {" "}
-                            <option> Seleccione </option>{" "}
-                          </select>
-                        </div>
-                      </Col>
-                    </Row>
-                  </Form>
-                </CardBody>
-                <CardFooter>
-                  <div className="float-right">
-                    <button
-                      className="btn btn-secondary"
-                      onClick={() => {
-                        this.setState({ visible: !this.state.visible });
-                      }}
-                    >
-                      {" "}
-                      <i className="fa fa-search" /> Consultar{" "}
-                    </button>
-                  </div>
-                </CardFooter>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-        {visible ? (
-          <div className="animated fadeIn">
-            <Row sm="12">
-              <Card body>
-                <BootstrapTable
-                  data={dataExample}
-                  bordered={false}
-                  striped
-                  hover
+                <TableHeaderColumn
+                  dataAlign="center"
+                  dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
                 >
-                  <TableHeaderColumn
-                    dataField="id"
-                    isKey
-                    dataAlign={"center"}
-                    width="50"
-                  >
-                    #
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField="fecha" dataAlign={"center"}>
-                    {" "}
-                    Fecha{" "}
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField="accion" dataAlign={"center"}>
-                    {" "}
-                    Accion{" "}
-                  </TableHeaderColumn>
-                  {/* <TableHeaderColumn dataField="tabla" dataAlign={"center"}>
-                    {" "}
-                    Tabla{" "}
-                  </TableHeaderColumn> */}
-                  <TableHeaderColumn dataField="usuario" dataAlign={"center"}>
-                    {" "}
-                    Usuario{" "}
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField="tipo" dataAlign={"center"}>
-                    {" "}
-                    Tipo{" "}
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataAlign="center"
-                    dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
-                  />
-                </BootstrapTable>
-              </Card>
-            </Row>
+                  Acciones{" "}
+                </TableHeaderColumn>
+              </BootstrapTable>
+            </Card>
           </div>
-        ) : null}
+        </div>
         <ModalViewAditoria
           modalview={this.state.modalviewauditoria}
-          ref="child1"
+          ref={"child1"}
         />
-        
+        <ModalSearch modalSearch={this.state.modalSearch} ref={"child2"} />
       </div>
     );
   }

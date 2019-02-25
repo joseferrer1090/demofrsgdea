@@ -160,7 +160,7 @@ const routes = [
   {
     path: "/configuracion/auditoria/moverhistorico",
     exact: true,
-    name: "Configuracion / Auditoria / Mover historico",
+    name: "Mover historico",
     component: MoverHistorico
   },
   {

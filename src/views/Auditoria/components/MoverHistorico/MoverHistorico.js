@@ -43,6 +43,18 @@ class MoverHisotrico extends Component {
             </NavLink>
           </NavItem>
         </Nav>
+        <TabContent activeTab={this.state.activeTab}>
+          <TabPane tabId="1">
+            <div className="row">
+              <p>Probando</p>
+            </div>
+          </TabPane>
+          <TabPane tabId="2">
+            <div className="row">
+              <p>Probando el segundo tab</p>
+            </div>
+          </TabPane>
+        </TabContent>
       </div>
     );
   }

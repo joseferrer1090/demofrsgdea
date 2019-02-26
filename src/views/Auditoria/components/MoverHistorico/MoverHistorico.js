@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
+import FormManual from "./components/FormManual";
+import FormAutomatic from "./components/FormAutomatic";
 import classnames from "classnames";
 
 class MoverHisotrico extends Component {
@@ -46,12 +48,16 @@ class MoverHisotrico extends Component {
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <div className="row">
-              <p>Probando</p>
+              <div className="col-md-12">
+                <FormManual />
+              </div>
             </div>
           </TabPane>
           <TabPane tabId="2">
             <div className="row">
-              <p>Probando el segundo tab</p>
+              <div className="col-md-12">
+                <FormAutomatic />
+              </div>
             </div>
           </TabPane>
         </TabContent>

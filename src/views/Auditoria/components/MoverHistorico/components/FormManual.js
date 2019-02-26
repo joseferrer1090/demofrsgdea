@@ -17,7 +17,7 @@ class FormManual extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="animated fadeIn">
         <Row>
           <Col sm={{ size: 8, offset: 2 }}>
             <Card>
@@ -50,7 +50,10 @@ class FormManual extends Component {
                               *
                             </span>{" "}
                           </label>
-                          <input type="date" className="form-control" />
+                          <input
+                            type="date"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -61,7 +64,10 @@ class FormManual extends Component {
                               *
                             </span>{" "}
                           </label>
-                          <input type="date" className="form-control" />
+                          <input
+                            type="date"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                     </div>
@@ -74,7 +80,7 @@ class FormManual extends Component {
                               *
                             </span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             <option>Selecciones</option>
                           </select>
                         </div>
@@ -85,7 +91,7 @@ class FormManual extends Component {
                             {" "}
                             Módulo <span className="text-danger">*</span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             <option> Seleccione... </option>
                           </select>
                         </div>
@@ -98,7 +104,7 @@ class FormManual extends Component {
                             {" "}
                             Opción <span className="text-danger">*</span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             <option>Selecciones</option>
                           </select>
                         </div>
@@ -109,7 +115,7 @@ class FormManual extends Component {
                             {" "}
                             Acción <span className="text-danger">*</span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             <option> Seleccione... </option>
                           </select>
                         </div>

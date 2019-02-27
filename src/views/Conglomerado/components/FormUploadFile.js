@@ -87,7 +87,10 @@ class FormUploadFile extends Component {
                             <b> (Para archivos planos) </b>{" "}
                           </span>{" "}
                         </label>
-                        <input type="text" className="form-control" />
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        />
                       </div>
                     </div>
                     <div className="col-md-6">

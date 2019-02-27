@@ -62,7 +62,10 @@ class FormCreateEmpresa extends Component {
                             {" "}
                             Nit <span className="text-danger">*</span>{" "}
                           </label>
-                          <input className="form-control" type="text" />
+                          <input
+                            className="form-control form-control-sm"
+                            type="text"
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -71,7 +74,10 @@ class FormCreateEmpresa extends Component {
                             {" "}
                             Código <span className="text-danger">*</span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                     </div>
@@ -82,7 +88,10 @@ class FormCreateEmpresa extends Component {
                             {" "}
                             Nombre <span className="text-danger">*</span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                     </div>
@@ -121,7 +130,7 @@ class FormCreateEmpresa extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label> Descripción </label>
-                          <textarea className="form-control" />
+                          <textarea className="form-control form-control-sm" />
                         </div>
                       </div>
                     </div>

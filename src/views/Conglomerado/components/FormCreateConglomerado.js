@@ -32,7 +32,7 @@ class FormCreateConglomerado extends Component {
                           </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className="form-control form-control-sm"
                             placeholder=""
                           />
                         </div>
@@ -45,7 +45,7 @@ class FormCreateConglomerado extends Component {
                           </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className="form-control form-control-sm"
                             placeholder=""
                           />
                         </div>
@@ -55,7 +55,10 @@ class FormCreateConglomerado extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label> Descripción</label>
-                          <textarea className="form-control" placeholder="" />
+                          <textarea
+                            className="form-control form-control-sm"
+                            placeholder=""
+                          />
                         </div>
                       </div>
                     </div>
@@ -103,7 +106,7 @@ class FormCreateConglomerado extends Component {
                   <div className="pull-right">
                     <button
                       type="button"
-                      className="btn btn-secondary"
+                      className="btn btn-secondary btn-sm"
                       onClick={() => {
                         console.log("probando");
                       }}

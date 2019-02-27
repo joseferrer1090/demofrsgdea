@@ -9,7 +9,7 @@ import ModalCustom from "./../customcomponent/CustomModalTable";
 import ModalCustom2 from "./../customcomponent/CustomModalTable2";
 
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
+import "./../../../css/table_data.css";
 
 const data = [
   {
@@ -152,9 +152,10 @@ class TableContentConglomerado extends Component {
                     pagination={true}
                     search={true}
                     exportCSV
+                    hover
                     bordered={false}
                     searchPlaceholder="Buscar"
-                    className=" table-hover"
+                    className="texto-small"
                   >
                     <TableHeaderColumn
                       dataSort={true}

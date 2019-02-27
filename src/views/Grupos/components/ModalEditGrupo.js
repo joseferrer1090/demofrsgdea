@@ -42,7 +42,10 @@ class ModalEditPais extends Component {
                         {" "}
                         Código <span className="text-danger">*</span>{" "}
                       </label>
-                      <input className="form-control" type="text" />
+                      <input
+                        className="form-control form-control-sm"
+                        type="text"
+                      />
                     </div>
                   </div>
                   <div className="col-sm-4">
@@ -51,7 +54,10 @@ class ModalEditPais extends Component {
                         {" "}
                         Nombre <span className="text-danger">*</span>{" "}
                       </label>
-                      <input type="text" className="form-control" />
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                      />
                     </div>
                   </div>
                   <div className="col-sm-4">
@@ -60,7 +66,7 @@ class ModalEditPais extends Component {
                         {" "}
                         Estado <span className="text-danger">*</span>{" "}
                       </label>
-                      <select className="form-control">
+                      <select className="form-control form-control-sm">
                         <option> Seleccione </option>
                       </select>
                     </div>
@@ -68,7 +74,7 @@ class ModalEditPais extends Component {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label> Descripción </label>
-                      <input type="text" className="form-control" />
+                      <textarea className="form-control form-control-sm" />
                     </div>
                   </div>
                 </div>
@@ -89,7 +95,7 @@ class ModalEditPais extends Component {
                                   Conglomerado{" "}
                                   <span className="text-danger"> *</span>{" "}
                                 </label>
-                                <select className="form-control">
+                                <select className="form-control form-control-sm">
                                   {" "}
                                   <option> Seleccione... </option>{" "}
                                 </select>
@@ -103,7 +109,7 @@ class ModalEditPais extends Component {
                                     *
                                   </span>{" "}
                                 </label>
-                                <select className="form-control">
+                                <select className="form-control form-control-sm">
                                   {" "}
                                   <option> Seleccione </option>{" "}
                                 </select>
@@ -117,7 +123,7 @@ class ModalEditPais extends Component {
                                     *
                                   </span>{" "}
                                 </label>
-                                <select className="form-control">
+                                <select className="form-control form-control-sm">
                                   {" "}
                                   <option> Seleccione </option>{" "}
                                 </select>
@@ -130,7 +136,7 @@ class ModalEditPais extends Component {
                                   Dependencia{" "}
                                   <span className="text-danger">*</span>{" "}
                                 </label>
-                                <select className="form-control">
+                                <select className="form-control form-control-sm">
                                   {" "}
                                   <option> Seleccione </option>{" "}
                                 </select>
@@ -140,7 +146,7 @@ class ModalEditPais extends Component {
                           <div className="">
                             <button
                               type="button"
-                              className="btn btn-secondary "
+                              className="btn btn-secondary btn-sm "
                               onClick={() => {
                                 this.setState({ dataOk: true });
                               }}
@@ -154,7 +160,10 @@ class ModalEditPais extends Component {
                           {dataOk ? (
                             <div className="form-group">
                               <label> Usuarios disponibles </label>
-                              <textarea className="form-control" disabled />
+                              <textarea
+                                className="form-control form-control-sm"
+                                disabled
+                              />
                             </div>
                           ) : null}
                         </form>
@@ -170,7 +179,7 @@ class ModalEditPais extends Component {
                         Seleccione usuario(s) asignados{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <select className="form-control">
+                      <select className="form-control form-control-sm">
                         {" "}
                         <option> Seleccione </option>{" "}
                       </select>
@@ -181,13 +190,13 @@ class ModalEditPais extends Component {
             </form>
           </ModalBody>
           <ModalFooter>
-            <button type="button" className="btn btn-outline-success">
+            <button type="button" className="btn btn-outline-success btn-sm">
               {" "}
               <i className="fa fa-pencil" /> Actualizar{" "}
             </button>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

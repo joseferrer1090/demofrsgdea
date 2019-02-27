@@ -96,7 +96,10 @@ class FormCreateTipoDocumental extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <input type="text" className="form-control" />
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                              />
                             </div>
                           </Col>
                           <Col sm="6">
@@ -107,7 +110,10 @@ class FormCreateTipoDocumental extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <input type="text" className="form-control" />
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                              />
                             </div>
                           </Col>
                           <Col sm="6">
@@ -117,7 +123,7 @@ class FormCreateTipoDocumental extends Component {
                                 Dependencia{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <select className="form-control">
+                              <select className="form-control form-control-sm">
                                 <option> Seleccione </option>
                               </select>
                             </div>
@@ -125,7 +131,10 @@ class FormCreateTipoDocumental extends Component {
                           <Col sm="6">
                             <div className="form-group">
                               <label> Hora de respuesta </label>
-                              <input type="text" className="form-control" />
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                              />
                             </div>
                           </Col>
                           <Col sm="12">
@@ -135,7 +144,7 @@ class FormCreateTipoDocumental extends Component {
                                 Descripción{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <textarea className="form-control" />
+                              <textarea className="form-control form-control-sm" />
                             </div>
                           </Col>
                         </Row>
@@ -209,13 +218,12 @@ class FormCreateTipoDocumental extends Component {
               <CardFooter>
                 <div className="float-right">
                   <button
-                    className="btn btn-secondary"
+                    className="btn btn-secondary btn-sm"
                     onClick={e => {
                       this.handleSubmit(e);
                     }}
                   >
-                    {" "}
-                    Registrar{" "}
+                    <i className="fa fa-plus" /> Registrar{" "}
                   </button>
                 </div>
               </CardFooter>

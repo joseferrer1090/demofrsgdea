@@ -47,7 +47,10 @@ class ModalEditRoles extends Component {
                       <dt> Código </dt>
                       <dd>
                         {" "}
-                        <input type="text" className="form-control" />{" "}
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        />{" "}
                       </dd>
                     </dl>
                   </div>
@@ -58,7 +61,10 @@ class ModalEditRoles extends Component {
                       <dt> Nombre </dt>
                       <dd>
                         {" "}
-                        <input type="text" className="form-control" />{" "}
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        />{" "}
                       </dd>
                     </dl>
                   </div>
@@ -69,7 +75,10 @@ class ModalEditRoles extends Component {
                       <dt> Descripción </dt>
                       <dd>
                         {" "}
-                        <input type="text" className="form-control" />{" "}
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        />{" "}
                       </dd>
                     </dl>
                   </div>
@@ -80,7 +89,7 @@ class ModalEditRoles extends Component {
                       <dt> Estado </dt>
                       <dd>
                         {" "}
-                        <select className="form-control">
+                        <select className="form-control form-control-sm">
                           {" "}
                           <option> Activo </option> <option> Desactivo </option>{" "}
                         </select>{" "}
@@ -93,13 +102,13 @@ class ModalEditRoles extends Component {
           </Row>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-outline-success">
+          <button className="btn btn-outline-success btn-sm">
             {" "}
             <i className="fa fa-pencil" /> Actulizar{" "}
           </button>
           <button
             type="button"
-            className="btn btn-secondary"
+            className="btn btn-secondary btn-sm"
             onClick={() => {
               this.setState({ modal: false });
             }}

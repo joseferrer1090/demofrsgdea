@@ -107,7 +107,10 @@ class FormCreateTipoDocumental extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <input type="text" className="form-control" />
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                              />
                             </div>
                           </Col>
                           <Col sm="6">
@@ -118,7 +121,10 @@ class FormCreateTipoDocumental extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <input type="text" className="form-control" />
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                              />
                             </div>
                           </Col>
                           <Col sm="12">
@@ -129,7 +135,10 @@ class FormCreateTipoDocumental extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <input className="form-control" type="text" />
+                              <input
+                                className="form-control form-control-sm"
+                                type="text"
+                              />
                               <small
                                 id="emailHelp"
                                 className="form-text text-muted"
@@ -146,7 +155,7 @@ class FormCreateTipoDocumental extends Component {
                                 Descripción{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <textarea className="form-control" />
+                              <textarea className="form-control form-control-sm" />
                             </div>
                           </Col>
                         </Row>
@@ -168,7 +177,7 @@ class FormCreateTipoDocumental extends Component {
                                   Conglomerado{" "}
                                   <span className="text-danger">*</span>{" "}
                                 </label>
-                                <select className="form-control">
+                                <select className="form-control form-control-sm">
                                   {" "}
                                   <option> Seleccione... </option>{" "}
                                 </select>
@@ -182,7 +191,7 @@ class FormCreateTipoDocumental extends Component {
                                     *
                                   </span>{" "}
                                 </label>
-                                <select className="form-control">
+                                <select className="form-control form-control-sm">
                                   {" "}
                                   <option> Seleccione </option>{" "}
                                 </select>
@@ -196,7 +205,7 @@ class FormCreateTipoDocumental extends Component {
                                     *
                                   </span>{" "}
                                 </label>
-                                <select className="form-control">
+                                <select className="form-control form-control-sm">
                                   {" "}
                                   <option> Seleccione </option>{" "}
                                 </select>
@@ -209,7 +218,7 @@ class FormCreateTipoDocumental extends Component {
                                   Dependencia{" "}
                                   <span className="text-danger">*</span>{" "}
                                 </label>
-                                <select className="form-control">
+                                <select className="form-control form-control-sm">
                                   {" "}
                                   <option> Seleccione </option>{" "}
                                 </select>
@@ -219,7 +228,10 @@ class FormCreateTipoDocumental extends Component {
                           {dataOk ? (
                             <div className="form-group">
                               <label> Usuarios disponibles </label>
-                              <textarea className="form-control" disabled />
+                              <textarea
+                                className="form-control form-control-sm"
+                                disabled
+                              />
                             </div>
                           ) : null}
                           <div className="form-group">
@@ -228,7 +240,7 @@ class FormCreateTipoDocumental extends Component {
                               Asigar usuarios{" "}
                               <span className="text-danger">*</span>{" "}
                             </label>
-                            <select className="form-control">
+                            <select className="form-control form-control-sm">
                               {" "}
                               <option> seleccione </option>{" "}
                             </select>
@@ -273,7 +285,7 @@ class FormCreateTipoDocumental extends Component {
                                 documentales del tipo documental{" "}
                               </p>
                               <button
-                                className="btn btn-secondary"
+                                className="btn btn-secondary btn-sm"
                                 onClick={this.addClick}
                                 style={{ width: "150px" }}
                               >
@@ -300,7 +312,7 @@ class FormCreateTipoDocumental extends Component {
                         <CustomInput
                           type="checkbox"
                           id="ExampleInputCheckbox"
-                          label="                          Si esta opción se encuentra activada, representa que
+                          label="Si esta opción se encuentra activada, representa que
                           el Tipo documental es visible en el sistema y se
                           podrán realizar operaciones entre cada uno de los
                           módulos correspondientes de la aplicación. En caso
@@ -327,7 +339,9 @@ class FormCreateTipoDocumental extends Component {
               </CardBody>
               <CardFooter>
                 <div className="float-right">
-                  <button className="btn btn-secondary">registrar</button>
+                  <button className="btn btn-secondary btn-sm">
+                    <i className="fa fa-plus" /> registrar
+                  </button>
                 </div>
               </CardFooter>
             </Card>

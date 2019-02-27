@@ -38,7 +38,10 @@ class FormCreateGrupos extends Component {
                             {" "}
                             Código <span className="text-danger">*</span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -47,7 +50,10 @@ class FormCreateGrupos extends Component {
                             {" "}
                             Nombre <span className="text-danger">*</span>
                           </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                       <div className="col-md-12">
@@ -58,7 +64,7 @@ class FormCreateGrupos extends Component {
                               *{" "}
                             </span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <textarea className="form-control form-control-sm" />
                         </div>
                       </div>
                     </div>
@@ -79,7 +85,7 @@ class FormCreateGrupos extends Component {
                                     Conglomerado{" "}
                                     <span className="text-danger">*</span>{" "}
                                   </label>
-                                  <select className="form-control">
+                                  <select className="form-control form-control-sm">
                                     {" "}
                                     <option> Seleccione </option>{" "}
                                   </select>
@@ -92,7 +98,7 @@ class FormCreateGrupos extends Component {
                                     Empresa{" "}
                                     <span className="text-danger">*</span>{" "}
                                   </label>
-                                  <select className="form-control">
+                                  <select className="form-control form-control-sm">
                                     {" "}
                                     <option> Seleccione </option>{" "}
                                   </select>
@@ -106,7 +112,7 @@ class FormCreateGrupos extends Component {
                                       *
                                     </span>{" "}
                                   </label>
-                                  <select className="form-control">
+                                  <select className="form-control form-control-sm">
                                     {" "}
                                     <option> Seleccione </option>{" "}
                                   </select>
@@ -119,7 +125,7 @@ class FormCreateGrupos extends Component {
                                     Dependencia{" "}
                                     <span className="text-danger">*</span>{" "}
                                   </label>
-                                  <select className="form-control">
+                                  <select className="form-control form-control-sm">
                                     {" "}
                                     <option> Seleccione </option>{" "}
                                   </select>
@@ -129,7 +135,10 @@ class FormCreateGrupos extends Component {
                             {dataOk ? (
                               <div className="form-group">
                                 <label> Usuarios disponibles </label>
-                                <textarea className="form-control" disabled />
+                                <textarea
+                                  className="form-control form-control-sm"
+                                  disabled
+                                />
                               </div>
                             ) : null}
                           </form>
@@ -159,7 +168,7 @@ class FormCreateGrupos extends Component {
                           Seleccione usuario(s) asignados{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
-                        <select className="form-control">
+                        <select className="form-control form-control-sm">
                           {" "}
                           <option> Seleccione </option>{" "}
                         </select>
@@ -217,7 +226,7 @@ class FormCreateGrupos extends Component {
                 </CardBody>
                 <CardFooter>
                   <div className="float-right">
-                    <button type="button" className="btn btn-secondary">
+                    <button type="button" className="btn btn-secondary btn-sm">
                       {" "}
                       <i className="fa fa-plus" /> Registrar{" "}
                     </button>

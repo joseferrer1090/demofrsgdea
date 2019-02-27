@@ -88,7 +88,10 @@ class FormImportPais extends Component {
                             <b> (Para archivos planos) </b>{" "}
                           </span>{" "}
                         </label>
-                        <input type="text" className="form-control" />
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        />
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -132,7 +135,10 @@ class FormImportPais extends Component {
               </div>
               <div className="card-footer">
                 <div className="pull-right">
-                  <button className="btn btn-secondary" onClick={this.onClick}>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={this.onClick}
+                  >
                     {" "}
                     <i className="fa fa-upload" /> Cargar información
                   </button>

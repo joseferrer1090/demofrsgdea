@@ -30,7 +30,7 @@ class ModalDeletePais extends Component {
               </p>
 
               <input
-                className="form-control col-sm-6 offset-sm-3"
+                className="form-control col-sm-6 offset-sm-3 form-control-sm"
                 type="text"
                 placeholder=""
                 style={{ textAlign: "center" }}
@@ -43,12 +43,12 @@ class ModalDeletePais extends Component {
             </form>
           </ModalBody>
           <ModalFooter>
-            <button className="btn btn-outline-danger">
+            <button className="btn btn-outline-danger btn-sm">
               {" "}
               <i className="fa fa-trash" /> Eliminar{" "}
             </button>
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

@@ -27,7 +27,7 @@ class ModalDeleteUser extends Component {
             </p>
 
             <input
-              className="form-control col-sm-6 offset-sm-3"
+              className="form-control form-control-sm  col-sm-6 offset-sm-3"
               type="text"
               placeholder=" "
               style={{ textAlign: "center" }}

@@ -45,13 +45,16 @@ class ModalEditDepartamento extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label> Código </label>
-                      <input type="text" className="form-control" />
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                      />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label> País </label>
-                      <select className="form-control">
+                      <select className="form-control form-control-sm">
                         {" "}
                         <option> Seleccione... </option>{" "}
                       </select>
@@ -60,13 +63,16 @@ class ModalEditDepartamento extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label> Nombre </label>
-                      <input type="text" className="form-control" />
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                      />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label> Estado </label>
-                      <select className="form-control">
+                      <select className="form-control form-control-sm">
                         {" "}
                         <option> Seleccione... </option>{" "}
                       </select>
@@ -77,12 +83,12 @@ class ModalEditDepartamento extends Component {
             </Row>
           </ModalBody>
           <ModalFooter>
-            <button type="button" className="btn btn-outline-success">
+            <button type="button" className="btn btn-outline-success btn-sm">
               {" "}
               <i className="fa fa-pencil" /> Actualizar{" "}
             </button>
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

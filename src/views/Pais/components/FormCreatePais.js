@@ -27,7 +27,10 @@ class FormCreatePais extends Component {
                           {" "}
                           Código <span className="text-danger">*</span>{" "}
                         </label>
-                        <input type="text" className="form-control" />
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        />
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -36,7 +39,10 @@ class FormCreatePais extends Component {
                           {" "}
                           Nombre <span className="text-danger">*</span>{" "}
                         </label>
-                        <input type="text" className="form-control" />
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        />
                       </div>
                     </div>
                   </div>
@@ -85,7 +91,7 @@ class FormCreatePais extends Component {
               </CardBody>
               <CardFooter>
                 <div className="float-right">
-                  <button className="btn btn-secondary">
+                  <button className="btn btn-secondary btn-sm">
                     {" "}
                     <i className="fa fa-plus" /> Registrar{" "}
                   </button>

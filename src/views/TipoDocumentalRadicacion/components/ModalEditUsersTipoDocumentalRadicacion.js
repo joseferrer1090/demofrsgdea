@@ -49,7 +49,7 @@ class ModalEditUsersTipoDocumentalRadicacion extends Component {
                               *
                             </span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>
@@ -61,7 +61,7 @@ class ModalEditUsersTipoDocumentalRadicacion extends Component {
                             {" "}
                             Empresa <span className="text-danger">*</span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione </option>{" "}
                           </select>
@@ -73,7 +73,7 @@ class ModalEditUsersTipoDocumentalRadicacion extends Component {
                             {" "}
                             Sede <span className="text-danger">*</span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione </option>{" "}
                           </select>
@@ -87,7 +87,7 @@ class ModalEditUsersTipoDocumentalRadicacion extends Component {
                               *
                             </span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione </option>{" "}
                           </select>
@@ -97,7 +97,10 @@ class ModalEditUsersTipoDocumentalRadicacion extends Component {
                     {dataOk ? (
                       <div className="form-group">
                         <label> Usuarios disponibles </label>
-                        <textarea className="form-control" disabled />
+                        <textarea
+                          className="form-control form-control-sm"
+                          disabled
+                        />
                       </div>
                     ) : null}
                   </form>
@@ -126,7 +129,7 @@ class ModalEditUsersTipoDocumentalRadicacion extends Component {
                   {" "}
                   Usuarios asignados <span className="text-danger">*</span>{" "}
                 </label>
-                <select className="form-control">
+                <select className="form-control form-control-sm">
                   <option className=""> seleccione </option>
                 </select>
               </div>
@@ -134,12 +137,12 @@ class ModalEditUsersTipoDocumentalRadicacion extends Component {
           </div>
         </ModalBody>
         <ModalFooter>
-          <button type="button" className="btn btn-outline-success">
+          <button type="button" className="btn btn-outline-success btn-sm">
             {" "}
             <i className="fa fa-pencil" /> Actualizar usuarios{" "}
           </button>
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary btn-sm"
             onClick={() => {
               this.setState({ modal: false });
             }}

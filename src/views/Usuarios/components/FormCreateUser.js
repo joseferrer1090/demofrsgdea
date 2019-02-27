@@ -120,7 +120,10 @@ class FormCreateUser extends Component {
                                 Identificación{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <input type="text" className="form-control" />
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                              />
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -131,7 +134,10 @@ class FormCreateUser extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <input className="form-control" type="text" />
+                              <input
+                                className="form-control form-control-sm"
+                                type="text"
+                              />
                             </div>
                           </div>
                         </div>
@@ -142,7 +148,10 @@ class FormCreateUser extends Component {
                                 {" "}
                                 Email <span className="text-danger">*</span>
                               </label>
-                              <input type="text" className="form-control" />
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                              />
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -153,7 +162,10 @@ class FormCreateUser extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <input type="text" className="form-control" />
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                              />
                             </div>
                           </div>
                         </div>
@@ -161,7 +173,7 @@ class FormCreateUser extends Component {
                           <div className="col-md-12">
                             <div className="form-group">
                               <label> Dirección </label>
-                              <textarea className="form-control" />
+                              <textarea className="form-control form-control-sm" />
                             </div>
                           </div>
                         </div>
@@ -173,11 +185,9 @@ class FormCreateUser extends Component {
                                 Fecha de nacimiento{" "}
                                 <span className="text-danger">*</span>
                               </label>
-                              <DatePicker
-                                selected={this.state.startDate}
-                                onChange={this.handleChangeFechaNacimiento}
-                                className="form-control large"
-                                placeholderText=""
+                              <input
+                                type="date"
+                                className="form-control form-control-sm"
                               />
                             </div>
                           </div>
@@ -188,7 +198,10 @@ class FormCreateUser extends Component {
                                 Nombre de usuario{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <input className="form-control" type="text" />
+                              <input
+                                className="form-control form-control-sm"
+                                type="text"
+                              />
                             </div>
                           </div>
                         </div>
@@ -200,7 +213,10 @@ class FormCreateUser extends Component {
                                 Contraseña{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <input className="form-control" type="password" />
+                              <input
+                                className="form-control form-control-sm"
+                                type="password"
+                              />
                             </div>
                           </div>
                           <div className="col-md-12">
@@ -210,7 +226,10 @@ class FormCreateUser extends Component {
                                 Confirmar contraseña{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <input className="form-control" type="password" />
+                              <input
+                                className="form-control form-control-sm"
+                                type="password"
+                              />
                             </div>
                           </div>
                         </div>
@@ -223,7 +242,7 @@ class FormCreateUser extends Component {
                                 Conglomerado{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <select className="form-control">
+                              <select className="form-control form-control-sm">
                                 {" "}
                                 <option>Seleccione...</option>{" "}
                               </select>
@@ -237,7 +256,7 @@ class FormCreateUser extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <select className="form-control">
+                              <select className="form-control form-control-sm">
                                 {" "}
                                 <option>Seleccione... </option>{" "}
                               </select>
@@ -249,7 +268,7 @@ class FormCreateUser extends Component {
                                 {" "}
                                 Sede <span className="text-danger">*</span>{" "}
                               </label>
-                              <select className="form-control">
+                              <select className="form-control form-control-sm">
                                 {" "}
                                 <option> Seleccione... </option>{" "}
                               </select>

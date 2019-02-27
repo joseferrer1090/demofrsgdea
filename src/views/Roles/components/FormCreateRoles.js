@@ -61,7 +61,10 @@ class FormCreateRoles extends Component {
                             {" "}
                             Código <span className="text-danger">*</span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </Col>
                       <Col sm="6">
@@ -70,7 +73,10 @@ class FormCreateRoles extends Component {
                             {" "}
                             Nombre <span className="text-danger">*</span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </Col>
                       <Col sm="12">
@@ -81,7 +87,7 @@ class FormCreateRoles extends Component {
                               *
                             </span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <textarea className="form-control form-control-sm" />
                         </div>
                       </Col>
                     </Row>
@@ -104,7 +110,7 @@ class FormCreateRoles extends Component {
                                     *
                                   </span>{" "}
                                 </label>
-                                <select className="form-control">
+                                <select className="form-control form-control-sm">
                                   {" "}
                                   <option> Seleccione... </option>{" "}
                                 </select>
@@ -117,7 +123,10 @@ class FormCreateRoles extends Component {
                                   Entidades{" "}
                                   <span className="text-danger">*</span>{" "}
                                 </label>
-                                <select className="form-control">
+                                <select
+                                  className="form-control form-control-sm
+                                "
+                                >
                                   {" "}
                                   <option> Seleccione... </option>{" "}
                                 </select>
@@ -196,7 +205,7 @@ class FormCreateRoles extends Component {
                 </CardBody>
                 <CardFooter>
                   <div className="float-right">
-                    <button type="button" className="btn btn-secondary">
+                    <button type="button" className="btn btn-secondary btn-sm">
                       {" "}
                       <i className="fa fa-plus" /> Registrar{" "}
                     </button>

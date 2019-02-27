@@ -53,7 +53,7 @@ class ModalChangePasswordUser extends Component {
                         </span>{" "}
                       </label>
                       <input
-                        className="form-control"
+                        className="form-control form-control-sm"
                         type="password"
                         placeholder=""
                       />
@@ -66,7 +66,7 @@ class ModalChangePasswordUser extends Component {
                       </label>
                       <input
                         type="password"
-                        className="form-control"
+                        className="form-control form-control-sm"
                         placeholder=""
                       />
                     </div>
@@ -77,12 +77,12 @@ class ModalChangePasswordUser extends Component {
           </Row>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-outline-warning">
+          <button className="btn btn-outline-warning btn-sm">
             {" "}
             <i className="fa fa-lock" /> Cambiar contraseña{" "}
           </button>
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary btn-sm"
             onClick={() => {
               this.setState({ modal: false });
             }}

@@ -5,7 +5,7 @@ import ModalView from "./ModalViewPais";
 import ModalEdit from "./ModalEditPais";
 import ModalDelete from "./ModalDeletePais";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
+import "./../../../css/table_data.css";
 
 const dataExample = [
   { id: 1, codigo: 12345, nombre: "Colombia1", estado: true },
@@ -24,6 +24,16 @@ class TableContentPais extends Component {
       ModalEdit: false,
       ModalDel: false
     };
+  }
+
+  EstadoPais(cell, row) {
+    let status;
+    if (row.estado === true) {
+      status = <p className="text-success">Activo</p>;
+    } else if (row.estado !== true) {
+      status = <p className="text-danger">Desactivo</p>;
+    }
+    return status;
   }
 
   accionesPais(cell, row) {
@@ -91,6 +101,8 @@ class TableContentPais extends Component {
             data={dataExample}
             hover
             bordered={false}
+            headerStyle={{ height: "39px" }}
+            className="texto-small"
           >
             <TableHeaderColumn isKey dataField="id" width="50">
               #
@@ -103,7 +115,11 @@ class TableContentPais extends Component {
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="estado" dataAlign="center">
+            <TableHeaderColumn
+              dataField="estado"
+              dataAlign="center"
+              dataFormat={(cell, row) => this.EstadoPais(cell, row)}
+            >
               {" "}
               Estado{" "}
             </TableHeaderColumn>

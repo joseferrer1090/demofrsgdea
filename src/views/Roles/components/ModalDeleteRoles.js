@@ -25,7 +25,7 @@ class ModalDeleteRoles extends Component {
             </p>
 
             <input
-              className="form-control col-sm-6 offset-sm-3"
+              className="form-control col-sm-6 offset-sm-3 form-control-sm"
               type="text"
               placeholder=""
               style={{ textAlign: "center" }}
@@ -38,13 +38,13 @@ class ModalDeleteRoles extends Component {
           </form>
         </ModalBody>
         <ModalFooter>
-          <button type="button" className="btn btn-outline-danger">
+          <button type="button" className="btn btn-outline-danger btn-sm">
             {" "}
             <i className="fa fa-trash" /> Eliminar{" "}
           </button>
           <button
             type="button"
-            className="btn btn-secondary"
+            className="btn btn-secondary btn-sm"
             onClick={() => {
               this.setState({ modal: false });
             }}

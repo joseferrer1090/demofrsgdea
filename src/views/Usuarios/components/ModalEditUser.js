@@ -87,7 +87,10 @@ class ModalEditUser extends Component {
                       <dl className="param">
                         <dt>Identificación </dt>
                         <dd>
-                          <input type="text" className="form-control" />{" "}
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />{" "}
                         </dd>
                       </dl>
                     </div>
@@ -98,7 +101,10 @@ class ModalEditUser extends Component {
                         <dt>Nombre </dt>
                         <dd>
                           {" "}
-                          <input type="text" className="form-control" />{" "}
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />{" "}
                         </dd>
                       </dl>
                     </div>
@@ -108,7 +114,10 @@ class ModalEditUser extends Component {
                       <dl className="param">
                         <dt>E-mail </dt>
                         <dd>
-                          <input type="text" className="form-control" />{" "}
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />{" "}
                         </dd>
                       </dl>
                     </div>
@@ -119,7 +128,10 @@ class ModalEditUser extends Component {
                         <dt>Teléfono </dt>
                         <dd>
                           {" "}
-                          <input type="text" className="form-control" />{" "}
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />{" "}
                         </dd>
                       </dl>
                     </div>
@@ -130,7 +142,10 @@ class ModalEditUser extends Component {
                         <dt>Dirección </dt>
                         <dd>
                           {" "}
-                          <input type="text" className="form-control" />{" "}
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />{" "}
                         </dd>
                       </dl>
                     </div>
@@ -141,7 +156,10 @@ class ModalEditUser extends Component {
                         <dt>Fecha de nacimiento </dt>
                         <dd>
                           {" "}
-                          <input type="text" className="form-control" />{" "}
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />{" "}
                         </dd>
                       </dl>
                     </div>
@@ -191,7 +209,7 @@ class ModalEditUser extends Component {
                                     Conglomerado{" "}
                                     <span className="text-danger">*</span>{" "}
                                   </label>
-                                  <select className="form-control">
+                                  <select className="form-control form-control-sm">
                                     {" "}
                                     <option> Seleccione... </option>{" "}
                                   </select>
@@ -204,7 +222,7 @@ class ModalEditUser extends Component {
                                     Empresa{" "}
                                     <span className="text-danger">*</span>{" "}
                                   </label>
-                                  <select className="form-control">
+                                  <select className="form-control form-control-sm">
                                     {" "}
                                     <option> Seleccione... </option>{" "}
                                   </select>
@@ -218,7 +236,7 @@ class ModalEditUser extends Component {
                                       *
                                     </span>{" "}
                                   </label>
-                                  <select className="form-control">
+                                  <select className="form-control form-control-sm">
                                     {" "}
                                     <option> Seleccione... </option>{" "}
                                   </select>
@@ -231,7 +249,7 @@ class ModalEditUser extends Component {
                                     Dependencia{" "}
                                     <span className="text-danger">*</span>{" "}
                                   </label>
-                                  <select className="form-control">
+                                  <select className="form-control form-control-sm">
                                     {" "}
                                     <option> Seleccione... </option>{" "}
                                   </select>
@@ -245,7 +263,7 @@ class ModalEditUser extends Component {
                                       *
                                     </span>{" "}
                                   </label>
-                                  <select className="form-control">
+                                  <select className="form-control form-control-sm">
                                     {" "}
                                     <option> Seleccione... </option>{" "}
                                   </select>
@@ -269,7 +287,10 @@ class ModalEditUser extends Component {
                                     Usuario{" "}
                                     <span className="text-danger">*</span>
                                   </label>
-                                  <input type="text" className="form-control" />
+                                  <input
+                                    type="text"
+                                    className="form-control form-control-sm"
+                                  />
                                 </div>
                               </div>
                               <div className="col-md-6">
@@ -280,7 +301,7 @@ class ModalEditUser extends Component {
                                       *
                                     </span>{" "}
                                   </label>
-                                  <select className="form-control">
+                                  <select className="form-control form-control-sm">
                                     {" "}
                                     <option> Seleccione... </option>{" "}
                                   </select>
@@ -293,7 +314,7 @@ class ModalEditUser extends Component {
                                     Estado{" "}
                                     <span className="text-danger">*</span>{" "}
                                   </label>
-                                  <select className="form-control">
+                                  <select className="form-control form-control-sm">
                                     {" "}
                                     <option> Activo </option>{" "}
                                     <option> Desactivado </option>{" "}
@@ -312,11 +333,11 @@ class ModalEditUser extends Component {
           </form>
         </ModalBody>
         <ModalFooter>
-          <button type="button" className="btn btn-outline-success">
+          <button type="button" className="btn btn-outline-success btn-sm">
             <i className="fa fa-pencil" /> Actualizar{" "}
           </button>
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary btn-sm"
             onClick={() => {
               this.setState({ modal: false });
             }}

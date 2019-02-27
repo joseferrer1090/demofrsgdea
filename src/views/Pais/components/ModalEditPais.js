@@ -48,7 +48,10 @@ class ModalEditPais extends Component {
                         {" "}
                         Código <span className="text-danger">*</span>
                       </label>
-                      <input type="text" className="form-control" />
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                      />
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
@@ -56,7 +59,10 @@ class ModalEditPais extends Component {
                           {" "}
                           Nombre <span className="text-danger">*</span>{" "}
                         </label>
-                        <input type="text" className="form-control" />
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        />
                       </div>
                     </div>
                     <div className="col-md-12">
@@ -65,26 +71,25 @@ class ModalEditPais extends Component {
                           {" "}
                           Estado <span className="text-danger">*</span>{" "}
                         </label>
-                        <select className="form-control">
+                        <select className="form-control form-control-sm">
                           {" "}
                           <option> Seleccione... </option>{" "}
                         </select>
                       </div>
                     </div>
                   </div>
-                  .
                 </form>
               </Col>
             </Row>
           </ModalBody>
           <ModalFooter>
-            <button type="button" className="btn btn-outline-success">
+            <button type="button" className="btn btn-outline-success btn-sm">
               {" "}
               <i className="fa fa-pencil" /> Actualizar{" "}
             </button>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

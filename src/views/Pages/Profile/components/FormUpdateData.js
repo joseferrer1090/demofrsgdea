@@ -18,7 +18,7 @@ class FormUpdateData extends Component {
                     <label> Identificación </label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control form-control-sm"
                       disabled
                       placeholder="identificación"
                     />
@@ -27,7 +27,10 @@ class FormUpdateData extends Component {
                 <Col sm="6">
                   <div className="form-group">
                     <label> Nombre </label>
-                    <input type="text" className="form-control" />
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                    />
                   </div>
                 </Col>
               </Row>
@@ -35,13 +38,19 @@ class FormUpdateData extends Component {
                 <Col sm="6">
                   <div className="form-group">
                     <label> Fecha de nacimiento </label>
-                    <input type="text" className="form-control" />
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                    />
                   </div>
                 </Col>
                 <Col sm="6">
                   <div className="form-group">
                     <label> Teléfono </label>
-                    <input type="text" className="form-control" />
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                    />
                   </div>
                 </Col>
               </Row>
@@ -49,7 +58,7 @@ class FormUpdateData extends Component {
                 <Col sm="12">
                   <div className="form-group">
                     <label> Direccion </label>
-                    <textarea className="form-control" />
+                    <textarea className="form-control form-control-sm" />
                   </div>
                 </Col>
               </Row>
@@ -59,7 +68,7 @@ class FormUpdateData extends Component {
                     <label> Email </label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control form-control-sm"
                       disabled
                       placeholder="email"
                     />
@@ -70,7 +79,7 @@ class FormUpdateData extends Component {
                     <label> Usuario </label>
                     <input
                       type="text"
-                      className="form-control"
+                      className="form-control form-control-sm"
                       disabled
                       placeholder="usuario"
                     />
@@ -81,7 +90,7 @@ class FormUpdateData extends Component {
           </CardBody>
           <CardFooter>
             <div className="float-right">
-              <button type="button" className="btn btn-secondary">
+              <button type="button" className="btn btn-secondary btn-sm">
                 <i className="fa fa-refresh" /> Actualizar perfil{" "}
               </button>
             </div>

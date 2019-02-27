@@ -31,7 +31,7 @@ class FormChangePassword extends Component {
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <input
-                          className="form-control"
+                          className="form-control form-control-sm"
                           type="password"
                           placeholder=""
                         />
@@ -43,7 +43,7 @@ class FormChangePassword extends Component {
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <input
-                          className="form-control"
+                          className="form-control form-control-sm"
                           type="password"
                           placeholder=""
                         />
@@ -56,7 +56,7 @@ class FormChangePassword extends Component {
                         </label>
                         <input
                           type="password"
-                          className="form-control"
+                          className="form-control form-control-sm"
                           placeholder=""
                         />
                       </div>
@@ -64,7 +64,10 @@ class FormChangePassword extends Component {
                   </CardBody>
                   <CardFooter>
                     <div className="float-right">
-                      <button type="button" className="btn btn-secondary">
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-sm"
+                      >
                         {" "}
                         <i className="fa fa-refresh" /> Actualizar contraseña{" "}
                       </button>

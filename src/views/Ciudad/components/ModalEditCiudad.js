@@ -48,7 +48,10 @@ class ModalEditCiudad extends Component {
                         <dt>Código </dt>
                         <dd>
                           {" "}
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </dd>
                       </dl>
                     </div>
@@ -59,7 +62,7 @@ class ModalEditCiudad extends Component {
                         <dt>Departamento </dt>
                         <dd>
                           {" "}
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>{" "}
@@ -73,7 +76,10 @@ class ModalEditCiudad extends Component {
                         <dt> Nombre </dt>
                         <dd>
                           {" "}
-                          <input type="text" className="form-control" />{" "}
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />{" "}
                         </dd>
                       </dl>
                     </div>
@@ -84,7 +90,7 @@ class ModalEditCiudad extends Component {
                         <dt> Estado </dt>
                         <dd>
                           {" "}
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>{" "}
@@ -98,7 +104,7 @@ class ModalEditCiudad extends Component {
                         <dt>País </dt>
                         <dd>
                           {" "}
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>{" "}
@@ -111,13 +117,13 @@ class ModalEditCiudad extends Component {
             </Row>
           </ModalBody>
           <ModalFooter>
-            <button type="button" className="btn btn-outline-success">
+            <button type="button" className="btn btn-outline-success btn-sm ">
               {" "}
               <i className="fa fa-pencil" /> Actualizar{" "}
             </button>
             <button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

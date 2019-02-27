@@ -37,7 +37,7 @@ class FromCreateDependencia extends Component {
                           </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className="form-control form-control-sm"
                             placeholder=""
                           />
                         </div>
@@ -50,7 +50,7 @@ class FromCreateDependencia extends Component {
                           </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className="form-control form-control-sm"
                             placeholder=""
                           />
                         </div>
@@ -58,7 +58,7 @@ class FromCreateDependencia extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label> Descripción </label>
-                          <textarea className="form-control" />
+                          <textarea className="form-control form-control-sm" />
                         </div>
                       </div>
                     </div>
@@ -71,7 +71,7 @@ class FromCreateDependencia extends Component {
                               *
                             </span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             <option> Seleccione </option>
                           </select>
                         </div>
@@ -82,7 +82,7 @@ class FromCreateDependencia extends Component {
                             {" "}
                             Empresa <span className="text-danger">*</span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>
@@ -94,7 +94,7 @@ class FromCreateDependencia extends Component {
                             {" "}
                             Sede <span className="text-danger">*</span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             <opotion>Seleccione</opotion>
                           </select>
                         </div>
@@ -104,7 +104,7 @@ class FromCreateDependencia extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label> Cargo responsable </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>
@@ -148,7 +148,7 @@ class FromCreateDependencia extends Component {
                 </CardBody>
                 <CardFooter>
                   <div className="float-right">
-                    <Button className="bntn btn-secondary">
+                    <Button className="bntn btn-secondary btn-sm">
                       {" "}
                       <i className="fa fa-plus" /> Registrar{" "}
                     </Button>

@@ -38,7 +38,7 @@ class FormCreateCargo extends Component {
                         Esta asignando este cargo como responsable del
                         conglomerado:
                       </p>
-                      <select className="form-control">
+                      <select className="form-control form-control-sm">
                         {" "}
                         <option> Seleccione </option>{" "}
                       </select>
@@ -58,7 +58,7 @@ class FormCreateCargo extends Component {
                       <p className="card-text">
                         Esta asignando este cargo como responsable del empresa:
                       </p>
-                      <select className="form-control">
+                      <select className="form-control form-control-sm">
                         {" "}
                         <option> Seleccione </option>{" "}
                       </select>
@@ -80,7 +80,7 @@ class FormCreateCargo extends Component {
                       <p className="card-text">
                         Esta asignando este cargo como responsable de la Sede:
                       </p>
-                      <select className="form-control">
+                      <select className="form-control form-control-sm">
                         {" "}
                         <option> Seleccione </option>{" "}
                       </select>
@@ -101,7 +101,7 @@ class FormCreateCargo extends Component {
                         Esta asignando este cargo como responsable de la
                         dependencia:
                       </p>
-                      <select className="form-control">
+                      <select className="form-control form-control form-control-sm">
                         {" "}
                         <option> Seleccione </option>{" "}
                       </select>
@@ -130,7 +130,7 @@ class FormCreateCargo extends Component {
                       </label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-control-sm"
                         placeholder=""
                       />
                     </div>
@@ -143,7 +143,7 @@ class FormCreateCargo extends Component {
                       </label>
                       <input
                         type="text"
-                        className="form-control"
+                        className="form-control form-control-sm"
                         placeholder=""
                       />
                     </div>
@@ -153,7 +153,10 @@ class FormCreateCargo extends Component {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label> Descripción</label>
-                      <textarea className="form-control" placeholder="" />
+                      <textarea
+                        className="form-control form-control-sm"
+                        placeholder=""
+                      />
                     </div>
                   </div>
                 </div>

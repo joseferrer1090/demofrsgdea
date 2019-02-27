@@ -68,7 +68,10 @@ class FormCreateSedes extends Component {
                             {" "}
                             Código <span className="text-danger">*</span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </Col>
                       <Col sm="6">
@@ -77,17 +80,19 @@ class FormCreateSedes extends Component {
                             {" "}
                             Nombre <span className="text-danger">*</span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </Col>
                       <Col sm="12">
                         <div className="form-group">
                           <label> Descripción </label>
-                          <textarea className="form-control" />
+                          <textarea className="form-control form-control-sm" />
                         </div>
                       </Col>
                     </Row>
-                    <hr />
                     <Row>
                       <Col sm="12">
                         <div className="form-group">
@@ -97,7 +102,7 @@ class FormCreateSedes extends Component {
                               *
                             </span>{" "}
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>
@@ -126,7 +131,7 @@ class FormCreateSedes extends Component {
                           </label>
                           <input
                             type="text"
-                            className="form-control"
+                            className="form-control form-control-sm"
                             maxLength={"6"}
                             placeholder=" "
                           />
@@ -141,7 +146,7 @@ class FormCreateSedes extends Component {
                           </label>
                           <input
                             type="number"
-                            className="form-control"
+                            className="form-control form-control-sm"
                             defaultValue={this.state.secuencia}
                             min={0}
                           />
@@ -177,7 +182,7 @@ class FormCreateSedes extends Component {
                       <Col sm="4">
                         <div className="form-group">
                           <label>País</label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             <option>Seleccione</option>
                           </select>
                         </div>
@@ -185,7 +190,7 @@ class FormCreateSedes extends Component {
                       <Col sm="4">
                         <div className="form-group">
                           <label>Departamento</label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             <option> Seleccione </option>
                           </select>
                         </div>
@@ -195,7 +200,7 @@ class FormCreateSedes extends Component {
                           <label>
                             Ciudad <span className="text-danger">*</span>
                           </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-sm">
                             <option> Seleccione </option>
                           </select>
                         </div>
@@ -208,7 +213,7 @@ class FormCreateSedes extends Component {
                               *
                             </span>{" "}
                           </label>
-                          <textarea className="form-control" />
+                          <textarea className="form-control form-control-sm" />
                         </div>
                       </Col>
                       <Col sm="5">
@@ -217,7 +222,10 @@ class FormCreateSedes extends Component {
                             {" "}
                             Teléfono <span className="text-danger">*</span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </Col>
                     </Row>
@@ -272,7 +280,7 @@ class FormCreateSedes extends Component {
                 </CardBody>
                 <CardFooter>
                   <div className="float-right">
-                    <button className="btn btn-secondary">
+                    <button className="btn btn-secondary btn-sm">
                       {" "}
                       <i className="fa fa-plus" /> Registrar{" "}
                     </button>

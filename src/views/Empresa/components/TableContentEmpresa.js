@@ -94,6 +94,16 @@ class TableContentEmpresa extends Component {
     );
   };
 
+  EstadoEmpresa(cell, row) {
+    let status;
+    if (row.estado === true) {
+      status = <b className="text-success">Activo</b>;
+    } else if (row.estado !== true) {
+      status = <b className="text-danger">Desactivo</b>;
+    }
+    return status;
+  }
+
   openModalView = () => {
     this.refs.child.toggle();
   };
@@ -115,9 +125,9 @@ class TableContentEmpresa extends Component {
             pagination={true}
             search={true}
             exportCSV
+            hover
             bordered={false}
             searchPlaceholder="Buscar"
-            className=" table-hover"
           >
             <TableHeaderColumn
               dataSort={true}
@@ -160,6 +170,7 @@ class TableContentEmpresa extends Component {
               dataSort={true}
               dataField={"estado"}
               dataAlign="center"
+              dataFormat={(cell, row) => this.EstadoEmpresa(cell, row)}
             >
               Estado
             </TableHeaderColumn>

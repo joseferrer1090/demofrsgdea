@@ -5,6 +5,7 @@ import ModalView from "./ModalViewGrupo";
 import ModalDelete from "./ModalDeleteGrupo";
 import ModalEdit from "./ModalEditGrupo";
 import "./../../../css/custom_table.css";
+import { stat } from "fs";
 
 const dataExample = [
   { id: 1, codigo: "gp1", nombre: "grupo_nombre", estado: true },
@@ -70,6 +71,16 @@ class TableContent extends Component {
     );
   };
 
+  EstadoGrupo(cell, row) {
+    let status;
+    if (row.estado === true) {
+      status = <p className="text-success"> Activo </p>;
+    } else if (row.estado !== true) {
+      status = <p className="text-danger"> Inactivo </p>;
+    }
+    return status;
+  }
+
   openModalView = () => {
     this.refs.child.toggle();
   };
@@ -116,7 +127,11 @@ class TableContent extends Component {
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="estado" dataAlign="center">
+            <TableHeaderColumn
+              dataField="estado"
+              dataAlign="center"
+              dataFormat={(cell, row) => this.EstadoGrupo(cell, row)}
+            >
               {" "}
               Estado{" "}
             </TableHeaderColumn>

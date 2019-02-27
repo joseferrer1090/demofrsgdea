@@ -90,6 +90,16 @@ class TableContentRoles extends Component {
     };
   }
 
+  EstadoRoles(cell, row) {
+    let status;
+    if (row.estado === true) {
+      status = <p className="text-success"> Activo </p>;
+    } else if (row.estado !== true) {
+      status = <p className="text-danger"> Inactivo </p>;
+    }
+    return status;
+  }
+
   accionesRoles(cel, row) {
     return (
       <div
@@ -185,7 +195,11 @@ class TableContentRoles extends Component {
               {" "}
               Descripción{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="estado" dataAlign="center">
+            <TableHeaderColumn
+              dataField="estado"
+              dataAlign="center"
+              dataFormat={(cell, row) => this.EstadoRoles(cell, row)}
+            >
               {" "}
               Estado{" "}
             </TableHeaderColumn>

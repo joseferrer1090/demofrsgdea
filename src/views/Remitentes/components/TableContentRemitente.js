@@ -85,6 +85,16 @@ class TableContentRemitente extends Component {
     );
   }
 
+  EstadoRemitente(cell, row) {
+    let status;
+    if (row.estado === true) {
+      status = <p className="text-success"> Activo </p>;
+    } else if (row.estado !== true) {
+      status = <p className="text-danger"> Inactivo </p>;
+    }
+    return status;
+  }
+
   openModalView() {
     this.refs.child.toggle();
   }
@@ -131,7 +141,11 @@ class TableContentRemitente extends Component {
               {" "}
               Email{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"estado"} dataAlign="center">
+            <TableHeaderColumn
+              dataField={"estado"}
+              dataAlign="center"
+              dataFormat={(cell, row) => this.EstadoRemitente(cell, row)}
+            >
               {" "}
               Estado{" "}
             </TableHeaderColumn>

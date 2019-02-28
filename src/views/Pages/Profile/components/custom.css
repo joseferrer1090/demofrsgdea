@@ -9,6 +9,6 @@
     overflow-x: hidden;
 }
 
-::-webkit-scrollbar {
+#scroll-theme::-webkit-scrollbar {
     display: nome
 }

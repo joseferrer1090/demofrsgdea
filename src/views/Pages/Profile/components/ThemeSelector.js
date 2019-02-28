@@ -8,6 +8,9 @@ import {
   CardBody,
   CardFooter
 } from "reactstrap";
+import "./../../../../../node_modules/hover.css/css/hover.css";
+import themeSVG from "./../../../../assets/img/theme.svg";
+import "./custom.css";
 
 class ThemeSelector extends Component {
   constructor(props) {
@@ -24,41 +27,185 @@ class ThemeSelector extends Component {
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
-              Lorem Ipsum.{" "}
+              type and scrambled it to make a type specimen book. It has .{" "}
             </Alert>
           </Col>
-          <Col sm="12">
-            <Card>
-              <CardBody>
-                <Row>
-                  <Col sm="12">
-                    <Card body>
-                      <input type="radio" />
-                    </Card>
-                  </Col>
-                  <Col sm="12">
-                    <Card body>
-                      <input type="radio" />
-                    </Card>
-                  </Col>
-                  <Col sm="12">
-                    <Card body>
-                      <input type="radio" />
-                    </Card>
-                  </Col>
-                  <Col sm="12">
-                    <Card body>
-                      <input type="radio" />
-                    </Card>
-                  </Col>
-                </Row>
-              </CardBody>
+          <Col sm="12" height="250">
+            <Card body>
+              <Row>
+                <div className="col-md-12">
+                  <Card body outline color="secondary">
+                    <div className="row">
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        <div className="mt-2">
+                          <input type="radio" className="zoom-radio" />
+                        </div>
+                      </div>
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        {" "}
+                        <h3 className="text-center">
+                          <a
+                            onClick={() => {
+                              alert("probando");
+                            }}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {" "}
+                            <b> Tema 1 </b>{" "}
+                          </a>
+                        </h3>{" "}
+                      </div>
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        <div className="text-center">
+                          <img
+                            src={themeSVG}
+                            width={30}
+                            className="float-right"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+                <div className="col-md-12">
+                  <Card body outline color="secondary">
+                    <div className="row">
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        <div className="mt-2">
+                          <input type="radio" className="zoom-radio" />
+                        </div>
+                      </div>
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        {" "}
+                        <h3 className="text-center">
+                          <a
+                            onClick={() => {
+                              alert("probando");
+                            }}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {" "}
+                            <b> Tema 1 </b>{" "}
+                          </a>
+                        </h3>{" "}
+                      </div>
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        <div className="text-center">
+                          <img
+                            src={themeSVG}
+                            width={30}
+                            className="float-right"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+                <div className="col-md-12">
+                  <Card body outline color="secondary">
+                    <div className="row">
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        <div className="mt-2">
+                          <input type="radio" className="zoom-radio" />
+                        </div>
+                      </div>
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        {" "}
+                        <h3 className="text-center">
+                          <a
+                            onClick={() => {
+                              alert("probando");
+                            }}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {" "}
+                            <b> Tema 1 </b>{" "}
+                          </a>
+                        </h3>{" "}
+                      </div>
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        <div className="text-center">
+                          <img
+                            src={themeSVG}
+                            width={30}
+                            className="float-right"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+                <div className="col-md-12">
+                  <Card body outline color="secondary">
+                    <div className="row">
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        <div className="mt-2">
+                          <input type="radio" className="zoom-radio" />
+                        </div>
+                      </div>
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        {" "}
+                        <h3 className="text-center">
+                          <a
+                            onClick={() => {
+                              alert("probando");
+                            }}
+                            style={{ cursor: "pointer" }}
+                          >
+                            {" "}
+                            <b> Tema 1 </b>{" "}
+                          </a>
+                        </h3>{" "}
+                      </div>
+                      <div
+                        className="col-md-4"
+                        //   style={{ border: "1px solid red" }}
+                      >
+                        <div className="text-center">
+                          <img
+                            src={themeSVG}
+                            width={30}
+                            className="float-right"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </div>
+              </Row>
             </Card>
           </Col>
         </Row>

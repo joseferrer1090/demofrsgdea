@@ -1,3 +1,10 @@
 .zoom-radio {
     zoom: 1.4 !important;
 }
+
+#scroll-theme{
+    height: 250px !important;
+    width: auto;
+    overflow: scroll;
+    overflow-x: hidden;
+}

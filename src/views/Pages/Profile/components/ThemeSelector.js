@@ -8,6 +8,7 @@ import {
   CardBody,
   CardFooter
 } from "reactstrap";
+import styled from "styled-components";
 import "./../../../../../node_modules/hover.css/css/hover.css";
 import themeSVG from "./../../../../assets/img/theme.svg";
 import "./custom.css";
@@ -17,6 +18,7 @@ class ThemeSelector extends Component {
     super(props);
     this.state = {};
   }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -32,8 +34,8 @@ class ThemeSelector extends Component {
           </Col>
           <Col sm="12">
             <Card>
-              <CardBody style={{ height: "250px !important" }}>
-                <Row>
+              <CardBody>
+                <Row id="scroll-theme">
                   <div className="col-md-12">
                     <Card body outline color="secondary">
                       <div className="row">

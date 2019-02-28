@@ -3,8 +3,12 @@
 }
 
 #scroll-theme{
-    height: 250px !important;
+    height: 350px !important;
     width: auto;
     overflow: scroll;
     overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+    display: nome
 }

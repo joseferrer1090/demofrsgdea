@@ -16,6 +16,7 @@ import classnames from "classnames";
 import FormUpdateProfile from "./FormUpdateData";
 import FormChange from "./FormChangePassword";
 import FormAdvance from "./FormChangeAdvanceData";
+import ThemeSelector from "./ThemeSelector";
 
 export default class TabProfile extends React.Component {
   constructor(props) {
@@ -114,7 +115,7 @@ export default class TabProfile extends React.Component {
           <TabPane tabId="4">
             <Row>
               <Col sm="12">
-                <p>Probando la vista apenas</p>
+                <ThemeSelector />
               </Col>
             </Row>
           </TabPane>

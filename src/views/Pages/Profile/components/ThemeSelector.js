@@ -24,20 +24,27 @@ class ThemeSelector extends Component {
       <div className="animated fadeIn">
         <Row>
           <Col sm="12">
-            <Alert color="secondary">
+            {/* <Alert color="secondary">
               {" "}
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry. Lorem Ipsum has been the industry's standard dummy text
               ever since the 1500s, when an unknown printer took a galley of
               type and scrambled it to make a type specimen book. It has .{" "}
-            </Alert>
+            </Alert> */}
+            {/* <p>
+              {" "}
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has .
+            </p> */}
           </Col>
           <Col sm="12">
             <Card>
               <CardBody>
                 <Row id="scroll-theme">
                   <div className="col-md-12">
-                    <Card body outline color="secondary">
+                    <Card body outline color="ligth">
                       <div className="row">
                         <div
                           className="col-md-4"

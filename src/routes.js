@@ -47,6 +47,8 @@ const MoverHistorico = React.lazy(() =>
   import("./views/Auditoria/components/MoverHistorico/MoverHistorico")
 );
 
+const Mensajero = React.lazy(() => import("./views/Mensajero/Mensajero"));
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   {
@@ -168,6 +170,12 @@ const routes = [
     exact: true,
     name: " Configuracion / Diseño  ",
     component: Diseño
+  },
+  {
+    path: "/configuracion/mensajero",
+    exact: true,
+    name: " Configuracion / Mensajero  ",
+    component: Mensajero
   }
 ];
 

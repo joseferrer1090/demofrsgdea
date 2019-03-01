@@ -36,6 +36,11 @@ export default {
           url: "/configuracion/cargo"
         },
         {
+          name: "Mensajero",
+          icon: "icon-basket-loaded ",
+          url: "/configuracion/mensajero"
+        },
+        {
           name: "Usuarios",
           icon: "icon-user",
           url: "/configuracion/usuarios"

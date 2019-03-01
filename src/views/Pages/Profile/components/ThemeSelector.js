@@ -8,6 +8,7 @@ import {
   CardBody,
   CardFooter
 } from "reactstrap";
+import ModalEditTheme from "./ModalEditTheme";
 import styled from "styled-components";
 import "./../../../../../node_modules/hover.css/css/hover.css";
 import themeSVG from "./../../../../assets/img/theme.svg";
@@ -16,7 +17,13 @@ import "./custom.css";
 class ThemeSelector extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      modaledit: false
+    };
+  }
+
+  modalEditTheme() {
+    this.refs.child.toggle();
   }
 
   render() {
@@ -62,7 +69,7 @@ class ThemeSelector extends Component {
                           <h3 className="text-center">
                             <a
                               onClick={() => {
-                                alert("probando");
+                                this.modalEditTheme();
                               }}
                               style={{ cursor: "pointer" }}
                             >
@@ -105,12 +112,12 @@ class ThemeSelector extends Component {
                           <h3 className="text-center">
                             <a
                               onClick={() => {
-                                alert("probando");
+                                this.modalEditTheme();
                               }}
                               style={{ cursor: "pointer" }}
                             >
                               {" "}
-                              <b> Tema 1 </b>{" "}
+                              <b> Tema 2 </b>{" "}
                             </a>
                           </h3>{" "}
                         </div>
@@ -148,12 +155,12 @@ class ThemeSelector extends Component {
                           <h3 className="text-center">
                             <a
                               onClick={() => {
-                                alert("probando");
+                                this.modalEditTheme();
                               }}
                               style={{ cursor: "pointer" }}
                             >
                               {" "}
-                              <b> Tema 1 </b>{" "}
+                              <b> Tema 3 </b>{" "}
                             </a>
                           </h3>{" "}
                         </div>
@@ -191,12 +198,12 @@ class ThemeSelector extends Component {
                           <h3 className="text-center">
                             <a
                               onClick={() => {
-                                alert("probando");
+                                this.modalEditTheme();
                               }}
                               style={{ cursor: "pointer" }}
                             >
                               {" "}
-                              <b> Tema 1 </b>{" "}
+                              <b> Tema 4 </b>{" "}
                             </a>
                           </h3>{" "}
                         </div>
@@ -220,6 +227,7 @@ class ThemeSelector extends Component {
             </Card>
           </Col>
         </Row>
+        <ModalEditTheme modaledittheme={this.state.modaledit} ref={"child"} />
       </div>
     );
   }

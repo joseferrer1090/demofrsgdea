@@ -41,6 +41,11 @@ export default {
           url: "/configuracion/mensajero"
         },
         {
+          name: "Tipo llegada",
+          icon: "icon-settings",
+          url: "/configuracion/tipollegada"
+        },
+        {
           name: "Usuarios",
           icon: "icon-user",
           url: "/configuracion/usuarios"
@@ -103,9 +108,9 @@ export default {
           ]
         },
         {
-          name: "Diseño",
+          name: "Tema",
           icon: "icon-pencil",
-          url: "/configuracion/diseño"
+          url: "/configuracion/Tema"
         }
       ]
     }

@@ -5,7 +5,7 @@ import Pais from "./views/Pais/Pais";
 import Ciudad from "./views/Ciudad/Ciudad";
 import Departamento from "./views/Departamento/Departamento";
 import Profile from "./views/Pages/Profile/Profle";
-import Diseño from "./views/Diseño/Diseño";
+import Tema from "./views/Tema/Tema";
 
 const Configuracion = React.lazy(() =>
   import("./views/Configuracion/Configuracion")
@@ -48,6 +48,8 @@ const MoverHistorico = React.lazy(() =>
 );
 
 const Mensajero = React.lazy(() => import("./views/Mensajero/Mensajero"));
+
+const TipoLlegada = React.lazy(() => import("./views/TipoLlegada/TipoLlegada"));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -166,16 +168,22 @@ const routes = [
     component: MoverHistorico
   },
   {
-    path: "/configuracion/diseño",
+    path: "/configuracion/tema",
     exact: true,
-    name: " Configuracion / Diseño  ",
-    component: Diseño
+    name: " Configuracion / Tema  ",
+    component: Tema
   },
   {
     path: "/configuracion/mensajero",
     exact: true,
     name: " Configuracion / Mensajero  ",
     component: Mensajero
+  },
+  {
+    path: "/configuracion/tipollegada",
+    exact: true,
+    name: " Configuracion / tipo de llegada  ",
+    component: TipoLlegada
   }
 ];
 

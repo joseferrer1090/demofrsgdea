@@ -27,7 +27,7 @@ class ModalEditTheme extends Component {
   render() {
     return (
       <div>
-        <Modal className="modal-xl	" isOpen={this.state.modal}>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Editar tema seleccionado </ModalHeader>
           <ModalBody>
             <div className="row">

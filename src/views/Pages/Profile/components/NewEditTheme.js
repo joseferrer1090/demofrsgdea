@@ -62,6 +62,7 @@ class NewEditTheme extends Component {
                       onClick={() => {
                         this.toggle();
                       }}
+                      style={{cursor: "pointer"}}
                     >
                       {" "}
                       Header{" "}
@@ -79,6 +80,7 @@ class NewEditTheme extends Component {
                       onClick={() => {
                         this.toggleBody();
                       }}
+                      style={{cursor: "pointer"}}
                     >
                       {" "}
                       Body{" "}
@@ -96,6 +98,7 @@ class NewEditTheme extends Component {
                       onClick={() => {
                         this.toggleFooter();
                       }}
+                      style={{cursor: "pointer"}}
                     >
                       {" "}
                       Footer{" "}
@@ -113,6 +116,7 @@ class NewEditTheme extends Component {
                       onClick={() => {
                         this.toggleComponentes();
                       }}
+                      style={{cursor: "pointer"}}
                     >
                       Otro componentes
                     </CardHeader>

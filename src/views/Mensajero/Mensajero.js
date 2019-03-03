@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from "classnames";
 import PropType from "prop-types";
+import FormImportMensajero from "./components/FormImportMensajero";
 
 class Mensajero extends Component {
   constructor(props) {
@@ -66,7 +67,7 @@ class Mensajero extends Component {
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <h4>Tab 3 Contents</h4>
+                <FormImportMensajero/>
               </Col>
             </Row>
           </TabPane>

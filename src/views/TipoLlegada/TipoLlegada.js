@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
 import classnames from "classnames";
 import PropTypes from "prop-types";
+import FormImporTipoLegada from "./components/FormImportTipoLlegada";
 
 
 class TipoLlegada extends Component {
@@ -66,7 +67,7 @@ class TipoLlegada extends Component {
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <h4>Tab 3 Contents</h4>
+                <FormImporTipoLegada/>
               </Col>
             </Row>
           </TabPane>

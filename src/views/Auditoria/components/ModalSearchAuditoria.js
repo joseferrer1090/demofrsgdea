@@ -30,7 +30,7 @@ class ModalSearchAuditoria extends Component {
                   <label>Desde</label>
                   <input
                     type="date"
-                    className="form-control"
+                    className="form-control form-control-sm"
                     placeholder="Desde"
                   />
                 </div>
@@ -38,7 +38,7 @@ class ModalSearchAuditoria extends Component {
                   <label>Hasta</label>
                   <input
                     type="date"
-                    className="form-control"
+                    className="form-control form-control-sm"
                     placeholder="Hasta"
                   />
                 </div>
@@ -47,7 +47,7 @@ class ModalSearchAuditoria extends Component {
               <div className="row">
                 <div className="col">
                   <label>Acciones</label>
-                  <select className="form-control">
+                  <select className="form-control form-control-sm">
                     <option>Grabar</option>
                     <option>Actualizar</option>
                     <option>Eliminar</option>
@@ -55,7 +55,7 @@ class ModalSearchAuditoria extends Component {
                 </div>
                 <div className="col">
                   <label>Usuarios</label>
-                  <select name="usuario" className="form-control">
+                  <select name="usuario" className="form-control form-control-sm">
                     <option value="T">&lt;&lt; Todos &gt;&gt;</option>
                     <optgroup label="Administradores" title="Administradores">
                       <option value="T1">

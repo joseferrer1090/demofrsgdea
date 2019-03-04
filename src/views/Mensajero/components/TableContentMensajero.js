@@ -84,6 +84,16 @@ class TableContentMensajero extends Component {
     );
   }
 
+  EstadoMensajero = (cell, row) => {
+    let status;
+    if (row.estado === true) {
+      status = <div className="text-success">Activo</div>;
+    } else if (row.estado !== true) {
+      status = <div className="text-danger"> Inactivo </div>;
+    }
+    return status;
+  };
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -119,7 +129,11 @@ class TableContentMensajero extends Component {
                 {" "}
                 Descripción{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="estado" dataAlign="center">
+              <TableHeaderColumn
+                dataField="estado"
+                dataAlign="center"
+                dataFormat={(cell, row) => this.EstadoMensajero(cell, row)}
+              >
                 {" "}
                 Estado{" "}
               </TableHeaderColumn>

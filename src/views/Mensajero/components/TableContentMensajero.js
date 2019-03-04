@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import ModalViewMensajero from "./ModalViewMensajero";
+import ModalUpdate from "./ModalActualizarMensajero";
 
 const dataExample = [
   {
@@ -46,7 +47,8 @@ class TableContentMensajero extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalView: false
+      modalView: false,
+      modalUpdate: false
     };
   }
 
@@ -66,7 +68,7 @@ class TableContentMensajero extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            alert("Probando");
+            this.openModalUpdate();
           }}
         >
           <i className="fa fa-pencil" />
@@ -96,6 +98,10 @@ class TableContentMensajero extends Component {
 
   openModalView = () => {
     this.refs.child.toggle();
+  };
+
+  openModalUpdate = () => {
+    this.refs.child2.toggle();
   };
 
   render() {
@@ -152,6 +158,7 @@ class TableContentMensajero extends Component {
           </Col>
         </Row>
         <ModalViewMensajero modalview={this.state.modalView} ref={"child"} />
+        <ModalUpdate modalupdate={this.state.modalUpdate} ref={"child2"} />
       </div>
     );
   }

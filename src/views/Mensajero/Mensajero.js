@@ -1,23 +1,36 @@
 import React, { Component } from "react";
-import { TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, Row, Col } from 'reactstrap';
+import {
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Card,
+  Button,
+  CardTitle,
+  CardText,
+  Row,
+  Col
+} from "reactstrap";
 import classnames from "classnames";
 import PropType from "prop-types";
+import FormCreateMensajero from "./components/FormCreateMensajero";
 import FormImportMensajero from "./components/FormImportMensajero";
 
 class Mensajero extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: '1'
+      activeTab: "1"
     };
   }
 
-  toggle = (tab) => {
-   if (this.state.activeTab !== "tab"){
-     this.setState({
-       activeTab: tab
-     })
-   }
+  toggle = tab => {
+    if (this.state.activeTab !== "tab") {
+      this.setState({
+        activeTab: tab
+      });
+    }
   };
 
   render() {
@@ -26,34 +39,40 @@ class Mensajero extends Component {
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '1' })}
-              onClick={() => { this.toggle('1'); }}
+              className={classnames({ active: this.state.activeTab === "1" })}
+              onClick={() => {
+                this.toggle("1");
+              }}
             >
-              <i className="fa fa-plus "/> Registrar
+              <i className="fa fa-plus " /> Registrar
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '2' })}
-              onClick={() => { this.toggle('2'); }}
+              className={classnames({ active: this.state.activeTab === "2" })}
+              onClick={() => {
+                this.toggle("2");
+              }}
             >
-              <i className={"fa fa-gear"}/> Administrar
+              <i className={"fa fa-gear"} /> Administrar
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '3' })}
-              onClick={() => { this.toggle('3'); }}
+              className={classnames({ active: this.state.activeTab === "3" })}
+              onClick={() => {
+                this.toggle("3");
+              }}
             >
-              <i className={"fa fa-upload"}/> Importar
+              <i className={"fa fa-upload"} /> Importar
             </NavLink>
           </NavItem>
-          </Nav>
+        </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <h4>Tab 1 Contents</h4>
+                <FormCreateMensajero />
               </Col>
             </Row>
           </TabPane>
@@ -67,7 +86,7 @@ class Mensajero extends Component {
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <FormImportMensajero/>
+                <FormImportMensajero />
               </Col>
             </Row>
           </TabPane>

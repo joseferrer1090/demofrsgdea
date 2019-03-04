@@ -15,6 +15,7 @@ import {
 import classnames from "classnames";
 import PropType from "prop-types";
 import FormCreateMensajero from "./components/FormCreateMensajero";
+import TableContent from "./components/TableContentMensajero";
 import FormImportMensajero from "./components/FormImportMensajero";
 
 class Mensajero extends Component {
@@ -79,7 +80,7 @@ class Mensajero extends Component {
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <h4>Tab 2 Contents</h4>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>

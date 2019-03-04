@@ -115,4 +115,6 @@ class FormCreateMensajero extends Component {
   }
 }
 
+FormCreateMensajero.propType = {};
+
 export default FormCreateMensajero;

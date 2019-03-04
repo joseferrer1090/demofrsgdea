@@ -4,6 +4,9 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import ModalViewMensajero from "./ModalViewMensajero";
 import ModalUpdate from "./ModalActualizarMensajero";
+import Modaldelete from "./ModalDeleteMensajero";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import "./../../../css/custom_table.css";
 
 const dataExample = [
   {
@@ -48,15 +51,20 @@ class TableContentMensajero extends Component {
     super(props);
     this.state = {
       modalView: false,
-      modalUpdate: false
+      modalUpdate: false,
+      modaldelte: false
     };
   }
 
   accionesMensajero(cell, row) {
     return (
-      <div>
+      <div
+        className="table-menu"
+        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+      >
         <button
           className="btn btn-secondary btn-sm"
+          data-trigger="hover"
           onClick={() => {
             this.openModalView();
           }}
@@ -67,6 +75,7 @@ class TableContentMensajero extends Component {
         &nbsp;
         <button
           className="btn btn-secondary btn-sm"
+          data-trigger="hover"
           onClick={() => {
             this.openModalUpdate();
           }}
@@ -76,8 +85,9 @@ class TableContentMensajero extends Component {
         &nbsp;
         <button
           className="btn btn-danger btn-sm"
+          data-trigger="hover"
           onClick={() => {
-            alert("Probando");
+            this.openModalDelete();
           }}
         >
           <i className="fa fa-trash" />
@@ -102,6 +112,10 @@ class TableContentMensajero extends Component {
 
   openModalUpdate = () => {
     this.refs.child2.toggle();
+  };
+
+  openModalDelete = () => {
+    this.refs.child3.toggle();
   };
 
   render() {
@@ -159,6 +173,7 @@ class TableContentMensajero extends Component {
         </Row>
         <ModalViewMensajero modalview={this.state.modalView} ref={"child"} />
         <ModalUpdate modalupdate={this.state.modalUpdate} ref={"child2"} />
+        <Modaldelete modaldelete={this.state.modaldelte} ref={"child3"} />
       </div>
     );
   }

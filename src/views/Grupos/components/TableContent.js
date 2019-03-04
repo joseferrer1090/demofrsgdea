@@ -5,7 +5,6 @@ import ModalView from "./ModalViewGrupo";
 import ModalDelete from "./ModalDeleteGrupo";
 import ModalEdit from "./ModalEditGrupo";
 import "./../../../css/custom_table.css";
-import { stat } from "fs";
 
 const dataExample = [
   { id: 1, codigo: "gp1", nombre: "grupo_nombre", estado: true },

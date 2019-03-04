@@ -56,7 +56,7 @@ class TableContentMensajero extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            alert("probando");
+            this.openModalView();
           }}
         >
           {" "}
@@ -92,6 +92,10 @@ class TableContentMensajero extends Component {
       status = <div className="text-danger"> Inactivo </div>;
     }
     return status;
+  };
+
+  openModalView = () => {
+    this.refs.child.toggle();
   };
 
   render() {

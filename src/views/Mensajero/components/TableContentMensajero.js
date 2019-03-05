@@ -130,6 +130,7 @@ class TableContentMensajero extends Component {
               striped
               pagination
               search
+              exportCSV
               searchPlaceholder="Buscar"
             >
               <TableHeaderColumn

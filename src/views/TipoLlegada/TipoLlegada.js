@@ -16,6 +16,7 @@ import classnames from "classnames";
 import PropTypes from "prop-types";
 import FormImporTipoLegada from "./components/FormImportTipoLlegada";
 import FormCreateTipoLlegada from "./components/FormCreateTipoLlegada";
+import TableContent from "./components/TableTipoLlegada";
 
 class TipoLlegada extends Component {
   constructor(props) {
@@ -78,7 +79,7 @@ class TipoLlegada extends Component {
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <h4>Tab 2 Contents</h4>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>

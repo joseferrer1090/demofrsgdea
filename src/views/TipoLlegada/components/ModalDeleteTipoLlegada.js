@@ -20,14 +20,42 @@ class ModalDeleteTipoLlegada extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader>Probando </ModalHeader>
+          <ModalHeader>Eliminar tipo de llegada / envio </ModalHeader>
           <ModalBody>
-            <p>Probando</p>
+            <form className="form">
+              <p className="text-center">
+                {" "}
+                Confirmar el <code> Nombre </code> para eliminar el tipo de
+                envio / llegada{" "}
+              </p>
+
+              <input
+                className="form-control form-control-sm col-sm-6 offset-sm-3"
+                type="text"
+                placeholder=""
+                style={{ textAlign: "center" }}
+              />
+              <br />
+              <p className="text-center text-danger">
+                {" "}
+                El tipo de envion / llegada quedará eliminado de manera
+                permanente.{" "}
+              </p>
+            </form>
           </ModalBody>
           <ModalFooter>
             <button className="btn btn-danger btn-sm">
               {" "}
               <i className="fa fa-trash" /> Eliminar{" "}
+            </button>
+            <button
+              className="btn btn-secondary btn-sm"
+              onClick={() => {
+                this.setState({ modal: false });
+              }}
+            >
+              {" "}
+              <i className="fa fa-times" /> Cerrar{" "}
             </button>
           </ModalFooter>
         </Modal>

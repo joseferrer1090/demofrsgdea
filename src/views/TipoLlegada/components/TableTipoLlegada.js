@@ -52,6 +52,16 @@ class TableTipoLlegada extends Component {
     );
   };
 
+  estadoTipoLlegada = (cell, row) => {
+    let status;
+    if (row.estado === true) {
+      status = <div className="text-success"> Activo </div>;
+    } else if (row.estado !== true) {
+      status = <div className="text-danger"> Inactivo </div>;
+    }
+    return status;
+  };
+
   openModalView() {
     alert("hola mudno");
   }
@@ -87,7 +97,11 @@ class TableTipoLlegada extends Component {
                 {" "}
                 Descripción{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"estado"} dataAlign="center">
+              <TableHeaderColumn
+                dataField={"estado"}
+                dataAlign="center"
+                dataFormat={(cell, row) => this.estadoTipoLlegada(cell, row)}
+              >
                 {" "}
                 Estado{" "}
               </TableHeaderColumn>

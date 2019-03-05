@@ -5,6 +5,8 @@ import ModalView from "./ModalViewTipoLlegada";
 import ModalEdit from "./ModalEditTipoLlegada";
 import ModalDelete from "./ModalDeleteTipoLlegada";
 import PropTypes from "prop-types";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import "./../../../css/custom_table.css";
 
 const dataExample = [
   {
@@ -35,7 +37,10 @@ class TableTipoLlegada extends Component {
 
   accionesTipoLlegada = (cell, row) => {
     return (
-      <div>
+      <div
+        className="table-menu"
+        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+      >
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {

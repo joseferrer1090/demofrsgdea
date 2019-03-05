@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import ModalView from "./ModalViewTipoLlegada";
 import PropTypes from "prop-types";
 
 const dataExample = [
@@ -23,8 +24,38 @@ const dataExample = [
 class TableTipoLlegada extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      modalviewtipollegada: false
+    };
   }
+
+  accionesTipoLlegada = (cell, row) => {
+    return (
+      <div>
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalView();
+          }}
+        >
+          <i className="fa fa-eye" />
+        </button>
+        &nbsp;
+        <button className="btn btn-secondary btn-sm">
+          <i className="fa fa-pencil" />
+        </button>
+        &nbsp;
+        <button className="btn btn-danger btn-sm">
+          <i className="fa fa-trash" />
+        </button>
+      </div>
+    );
+  };
+
+  openModalView() {
+    alert("hola mudno");
+  }
+
   render() {
     return (
       <div>
@@ -60,7 +91,10 @@ class TableTipoLlegada extends Component {
                 {" "}
                 Estado{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataAlign="center">
+              <TableHeaderColumn
+                dataAlign="center"
+                dataFormat={(cell, row) => this.accionesTipoLlegada(cell, row)}
+              >
                 {" "}
                 Acciones{" "}
               </TableHeaderColumn>

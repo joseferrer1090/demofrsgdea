@@ -41,7 +41,7 @@ class ModalViewTipoLlegada extends Component {
   }
 }
 
-ModalViewTipoLlegada = {
+ModalViewTipoLlegada.propTypes = {
   modalview: PropTypes.bool.isRequired
 };
 

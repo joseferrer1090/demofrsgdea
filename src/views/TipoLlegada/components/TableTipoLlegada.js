@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ModalViewTipoLlegada";
+import ModalEdit from "./ModalEditTipoLlegada";
+import ModalDelete from "./ModalDeleteTipoLlegada";
 import PropTypes from "prop-types";
 
 const dataExample = [
@@ -25,7 +27,9 @@ class TableTipoLlegada extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalviewtipollegada: false
+      modalviewtipollegada: false,
+      modaledittipollegada: false,
+      modaldeletetipollegada: false
     };
   }
 
@@ -41,11 +45,21 @@ class TableTipoLlegada extends Component {
           <i className="fa fa-eye" />
         </button>
         &nbsp;
-        <button className="btn btn-secondary btn-sm">
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalEdit();
+          }}
+        >
           <i className="fa fa-pencil" />
         </button>
         &nbsp;
-        <button className="btn btn-danger btn-sm">
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => {
+            this.openModalDelete();
+          }}
+        >
           <i className="fa fa-trash" />
         </button>
       </div>
@@ -63,7 +77,15 @@ class TableTipoLlegada extends Component {
   };
 
   openModalView() {
-    alert("hola mudno");
+    this.refs.child.toggle();
+  }
+
+  openModalEdit() {
+    this.refs.child2.toggle();
+  }
+
+  openModalDelete() {
+    this.refs.child3.toggle();
   }
 
   render() {
@@ -115,6 +137,12 @@ class TableTipoLlegada extends Component {
             </BootstrapTable>
           </Col>
         </Row>
+        <ModalView modalview={this.state.modalviewtipollegada} ref={"child"} />
+        <ModalEdit modaledit={this.state.modaledittipollegada} ref={"child2"} />
+        <ModalDelete
+          modaldelete={this.state.modaldeletetipollegada}
+          ref={"child3"}
+        />
       </div>
     );
   }

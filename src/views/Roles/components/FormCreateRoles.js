@@ -14,10 +14,6 @@ import {
   Badge,
   CustomInput
 } from "reactstrap";
-import ShortList from "./../componentsPermission/ShortList";
-import NamesList from "./../componentsPermission/NamesList";
-
-import "./../../../css/custom_roles.css";
 
 class FormCreateRoles extends Component {
   constructor(props) {
@@ -133,26 +129,33 @@ class FormCreateRoles extends Component {
                               </div>
                             </Col>
                             {/*  Aqui va la funcionalidad    */}
-                            {/* Buscador de permisos */}
                             <div className="row">
-                              <div className="col-md-12">
-                                {/* Lista de los permisos  */}
-                                <ShortList
-                                  data={this.props.data}
-                                  favourites={this.state.favourites}
-                                  deleteFavourite={this.deleteFavourite.bind(
-                                    this
-                                  )}
-                                />
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <select
+                                    multiple
+                                    className="form-control"
+                                    style={{
+                                      width: "310px",
+                                      marginLeft: "14px"
+                                    }}
+                                  >
+                                    <option> Seleccione </option>
+                                  </select>
+                                </div>
                               </div>
-                              <div className="col-md-12">
-                                {/* La nueva lista de los permisos */}
-                                <NamesList
-                                  data={this.props.data}
-                                  filter={this.state.filterText}
-                                  favourites={this.state.favourites}
-                                  addFavourite={this.addFavourite.bind(this)}
-                                />
+                              <div className="col-md-6">
+                                <select
+                                  multiple
+                                  className="form-control"
+                                  disabled
+                                  style={{
+                                    width: "310px",
+                                    marginRight: "10px"
+                                  }}
+                                >
+                                  <option> las nuevas opciones</option>
+                                </select>
                               </div>
                             </div>
                             {/*  Fin   */}

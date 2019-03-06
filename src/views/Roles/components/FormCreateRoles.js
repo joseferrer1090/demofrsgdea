@@ -15,6 +15,8 @@ import {
   CustomInput
 } from "reactstrap";
 
+import ListaRoles from "./../componentsPermission/ListaRoles";
+
 class FormCreateRoles extends Component {
   constructor(props) {
     super(props);
@@ -132,7 +134,7 @@ class FormCreateRoles extends Component {
                             <div className="row">
                               <div className="col-md-6">
                                 <div className="form-group">
-                                  <select
+                                  {/* <select
                                     multiple
                                     className="form-control"
                                     style={{
@@ -141,7 +143,12 @@ class FormCreateRoles extends Component {
                                     }}
                                   >
                                     <option> Seleccione </option>
-                                  </select>
+                                  </select> */}
+                                  <ListaRoles
+                                    data={this.props.data}
+                                    favouritesroles={this.state.favourites}
+                                    addFavourite={this.addFavourite.bind(this)}
+                                  />
                                 </div>
                               </div>
                               <div className="col-md-6">

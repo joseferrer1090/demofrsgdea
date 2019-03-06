@@ -78,7 +78,10 @@ class FormCreateRemitente extends Component {
                             Identificaicón{" "}
                             <span className="text-danger">*</span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -87,7 +90,10 @@ class FormCreateRemitente extends Component {
                             {" "}
                             Nombre <span className="text-danger">*</span>{" "}
                           </label>
-                          <input className="form-control" type="text" />
+                          <input
+                            className="form-control form-control-sm"
+                            type="text"
+                          />
                         </div>
                       </div>
                     </div>
@@ -98,19 +104,28 @@ class FormCreateRemitente extends Component {
                             {" "}
                             Email <span className="text-danger">*</span>{" "}
                           </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
                           <label> Teléfono </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
                           <label> Dirección </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                     </div>
@@ -160,7 +175,7 @@ class FormCreateRemitente extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label> Observación </label>
-                          <textarea className="form-control" />
+                          <textarea className="form-control form-control-sm" />
                         </div>
                       </div>
                     </div>
@@ -209,7 +224,7 @@ class FormCreateRemitente extends Component {
                 </CardBody>
                 <CardFooter>
                   <div className="float-right">
-                    <button className="btn btn-secondary">
+                    <button className="btn btn-secondary btn-sm">
                       {" "}
                       <i className="fa fa-plus" /> Registrar{" "}
                     </button>

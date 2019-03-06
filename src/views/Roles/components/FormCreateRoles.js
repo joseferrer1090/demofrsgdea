@@ -16,6 +16,7 @@ import {
 } from "reactstrap";
 
 import ListaRoles from "./../componentsPermission/ListaRoles";
+import NuevaListaRoles from "./../componentsPermission/NuevaListaRoles";
 
 class FormCreateRoles extends Component {
   constructor(props) {
@@ -152,7 +153,7 @@ class FormCreateRoles extends Component {
                                 </div>
                               </div>
                               <div className="col-md-6">
-                                <select
+                                {/* <select
                                   multiple
                                   className="form-control"
                                   disabled
@@ -162,7 +163,14 @@ class FormCreateRoles extends Component {
                                   }}
                                 >
                                   <option> las nuevas opciones</option>
-                                </select>
+                                </select> */}
+                                <NuevaListaRoles
+                                  data={this.props.data}
+                                  favouritesroles={this.state.favourites}
+                                  deleteFavourite={this.deleteFavourite.bind(
+                                    this
+                                  )}
+                                />
                               </div>
                             </div>
                             {/*  Fin   */}

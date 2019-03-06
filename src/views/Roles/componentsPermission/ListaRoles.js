@@ -3,10 +3,14 @@ import React from "react";
 import Rol from "./Roles";
 
 export default ({ data, filter, favouritesroles, addFavourite }) => {
-  const input = "";
   const roles = data.map((rol, i) => {
     return (
-      <Rol id={i} key={i} info={rol} handleFavourite={id => addFavourite(id)} />
+      <Rol
+        id={rol.id}
+        key={i}
+        info={rol}
+        handleFavourite={id => addFavourite(id)}
+      />
     );
   });
   return (

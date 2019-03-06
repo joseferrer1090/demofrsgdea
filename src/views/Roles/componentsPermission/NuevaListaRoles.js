@@ -2,12 +2,12 @@ import React from "react";
 
 import Rol from "./Roles";
 
-export default ({ favouritesroles, data, deleteFavourite }) => {
-  const hasFavourites = favouritesroles.length > 0;
-  const favRol = favouritesroles.map((rol, i) => {
+export default ({ favourites, data, deleteFavourite }) => {
+  //   const hasFavorites = favourites.length > 0;
+  const favRol = favourites.map((rol, i) => {
     return (
       <Rol
-        id={i}
+        id={rol.id}
         key={i}
         info={data[rol]}
         handleFavourite={id => deleteFavourite(id)}

@@ -22,13 +22,13 @@ class FormCreateRoles extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      filterText: "",
       favourites: []
     };
   }
 
   addFavourite(id) {
     const newSet = this.state.favourites.concat([id]);
+    console.log("voy por este lado", id);
     this.setState({
       favourites: newSet
     });
@@ -166,7 +166,7 @@ class FormCreateRoles extends Component {
                                 </select> */}
                                 <NuevaListaRoles
                                   data={this.props.data}
-                                  favouritesroles={this.state.favourites}
+                                  favourites={this.state.favourites}
                                   deleteFavourite={this.deleteFavourite.bind(
                                     this
                                   )}

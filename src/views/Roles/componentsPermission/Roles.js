@@ -4,4 +4,8 @@ export default ({
   id, // identificador
   info, // objeto para la informacion
   handleFavourite // metodo click para pasar
-}) => <option onClick={() => handleFavourite(id)}>{info.display_name}</option>;
+}) => (
+  <option onClick={() => handleFavourite(id)}>
+    {info.id}-{info.display_name}
+  </option>
+);

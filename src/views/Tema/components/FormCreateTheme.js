@@ -66,10 +66,10 @@ class FormCreateTheme extends Component {
                       type="checkbox"
                       id="ExampleInputCheckbox"
                       label="Si esta opción se encuentra activada, Representa que
-                             la sede es visible en el sistema y se podrán
+                             el tema es visible en el sistema y se podrán
                              realizar operaciones entre cada uno de los módulos
                              correspondientes de la aplicación. En caso contrario
-                             la sede no se elimina del sistema solo quedará
+                             el tema no se elimina del sistema solo quedará
                              inactiva e invisibles para cada uno de los módulos
                              correspondiente del sistema."
                     />

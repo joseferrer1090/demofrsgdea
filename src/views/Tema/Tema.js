@@ -41,7 +41,7 @@ class Diseño extends Component {
                 this.toggle("1");
               }}
             >
-              Tab1
+              <i className="fa fa-plus" /> Crear tema
             </NavLink>
           </NavItem>
           <NavItem>
@@ -51,7 +51,27 @@ class Diseño extends Component {
                 this.toggle("2");
               }}
             >
-              Moar Tabs
+              <i className="fa fa-gear" /> Administrar
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === "3" })}
+              onClick={() => {
+                this.toggle("3");
+              }}
+            >
+              <i className="fa fa-upload" /> Importar
+            </NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink
+              className={classnames({ active: this.state.activeTab === "4" })}
+              onClick={() => {
+                this.toggle("4");
+              }}
+            >
+              <i className="fa fa-check-square-o" /> Asignar
             </NavLink>
           </NavItem>
         </Nav>

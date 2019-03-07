@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Row,
+  Col,
+  Card
+} from "reactstrap";
 import PropTypes from "prop-types";
 
 class ModalEditTheme extends Component {
@@ -18,10 +26,39 @@ class ModalEditTheme extends Component {
 
   render() {
     return (
-      <Modal isOpen={this.state.modal}>
-        <ModalHeader>Probando</ModalHeader>
+      <Modal className="modal-xl" isOpen={this.state.modal}>
+        <ModalHeader>Editar tema</ModalHeader>
         <ModalBody>
-          <p>Probando</p>
+          <Row>
+            <Col sm="6">
+              <Card body>
+                <h5 className="card-title"> Colores en el header </h5>
+                <p>Esto son los posibles datos</p>
+              </Card>
+            </Col>
+            <Col sm="6">
+              <Card body>
+                <h5 className="card-title"> Colores en el footer </h5>
+                <p>Esto son los posibles datos</p>
+              </Card>
+            </Col>
+            <Col sm="12">
+              <Card body>
+                <h5 className="card-title"> Colores en otro componentes</h5>
+                <p>Estos son los posibles datos</p>
+              </Card>
+            </Col>
+            <Col sm="6">
+              <div className="form-group">
+                <label>
+                  Estado <span className="text-danger">*</span>
+                </label>
+                <select className="form-control form-control-sm">
+                  <option>Seleccione</option>
+                </select>
+              </div>
+            </Col>
+          </Row>
         </ModalBody>
         <ModalFooter>
           <div>

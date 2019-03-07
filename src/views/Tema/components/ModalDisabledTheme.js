@@ -18,9 +18,26 @@ class ModalDisabledTheme extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader>Probando</ModalHeader>
+        <ModalHeader>Deshabilitar tema</ModalHeader>
         <ModalBody>
-          <p>Probando</p>
+          <form className="form">
+            <p className="text-center">
+              {" "}
+              Confirmar el <code> Nombre </code> para deshabilitar el tema{" "}
+            </p>
+
+            <input
+              className="form-control col-sm-6 offset-sm-3"
+              type="text"
+              placeholder=""
+              style={{ textAlign: "center" }}
+            />
+            <br />
+            <p className="text-center text-danger">
+              {" "}
+              El tema quedará deshabilitado de manera permanente.{" "}
+            </p>
+          </form>
         </ModalBody>
         <ModalFooter>
           <div>

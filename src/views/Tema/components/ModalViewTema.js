@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Row,
+  Col
+} from "reactstrap";
+import IMGtemplate from "./../../../assets/img/template.svg";
 import PropTypes from "prop-types";
 
 class ModalViewTema extends Component {
@@ -18,10 +26,73 @@ class ModalViewTema extends Component {
 
   render() {
     return (
-      <Modal isOpen={this.state.modal}>
-        <ModalHeader>Probando</ModalHeader>
+      <Modal className="modal-lg" isOpen={this.state.modal}>
+        <ModalHeader>Ver tema</ModalHeader>
         <ModalBody>
-          <p>Probando</p>
+          <Row>
+            <Col sm="3">
+              <img src={IMGtemplate} className="" width={"150"} />
+            </Col>
+            <Col sm="9">
+              <div className="">
+                {" "}
+                <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                  {" "}
+                  Datos{" "}
+                </h5>{" "}
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Código </dt>
+                      <dd>Código </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Nombre </dt>
+                      <dd> Nombre </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Descripción </dt>
+                      <dd>Descripción </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Estado </dt>
+                      <dd> Estado </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Fecha de creación </dt>
+                      <dd> fecha de creación </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Fecha de modificación </dt>
+                      <dd> fecha de modificación </dd>
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          </Row>
         </ModalBody>
         <ModalFooter>
           <button

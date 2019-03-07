@@ -14,6 +14,12 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 
+import FormCreate from "./components/FormCreateTheme";
+import TableContent from "./components/TableCotent";
+import TableCotent from "./components/TableCotent";
+import FormImport from "./components/FormImportTheme";
+import AssignedTheme from "./components/AssignedTheme";
+
 class Diseño extends Component {
   constructor(props) {
     super(props);
@@ -79,31 +85,28 @@ class Diseño extends Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <h4>Tab 1 Contents</h4>
+                <FormCreate />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>
-                    With supporting text below as a natural lead-in to
-                    additional content.
-                  </CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
+              <Col sm="12">
+                <TableCotent />
               </Col>
-              <Col sm="6">
-                <Card body>
-                  <CardTitle>Special Title Treatment</CardTitle>
-                  <CardText>
-                    With supporting text below as a natural lead-in to
-                    additional content.
-                  </CardText>
-                  <Button>Go somewhere</Button>
-                </Card>
+            </Row>
+          </TabPane>
+          <TabPane tabId="3">
+            <Row>
+              <Col sm="12">
+                <FormImport />
+              </Col>
+            </Row>
+          </TabPane>
+          <TabPane tabId="4">
+            <Row>
+              <Col sm="12">
+                <AssignedTheme />
               </Col>
             </Row>
           </TabPane>

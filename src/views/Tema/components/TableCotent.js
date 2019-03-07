@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
+import ModalViewTheme from "./ModalViewTema";
+import ModalEditTheme from "./ModalEditTheme";
+import ModalDisabledTheme from "./ModalDisabledTheme";
 
 const dataExample = [
   {
@@ -39,8 +42,48 @@ const dataExample = [
 class TableCotent extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      modalview: false,
+      modaledit: false,
+      modaldisabled: false
+    };
   }
+
+  accionesTemas = (cell, row) => {
+    return (
+      <div>
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalView();
+          }}
+        >
+          {" "}
+          <i className="fa fa-eye" />{" "}
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalEdit();
+          }}
+        >
+          {" "}
+          <i className="fa fa-pencil" />{" "}
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => {
+            this.openModalDisabled();
+          }}
+        >
+          {" "}
+          <i className="fa fa-trash" />{" "}
+        </button>
+      </div>
+    );
+  };
 
   estadoTema = (cell, row) => {
     let estado;
@@ -50,6 +93,18 @@ class TableCotent extends Component {
       estado = <div className="text-danger"> Inactivo </div>;
     }
     return estado;
+  };
+
+  openModalView = () => {
+    this.refs.child.toggle();
+  };
+
+  openModalEdit = () => {
+    this.refs.child2.toggle();
+  };
+
+  openModalDisabled = () => {
+    this.refs.child3.toggle();
   };
 
   render() {
@@ -84,8 +139,20 @@ class TableCotent extends Component {
             {" "}
             Estado{" "}
           </TableHeaderColumn>
-          <TableHeaderColumn dataAlign="center"> Acciones </TableHeaderColumn>
+          <TableHeaderColumn
+            dataAlign="center"
+            dataFormat={(cell, row) => this.accionesTemas(cell, row)}
+          >
+            {" "}
+            Acciones{" "}
+          </TableHeaderColumn>
         </BootstrapTable>
+        <ModalViewTheme modalview={this.state.modalview} ref={"child"} />
+        <ModalEditTheme modaledit={this.state.modaledit} ref={"child2"} />
+        <ModalDisabledTheme
+          modaldisabled={this.state.modaldisabled}
+          ref={"child3"}
+        />
       </div>
     );
   }

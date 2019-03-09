@@ -29,19 +29,19 @@ class ModalViewUserTipoDocumentalRadicacion extends Component {
         <ModalBody>
           <div className="table-responsive">
             <ReactTableContainer width="100%" height="300px">
-              <table className="table table-striped">
+              <table className="table table-striped table-hover">
                 <thead>
                   <tr>
-                    <td>Dessert (100g serving)</td>
-                    <td numeric>Calories</td>
-                    <td numeric>Fat (g)</td>
-                    <td numeric>Carbs (g)</td>
-                    <td numeric>Protein (g)</td>
+                    <td>Nombre</td>
+                    <td numeric>sede</td>
+                    <td numeric>Dependencia</td>
+                    <td numeric>Cargo</td>
+                    <td numeric>Otro</td>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>nombre</td>
+                    <td numeric>1</td>
                     <td numeric>1</td>
                     <td numeric>1</td>
                     <td numeric>1</td>

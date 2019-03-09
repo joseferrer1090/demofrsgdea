@@ -153,6 +153,7 @@ class TableContentConglomerado extends Component {
                     search={true}
                     exportCSV
                     hover
+                    striped
                     bordered={false}
                     searchPlaceholder="Buscar"
                     className="texto-small"

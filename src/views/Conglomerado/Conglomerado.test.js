@@ -7,11 +7,15 @@ import ModalViewConglomerado from "./components/ModalViewConglomerado";
 import ModalEditConglomerado from "./components/ModalEditConglomerado";
 import ModalDeleteConglomerado from "./components/ModalDeleteConglomerado";
 import ImportConglomerado from "./components/FormUploadFile";
-import { isIterable } from "core-js";
 import Conglomerado from "./Conglomerado";
 
 it("mounts without crashing Conglomerado principal", () => {
   const wrapper = shallow(<Conglomerado />);
+  wrapper.unmount();
+});
+
+it("mounts without crashing Conglomerado formulario crear", () => {
+  const wrapper = shallow(<FormCreateConglomerado />);
   wrapper.unmount();
 });
 

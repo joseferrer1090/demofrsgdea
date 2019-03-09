@@ -126,6 +126,7 @@ class TableContentEmpresa extends Component {
             search={true}
             exportCSV
             hover
+            striped
             bordered={false}
             searchPlaceholder="Buscar"
           >

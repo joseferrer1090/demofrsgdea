@@ -17,7 +17,7 @@ const dataExample = [
     nombre: "tipo_documental_radicacion_nombre",
     descripcion: "descripcion general",
     usuarios: "",
-    estado: true
+    estado: false
   },
   {
     id: 1,
@@ -137,6 +137,16 @@ class TableContentTipoDocumental extends Component {
     );
   }
 
+  EstadoTipoDocumentalRadication = (cell, row) => {
+    let status;
+    if (row.estado === true) {
+      status = <div className="text-success">Activo</div>;
+    } else if (row.estado !== true) {
+      status = <div className="text-danger">Inactivo </div>;
+    }
+    return status;
+  };
+
   openModalViewUsers() {
     this.refs.child5.toggle();
   }
@@ -200,7 +210,13 @@ class TableContentTipoDocumental extends Component {
               Usuarios{" "}
             </TableHeaderColumn>
 
-            <TableHeaderColumn dataField="estado" dataAlign="center">
+            <TableHeaderColumn
+              dataField="estado"
+              dataAlign="center"
+              dataFormat={(cell, row) =>
+                this.EstadoTipoDocumentalRadication(cell, row)
+              }
+            >
               {" "}
               Estado{" "}
             </TableHeaderColumn>

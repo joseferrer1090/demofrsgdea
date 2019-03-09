@@ -27,7 +27,7 @@ class AssignedTheme extends Component {
                 </select>
               </td>
               <td>
-                <select className="form-control from-control-sm">
+                <select className="form-control form-control-sm">
                   {" "}
                   <option>Seleccione</option>{" "}
                 </select>
@@ -53,7 +53,7 @@ class AssignedTheme extends Component {
               </td>
               <td className="text-center">
                 {" "}
-                <select className="form-control from-control-sm">
+                <select className="form-control form-control-sm">
                   {" "}
                   <option>Seleccione</option>{" "}
                 </select>
@@ -78,7 +78,7 @@ class AssignedTheme extends Component {
               </td>
               <td>
                 {" "}
-                <select className="form-control from-control-sm">
+                <select className="form-control form-control-sm">
                   {" "}
                   <option>Seleccione</option>{" "}
                 </select>

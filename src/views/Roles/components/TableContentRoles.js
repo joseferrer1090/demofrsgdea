@@ -172,6 +172,7 @@ class TableContentRoles extends Component {
             pagination
             bordered={false}
             hover
+            striped
             exportCSV
           >
             <TableHeaderColumn

@@ -11,6 +11,11 @@ beforeEach(() => {
   wrapped = shallow(<Auditoria />);
 });
 
+it("should render Settings component correctly", () => {
+  const wrapper = shallow(<Auditoria />);
+  expect(wrapper).toMatchSnapshot();
+});
+
 it("show modal search", () => {
   expect(wrapped.find(ModalSearch).length).toEqual(1);
 });

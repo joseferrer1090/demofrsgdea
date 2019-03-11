@@ -1,7 +1,12 @@
 import React from "react";
-import { mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import Auditoria from "./Auditoria";
 import ModalSearchAuditoria from "./components/ModalSearchAuditoria";
+
+// it("should render settings component correctly", () => {
+//   const wrapper = shallow(<Auditoria />);
+//   expect(wrapper).toMatchSnapshot();
+// });
 
 let wrapped;
 

@@ -1,0 +1,3960 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`should render Settings component correctly 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Auditoria />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "host",
+    "props": Object {
+      "children": Array [
+        <div
+          className="row"
+        >
+          <div
+            className="col-md-12"
+          >
+            <Card
+              body={true}
+              tag="div"
+            >
+              <BootstrapTable
+                autoCollapse={
+                  Object {
+                    "filter": false,
+                    "search": false,
+                    "sort": false,
+                  }
+                }
+                bod={true}
+                bodyContainerClass={null}
+                bordered={false}
+                cellEdit={
+                  Object {
+                    "afterSaveCell": undefined,
+                    "beforeSaveCell": undefined,
+                    "blurToEscape": false,
+                    "blurToSave": false,
+                    "mode": "none",
+                    "nonEditableRows": undefined,
+                  }
+                }
+                className="texto-small"
+                columnFilter={false}
+                condensed={false}
+                containerClass={null}
+                csvFileName="spreadsheet.csv"
+                data={
+                  Array [
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 1,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 2,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 3,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 4,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 5,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 6,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                  ]
+                }
+                deleteRow={false}
+                expandColumnOptions={
+                  Object {
+                    "expandColumnBeforeSelectColumn": true,
+                    "expandColumnComponent": undefined,
+                    "expandColumnVisible": false,
+                    "expandedColumnHeaderComponent": undefined,
+                  }
+                }
+                exportCSV={true}
+                fetchInfo={
+                  Object {
+                    "dataTotalSize": 0,
+                  }
+                }
+                footer={false}
+                headerContainerClass={null}
+                headerStyle={
+                  Object {
+                    "height": "39px",
+                  }
+                }
+                height="100%"
+                hover={true}
+                ignoreSinglePage={false}
+                insertRow={false}
+                keyBoardNav={false}
+                multiColumnSearch={false}
+                multiColumnSort={1}
+                options={
+                  Object {
+                    "btnGroup": [Function],
+                  }
+                }
+                pagination={true}
+                printable={false}
+                renderAlert={true}
+                replace={false}
+                search={true}
+                searchPlaceholder="Buscar"
+                selectRow={
+                  Object {
+                    "bgColor": "",
+                    "clickToExpand": false,
+                    "clickToSelect": false,
+                    "clickToSelectAndEditCell": false,
+                    "customComponent": undefined,
+                    "hideSelectColumn": false,
+                    "mode": "none",
+                    "onSelect": undefined,
+                    "onSelectAll": undefined,
+                    "onlyUnselectVisible": false,
+                    "selected": Array [],
+                    "showOnlySelected": false,
+                    "unselectable": Array [],
+                  }
+                }
+                striped={true}
+                tableBodyClass={null}
+                tableContainerClass={null}
+                tableFooterClass={null}
+                tableHeaderClass={null}
+                trClassName=""
+                version="3"
+                withoutTabIndex={false}
+              >
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="fecha"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={true}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Fecha
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="accion"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Accion
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="tabla"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Tabla
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="usuario"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Usuario
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="tipo"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Tipo
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataFormat={[Function]}
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                  Acciones
+                   
+                </TableHeaderColumn>
+              </BootstrapTable>
+            </Card>
+          </div>
+        </div>,
+        <ModalViewAuditoria
+          modalview={false}
+        />,
+        <ModalSearchAuditoria
+          modalSearch={false}
+        />,
+      ],
+      "className": "animated fadeIn",
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <div
+            className="col-md-12"
+          >
+            <Card
+              body={true}
+              tag="div"
+            >
+              <BootstrapTable
+                autoCollapse={
+                  Object {
+                    "filter": false,
+                    "search": false,
+                    "sort": false,
+                  }
+                }
+                bod={true}
+                bodyContainerClass={null}
+                bordered={false}
+                cellEdit={
+                  Object {
+                    "afterSaveCell": undefined,
+                    "beforeSaveCell": undefined,
+                    "blurToEscape": false,
+                    "blurToSave": false,
+                    "mode": "none",
+                    "nonEditableRows": undefined,
+                  }
+                }
+                className="texto-small"
+                columnFilter={false}
+                condensed={false}
+                containerClass={null}
+                csvFileName="spreadsheet.csv"
+                data={
+                  Array [
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 1,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 2,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 3,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 4,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 5,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 6,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                  ]
+                }
+                deleteRow={false}
+                expandColumnOptions={
+                  Object {
+                    "expandColumnBeforeSelectColumn": true,
+                    "expandColumnComponent": undefined,
+                    "expandColumnVisible": false,
+                    "expandedColumnHeaderComponent": undefined,
+                  }
+                }
+                exportCSV={true}
+                fetchInfo={
+                  Object {
+                    "dataTotalSize": 0,
+                  }
+                }
+                footer={false}
+                headerContainerClass={null}
+                headerStyle={
+                  Object {
+                    "height": "39px",
+                  }
+                }
+                height="100%"
+                hover={true}
+                ignoreSinglePage={false}
+                insertRow={false}
+                keyBoardNav={false}
+                multiColumnSearch={false}
+                multiColumnSort={1}
+                options={
+                  Object {
+                    "btnGroup": [Function],
+                  }
+                }
+                pagination={true}
+                printable={false}
+                renderAlert={true}
+                replace={false}
+                search={true}
+                searchPlaceholder="Buscar"
+                selectRow={
+                  Object {
+                    "bgColor": "",
+                    "clickToExpand": false,
+                    "clickToSelect": false,
+                    "clickToSelectAndEditCell": false,
+                    "customComponent": undefined,
+                    "hideSelectColumn": false,
+                    "mode": "none",
+                    "onSelect": undefined,
+                    "onSelectAll": undefined,
+                    "onlyUnselectVisible": false,
+                    "selected": Array [],
+                    "showOnlySelected": false,
+                    "unselectable": Array [],
+                  }
+                }
+                striped={true}
+                tableBodyClass={null}
+                tableContainerClass={null}
+                tableFooterClass={null}
+                tableHeaderClass={null}
+                trClassName=""
+                version="3"
+                withoutTabIndex={false}
+              >
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="fecha"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={true}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Fecha
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="accion"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Accion
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="tabla"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Tabla
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="usuario"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Usuario
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="tipo"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Tipo
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataFormat={[Function]}
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                  Acciones
+                   
+                </TableHeaderColumn>
+              </BootstrapTable>
+            </Card>
+          </div>,
+          "className": "row",
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <Card
+              body={true}
+              tag="div"
+            >
+              <BootstrapTable
+                autoCollapse={
+                  Object {
+                    "filter": false,
+                    "search": false,
+                    "sort": false,
+                  }
+                }
+                bod={true}
+                bodyContainerClass={null}
+                bordered={false}
+                cellEdit={
+                  Object {
+                    "afterSaveCell": undefined,
+                    "beforeSaveCell": undefined,
+                    "blurToEscape": false,
+                    "blurToSave": false,
+                    "mode": "none",
+                    "nonEditableRows": undefined,
+                  }
+                }
+                className="texto-small"
+                columnFilter={false}
+                condensed={false}
+                containerClass={null}
+                csvFileName="spreadsheet.csv"
+                data={
+                  Array [
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 1,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 2,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 3,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 4,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 5,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 6,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                  ]
+                }
+                deleteRow={false}
+                expandColumnOptions={
+                  Object {
+                    "expandColumnBeforeSelectColumn": true,
+                    "expandColumnComponent": undefined,
+                    "expandColumnVisible": false,
+                    "expandedColumnHeaderComponent": undefined,
+                  }
+                }
+                exportCSV={true}
+                fetchInfo={
+                  Object {
+                    "dataTotalSize": 0,
+                  }
+                }
+                footer={false}
+                headerContainerClass={null}
+                headerStyle={
+                  Object {
+                    "height": "39px",
+                  }
+                }
+                height="100%"
+                hover={true}
+                ignoreSinglePage={false}
+                insertRow={false}
+                keyBoardNav={false}
+                multiColumnSearch={false}
+                multiColumnSort={1}
+                options={
+                  Object {
+                    "btnGroup": [Function],
+                  }
+                }
+                pagination={true}
+                printable={false}
+                renderAlert={true}
+                replace={false}
+                search={true}
+                searchPlaceholder="Buscar"
+                selectRow={
+                  Object {
+                    "bgColor": "",
+                    "clickToExpand": false,
+                    "clickToSelect": false,
+                    "clickToSelectAndEditCell": false,
+                    "customComponent": undefined,
+                    "hideSelectColumn": false,
+                    "mode": "none",
+                    "onSelect": undefined,
+                    "onSelectAll": undefined,
+                    "onlyUnselectVisible": false,
+                    "selected": Array [],
+                    "showOnlySelected": false,
+                    "unselectable": Array [],
+                  }
+                }
+                striped={true}
+                tableBodyClass={null}
+                tableContainerClass={null}
+                tableFooterClass={null}
+                tableHeaderClass={null}
+                trClassName=""
+                version="3"
+                withoutTabIndex={false}
+              >
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="fecha"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={true}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Fecha
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="accion"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Accion
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="tabla"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Tabla
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="usuario"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Usuario
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="tipo"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Tipo
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataFormat={[Function]}
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                  Acciones
+                   
+                </TableHeaderColumn>
+              </BootstrapTable>
+            </Card>,
+            "className": "col-md-12",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "function",
+            "props": Object {
+              "body": true,
+              "children": <BootstrapTable
+                autoCollapse={
+                  Object {
+                    "filter": false,
+                    "search": false,
+                    "sort": false,
+                  }
+                }
+                bod={true}
+                bodyContainerClass={null}
+                bordered={false}
+                cellEdit={
+                  Object {
+                    "afterSaveCell": undefined,
+                    "beforeSaveCell": undefined,
+                    "blurToEscape": false,
+                    "blurToSave": false,
+                    "mode": "none",
+                    "nonEditableRows": undefined,
+                  }
+                }
+                className="texto-small"
+                columnFilter={false}
+                condensed={false}
+                containerClass={null}
+                csvFileName="spreadsheet.csv"
+                data={
+                  Array [
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 1,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 2,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 3,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 4,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 5,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 6,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                  ]
+                }
+                deleteRow={false}
+                expandColumnOptions={
+                  Object {
+                    "expandColumnBeforeSelectColumn": true,
+                    "expandColumnComponent": undefined,
+                    "expandColumnVisible": false,
+                    "expandedColumnHeaderComponent": undefined,
+                  }
+                }
+                exportCSV={true}
+                fetchInfo={
+                  Object {
+                    "dataTotalSize": 0,
+                  }
+                }
+                footer={false}
+                headerContainerClass={null}
+                headerStyle={
+                  Object {
+                    "height": "39px",
+                  }
+                }
+                height="100%"
+                hover={true}
+                ignoreSinglePage={false}
+                insertRow={false}
+                keyBoardNav={false}
+                multiColumnSearch={false}
+                multiColumnSort={1}
+                options={
+                  Object {
+                    "btnGroup": [Function],
+                  }
+                }
+                pagination={true}
+                printable={false}
+                renderAlert={true}
+                replace={false}
+                search={true}
+                searchPlaceholder="Buscar"
+                selectRow={
+                  Object {
+                    "bgColor": "",
+                    "clickToExpand": false,
+                    "clickToSelect": false,
+                    "clickToSelectAndEditCell": false,
+                    "customComponent": undefined,
+                    "hideSelectColumn": false,
+                    "mode": "none",
+                    "onSelect": undefined,
+                    "onSelectAll": undefined,
+                    "onlyUnselectVisible": false,
+                    "selected": Array [],
+                    "showOnlySelected": false,
+                    "unselectable": Array [],
+                  }
+                }
+                striped={true}
+                tableBodyClass={null}
+                tableContainerClass={null}
+                tableFooterClass={null}
+                tableHeaderClass={null}
+                trClassName=""
+                version="3"
+                withoutTabIndex={false}
+              >
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="fecha"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={true}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Fecha
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="accion"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Accion
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="tabla"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Tabla
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="usuario"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Usuario
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataField="tipo"
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                   
+                  Tipo
+                   
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  className=""
+                  columnClassName=""
+                  columnTitle={false}
+                  csvFieldType="string"
+                  dataAlign="center"
+                  dataFormat={[Function]}
+                  dataSort={false}
+                  defaultASC={false}
+                  editColumnClassName=""
+                  editable={true}
+                  expandable={true}
+                  filterFormatted={false}
+                  headerTitle={true}
+                  hidden={false}
+                  hiddenOnInsert={false}
+                  invalidEditColumnClassName=""
+                  isKey={false}
+                  keyValidator={false}
+                  searchable={true}
+                  sortIndicator={true}
+                  width={null}
+                >
+                  Acciones
+                   
+                </TableHeaderColumn>
+              </BootstrapTable>,
+              "tag": "div",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "class",
+              "props": Object {
+                "autoCollapse": Object {
+                  "filter": false,
+                  "search": false,
+                  "sort": false,
+                },
+                "bod": true,
+                "bodyContainerClass": null,
+                "bodyStyle": undefined,
+                "bordered": false,
+                "cellEdit": Object {
+                  "afterSaveCell": undefined,
+                  "beforeSaveCell": undefined,
+                  "blurToEscape": false,
+                  "blurToSave": false,
+                  "mode": "none",
+                  "nonEditableRows": undefined,
+                },
+                "children": Array [
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="fecha"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={true}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Fecha
+                     
+                  </TableHeaderColumn>,
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="accion"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Accion
+                     
+                  </TableHeaderColumn>,
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="tabla"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Tabla
+                     
+                  </TableHeaderColumn>,
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="usuario"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Usuario
+                     
+                  </TableHeaderColumn>,
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="tipo"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Tipo
+                     
+                  </TableHeaderColumn>,
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataFormat={[Function]}
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                    Acciones
+                     
+                  </TableHeaderColumn>,
+                ],
+                "className": "texto-small",
+                "columnFilter": false,
+                "condensed": false,
+                "containerClass": null,
+                "containerStyle": undefined,
+                "csvFileName": "spreadsheet.csv",
+                "data": Array [
+                  Object {
+                    "accion": "Grabar",
+                    "fecha": "01/01/2019",
+                    "id": 1,
+                    "tabla": "tabla_entidad",
+                    "tipo": "usuario_type",
+                    "usuario": "usuario_nanme",
+                  },
+                  Object {
+                    "accion": "Grabar",
+                    "fecha": "01/01/2019",
+                    "id": 2,
+                    "tabla": "tabla_entidad",
+                    "tipo": "usuario_type",
+                    "usuario": "usuario_nanme",
+                  },
+                  Object {
+                    "accion": "Grabar",
+                    "fecha": "01/01/2019",
+                    "id": 3,
+                    "tabla": "tabla_entidad",
+                    "tipo": "usuario_type",
+                    "usuario": "usuario_nanme",
+                  },
+                  Object {
+                    "accion": "Grabar",
+                    "fecha": "01/01/2019",
+                    "id": 4,
+                    "tabla": "tabla_entidad",
+                    "tipo": "usuario_type",
+                    "usuario": "usuario_nanme",
+                  },
+                  Object {
+                    "accion": "Grabar",
+                    "fecha": "01/01/2019",
+                    "id": 5,
+                    "tabla": "tabla_entidad",
+                    "tipo": "usuario_type",
+                    "usuario": "usuario_nanme",
+                  },
+                  Object {
+                    "accion": "Grabar",
+                    "fecha": "01/01/2019",
+                    "id": 6,
+                    "tabla": "tabla_entidad",
+                    "tipo": "usuario_type",
+                    "usuario": "usuario_nanme",
+                  },
+                ],
+                "deleteRow": false,
+                "expandColumnOptions": Object {
+                  "expandColumnBeforeSelectColumn": true,
+                  "expandColumnComponent": undefined,
+                  "expandColumnVisible": false,
+                  "expandedColumnHeaderComponent": undefined,
+                },
+                "expandComponent": undefined,
+                "expandableRow": undefined,
+                "exportCSV": true,
+                "fetchInfo": Object {
+                  "dataTotalSize": 0,
+                },
+                "footer": false,
+                "headerContainerClass": null,
+                "headerStyle": Object {
+                  "height": "39px",
+                },
+                "height": "100%",
+                "hover": true,
+                "ignoreSinglePage": false,
+                "insertRow": false,
+                "keyBoardNav": false,
+                "maxHeight": undefined,
+                "multiColumnSearch": false,
+                "multiColumnSort": 1,
+                "options": Object {
+                  "btnGroup": [Function],
+                },
+                "pagination": true,
+                "printable": false,
+                "renderAlert": true,
+                "replace": false,
+                "scrollTop": undefined,
+                "search": true,
+                "searchPlaceholder": "Buscar",
+                "selectRow": Object {
+                  "bgColor": "",
+                  "clickToExpand": false,
+                  "clickToSelect": false,
+                  "clickToSelectAndEditCell": false,
+                  "customComponent": undefined,
+                  "hideSelectColumn": false,
+                  "mode": "none",
+                  "onSelect": undefined,
+                  "onSelectAll": undefined,
+                  "onlyUnselectVisible": false,
+                  "selected": Array [],
+                  "showOnlySelected": false,
+                  "unselectable": Array [],
+                },
+                "strictSearch": undefined,
+                "striped": true,
+                "tableBodyClass": null,
+                "tableContainerClass": null,
+                "tableFooterClass": null,
+                "tableHeaderClass": null,
+                "tableStyle": undefined,
+                "trClassName": "",
+                "trStyle": undefined,
+                "version": "3",
+                "withoutTabIndex": false,
+              },
+              "ref": null,
+              "rendered": Array [
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": Array [
+                      " ",
+                      "Fecha",
+                      " ",
+                    ],
+                    "className": "",
+                    "columnClassName": "",
+                    "columnTitle": false,
+                    "csvFieldType": "string",
+                    "csvFormat": undefined,
+                    "csvHeader": undefined,
+                    "dataAlign": "center",
+                    "dataField": "fecha",
+                    "dataFormat": undefined,
+                    "dataSort": false,
+                    "defaultASC": false,
+                    "editColumnClassName": "",
+                    "editTdAttr": undefined,
+                    "editable": true,
+                    "expandable": true,
+                    "filter": undefined,
+                    "filterFormatted": false,
+                    "filterValue": undefined,
+                    "formatExtraData": undefined,
+                    "headerAlign": undefined,
+                    "headerTitle": true,
+                    "hidden": false,
+                    "hiddenOnInsert": false,
+                    "invalidEditColumnClassName": "",
+                    "isKey": true,
+                    "keyValidator": false,
+                    "onSort": undefined,
+                    "searchable": true,
+                    "sort": undefined,
+                    "sortFunc": undefined,
+                    "sortFuncExtraData": undefined,
+                    "sortIndicator": true,
+                    "tdAttr": undefined,
+                    "tdStyle": undefined,
+                    "thStyle": undefined,
+                    "width": null,
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    " ",
+                    "Fecha",
+                    " ",
+                  ],
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": Array [
+                      " ",
+                      "Accion",
+                      " ",
+                    ],
+                    "className": "",
+                    "columnClassName": "",
+                    "columnTitle": false,
+                    "csvFieldType": "string",
+                    "csvFormat": undefined,
+                    "csvHeader": undefined,
+                    "dataAlign": "center",
+                    "dataField": "accion",
+                    "dataFormat": undefined,
+                    "dataSort": false,
+                    "defaultASC": false,
+                    "editColumnClassName": "",
+                    "editTdAttr": undefined,
+                    "editable": true,
+                    "expandable": true,
+                    "filter": undefined,
+                    "filterFormatted": false,
+                    "filterValue": undefined,
+                    "formatExtraData": undefined,
+                    "headerAlign": undefined,
+                    "headerTitle": true,
+                    "hidden": false,
+                    "hiddenOnInsert": false,
+                    "invalidEditColumnClassName": "",
+                    "isKey": false,
+                    "keyValidator": false,
+                    "onSort": undefined,
+                    "searchable": true,
+                    "sort": undefined,
+                    "sortFunc": undefined,
+                    "sortFuncExtraData": undefined,
+                    "sortIndicator": true,
+                    "tdAttr": undefined,
+                    "tdStyle": undefined,
+                    "thStyle": undefined,
+                    "width": null,
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    " ",
+                    "Accion",
+                    " ",
+                  ],
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": Array [
+                      " ",
+                      "Tabla",
+                      " ",
+                    ],
+                    "className": "",
+                    "columnClassName": "",
+                    "columnTitle": false,
+                    "csvFieldType": "string",
+                    "csvFormat": undefined,
+                    "csvHeader": undefined,
+                    "dataAlign": "center",
+                    "dataField": "tabla",
+                    "dataFormat": undefined,
+                    "dataSort": false,
+                    "defaultASC": false,
+                    "editColumnClassName": "",
+                    "editTdAttr": undefined,
+                    "editable": true,
+                    "expandable": true,
+                    "filter": undefined,
+                    "filterFormatted": false,
+                    "filterValue": undefined,
+                    "formatExtraData": undefined,
+                    "headerAlign": undefined,
+                    "headerTitle": true,
+                    "hidden": false,
+                    "hiddenOnInsert": false,
+                    "invalidEditColumnClassName": "",
+                    "isKey": false,
+                    "keyValidator": false,
+                    "onSort": undefined,
+                    "searchable": true,
+                    "sort": undefined,
+                    "sortFunc": undefined,
+                    "sortFuncExtraData": undefined,
+                    "sortIndicator": true,
+                    "tdAttr": undefined,
+                    "tdStyle": undefined,
+                    "thStyle": undefined,
+                    "width": null,
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    " ",
+                    "Tabla",
+                    " ",
+                  ],
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": Array [
+                      " ",
+                      "Usuario",
+                      " ",
+                    ],
+                    "className": "",
+                    "columnClassName": "",
+                    "columnTitle": false,
+                    "csvFieldType": "string",
+                    "csvFormat": undefined,
+                    "csvHeader": undefined,
+                    "dataAlign": "center",
+                    "dataField": "usuario",
+                    "dataFormat": undefined,
+                    "dataSort": false,
+                    "defaultASC": false,
+                    "editColumnClassName": "",
+                    "editTdAttr": undefined,
+                    "editable": true,
+                    "expandable": true,
+                    "filter": undefined,
+                    "filterFormatted": false,
+                    "filterValue": undefined,
+                    "formatExtraData": undefined,
+                    "headerAlign": undefined,
+                    "headerTitle": true,
+                    "hidden": false,
+                    "hiddenOnInsert": false,
+                    "invalidEditColumnClassName": "",
+                    "isKey": false,
+                    "keyValidator": false,
+                    "onSort": undefined,
+                    "searchable": true,
+                    "sort": undefined,
+                    "sortFunc": undefined,
+                    "sortFuncExtraData": undefined,
+                    "sortIndicator": true,
+                    "tdAttr": undefined,
+                    "tdStyle": undefined,
+                    "thStyle": undefined,
+                    "width": null,
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    " ",
+                    "Usuario",
+                    " ",
+                  ],
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": Array [
+                      " ",
+                      "Tipo",
+                      " ",
+                    ],
+                    "className": "",
+                    "columnClassName": "",
+                    "columnTitle": false,
+                    "csvFieldType": "string",
+                    "csvFormat": undefined,
+                    "csvHeader": undefined,
+                    "dataAlign": "center",
+                    "dataField": "tipo",
+                    "dataFormat": undefined,
+                    "dataSort": false,
+                    "defaultASC": false,
+                    "editColumnClassName": "",
+                    "editTdAttr": undefined,
+                    "editable": true,
+                    "expandable": true,
+                    "filter": undefined,
+                    "filterFormatted": false,
+                    "filterValue": undefined,
+                    "formatExtraData": undefined,
+                    "headerAlign": undefined,
+                    "headerTitle": true,
+                    "hidden": false,
+                    "hiddenOnInsert": false,
+                    "invalidEditColumnClassName": "",
+                    "isKey": false,
+                    "keyValidator": false,
+                    "onSort": undefined,
+                    "searchable": true,
+                    "sort": undefined,
+                    "sortFunc": undefined,
+                    "sortFuncExtraData": undefined,
+                    "sortIndicator": true,
+                    "tdAttr": undefined,
+                    "tdStyle": undefined,
+                    "thStyle": undefined,
+                    "width": null,
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    " ",
+                    "Tipo",
+                    " ",
+                  ],
+                  "type": [Function],
+                },
+                Object {
+                  "instance": null,
+                  "key": undefined,
+                  "nodeType": "class",
+                  "props": Object {
+                    "children": Array [
+                      "Acciones",
+                      " ",
+                    ],
+                    "className": "",
+                    "columnClassName": "",
+                    "columnTitle": false,
+                    "csvFieldType": "string",
+                    "csvFormat": undefined,
+                    "csvHeader": undefined,
+                    "dataAlign": "center",
+                    "dataFormat": [Function],
+                    "dataSort": false,
+                    "defaultASC": false,
+                    "editColumnClassName": "",
+                    "editTdAttr": undefined,
+                    "editable": true,
+                    "expandable": true,
+                    "filter": undefined,
+                    "filterFormatted": false,
+                    "filterValue": undefined,
+                    "formatExtraData": undefined,
+                    "headerAlign": undefined,
+                    "headerTitle": true,
+                    "hidden": false,
+                    "hiddenOnInsert": false,
+                    "invalidEditColumnClassName": "",
+                    "isKey": false,
+                    "keyValidator": false,
+                    "onSort": undefined,
+                    "searchable": true,
+                    "sort": undefined,
+                    "sortFunc": undefined,
+                    "sortFuncExtraData": undefined,
+                    "sortIndicator": true,
+                    "tdAttr": undefined,
+                    "tdStyle": undefined,
+                    "thStyle": undefined,
+                    "width": null,
+                  },
+                  "ref": null,
+                  "rendered": Array [
+                    "Acciones",
+                    " ",
+                  ],
+                  "type": [Function],
+                },
+              ],
+              "type": [Function],
+            },
+            "type": [Function],
+          },
+          "type": "div",
+        },
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "modalview": false,
+        },
+        "ref": "child1",
+        "rendered": null,
+        "type": [Function],
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "class",
+        "props": Object {
+          "modalSearch": false,
+        },
+        "ref": "child2",
+        "rendered": null,
+        "type": [Function],
+      },
+    ],
+    "type": "div",
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": Array [
+          <div
+            className="row"
+          >
+            <div
+              className="col-md-12"
+            >
+              <Card
+                body={true}
+                tag="div"
+              >
+                <BootstrapTable
+                  autoCollapse={
+                    Object {
+                      "filter": false,
+                      "search": false,
+                      "sort": false,
+                    }
+                  }
+                  bod={true}
+                  bodyContainerClass={null}
+                  bordered={false}
+                  cellEdit={
+                    Object {
+                      "afterSaveCell": undefined,
+                      "beforeSaveCell": undefined,
+                      "blurToEscape": false,
+                      "blurToSave": false,
+                      "mode": "none",
+                      "nonEditableRows": undefined,
+                    }
+                  }
+                  className="texto-small"
+                  columnFilter={false}
+                  condensed={false}
+                  containerClass={null}
+                  csvFileName="spreadsheet.csv"
+                  data={
+                    Array [
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 1,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 2,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 3,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 4,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 5,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 6,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                    ]
+                  }
+                  deleteRow={false}
+                  expandColumnOptions={
+                    Object {
+                      "expandColumnBeforeSelectColumn": true,
+                      "expandColumnComponent": undefined,
+                      "expandColumnVisible": false,
+                      "expandedColumnHeaderComponent": undefined,
+                    }
+                  }
+                  exportCSV={true}
+                  fetchInfo={
+                    Object {
+                      "dataTotalSize": 0,
+                    }
+                  }
+                  footer={false}
+                  headerContainerClass={null}
+                  headerStyle={
+                    Object {
+                      "height": "39px",
+                    }
+                  }
+                  height="100%"
+                  hover={true}
+                  ignoreSinglePage={false}
+                  insertRow={false}
+                  keyBoardNav={false}
+                  multiColumnSearch={false}
+                  multiColumnSort={1}
+                  options={
+                    Object {
+                      "btnGroup": [Function],
+                    }
+                  }
+                  pagination={true}
+                  printable={false}
+                  renderAlert={true}
+                  replace={false}
+                  search={true}
+                  searchPlaceholder="Buscar"
+                  selectRow={
+                    Object {
+                      "bgColor": "",
+                      "clickToExpand": false,
+                      "clickToSelect": false,
+                      "clickToSelectAndEditCell": false,
+                      "customComponent": undefined,
+                      "hideSelectColumn": false,
+                      "mode": "none",
+                      "onSelect": undefined,
+                      "onSelectAll": undefined,
+                      "onlyUnselectVisible": false,
+                      "selected": Array [],
+                      "showOnlySelected": false,
+                      "unselectable": Array [],
+                    }
+                  }
+                  striped={true}
+                  tableBodyClass={null}
+                  tableContainerClass={null}
+                  tableFooterClass={null}
+                  tableHeaderClass={null}
+                  trClassName=""
+                  version="3"
+                  withoutTabIndex={false}
+                >
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="fecha"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={true}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Fecha
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="accion"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Accion
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="tabla"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Tabla
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="usuario"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Usuario
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="tipo"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Tipo
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataFormat={[Function]}
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                    Acciones
+                     
+                  </TableHeaderColumn>
+                </BootstrapTable>
+              </Card>
+            </div>
+          </div>,
+          <ModalViewAuditoria
+            modalview={false}
+          />,
+          <ModalSearchAuditoria
+            modalSearch={false}
+          />,
+        ],
+        "className": "animated fadeIn",
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": <div
+              className="col-md-12"
+            >
+              <Card
+                body={true}
+                tag="div"
+              >
+                <BootstrapTable
+                  autoCollapse={
+                    Object {
+                      "filter": false,
+                      "search": false,
+                      "sort": false,
+                    }
+                  }
+                  bod={true}
+                  bodyContainerClass={null}
+                  bordered={false}
+                  cellEdit={
+                    Object {
+                      "afterSaveCell": undefined,
+                      "beforeSaveCell": undefined,
+                      "blurToEscape": false,
+                      "blurToSave": false,
+                      "mode": "none",
+                      "nonEditableRows": undefined,
+                    }
+                  }
+                  className="texto-small"
+                  columnFilter={false}
+                  condensed={false}
+                  containerClass={null}
+                  csvFileName="spreadsheet.csv"
+                  data={
+                    Array [
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 1,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 2,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 3,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 4,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 5,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 6,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                    ]
+                  }
+                  deleteRow={false}
+                  expandColumnOptions={
+                    Object {
+                      "expandColumnBeforeSelectColumn": true,
+                      "expandColumnComponent": undefined,
+                      "expandColumnVisible": false,
+                      "expandedColumnHeaderComponent": undefined,
+                    }
+                  }
+                  exportCSV={true}
+                  fetchInfo={
+                    Object {
+                      "dataTotalSize": 0,
+                    }
+                  }
+                  footer={false}
+                  headerContainerClass={null}
+                  headerStyle={
+                    Object {
+                      "height": "39px",
+                    }
+                  }
+                  height="100%"
+                  hover={true}
+                  ignoreSinglePage={false}
+                  insertRow={false}
+                  keyBoardNav={false}
+                  multiColumnSearch={false}
+                  multiColumnSort={1}
+                  options={
+                    Object {
+                      "btnGroup": [Function],
+                    }
+                  }
+                  pagination={true}
+                  printable={false}
+                  renderAlert={true}
+                  replace={false}
+                  search={true}
+                  searchPlaceholder="Buscar"
+                  selectRow={
+                    Object {
+                      "bgColor": "",
+                      "clickToExpand": false,
+                      "clickToSelect": false,
+                      "clickToSelectAndEditCell": false,
+                      "customComponent": undefined,
+                      "hideSelectColumn": false,
+                      "mode": "none",
+                      "onSelect": undefined,
+                      "onSelectAll": undefined,
+                      "onlyUnselectVisible": false,
+                      "selected": Array [],
+                      "showOnlySelected": false,
+                      "unselectable": Array [],
+                    }
+                  }
+                  striped={true}
+                  tableBodyClass={null}
+                  tableContainerClass={null}
+                  tableFooterClass={null}
+                  tableHeaderClass={null}
+                  trClassName=""
+                  version="3"
+                  withoutTabIndex={false}
+                >
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="fecha"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={true}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Fecha
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="accion"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Accion
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="tabla"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Tabla
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="usuario"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Usuario
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="tipo"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Tipo
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataFormat={[Function]}
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                    Acciones
+                     
+                  </TableHeaderColumn>
+                </BootstrapTable>
+              </Card>
+            </div>,
+            "className": "row",
+          },
+          "ref": null,
+          "rendered": Object {
+            "instance": null,
+            "key": undefined,
+            "nodeType": "host",
+            "props": Object {
+              "children": <Card
+                body={true}
+                tag="div"
+              >
+                <BootstrapTable
+                  autoCollapse={
+                    Object {
+                      "filter": false,
+                      "search": false,
+                      "sort": false,
+                    }
+                  }
+                  bod={true}
+                  bodyContainerClass={null}
+                  bordered={false}
+                  cellEdit={
+                    Object {
+                      "afterSaveCell": undefined,
+                      "beforeSaveCell": undefined,
+                      "blurToEscape": false,
+                      "blurToSave": false,
+                      "mode": "none",
+                      "nonEditableRows": undefined,
+                    }
+                  }
+                  className="texto-small"
+                  columnFilter={false}
+                  condensed={false}
+                  containerClass={null}
+                  csvFileName="spreadsheet.csv"
+                  data={
+                    Array [
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 1,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 2,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 3,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 4,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 5,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 6,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                    ]
+                  }
+                  deleteRow={false}
+                  expandColumnOptions={
+                    Object {
+                      "expandColumnBeforeSelectColumn": true,
+                      "expandColumnComponent": undefined,
+                      "expandColumnVisible": false,
+                      "expandedColumnHeaderComponent": undefined,
+                    }
+                  }
+                  exportCSV={true}
+                  fetchInfo={
+                    Object {
+                      "dataTotalSize": 0,
+                    }
+                  }
+                  footer={false}
+                  headerContainerClass={null}
+                  headerStyle={
+                    Object {
+                      "height": "39px",
+                    }
+                  }
+                  height="100%"
+                  hover={true}
+                  ignoreSinglePage={false}
+                  insertRow={false}
+                  keyBoardNav={false}
+                  multiColumnSearch={false}
+                  multiColumnSort={1}
+                  options={
+                    Object {
+                      "btnGroup": [Function],
+                    }
+                  }
+                  pagination={true}
+                  printable={false}
+                  renderAlert={true}
+                  replace={false}
+                  search={true}
+                  searchPlaceholder="Buscar"
+                  selectRow={
+                    Object {
+                      "bgColor": "",
+                      "clickToExpand": false,
+                      "clickToSelect": false,
+                      "clickToSelectAndEditCell": false,
+                      "customComponent": undefined,
+                      "hideSelectColumn": false,
+                      "mode": "none",
+                      "onSelect": undefined,
+                      "onSelectAll": undefined,
+                      "onlyUnselectVisible": false,
+                      "selected": Array [],
+                      "showOnlySelected": false,
+                      "unselectable": Array [],
+                    }
+                  }
+                  striped={true}
+                  tableBodyClass={null}
+                  tableContainerClass={null}
+                  tableFooterClass={null}
+                  tableHeaderClass={null}
+                  trClassName=""
+                  version="3"
+                  withoutTabIndex={false}
+                >
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="fecha"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={true}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Fecha
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="accion"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Accion
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="tabla"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Tabla
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="usuario"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Usuario
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="tipo"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Tipo
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataFormat={[Function]}
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                    Acciones
+                     
+                  </TableHeaderColumn>
+                </BootstrapTable>
+              </Card>,
+              "className": "col-md-12",
+            },
+            "ref": null,
+            "rendered": Object {
+              "instance": null,
+              "key": undefined,
+              "nodeType": "function",
+              "props": Object {
+                "body": true,
+                "children": <BootstrapTable
+                  autoCollapse={
+                    Object {
+                      "filter": false,
+                      "search": false,
+                      "sort": false,
+                    }
+                  }
+                  bod={true}
+                  bodyContainerClass={null}
+                  bordered={false}
+                  cellEdit={
+                    Object {
+                      "afterSaveCell": undefined,
+                      "beforeSaveCell": undefined,
+                      "blurToEscape": false,
+                      "blurToSave": false,
+                      "mode": "none",
+                      "nonEditableRows": undefined,
+                    }
+                  }
+                  className="texto-small"
+                  columnFilter={false}
+                  condensed={false}
+                  containerClass={null}
+                  csvFileName="spreadsheet.csv"
+                  data={
+                    Array [
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 1,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 2,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 3,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 4,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 5,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                      Object {
+                        "accion": "Grabar",
+                        "fecha": "01/01/2019",
+                        "id": 6,
+                        "tabla": "tabla_entidad",
+                        "tipo": "usuario_type",
+                        "usuario": "usuario_nanme",
+                      },
+                    ]
+                  }
+                  deleteRow={false}
+                  expandColumnOptions={
+                    Object {
+                      "expandColumnBeforeSelectColumn": true,
+                      "expandColumnComponent": undefined,
+                      "expandColumnVisible": false,
+                      "expandedColumnHeaderComponent": undefined,
+                    }
+                  }
+                  exportCSV={true}
+                  fetchInfo={
+                    Object {
+                      "dataTotalSize": 0,
+                    }
+                  }
+                  footer={false}
+                  headerContainerClass={null}
+                  headerStyle={
+                    Object {
+                      "height": "39px",
+                    }
+                  }
+                  height="100%"
+                  hover={true}
+                  ignoreSinglePage={false}
+                  insertRow={false}
+                  keyBoardNav={false}
+                  multiColumnSearch={false}
+                  multiColumnSort={1}
+                  options={
+                    Object {
+                      "btnGroup": [Function],
+                    }
+                  }
+                  pagination={true}
+                  printable={false}
+                  renderAlert={true}
+                  replace={false}
+                  search={true}
+                  searchPlaceholder="Buscar"
+                  selectRow={
+                    Object {
+                      "bgColor": "",
+                      "clickToExpand": false,
+                      "clickToSelect": false,
+                      "clickToSelectAndEditCell": false,
+                      "customComponent": undefined,
+                      "hideSelectColumn": false,
+                      "mode": "none",
+                      "onSelect": undefined,
+                      "onSelectAll": undefined,
+                      "onlyUnselectVisible": false,
+                      "selected": Array [],
+                      "showOnlySelected": false,
+                      "unselectable": Array [],
+                    }
+                  }
+                  striped={true}
+                  tableBodyClass={null}
+                  tableContainerClass={null}
+                  tableFooterClass={null}
+                  tableHeaderClass={null}
+                  trClassName=""
+                  version="3"
+                  withoutTabIndex={false}
+                >
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="fecha"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={true}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Fecha
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="accion"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Accion
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="tabla"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Tabla
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="usuario"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Usuario
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataField="tipo"
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                     
+                    Tipo
+                     
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    className=""
+                    columnClassName=""
+                    columnTitle={false}
+                    csvFieldType="string"
+                    dataAlign="center"
+                    dataFormat={[Function]}
+                    dataSort={false}
+                    defaultASC={false}
+                    editColumnClassName=""
+                    editable={true}
+                    expandable={true}
+                    filterFormatted={false}
+                    headerTitle={true}
+                    hidden={false}
+                    hiddenOnInsert={false}
+                    invalidEditColumnClassName=""
+                    isKey={false}
+                    keyValidator={false}
+                    searchable={true}
+                    sortIndicator={true}
+                    width={null}
+                  >
+                    Acciones
+                     
+                  </TableHeaderColumn>
+                </BootstrapTable>,
+                "tag": "div",
+              },
+              "ref": null,
+              "rendered": Object {
+                "instance": null,
+                "key": undefined,
+                "nodeType": "class",
+                "props": Object {
+                  "autoCollapse": Object {
+                    "filter": false,
+                    "search": false,
+                    "sort": false,
+                  },
+                  "bod": true,
+                  "bodyContainerClass": null,
+                  "bodyStyle": undefined,
+                  "bordered": false,
+                  "cellEdit": Object {
+                    "afterSaveCell": undefined,
+                    "beforeSaveCell": undefined,
+                    "blurToEscape": false,
+                    "blurToSave": false,
+                    "mode": "none",
+                    "nonEditableRows": undefined,
+                  },
+                  "children": Array [
+                    <TableHeaderColumn
+                      className=""
+                      columnClassName=""
+                      columnTitle={false}
+                      csvFieldType="string"
+                      dataAlign="center"
+                      dataField="fecha"
+                      dataSort={false}
+                      defaultASC={false}
+                      editColumnClassName=""
+                      editable={true}
+                      expandable={true}
+                      filterFormatted={false}
+                      headerTitle={true}
+                      hidden={false}
+                      hiddenOnInsert={false}
+                      invalidEditColumnClassName=""
+                      isKey={true}
+                      keyValidator={false}
+                      searchable={true}
+                      sortIndicator={true}
+                      width={null}
+                    >
+                       
+                      Fecha
+                       
+                    </TableHeaderColumn>,
+                    <TableHeaderColumn
+                      className=""
+                      columnClassName=""
+                      columnTitle={false}
+                      csvFieldType="string"
+                      dataAlign="center"
+                      dataField="accion"
+                      dataSort={false}
+                      defaultASC={false}
+                      editColumnClassName=""
+                      editable={true}
+                      expandable={true}
+                      filterFormatted={false}
+                      headerTitle={true}
+                      hidden={false}
+                      hiddenOnInsert={false}
+                      invalidEditColumnClassName=""
+                      isKey={false}
+                      keyValidator={false}
+                      searchable={true}
+                      sortIndicator={true}
+                      width={null}
+                    >
+                       
+                      Accion
+                       
+                    </TableHeaderColumn>,
+                    <TableHeaderColumn
+                      className=""
+                      columnClassName=""
+                      columnTitle={false}
+                      csvFieldType="string"
+                      dataAlign="center"
+                      dataField="tabla"
+                      dataSort={false}
+                      defaultASC={false}
+                      editColumnClassName=""
+                      editable={true}
+                      expandable={true}
+                      filterFormatted={false}
+                      headerTitle={true}
+                      hidden={false}
+                      hiddenOnInsert={false}
+                      invalidEditColumnClassName=""
+                      isKey={false}
+                      keyValidator={false}
+                      searchable={true}
+                      sortIndicator={true}
+                      width={null}
+                    >
+                       
+                      Tabla
+                       
+                    </TableHeaderColumn>,
+                    <TableHeaderColumn
+                      className=""
+                      columnClassName=""
+                      columnTitle={false}
+                      csvFieldType="string"
+                      dataAlign="center"
+                      dataField="usuario"
+                      dataSort={false}
+                      defaultASC={false}
+                      editColumnClassName=""
+                      editable={true}
+                      expandable={true}
+                      filterFormatted={false}
+                      headerTitle={true}
+                      hidden={false}
+                      hiddenOnInsert={false}
+                      invalidEditColumnClassName=""
+                      isKey={false}
+                      keyValidator={false}
+                      searchable={true}
+                      sortIndicator={true}
+                      width={null}
+                    >
+                       
+                      Usuario
+                       
+                    </TableHeaderColumn>,
+                    <TableHeaderColumn
+                      className=""
+                      columnClassName=""
+                      columnTitle={false}
+                      csvFieldType="string"
+                      dataAlign="center"
+                      dataField="tipo"
+                      dataSort={false}
+                      defaultASC={false}
+                      editColumnClassName=""
+                      editable={true}
+                      expandable={true}
+                      filterFormatted={false}
+                      headerTitle={true}
+                      hidden={false}
+                      hiddenOnInsert={false}
+                      invalidEditColumnClassName=""
+                      isKey={false}
+                      keyValidator={false}
+                      searchable={true}
+                      sortIndicator={true}
+                      width={null}
+                    >
+                       
+                      Tipo
+                       
+                    </TableHeaderColumn>,
+                    <TableHeaderColumn
+                      className=""
+                      columnClassName=""
+                      columnTitle={false}
+                      csvFieldType="string"
+                      dataAlign="center"
+                      dataFormat={[Function]}
+                      dataSort={false}
+                      defaultASC={false}
+                      editColumnClassName=""
+                      editable={true}
+                      expandable={true}
+                      filterFormatted={false}
+                      headerTitle={true}
+                      hidden={false}
+                      hiddenOnInsert={false}
+                      invalidEditColumnClassName=""
+                      isKey={false}
+                      keyValidator={false}
+                      searchable={true}
+                      sortIndicator={true}
+                      width={null}
+                    >
+                      Acciones
+                       
+                    </TableHeaderColumn>,
+                  ],
+                  "className": "texto-small",
+                  "columnFilter": false,
+                  "condensed": false,
+                  "containerClass": null,
+                  "containerStyle": undefined,
+                  "csvFileName": "spreadsheet.csv",
+                  "data": Array [
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 1,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 2,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 3,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 4,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 5,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                    Object {
+                      "accion": "Grabar",
+                      "fecha": "01/01/2019",
+                      "id": 6,
+                      "tabla": "tabla_entidad",
+                      "tipo": "usuario_type",
+                      "usuario": "usuario_nanme",
+                    },
+                  ],
+                  "deleteRow": false,
+                  "expandColumnOptions": Object {
+                    "expandColumnBeforeSelectColumn": true,
+                    "expandColumnComponent": undefined,
+                    "expandColumnVisible": false,
+                    "expandedColumnHeaderComponent": undefined,
+                  },
+                  "expandComponent": undefined,
+                  "expandableRow": undefined,
+                  "exportCSV": true,
+                  "fetchInfo": Object {
+                    "dataTotalSize": 0,
+                  },
+                  "footer": false,
+                  "headerContainerClass": null,
+                  "headerStyle": Object {
+                    "height": "39px",
+                  },
+                  "height": "100%",
+                  "hover": true,
+                  "ignoreSinglePage": false,
+                  "insertRow": false,
+                  "keyBoardNav": false,
+                  "maxHeight": undefined,
+                  "multiColumnSearch": false,
+                  "multiColumnSort": 1,
+                  "options": Object {
+                    "btnGroup": [Function],
+                  },
+                  "pagination": true,
+                  "printable": false,
+                  "renderAlert": true,
+                  "replace": false,
+                  "scrollTop": undefined,
+                  "search": true,
+                  "searchPlaceholder": "Buscar",
+                  "selectRow": Object {
+                    "bgColor": "",
+                    "clickToExpand": false,
+                    "clickToSelect": false,
+                    "clickToSelectAndEditCell": false,
+                    "customComponent": undefined,
+                    "hideSelectColumn": false,
+                    "mode": "none",
+                    "onSelect": undefined,
+                    "onSelectAll": undefined,
+                    "onlyUnselectVisible": false,
+                    "selected": Array [],
+                    "showOnlySelected": false,
+                    "unselectable": Array [],
+                  },
+                  "strictSearch": undefined,
+                  "striped": true,
+                  "tableBodyClass": null,
+                  "tableContainerClass": null,
+                  "tableFooterClass": null,
+                  "tableHeaderClass": null,
+                  "tableStyle": undefined,
+                  "trClassName": "",
+                  "trStyle": undefined,
+                  "version": "3",
+                  "withoutTabIndex": false,
+                },
+                "ref": null,
+                "rendered": Array [
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "children": Array [
+                        " ",
+                        "Fecha",
+                        " ",
+                      ],
+                      "className": "",
+                      "columnClassName": "",
+                      "columnTitle": false,
+                      "csvFieldType": "string",
+                      "csvFormat": undefined,
+                      "csvHeader": undefined,
+                      "dataAlign": "center",
+                      "dataField": "fecha",
+                      "dataFormat": undefined,
+                      "dataSort": false,
+                      "defaultASC": false,
+                      "editColumnClassName": "",
+                      "editTdAttr": undefined,
+                      "editable": true,
+                      "expandable": true,
+                      "filter": undefined,
+                      "filterFormatted": false,
+                      "filterValue": undefined,
+                      "formatExtraData": undefined,
+                      "headerAlign": undefined,
+                      "headerTitle": true,
+                      "hidden": false,
+                      "hiddenOnInsert": false,
+                      "invalidEditColumnClassName": "",
+                      "isKey": true,
+                      "keyValidator": false,
+                      "onSort": undefined,
+                      "searchable": true,
+                      "sort": undefined,
+                      "sortFunc": undefined,
+                      "sortFuncExtraData": undefined,
+                      "sortIndicator": true,
+                      "tdAttr": undefined,
+                      "tdStyle": undefined,
+                      "thStyle": undefined,
+                      "width": null,
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      " ",
+                      "Fecha",
+                      " ",
+                    ],
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "children": Array [
+                        " ",
+                        "Accion",
+                        " ",
+                      ],
+                      "className": "",
+                      "columnClassName": "",
+                      "columnTitle": false,
+                      "csvFieldType": "string",
+                      "csvFormat": undefined,
+                      "csvHeader": undefined,
+                      "dataAlign": "center",
+                      "dataField": "accion",
+                      "dataFormat": undefined,
+                      "dataSort": false,
+                      "defaultASC": false,
+                      "editColumnClassName": "",
+                      "editTdAttr": undefined,
+                      "editable": true,
+                      "expandable": true,
+                      "filter": undefined,
+                      "filterFormatted": false,
+                      "filterValue": undefined,
+                      "formatExtraData": undefined,
+                      "headerAlign": undefined,
+                      "headerTitle": true,
+                      "hidden": false,
+                      "hiddenOnInsert": false,
+                      "invalidEditColumnClassName": "",
+                      "isKey": false,
+                      "keyValidator": false,
+                      "onSort": undefined,
+                      "searchable": true,
+                      "sort": undefined,
+                      "sortFunc": undefined,
+                      "sortFuncExtraData": undefined,
+                      "sortIndicator": true,
+                      "tdAttr": undefined,
+                      "tdStyle": undefined,
+                      "thStyle": undefined,
+                      "width": null,
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      " ",
+                      "Accion",
+                      " ",
+                    ],
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "children": Array [
+                        " ",
+                        "Tabla",
+                        " ",
+                      ],
+                      "className": "",
+                      "columnClassName": "",
+                      "columnTitle": false,
+                      "csvFieldType": "string",
+                      "csvFormat": undefined,
+                      "csvHeader": undefined,
+                      "dataAlign": "center",
+                      "dataField": "tabla",
+                      "dataFormat": undefined,
+                      "dataSort": false,
+                      "defaultASC": false,
+                      "editColumnClassName": "",
+                      "editTdAttr": undefined,
+                      "editable": true,
+                      "expandable": true,
+                      "filter": undefined,
+                      "filterFormatted": false,
+                      "filterValue": undefined,
+                      "formatExtraData": undefined,
+                      "headerAlign": undefined,
+                      "headerTitle": true,
+                      "hidden": false,
+                      "hiddenOnInsert": false,
+                      "invalidEditColumnClassName": "",
+                      "isKey": false,
+                      "keyValidator": false,
+                      "onSort": undefined,
+                      "searchable": true,
+                      "sort": undefined,
+                      "sortFunc": undefined,
+                      "sortFuncExtraData": undefined,
+                      "sortIndicator": true,
+                      "tdAttr": undefined,
+                      "tdStyle": undefined,
+                      "thStyle": undefined,
+                      "width": null,
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      " ",
+                      "Tabla",
+                      " ",
+                    ],
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "children": Array [
+                        " ",
+                        "Usuario",
+                        " ",
+                      ],
+                      "className": "",
+                      "columnClassName": "",
+                      "columnTitle": false,
+                      "csvFieldType": "string",
+                      "csvFormat": undefined,
+                      "csvHeader": undefined,
+                      "dataAlign": "center",
+                      "dataField": "usuario",
+                      "dataFormat": undefined,
+                      "dataSort": false,
+                      "defaultASC": false,
+                      "editColumnClassName": "",
+                      "editTdAttr": undefined,
+                      "editable": true,
+                      "expandable": true,
+                      "filter": undefined,
+                      "filterFormatted": false,
+                      "filterValue": undefined,
+                      "formatExtraData": undefined,
+                      "headerAlign": undefined,
+                      "headerTitle": true,
+                      "hidden": false,
+                      "hiddenOnInsert": false,
+                      "invalidEditColumnClassName": "",
+                      "isKey": false,
+                      "keyValidator": false,
+                      "onSort": undefined,
+                      "searchable": true,
+                      "sort": undefined,
+                      "sortFunc": undefined,
+                      "sortFuncExtraData": undefined,
+                      "sortIndicator": true,
+                      "tdAttr": undefined,
+                      "tdStyle": undefined,
+                      "thStyle": undefined,
+                      "width": null,
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      " ",
+                      "Usuario",
+                      " ",
+                    ],
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "children": Array [
+                        " ",
+                        "Tipo",
+                        " ",
+                      ],
+                      "className": "",
+                      "columnClassName": "",
+                      "columnTitle": false,
+                      "csvFieldType": "string",
+                      "csvFormat": undefined,
+                      "csvHeader": undefined,
+                      "dataAlign": "center",
+                      "dataField": "tipo",
+                      "dataFormat": undefined,
+                      "dataSort": false,
+                      "defaultASC": false,
+                      "editColumnClassName": "",
+                      "editTdAttr": undefined,
+                      "editable": true,
+                      "expandable": true,
+                      "filter": undefined,
+                      "filterFormatted": false,
+                      "filterValue": undefined,
+                      "formatExtraData": undefined,
+                      "headerAlign": undefined,
+                      "headerTitle": true,
+                      "hidden": false,
+                      "hiddenOnInsert": false,
+                      "invalidEditColumnClassName": "",
+                      "isKey": false,
+                      "keyValidator": false,
+                      "onSort": undefined,
+                      "searchable": true,
+                      "sort": undefined,
+                      "sortFunc": undefined,
+                      "sortFuncExtraData": undefined,
+                      "sortIndicator": true,
+                      "tdAttr": undefined,
+                      "tdStyle": undefined,
+                      "thStyle": undefined,
+                      "width": null,
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      " ",
+                      "Tipo",
+                      " ",
+                    ],
+                    "type": [Function],
+                  },
+                  Object {
+                    "instance": null,
+                    "key": undefined,
+                    "nodeType": "class",
+                    "props": Object {
+                      "children": Array [
+                        "Acciones",
+                        " ",
+                      ],
+                      "className": "",
+                      "columnClassName": "",
+                      "columnTitle": false,
+                      "csvFieldType": "string",
+                      "csvFormat": undefined,
+                      "csvHeader": undefined,
+                      "dataAlign": "center",
+                      "dataFormat": [Function],
+                      "dataSort": false,
+                      "defaultASC": false,
+                      "editColumnClassName": "",
+                      "editTdAttr": undefined,
+                      "editable": true,
+                      "expandable": true,
+                      "filter": undefined,
+                      "filterFormatted": false,
+                      "filterValue": undefined,
+                      "formatExtraData": undefined,
+                      "headerAlign": undefined,
+                      "headerTitle": true,
+                      "hidden": false,
+                      "hiddenOnInsert": false,
+                      "invalidEditColumnClassName": "",
+                      "isKey": false,
+                      "keyValidator": false,
+                      "onSort": undefined,
+                      "searchable": true,
+                      "sort": undefined,
+                      "sortFunc": undefined,
+                      "sortFuncExtraData": undefined,
+                      "sortIndicator": true,
+                      "tdAttr": undefined,
+                      "tdStyle": undefined,
+                      "thStyle": undefined,
+                      "width": null,
+                    },
+                    "ref": null,
+                    "rendered": Array [
+                      "Acciones",
+                      " ",
+                    ],
+                    "type": [Function],
+                  },
+                ],
+                "type": [Function],
+              },
+              "type": [Function],
+            },
+            "type": "div",
+          },
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "modalview": false,
+          },
+          "ref": "child1",
+          "rendered": null,
+          "type": [Function],
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "class",
+          "props": Object {
+            "modalSearch": false,
+          },
+          "ref": "child2",
+          "rendered": null,
+          "type": [Function],
+        },
+      ],
+      "type": "div",
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromProps": true,
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+}
+`;

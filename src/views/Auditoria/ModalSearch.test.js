@@ -30,10 +30,9 @@ it("renders modal when open flag is true", () => {
 });
 
 afterEach(() => {
-  const props = { modalSearch: false };
   wrapped.unmount(
     <div>
-      <ModalSearchAuditoria {...props} />
+      <ModalSearchAuditoria />
     </div>
   );
 });

@@ -21,10 +21,14 @@ it("renders modal when open flag is true", () => {
     </div>
   );
   wrapped.update();
-
   expect(wrapped.find(".modal-lg").exists()).toEqual(true);
 });
 
 afterEach(() => {
-  wrapped.unmount();
+  const props = { modalSearch: false };
+  wrapped.unmount(
+    <div>
+      <ModalSearchAuditoria {...props} />
+    </div>
+  );
 });

@@ -1,20 +1,20 @@
 import React from "react";
+import { shallow } from "enzyme";
+// components for testing
 import Auditoria from "./Auditoria";
-import ModalSearchAuditoria from "./components/ModalSearchAuditoria";
-import ModalViewAuditoria from "./components/ModalViewAuditoria";
-import { shallow } from "enzyme"; // Render component without child
-import { mount } from "enzyme";
-import { expect } from "chai";
+import ModalSearch from "./components/ModalSearchAuditoria";
+import ModalView from "./components/ModalViewAuditoria";
 
-describe("Auditoria", () => {
-  it('should render correctly in "debug" mode', () => {
-    const component = mount(<Auditoria />);
-    expect(component.find(<ModalSearchAuditoria modalSearch={false} />));
-    expect(component.find(<ModalViewAuditoria modalview={true} />));
-  });
-  it('should render correnttly in "debug" mode', () => {
-    const component = shallow(<Auditoria />);
-    expect(component.find(<ModalSearchAuditoria modalSearch={true} />));
-    expect(component.find(<ModalViewAuditoria modalview={true} />));
-  });
+let wrapped;
+
+beforeEach(() => {
+  wrapped = shallow(<Auditoria />);
+});
+
+it("show modal search", () => {
+  expect(wrapped.find(ModalSearch).length).toEqual(1);
+});
+
+it("show modal view", () => {
+  expect(wrapped.find(ModalView).length).toEqual(1);
 });

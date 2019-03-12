@@ -1,6 +1,5 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
-import Auditoria from "./Auditoria";
 import { Modal } from "reactstrap";
 import ModalSearchAuditoria from "./components/ModalSearchAuditoria";
 

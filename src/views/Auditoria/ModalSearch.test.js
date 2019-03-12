@@ -1,6 +1,7 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
 import Auditoria from "./Auditoria";
+import { Modal } from "reactstrap";
 import ModalSearchAuditoria from "./components/ModalSearchAuditoria";
 
 // it("should render settings component correctly", () => {
@@ -11,28 +12,28 @@ import ModalSearchAuditoria from "./components/ModalSearchAuditoria";
 let wrapped;
 
 beforeEach(() => {
-  const props = { modalSearch: true };
-  wrapped = mount(
-    <Auditoria>
-      <ModalSearchAuditoria {...props} />
-    </Auditoria>
-  );
+  wrapped = shallow(<ModalSearchAuditoria modalSearch={false} />);
 });
 
-it("renders modal when open flag is true", () => {
-  const wrapped = mount(
-    <div>
-      <ModalSearchAuditoria />
-    </div>
-  );
-  wrapped.update();
-  expect(wrapped.find(".modal-lg").exists()).toEqual(true);
+it("hace modal cuando el indicador abierto es verdadero", () => {
+  // Lo que debe hacer es enviar a wrapped el prop en false
+  // y verificar que el modal este cerrado, no se q clase agrega cuando el modal no esta
+  // lo segundo es pasarle el prop true y verificar q este abierto
+  wrapped.setProps({ modalSearch: true }); // creo q es asi
+  expect(wrapped.find(Modal).length).toBe(1);
 });
 
-afterEach(() => {
-  wrapped.unmount(
-    <div>
-      <ModalSearchAuditoria />
-    </div>
-  );
+it("hace modal cuando el indicador abierto es verdadero", () => {
+  // Lo que debe hacer es enviar a wrapped el prop en false
+  // y verificar que el modal este cerrado, no se q clase agrega cuando el modal no esta
+  // lo segundo es pasarle el prop true y verificar q este abierto
+  wrapped.setProps({ modalSearch: false }); // creo q es asi
+  expect(wrapped.find(Modal).length).toBe(0);
 });
+
+// test('test should set new date on date change', () => {
+//   const now = moment();
+//   const wrapper = shallow(<ExpenseForm />);
+//   wrapper.find('SingleDatePicker').prop('onDateChange')(now);
+//   expect(wrapper.state('createdAt')).toEqual(now);
+// });

@@ -1,9 +1,20 @@
 import React from "react";
 import { mount, shallow } from "enzyme";
-import Auditoria from "./Auditoria";
+import { Modal } from "reactstrap";
 import ModalViewAuditoria from "./components/ModalViewAuditoria";
 
-// it("should render settings component correctly", () => {
-//   const wrapper = shallow(<Auditoria />);
-//   expect(wrapper).toMatchSnapshot();
-// });
+let wrapped;
+
+beforeEach(() => {
+  wrapped = shallow(<ModalViewAuditoria modalview={false} />);
+});
+
+it("hace modal cuando el indicador abierto es verdadero", () => {
+  wrapped.setProps({ modalview: true });
+  expect(wrapped.find(Modal).length).toBe(1);
+});
+
+it("hace modal cuando el indicador abierto es verdadero", () => {
+  wrapped.setProps({ modalSearch: false });
+  expect(wrapped.find(Modal).length);
+});

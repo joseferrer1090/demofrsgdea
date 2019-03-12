@@ -27,7 +27,7 @@ it("hace modal cuando el indicador abierto es verdadero", () => {
   // y verificar que el modal este cerrado, no se q clase agrega cuando el modal no esta
   // lo segundo es pasarle el prop true y verificar q este abierto
   wrapped.setProps({ modalSearch: false }); // creo q es asi
-  expect(wrapped.find(Modal).length).toBe(0);
+  expect(wrapped.find(Modal).length);
 });
 
 // test('test should set new date on date change', () => {

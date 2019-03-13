@@ -16,6 +16,20 @@ import {
 } from "reactstrap";
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      password: ""
+    };
+  }
+
+  handleChangeInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -51,9 +65,14 @@ class Login extends Component {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
+                          name="username"
+                          id="username"
                           type="text"
                           placeholder="usuario"
                           autoComplete="usuario"
+                          onChange={e => {
+                            this.handleChangeInput(e);
+                          }}
                         />
                       </InputGroup>
                       <InputGroup className="mb-4">
@@ -63,10 +82,11 @@ class Login extends Component {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
+                          id="password"
                           type="password"
-                          anel
                           placeholder="contraseña"
                           autoComplete="current-password"
+                          onChange={e => this.handleChangeInput(e)}
                         />
                       </InputGroup>
                       <Row>

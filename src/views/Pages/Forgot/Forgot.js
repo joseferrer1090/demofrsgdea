@@ -17,6 +17,19 @@ import {
 } from "reactstrap";
 
 class Forgot extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: ""
+    };
+  }
+
+  handleChangeInput = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -38,7 +51,12 @@ class Forgot extends Component {
                             <i className="icon-user" />
                           </InputGroupText>
                         </InputGroupAddon>
-                        <Input type="text" placeholder="usuario" />
+                        <Input
+                          name="username"
+                          type="text"
+                          placeholder="usuario"
+                          onChange={e => this.handleChangeInput(e)}
+                        />
                       </InputGroup>
 
                       <Row>

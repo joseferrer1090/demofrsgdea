@@ -72,6 +72,7 @@ class ModalSearchAuditoria extends Component {
                     id="usuarios"
                     name="usuarios"
                     className="form-control form-control-sm"
+                    onChange={e => this.handleChangeSelect(e)}
                   >
                     <option value="T">&lt;&lt; Todos &gt;&gt;</option>
                     <optgroup label="Administradores" title="Administradores">

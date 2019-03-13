@@ -34,6 +34,12 @@ it("probando el test para un select acciones", () => {
 
 it("probando el test para el select usuarios", () => {
   expect(wrapped.find("#usuarios").length).toEqual(1);
+  expect(
+    wrapped
+      .find("#usuarios")
+      .simulate("change", { target: { name: "usuarios", value: "admarchivo" } })
+  );
+  expect(wrapped.state("usuarios")).toEqual("admarchivo");
 });
 
 it("hace modal cuando el indicador abierto es verdadero", () => {

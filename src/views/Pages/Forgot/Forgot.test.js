@@ -1,13 +1,14 @@
 import React from "react";
+import { shallow } from "enzyme";
 import Forgot from "./Forgot";
-import { render, shallow } from "enzyme";
-import { expect } from "chai";
+import { Form } from "reactstrap";
 
-describe("Forgot", () => {
-  it('should render correctly in "debug" mode', () => {
-    const component = shallow(<Forgot />);
-    expect(component.find(<Forgot />));
+describe(`Test for componet Forgot`, () => {
+  it(`Form forgot exists`, () => {
+    expect(
+      shallow(<Forgot />)
+        .find(Form)
+        .exists()
+    ).toBe(true);
   });
 });
-
-// Tengo dudas por la forma, debo hacer un click para el boton que se encuentra en la interfaz de forgot

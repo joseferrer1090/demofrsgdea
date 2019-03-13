@@ -27,8 +27,9 @@ it("probando el test para un select acciones", () => {
   expect(
     wrapped
       .find("#acciones")
-      .simulate("change", { target: { value: "actualizar" } })
+      .simulate("change", { target: { name: "acciones", value: "actualizar" } })
   );
+  expect(wrapped.state("acciones")).toEqual("actualizar");
 });
 
 it("probando el test para el select usuarios", () => {

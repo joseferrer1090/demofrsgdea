@@ -18,6 +18,12 @@ class ModalSearchAuditoria extends Component {
     }));
   };
 
+  handleChangeSelect = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    });
+  };
+
   render() {
     return (
       <div>
@@ -53,6 +59,7 @@ class ModalSearchAuditoria extends Component {
                     id="acciones"
                     name="acciones"
                     className="form-control form-control-sm"
+                    onChange={e => this.handleChangeSelect(e)}
                   >
                     <option value="grabar">Grabar</option>
                     <option value="actualizar">Actualizar</option>

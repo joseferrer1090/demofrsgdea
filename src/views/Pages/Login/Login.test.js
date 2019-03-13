@@ -6,8 +6,6 @@ import Login from "./Login";
 import { Form } from "reactstrap";
 
 describe(`Test for component Login`, () => {
-  let wrapped;
-
   it("renders without crashing", () => {
     const div = document.createElement("div");
     ReactDOM.render(

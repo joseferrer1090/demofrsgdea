@@ -24,6 +24,11 @@ it("hace modal cuando el indicador abierto es verdadero", () => {
 
 it("probando el test para un select acciones", () => {
   expect(wrapped.find("#acciones").length).toBe(1);
+  expect(
+    wrapped
+      .find("#acciones")
+      .simulate("change", { target: { value: "actualizar" } })
+  );
 });
 
 it("probando el test para el select usuarios", () => {

@@ -6,7 +6,9 @@ class ModalSearchAuditoria extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalSearch
+      modal: this.props.modalSearch,
+      acciones: "",
+      usuarios: ""
     };
   }
 

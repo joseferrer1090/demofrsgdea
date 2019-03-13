@@ -47,15 +47,23 @@ class ModalSearchAuditoria extends Component {
               <div className="row">
                 <div className="col">
                   <label>Acciones</label>
-                  <select className="form-control form-control-sm">
-                    <option>Grabar</option>
-                    <option>Actualizar</option>
-                    <option>Eliminar</option>
+                  <select
+                    id="acciones"
+                    name="acciones"
+                    className="form-control form-control-sm"
+                  >
+                    <option value="grabar">Grabar</option>
+                    <option value="actualizar">Actualizar</option>
+                    <option value="eliminar">Eliminar</option>
                   </select>
                 </div>
                 <div className="col">
                   <label>Usuarios</label>
-                  <select name="usuario" className="form-control form-control-sm">
+                  <select
+                    id="usuarios"
+                    name="usuarios"
+                    className="form-control form-control-sm"
+                  >
                     <option value="T">&lt;&lt; Todos &gt;&gt;</option>
                     <optgroup label="Administradores" title="Administradores">
                       <option value="T1">

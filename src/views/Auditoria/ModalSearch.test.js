@@ -22,6 +22,14 @@ it("hace modal cuando el indicador abierto es verdadero", () => {
   expect(wrapped.find(Modal).length).toBe(1);
 });
 
+it("probando el test para un select acciones", () => {
+  expect(wrapped.find("#acciones").length).toEqual(1);
+});
+
+it("probando el test para el select usuarios", () => {
+  expect(wrapped.find("#usuarios").length).toEqual(1);
+});
+
 it("hace modal cuando el indicador abierto es verdadero", () => {
   // Lo que debe hacer es enviar a wrapped el prop en false
   // y verificar que el modal este cerrado, no se q clase agrega cuando el modal no esta

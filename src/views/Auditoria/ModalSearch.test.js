@@ -23,7 +23,7 @@ it("hace modal cuando el indicador abierto es verdadero", () => {
 });
 
 it("probando el test para un select acciones", () => {
-  expect(wrapped.find("#acciones").length).toEqual(1);
+  expect(wrapped.find("#acciones").length).toBe(1);
 });
 
 it("probando el test para el select usuarios", () => {

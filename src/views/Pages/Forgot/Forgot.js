@@ -52,6 +52,7 @@ class Forgot extends Component {
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
+                          id="username"
                           name="username"
                           type="text"
                           placeholder="usuario"

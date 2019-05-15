@@ -73,6 +73,14 @@ class ModalViewConglomerado extends Component {
                     </div>
                   </div>
                   <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Estado </dt>
+                      <dd> estado </dd>
+                    </dl>
+                  </div>
+                </div>
+                  <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
                         <dt> Fecha de creación </dt>

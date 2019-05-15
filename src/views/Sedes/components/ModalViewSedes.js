@@ -66,6 +66,14 @@ class ModalViewSedes extends Component {
                     </div>
                   </div>
                   <div className="col-md-6">
+                          <div className="form-group">
+                            <dl className="param">
+                              <dt>Empresa </dt>
+                              <dd> </dd>
+                            </dl>
+                          </div>
+                        </div>
+                  <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
                         <dt>Nombre </dt>
@@ -84,23 +92,16 @@ class ModalViewSedes extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
+                        <dt>Teléfono </dt>
+                        <dd> </dd>
+                      </dl>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
                         <dt>Estado </dt>
-                        <dd> </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Descripción </dt>
-                        <dd> </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Telefono </dt>
                         <dd> </dd>
                       </dl>
                     </div>
@@ -130,7 +131,7 @@ class ModalViewSedes extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Conglomerado </dt>
+                              <dt>País </dt>
                               <dd> </dd>
                             </dl>
                           </div>
@@ -138,7 +139,7 @@ class ModalViewSedes extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Empresa </dt>
+                              <dt>Departamento </dt>
                               <dd> </dd>
                             </dl>
                           </div>
@@ -159,10 +160,11 @@ class ModalViewSedes extends Component {
                             </dl>
                           </div>
                         </div>
+
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Secuencia de radicación </dt>
+                              <dt>Cargo responsable </dt>
                               <dd> </dd>
                             </dl>
                           </div>
@@ -175,53 +177,30 @@ class ModalViewSedes extends Component {
                             </dl>
                           </div>
                         </div>
+                        <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Secuencia de radicación </dt>
+                            <dd> </dd>
+                          </dl>
+                        </div>
                       </div>
-                    </CardBody>
-                  </Collapse>
-                </Card>
-              </Col>
-
-              <Col sm="12">
-                <Card>
-                  <CardHeader>
-                    {" "}
-                    <a
-                      onClick={() => {
-                        this.toggleCollapse2();
-                      }}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {" "}
-                      Más información{" "}
-                    </a>{" "}
-                  </CardHeader>
-                  <Collapse isOpen={this.state.collapse2}>
-                    <CardBody>
-                      <div className="row">
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>Cargo responsable </dt>
-                              <dd> </dd>
-                            </dl>
-                          </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt> Fecha de creación </dt>
+                            <dd> </dd>
+                          </dl>
                         </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt> Fecha de creación </dt>
-                              <dd> </dd>
-                            </dl>
-                          </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Fecha de modificación </dt>
+                            <dd> </dd>
+                          </dl>
                         </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>Fecha de modificación </dt>
-                              <dd> </dd>
-                            </dl>
-                          </div>
-                        </div>
+                      </div>
                       </div>
                     </CardBody>
                   </Collapse>

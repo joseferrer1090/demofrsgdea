@@ -43,12 +43,12 @@ class ModalViewCiudad extends Component {
                 </div>
                 <div className="row">
                   <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Departamento </dt>
-                        <dd> departamento </dd>
-                      </dl>
-                    </div>
+                     <div className="form-group">
+                       <dl className="param">
+                          <dt> Código </dt>
+                          <dd> código </dd>
+                       </dl>
+                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
@@ -61,15 +61,15 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Estado </dt>
-                        <dd> estado </dd>
+                        <dt>Departamento </dt>
+                        <dd> departamento </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> País </dt>
+                        <dt>País </dt>
                         <dd> país </dd>
                       </dl>
                     </div>
@@ -87,6 +87,14 @@ class ModalViewCiudad extends Component {
                       <dl className="param">
                         <dt> Fecha de modificación </dt>
                         <dd> fecha de modificación </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> Estado </dt>
+                        <dd> estado </dd>
                       </dl>
                     </div>
                   </div>

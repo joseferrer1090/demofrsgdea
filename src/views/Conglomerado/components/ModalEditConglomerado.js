@@ -65,6 +65,15 @@ class ModalEditConglomerado extends Component {
                   </div>
                   <div className="col-md-12">
                     <div className="form-group">
+                      <label> Estado </label>
+                      <select className="form-control">
+                        <option>Activo</option>
+                        <option>Inactivo</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-12">
+                    <div className="form-group">
                       <label> Descripción </label>
                       <textarea className="form-control" />
                     </div>

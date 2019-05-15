@@ -122,10 +122,6 @@ class TableContent extends Component {
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="nombre" dataAlign="center">
-              {" "}
-              Nombre{" "}
-            </TableHeaderColumn>
             <TableHeaderColumn
               dataField="estado"
               dataAlign="center"

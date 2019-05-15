@@ -39,7 +39,7 @@ class FormUpdateData extends Component {
                   <div className="form-group">
                     <label> Fecha de nacimiento </label>
                     <input
-                      type="text"
+                      type="date"
                       className="form-control form-control-sm"
                     />
                   </div>

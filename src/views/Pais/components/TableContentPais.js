@@ -124,6 +124,7 @@ class TableContentPais extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            export={false}
               dataAlign="center"
               dataFormat={(cel, row) => this.accionesPais(cel, row)}
             >

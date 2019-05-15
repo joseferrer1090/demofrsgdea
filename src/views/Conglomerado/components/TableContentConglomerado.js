@@ -97,7 +97,7 @@ class TableContentConglomerado extends Component {
           }}
         >
           {" "}
-          <i className="fa fa-pencil" /> Personalizar{" "}
+          <i className="fa fa-pencil" /> Personalizar 1{" "}
         </button>
         &nbsp;
         <button

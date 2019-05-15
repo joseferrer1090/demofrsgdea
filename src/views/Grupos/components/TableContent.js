@@ -131,6 +131,7 @@ class TableContent extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+              export = {false}
               dataFormat={(cell, row) => this.accionesGrupo(cell, row)}
               dataAlign="center"
             >

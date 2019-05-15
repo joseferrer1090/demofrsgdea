@@ -6,7 +6,8 @@ class ModalEditSedes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modaledit
+      modal: this.props.modaledit,
+      secuencia: 1
     };
   }
 
@@ -86,10 +87,12 @@ class ModalEditSedes extends Component {
                         Prefijo de radicacion{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <select className="form-control">
-                        {" "}
-                        <option>Seleccione...</option>{" "}
-                      </select>
+                      <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            maxLength={"6"}
+                            placeholder=" "
+                          />
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -99,10 +102,12 @@ class ModalEditSedes extends Component {
                         Secuencia de radicacion{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <select className="form-control">
-                        {" "}
-                        <option>Seleccione...</option>{" "}
-                      </select>
+                      <input
+                            type="number"
+                            className="form-control form-control-sm"
+                            defaultValue={this.state.secuencia}
+                            min={0}
+                          />
                     </div>
                   </div>
                 </div>

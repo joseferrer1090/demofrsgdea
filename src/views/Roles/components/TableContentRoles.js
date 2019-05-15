@@ -205,6 +205,7 @@ class TableContentRoles extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+              export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesRoles(cell, row)}
             >

@@ -16,19 +16,22 @@ const data = [
     id: 1,
     codigo: "CG1",
     nombre: "Conglomerado1",
-    descripcion: "descripcion del conglomerado"
+    descripcion: "descripcion del conglomerado",
+    estado: true
   },
   {
     id: 2,
     codigo: "CG2",
     nombre: "Conglomerado 2",
-    descripcion: "descripcion del conglomerado"
+    descripcion: "descripcion del conglomerado",
+    estado: false
   },
   {
     id: 3,
     codigo: "CG3",
     nombre: "Conglomerado 3",
-    descripcion: "descripcion del conglomerado"
+    descripcion: "descripcion del conglomerado",
+    estado: true
   }
 ];
 
@@ -83,6 +86,16 @@ class TableContentConglomerado extends Component {
         </button>
       </div>
     );
+  }
+
+  estadoConglomeraro(cell, row ) {
+    let status;
+    if (row.estado === true ) {
+        status = <p className="text-success">Activo</p>
+    } else if(row.estado !== true) {
+      status = <p className="text-danger">Inactivo</p>;
+    }
+    return status;
   }
 
   createButtonCustom = props => {
@@ -188,6 +201,9 @@ class TableContentConglomerado extends Component {
                       dataAlign="center"
                     >
                       Descripción
+                    </TableHeaderColumn>
+                    <TableHeaderColumn dataField={"estado"} dataSort={true} dataAlign={"center"} dataFormat={(cell, row) => this.estadoConglomeraro(cell, row)}>
+                      Estado
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       export={false}

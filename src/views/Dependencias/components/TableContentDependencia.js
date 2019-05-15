@@ -433,6 +433,7 @@ class TableContentDependencia extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesDependencias(cell, row)}
             >

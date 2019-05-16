@@ -42,6 +42,12 @@ class ModalViewDepartamento extends Component {
                   </h5>{" "}
                 </div>
                 <div className="row">
+                <div className="col-md-6">
+                    <dl className="param">
+                      <dt> País </dt>
+                      <dd> país </dd>
+                    </dl>
+                  </div>
                   <div className="col-md-6">
                     <dl className="param">
                       <dt> Código </dt>
@@ -50,8 +56,8 @@ class ModalViewDepartamento extends Component {
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt> Nombre del país </dt>
-                      <dd> nombre del país </dd>
+                      <dt> Nombre </dt>
+                      <dd> nombre </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
@@ -68,8 +74,8 @@ class ModalViewDepartamento extends Component {
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt> Fecha de modificacíoon </dt>
-                      <dd> fecha de modificacíoon </dd>
+                      <dt> Fecha de modificacíon </dt>
+                      <dd> fecha de modificacíon </dd>
                     </dl>
                   </div>
                 </div>

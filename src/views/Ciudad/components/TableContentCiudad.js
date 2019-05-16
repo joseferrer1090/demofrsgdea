@@ -37,7 +37,7 @@ const dataExample = [
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true,
+    estado: false,
     codigo:1028
   },
   {
@@ -120,7 +120,15 @@ class TableContentCiudad extends Component {
   openModalDelete() {
     this.refs.child2.toggle();
   }
-
+  EstadoEmpresa(cell, row) {
+    let status;
+    if (row.estado === true) {
+      status = <b className="text-success">Activo</b>;
+    } else if (row.estado !== true) {
+      status = <b className="text-danger">Desactivo</b>;
+    }
+    return status;
+  }
   render() {
     return (
       <div className="animated fadeIn">
@@ -148,15 +156,19 @@ class TableContentCiudad extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn dataField="codigo" dataAlign="center">
               {" "}
-              Nombre{" "}
+              Código{" "}
             </TableHeaderColumn>
             <TableHeaderColumn dataField="nombre" dataAlign="center">
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="estado" dataAlign="center">
-              {" "}
-              Estado{" "}
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={"estado"}
+              dataAlign="center"
+              dataFormat={(cell, row) => this.EstadoEmpresa(cell, row)}
+            >
+              Estado
             </TableHeaderColumn>
             <TableHeaderColumn
             export={false}

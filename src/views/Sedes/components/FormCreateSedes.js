@@ -115,11 +115,12 @@ class FormCreateSedes extends Component {
                             Empresa <span className="text-danger">*</span>{" "}
                           </label>
                           <br />
-                          <Select
+                          <Select className=""
                             value={this.state.selectedOptionEmpresa}
                             onChange={this.handleChangeOptionEmpresa}
                             options={dataEmpresa}
                           />
+
                         </div>
                       </Col>
                       <Col sm="4">
@@ -183,7 +184,7 @@ class FormCreateSedes extends Component {
                         <div className="form-group">
                           <label>País</label>
                           <select className="form-control form-control-sm">
-                            <option>Seleccione</option>
+                            <option>Seleccione...</option>
                           </select>
                         </div>
                       </Col>
@@ -191,7 +192,7 @@ class FormCreateSedes extends Component {
                         <div className="form-group">
                           <label>Departamento</label>
                           <select className="form-control form-control-sm">
-                            <option> Seleccione </option>
+                            <option> Seleccione...</option>
                           </select>
                         </div>
                       </Col>
@@ -201,7 +202,7 @@ class FormCreateSedes extends Component {
                             Ciudad <span className="text-danger">*</span>
                           </label>
                           <select className="form-control form-control-sm">
-                            <option> Seleccione </option>
+                            <option> Seleccione... </option>
                           </select>
                         </div>
                       </Col>

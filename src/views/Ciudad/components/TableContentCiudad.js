@@ -13,42 +13,48 @@ const dataExample = [
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: true,
+    codigo:1078
   },
   {
     id: 2,
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: true,
+    codigo:1012
   },
   {
     id: 3,
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: true,
+    codigo:1021
   },
   {
     id: 4,
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: true,
+    codigo:1028
   },
   {
     id: 5,
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: true,
+    codigo:1078
   },
   {
     id: 6,
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: true,
+    codigo:1096
   }
 ];
 
@@ -139,6 +145,10 @@ class TableContentCiudad extends Component {
             <TableHeaderColumn dataField="departamento" dataAlign="center">
               {" "}
               Departamento{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="codigo" dataAlign="center">
+              {" "}
+              Nombre{" "}
             </TableHeaderColumn>
             <TableHeaderColumn dataField="nombre" dataAlign="center">
               {" "}

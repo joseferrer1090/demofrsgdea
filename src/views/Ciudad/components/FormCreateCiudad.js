@@ -21,7 +21,33 @@ class FormCreateCiudad extends Component {
               <CardBody>
                 <form className="form">
                   <div className="row">
-                    <div className="col-md-4">
+                  <div className="col-md-6">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          País <span className="text-danger">*</span>{" "}
+                        </label>
+                        <select className="form-control form-control-sm">
+                          <option> Seleccione </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Departamento <span className="text-danger">
+                          *
+                        </span>{" "}
+                      </label>
+                      <select className="form-control form-control-sm">
+                        <option> Departamento 1 </option>
+                        <option> Departamento 2 </option>
+                        <option> Departamento 3 </option>
+                      </select>
+                    </div>
+                  </div>
+                    <div className="col-md-6">
                       <div className="form-group">
                         <label>
                           {" "}
@@ -33,7 +59,7 @@ class FormCreateCiudad extends Component {
                         />
                       </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-6">
                       <div className="form-group">
                         <label>
                           {" "}
@@ -45,21 +71,7 @@ class FormCreateCiudad extends Component {
                         />
                       </div>
                     </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Departamento <span className="text-danger">
-                            *
-                          </span>{" "}
-                        </label>
-                        <select className="form-control form-control-sm">
-                          <option> Departamento 1 </option>
-                          <option> Departamento 2 </option>
-                          <option> Departamento 3 </option>
-                        </select>
-                      </div>
-                    </div>
+
                   </div>
                   <div className="row">
                     <div className="col-md-12">

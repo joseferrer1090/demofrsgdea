@@ -42,6 +42,15 @@ class ModalEditDepartamento extends Component {
                   </h5>{" "}
                 </div>
                 <div className="row">
+                <div className="col-md-6">
+                    <div className="form-group">
+                      <label> País </label>
+                      <select className="form-control form-control-sm">
+                        {" "}
+                        <option> Seleccione... </option>{" "}
+                      </select>
+                    </div>
+                  </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label> Código </label>
@@ -51,15 +60,7 @@ class ModalEditDepartamento extends Component {
                       />
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> País </label>
-                      <select className="form-control form-control-sm">
-                        {" "}
-                        <option> Seleccione... </option>{" "}
-                      </select>
-                    </div>
-                  </div>
+
                   <div className="col-md-6">
                     <div className="form-group">
                       <label> Nombre </label>

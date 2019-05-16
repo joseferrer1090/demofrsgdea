@@ -125,13 +125,13 @@ class TableContentDepartamento extends Component {
             <TableHeaderColumn isKey dataField="id" width="50">
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="codigo" dataAlign="center">
-              {" "}
-              Código{" "}
-            </TableHeaderColumn>
             <TableHeaderColumn dataField="pais" dataAlign="center">
               {" "}
               País{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="codigo" dataAlign="center">
+              {" "}
+              Código{" "}
             </TableHeaderColumn>
             <TableHeaderColumn dataField="nombre" dataAlign="center">
               {" "}

@@ -12,7 +12,9 @@ import {
   TabPane,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  Card,
+  CardBody
 } from "reactstrap";
 import classnames from "classnames";
 import IMGDEPENDENCIA from "./../../../assets/img/settings-work-tool.svg";
@@ -89,59 +91,45 @@ class ModalEditDependencia extends Component {
                 </div>
               </Col>
               <Col sm="12">
-                <Nav tabs>
-                  <NavItem>
-                    <NavLink
-                      className={classnames({
-                        active: this.state.activeTab === "1"
-                      })}
-                      onClick={() => {
-                        this.toggle("1");
-                      }}
-                    >
-                      + Mas información
-                    </NavLink>
-                  </NavItem>
-                </Nav>
-                <TabContent activeTab={this.state.activeTab}>
-                  <TabPane tabId="1">
-                    <Row>
-                      <Col sm="6">
-                        <div className="form-group">
-                          <label> Conglomerado </label>
-                          <select className="form-control">
-                            {" "}
-                            <option> Seleccione... </option>{" "}
-                          </select>
-                        </div>
-                      </Col>
-                      <Col sm="6">
-                        <div className="form-group">
-                          <label> Empresa </label>
-                          <select className="form-control">
-                            {" "}
-                            <option> Seleccione... </option>{" "}
-                          </select>
-                        </div>
-                      </Col>
-                      <Col sm="6">
-                        <div className="form-group">
-                          <label> Sede </label>
-                          <select className="form-control">
-                            {" "}
-                            <option> Seleccione... </option>{" "}
-                          </select>
-                        </div>
-                      </Col>
-                      <Col sm="6">
-                        <div className="form-group">
-                          <label> Cargo responsable </label>
-                          <input type="text" className="form-control" />
-                        </div>
-                      </Col>
-                    </Row>
-                  </TabPane>
-                </TabContent>
+              <Card>
+              <CardBody>
+              <div className="row">
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label> Conglomerado </label>
+                  <select className="form-control">
+                    {" "}
+                    <option> Seleccione... </option>{" "}
+                  </select>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label> Empresa </label>
+                  <select className="form-control">
+                    {" "}
+                    <option> Seleccione... </option>{" "}
+                  </select>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label> Sede </label>
+                  <select className="form-control">
+                    {" "}
+                    <option> Seleccione... </option>{" "}
+                  </select>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label> Cargo responsable </label>
+                  <input type="text" className="form-control" />
+                </div>
+              </div>
+              </div>
+              </CardBody>
+              </Card>
               </Col>
             </Row>
           </ModalBody>

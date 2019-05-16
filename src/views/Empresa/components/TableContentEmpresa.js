@@ -141,10 +141,10 @@ class TableContentEmpresa extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
-              dataField={"conglomerado"}
+              dataField={"nit"}
               dataAlign="center"
             >
-              Conglomerado
+              Nit
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
@@ -155,17 +155,17 @@ class TableContentEmpresa extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
-              dataField={"nit"}
-              dataAlign="center"
-            >
-              Nit
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataSort={true}
               dataField={"nombre"}
               dataAlign="center"
             >
               Nombre
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={"conglomerado"}
+              dataAlign="center"
+            >
+              Conglomerado
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}

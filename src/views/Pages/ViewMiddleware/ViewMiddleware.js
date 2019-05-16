@@ -83,7 +83,7 @@ class ViewMiddleware extends Component {
                     <div className="text-center">
                       <br />
                       <a style={{ fontSize: "20px" }}>
-                        Modulo de configuración
+                        Módulo de configuración
                       </a>
                     </div>
                   </div>
@@ -97,7 +97,7 @@ class ViewMiddleware extends Component {
                     <img src={MODULOCORRESPONDENCIA} width="200" />
                     <div className="text-center">
                       <a style={{ fontSize: "19px" }}>
-                        Modulo de correspondencia
+                        Módulo de correspondencia
                       </a>{" "}
                     </div>
                   </div>
@@ -111,7 +111,7 @@ class ViewMiddleware extends Component {
                     <img src={MODULOARCHIVO} width="200" />
                     <div className="text-center">
                       <br />
-                      <a style={{ fontSize: "20px" }}>Modulo de archivo </a>
+                      <a style={{ fontSize: "20px" }}>Módulo de archivo </a>
                     </div>
                   </div>
                 </div>
@@ -126,7 +126,7 @@ class ViewMiddleware extends Component {
                       <br />
                       <a style={{ fontSize: "20px" }}>
                         {" "}
-                        Modulo de workflow{" "}
+                        Módulo de workflow{" "}
                       </a>{" "}
                     </div>
                   </div>

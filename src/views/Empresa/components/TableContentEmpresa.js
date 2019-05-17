@@ -5,7 +5,12 @@ import ModalView from "./ModalViewEmpresa";
 import ModalEdit from "./ModalEditEmpresa";
 import ModalDel from "./ModalDeleteEmpresa";
 import { Row, Col } from "reactstrap";
+<<<<<<< HEAD
 import "./../../../css/styleTableEmpresa.css";
+=======
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import "./../../../css/custom_table.css";
+>>>>>>> 2b3ef05c7ade357db5307e0b1414bb53a65a9d1e
 
 const data = [
   {
@@ -130,7 +135,7 @@ class TableContentEmpresa extends Component {
             searchPlaceholder="Buscar"
             className="tableEmpre tableEmpre1 texto-Empre"
           >
-            <TableHeaderColumn 
+            <TableHeaderColumn
               dataSort={true}
               isKey
               dataField={"id"}

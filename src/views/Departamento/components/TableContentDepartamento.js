@@ -4,8 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ModalViewDepartamento";
 import ModalEdit from "./ModalEditDepartamento";
 import ModalDelete from "./ModalDeleteDepartamento";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
+import "./../../../css/styleTableDepartamento.css";
 
 const dataExample = [
   {
@@ -109,6 +108,15 @@ class TableContentDepartamento extends Component {
     this.refs.child2.toggle();
   }
 
+ DepartamentoStatus(cell, row) {
+    let status;
+    if (row.estado === true) status = <b className="text-success">ACTIVO</b>;
+    else if (row.estado === false) {
+      status = <b className="text-danger">INACTIVO</b>;
+    }
+    return status;
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -117,31 +125,35 @@ class TableContentDepartamento extends Component {
             exportCSV
             pagination
             search
+            striped
             searchPlaceholder="Buscar"
             data={dataExample}
             hover
             bordered={false}
+            className="tableDepto texto-Depto"
           >
-            <TableHeaderColumn isKey dataField="id" width="50">
+            <TableHeaderColumn isKey dataField="id" dataAlign="center" width={"80"}>
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="pais" dataAlign="center">
+            <TableHeaderColumn dataField="pais" dataAlign="center" width={"130"}>
               {" "}
               País{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="codigo" dataAlign="center">
+            <TableHeaderColumn dataField="codigo" dataAlign="center" width={"130"}>
               {" "}
               Código{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="nombre" dataAlign="center">
+            <TableHeaderColumn dataField="nombre" dataAlign="center" width={"250"}>
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="estado" dataAlign="center">
+            <TableHeaderColumn dataField="estado" dataAlign="center"
+            dataFormat={(cell, row) => this.DepartamentoStatus(cell, row)}>
               {" "}
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"200"}
             export={false}
               dataAlign="center"
               dataFormat={(cel, row) => this.accionesPais(cel, row)}
@@ -153,7 +165,7 @@ class TableContentDepartamento extends Component {
         </div>
         <ModalView modalview={this.state.ModalViewPais} ref="child" />
         <ModalEdit modaledit={this.state.ModalEdit} ref="child3" />
-        <ModalDelete modaldel={this.state.ModalDelete} ref="child2" />
+        <ModalDelete modaldel={this.state.ModalDel} ref="child2" />
       </div>
     );
   }

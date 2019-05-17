@@ -4,7 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ModalViewGrupo";
 import ModalDelete from "./ModalDeleteGrupo";
 import ModalEdit from "./ModalEditGrupo";
-import "./../../../css/custom_table.css";
+import "./../../../css/styleTableGrupoUsuarios.css";
 
 const dataExample = [
   { id: 1, codigo: "gp1", nombre: "grupo_nombre", estado: true },
@@ -104,6 +104,7 @@ class TableContent extends Component {
             searchPlaceholder="Buscar"
             exportCSV
             pagination
+            className="tableGUsu"
           >
             <TableHeaderColumn
               isKey

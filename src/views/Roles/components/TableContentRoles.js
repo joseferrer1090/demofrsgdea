@@ -5,7 +5,7 @@ import ModalView from "./ModalViewRoles";
 import ModalDelete from "./ModalDeleteRoles";
 import ModalEdit from "./ModalEditRoles";
 import ModalPermission from "./ModalEditPermissionRoles";
-
+import "../../../css/styleTableRoles.css"
 const dataExample = [
   {
     id: 1,
@@ -163,7 +163,10 @@ class TableContentRoles extends Component {
 
   render() {
     return (
+
       <div className="animated fadeIn">
+      <Row>
+          <Col md="12">
         <div className="col-md-12">
           <BootstrapTable
             data={dataExample}
@@ -174,29 +177,32 @@ class TableContentRoles extends Component {
             hover
             striped
             exportCSV
+            className="tableRP texto-RP"
           >
             <TableHeaderColumn
+            dataSort={true}
               isKey
               dataField="id"
               dataAlign="center"
-              width={"50"}
+              width={"20"}
             >
-              {" "}
-              #{" "}
+              #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="codigo" dataAlign="center">
-              {" "}
-              Codigo{" "}
+            <TableHeaderColumn dataSort={true} dataField="codigo" dataAlign="center" width={"100"}>
+
+              Codigo
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="nombre" dataAlign="center">
+            <TableHeaderColumn dataSort={true} dataField="nombre" dataAlign="center" width={"150"}>
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="descripcion" dataAlign="center">
+            <TableHeaderColumn dataSort={true} dataField="descripcion" dataAlign="center" width={"150"}>
               {" "}
               Descripción{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"50"}
+              dataSort={true}
               dataField="estado"
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoRoles(cell, row)}
@@ -205,6 +211,7 @@ class TableContentRoles extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+              width={"200"}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesRoles(cell, row)}
@@ -213,7 +220,10 @@ class TableContentRoles extends Component {
               Acciones{" "}
             </TableHeaderColumn>
           </BootstrapTable>
+
         </div>
+        </Col>
+        </Row>
 
         <ModalView modalviewroles={this.state.modalview} ref="child" />
         <ModalEdit modaledit={this.state.modaledit} ref="child2" />
@@ -222,7 +232,10 @@ class TableContentRoles extends Component {
           modaleditpermission={this.state.modalpermission}
           ref="child4"
         />
+
+
       </div>
+
     );
   }
 }

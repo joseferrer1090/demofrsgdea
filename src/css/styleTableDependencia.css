@@ -1,0 +1,21 @@
+.tableDep table > tbody > tr > td,
+.tableDep table > tbody > tr > th {
+  padding-top: 3px !important;
+  text-align: left;
+}
+.tableDep table > tfoot > tr > td,
+.tableDep table > tfoot > tr > th {
+  height: 500px !important;
+}
+.tableDep table > thead > tr > td,
+.tableDep table > thead > tr > th {
+  /* padding: 10px; */
+  padding-bottom: 10px !important;
+  padding-left: 8px;
+  text-align: center;
+}
+
+.texto-Dep {
+  font-size: 13px !important;
+  font-weight: 450 !important;
+}

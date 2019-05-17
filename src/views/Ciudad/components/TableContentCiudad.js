@@ -4,8 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ModalViewCiudad";
 import ModalEdit from "./ModalEditCiudad";
 import ModalDelete from "./ModalDeleteCiudad";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
+import "./../../../css/styleTableCiudad.css";
 
 const dataExample = [
   {
@@ -134,6 +133,7 @@ class TableContentCiudad extends Component {
       <div className="animated fadeIn">
         <div className="col-md-12">
           <BootstrapTable
+          striped
             exportCSV
             pagination
             search
@@ -141,28 +141,30 @@ class TableContentCiudad extends Component {
             data={dataExample}
             hover
             bordered={false}
+            className="tableCiudad texto-Ciudad"
           >
-            <TableHeaderColumn isKey dataField="id" width="50">
+            <TableHeaderColumn isKey dataField="id" dataAlign="center" width={"80"}>
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="pais" dataAlign="center">
+            <TableHeaderColumn dataField="pais" dataAlign="center" width={"120"}>
               {" "}
               País{" "}
             </TableHeaderColumn>
 
-            <TableHeaderColumn dataField="departamento" dataAlign="center">
+            <TableHeaderColumn dataField="departamento" dataAlign="center" width={"150"}>
               {" "}
               Departamento{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="codigo" dataAlign="center">
+            <TableHeaderColumn dataField="codigo" dataAlign="center" width={"80"}>
               {" "}
               Código{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="nombre" dataAlign="center">
+            <TableHeaderColumn dataField="nombre" dataAlign="center" width={"130"}>
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"80"}
               dataSort={true}
               dataField={"estado"}
               dataAlign="center"
@@ -171,6 +173,7 @@ class TableContentCiudad extends Component {
               Estado
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"180"}
             export={false}
               dataAlign="center"
               dataFormat={(cel, row) => this.accionesPais(cel, row)}

@@ -1,0 +1,17 @@
+.tableRP table > tbody > tr > td,
+.tableRP table > tbody > tr > th {
+  padding-bottom: 5px;
+}
+.tableRP table > tfoot > tr > td,
+.tableRP table > tfoot > tr > th {
+  padding-bottom: 5px;
+}
+.tableRP table > thead > tr > td,
+.tableRP table > thead > tr > th {
+  padding-bottom: 10px;
+}
+
+.texto-RP {
+  font-size: 13px !important;
+  font-weight: 450 !important;
+}

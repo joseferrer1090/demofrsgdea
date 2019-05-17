@@ -1,0 +1,8 @@
+.tableRemi table > tbody > tr > td,
+.tableRemi table > tbody > tr > th,
+.tableRemi table > tfoot > tr > td,
+.tableRemi table > tfoot > tr > th,
+.tableRemi table > thead > tr > td,
+.tableRemi table > thead > tr > th {
+  padding-bottom: 5px;
+}

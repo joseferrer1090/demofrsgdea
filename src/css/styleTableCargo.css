@@ -1,0 +1,17 @@
+.tableCargo table > tbody > tr > td,
+.tableCargo table > tbody > tr > th {
+  padding-bottom: 20px;
+}
+.tableCargo table > tfoot > tr > td,
+.tableCargo table > tfoot > tr > th {
+  padding-bottom: 20px;
+}
+.tableCargo table > thead > tr > td,
+.tableCargo table > thead > tr > th {
+  padding-bottom: 10px;
+}
+
+.texto-Cargo {
+  font-size: 13px !important;
+  font-weight: 450 !important;
+}

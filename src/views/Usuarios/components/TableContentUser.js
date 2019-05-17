@@ -6,9 +6,7 @@ import ModalView from "./ModalViewUser";
 import ModalDelete from "./ModalDeleteUser";
 import ModalUpdate from "./ModalEditUser";
 import ModalChangePassword from "./FormChangePasswordUser";
-
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/table_data.css";
+import "./../../../css/styleTableUsuarios.css";
 
 const data = [
   {
@@ -952,7 +950,7 @@ class TableContentUser extends Component {
   UsuarioStatus(cell, row) {
     let status;
     if (row.Estado === "activo") {
-      status = <p className="text-success">ACTICO</p>;
+      status = <p className="text-success">ACTIVO</p>;
     } else if (row.Estado !== "activo") {
       status = <p className="text-danger">INACTIVO</p>;
     }
@@ -991,13 +989,13 @@ class TableContentUser extends Component {
             hover
             striped
             bordered={false}
-            className="texto-small"
-            headerStyle={{ height: "39px" }}
+            className="tableUsu texto-Usu"
+            // headerStyle={{ height: "px" }}
           >
             <TableHeaderColumn
               dataField={"id"}
               isKey
-              width={50}
+              width={"20"}
               dataAlign="center"
               dataFormat={indexN}
             >
@@ -1006,23 +1004,22 @@ class TableContentUser extends Component {
             <TableHeaderColumn
               dataField={"Nombre"}
               dataAlign="center"
-              width={220}
+              width={"120"}
             >
-              {" "}
-              Nombre{" "}
+              Nombre
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"Login"} dataAlign="center">
-              {" "}
-              Usuario{" "}
+            <TableHeaderColumn dataField={"Login"} dataAlign="center" width={"130"}>
+              Usuario
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"Dependencia"} dataAlign="center">
+            <TableHeaderColumn dataField={"Dependencia"} dataAlign="center" width={"190"}>
               {" "}
               Dependencia{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"Cargo"} dataAlign="center">
+            <TableHeaderColumn dataField={"Cargo"} dataAlign="center" width={"150"}>
               Cargo
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"70"}
               dataField={"Estado"}
               dataAlign="center"
               dataFormat={(cell, row) => this.UsuarioStatus(cell, row)}
@@ -1031,6 +1028,7 @@ class TableContentUser extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"190"}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesUsuario(cell, row)}

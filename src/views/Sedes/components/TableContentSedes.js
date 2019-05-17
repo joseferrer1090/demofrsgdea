@@ -5,8 +5,7 @@ import { Row, Col, Badge } from "reactstrap";
 import ModalEdit from "./ModalEditSedes";
 import ModalView from "./ModalViewSedes";
 import ModalDelete from "./ModalDeleteSedes";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/table_data.css";
+import "./../../../css/styleTableSedes.css";
 
 const dataExample = [
   {
@@ -175,8 +174,8 @@ class TableContentSedes extends Component {
                 striped
                 searchPlaceholder={"Buscar"}
                 exportCSV
-                className="texto-small"
-                headerStyle={{ height: "39px" }}
+                className="tableSedes tableSedes1 texto-Sedes"
+                // headerStyle={{ height: "55px" }}
               >
                 <TableHeaderColumn
                   isKey
@@ -207,7 +206,7 @@ class TableContentSedes extends Component {
                 <TableHeaderColumn
                   dataField={"Nombre"}
                   dataAlign="center"
-                  width={""}
+                  width={"230"}
                   dataSort={true}
                 >
                   Nombre
@@ -216,6 +215,7 @@ class TableContentSedes extends Component {
                   dataField={"Estado"}
                   dataFormat={(cell, row) => this.SedesStatus(cell, row)}
                   dataAlign={"center"}
+                  width ={"200"}
                   dataSort={true}
                 >
                   {" "}

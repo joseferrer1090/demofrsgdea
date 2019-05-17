@@ -7,9 +7,7 @@ import ModalDelete from "./ModalDeleteConglomerado";
 import ModalEdit from "./ModalEditConglomerado";
 import ModalCustom from "./../customcomponent/CustomModalTable";
 import ModalCustom2 from "./../customcomponent/CustomModalTable2";
-
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/table_data.css";
+import "./../../../css/styleTableConglomerado.css";
 
 const data = [
   {
@@ -169,14 +167,15 @@ class TableContentConglomerado extends Component {
                     striped
                     bordered={false}
                     searchPlaceholder="Buscar"
-                    className="texto-small"
+                    className="tableConglo tableConglo1 texto-Conglo"
                   >
                     <TableHeaderColumn
                       dataSort={true}
                       isKey
                       dataField={"id"}
-                      width={"60"}
+                      width={"50"}
                       dataAlign="center"
+                      
                     >
                       #
                     </TableHeaderColumn>
@@ -184,6 +183,7 @@ class TableContentConglomerado extends Component {
                       dataSort={true}
                       dataField={"codigo"}
                       dataAlign="center"
+                      width={"150"}
                     >
                       {" "}
                       Código{" "}
@@ -192,6 +192,7 @@ class TableContentConglomerado extends Component {
                       dataSort={true}
                       dataField={"nombre"}
                       dataAlign="center"
+                      width={"205"}
                     >
                       Nombre
                     </TableHeaderColumn>
@@ -199,13 +200,15 @@ class TableContentConglomerado extends Component {
                       dataSort={true}
                       dataField={"descripcion"}
                       dataAlign="center"
+                      width={"230"}
                     >
                       Descripción
                     </TableHeaderColumn>
-                    <TableHeaderColumn dataField={"estado"} dataSort={true} dataAlign={"center"} dataFormat={(cell, row) => this.estadoConglomeraro(cell, row)}>
+                    <TableHeaderColumn width={""} dataField={"estado"} dataSort={true} dataAlign={"center"} dataFormat={(cell, row) => this.estadoConglomeraro(cell, row)}>
                       Estado
                     </TableHeaderColumn>
                     <TableHeaderColumn
+                    width={"256"}
                       export={false}
                       dataAlign="center"
                       dataFormat={(cell, row) =>

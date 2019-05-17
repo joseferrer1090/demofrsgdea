@@ -1,0 +1,16 @@
+.tableMensj table > tbody > tr > td,
+.tableMensj table > tbody > tr > th {
+  padding-bottom: 10px;
+}
+.tableMensj table > tfoot > tr > td,
+.tableMensj table > tfoot > tr > th {
+  padding-bottom: 20px;
+}
+.tableMensj table > thead > tr > td,
+.tableMensj table > thead > tr > th {
+  padding-bottom: 10px;
+}
+.texto-Mensj {
+  font-size: 13px !important;
+  font-weight: 450 !important;
+}

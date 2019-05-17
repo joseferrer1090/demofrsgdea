@@ -5,8 +5,7 @@ import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewDependencia";
 import ModalEdit from "./ModalEditDependencia";
 import ModalDelete from "./ModalDeleteDependencia";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/table_data.css";
+import "./../../../css/styleTableDependencia.css";
 const dataExample = [
   {
     IdDependencia: 1,
@@ -383,26 +382,29 @@ class TableContentDependencia extends Component {
             bordered={false}
             hover
             striped
-            className="texto-small"
-            headerStyle={{ height: "39px" }}
+            className="tableDep texto-Dep"
+            
           >
           <TableHeaderColumn
+                      isKey={true}
                       dataSort={true}
                       dataField={"IdDependencia"}
-                      width={"60"}
+                      width={"30"}
                       dataAlign="center"
                     >
                       #
                     </TableHeaderColumn>
             <TableHeaderColumn
+               width={"50"}
               dataField="Codigo"
-              isKey={true}
+
               dataAlign="center"
               dataSort={true}
             >
               Código
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"100"}
               dataField="Nombre"
               dataSort={true}
               dataAlign="center"
@@ -410,6 +412,7 @@ class TableContentDependencia extends Component {
               Nombre
             </TableHeaderColumn>
             <TableHeaderColumn
+              width={"160"}
               dataField="Cargo"
               dataAlign="center"
               dataSort={true}
@@ -417,6 +420,7 @@ class TableContentDependencia extends Component {
               Cargo responsable
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"120"}
               dataField="Sede"
               dataAlign="center"
               dataSort={true}
@@ -424,6 +428,7 @@ class TableContentDependencia extends Component {
               Sede
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"80"}
               dataField="Estado"
               dataAlign="center"
               dataSort={true}
@@ -433,6 +438,7 @@ class TableContentDependencia extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"120"}
             export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesDependencias(cell, row)}

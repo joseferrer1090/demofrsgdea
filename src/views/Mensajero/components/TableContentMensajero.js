@@ -5,8 +5,7 @@ import { Row, Col } from "reactstrap";
 import ModalViewMensajero from "./ModalViewMensajero";
 import ModalUpdate from "./ModalActualizarMensajero";
 import Modaldelete from "./ModalDeleteMensajero";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
+import "./../../../css/styleTableMensajero.css";
 
 const dataExample = [
   {
@@ -132,29 +131,29 @@ class TableContentMensajero extends Component {
               search
               exportCSV
               searchPlaceholder="Buscar"
+              className="tableMensj texto-Mensj"
             >
               <TableHeaderColumn
                 isKey
                 dataField="id"
                 dataAlign="center"
-                width="80"
+                width={"20"}
               >
-                {" "}
-                id{" "}
+                Id
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="identificacion" dataAlign="center">
-                {" "}
-                Identificación{" "}
+              <TableHeaderColumn dataField="identificacion" dataAlign="center" width={"140"}>
+                Identificación
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="nombre" dataAlign="center">
-                {" "}
+              <TableHeaderColumn dataField="nombre" dataAlign="center" width={"120"}>
+
                 Nombre{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField="descripcion" dataAlign="center">
-                {" "}
+              <TableHeaderColumn dataField="descripcion" dataAlign="center" width={"200"}>
+
                 Descripción{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
+              width={"100"}
                 dataField="estado"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.EstadoMensajero(cell, row)}
@@ -163,6 +162,8 @@ class TableContentMensajero extends Component {
                 Estado{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
+              width={"120"}
+              export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesMensajero(cell, row)}
               >

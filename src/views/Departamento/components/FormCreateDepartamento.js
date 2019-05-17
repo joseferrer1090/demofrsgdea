@@ -21,6 +21,18 @@ class FormCreateDepartamento extends Component {
               <CardBody>
                 <form className="form">
                   <div className="row">
+
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          País <span className="text-danger">*</span>{" "}
+                        </label>
+                        <select className="form-control form-control-sm">
+                          <option> Seleccione </option>
+                        </select>
+                      </div>
+                    </div>
                     <div className="col-md-4">
                       <div className="form-group">
                         <label>
@@ -31,17 +43,6 @@ class FormCreateDepartamento extends Component {
                           type="text"
                           className="form-control form-control-sm "
                         />
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          País <span className="text-danger">*</span>{" "}
-                        </label>
-                        <select className="form-control form-control-sm">
-                          <option> Seleccione </option>
-                        </select>
                       </div>
                     </div>
                     <div className="col-md-4">

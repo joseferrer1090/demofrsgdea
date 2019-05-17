@@ -20,7 +20,7 @@ const dataExample = [
     id: 2,
     codigo: 12366,
     nombre: "Electronica",
-    descripcion: "Tipo de llegada via electronica, email",
+    descripcion: "Tipo de llegada via electronica email",
     estado: true
   }
 ];
@@ -133,6 +133,7 @@ class TableTipoLlegada extends Component {
                 Estado{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
+                export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesTipoLlegada(cell, row)}
               >

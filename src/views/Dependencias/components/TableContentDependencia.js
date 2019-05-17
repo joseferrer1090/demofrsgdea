@@ -5,11 +5,10 @@ import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewDependencia";
 import ModalEdit from "./ModalEditDependencia";
 import ModalDelete from "./ModalDeleteDependencia";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/table_data.css";
+import "./../../../css/styleTableDependencia.css";
 const dataExample = [
   {
-    IdDependencia: 3,
+    IdDependencia: 1,
     Nombre: "GERENCIA GENERAL",
     Cargo: "GERENTE GENERAL",
     Codigo: 1000,
@@ -17,7 +16,7 @@ const dataExample = [
     Estado: "inactivo"
   },
   {
-    IdDependencia: 4,
+    IdDependencia: 2,
     Nombre: "CONTROL INTERNO",
     Cargo: "JEFE DE CONTROL INTERNO",
     Codigo: 1100,
@@ -25,7 +24,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 5,
+    IdDependencia: 3,
     Nombre: "SSTA",
     Cargo: "JEFE DE SSMA",
     Codigo: 1200,
@@ -33,7 +32,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 6,
+    IdDependencia: 4,
     Nombre: "DIRECCION TECNICA",
     Cargo: "DIRECTOR TECNICO",
     Codigo: 1300,
@@ -41,7 +40,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 7,
+    IdDependencia: 5,
     Nombre: "GERENCIA OPERATIVA",
     Cargo: "GERENTE OPERATIVO",
     Codigo: 2000,
@@ -49,7 +48,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 1,
+    IdDependencia: 6,
     Nombre: "DIRECCION ADMINISTRATIVA",
     Cargo: "DIRECTOR ADMINISTRATIVO",
     Codigo: 3000,
@@ -57,7 +56,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 8,
+    IdDependencia: 7,
     Nombre: "SEGURIDAD FISICA",
     Cargo: "JEFE DE SEGURIDAD",
     Codigo: 3100,
@@ -65,7 +64,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 9,
+    IdDependencia: 8,
     Nombre: "TALENTO HUMANO",
     Cargo: "COORDINADOR DE TALENTO HUMANO",
     Codigo: 3200,
@@ -73,7 +72,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 10,
+    IdDependencia: 9,
     Nombre: "SERVICIOS ADMINISTRATIVOS",
     Cargo: "COORDINADOR DE SERVICIOS ADMINISTRATIVOS",
     Codigo: 3300,
@@ -81,7 +80,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 11,
+    IdDependencia: 10,
     Nombre: "NOMINA",
     Cargo: "JEFE DE NOMINA",
     Codigo: 3400,
@@ -89,7 +88,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 12,
+    IdDependencia: 11,
     Nombre: "CONTRATACION Y SEGURIDAD SOCIAL",
     Cargo: "COORDINADOR DE CONTRATACION Y SEGURIDAD SOCIAL",
     Codigo: 3500,
@@ -97,7 +96,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 13,
+    IdDependencia: 12,
     Nombre: "ARCHIVO",
     Cargo: "AUXILIAR DE ARCHIVO",
     Codigo: 3600,
@@ -105,7 +104,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 14,
+    IdDependencia: 13,
     Nombre: "GERENCIA DE PLANTA",
     Cargo: "GERENTE DE PLANTA",
     Codigo: 4000,
@@ -113,7 +112,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 15,
+    IdDependencia: 14,
     Nombre: "CONTROL DE CALIDAD",
     Cargo: "JEFE DE CONTROL DE CALIDAD",
     Codigo: 4100,
@@ -121,7 +120,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 16,
+    IdDependencia: 15,
     Nombre: "MANTENIMIENTO",
     Cargo: "JEFE DE MANTENIMIENTO",
     Codigo: 4200,
@@ -129,7 +128,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 17,
+    IdDependencia: 16,
     Nombre: "PRODUCCION",
     Cargo: "JEFE DE PRODUCCION",
     Codigo: 4300,
@@ -137,7 +136,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 19,
+    IdDependencia: 17,
     Nombre: "DIRECCION DE CATEGORIA",
     Cargo: "DIRECTOR DE CATEGORIA",
     Codigo: 5100,
@@ -153,7 +152,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 20,
+    IdDependencia: 19,
     Nombre: "TRADE MARKETING",
     Cargo: "JEFE DE TRADE MARKETING",
     Codigo: 5200,
@@ -161,7 +160,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 21,
+    IdDependencia: 20,
     Nombre: "GERENCIA NACIONAL DE VENTAS",
     Cargo: "GERENTE NACIONAL DE VENTAS",
     Codigo: 6000,
@@ -169,7 +168,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 22,
+    IdDependencia: 21,
     Nombre: "CANAL MERKA Y GANA",
     Cargo: "COORDINADOR CANAL MERKA Y GANA",
     Codigo: 6100,
@@ -177,7 +176,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 23,
+    IdDependencia: 22,
     Nombre: "GERENCIA DE LOGISTICA",
     Cargo: "GERENTE DE LOGISTICA",
     Codigo: 7000,
@@ -185,7 +184,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 24,
+    IdDependencia: 23,
     Nombre: "LOGISTICA DE APROVISIONAMIENTO",
     Cargo: "JEFE DE APROVISIONAMIENTO",
     Codigo: 7100,
@@ -193,7 +192,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 25,
+    IdDependencia: 24,
     Nombre: "ALMACEN",
     Cargo: "JEFE DE ALMACEN",
     Codigo: 7200,
@@ -201,7 +200,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 26,
+    IdDependencia: 25,
     Nombre: "DISTRIBUCION BOGOTA",
     Cargo: "JEFE DE DISTRIBUCION",
     Codigo: 7300,
@@ -209,7 +208,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 27,
+    IdDependencia: 26,
     Nombre: "BODEGA REGIONAL",
     Cargo: "GERENTE DE LOGISTICA",
     Codigo: 7400,
@@ -217,7 +216,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 2,
+    IdDependencia: 27,
     Nombre: "DIRECCION FINANCIERA",
     Cargo: "DIRECTOR",
     Codigo: 8000,
@@ -257,7 +256,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 33,
+    IdDependencia: 32,
     Nombre: "LOGISTICA BUCARAMANGA",
     Cargo: "JEFE DE BODEGA",
     Codigo: 7420,
@@ -265,7 +264,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 34,
+    IdDependencia: 33,
     Nombre: "LOGISTICA CALI",
     Cargo: "JEFE DE BODEGA",
     Codigo: 7430,
@@ -273,7 +272,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 35,
+    IdDependencia: 34,
     Nombre: "LOGISTICA MEDELLIN",
     Cargo: "JEFE DE BODEGA",
     Codigo: 7440,
@@ -281,7 +280,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 36,
+    IdDependencia: 35,
     Nombre: "LOGISTICA PEREIRA",
     Cargo: "JEFE DE BODEGA",
     Codigo: 7450,
@@ -289,7 +288,7 @@ const dataExample = [
     Estado: "activo"
   },
   {
-    IdDependencia: 32,
+    IdDependencia: 36,
     Nombre: "LOGISTICA BARRANQUILLA",
     Cargo: "JEFE DE BODEGA",
     Codigo: 7410,
@@ -383,18 +382,29 @@ class TableContentDependencia extends Component {
             bordered={false}
             hover
             striped
-            className="texto-small"
-            headerStyle={{ height: "39px" }}
+            className="tableDep texto-Dep"
+            
           >
+          <TableHeaderColumn
+                      isKey={true}
+                      dataSort={true}
+                      dataField={"IdDependencia"}
+                      width={"30"}
+                      dataAlign="center"
+                    >
+                      #
+                    </TableHeaderColumn>
             <TableHeaderColumn
+               width={"50"}
               dataField="Codigo"
-              isKey={true}
+
               dataAlign="center"
               dataSort={true}
             >
               Código
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"100"}
               dataField="Nombre"
               dataSort={true}
               dataAlign="center"
@@ -402,6 +412,7 @@ class TableContentDependencia extends Component {
               Nombre
             </TableHeaderColumn>
             <TableHeaderColumn
+              width={"160"}
               dataField="Cargo"
               dataAlign="center"
               dataSort={true}
@@ -409,6 +420,7 @@ class TableContentDependencia extends Component {
               Cargo responsable
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"120"}
               dataField="Sede"
               dataAlign="center"
               dataSort={true}
@@ -416,6 +428,7 @@ class TableContentDependencia extends Component {
               Sede
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"80"}
               dataField="Estado"
               dataAlign="center"
               dataSort={true}
@@ -425,6 +438,8 @@ class TableContentDependencia extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"120"}
+            export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesDependencias(cell, row)}
             >

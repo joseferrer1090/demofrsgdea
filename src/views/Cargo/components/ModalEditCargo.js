@@ -102,8 +102,8 @@ class ModalEditCargo extends Component {
               <Table size="sm" striped hover>
                 <thead>
                   <tr className="text-center">
-                    <th> Entidad </th>
-                    <th> Area </th>
+                    <th> </th>
+                    <th> </th>
                     <th> Responsable </th>
                   </tr>
                 </thead>

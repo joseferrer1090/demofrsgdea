@@ -4,8 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ModalViewCiudad";
 import ModalEdit from "./ModalEditCiudad";
 import ModalDelete from "./ModalDeleteCiudad";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
+import "./../../../css/styleTableCiudad.css";
 
 const dataExample = [
   {
@@ -13,42 +12,48 @@ const dataExample = [
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: true,
+    codigo:1078
   },
   {
     id: 2,
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: true,
+    codigo:1012
   },
   {
     id: 3,
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: true,
+    codigo:1021
   },
   {
     id: 4,
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: false,
+    codigo:1028
   },
   {
     id: 5,
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: true,
+    codigo:1078
   },
   {
     id: 6,
     pais: "pais_nombre",
     departamento: "departamento_name",
     nombre: "Ciudad_nombre",
-    estado: true
+    estado: true,
+    codigo:1096
   }
 ];
 
@@ -114,12 +119,21 @@ class TableContentCiudad extends Component {
   openModalDelete() {
     this.refs.child2.toggle();
   }
-
+  EstadoEmpresa(cell, row) {
+    let status;
+    if (row.estado === true) {
+      status = <b className="text-success">Activo</b>;
+    } else if (row.estado !== true) {
+      status = <b className="text-danger">Desactivo</b>;
+    }
+    return status;
+  }
   render() {
     return (
       <div className="animated fadeIn">
         <div className="col-md-12">
           <BootstrapTable
+          striped
             exportCSV
             pagination
             search
@@ -127,28 +141,40 @@ class TableContentCiudad extends Component {
             data={dataExample}
             hover
             bordered={false}
+            className="tableCiudad texto-Ciudad"
           >
-            <TableHeaderColumn isKey dataField="id" width="50">
+            <TableHeaderColumn isKey dataField="id" dataAlign="center" width={"80"}>
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="pais" dataAlign="center">
+            <TableHeaderColumn dataField="pais" dataAlign="center" width={"120"}>
               {" "}
               País{" "}
             </TableHeaderColumn>
 
-            <TableHeaderColumn dataField="departamento" dataAlign="center">
+            <TableHeaderColumn dataField="departamento" dataAlign="center" width={"150"}>
               {" "}
               Departamento{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="nombre" dataAlign="center">
+            <TableHeaderColumn dataField="codigo" dataAlign="center" width={"80"}>
+              {" "}
+              Código{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="nombre" dataAlign="center" width={"130"}>
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="estado" dataAlign="center">
-              {" "}
-              Estado{" "}
+            <TableHeaderColumn
+            width={"80"}
+              dataSort={true}
+              dataField={"estado"}
+              dataAlign="center"
+              dataFormat={(cell, row) => this.EstadoEmpresa(cell, row)}
+            >
+              Estado
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"180"}
+            export={false}
               dataAlign="center"
               dataFormat={(cel, row) => this.accionesPais(cel, row)}
             >

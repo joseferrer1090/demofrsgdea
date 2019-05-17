@@ -16,6 +16,14 @@ class FormChangeAdvanceData extends Component {
                 <div className="table-responsive">
                   <table className="table table-striped">
                     <tbody>
+                       <tr>
+                        <td> Conglomerado: </td>
+                        <td> </td>
+                      </tr>
+                      <tr>
+                        <td> Empresa: </td>
+                        <td> </td>
+                      </tr>
                       <tr>
                         <td> Sede: </td>
                         <td> </td>

@@ -5,8 +5,7 @@ import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewRemitente";
 import ModalUpdate from "./ModalUpdateRemitente";
 import ModalDel from "./ModalDeleteRemitente";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
+import "./../../../css/styleTableRemitente.css";
 
 const dataExample = [
   {
@@ -120,24 +119,25 @@ class TableContentRemitente extends Component {
             striped
             bordered={false}
             exportCSV
+            className="tableRemi"
           >
             <TableHeaderColumn
               isKey
               dataField={"id"}
               dataAlign="center"
-              width="50"
+             width={"80"}
             >
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"identificacion"} dataAlign="center">
+            <TableHeaderColumn dataField={"identificacion"} dataAlign="center" width={"110"}>
               {" "}
               Identificación{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"nombre"} dataAlign="center">
+            <TableHeaderColumn dataField={"nombre"} dataAlign="center" width={"200"}>
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"email"} dataAlign="center">
+            <TableHeaderColumn dataField={"email"} dataAlign="center" width={"200"}>
               {" "}
               Email{" "}
             </TableHeaderColumn>
@@ -150,6 +150,7 @@ class TableContentRemitente extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"200"}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesRemitente(cell, row)}

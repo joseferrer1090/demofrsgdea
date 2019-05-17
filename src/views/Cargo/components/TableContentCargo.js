@@ -4,8 +4,8 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ViewCargoModal";
 import ModalEdit from "./ModalEditCargo";
 import ModalDel from "./ModalDeleteCargo";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/table_data.css";
+
+import "./../../../css/styleTableCargo.css";
 const dataExample = [
   {
     id: 1,
@@ -151,8 +151,8 @@ class TableContentCargo extends Component {
             exportCSV
             pagination
             bordered={false}
-            className="texto-small"
-            headerStyle={{ height: "39px" }}
+            className="tableCargo texto-Cargo"
+            // headerStyle={{ height: "55px" }}
           >
             <TableHeaderColumn
               dataAlign="center"
@@ -162,7 +162,7 @@ class TableContentCargo extends Component {
             >
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataAlign="center" dataField="nombre">
+            <TableHeaderColumn dataAlign="center" dataField="nombre" width={"100"}>
               Nombre
             </TableHeaderColumn>
             <TableHeaderColumn
@@ -176,7 +176,7 @@ class TableContentCargo extends Component {
             <TableHeaderColumn
               dataAlign="center"
               dataField="descripcion"
-              width={500}
+              width={200}
             >
               {" "}
               Descripción{" "}
@@ -191,6 +191,8 @@ class TableContentCargo extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"200"}
+            export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesCargo(cell, row)}
             >

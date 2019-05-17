@@ -4,8 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ModalViewPais";
 import ModalEdit from "./ModalEditPais";
 import ModalDelete from "./ModalDeletePais";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/table_data.css";
+import "./../../../css/styleTablePais.css";
 
 const dataExample = [
   { id: 1, codigo: 12345, nombre: "Colombia1", estado: true },
@@ -94,24 +93,25 @@ class TableContentPais extends Component {
       <div className="animated fadeIn">
         <div className="col-md-12">
           <BootstrapTable
-            exportCSV
+          striped
+          exportCSV
             pagination
             search
             searchPlaceholder="Buscar"
             data={dataExample}
             hover
             bordered={false}
-            headerStyle={{ height: "39px" }}
-            className="texto-small"
+            // headerStyle={{ height: "39px" }}
+            className="tablePais texto-Pais"
           >
-            <TableHeaderColumn isKey dataField="id" width="50">
+            <TableHeaderColumn isKey dataField="id" dataAlign="center" width={"120"}>
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="codigo" dataAlign="center">
+            <TableHeaderColumn dataField="codigo" dataAlign="center" width={"150"}>
               {" "}
               Código{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="nombre" dataAlign="center">
+            <TableHeaderColumn dataField="nombre" dataAlign="center" width={"200"}>
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
@@ -124,6 +124,8 @@ class TableContentPais extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"250"}
+            export={false}
               dataAlign="center"
               dataFormat={(cel, row) => this.accionesPais(cel, row)}
             >

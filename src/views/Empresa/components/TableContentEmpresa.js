@@ -5,8 +5,7 @@ import ModalView from "./ModalViewEmpresa";
 import ModalEdit from "./ModalEditEmpresa";
 import ModalDel from "./ModalDeleteEmpresa";
 import { Row, Col } from "reactstrap";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
+import "./../../../css/styleTableEmpresa.css";
 
 const data = [
   {
@@ -129,17 +128,19 @@ class TableContentEmpresa extends Component {
             striped
             bordered={false}
             searchPlaceholder="Buscar"
+            className="tableEmpre tableEmpre1 texto-Empre"
           >
             <TableHeaderColumn
               dataSort={true}
               isKey
               dataField={"id"}
-              width={"60"}
+              width={"50"}
               dataAlign="center"
             >
               #
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"200"}
               dataSort={true}
               dataField={"conglomerado"}
               dataAlign="center"
@@ -147,6 +148,7 @@ class TableContentEmpresa extends Component {
               Conglomerado
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"180"}
               dataSort={true}
               dataField={"codigo"}
               dataAlign="center"
@@ -154,6 +156,7 @@ class TableContentEmpresa extends Component {
               Código
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"200"}
               dataSort={true}
               dataField={"nit"}
               dataAlign="center"
@@ -176,6 +179,7 @@ class TableContentEmpresa extends Component {
               Estado
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"190"}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesEmpresa(cell, row)}

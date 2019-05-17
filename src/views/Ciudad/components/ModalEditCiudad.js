@@ -42,6 +42,34 @@ class ModalEditCiudad extends Component {
                   </h5>{" "}
                 </div>
                 <div className="row">
+                <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>País </dt>
+                        <dd>
+                          {" "}
+                          <select className="form-control form-control-sm">
+                            {" "}
+                            <option> Seleccione... </option>{" "}
+                          </select>{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Departamento </dt>
+                      <dd>
+                        {" "}
+                        <select className="form-control form-control-sm">
+                          {" "}
+                          <option> Seleccione... </option>{" "}
+                        </select>{" "}
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
@@ -56,20 +84,7 @@ class ModalEditCiudad extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Departamento </dt>
-                        <dd>
-                          {" "}
-                          <select className="form-control form-control-sm">
-                            {" "}
-                            <option> Seleccione... </option>{" "}
-                          </select>{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
+
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
@@ -98,20 +113,7 @@ class ModalEditCiudad extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>País </dt>
-                        <dd>
-                          {" "}
-                          <select className="form-control form-control-sm">
-                            {" "}
-                            <option> Seleccione... </option>{" "}
-                          </select>{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
+
                 </div>
               </Col>
             </Row>

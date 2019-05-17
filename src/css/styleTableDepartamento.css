@@ -1,0 +1,12 @@
+.tableDepto table > tbody > tr > td,
+.tableDepto table > tbody > tr > th,
+.tableDepto table > tfoot > tr > td,
+.tableDepto table > tfoot > tr > th,
+.tableDepto table > thead > tr > td,
+.tableDepto table > thead > tr > th {
+  padding-bottom: 13px;
+}
+.texto-Depto {
+  font-size: 13px !important;
+  font-weight: 450 !important;
+}

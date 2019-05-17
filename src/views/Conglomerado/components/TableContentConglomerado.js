@@ -7,28 +7,29 @@ import ModalDelete from "./ModalDeleteConglomerado";
 import ModalEdit from "./ModalEditConglomerado";
 import ModalCustom from "./../customcomponent/CustomModalTable";
 import ModalCustom2 from "./../customcomponent/CustomModalTable2";
-
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/table_data.css";
+import "./../../../css/styleTableConglomerado.css";
 
 const data = [
   {
     id: 1,
     codigo: "CG1",
     nombre: "Conglomerado1",
-    descripcion: "descripcion del conglomerado"
+    descripcion: "descripcion del conglomerado",
+    estado: true
   },
   {
     id: 2,
     codigo: "CG2",
     nombre: "Conglomerado 2",
-    descripcion: "descripcion del conglomerado"
+    descripcion: "descripcion del conglomerado",
+    estado: false
   },
   {
     id: 3,
     codigo: "CG3",
     nombre: "Conglomerado 3",
-    descripcion: "descripcion del conglomerado"
+    descripcion: "descripcion del conglomerado",
+    estado: true
   }
 ];
 
@@ -85,6 +86,16 @@ class TableContentConglomerado extends Component {
     );
   }
 
+  estadoConglomeraro(cell, row ) {
+    let status;
+    if (row.estado === true ) {
+        status = <p className="text-success">Activo</p>
+    } else if(row.estado !== true) {
+      status = <p className="text-danger">Inactivo</p>;
+    }
+    return status;
+  }
+
   createButtonCustom = props => {
     return (
       <div className="btn-group btn-group-sm">
@@ -97,7 +108,7 @@ class TableContentConglomerado extends Component {
           }}
         >
           {" "}
-          <i className="fa fa-pencil" /> Personalizar{" "}
+          <i className="fa fa-pencil" /> Personalizar 1{" "}
         </button>
         &nbsp;
         <button
@@ -156,14 +167,15 @@ class TableContentConglomerado extends Component {
                     striped
                     bordered={false}
                     searchPlaceholder="Buscar"
-                    className="texto-small"
+                    className="tableConglo tableConglo1 texto-Conglo"
                   >
                     <TableHeaderColumn
                       dataSort={true}
                       isKey
                       dataField={"id"}
-                      width={"60"}
+                      width={"50"}
                       dataAlign="center"
+                      
                     >
                       #
                     </TableHeaderColumn>
@@ -171,6 +183,7 @@ class TableContentConglomerado extends Component {
                       dataSort={true}
                       dataField={"codigo"}
                       dataAlign="center"
+                      width={"150"}
                     >
                       {" "}
                       Código{" "}
@@ -179,6 +192,7 @@ class TableContentConglomerado extends Component {
                       dataSort={true}
                       dataField={"nombre"}
                       dataAlign="center"
+                      width={"205"}
                     >
                       Nombre
                     </TableHeaderColumn>
@@ -186,10 +200,15 @@ class TableContentConglomerado extends Component {
                       dataSort={true}
                       dataField={"descripcion"}
                       dataAlign="center"
+                      width={"230"}
                     >
                       Descripción
                     </TableHeaderColumn>
+                    <TableHeaderColumn width={""} dataField={"estado"} dataSort={true} dataAlign={"center"} dataFormat={(cell, row) => this.estadoConglomeraro(cell, row)}>
+                      Estado
+                    </TableHeaderColumn>
                     <TableHeaderColumn
+                    width={"256"}
                       export={false}
                       dataAlign="center"
                       dataFormat={(cell, row) =>

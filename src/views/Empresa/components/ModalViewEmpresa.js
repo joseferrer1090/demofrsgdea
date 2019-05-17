@@ -55,6 +55,22 @@ class ModalViewEmpresa extends Component {
                   </h5>{" "}
                 </div>
                 <div className="row">
+                <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Nombre </dt>
+                        <dd>nombre </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Nit </dt>
+                        <dd>nit </dd>
+                      </dl>
+                    </div>
+                  </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
@@ -87,6 +103,7 @@ class ModalViewEmpresa extends Component {
                       </dl>
                     </div>
                   </div>
+
                 </div>
               </Col>
             </Row>

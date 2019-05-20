@@ -14,3 +14,19 @@
   font-size: 14px !important;
   font-weight: 450 !important;
 }
+.table-actionMenuPais {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuPais,
+tr:hover th .table-actionMenuPais {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}

@@ -70,8 +70,8 @@ class TableContentCiudad extends Component {
   accionesPais(cell, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+        className="table-actionMenuCiudad"
+        style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

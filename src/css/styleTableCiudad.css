@@ -4,9 +4,25 @@
 .tableCiudad table > tfoot > tr > th,
 .tableCiudad table > thead > tr > td,
 .tableCiudad table > thead > tr > th {
-  padding-bottom: 13px;
+  padding-bottom: 20px;
 }
 .texto-Ciudad {
   font-size: 14px !important;
   font-weight: 450 !important;
+}
+.table-actionMenuCiudad {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuCiudad,
+tr:hover th .table-actionMenuCiudad {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
 }

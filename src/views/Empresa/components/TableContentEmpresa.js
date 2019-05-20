@@ -121,7 +121,7 @@ class TableContentEmpresa extends Component {
         <Col md="12">
           <BootstrapTable
             data={data}
-            pagination={true}
+            pagination
             search={true}
             exportCSV
             hover

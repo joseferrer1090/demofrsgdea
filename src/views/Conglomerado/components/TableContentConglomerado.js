@@ -8,6 +8,7 @@ import ModalEdit from "./ModalEditConglomerado";
 import ModalCustom from "./../customcomponent/CustomModalTable";
 import ModalCustom2 from "./../customcomponent/CustomModalTable2";
 import "./../../../css/styleTableConglomerado.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 
 const data = [
   {
@@ -132,7 +133,7 @@ class TableContentConglomerado extends Component {
                   <BootstrapTable
                     options={options}
                     data={data}
-                    pagination={true}
+                    pagination
                     search={true}
                     exportCSV
                     hover
@@ -147,7 +148,6 @@ class TableContentConglomerado extends Component {
                       dataField={"id"}
                       width={"50"}
                       dataAlign="center"
-
                     >
                       #
                     </TableHeaderColumn>

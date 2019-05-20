@@ -48,7 +48,7 @@ class TableContentConglomerado extends Component {
   accionesConglomerado(cell, row) {
     return (
       <div
-        className="table-menu"
+        className="table-actionMenuConglo"
         style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
       >
         <button
@@ -167,7 +167,7 @@ class TableContentConglomerado extends Component {
                     striped
                     bordered={false}
                     searchPlaceholder="Buscar"
-                    className="tableConglo tableConglo1 texto-Conglo"
+                    className="tableConglo tableConglo1 texto-Conglo actionMenuConglo"
                   >
                     <TableHeaderColumn
                       dataSort={true}
@@ -175,7 +175,7 @@ class TableContentConglomerado extends Component {
                       dataField={"id"}
                       width={"50"}
                       dataAlign="center"
-                      
+
                     >
                       #
                     </TableHeaderColumn>

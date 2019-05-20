@@ -7,11 +7,27 @@
   padding-bottom: 5px;
 } */
 
+.table-actionMenuConglo {
+  display: none;
+}
+/* .actionMenuConglo .table-menu-active {
+  display: inline;
+  float: right;
+} */
+
+tr:hover td .table-actionMenuConglo,
+tr:hover th .table-actionMenuConglo {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
 .tableConglo table > tbody > tr > td,
 .tableConglo table > tbody > tr > th,
 .tableConglo table > tfoot > tr > td,
 .tableConglo table > tfoot > tr > th {
-  padding-bottom: 10px !important;
+  padding-bottom: 7px !important;
 }
 
 .tableConglo1 table > thead > tr > td,

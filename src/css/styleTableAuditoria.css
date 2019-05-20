@@ -1,0 +1,28 @@
+.table-actionMenuAuditoria {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuAuditoria,
+tr:hover th .table-actionMenuAuditoria {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+.texto-Auditoria {
+  font-size: 14px !important;
+  font-weight: 450 !important;
+}
+.tableAuditoria table > tbody > tr > td,
+.tableAuditoria table > tbody > tr > th,
+.tableAuditoria table > tfoot > tr > td,
+.tableAuditoria table > tfoot > tr > th,
+.tableAuditoria table > thead > tr > td,
+.tableAuditoria table > thead > tr > th {
+  padding-bottom: 15px;
+}

@@ -88,8 +88,8 @@ class TableContentCargo extends Component {
   accionesCargo(cell, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+        className="table-actionMenuCargo"
+        style={{ textAlign: "center", padding: "0", marginRight: "105px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

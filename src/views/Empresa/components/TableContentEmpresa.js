@@ -55,8 +55,8 @@ class TableContentEmpresa extends Component {
   accionesEmpresa = (cel, row) => {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+        className="table-actionMenuEmpre"
+        style={{marginRight: "60px"}}
       >
         <button
           className="btn btn-secondary btn-sm"

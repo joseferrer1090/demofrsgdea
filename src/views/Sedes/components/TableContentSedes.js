@@ -109,8 +109,8 @@ class TableContentSedes extends Component {
   accionesSedes = (cell, row) => {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "30px" }}
+        className="table-actionMenuSedes"
+        style={{ marginRight: "80px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

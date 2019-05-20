@@ -6,7 +6,8 @@ import ModalView from "./ModalViewTipoDocumental";
 import ModalDelete from "./ModalDeleteTipoDocumental";
 import ModalEdit from "./ModalEditTipoDocumental";
 import ModalIndices from "./ModalEditIndicesTipoDocumental";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import "./../../../css/styleTableTipoDocumental.css";
 const dataExample = [
   {
     id: 1,
@@ -69,7 +70,7 @@ class TableContentTipoDocumental extends Component {
   accionesTipoDocumental(cel, row) {
     return (
       <div
-        className="table-menu"
+        className="table-actionMenuTDoc"
         style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
         <button
@@ -127,6 +128,16 @@ class TableContentTipoDocumental extends Component {
     this.refs.child3.toggle();
   }
 
+  EstadoTipoDoc(cell, row) {
+    let status;
+    if (row.estado === true) {
+      status = <p className="text-success"> Activo </p>;
+    } else if (row.estado !== true) {
+      status = <p className="text-danger"> Inactivo </p>;
+    }
+    return status;
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -140,12 +151,13 @@ class TableContentTipoDocumental extends Component {
             hover
             striped
             exportCSV
+            className="tableTDoc texto-TDoc"
           >
             <TableHeaderColumn isKey dataField="id" width="50">
               {" "}
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="codigo" dataAlign="center">
+            <TableHeaderColumn dataField="codigo" dataAlign="center" width={"100"}>
               {" "}
               Código{" "}
             </TableHeaderColumn>
@@ -153,11 +165,11 @@ class TableContentTipoDocumental extends Component {
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="dependencia" dataAlign="center">
+            <TableHeaderColumn dataField="dependencia" dataAlign="center" width={"200"}>
               {" "}
               Dependencia{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="hr" dataAlign="center">
+            <TableHeaderColumn dataField="hr" dataAlign="center" width={"100"}>
               {" "}
               Horas de respuesta{" "}
             </TableHeaderColumn>
@@ -165,7 +177,7 @@ class TableContentTipoDocumental extends Component {
               {" "}
               Descripción{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="estado" dataAlign="center">
+            <TableHeaderColumn dataField="estado" dataAlign="center" dataFormat={(cell, row) => this.EstadoTipoDoc(cell, row)}>
               {" "}
               Estado{" "}
             </TableHeaderColumn>

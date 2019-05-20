@@ -309,8 +309,8 @@ class TableContentDependencia extends Component {
   accionesDependencias(cell, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "50px" }}
+        className="table-actionMenuDep"
+        style={{marginRight: "59px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -383,7 +383,7 @@ class TableContentDependencia extends Component {
             hover
             striped
             className="tableDep texto-Dep"
-            
+
           >
           <TableHeaderColumn
                       isKey={true}

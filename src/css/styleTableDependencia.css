@@ -1,6 +1,23 @@
+.table-actionMenuDep {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuDep,
+tr:hover th .table-actionMenuDep {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
 .tableDep table > tbody > tr > td,
 .tableDep table > tbody > tr > th {
-  padding-top: 3px !important;
+  /* padding-top: 3px !important; */
   text-align: left;
 }
 .tableDep table > tfoot > tr > td,

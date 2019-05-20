@@ -1,6 +1,23 @@
+.table-actionMenuMensj {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuMensj,
+tr:hover th .table-actionMenuMensj {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
 .tableMensj table > tbody > tr > td,
 .tableMensj table > tbody > tr > th {
-  padding-bottom: 10px;
+  padding-bottom: 20px;
 }
 .tableMensj table > tfoot > tr > td,
 .tableMensj table > tfoot > tr > th {

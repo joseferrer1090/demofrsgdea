@@ -58,8 +58,8 @@ class TableContentMensajero extends Component {
   accionesMensajero(cell, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+        className="table-actionMenuMensj"
+        style={{ marginRight: "60px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

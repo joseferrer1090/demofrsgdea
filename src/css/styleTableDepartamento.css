@@ -4,9 +4,25 @@
 .tableDepto table > tfoot > tr > th,
 .tableDepto table > thead > tr > td,
 .tableDepto table > thead > tr > th {
-  padding-bottom: 13px;
+  padding-bottom: 20px;
 }
 .texto-Depto {
   font-size: 13px !important;
   font-weight: 450 !important;
+}
+.table-actionMenuDepto {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuDepto,
+tr:hover th .table-actionMenuDepto {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
 }

@@ -103,8 +103,8 @@ class TableContentRoles extends Component {
   accionesRoles(cel, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
+        className="table-actionMenuRP"
+        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

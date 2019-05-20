@@ -32,8 +32,8 @@ class TableContent extends Component {
   accionesGrupo = (cel, row) => {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+        className="table-actionMenuGUsu"
+        style={{ textAlign: "center", padding: "0", marginRight: "105px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -104,26 +104,27 @@ class TableContent extends Component {
             searchPlaceholder="Buscar"
             exportCSV
             pagination
-            className="tableGUsu"
+            className="tableGUsu texto-GUsu"
           >
             <TableHeaderColumn
               isKey
               dataField="id"
               dataAlign="center"
-              width="50"
+              width={"100"}
             >
               {" "}
               #{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="codigo" dataAlign="center">
+            <TableHeaderColumn dataField="codigo" dataAlign="center" width={"200"}>
               {" "}
               Codigo{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="nombre" dataAlign="center">
+            <TableHeaderColumn dataField="nombre" dataAlign="center" width={"250"}>
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"200"}
               dataField="estado"
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoGrupo(cell, row)}

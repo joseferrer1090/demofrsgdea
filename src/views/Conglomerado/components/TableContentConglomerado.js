@@ -96,34 +96,6 @@ class TableContentConglomerado extends Component {
     return status;
   }
 
-  createButtonCustom = props => {
-    return (
-      <div className="btn-group btn-group-sm">
-        {props.exportCSVBtn}
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          onClick={() => {
-            this.openModalCustom();
-          }}
-        >
-          {" "}
-          <i className="fa fa-pencil" /> Personalizar 1{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          onClick={() => {
-            this.openModalCustom2();
-          }}
-        >
-          {" "}
-          <i className="fa fa-pencil" /> Personalizar 2{" "}
-        </button>
-      </div>
-    );
-  };
-
   openModalView() {
     this.refs.child.toggle();
   }

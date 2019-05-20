@@ -1,3 +1,24 @@
+.table-actionMenuRemi {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuRemi,
+tr:hover th .table-actionMenuRemi {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+.texto-Remi {
+  font-size: 14px !important;
+  font-weight: 450 !important;
+}
+
 .tableRemi table > tbody > tr > td,
 .tableRemi table > tbody > tr > th,
 .tableRemi table > tfoot > tr > td,

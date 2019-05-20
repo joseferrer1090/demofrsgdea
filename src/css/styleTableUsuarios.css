@@ -1,6 +1,23 @@
+.table-actionMenuUsu {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuUsu,
+tr:hover th .table-actionMenuUsu {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
 .tableUsu table > tbody > tr > td,
 .tableUsu table > tbody > tr > th {
-  padding-top: 5px !important;
+  /* padding-top: 5px !important; */
   padding-bottom: 5px !important;
 }
 .tableUsu table > tfoot > tr > td,

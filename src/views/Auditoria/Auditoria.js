@@ -21,6 +21,7 @@ import "./../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.
 import "./../../css/custom_calendar.css";
 import "./../../css/table_data.css";
 import "./components/customstyle.css";
+import "./../../css/styleTableAuditoria.css";
 import styled from "styled-components";
 import moment from "moment";
 
@@ -100,6 +101,7 @@ class Auditoria extends Component {
 
   accionVerAuditoria(cel, row) {
     return (
+      <div className="table-actionMenuAuditoria" style={{marginRight:"90px"}}>
       <button
         className="btn btn-secondary btn-sm "
         data-trigger="hover"
@@ -110,6 +112,7 @@ class Auditoria extends Component {
         {" "}
         <i className="fa fa-eye" />{" "}
       </button>
+      </div>
     );
   }
 
@@ -159,8 +162,8 @@ class Auditoria extends Component {
                 searchPlaceholder="Buscar"
                 pagination
                 striped
-                className="texto-small"
-                headerStyle={{ height: "39px" }}
+                className="tableAuditoria texto-Auditoria"
+                // headerStyle={{ height: "39px" }}
                 bod
               >
                 <TableHeaderColumn isKey dataField="fecha" dataAlign="center">

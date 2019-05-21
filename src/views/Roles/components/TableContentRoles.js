@@ -6,6 +6,7 @@ import ModalDelete from "./ModalDeleteRoles";
 import ModalEdit from "./ModalEditRoles";
 import ModalPermission from "./ModalEditPermissionRoles";
 import "../../../css/styleTableRoles.css"
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
     id: 1,
@@ -103,8 +104,8 @@ class TableContentRoles extends Component {
   accionesRoles(cel, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
+        className="table-actionMenuRP"
+        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

@@ -6,6 +6,7 @@ import ModalView from "./ModalViewDependencia";
 import ModalEdit from "./ModalEditDependencia";
 import ModalDelete from "./ModalDeleteDependencia";
 import "./../../../css/styleTableDependencia.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
     IdDependencia: 1,
@@ -309,8 +310,8 @@ class TableContentDependencia extends Component {
   accionesDependencias(cell, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "50px" }}
+        className="table-actionMenuDep"
+        style={{marginRight: "59px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -383,7 +384,7 @@ class TableContentDependencia extends Component {
             hover
             striped
             className="tableDep texto-Dep"
-            
+
           >
           <TableHeaderColumn
                       isKey={true}

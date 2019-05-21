@@ -7,7 +7,7 @@ import ModalDelete from "./ModalDeleteUser";
 import ModalUpdate from "./ModalEditUser";
 import ModalChangePassword from "./FormChangePasswordUser";
 import "./../../../css/styleTableUsuarios.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const data = [
   {
     Login: "IVANDLR",
@@ -898,8 +898,8 @@ class TableContentUser extends Component {
   accionesUsuario(cell, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+        className="table-actionMenuUsu"
+        style={{ marginRight: "65px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

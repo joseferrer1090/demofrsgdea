@@ -1,0 +1,28 @@
+.table-actionMenuTDoc {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuTDoc,
+tr:hover th .table-actionMenuTDoc {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+.texto-TDoc {
+  font-size: 14px !important;
+  font-weight: 450 !important;
+}
+.tableTDoc table > tbody > tr > td,
+.tableTDoc table > tbody > tr > th,
+.tableTDoc table > tfoot > tr > td,
+.tableTDoc table > tfoot > tr > th,
+.tableTDoc table > thead > tr > td,
+.tableTDoc table > thead > tr > th {
+  padding-bottom: 10px !important;
+}

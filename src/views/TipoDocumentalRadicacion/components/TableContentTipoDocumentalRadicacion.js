@@ -8,7 +8,8 @@ import ModalEdit from "./ModalEditTipoDocumentalRadicacion";
 import ModalIndices from "./ModalEditIndicesTipoDocumentalRadicacion";
 import ModalUsers from "./ModalViewUserTipoDocumentalRadicacion";
 import ModalEditUsers from "./ModalEditUsersTipoDocumentalRadicacion";
-import "./../../../css/custom_css.css";
+import "./../../../css/styleTableTipoDocumentalRadicacion.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 
 const dataExample = [
   {
@@ -69,8 +70,8 @@ class TableContentTipoDocumental extends Component {
   accionesTipoDocumentalRadicacion(cel, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "25px" }}
+        className="table-actionMenuTDocRadicacion"
+        style={{ textAlign: "center", padding: "0", marginRight: "30px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -184,24 +185,26 @@ class TableContentTipoDocumental extends Component {
             hover
             striped
             exportCSV
+            className="tableTDocRadicacion texto-TDoc"
           >
-            <TableHeaderColumn isKey dataField="id" width="40">
+            <TableHeaderColumn isKey dataField="id" width={"40"}>
               {" "}
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="codigo" dataAlign="center">
+            <TableHeaderColumn dataField="codigo" dataAlign="center" width={"100"}>
               {" "}
               Código{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="nombre" dataAlign="center">
+            <TableHeaderColumn dataField="nombre" dataAlign="center" width={"250"}>
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="descripcion" dataAlign="center">
+            <TableHeaderColumn dataField="descripcion" dataAlign="center" width={"250"}>
               {" "}
               Descripcion{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"100"}
               dataField="usuarios"
               dataAlign="center"
               dataFormat={(cel, row) => this.accionusuarios(cel, row)}
@@ -211,6 +214,7 @@ class TableContentTipoDocumental extends Component {
             </TableHeaderColumn>
 
             <TableHeaderColumn
+            width={"100"}
               dataField="estado"
               dataAlign="center"
               dataFormat={(cell, row) =>
@@ -221,6 +225,7 @@ class TableContentTipoDocumental extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+            width={"200"}
               dataAlign="center"
               dataFormat={(cel, row) =>
                 this.accionesTipoDocumentalRadicacion(cel, row)

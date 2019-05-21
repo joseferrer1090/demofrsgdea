@@ -4,7 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ViewCargoModal";
 import ModalEdit from "./ModalEditCargo";
 import ModalDel from "./ModalDeleteCargo";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import "./../../../css/styleTableCargo.css";
 const dataExample = [
   {
@@ -88,8 +88,8 @@ class TableContentCargo extends Component {
   accionesCargo(cell, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+        className="table-actionMenuCargo"
+        style={{ textAlign: "center", padding: "0", marginRight: "105px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

@@ -6,7 +6,7 @@ import ModalViewMensajero from "./ModalViewMensajero";
 import ModalUpdate from "./ModalActualizarMensajero";
 import Modaldelete from "./ModalDeleteMensajero";
 import "./../../../css/styleTableMensajero.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
     id: 1,
@@ -58,8 +58,8 @@ class TableContentMensajero extends Component {
   accionesMensajero(cell, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+        className="table-actionMenuMensj"
+        style={{ marginRight: "60px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

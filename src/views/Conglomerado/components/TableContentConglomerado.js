@@ -8,6 +8,7 @@ import ModalEdit from "./ModalEditConglomerado";
 import ModalCustom from "./../customcomponent/CustomModalTable";
 import ModalCustom2 from "./../customcomponent/CustomModalTable2";
 import "./../../../css/styleTableConglomerado.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 
 const data = [
   {
@@ -48,7 +49,7 @@ class TableContentConglomerado extends Component {
   accionesConglomerado(cell, row) {
     return (
       <div
-        className="table-menu"
+        className="table-actionMenuConglo"
         style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
       >
         <button
@@ -96,34 +97,6 @@ class TableContentConglomerado extends Component {
     return status;
   }
 
-  createButtonCustom = props => {
-    return (
-      <div className="btn-group btn-group-sm">
-        {props.exportCSVBtn}
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          onClick={() => {
-            this.openModalCustom();
-          }}
-        >
-          {" "}
-          <i className="fa fa-pencil" /> Personalizar 1{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          onClick={() => {
-            this.openModalCustom2();
-          }}
-        >
-          {" "}
-          <i className="fa fa-pencil" /> Personalizar 2{" "}
-        </button>
-      </div>
-    );
-  };
-
   openModalView() {
     this.refs.child.toggle();
   }
@@ -160,14 +133,14 @@ class TableContentConglomerado extends Component {
                   <BootstrapTable
                     options={options}
                     data={data}
-                    pagination={true}
+                    pagination
                     search={true}
                     exportCSV
                     hover
                     striped
                     bordered={false}
                     searchPlaceholder="Buscar"
-                    className="tableConglo tableConglo1 texto-Conglo"
+                    className="tableConglo tableConglo1 texto-Conglo actionMenuConglo"
                   >
                     <TableHeaderColumn
                       dataSort={true}
@@ -175,7 +148,6 @@ class TableContentConglomerado extends Component {
                       dataField={"id"}
                       width={"50"}
                       dataAlign="center"
-                      
                     >
                       #
                     </TableHeaderColumn>

@@ -5,7 +5,7 @@ import ModalView from "./ModalViewDepartamento";
 import ModalEdit from "./ModalEditDepartamento";
 import ModalDelete from "./ModalDeleteDepartamento";
 import "./../../../css/styleTableDepartamento.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
     id: 1,
@@ -58,7 +58,7 @@ class TableContentDepartamento extends Component {
   accionesPais(cell, row) {
     return (
       <div
-        className="table-menu"
+        className="table-actionMenuDepto"
         style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
       >
         <button

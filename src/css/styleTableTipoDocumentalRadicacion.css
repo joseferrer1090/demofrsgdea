@@ -1,0 +1,28 @@
+.table-actionMenuTDocRadicacion {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuTDocRadicacion,
+tr:hover th .table-actionMenuTDocRadicacion {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+.texto-TDoc {
+  font-size: 14px !important;
+  font-weight: 450 !important;
+}
+.tableTDocRadicacion table > tbody > tr > td,
+.tableTDocRadicacion table > tbody > tr > th,
+.tableTDocRadicacion table > tfoot > tr > td,
+.tableTDocRadicacion table > tfoot > tr > th,
+.tableTDocRadicacion table > thead > tr > td,
+.tableTDocRadicacion table > thead > tr > th {
+  padding-bottom: 10px !important;
+}

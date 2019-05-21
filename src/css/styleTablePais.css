@@ -1,16 +1,32 @@
 .tablePais table > tbody > tr > td,
 .tablePais table > tbody > tr > th {
-  padding-bottom: 5px;
+  padding-bottom: 5px !important;
 }
 .tablePais table > tfoot > tr > td,
 .tablePais table > tfoot > tr > th {
 }
 .tablePais table > thead > tr > td,
 .tablePais table > thead > tr > th {
-  padding-bottom: 15px;
+  padding-bottom: 15px !important;
 }
 
 .texto-Pais {
   font-size: 14px !important;
   font-weight: 450 !important;
+}
+.table-actionMenuPais {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuPais,
+tr:hover th .table-actionMenuPais {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
 }

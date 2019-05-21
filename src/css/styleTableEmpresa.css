@@ -7,11 +7,28 @@
   padding-bottom: 20px;
 } */
 
+.table-actionMenuEmpre {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuEmpre,
+tr:hover th .table-actionMenuEmpre {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
 .tableEmpre table > tbody > tr > td,
 .tableEmpre table > tbody > tr > th,
 .tableEmpre table > tfoot > tr > td,
 .tableEmpre table > tfoot > tr > th {
-  padding-bottom: 5px !important;
+  padding-bottom: 20px !important;
 }
 
 .tableEmpre1 table > thead > tr > td,

@@ -6,7 +6,7 @@ import ModalEdit from "./ModalEditTipoLlegada";
 import ModalDelete from "./ModalDeleteTipoLlegada";
 import PropTypes from "prop-types";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
+import "./../../../css/styleTableTipoLlegada.css";
 
 const dataExample = [
   {
@@ -38,8 +38,8 @@ class TableTipoLlegada extends Component {
   accionesTipoLlegada = (cell, row) => {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+        className="table-actionMenuTLlegada"
+        style={{ textAlign: "center", padding: "0", marginRight: "70px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -107,6 +107,7 @@ class TableTipoLlegada extends Component {
               striped
               searchPlaceholder="Buscar"
               exportCSV
+              className="texto-TLlegada"
             >
               <TableHeaderColumn isKey dataField={"id"} width="50">
                 {" "}

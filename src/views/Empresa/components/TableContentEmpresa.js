@@ -6,7 +6,7 @@ import ModalEdit from "./ModalEditEmpresa";
 import ModalDel from "./ModalDeleteEmpresa";
 import { Row, Col } from "reactstrap";
 import "./../../../css/styleTableEmpresa.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const data = [
   {
     id: 1,
@@ -55,8 +55,8 @@ class TableContentEmpresa extends Component {
   accionesEmpresa = (cel, row) => {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+        className="table-actionMenuEmpre"
+        style={{marginRight: "60px"}}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -121,7 +121,7 @@ class TableContentEmpresa extends Component {
         <Col md="12">
           <BootstrapTable
             data={data}
-            pagination={true}
+            pagination
             search={true}
             exportCSV
             hover

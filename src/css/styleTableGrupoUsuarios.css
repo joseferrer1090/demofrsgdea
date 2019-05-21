@@ -1,8 +1,29 @@
+.table-actionMenuGUsu {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuGUsu,
+tr:hover th .table-actionMenuGUsu {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
 .tableGUsu table > tbody > tr > td,
 .tableGUsu table > tbody > tr > th,
 .tableGUsu table > tfoot > tr > td,
 .tableGUsu table > tfoot > tr > th,
 .tableGUsu table > thead > tr > td,
 .tableGUsu table > thead > tr > th {
-  padding-bottom: 5px;
+  padding-bottom: 5px !important;
+}
+
+.texto-GUsu {
+  font-size: 14px !important;
+  font-weight: 450 !important;
 }

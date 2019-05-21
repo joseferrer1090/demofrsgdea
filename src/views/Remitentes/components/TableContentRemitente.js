@@ -6,7 +6,7 @@ import ModalView from "./ModalViewRemitente";
 import ModalUpdate from "./ModalUpdateRemitente";
 import ModalDel from "./ModalDeleteRemitente";
 import "./../../../css/styleTableRemitente.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
     id: 1,
@@ -51,7 +51,7 @@ class TableContentRemitente extends Component {
   accionesRemitente(cel, row) {
     return (
       <div
-        className="table-menu"
+        className="table-actionMenuRemi"
         style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
       >
         <button
@@ -119,7 +119,7 @@ class TableContentRemitente extends Component {
             striped
             bordered={false}
             exportCSV
-            className="tableRemi"
+            className="tableRemi texto-Remi"
           >
             <TableHeaderColumn
               isKey

@@ -5,7 +5,7 @@ import ModalView from "./ModalViewPais";
 import ModalEdit from "./ModalEditPais";
 import ModalDelete from "./ModalDeletePais";
 import "./../../../css/styleTablePais.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   { id: 1, codigo: 12345, nombre: "Colombia1", estado: true },
   { id: 2, codigo: 12345, nombre: "Colombia2", estado: true },
@@ -38,8 +38,8 @@ class TableContentPais extends Component {
   accionesPais(cell, row) {
     return (
       <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "85px" }}
+        className="table-actionMenuPais"
+        style={{ textAlign: "center", padding: "0", marginRight: "95px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -111,7 +111,7 @@ class TableContentPais extends Component {
               {" "}
               Código{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="nombre" dataAlign="center" width={"200"}>
+            <TableHeaderColumn dataField="nombre" dataAlign="center" width={"300"}>
               {" "}
               Nombre{" "}
             </TableHeaderColumn>

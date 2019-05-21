@@ -4,7 +4,7 @@
 .tableCiudad table > tfoot > tr > th,
 .tableCiudad table > thead > tr > td,
 .tableCiudad table > thead > tr > th {
-  padding-bottom: 20px;
+  padding-bottom: 20px !important;
 }
 .texto-Ciudad {
   font-size: 14px !important;

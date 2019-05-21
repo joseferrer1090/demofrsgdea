@@ -9,6 +9,7 @@ import ModalIndices from "./ModalEditIndicesTipoDocumentalRadicacion";
 import ModalUsers from "./ModalViewUserTipoDocumentalRadicacion";
 import ModalEditUsers from "./ModalEditUsersTipoDocumentalRadicacion";
 import "./../../../css/styleTableTipoDocumentalRadicacion.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 
 const dataExample = [
   {
@@ -70,7 +71,7 @@ class TableContentTipoDocumental extends Component {
     return (
       <div
         className="table-actionMenuTDocRadicacion"
-        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "30px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -203,7 +204,7 @@ class TableContentTipoDocumental extends Component {
               Descripcion{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-            width={"50"}
+            width={"100"}
               dataField="usuarios"
               dataAlign="center"
               dataFormat={(cel, row) => this.accionusuarios(cel, row)}

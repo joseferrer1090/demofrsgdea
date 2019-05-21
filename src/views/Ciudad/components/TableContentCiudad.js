@@ -5,7 +5,7 @@ import ModalView from "./ModalViewCiudad";
 import ModalEdit from "./ModalEditCiudad";
 import ModalDelete from "./ModalDeleteCiudad";
 import "./../../../css/styleTableCiudad.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
     id: 1,

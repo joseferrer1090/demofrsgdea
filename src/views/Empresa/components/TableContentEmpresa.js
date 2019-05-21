@@ -6,7 +6,7 @@ import ModalEdit from "./ModalEditEmpresa";
 import ModalDel from "./ModalDeleteEmpresa";
 import { Row, Col } from "reactstrap";
 import "./../../../css/styleTableEmpresa.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const data = [
   {
     id: 1,

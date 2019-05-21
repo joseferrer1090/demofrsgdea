@@ -24,5 +24,5 @@ tr:hover th .table-actionMenuTDocRadicacion {
 .tableTDocRadicacion table > tfoot > tr > th,
 .tableTDocRadicacion table > thead > tr > td,
 .tableTDocRadicacion table > thead > tr > th {
-  padding-bottom: 10px;
+  padding-bottom: 10px !important;
 }

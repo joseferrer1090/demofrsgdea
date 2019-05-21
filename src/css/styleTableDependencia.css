@@ -18,7 +18,7 @@ tr:hover th .table-actionMenuDep {
 .tableDep table > tbody > tr > td,
 .tableDep table > tbody > tr > th {
   /* padding-top: 3px !important; */
-  text-align: left;
+  text-align: left !important;
 }
 .tableDep table > tfoot > tr > td,
 .tableDep table > tfoot > tr > th {
@@ -28,8 +28,8 @@ tr:hover th .table-actionMenuDep {
 .tableDep table > thead > tr > th {
   /* padding: 10px; */
   padding-bottom: 10px !important;
-  padding-left: 8px;
-  text-align: center;
+  padding-left: 8px !important;
+  text-align: center !important ;
 }
 
 .texto-Dep {

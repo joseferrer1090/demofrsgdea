@@ -25,5 +25,5 @@ tr:hover th .table-actionMenuRemi {
 .tableRemi table > tfoot > tr > th,
 .tableRemi table > thead > tr > td,
 .tableRemi table > thead > tr > th {
-  padding-bottom: 5px;
+  padding-bottom: 5px !important;
 }

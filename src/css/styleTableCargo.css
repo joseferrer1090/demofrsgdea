@@ -17,15 +17,15 @@ tr:hover th .table-actionMenuCargo {
 
 .tableCargo table > tbody > tr > td,
 .tableCargo table > tbody > tr > th {
-  padding-bottom: 20px;
+  padding-bottom: 20px !important;
 }
 .tableCargo table > tfoot > tr > td,
 .tableCargo table > tfoot > tr > th {
-  padding-bottom: 20px;
+  padding-bottom: 20px !important;
 }
 .tableCargo table > thead > tr > td,
 .tableCargo table > thead > tr > th {
-  padding-bottom: 10px;
+  padding-bottom: 10px !important;
 }
 
 .texto-Cargo {

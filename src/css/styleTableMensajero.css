@@ -17,15 +17,15 @@ tr:hover th .table-actionMenuMensj {
 
 .tableMensj table > tbody > tr > td,
 .tableMensj table > tbody > tr > th {
-  padding-bottom: 20px;
+  padding-bottom: 20px !important;
 }
 .tableMensj table > tfoot > tr > td,
 .tableMensj table > tfoot > tr > th {
-  padding-bottom: 20px;
+  padding-bottom: 20px !important;
 }
 .tableMensj table > thead > tr > td,
 .tableMensj table > thead > tr > th {
-  padding-bottom: 10px;
+  padding-bottom: 10px !important;
 }
 .texto-Mensj {
   font-size: 13px !important;

@@ -20,7 +20,7 @@ tr:hover th .table-actionMenuGUsu {
 .tableGUsu table > tfoot > tr > th,
 .tableGUsu table > thead > tr > td,
 .tableGUsu table > thead > tr > th {
-  padding-bottom: 5px;
+  padding-bottom: 5px !important;
 }
 
 .texto-GUsu {

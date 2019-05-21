@@ -7,7 +7,7 @@ import ModalDelete from "./ModalDeleteUser";
 import ModalUpdate from "./ModalEditUser";
 import ModalChangePassword from "./FormChangePasswordUser";
 import "./../../../css/styleTableUsuarios.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const data = [
   {
     Login: "IVANDLR",

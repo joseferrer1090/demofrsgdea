@@ -6,7 +6,7 @@ import ModalEdit from "./ModalEditSedes";
 import ModalView from "./ModalViewSedes";
 import ModalDelete from "./ModalDeleteSedes";
 import "./../../../css/styleTableSedes.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
     IdSede: "1",

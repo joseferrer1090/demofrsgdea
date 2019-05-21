@@ -6,7 +6,7 @@
 .tableTema table > tfoot > tr > th,
 .tableTema table > thead > tr > td,
 .tableTema table > thead > tr > th {
-  padding-bottom: 10px;
+  padding-bottom: 10px !important;
 }
 .table-actionMenuTema {
   display: none;

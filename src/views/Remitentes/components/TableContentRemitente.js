@@ -6,7 +6,7 @@ import ModalView from "./ModalViewRemitente";
 import ModalUpdate from "./ModalUpdateRemitente";
 import ModalDel from "./ModalDeleteRemitente";
 import "./../../../css/styleTableRemitente.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
     id: 1,

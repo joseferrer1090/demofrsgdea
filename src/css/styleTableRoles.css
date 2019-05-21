@@ -16,15 +16,15 @@ tr:hover th .table-actionMenuRP {
 }
 .tableRP table > tbody > tr > td,
 .tableRP table > tbody > tr > th {
-  padding-bottom: 5px;
+  padding-bottom: 5px !important;
 }
 .tableRP table > tfoot > tr > td,
 .tableRP table > tfoot > tr > th {
-  padding-bottom: 5px;
+  padding-bottom: 5px !important;
 }
 .tableRP table > thead > tr > td,
 .tableRP table > thead > tr > th {
-  padding-bottom: 10px;
+  padding-bottom: 10px !important;
 }
 
 .texto-RP {

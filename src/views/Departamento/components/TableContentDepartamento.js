@@ -5,7 +5,7 @@ import ModalView from "./ModalViewDepartamento";
 import ModalEdit from "./ModalEditDepartamento";
 import ModalDelete from "./ModalDeleteDepartamento";
 import "./../../../css/styleTableDepartamento.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
     id: 1,

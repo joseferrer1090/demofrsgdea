@@ -5,7 +5,7 @@ import ModalView from "./ModalViewGrupo";
 import ModalDelete from "./ModalDeleteGrupo";
 import ModalEdit from "./ModalEditGrupo";
 import "./../../../css/styleTableGrupoUsuarios.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   { id: 1, codigo: "gp1", nombre: "grupo_nombre", estado: true },
   { id: 2, codigo: "gp2", nombre: "grupo_nombre", estado: true },

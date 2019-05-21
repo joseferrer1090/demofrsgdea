@@ -6,7 +6,7 @@ import ModalViewTheme from "./ModalViewTema";
 import ModalEditTheme from "./ModalEditTheme";
 import ModalDisabledTheme from "./ModalDisabledTheme";
 import "./../../../css/styleTableTema.css"
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
     id: 1,

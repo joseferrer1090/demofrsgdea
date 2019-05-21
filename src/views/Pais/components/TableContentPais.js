@@ -5,7 +5,7 @@ import ModalView from "./ModalViewPais";
 import ModalEdit from "./ModalEditPais";
 import ModalDelete from "./ModalDeletePais";
 import "./../../../css/styleTablePais.css";
-
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   { id: 1, codigo: 12345, nombre: "Colombia1", estado: true },
   { id: 2, codigo: 12345, nombre: "Colombia2", estado: true },

@@ -41,7 +41,7 @@ export default {
           url: "/configuracion/mensajero"
         },
         {
-          name: "Tipo llegada",
+          name: "Tipo de envío/llegada",
           icon: "icon-settings",
           url: "/configuracion/tipollegada"
         },

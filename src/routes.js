@@ -176,13 +176,13 @@ const routes = [
   {
     path: "/configuracion/mensajero",
     exact: true,
-    name: " Configuracion / Mensajero  ",
+    name: " Configuración / Mensajero  ",
     component: Mensajero
   },
   {
     path: "/configuracion/tipollegada",
     exact: true,
-    name: " Configuracion / tipo de llegada  ",
+    name: " Configuración / Tipo de envío/llegada  ",
     component: TipoLlegada
   }
 ];

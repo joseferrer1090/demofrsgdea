@@ -51,7 +51,7 @@ export default {
           url: "/configuracion/usuarios"
         },
         {
-          name: "Roles y permisos",
+          name: "Roles",
           icon: "icon-lock",
           url: "/configuracion/roles"
         },

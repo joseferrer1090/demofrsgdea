@@ -1,15 +1,14 @@
 import React from "react";
-import Rol from "./Roles";
+import Rol from "./PasarRolesEdit";
 
-export default ({ favourites, data, deleteFavourite }) => {
-  //   const hasFavorites = favourites.length > 0;
-  const favRol = favourites.map((rol, i) => {
+export default ({ dataroles, data, deleterol }) => {
+  const favRol = dataroles.map((rol, i) => {
     return (
       <Rol
         id={rol.id}
         key={i}
         info={data[rol]}
-        handleFavourite={id => deleteFavourite(id)}
+        handleaddrol={id => deleterol(id)}
       />
     );
   });
@@ -20,7 +19,7 @@ export default ({ favourites, data, deleteFavourite }) => {
         className="form-control"
         disabled
         style={{
-          width: "310px",
+          width: "370px",
           marginRight: "10px"
         }}
       >

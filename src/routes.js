@@ -104,7 +104,7 @@ const routes = [
   {
     path: "/configuracion/roles",
     exact: true,
-    name: " Configuración / Roles y permisos ",
+    name: " Configuración / Roles  ",
     component: Roles
   },
   {

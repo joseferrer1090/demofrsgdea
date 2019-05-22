@@ -34,7 +34,7 @@ class FormCreateCargo extends Component {
                       <h5 className="card-title">
                         Conglomerado <span className="text-danger">*</span>
                       </h5>
-                      <p className="card-text">
+                      <p className="card-text text-justify">
                         Esta asignando este cargo como responsable del
                         conglomerado:
                       </p>
@@ -55,7 +55,7 @@ class FormCreateCargo extends Component {
                       <h5 className="card-title">
                         Empresa <span className="text-danger">*</span>
                       </h5>
-                      <p className="card-text">
+                      <p className="card-text text-justify">
                         Esta asignando este cargo como responsable del empresa:
                       </p>
                       <select className="form-control form-control-sm">
@@ -77,7 +77,7 @@ class FormCreateCargo extends Component {
                       <h5 className="card-title">
                         Sede <span className="text-danger">*</span>
                       </h5>
-                      <p className="card-text">
+                      <p className="card-text text-justify">
                         Esta asignando este cargo como responsable de la Sede:
                       </p>
                       <select className="form-control form-control-sm">
@@ -97,7 +97,7 @@ class FormCreateCargo extends Component {
                       <h5 className="card-title">
                         Dependencia <span className="text-danger">*</span>
                       </h5>
-                      <p className="card-text">
+                      <p className="card-text text-justify">
                         Esta asignando este cargo como responsable de la
                         dependencia:
                       </p>
@@ -167,7 +167,7 @@ class FormCreateCargo extends Component {
                         {" "}
                         Estado <span className="text-danger">*</span>{" "}
                       </label>
-                      <div className="">
+                      <div className="text-justify">
                         <CustomInput
                           type="checkbox"
                           id="ExampleCheckboxInput"

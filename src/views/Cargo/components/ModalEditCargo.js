@@ -50,10 +50,10 @@ class ModalEditCargo extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Código </dt>
+                       Código <span className="text-danger">*</span>{" "}
                       <dd>
                         {" "}
-                        <input type="text" className="form-control" />{" "}
+                        <input type="text" className="form-control form-control-sm" />{" "}
                       </dd>
                     </dl>
                   </div>
@@ -61,36 +61,45 @@ class ModalEditCargo extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Nombre </dt>
+                       Nombre <span className="text-danger">*</span>{" "}
                       <dd>
-                        <input type="text" className="form-control" />
+                        <input type="text" className="form-control form-control-sm" />
                       </dd>
                     </dl>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Descripción </dt>
+                       Descripción
                       <dd>
                         {" "}
-                        <input type="text" className="form-control" />{" "}
+                        <textarea type="text" className="form-control" />{" "}
                       </dd>
                     </dl>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Estado </dt>
-                      <dd>
-                        {" "}
-                        <select className="form-control">
-                          {" "}
-                          <option> Seleccione... </option>{" "}
-                        </select>{" "}
-                      </dd>
-                    </dl>
+                    <label>
+                    {" "}
+                    Estado <span className="text-danger">*</span>{" "}
+                  </label>
+                  <div className="text-justify">
+                    <CustomInput
+                      type="checkbox"
+                      id="ExampleCheckboxInput"
+                      label=" Si esta opción se encuentra activada, representa
+                          que el cargo es visible en el sistema y se podrán
+                          realizar operaciones entre cada uno de los módulos
+                          correspondientes de la aplicación. En caso
+                          contrario el cargo no se elimina del sistema solo
+                          quedará inactivo e invisibles para cada uno de los
+                          módulos correspondiente del sistema."
+                    />
+</div>
+</dl>
                   </div>
                 </div>
               </div>
@@ -101,10 +110,10 @@ class ModalEditCargo extends Component {
             <Col sm="12">
               <Table size="sm" striped hover>
                 <thead>
-                  <tr className="text-center">
-                    <th> </th>
-                    <th> </th>
-                    <th> Responsable </th>
+                  <tr >
+                    <th className="text-center"> Asignar responsabilidades</th>
+                    <th></th>
+                    <th className="text-center"> Responsable </th>
                   </tr>
                 </thead>
                 <tbody className="text-center">

@@ -7,7 +7,8 @@ import {
   Card,
   CardHeader,
   CardFooter,
-  CardBody
+  CardBody,
+  CustomInput
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
@@ -69,14 +70,28 @@ class ModalEditConglomerado extends Component {
                       <textarea className="form-control" />
                     </div>
                   </div>
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <label> Estado </label>
-                      <select className="form-control">
-                        <option>Activo</option>
-                        <option>Inactivo</option>
-                      </select>
-                    </div>
+
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Estado <span className="text-danger">*</span>{" "}
+                          </label>
+                          <div className="text-justify ">
+                            <CustomInput
+                              type="checkbox"
+                              id="CheckboxEdit"
+                              label=" Si esta opción se encuentra activada, representa
+                              que el conglomerado es visible en el sistema y se
+                              podrán realizar operaciones entre cada uno de los
+                              módulos correspondientes de la aplicación. En caso
+                              contrario el conglomerado no se elimina del
+                              sistema solo quedará inactivo e invisibles para
+                              cada uno de los módulos correspondiente del
+                              sistema."
+                            />
+                            </div>
+                            </div>
                   </div>
                 </div>
               </div>

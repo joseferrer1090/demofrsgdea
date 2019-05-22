@@ -5,7 +5,8 @@ import {
   ModalFooter,
   ModalBody,
   Row,
-  Col
+  Col,
+  CustomInput
 } from "reactstrap";
 import PropTypes from "prop-types";
 import ImgMensajero from "./../../../assets/img/courier.svg";
@@ -45,7 +46,9 @@ class ModalActualizarMensajero extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Identificación </dt>
+                      Identificación <span className="text-danger">
+                      *
+                    </span>{" "}
                       <dd>
                         <input
                           type="text"
@@ -58,7 +61,9 @@ class ModalActualizarMensajero extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Nombre </dt>
+                      Nombre <span className="text-danger">
+                      *
+                    </span>{" "}
                       <dd>
                         {" "}
                         <input
@@ -69,30 +74,39 @@ class ModalActualizarMensajero extends Component {
                     </dl>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Descripción </dt>
+                      Descripción
                       <dd>
                         {" "}
-                        <input
-                          type="text"
+                        <textarea
                           className="form-control form-control-sm"
                         />{" "}
                       </dd>
                     </dl>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Estado </dt>
-                      <dd>
-                        {" "}
-                        <select className="form-control form-control-sm">
-                          <option>Seleccione ...</option>
-                        </select>{" "}
-                      </dd>
+                    <label>
+                    {" "}
+                    Estado <span className="text-danger">*</span>{" "}
+                  </label>
+                  <div className="text-justify">
+                    <CustomInput
+                      type="checkbox"
+                      id="ExampleCheckboxInput"
+                      label=" Si esta opción se encuentra activada, representa
+                        que el cargo es visible en el sistema y se podrán
+                        realizar operaciones entre cada uno de los módulos
+                        correspondientes de la aplicación. En caso
+                        contrario el cargo no se elimina del sistema solo
+                        quedará inactivo e invisibles para cada uno de los
+                        módulos correspondiente del sistema."
+                    />
+                    </div>
                     </dl>
                   </div>
                 </div>
@@ -101,11 +115,11 @@ class ModalActualizarMensajero extends Component {
           </Row>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-success btn-sm">
+          <button type="button" className="btn btn-outline-success">
             <i className="fa fa-pencil" /> Actualizar
           </button>
           <button
-            className="btn btn-secondary btn-sm"
+            className="btn btn-secondary "
             onClick={() => {
               this.setState({ modal: false });
             }}

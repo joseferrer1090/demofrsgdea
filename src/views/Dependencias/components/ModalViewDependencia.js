@@ -55,7 +55,32 @@ class ModalViewDependencia extends Component {
                     Datos personales{" "}
                   </h5>{" "}
                 </div>
+
                 <div className="row">
+                <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Conglomerado </dt>
+                        <dd> 301-7923-466 </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Empresa </dt>
+                        <dd> Cra 44c # 22 - 86 int 702</dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Sede </dt>
+                        <dd>San petesburgo</dd>
+                      </dl>
+                    </div>
+                  </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
@@ -80,30 +105,7 @@ class ModalViewDependencia extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Conglomerado </dt>
-                        <dd> 301-7923-466 </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Empresa </dt>
-                        <dd> Cra 44c # 22 - 86 int 702</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Sede </dt>
-                        <dd>San petesburgo</dd>
-                      </dl>
-                    </div>
-                  </div>
+
                 </div>
               </Col>
               <Col sm="12">

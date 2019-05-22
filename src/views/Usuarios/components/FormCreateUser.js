@@ -111,6 +111,14 @@ class FormCreateUser extends Component {
                     </Col>
 
                     <Col sm="9">
+                    <div className="">
+                    {" "}
+                    <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                      {" "}
+                      Datos personales{" "}
+                    </h5>{" "}
+                  </div>
+                  <br/>
                       <form className="from">
                         <div className="row">
                           <div className="col-md-6">
@@ -168,74 +176,34 @@ class FormCreateUser extends Component {
                               />
                             </div>
                           </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label> Dirección </label>
-                              <textarea className="form-control form-control-sm" />
-                            </div>
-                          </div>
-                        </div>
-                        <hr style={{ border: "1px dashed #ccc" }} />
-                        <div className="row">
                           <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                Fecha de nacimiento{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="date"
-                                className="form-control form-control-sm"
-                              />
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                Nombre de usuario{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                className="form-control form-control-sm"
-                                type="text"
-                              />
-                            </div>
+                          <div className="form-group">
+                            <label> Dirección </label>
+                            <input type="text" className="form-control form-control-sm" />
                           </div>
                         </div>
-                        <div className="row">
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                Contraseña{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                className="form-control form-control-sm"
-                                type="password"
-                              />
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                Confirmar contraseña{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                className="form-control form-control-sm"
-                                type="password"
-                              />
-                            </div>
+
+                      <div className="col-md-6">
+                          <div className="form-group">
+                            <label>
+                              Fecha de nacimiento{" "}
+
+                            </label>
+                            <input
+                              type="date"
+                              className="form-control form-control-sm"
+                            />
                           </div>
                         </div>
-                        <hr style={{ border: "1px dashed #ccc" }} />
+                        </div>
+
+                        <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                        {" "}
+                        Datos laborales{" "}
+                      </h5>{" "}
+                      <br/>
                         <div className="row">
-                          <div className="col-md-4">
+                        <div className="col-md-4">
                             <div className="form-group">
                               <label>
                                 {" "}
@@ -282,6 +250,7 @@ class FormCreateUser extends Component {
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <Select
+
                                 value={selectedoptiondependencia}
                                 onChange={this.handleSelectedOptionDependencia}
                                 options={dataExampleDependencia}
@@ -305,6 +274,56 @@ class FormCreateUser extends Component {
                               />
                             </div>
                           </div>
+
+                        </div>
+                        <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                      {" "}
+                      Datos de seguridad{" "}
+                    </h5>{" "}
+                    <br/>
+                        <div className="row">
+                        <div className="col-md-12">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Nombre de usuario{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            className="form-control form-control-sm"
+                            type="text"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Contraseña{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            className="form-control form-control-sm"
+                            type="password"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Confirmar contraseña{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            className="form-control form-control-sm"
+                            type="password"
+                          />
+                        </div>
+                      </div>
+
                           <div className="col-md-12">
                             <div className="form-group">
                               <label>
@@ -330,7 +349,7 @@ class FormCreateUser extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <div className="">
+                              <div className="text-justify">
                                 <CustomInput
                                   type="checkbox"
                                   id="ExampleCheckBoxInput"

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody, Card, Col, Row, CardBody, CardTitle} from "reactstrap";
+import { CustomInput, Modal, ModalHeader, ModalFooter, ModalBody, Card, Col, Row, CardBody, CardTitle, CardHeader, Collapse} from "reactstrap";
 import PropTypes from "prop-types";
 import IMGSEDE from "./../../../assets/img/teamwork.svg";
 
@@ -16,6 +16,9 @@ class ModalEditSedes extends Component {
     this.setState({
       modal: !this.state.modal
     });
+  };
+  toggleCollapse = () => {
+    this.setState({ collapse: !this.state.collapse, collapse2: false });
   };
 
   render() {
@@ -38,11 +41,35 @@ class ModalEditSedes extends Component {
                 </div>
                 <div className="row">
                 <div className="col-md-6">
+                <div className="form-group">
+                  <label>
+                    {" "}
+                    Conglomerado <span className="text-danger">*</span>{" "}
+                  </label>
+                  <select className="form-control form-control-sm">
+                    {" "}
+                    <option>Seleccione...</option>{" "}
+                  </select>
+                </div>
+              </div>
+              <div className="col-md-6">
+              <div className="form-group">
+                <label>
+                  {" "}
+                  Empresa <span className="text-danger">*</span>{" "}
+                </label>
+                <select className="form-control form-control-sm">
+                  {" "}
+                  <option>Seleccione...</option>{" "}
+                </select>
+              </div>
+            </div>
+                <div className="col-md-6">
                   <div className="form-group">
                     <label>
                       Código <span className="text-danger">*</span>{" "}
                     </label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control form-control-sm" />
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -51,69 +78,16 @@ class ModalEditSedes extends Component {
                       {" "}
                       Nombre <span className="text-danger">*</span>{" "}
                     </label>
-                    <input type="text" className="form-control" />
+                    <input type="text" className="form-control form-control-sm" />
+                  </div>
+                </div>
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <label> Descripción </label>
+                    <textarea  className="form-control" />
                   </div>
                 </div>
                 <div className="col-md-6">
-                  <div className="form-group">
-                    <label> Descripción </label>
-                    <input type="text" className="form-control" />
-                  </div>
-                </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label> Cargo </label>
-                  <select className="form-control">
-                    {" "}
-                    <option>Seleccione...</option>{" "}
-                  </select>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label>
-                    Estado <span className="text-danger">*</span>{" "}
-                  </label>
-                  <select className="form-control">
-                    {" "}
-                    <option> Seleccione... </option>{" "}
-                  </select>
-                </div>
-              </div>
-            </div>
-          </Col>
-          <Col sm="12">
-          <form className="form">
-          <Card body>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label>
-                    {" "}
-                    Conglomerado <span className="text-danger">*</span>{" "}
-                  </label>
-                  <select className="form-control">
-                    {" "}
-                    <option>Seleccione...</option>{" "}
-                  </select>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label>
-                    {" "}
-                    Empresa <span className="text-danger">*</span>{" "}
-                  </label>
-                  <select className="form-control">
-                    {" "}
-                    <option>Seleccione...</option>{" "}
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="row">
-              <div className="col-md-6">
                 <div className="form-group">
                   <label>
                     {" "}
@@ -143,33 +117,43 @@ class ModalEditSedes extends Component {
                       />
                 </div>
               </div>
-
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label>
-                    {" "}
-                    Dirección <span className="text-danger">*</span>{" "}
-                  </label>
-                  <input type="text" className="form-control" />
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="from-group">
-                  <label>
-                    {" "}
-                    Teléfono <span className="text-danger">*</span>{" "}
-                  </label>
-                  <input type="text" className="form-control" />
-                </div>
-              </div>
             </div>
-            <Card>
+          </Col>
+
+          <Col sm="12">
+          <Card>
+          <CardHeader>
+            {" "}
+            <a
+              onClick={() => {
+                this.toggleCollapse();
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              {" "}
+              Más información{" "}
+            </a>{" "}
+          </CardHeader>
+          <Collapse isOpen={this.state.collapse}>
             <CardBody>
+          <form className="form">
             <div className="row">
-            <div className="col-md-4">
+            </div>
+
+            <div className="row">
+            <div className="col-md-12">
+            <div className="form-group">
+              <label> Cargo responsable </label>
+              <select className="form-control form-control-sm">
+                {" "}
+                <option>Seleccione...</option>{" "}
+              </select>
+            </div>
+          </div>
+          <div className="col-md-4">
               <div className="form-group">
                 <label> País</label>
-                <select className="form-control">
+                <select className="form-control form-control-sm">
                   {" "}
                   <option>Seleccione...</option>{" "}
                 </select>
@@ -178,7 +162,7 @@ class ModalEditSedes extends Component {
             <div className="col-md-4">
               <div className="form-group">
                 <label> Departamento</label>
-                <select className="form-control">
+                <select className="form-control form-control-sm">
                   {" "}
                   <option>Seleccione...</option>{" "}
                 </select>
@@ -190,18 +174,62 @@ class ModalEditSedes extends Component {
                   {" "}
                   Ciudad <span className="text-danger">*</span>{" "}
                 </label>
-                <select className="form-control">
+                <select className="form-control form-control-sm">
                   {" "}
                   <option> Seleccione... </option>{" "}
                 </select>
               </div>
             </div>
+
+              <div className="col-md-8">
+                <div className="form-group">
+                  <label>
+                    {" "}
+                    Dirección <span className="text-danger">*</span>{" "}
+                  </label>
+                  <input type="text" className="form-control form-control-sm" />
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="from-group">
+                  <label>
+                    {" "}
+                    Teléfono <span className="text-danger">*</span>{" "}
+                  </label>
+                  <input type="text" className="form-control form-control-sm" />
+                </div>
+              </div>
+            </div>
+
+            <div className="row">
+
           </div>
-            </CardBody>
-            </Card>
-          </Card>
+
+          <div className="form-group">
+          <label>
+          {" "}
+          Estado <span className="text-danger">*</span>{" "}
+        </label>
+        <div className="text-justify">
+          <CustomInput
+            type="checkbox"
+            id="ExampleInputCheckbox"
+            label="Si esta opción se encuentra activada, Representa que
+           la sede es visible en el sistema y se podrán
+           realizar operaciones entre cada uno de los módulos
+           correspondientes de la aplicación. En caso contrario
+           la sede no se elimina del sistema solo quedará
+           inactiva e invisibles para cada uno de los módulos
+           correspondiente del sistema."
+          />
+        </div>
+          </div>
+
         </form>
-          </Col>
+        </CardBody>
+                  </Collapse>
+                </Card>
+              </Col>
             </Row>
           </ModalBody>
           <ModalFooter>

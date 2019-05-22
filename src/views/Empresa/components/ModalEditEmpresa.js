@@ -64,10 +64,10 @@ class ModalEditEmpresa extends Component {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <dl className="param">
-                        <dt>
+                    <dl className="param">
+
                           Conglomerado <span className="text-danger">*</span>{" "}
-                        </dt>
+
                         <dd>
                           {" "}
                           <Select
@@ -78,15 +78,15 @@ class ModalEditEmpresa extends Component {
                             options={dataConglomeradoExample}
                           />
                         </dd>
-                      </dl>
+</dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
+
                           Código <span className="text-danger">*</span>{" "}
-                        </dt>
+
                         <dd>
                           <input type="text" className="form-control" />
                         </dd>
@@ -96,9 +96,9 @@ class ModalEditEmpresa extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
+
                           Nit <span className="text-danger">*</span>{" "}
-                        </dt>
+
                         <dd>
                           {" "}
                           <input type="text" className="form-control" />{" "}
@@ -109,9 +109,9 @@ class ModalEditEmpresa extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
+
                           Nombre<span className="text-danger">*</span>{" "}
-                        </dt>
+
                         <dd>
                           {" "}
                           <input type="text" className="form-control" />{" "}

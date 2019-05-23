@@ -22,6 +22,7 @@ class FormCreateGrupos extends Component {
 
   render() {
     const { dataOk } = this.state;
+    const s = "lo que sea";
     return (
       <div className="animated fadeIn">
         <div className="container">

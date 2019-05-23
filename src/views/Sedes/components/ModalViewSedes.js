@@ -57,6 +57,22 @@ class ModalViewSedes extends Component {
                   </h5>{" "}
                 </div>
                 <div className="row">
+                <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Conglomerado </dt>
+                        <dd> </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Empresa </dt>
+                      <dd> </dd>
+                    </dl>
+                  </div>
+                </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
@@ -65,14 +81,7 @@ class ModalViewSedes extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>Empresa </dt>
-                              <dd> </dd>
-                            </dl>
-                          </div>
-                        </div>
+
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
@@ -89,15 +98,23 @@ class ModalViewSedes extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Teléfono </dt>
-                        <dd> </dd>
-                      </dl>
-                    </div>
-                  </div>
 
+                  <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Prefijo de radicación </dt>
+                      <dd> </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                <div className="form-group">
+                  <dl className="param">
+                    <dt>Secuencia de radicación </dt>
+                    <dd> </dd>
+                  </dl>
+                </div>
+              </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
@@ -160,7 +177,14 @@ class ModalViewSedes extends Component {
                             </dl>
                           </div>
                         </div>
-
+                        <div className="col-md-6">
+                        <div className="form-group">
+                          <dl className="param">
+                            <dt>Teléfono </dt>
+                            <dd> </dd>
+                          </dl>
+                        </div>
+                      </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
@@ -169,22 +193,7 @@ class ModalViewSedes extends Component {
                             </dl>
                           </div>
                         </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <dl className="param">
-                              <dt>Prefijo de radicación </dt>
-                              <dd> </dd>
-                            </dl>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Secuencia de radicación </dt>
-                            <dd> </dd>
-                          </dl>
-                        </div>
-                      </div>
+
                       <div className="col-md-6">
                         <div className="form-group">
                           <dl className="param">

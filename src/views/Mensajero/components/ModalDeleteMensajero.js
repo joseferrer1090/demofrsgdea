@@ -41,12 +41,12 @@ class ModalDeleteMensajero extends Component {
           </form>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-danger btn-sm">
+          <button className="btn btn-outline-danger">
             {" "}
             <i className="fa fa-trash" /> Eliminar{" "}
           </button>
           <button
-            className="btn btn-secondary btn-sm"
+            className="btn btn-secondary "
             onClick={() => {
               this.setState({ modal: false });
             }}

@@ -6,7 +6,8 @@ import {
   ModalBody,
   ModalFooter,
   Row,
-  Col
+  Col,
+  CustomInput
 } from "reactstrap";
 import IMGROLES from "./../../../assets/img/shield.svg";
 
@@ -44,7 +45,7 @@ class ModalEditRoles extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Código </dt>
+                      Código <span className="text-danger">*</span>{" "}
                       <dd>
                         {" "}
                         <input
@@ -58,7 +59,7 @@ class ModalEditRoles extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Nombre </dt>
+                       Nombre <span className="text-danger">*</span>{" "}
                       <dd>
                         {" "}
                         <input
@@ -69,13 +70,13 @@ class ModalEditRoles extends Component {
                     </dl>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Descripción </dt>
+                       Descripción
                       <dd>
                         {" "}
-                        <input
+                        <textarea
                           type="text"
                           className="form-control form-control-sm"
                         />{" "}
@@ -83,17 +84,26 @@ class ModalEditRoles extends Component {
                     </dl>
                   </div>
                 </div>
-                <div className="col-md-6">
+                <div className="col-md-12">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Estado </dt>
-                      <dd>
-                        {" "}
-                        <select className="form-control form-control-sm">
-                          {" "}
-                          <option> Activo </option> <option> Desactivo </option>{" "}
-                        </select>{" "}
-                      </dd>
+                    <label>
+                    {" "}
+                    Estado <span className="text-danger">*</span>{" "}
+                  </label>
+                  <div className="text-justify">
+                    <CustomInput
+                      type="checkbox"
+                      id="CheckBoxEditRoles"
+                      label=" Si esta opción se encuentra activada, representa
+                    que el rol es visible en el sistema y se podrán
+                    realizar operaciones entre cada uno de los módulos
+                    correspondientes de la aplicación. En caso
+                    contrario el rol no se elimina del sistema solo
+                    quedará inactivo e invisibles para cada uno de los
+                    módulos correspondiente del sistema."
+                    />
+                    </div>
                     </dl>
                   </div>
                 </div>

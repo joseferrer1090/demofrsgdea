@@ -10,7 +10,8 @@ import {
   Card,
   CardBody,
   CardHeader,
-  CardFooter
+  CardFooter,
+  CustomInput
 } from "reactstrap";
 
 import IMGEMPRESA from "./../../../assets/img/company.svg";
@@ -63,10 +64,10 @@ class ModalEditEmpresa extends Component {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <dl className="param">
-                        <dt>
+                    <dl className="param">
+
                           Conglomerado <span className="text-danger">*</span>{" "}
-                        </dt>
+
                         <dd>
                           {" "}
                           <Select
@@ -77,15 +78,15 @@ class ModalEditEmpresa extends Component {
                             options={dataConglomeradoExample}
                           />
                         </dd>
-                      </dl>
+</dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
+
                           Código <span className="text-danger">*</span>{" "}
-                        </dt>
+
                         <dd>
                           <input type="text" className="form-control" />
                         </dd>
@@ -95,9 +96,9 @@ class ModalEditEmpresa extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          NIT <span className="text-danger">*</span>{" "}
-                        </dt>
+
+                          Nit <span className="text-danger">*</span>{" "}
+
                         <dd>
                           {" "}
                           <input type="text" className="form-control" />{" "}
@@ -108,9 +109,9 @@ class ModalEditEmpresa extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
+
                           Nombre<span className="text-danger">*</span>{" "}
-                        </dt>
+
                         <dd>
                           {" "}
                           <input type="text" className="form-control" />{" "}
@@ -128,35 +129,51 @@ class ModalEditEmpresa extends Component {
                   <CardHeader> Mas informacion </CardHeader>
                   <CardBody>
                     <div className="row">
-                      <div className="col-md-4">
+                      <div className="col-md-6">
                         <div className="form-group">
                           <label> Descripción </label>
                           <input type="text" className="form-control" />
                         </div>
                       </div>
-                      <div className="col-md-4">
+                      <div className="col-md-6">
                         <div className="form-group">
                           <label>
                             {" "}
                             Cargo responsable{" "}
-                            <span className="text-danger">*</span>{" "}
+
                           </label>
-                          <input type="text" className="form-control" />
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Estado <span className="text-danger">*</span>{" "}
-                          </label>
-                          <select className="form-control">
+                          <select className="form-control form-control-md">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>
                         </div>
                       </div>
+
+                      <div className="col-md-12">
+                        <div className="form-group">
+                        <label>
+                        {" "}
+                        Estado <span className="text-danger">
+                          *
+                        </span>{" "}
+                      </label>
+                      <div className="text-justify">
+                        <CustomInput
+                          type="checkbox"
+                          id="CheckEditEmpresa"
+                          label="Si esta opción se encuentra activada,
+                          Representa que la empresa es visible en el
+                          sistema y se podrán realizar operaciones entre
+                          cada uno de los módulos correspondientes de la
+                          aplicación. En caso contrario la empresa no se
+                          elimina del sistema solo quedará inactiva e
+                          invisibles para cada uno de los módulos
+                          correspondiente del sistema."
+                        />
+                        </div>
+                      </div>
                     </div>
+</div>
                   </CardBody>
                 </Card>
               </Col>

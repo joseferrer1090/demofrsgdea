@@ -21,7 +21,7 @@ class FormCreateMensajero extends Component {
         <Row>
           <Col sm={{ size: 8, offset: 2 }}>
             <Card>
-              <CardHeader>Registro mensajero</CardHeader>
+              <CardHeader>Registro de mensajero</CardHeader>
               <CardBody>
                 <form className="form">
                   <div className="row">
@@ -63,7 +63,7 @@ class FormCreateMensajero extends Component {
                           {" "}
                           Estado <span className="text-danger">*</span>{" "}
                         </label>
-                        <div className="">
+                        <div className="text-justify">
                           <CustomInput
                             type="checkbox"
                             id="ExampleCheckboxInput"

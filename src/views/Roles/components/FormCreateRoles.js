@@ -82,9 +82,7 @@ class FormCreateRoles extends Component {
                         <div className="form-group">
                           <label>
                             {" "}
-                            Descripción <span className="text-danger">
-                              *
-                            </span>{" "}
+                            Descripción
                           </label>
                           <textarea className="form-control form-control-sm" />
                         </div>
@@ -92,20 +90,20 @@ class FormCreateRoles extends Component {
                     </Row>
                     <Row>
                       <Col sm="12">
-                        <Card body>
+
                           <CardTitle>
                             {" "}
-                            <h4>
+                            <h5>
                               {" "}
                               Asignar permisos <hr />{" "}
-                            </h4>
+                            </h5>
                           </CardTitle>
                           <Row>
                             <Col sm="6">
                               <div className="form-group">
                                 <label>
                                   {" "}
-                                  Modulo <span className="text-danger">
+                                  Módulo <span className="text-danger">
                                     *
                                   </span>{" "}
                                 </label>
@@ -132,9 +130,14 @@ class FormCreateRoles extends Component {
                               </div>
                             </Col>
                             {/*  Aqui va la funcionalidad    */}
-                            <div className="row">
+                            <Row>
                               <div className="col-md-6">
-                                <div className="form-group">
+                              <label className="col-md-12"><dt>Permisos disponibles:</dt></label>
+                                  <ListaRoles
+                                    data={this.props.data}
+                                    favouritesroles={this.state.favourites}
+                                    addFavourite={this.addFavourite.bind(this)}
+                                  />
                                   {/* <select
                                     multiple
                                     className="form-control"
@@ -145,14 +148,16 @@ class FormCreateRoles extends Component {
                                   >
                                     <option> Seleccione </option>
                                   </select> */}
-                                  <ListaRoles
-                                    data={this.props.data}
-                                    favouritesroles={this.state.favourites}
-                                    addFavourite={this.addFavourite.bind(this)}
-                                  />
-                                </div>
                               </div>
                               <div className="col-md-6">
+                              <label><dt>Permisos asignados:</dt></label>
+                                <NuevaListaRoles
+                                  data={this.props.data}
+                                  favourites={this.state.favourites}
+                                  deleteFavourite={this.deleteFavourite.bind(
+                                    this
+                                  )}
+                                />
                                 {/* <select
                                   multiple
                                   className="form-control"
@@ -164,20 +169,14 @@ class FormCreateRoles extends Component {
                                 >
                                   <option> las nuevas opciones</option>
                                 </select> */}
-                                <NuevaListaRoles
-                                  data={this.props.data}
-                                  favourites={this.state.favourites}
-                                  deleteFavourite={this.deleteFavourite.bind(
-                                    this
-                                  )}
-                                />
+
                               </div>
-                            </div>
+                              </Row>
                             {/*  Fin   */}
                           </Row>
-                        </Card>
                       </Col>
                     </Row>
+                    <br/>
                     <Row>
                       <Col sm="12">
                         <div className="form-group">
@@ -185,7 +184,7 @@ class FormCreateRoles extends Component {
                             {" "}
                             Estado <span className="text-danger">*</span>{" "}
                           </label>
-                          <div className="">
+                          <div className="text-justify">
                             <CustomInput
                               type="checkbox"
                               id="ExampleCheckBoxInput"

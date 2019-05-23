@@ -5,7 +5,8 @@ import {
   ModalBody,
   ModalFooter,
   Row,
-  Col
+  Col,
+  CustomInput
 } from "reactstrap";
 import IMGPackage from "./../../../assets/img/package.svg";
 import PropTypes from "prop-types";
@@ -28,7 +29,7 @@ class ModalEditTipoLlegada extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Actualizar tipo de llegada / envio</ModalHeader>
+          <ModalHeader>Actualizar tipo de envío / llegada</ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -46,7 +47,7 @@ class ModalEditTipoLlegada extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Código </dt>
+                        Código <span className="text-danger">*</span>{" "}
                         <dd>
                           {" "}
                           <input
@@ -60,7 +61,7 @@ class ModalEditTipoLlegada extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
+                        Nombre <span className="text-danger">*</span>{" "}
                         <dd>
                           {" "}
                           <input
@@ -71,10 +72,10 @@ class ModalEditTipoLlegada extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-12">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Descripción </dt>
+                        Descripción
                         <dd>
                           {" "}
                           <textarea className="form-control form-control-sm" />
@@ -82,15 +83,26 @@ class ModalEditTipoLlegada extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-12">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Estado </dt>
-                        <dd>
-                          <select className="form-control from-control-sm">
-                            <option>Seleccione...</option>
-                          </select>
-                        </dd>
+                      <label>
+                      {" "}
+                      Estado <span className="text-danger">*</span>{" "}
+                    </label>
+                    <div className="text-justify">
+                      <CustomInput
+                        type="checkbox"
+                        id="CheckboxEditTipoLlegada"
+                        label="Si esta opción se encuentra activada, Representa que
+                         la sede es visible en el sistema y se podrán
+                         realizar operaciones entre cada uno de los módulos
+                         correspondientes de la aplicación. En caso contrario
+                         la sede no se elimina del sistema solo quedará
+                         inactiva e invisibles para cada uno de los módulos
+                         correspondiente del sistema."
+                      />
+                    </div>
                       </dl>
                     </div>
                   </div>
@@ -100,12 +112,12 @@ class ModalEditTipoLlegada extends Component {
           </ModalBody>
           <ModalFooter>
             <div className="float-right">
-              <button className="btn btn-success btn-sm">
+              <button className="btn btn-outline-success">
                 <i className="fa fa-pencil" /> Actualizar
               </button>
               &nbsp;
               <button
-                className="btn btn-secondary btn-sm"
+                className="btn btn-secondary "
                 onClick={() => {
                   this.setState({ modal: false });
                 }}

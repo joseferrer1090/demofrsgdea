@@ -28,7 +28,7 @@ class ModalViewTipoLlegada extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Probando</ModalHeader>
+          <ModalHeader>Ver tipo de envío / llegada</ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">

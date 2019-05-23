@@ -89,7 +89,7 @@ class ModalEditCargo extends Component {
                   <div className="text-justify">
                     <CustomInput
                       type="checkbox"
-                      id="ExampleCheckboxInput"
+                      id="CheckboxEditCargo"
                       label=" Si esta opción se encuentra activada, representa
                           que el cargo es visible en el sistema y se podrán
                           realizar operaciones entre cada uno de los módulos

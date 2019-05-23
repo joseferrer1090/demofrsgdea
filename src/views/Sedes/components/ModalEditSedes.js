@@ -213,7 +213,7 @@ class ModalEditSedes extends Component {
         <div className="text-justify">
           <CustomInput
             type="checkbox"
-            id="ExampleInputCheckbox"
+            id="CheckboxEditSedes"
             label="Si esta opción se encuentra activada, Representa que
            la sede es visible en el sistema y se podrán
            realizar operaciones entre cada uno de los módulos

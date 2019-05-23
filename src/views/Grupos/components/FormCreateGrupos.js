@@ -10,18 +10,68 @@ import {
   CardTitle,
   CustomInput
 } from "reactstrap";
-import Select from "react-select";
+const dataGrupouser=[
+{
+conglomerado:"conglomerado1",
+empresa:"empresa1",
+sede:"sede1",
+dependencia:"dependencia1",
+id:1,
+nombre:"nombreUsuario"
+},
+{
+  conglomerado:"conglomerado2",
+  empresa:"empresa2",
+  sede:"sede2",
+  dependencia:"dependencia2",
+  id:2,
+  nombre:"nombreUsuario"
+  },
+  {
+    conglomerado:"conglomerado3",
+    empresa:"empresa3",
+    sede:"sede3",
+    dependencia:"dependencia3",
+    id:3,
+    nombre:"nombreUsuario"
+    },
+    {
+      conglomerado:"conglomerado4",
+      empresa:"empresa4",
+      sede:"sede4",
+      dependencia:"dependencia4",
+      id:4,
+      nombre:"nombreUsuario"
+      },
+      {
+        conglomerado:"conglomerado5",
+        empresa:"empresa5",
+        sede:"sede5",
+        dependencia:"dependencia5",
+        id:5,
+        nombre:"nombreUsuario"
+        }
+]
 
 class FormCreateGrupos extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dataOk: false
+      dataOk: false,
+      items:dataGrupouser
     };
   }
 
+
+
   render() {
-    const { dataOk } = this.state;
+    const {dataOk, items} = this.state;
+    const tryrhis = items.map(item => (
+          <option key={item.id}>
+            Name: {item.nombre} - Id: {item.id}
+          </option>
+        ))
+
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -73,7 +123,7 @@ class FormCreateGrupos extends Component {
                     <div className="col-md-12">
                       <Card>
                         <CardBody>
-                          <h4 className=""> Búsqueda de usuarios </h4>
+                          <h5 className=""> Búsqueda de usuarios </h5>
                           <hr />
                           <br />
                           <form className="form">
@@ -132,15 +182,17 @@ class FormCreateGrupos extends Component {
                                 </div>
                               </div>
                             </div>
+
                             {dataOk ? (
-                              <div className="form-group">
-                                <label> Usuarios disponibles </label>
-                                <textarea
-                                  className="form-control form-control-sm"
-                                  disabled
-                                />
-                              </div>
+                                <div className="form-group">
+                                  <label>Usuarios disponibles</label>
+                                  <select className="form-control form-control-sm"  multiple >
+                                  {tryrhis}
+                                  </select>
+
+                                </div>
                             ) : null}
+
                           </form>
                         </CardBody>
                         <CardFooter>

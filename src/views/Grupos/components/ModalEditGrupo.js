@@ -10,7 +10,8 @@ import {
   Card,
   CardBody,
   CardFooter,
-  CardTitle
+  CardTitle,
+  CustomInput
 } from "reactstrap";
 
 class ModalEditPais extends Component {
@@ -36,7 +37,7 @@ class ModalEditPais extends Component {
             <form className="form">
               <div className="container">
                 <div className="row">
-                  <div className="col-sm-4">
+                  <div className="col-sm-6">
                     <div className="form-group">
                       <label>
                         {" "}
@@ -48,7 +49,7 @@ class ModalEditPais extends Component {
                       />
                     </div>
                   </div>
-                  <div className="col-sm-4">
+                  <div className="col-sm-6">
                     <div className="form-group">
                       <label>
                         {" "}
@@ -60,17 +61,7 @@ class ModalEditPais extends Component {
                       />
                     </div>
                   </div>
-                  <div className="col-sm-4">
-                    <div className="form-group">
-                      <label>
-                        {" "}
-                        Estado <span className="text-danger">*</span>{" "}
-                      </label>
-                      <select className="form-control form-control-sm">
-                        <option> Seleccione </option>
-                      </select>
-                    </div>
-                  </div>
+
                   <div className="col-md-12">
                     <div className="form-group">
                       <label> Descripción </label>
@@ -185,6 +176,28 @@ class ModalEditPais extends Component {
                       </select>
                     </div>
                   </div>
+                  <div className="col-sm-12">
+                  <div className="form-group">
+                  <label>
+                  {" "}
+                  Estado <span className="text-danger">*</span>{" "}
+                </label>
+                <div className="">
+                  <CustomInput
+                    type="checkbox"
+                    id="CheckBoxEditGrupos"
+                    label="Si esta opción se encuentra activada, Representa
+                    que el grupo es visible en el sistema y se
+                    podrán realizar operaciones entre cada uno de
+                    los módulos correspondientes de la aplicación.
+                    En caso contrario el grupo no se elimina del
+                    sistema solo quedará inactiva e invisibles para
+                    cada uno de los módulos correspondiente del
+                    sistema"
+                  />
+                  </div>
+                  </div>
+                </div>
                 </div>
               </div>
             </form>

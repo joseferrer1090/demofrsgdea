@@ -111,6 +111,7 @@ class TableContent extends Component {
               dataField="id"
               dataAlign="center"
               width={"100"}
+            
             >
               {" "}
               #{" "}

@@ -26,7 +26,7 @@ class Profle extends Component {
               <CardTitle>
                 <p className="text-center">
                   {" "}
-                  Nombre del usuario{" "}
+                  Nombre del usuarios{" "}
                   <small className="form-text"> Administrador </small>{" "}
                 </p>
                 <address>

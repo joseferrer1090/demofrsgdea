@@ -110,7 +110,7 @@ const routes = [
   {
     path: "/configuracion/grupos",
     exact: true,
-    name: " Configuración / Grupos ",
+    name: " Configuración / Grupo de usuarios ",
     component: GruposUsuarios
   },
   {

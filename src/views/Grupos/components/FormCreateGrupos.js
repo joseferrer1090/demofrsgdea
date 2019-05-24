@@ -17,7 +17,7 @@ empresa:"empresa1",
 sede:"sede1",
 dependencia:"dependencia1",
 id:1,
-nombre:"nombreUsuario"
+nombre:"nombreUsuario1"
 },
 {
   conglomerado:"conglomerado2",
@@ -25,7 +25,7 @@ nombre:"nombreUsuario"
   sede:"sede2",
   dependencia:"dependencia2",
   id:2,
-  nombre:"nombreUsuario"
+  nombre:"nombreUsuario2"
   },
   {
     conglomerado:"conglomerado3",
@@ -33,7 +33,7 @@ nombre:"nombreUsuario"
     sede:"sede3",
     dependencia:"dependencia3",
     id:3,
-    nombre:"nombreUsuario"
+    nombre:"nombreUsuario3"
     },
     {
       conglomerado:"conglomerado4",
@@ -41,7 +41,7 @@ nombre:"nombreUsuario"
       sede:"sede4",
       dependencia:"dependencia4",
       id:4,
-      nombre:"nombreUsuario"
+      nombre:"nombreUsuario4"
       },
       {
         conglomerado:"conglomerado5",
@@ -49,7 +49,7 @@ nombre:"nombreUsuario"
         sede:"sede5",
         dependencia:"dependencia5",
         id:5,
-        nombre:"nombreUsuario"
+        nombre:"nombreUsuario5"
         }
 ]
 
@@ -62,13 +62,24 @@ class FormCreateGrupos extends Component {
     };
   }
 
+// handleNewlist(){
+//   this.tryrhis.map()
+// }
 
+// tryrhis(){
+// dataGrupouser.map(item => (
+//           <option key={item.id}>
+//             Name: {item.nombre} - Id: {item.id}
+//           </option>
+//         ))
+//   console.log("La funcion entra en el render")
+// }
 
   render() {
     const {dataOk, items} = this.state;
-    const tryrhis = items.map(item => (
+    const trythis = items.map(item => (
           <option key={item.id}>
-            Name: {item.nombre} - Id: {item.id}
+          Id: {item.id} - Name: {item.nombre}
           </option>
         ))
 
@@ -78,7 +89,7 @@ class FormCreateGrupos extends Component {
           <Row>
             <Col sm="8" md={{ offset: 2 }}>
               <Card>
-                <CardHeader> Registro grupo de usuarios </CardHeader>
+                <CardHeader> Registro de grupo de usuarios </CardHeader>
                 <CardBody>
                   <form>
                     <div className="row">
@@ -186,8 +197,9 @@ class FormCreateGrupos extends Component {
                             {dataOk ? (
                                 <div className="form-group">
                                   <label>Usuarios disponibles</label>
-                                  <select className="form-control form-control-sm"  multiple >
-                                  {tryrhis}
+                                  <select className="form-control form-control-sm"  multiple>
+                                   {trythis}
+                                  {console.log("Se esta mostrando el option?")}
                                   </select>
 
                                 </div>
@@ -237,11 +249,11 @@ class FormCreateGrupos extends Component {
                               {" "}
                               Estado <span className="text-danger">*</span>{" "}
                             </label>
-                            <div className="">
+                            <div className="text-justify">
                               <CustomInput
                                 type="checkbox"
                                 id="ExampleCheckBoxInput"
-                                label="Si esta opción se encuentra activada, Representa
+                                label="Si esta opción se encuentra activada, representa
                                 que el grupo es visible en el sistema y se
                                 podrán realizar operaciones entre cada uno de
                                 los módulos correspondientes de la aplicación.

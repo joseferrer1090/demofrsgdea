@@ -32,7 +32,7 @@ class ModalEditPais extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar grupo </ModalHeader>
+          <ModalHeader> Actualizar grupo de usuarios </ModalHeader>
           <ModalBody>
             <form className="form">
               <div className="container">
@@ -71,95 +71,95 @@ class ModalEditPais extends Component {
                 </div>
                 <div className="row">
                   <div className="col-sm-12">
-                    <Card>
-                      <CardBody>
-                        <CardTitle className="">
-                          {" "}
-                          Búsqueda de usuarios{" "}
-                        </CardTitle>
-                        <form className="form">
-                          <div className="row">
-                            <div className="col-md-3">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  Conglomerado{" "}
-                                  <span className="text-danger"> *</span>{" "}
-                                </label>
-                                <select className="form-control form-control-sm">
-                                  {" "}
-                                  <option> Seleccione... </option>{" "}
-                                </select>
-                              </div>
-                            </div>
-                            <div className="col-md-3">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  Empresa <span className="text-danger">
-                                    *
-                                  </span>{" "}
-                                </label>
-                                <select className="form-control form-control-sm">
-                                  {" "}
-                                  <option> Seleccione </option>{" "}
-                                </select>
-                              </div>
-                            </div>
-                            <div className="col-md-3">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  Sede <span className="text-danger">
-                                    *
-                                  </span>{" "}
-                                </label>
-                                <select className="form-control form-control-sm">
-                                  {" "}
-                                  <option> Seleccione </option>{" "}
-                                </select>
-                              </div>
-                            </div>
-                            <div className="col-md-3">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  Dependencia{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <select className="form-control form-control-sm">
-                                  {" "}
-                                  <option> Seleccione </option>{" "}
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="">
-                            <button
-                              type="button"
-                              className="btn btn-secondary btn-sm "
-                              onClick={() => {
-                                this.setState({ dataOk: true });
-                              }}
-                              style={{ width: "150px" }}
-                            >
+                  <Card>
+                  <CardBody>
+                    <h5 className=""> Búsqueda de usuarios </h5>
+                    <hr />
+                    <br />
+                    <form className="form">
+                      <div className="row">
+                        <div className="col-md-3">
+                          <div className="form-group">
+                            <label>
                               {" "}
-                              <i className="fa fa-search" /> Buscar
-                            </button>{" "}
+                              Conglomerado{" "}
+                              <span className="text-danger">*</span>{" "}
+                            </label>
+                            <select className="form-control form-control-sm">
+                              {" "}
+                              <option> Seleccione </option>{" "}
+                            </select>
                           </div>
-                          <br />
-                          {dataOk ? (
-                            <div className="form-group">
-                              <label> Usuarios disponibles </label>
-                              <textarea
-                                className="form-control form-control-sm"
-                                disabled
-                              />
-                            </div>
-                          ) : null}
-                        </form>
-                      </CardBody>
-                    </Card>
+                        </div>
+                        <div className="col-md-3">
+                          <div className="form-group">
+                            <label>
+                              {" "}
+                              Empresa{" "}
+                              <span className="text-danger">*</span>{" "}
+                            </label>
+                            <select className="form-control form-control-sm">
+                              {" "}
+                              <option> Seleccione </option>{" "}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col-md-3">
+                          <div className="form-group">
+                            <label>
+                              {" "}
+                              Sede <span className="text-danger">
+                                *
+                              </span>{" "}
+                            </label>
+                            <select className="form-control form-control-sm">
+                              {" "}
+                              <option> Seleccione </option>{" "}
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col-md-3">
+                          <div className="form-group">
+                            <label>
+                              {" "}
+                              Dependencia{" "}
+                              <span className="text-danger">*</span>{" "}
+                            </label>
+                            <select className="form-control form-control-sm">
+                              {" "}
+                              <option> Seleccione </option>{" "}
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      {dataOk ? (
+                          <div className="form-group">
+                            <label>Usuarios disponibles</label>
+                            <select className="form-control form-control-sm"  multiple>
+                            {console.log("Se esta mostrando el option?")}
+                            </select>
+
+                          </div>
+                      ) : null}
+
+                    </form>
+                  </CardBody>
+                  <CardFooter>
+                    <div className="float-right">
+                      <button
+                        type="button"
+                        className="btn btn-secondary btn-sm"
+                        onClick={() => {
+                          this.setState({ dataOk: !this.state.dataOk });
+                        }}
+                      >
+                        {" "}
+                        <i className="fa fa-search" /> Buscar
+                      </button>{" "}
+                    </div>
+                  </CardFooter>
+                </Card>
                   </div>
                 </div>
                 <div className="row">
@@ -182,7 +182,7 @@ class ModalEditPais extends Component {
                   {" "}
                   Estado <span className="text-danger">*</span>{" "}
                 </label>
-                <div className="">
+                <div className="text-justify">
                   <CustomInput
                     type="checkbox"
                     id="CheckBoxEditGrupos"
@@ -193,7 +193,7 @@ class ModalEditPais extends Component {
                     En caso contrario el grupo no se elimina del
                     sistema solo quedará inactiva e invisibles para
                     cada uno de los módulos correspondiente del
-                    sistema"
+                    sistema."
                   />
                   </div>
                   </div>

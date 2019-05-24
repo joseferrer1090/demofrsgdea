@@ -116,7 +116,7 @@ const routes = [
   {
     path: "/configuracion/remitentes",
     exact: true,
-    name: " Configuración / Remitentes ",
+    name: " Configuración / Terceros",
     component: Remitentes
   },
   {

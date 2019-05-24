@@ -67,15 +67,43 @@ class FormCreateRemitente extends Component {
           <Row>
             <Col sm="8" md={{ offset: 2 }}>
               <Card>
-                <CardHeader> Registro de remitente </CardHeader>
+                <CardHeader> Registro de tercero </CardHeader>
                 <CardBody>
                   <form className="form">
                     <div className="row">
+                    <div className="col-md-6">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Tipo de tercero{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <select
+                            className="form-control form-control-sm"
+                          >
+                          <option>Selecione...</option>
+                          </select>
+                        </div>
+                        </div>
+                        <div className="col-md-6">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Elemento de comunicación{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <select
+                            className="form-control form-control-sm"
+                          >
+                          <option>Selecione...</option>
+                          </select>
+                        </div>
+                      </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>
                             {" "}
-                            Identificaicón{" "}
+                            Identificación{" "}
                             <span className="text-danger">*</span>{" "}
                           </label>
                           <input
@@ -112,7 +140,7 @@ class FormCreateRemitente extends Component {
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
-                          <label> Teléfono </label>
+                          <label> Teléfono fijo </label>
                           <input
                             type="text"
                             className="form-control form-control-sm"
@@ -120,6 +148,15 @@ class FormCreateRemitente extends Component {
                         </div>
                       </div>
                       <div className="col-md-4">
+                      <div className="form-group">
+                        <label> Teléfono celular </label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                        />
+                      </div>
+                    </div>
+                      <div className="col-md-12">
                         <div className="form-group">
                           <label> Dirección </label>
                           <input
@@ -174,6 +211,12 @@ class FormCreateRemitente extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
+                          <label> Referencia </label>
+                          <textarea className="form-control form-control-sm" />
+                        </div>
+                      </div>
+                      <div className="col-md-12">
+                        <div className="form-group">
                           <label> Observación </label>
                           <textarea className="form-control form-control-sm" />
                         </div>
@@ -186,7 +229,7 @@ class FormCreateRemitente extends Component {
                             {" "}
                             Estado <span className="text-danger">*</span>{" "}
                           </label>
-                          <div className="">
+                          <div className="text-justify">
                             <CustomInput
                               type="checkbox"
                               id="ExampleInputCheckbox"

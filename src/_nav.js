@@ -61,7 +61,7 @@ export default {
           url: "/configuracion/grupos"
         },
         {
-          name: "Remitente",
+          name: "Terceros",
           icon: "icon-settings",
           url: "/configuracion/remitentes"
         },

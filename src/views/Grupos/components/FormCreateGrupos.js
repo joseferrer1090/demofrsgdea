@@ -10,6 +10,8 @@ import {
   CardTitle,
   CustomInput
 } from "reactstrap";
+import Select from "react-select";
+
 const dataGrupouser=[
 {
 conglomerado:"conglomerado1",
@@ -52,13 +54,19 @@ nombre:"nombreUsuario1"
         nombre:"nombreUsuario5"
         }
 ]
-
+const datauserasigandos = [
+  { value: "c", label: "Prueba" },
+  { value: "b", label: "Prueba" },
+  { value: "a", label: "Prueba" },
+  { value: "prueba", label: "Prueba" }
+];
 class FormCreateGrupos extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataOk: false,
-      items:dataGrupouser
+      items:dataGrupouser,
+      selectedOptionUserAsigandos: null
     };
   }
 
@@ -74,11 +82,15 @@ class FormCreateGrupos extends Component {
 //         ))
 //   console.log("La funcion entra en el render")
 // }
+handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
+  this.setState({ selectedOptionUserAsigandos });
+  console.log(this.state.selectedOptionUserAsigandos);
+};
 
   render() {
-    const {dataOk, items} = this.state;
+    const {dataOk, items, selectedOptionUserAsigandos} = this.state;
     const trythis = items.map(item => (
-          <option key={item.id}>
+          <option key={item.id} onClick={()=>{alert("Probando el evento")}}>
           Id: {item.id} - Name: {item.nombre}
           </option>
         ))
@@ -232,10 +244,12 @@ class FormCreateGrupos extends Component {
                           Seleccione usuario(s) asignados{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
-                        <select className="form-control form-control-sm">
-                          {" "}
-                          <option> Seleccione </option>{" "}
-                        </select>
+                        <Select
+                        value={selectedOptionUserAsigandos}
+                        onChange={this.handleChangeSelectedOptionUsers}
+                        options={datauserasigandos}
+                        isMulti
+                      />
                       </div>
                     </div>
                   </div>

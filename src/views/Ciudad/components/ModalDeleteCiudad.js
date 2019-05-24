@@ -37,7 +37,7 @@ class ModalDeleteCiudad extends Component {
               <br />
               <p className="text-center text-danger">
                 {" "}
-                La ciudad quedará eliminada de manera permanente{" "}
+                La ciudad quedará eliminada de manera permanente.{" "}
               </p>
             </form>
           </ModalBody>

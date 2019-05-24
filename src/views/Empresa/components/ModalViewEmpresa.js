@@ -106,7 +106,6 @@ class ModalViewEmpresa extends Component {
                       </dl>
                     </div>
                   </div>
-
                 </div>
               </Col>
             </Row>

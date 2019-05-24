@@ -53,7 +53,7 @@ class FormCreatePais extends Component {
                           {" "}
                           Estado <span className="text-danger">*</span>{" "}
                         </label>
-                        <div className="">
+                        <div className="text-justify">
                           <CustomInput
                             type="checkbox"
                             id="ExampleCheckboxInput"

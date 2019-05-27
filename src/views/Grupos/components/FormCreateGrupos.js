@@ -11,7 +11,8 @@ import {
   CustomInput
 } from "reactstrap";
 import Select from "react-select";
-
+import AsyncSelect from '../../../../node_modules/react-select/lib/AsyncCreatable';
+import { strict } from "assert";
 const dataGrupouser=[
 {
 conglomerado:"conglomerado1",
@@ -19,7 +20,9 @@ empresa:"empresa1",
 sede:"sede1",
 dependencia:"dependencia1",
 id:1,
-nombre:"nombreUsuario1"
+nombre:"Nombre Usuario 1",
+value: "Nombre Usuario 1",
+label:"Nombre Usuario 1"
 },
 {
   conglomerado:"conglomerado2",
@@ -27,7 +30,9 @@ nombre:"nombreUsuario1"
   sede:"sede2",
   dependencia:"dependencia2",
   id:2,
-  nombre:"nombreUsuario2"
+  nombre:"Nombre Usuario 2",
+  value: "Nombre Usuario 2",
+  label:"Nombre Usuario 2"
   },
   {
     conglomerado:"conglomerado3",
@@ -35,7 +40,9 @@ nombre:"nombreUsuario1"
     sede:"sede3",
     dependencia:"dependencia3",
     id:3,
-    nombre:"nombreUsuario3"
+    nombre:"Nombre Usuario 3",
+    value: "Nombre Usuario 3",
+    label:"Nombre Usuario 3"
     },
     {
       conglomerado:"conglomerado4",
@@ -43,7 +50,9 @@ nombre:"nombreUsuario1"
       sede:"sede4",
       dependencia:"dependencia4",
       id:4,
-      nombre:"nombreUsuario4"
+      nombre:"Nombre Usuario 4",
+      value: "Nombre Usuario 4",
+      label:"Nombre Usuario 4"
       },
       {
         conglomerado:"conglomerado5",
@@ -51,22 +60,22 @@ nombre:"nombreUsuario1"
         sede:"sede5",
         dependencia:"dependencia5",
         id:5,
-        nombre:"nombreUsuario5"
+        nombre:"Nombre Usuario 5",
+        value: "Nombre Usuario 5",
+        label: "Nombre Usuario 5"
+
         }
 ]
-const datauserasigandos = [
-  { value: "c", label: "Prueba" },
-  { value: "b", label: "Prueba" },
-  { value: "a", label: "Prueba" },
-  { value: "prueba", label: "Prueba" }
-];
+
+
 class FormCreateGrupos extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataOk: false,
       items:dataGrupouser,
-      selectedOptionUserAsigandos: null
+      selectedOptionUserAsigandos: null,
+      filtraritems:[]
     };
   }
 
@@ -88,13 +97,12 @@ handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
 };
 
   render() {
-    const {dataOk, items, selectedOptionUserAsigandos} = this.state;
-    const trythis = items.map(item => (
-          <option key={item.id} onClick={()=>{alert("Probando el evento")}}>
-          Id: {item.id} - Name: {item.nombre}
+    const {dataOk, items, selectedOptionUserAsigandos, filtraritems} = this.state;
+    const buscarOpciones = items.map(item => (
+          <option key={item.id} onClick={()=>{filtraritems.push(item.nombre); console.log(filtraritems)}}>
+          {item.nombre}
           </option>
         ))
-
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -210,7 +218,7 @@ handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
                                 <div className="form-group">
                                   <label>Usuarios disponibles</label>
                                   <select className="form-control form-control-sm"  multiple>
-                                   {trythis}
+                                   {buscarOpciones}
                                   {console.log("Se esta mostrando el option?")}
                                   </select>
 
@@ -247,9 +255,11 @@ handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
                         <Select
                         value={selectedOptionUserAsigandos}
                         onChange={this.handleChangeSelectedOptionUsers}
-                        options={datauserasigandos}
+                        options={dataGrupouser}
                         isMulti
-                      />
+                      >
+                      <option>trythis</option>
+                      </Select>
                       </div>
                     </div>
                   </div>

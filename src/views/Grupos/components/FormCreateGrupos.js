@@ -10,6 +10,9 @@ import {
   CardTitle,
   CustomInput
 } from "reactstrap";
+import Select from "react-select";
+import AsyncSelect from '../../../../node_modules/react-select/lib/AsyncCreatable';
+import { strict } from "assert";
 const dataGrupouser=[
 {
 conglomerado:"conglomerado1",
@@ -17,7 +20,9 @@ empresa:"empresa1",
 sede:"sede1",
 dependencia:"dependencia1",
 id:1,
-nombre:"nombreUsuario"
+nombre:"Nombre Usuario 1",
+value: "Nombre Usuario 1",
+label:"Nombre Usuario 1"
 },
 {
   conglomerado:"conglomerado2",
@@ -25,7 +30,9 @@ nombre:"nombreUsuario"
   sede:"sede2",
   dependencia:"dependencia2",
   id:2,
-  nombre:"nombreUsuario"
+  nombre:"Nombre Usuario 2",
+  value: "Nombre Usuario 2",
+  label:"Nombre Usuario 2"
   },
   {
     conglomerado:"conglomerado3",
@@ -33,7 +40,9 @@ nombre:"nombreUsuario"
     sede:"sede3",
     dependencia:"dependencia3",
     id:3,
-    nombre:"nombreUsuario"
+    nombre:"Nombre Usuario 3",
+    value: "Nombre Usuario 3",
+    label:"Nombre Usuario 3"
     },
     {
       conglomerado:"conglomerado4",
@@ -41,7 +50,9 @@ nombre:"nombreUsuario"
       sede:"sede4",
       dependencia:"dependencia4",
       id:4,
-      nombre:"nombreUsuario"
+      nombre:"Nombre Usuario 4",
+      value: "Nombre Usuario 4",
+      label:"Nombre Usuario 4"
       },
       {
         conglomerado:"conglomerado5",
@@ -49,36 +60,56 @@ nombre:"nombreUsuario"
         sede:"sede5",
         dependencia:"dependencia5",
         id:5,
-        nombre:"nombreUsuario"
+        nombre:"Nombre Usuario 5",
+        value: "Nombre Usuario 5",
+        label: "Nombre Usuario 5"
+
         }
 ]
+
 
 class FormCreateGrupos extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dataOk: false,
-      items:dataGrupouser
+      items:dataGrupouser,
+      selectedOptionUserAsigandos: null,
+      filtraritems:[]
     };
   }
 
+// handleNewlist(){
+//   this.tryrhis.map()
+// }
 
+// tryrhis(){
+// dataGrupouser.map(item => (
+//           <option key={item.id}>
+//             Name: {item.nombre} - Id: {item.id}
+//           </option>
+//         ))
+//   console.log("La funcion entra en el render")
+// }
+handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
+  this.setState({ selectedOptionUserAsigandos });
+  console.log(this.state.selectedOptionUserAsigandos);
+};
 
   render() {
-    const {dataOk, items} = this.state;
-    const tryrhis = items.map(item => (
-          <option key={item.id}>
-            Name: {item.nombre} - Id: {item.id}
+    const {dataOk, items, selectedOptionUserAsigandos, filtraritems} = this.state;
+    const buscarOpciones = items.map(item => (
+          <option key={item.id} onClick={()=>{filtraritems.push(item.nombre); console.log(filtraritems)}}>
+          {item.nombre}
           </option>
         ))
-
     return (
       <div className="animated fadeIn">
         <div className="container">
           <Row>
             <Col sm="8" md={{ offset: 2 }}>
               <Card>
-                <CardHeader> Registro grupo de usuarios </CardHeader>
+                <CardHeader> Registro de grupo de usuarios </CardHeader>
                 <CardBody>
                   <form>
                     <div className="row">
@@ -186,8 +217,9 @@ class FormCreateGrupos extends Component {
                             {dataOk ? (
                                 <div className="form-group">
                                   <label>Usuarios disponibles</label>
-                                  <select className="form-control form-control-sm"  multiple >
-                                  {tryrhis}
+                                  <select className="form-control form-control-sm"  multiple>
+                                   {buscarOpciones}
+                                  {console.log("Se esta mostrando el option?")}
                                   </select>
 
                                 </div>
@@ -220,10 +252,14 @@ class FormCreateGrupos extends Component {
                           Seleccione usuario(s) asignados{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
-                        <select className="form-control form-control-sm">
-                          {" "}
-                          <option> Seleccione </option>{" "}
-                        </select>
+                        <Select
+                        value={selectedOptionUserAsigandos}
+                        onChange={this.handleChangeSelectedOptionUsers}
+                        options={dataGrupouser}
+                        isMulti
+                      >
+                      <option>trythis</option>
+                      </Select>
                       </div>
                     </div>
                   </div>
@@ -237,11 +273,11 @@ class FormCreateGrupos extends Component {
                               {" "}
                               Estado <span className="text-danger">*</span>{" "}
                             </label>
-                            <div className="">
+                            <div className="text-justify">
                               <CustomInput
                                 type="checkbox"
                                 id="ExampleCheckBoxInput"
-                                label="Si esta opción se encuentra activada, Representa
+                                label="Si esta opción se encuentra activada, representa
                                 que el grupo es visible en el sistema y se
                                 podrán realizar operaciones entre cada uno de
                                 los módulos correspondientes de la aplicación.

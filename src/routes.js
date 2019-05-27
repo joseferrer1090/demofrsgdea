@@ -110,13 +110,13 @@ const routes = [
   {
     path: "/configuracion/grupos",
     exact: true,
-    name: " Configuración / Grupos ",
+    name: " Configuración / Grupo de usuarios ",
     component: GruposUsuarios
   },
   {
     path: "/configuracion/remitentes",
     exact: true,
-    name: " Configuración / Remitentes ",
+    name: " Configuración / Terceros",
     component: Remitentes
   },
   {

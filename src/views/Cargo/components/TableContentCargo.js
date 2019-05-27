@@ -192,8 +192,8 @@ class TableContentCargo extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-            width={"200"}
-            export={false}
+              width={"200"}
+              export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesCargo(cell, row)}
             >

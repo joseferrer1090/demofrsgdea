@@ -37,7 +37,7 @@ class ModalViewPais extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver grupo </ModalHeader>
+          <ModalHeader> Ver grupo de usuarios </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -125,7 +125,7 @@ class ModalViewPais extends Component {
                         <div className="col-md-12">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Usuarios </dt>
+                              <dt> Usuarios asigandos: </dt>
                               <dd>
                                 {" "}
                                 <textarea

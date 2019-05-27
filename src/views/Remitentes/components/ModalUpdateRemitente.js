@@ -18,7 +18,8 @@ import {
   NavItem,
   CardTitle,
   CardText,
-  NavLink
+  NavLink,
+  CustomInput
 } from "reactstrap";
 import classnames from "classnames";
 
@@ -49,7 +50,7 @@ class ModalUpdateRemitente extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar remitente </ModalHeader>
+          <ModalHeader> Actualizar tercero </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -60,48 +61,58 @@ class ModalUpdateRemitente extends Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Datos personales{" "}
+                    Datos{" "}
                   </h5>{" "}
                 </div>
                 <div className="row">
+                <div className="col-md-6">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Tipo de tercero{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <select
+                            className="form-control form-control-sm"
+                          >
+                          <option>Selecione...</option>
+                          </select>
+                        </div>
+                        </div>
+                        <div className="col-md-6">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Elemento de comunicación{" "}
+                            <span className="text-danger">*</span>{" "}
+                          </label>
+                          <select
+                            className="form-control form-control-sm"
+                          >
+                          <option>Selecione...</option>
+                          </select>
+                        </div>
+                        </div>
                   <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Idenfiticación </label>
-                      <input type="text" className="form-control" />
+                    <div className="form-group ">
+                      <label> Identificación <span className="text-danger">*</span>{" "} </label>
+                      <input type="text" className="form-control form-control-sm" />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label> Nombre </label>
-                      <input type="text" className="form-control" />
+                      <label> Nombre <span className="text-danger">*</span>{" "} </label>
+                      <input type="text" className="form-control form-control-sm" />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label> E-mail </label>
-                      <input type="text" className="form-control" />
+                      <label> E-mail <span className="text-danger">*</span>{" "}  </label>
+                      <input type="text" className="form-control form-control-sm" />
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Telefono </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Dirección </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Ciudad </label>
-                      <select className="form-control">
-                        <option>Seleccione...</option>
-                      </select>
-                    </div>
-                  </div>
+
+
                 </div>
               </Col>
               <Col sm="12">
@@ -115,46 +126,90 @@ class ModalUpdateRemitente extends Component {
                         this.toggleTab("1");
                       }}
                     >
-                      Otra informacion
+                      Otra información
                     </NavLink>
                   </NavItem>
                 </Nav>
                 <TabContent activeTab={this.state.activeTab}>
                   <TabPane tabId="1">
                     <Row>
-                      <Col sm="6">
+                    <Col sm="6">
+                    <div className="form-group">
+                      <label> Teléfono fijo </label>
+                      <input type="text" className="form-control form-control-sm" />
+                    </div>
+                  </Col>
+                  <Col sm="6">
+                    <div className="form-group">
+                      <label> Teléfono celular <span className="text-danger">*</span>{" "} </label>
+                      <input type="text" className="form-control form-control-sm" />
+                    </div>
+                  </Col>
+                  <Col sm="12">
+                    <div className="form-group">
+                      <label> Dirección <span className="text-danger">*</span>{" "} </label>
+                      <input type="text" className="form-control form-control-sm" />
+                    </div>
+                  </Col>
+                      <Col sm="4">
                         <div className="form-group">
-                          <label> Pais </label>
+                          <label> Pais <span className="text-danger">*</span>{" "} </label>
                           <select className="form-control">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>
                         </div>
                       </Col>
-                      <Col sm="6">
+                      <Col sm="4">
                         <div className="form-group">
-                          <label> Departamento </label>
+                          <label> Departamento <span className="text-danger">*</span>{" "} </label>
                           <select className="form-control">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>
+                        </div>
+                      </Col>
+                      <Col sm="4">
+                      <div className="form-group">
+                        <label> Ciudad <span className="text-danger">*</span>{" "} </label>
+                        <select className="form-control form-control-sm">
+                          <option>Seleccione...</option>
+                        </select>
+                      </div>
+                    </Col>
+                      <Col sm="6">
+                        <div className="form-group">
+                          <label> Referencia </label>
+                          <textarea type="text" className="form-control  form-control-sm" />
                         </div>
                       </Col>
                       <Col sm="6">
                         <div className="form-group">
                           <label> Observacion </label>
-                          <input type="text" className="form-control" />
+                          <textarea type="text" className="form-control  form-control-sm" />
                         </div>
                       </Col>
-                      <Col sm="6">
+                      <Col sm="12">
                         <div className="form-group">
-                          <label> Estado </label>
-                          <select className="form-control">
-                            <option> Activo </option>
-                            <option> Inactivo </option>
-                          </select>
-                        </div>
-                      </Col>
+                          <label>
+                            {" "}
+                            Estado <span className="text-danger">*</span>{" "}
+                          </label>
+                          <div className="text-justify">
+                            <CustomInput
+                              type="checkbox"
+                              id="CheckboxEditTerceros"
+                              label="Si esta opción se encuentra activada, representa
+                              que el remitente es visible en el sistema y se
+                              podrán realizar operaciones entre cada uno de los
+                              módulos correspondientes de la aplicación. En caso
+                              contrario el remitente no se elimina del sistema
+                              solo quedará inactivo e invisibles para cada uno
+                              de los módulos correspondiente del sistema."
+                            />
+                            </div>
+                            </div>
+                            </Col>
                     </Row>
                   </TabPane>
                 </TabContent>

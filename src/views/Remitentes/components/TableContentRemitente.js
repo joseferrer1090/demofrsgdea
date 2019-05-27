@@ -10,6 +10,7 @@ import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-tab
 const dataExample = [
   {
     id: 1,
+    tipotercero: "Cliente",
     identificacion: 12315468,
     nombre: "Remitente 1",
     email: "remitente@remitente.com",
@@ -17,6 +18,7 @@ const dataExample = [
   },
   {
     id: 2,
+    tipotercero:"Proveedor",
     identificacion: 1231634568,
     nombre: "Remitente 2",
     email: "remitente2@remitente2.com",
@@ -24,6 +26,7 @@ const dataExample = [
   },
   {
     id: 3,
+    tipotercero:"Stakeholder",
     identificacion: 123165485,
     nombre: "Remitente 3",
     email: "remitente3@remitente3.com",
@@ -31,6 +34,7 @@ const dataExample = [
   },
   {
     id: 4,
+    tipotercero:"Cliente",
     identificacion: 132165468,
     nombre: "Remitente 4",
     email: "remitente4@remitente4.com",
@@ -129,7 +133,11 @@ class TableContentRemitente extends Component {
             >
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"identificacion"} dataAlign="center" width={"110"}>
+            <TableHeaderColumn dataField={"tipotercero"} dataAlign="center" width={"150"}>
+              {" "}
+              Tipo de tercero{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"identificacion"} dataAlign="center" width={"115"}>
               {" "}
               Identificación{" "}
             </TableHeaderColumn>

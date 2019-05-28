@@ -42,7 +42,7 @@ class Forgot extends Component {
                     <Form>
                       <h1 className="text-center">Recuperar contraseña</h1>
                       <p className="text-center text-muted">
-                        Se enviara un correao al administrador del sistema para
+                        Se enviará un correo al administrador del sistema para
                         generar una nueva contraseña.
                       </p>
                       <InputGroup className="mb-3">

@@ -84,9 +84,9 @@ const routes = [
     component: Sedes
   },
   {
-    path: "/configuracion/dependencias",
+    path: "/configuracion/dependencia",
     exact: true,
-    name: " Configuración / Dependencias ",
+    name: " Configuración / Dependencia ",
     component: Dependencias
   },
   {
@@ -114,7 +114,7 @@ const routes = [
     component: GruposUsuarios
   },
   {
-    path: "/configuracion/remitentes",
+    path: "/configuracion/terceros",
     exact: true,
     name: " Configuración / Terceros",
     component: Remitentes
@@ -140,7 +140,7 @@ const routes = [
   {
     path: "/configuracion/ciudad",
     exact: true,
-    name: " Configuración / Ciudades",
+    name: " Configuración / Ciudad",
     component: Ciudad
   },
   {
@@ -170,7 +170,7 @@ const routes = [
   {
     path: "/configuracion/tema",
     exact: true,
-    name: " Configuracion / Tema  ",
+    name: " Configuracion / tema  ",
     component: Tema
   },
   {
@@ -182,7 +182,7 @@ const routes = [
   {
     path: "/configuracion/tipollegada",
     exact: true,
-    name: " Configuración / Tipo de envío/llegada  ",
+    name: " Configuración / Tipo de envío / llegada  ",
     component: TipoLlegada
   }
 ];

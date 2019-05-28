@@ -28,7 +28,7 @@ export default {
         {
           name: "Dependencia",
           icon: "icon-settings",
-          url: "/configuracion/dependencias"
+          url: "/configuracion/dependencia"
         },
         {
           name: "Cargo",
@@ -41,7 +41,7 @@ export default {
           url: "/configuracion/mensajero"
         },
         {
-          name: "Tipo de envío/llegada",
+          name: "Tipo de envío / llegada",
           icon: "icon-settings",
           url: "/configuracion/tipollegada"
         },
@@ -63,7 +63,7 @@ export default {
         {
           name: "Terceros",
           icon: "icon-settings",
-          url: "/configuracion/remitentes"
+          url: "/configuracion/terceros"
         },
         {
           name: "Tipo documental",
@@ -108,9 +108,9 @@ export default {
           ]
         },
         {
-          name: "Tema",
+          name: "tema",
           icon: "icon-pencil",
-          url: "/configuracion/Tema"
+          url: "/configuracion/tema"
         }
       ]
     }

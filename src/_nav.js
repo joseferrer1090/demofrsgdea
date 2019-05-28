@@ -118,6 +118,11 @@ export default {
           ]
         },
         {
+          name: "Plantilla de datos",
+          url: "/configuracion/plantilla",
+          icon: "fa fa-puzzle-piece"
+        },
+        {
           name: "Tema",
           icon: "icon-pencil",
           url: "/configuracion/Tema"

@@ -14,7 +14,7 @@ import Select from "react-select";
 import AsyncSelect from '../../../../node_modules/react-select/lib/AsyncCreatable';
 import { strict } from "assert";
 
-const dataGrupouser=[
+export const dataGrupoUsuarios=[
   {
     conglomerado:"conglomerado1",
     empresa:"empresa1",
@@ -64,8 +64,8 @@ class FormCreateGrupos extends Component {
     super(props);
     this.state = {
       dataOk: false,
-      items:dataGrupouser,
-      selectedOptionUserAsigandos: null,
+      items:dataGrupoUsuarios,
+      selectedOptionUserAsigandos: null
     };
   }
 

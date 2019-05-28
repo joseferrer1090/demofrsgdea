@@ -14,6 +14,9 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import PropTypes from "prop-types";
+import FromCreate from "./components/FormCreateTipoTramite";
+import FormCreateTipoTramite from "./components/FormCreateTipoTramite";
+import TableContent from "./components/TableContentTramite";
 
 class TipoTramite extends Component {
   constructor(props) {
@@ -69,14 +72,14 @@ class TipoTramite extends Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <p>Probando apenas </p>¿{" "}
+                <FormCreateTipoTramite />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <p>Probando apenas</p>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>

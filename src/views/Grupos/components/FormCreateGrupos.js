@@ -13,26 +13,23 @@ import {
 import Select from "react-select";
 import AsyncSelect from '../../../../node_modules/react-select/lib/AsyncCreatable';
 import { strict } from "assert";
+
 const dataGrupouser=[
-{
-conglomerado:"conglomerado1",
-empresa:"empresa1",
-sede:"sede1",
-dependencia:"dependencia1",
-id:1,
-nombre:"Nombre Usuario 1",
-value: "Nombre Usuario 1",
-label:"Nombre Usuario 1"
-},
-{
-  conglomerado:"conglomerado2",
-  empresa:"empresa2",
-  sede:"sede2",
-  dependencia:"dependencia2",
-  id:2,
-  nombre:"Nombre Usuario 2",
-  value: "Nombre Usuario 2",
-  label:"Nombre Usuario 2"
+  {
+    conglomerado:"conglomerado1",
+    empresa:"empresa1",
+    sede:"sede1",
+    dependencia:"dependencia1",
+    id:1,
+    nombre:"Nombre Usuario 1",
+  },
+  {
+    conglomerado:"conglomerado2",
+    empresa:"empresa2",
+    sede:"sede2",
+    dependencia:"dependencia2",
+    id:2,
+    nombre:"Nombre Usuario 2",
   },
   {
     conglomerado:"conglomerado3",
@@ -41,32 +38,26 @@ label:"Nombre Usuario 1"
     dependencia:"dependencia3",
     id:3,
     nombre:"Nombre Usuario 3",
-    value: "Nombre Usuario 3",
-    label:"Nombre Usuario 3"
-    },
-    {
-      conglomerado:"conglomerado4",
-      empresa:"empresa4",
-      sede:"sede4",
-      dependencia:"dependencia4",
-      id:4,
-      nombre:"Nombre Usuario 4",
-      value: "Nombre Usuario 4",
-      label:"Nombre Usuario 4"
-      },
-      {
-        conglomerado:"conglomerado5",
-        empresa:"empresa5",
-        sede:"sede5",
-        dependencia:"dependencia5",
-        id:5,
-        nombre:"Nombre Usuario 5",
-        value: "Nombre Usuario 5",
-        label: "Nombre Usuario 5"
+  },
+  {
+    conglomerado:"conglomerado4",
+    empresa:"empresa4",
+    sede:"sede4",
+    dependencia:"dependencia4",
+    id:4,
+    nombre:"Nombre Usuario 4",
+  },
+  {
+    conglomerado:"conglomerado5",
+    empresa:"empresa5",
+    sede:"sede5",
+    dependencia:"dependencia5",
+    id:5,
+    nombre:"Nombre Usuario 5",
+  }
+];
 
-        }
-]
-
+const filtraritems = [];
 
 class FormCreateGrupos extends Component {
   constructor(props) {
@@ -75,34 +66,33 @@ class FormCreateGrupos extends Component {
       dataOk: false,
       items:dataGrupouser,
       selectedOptionUserAsigandos: null,
-      filtraritems:[]
     };
   }
 
-// handleNewlist(){
-//   this.tryrhis.map()
-// }
-
-// tryrhis(){
-// dataGrupouser.map(item => (
-//           <option key={item.id}>
-//             Name: {item.nombre} - Id: {item.id}
-//           </option>
-//         ))
-//   console.log("La funcion entra en el render")
-// }
 handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
   this.setState({ selectedOptionUserAsigandos });
   console.log(this.state.selectedOptionUserAsigandos);
 };
 
   render() {
-    const {dataOk, items, selectedOptionUserAsigandos, filtraritems} = this.state;
+    const {dataOk, items, selectedOptionUserAsigandos} = this.state;
     const buscarOpciones = items.map(item => (
-          <option key={item.id} onClick={()=>{filtraritems.push(item.nombre); console.log(filtraritems)}}>
-          {item.nombre}
-          </option>
-        ))
+      <option
+        key={item.id}
+        onClick={() => {
+        const string = JSON.stringify({
+          value: `${item.id}`,
+          label: `${item.nombre}`
+        });
+        filtraritems.push(JSON.parse(string));
+        console.log(filtraritems);
+      }}
+    >
+      {item.nombre}
+    </option>
+        ));
+    console.log(filtraritems);
+
     return (
       <div className="animated fadeIn">
         <div className="container">
@@ -219,9 +209,7 @@ handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
                                   <label>Usuarios disponibles</label>
                                   <select className="form-control form-control-sm"  multiple>
                                    {buscarOpciones}
-                                  {console.log("Se esta mostrando el option?")}
                                   </select>
-
                                 </div>
                             ) : null}
 
@@ -253,13 +241,14 @@ handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <Select
-                        value={selectedOptionUserAsigandos}
-                        onChange={this.handleChangeSelectedOptionUsers}
-                        options={dataGrupouser}
-                        isMulti
-                      >
-                      <option>trythis</option>
-                      </Select>
+                           onChange={selectedOptionUserAsigandos}
+                           defaultValue={{
+                              value: 'loadUsers',
+                              label: 'Cargar usuarios'
+                            }}
+                            options={filtraritems}
+                            isMulti
+                          />
                       </div>
                     </div>
                   </div>

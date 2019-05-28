@@ -51,6 +51,8 @@ const Mensajero = React.lazy(() => import("./views/Mensajero/Mensajero"));
 
 const TipoLlegada = React.lazy(() => import("./views/TipoLlegada/TipoLlegada"));
 
+const TipoTramite = React.lazy(() => import("./views/TipoTramite/TipoTramite"));
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   {
@@ -184,6 +186,12 @@ const routes = [
     exact: true,
     name: " Configuracion / tipo de llegada  ",
     component: TipoLlegada
+  },
+  {
+    path: "/configuracion/tipotramite",
+    exact: true,
+    name: "Configuracion / tipo de tramite",
+    component: TipoTramite
   }
 ];
 

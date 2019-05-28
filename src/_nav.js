@@ -46,6 +46,11 @@ export default {
           url: "/configuracion/tipollegada"
         },
         {
+          name: "Tipo Tramite",
+          icon: "fa fa-code-fork",
+          url: "/configuracion/tipotramite"
+        },
+        {
           name: "Usuarios",
           icon: "icon-user",
           url: "/configuracion/usuarios"

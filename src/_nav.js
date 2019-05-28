@@ -56,6 +56,11 @@ export default {
           url: "/configuracion/usuarios"
         },
         {
+          name: "Tipo de terceros",
+          icon: "fa fa-truck",
+          url: "/configuracion/tipotercero"
+        },
+        {
           name: "Roles y permisos",
           icon: "icon-lock",
           url: "/configuracion/roles"

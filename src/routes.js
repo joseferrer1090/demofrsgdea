@@ -53,6 +53,8 @@ const TipoLlegada = React.lazy(() => import("./views/TipoLlegada/TipoLlegada"));
 
 const TipoTramite = React.lazy(() => import("./views/TipoTramite/TipoTramite"));
 
+const TipoTercero = React.lazy(() => import("./views/TipoTercero/TipoTercero"));
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   {
@@ -192,6 +194,12 @@ const routes = [
     exact: true,
     name: "Configuracion / tipo de tramite",
     component: TipoTramite
+  },
+  {
+    path: "/configuracion/tipotercero",
+    exact: true,
+    name: "Configuracion / tipo de tercero",
+    component: TipoTercero
   }
 ];
 

@@ -6,6 +6,7 @@ import Ciudad from "./views/Ciudad/Ciudad";
 import Departamento from "./views/Departamento/Departamento";
 import Profile from "./views/Pages/Profile/Profle";
 import Tema from "./views/Tema/Tema";
+import EditTramite from "./views/TipoTramite/components/ViewEditTramite";
 
 const Configuracion = React.lazy(() =>
   import("./views/Configuracion/Configuracion")
@@ -50,6 +51,12 @@ const MoverHistorico = React.lazy(() =>
 const Mensajero = React.lazy(() => import("./views/Mensajero/Mensajero"));
 
 const TipoLlegada = React.lazy(() => import("./views/TipoLlegada/TipoLlegada"));
+
+const TipoTramite = React.lazy(() => import("./views/TipoTramite/TipoTramite"));
+
+const TipoTercero = React.lazy(() => import("./views/TipoTercero/TipoTercero"));
+
+const Plantilla = React.lazy(() => import("./views/Plantilla/Plantilla"));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -184,6 +191,30 @@ const routes = [
     exact: true,
     name: " Configuración / Tipo de envío / llegada  ",
     component: TipoLlegada
+  },
+  {
+    path: "/configuracion/tipotramite",
+    exact: true,
+    name: "Configuracion / tipo de tramite",
+    component: TipoTramite
+  },
+  {
+    path: "/configuracion/tipotramite/editartramite",
+    exact: true,
+    name: "Configuracion / tipo de tramite",
+    component: EditTramite
+  },
+  {
+    path: "/configuracion/tipotercero",
+    exact: true,
+    name: "Configuracion / tipo de tercero",
+    component: TipoTercero
+  },
+  {
+    path: "/configuracion/plantilla",
+    exact: true,
+    name: "Plantilla de datos",
+    component: Plantilla
   }
 ];
 

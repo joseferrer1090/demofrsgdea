@@ -317,5 +317,4 @@ handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
     );
   }
 }
-
 export default FormCreateGrupos;

@@ -15,6 +15,8 @@ import {
 import classnames from "classnames";
 import PropType from "prop-types";
 import FormCreatePlantilla from "./components/FormCreatePlantilla";
+import TableContent from "./components/TableContentPlantilla";
+import FormImport from "./components/FormImportPlantilla";
 
 class Plantilla extends Component {
   constructor(props) {
@@ -78,14 +80,14 @@ class Plantilla extends Component {
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <p>Tabla</p>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <p>Importe</p>
+                <FormImport />
               </Col>
             </Row>
           </TabPane>

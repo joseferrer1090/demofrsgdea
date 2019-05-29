@@ -19,12 +19,12 @@ class ModalDeleteTramite extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Eliminar sede </ModalHeader>
+        <ModalHeader> Eliminar tramite </ModalHeader>
         <ModalBody>
           <form className="form">
             <p className="text-center">
               {" "}
-              Confirmar el <code> Nombre </code> para eliminar el sede{" "}
+              Confirmar el <code> Nombre </code> para eliminar el tramite{" "}
             </p>
 
             <input
@@ -36,7 +36,7 @@ class ModalDeleteTramite extends Component {
             <br />
             <p className="text-center text-danger">
               {" "}
-              La sede quedará eliminada de manera permanente.{" "}
+              El tramite quedará eliminada de manera permanente.{" "}
             </p>
           </form>
         </ModalBody>

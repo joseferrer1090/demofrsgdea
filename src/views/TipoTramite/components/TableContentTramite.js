@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewTramite from "./ModalViewTramite";
+import ModalDeleteTramite from "./ModalDeleteTramite";
 import PropTypes from "prop-types";
 
 const dataExample = [
@@ -32,7 +33,8 @@ class TableContentTramite extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalview: false
+      modalview: false,
+      modaldel: false
     };
   }
 
@@ -73,6 +75,9 @@ class TableContentTramite extends Component {
   };
   openModalView() {
     this.refs.child1.toggle();
+  }
+  openModalDelete() {
+    this.refs.child2.toggle();
   }
   render() {
     return (
@@ -125,6 +130,7 @@ class TableContentTramite extends Component {
           modalviewtramit={this.state.modalview}
           ref={"child1"}
         />
+        <ModalDeleteTramite modaldelete={this.state.modaldel} ref={"child2"} />
       </div>
     );
   }

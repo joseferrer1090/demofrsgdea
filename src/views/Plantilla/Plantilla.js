@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import PropType from "prop-types";
+import FormCreatePlantilla from "./components/FormCreatePlantilla";
 
 class Plantilla extends Component {
   constructor(props) {
@@ -69,8 +70,8 @@ class Plantilla extends Component {
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <Row>
-              <Col sm="12">
-                <p>Probando registro</p>
+              <Col sm={{ size: 10, offset: 1 }}>
+                <FormCreatePlantilla />
               </Col>
             </Row>
           </TabPane>

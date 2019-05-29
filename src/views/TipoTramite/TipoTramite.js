@@ -17,6 +17,7 @@ import PropTypes from "prop-types";
 import FromCreate from "./components/FormCreateTipoTramite";
 import FormCreateTipoTramite from "./components/FormCreateTipoTramite";
 import TableContent from "./components/TableContentTramite";
+import FormUpload from "./components/FormUploadTramite";
 
 class TipoTramite extends Component {
   constructor(props) {
@@ -86,7 +87,7 @@ class TipoTramite extends Component {
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <p>Probando apenas</p>
+                <FormUpload />
               </Col>
             </Row>
           </TabPane>

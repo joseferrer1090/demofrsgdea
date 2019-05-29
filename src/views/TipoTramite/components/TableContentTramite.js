@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { WithRouter } from "react-router-dom";
 import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewTramite from "./ModalViewTramite";
@@ -56,7 +57,7 @@ class TableContentTramite extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModalEdit();
+            this.routeChange();
           }}
         >
           <i className="fa fa-pencil" />
@@ -76,6 +77,12 @@ class TableContentTramite extends Component {
   openModalView() {
     this.refs.child1.toggle();
   }
+
+  routeChange = () => {
+    let path = `#/configuracion/tipotramite/editartramite`;
+    window.location.replace(path);
+  };
+
   openModalDelete() {
     this.refs.child2.toggle();
   }

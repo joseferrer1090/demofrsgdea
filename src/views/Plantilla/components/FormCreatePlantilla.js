@@ -38,6 +38,7 @@ class FormCreatePlantilla extends Component {
       .map((aux, id) => {
         return (
           <tr key={id}>
+            <td>{id}</td>
             <td>{aux.nombre.toLowerCase()}</td>
             <td>
               <input type="checkbox" />
@@ -150,11 +151,12 @@ class FormCreatePlantilla extends Component {
                                 onChange={e => this.handleSearchInput(e)}
                               />
                             </div>
-                            <div className="card-body">
+                            <div className="">
                               <div className="tableFixHead">
                                 <table className="table table-sm table-hover table-bordered ">
                                   <thead className="thead-light">
                                     <tr className="text-center">
+                                      <th>id</th>
                                       <th>Dependencia</th>
                                       <th>Todos</th>
                                     </tr>

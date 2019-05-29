@@ -10,6 +10,7 @@ import {
   Col
 } from "reactstrap";
 import classnames from "classnames";
+import FormCreate from "./components/FormCreateTipoTercero";
 
 class TipoTercero extends Component {
   constructor(props) {
@@ -66,7 +67,7 @@ class TipoTercero extends Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <p>Probando apenas </p>¿{" "}
+                <FormCreate />
               </Col>
             </Row>
           </TabPane>

@@ -58,12 +58,20 @@ class ModalViewEmpresa extends Component {
                 <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
-                        <dd>nombre </dd>
+                        <dt>Conglomerado </dt>
+                        <dd>conglomerado </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Código </dt>
+                      <dd> codigo </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
                         <dt>Nit </dt>
@@ -71,22 +79,17 @@ class ModalViewEmpresa extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Conglomerado </dt>
-                        <dd>conglomerado </dd>
+                        <dt>Nombre </dt>
+                        <dd>nombre </dd>
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Código </dt>
-                        <dd> codigo </dd>
-                      </dl>
-                    </div>
-                  </div>
+
+
+
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
@@ -103,7 +106,6 @@ class ModalViewEmpresa extends Component {
                       </dl>
                     </div>
                   </div>
-
                 </div>
               </Col>
             </Row>

@@ -38,7 +38,7 @@ class ModalViewRemitente extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver remitente</ModalHeader>
+          <ModalHeader>Ver tercero</ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -49,10 +49,26 @@ class ModalViewRemitente extends Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Datos personales{" "}
+                    Datos {" "}
                   </h5>{" "}
                 </div>
                 <div className="row">
+                <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Tipo de tercero </dt>
+                        <dd> tipo de tercero </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Elemento de comunicación </dt>
+                        <dd> elemento de comunicación </dd>
+                      </dl>
+                    </div>
+                  </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
@@ -78,9 +94,44 @@ class ModalViewRemitente extends Component {
                     </div>
                   </div>
                   <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt> Estado </dt>
+                      <dd> estado </dd>
+                    </dl>
+                  </div>
+                </div>
+
+
+                </div>
+              </Col>
+              <Col sm="12">
+                <Card>
+                  <CardHeader>
+                    {" "}
+                    <a
+                      onClick={this.toggleCollapse}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {" "}
+                      Más información{" "}
+                    </a>{" "}
+                  </CardHeader>
+                  <Collapse isOpen={this.state.collapse}>
+                    <CardBody>
+                      <div className="row">
+                      <div className="col-md-6">
+                  <div className="form-group">
+                      <dl className="param">
+                        <dt>Teléfono fijo </dt>
+                        <dd> 608-82-87 </dd>
+                      </dl>
+                    </div>
+                    </div>
+                    <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Teléfono </dt>
+                        <dt>Teléfono celular </dt>
                         <dd> 301-7923-466 </dd>
                       </dl>
                     </div>
@@ -101,28 +152,11 @@ class ModalViewRemitente extends Component {
                       </dl>
                     </div>
                   </div>
-                </div>
-              </Col>
-              <Col sm="12">
-                <Card>
-                  <CardHeader>
-                    {" "}
-                    <a
-                      onClick={this.toggleCollapse}
-                      style={{ cursor: "pointer" }}
-                    >
-                      {" "}
-                      Más información{" "}
-                    </a>{" "}
-                  </CardHeader>
-                  <Collapse isOpen={this.state.collapse}>
-                    <CardBody>
-                      <div className="row">
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Estado </dt>
-                              <dd> estado </dd>
+                              <dt>Referencia </dt>
+                              <dd> referencia </dd>
                             </dl>
                           </div>
                         </div>
@@ -150,6 +184,7 @@ class ModalViewRemitente extends Component {
                             </dl>
                           </div>
                         </div>
+
                       </div>
                     </CardBody>
                   </Collapse>

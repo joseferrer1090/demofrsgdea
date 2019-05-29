@@ -6,7 +6,8 @@ import {
   ModalFooter,
   ModalBody,
   Row,
-  Col
+  Col,
+  CustomInput
 } from "reactstrap";
 
 import IMGDEPARTAMENTO from "./../../../assets/img/map-marker.svg";
@@ -44,7 +45,7 @@ class ModalEditDepartamento extends Component {
                 <div className="row">
                 <div className="col-md-6">
                     <div className="form-group">
-                      <label> País </label>
+                      <label> País <span className="text-danger">*</span>{" "} </label>
                       <select className="form-control form-control-sm">
                         {" "}
                         <option> Seleccione... </option>{" "}
@@ -53,7 +54,7 @@ class ModalEditDepartamento extends Component {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label> Código </label>
+                      <label> Código <span className="text-danger">*</span>{" "} </label>
                       <input
                         type="text"
                         className="form-control form-control-sm"
@@ -63,20 +64,32 @@ class ModalEditDepartamento extends Component {
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label> Nombre </label>
+                      <label> Nombre <span className="text-danger">*</span>{" "} </label>
                       <input
                         type="text"
                         className="form-control form-control-sm"
                       />
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-12">
                     <div className="form-group">
-                      <label> Estado </label>
-                      <select className="form-control form-control-sm">
-                        {" "}
-                        <option> Seleccione... </option>{" "}
-                      </select>
+                    <label>
+                    {" "}
+                    Estado <span className="text-danger">*</span>{" "}
+                  </label>
+                  <div className="text-justify">
+                    <CustomInput
+                      type="checkbox"
+                      id="CheckboxEditDepto"
+                      label=" Si esta opción se encuentra activada, representa que
+                    el departamento es visible en el sistema y se podrán
+                    realizar operaciones entre cada uno de los módulos
+                    correspondientes de la aplicación. En caso contrario
+                    el departamento no se elimina del sistema solo
+                    quedará inactivo e invisibles para cada uno de los
+                    módulos correspondiente del sistema."
+                    />
+                    </div>
                     </div>
                   </div>
                 </div>

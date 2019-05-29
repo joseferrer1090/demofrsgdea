@@ -30,7 +30,7 @@ class FormAutomatic extends Component {
             <Card>
               <CardHeader>
                 {" "}
-                <i className="fa fa-server" /> Mover historico automatico{" "}
+                <i className="fa fa-server" /> Mover histórico automatico{" "}
               </CardHeader>
               <CardBody>
                 <p className="text-justify">
@@ -78,7 +78,7 @@ class FormAutomatic extends Component {
                             <div className="form-group">
                               <label>
                                 {" "}
-                                Operción <span className="text-danger">
+                                Operación <span className="text-danger">
                                   *
                                 </span>{" "}
                               </label>
@@ -100,7 +100,7 @@ class FormAutomatic extends Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                Opción <span className="text-danger">*</span>
+                                Entidad <span className="text-danger">*</span>
                               </label>
                               <select className="form-control form-control-sm">
                                 {" "}

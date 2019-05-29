@@ -6,7 +6,8 @@ import {
   ModalFooter,
   ModalBody,
   Row,
-  Col
+  Col,
+  CustomInput
 } from "reactstrap";
 
 import IMGCITY from "./../../../assets/img/skyline.svg";
@@ -45,7 +46,7 @@ class ModalEditCiudad extends Component {
                 <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>País </dt>
+                        País <span className="text-danger">*</span>{" "}
                         <dd>
                           {" "}
                           <select className="form-control form-control-sm">
@@ -59,7 +60,7 @@ class ModalEditCiudad extends Component {
                   <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Departamento </dt>
+                     Departamento <span className="text-danger">*</span>{" "}
                       <dd>
                         {" "}
                         <select className="form-control form-control-sm">
@@ -73,7 +74,7 @@ class ModalEditCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Código </dt>
+                        Código <span className="text-danger">*</span>{" "}
                         <dd>
                           {" "}
                           <input
@@ -88,7 +89,7 @@ class ModalEditCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Nombre </dt>
+                      Nombre <span className="text-danger">*</span>{" "}
                         <dd>
                           {" "}
                           <input
@@ -99,17 +100,26 @@ class ModalEditCiudad extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-12">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Estado </dt>
-                        <dd>
-                          {" "}
-                          <select className="form-control form-control-sm">
-                            {" "}
-                            <option> Seleccione... </option>{" "}
-                          </select>{" "}
-                        </dd>
+                      <label>
+                      {" "}
+                      Estado <span className="text-danger">*</span>{" "}
+                    </label>
+                    <div className="text-justify">
+                      <CustomInput
+                        type="checkbox"
+                        id="CheckboxEditCiudad"
+                        label=" Si esta opción se encuentra activada, representa que
+                      el departamento es visible en el sistema y se podrán
+                      realizar operaciones entre cada uno de los módulos
+                      correspondientes de la aplicación. En caso contrario
+                      el departamento no se elimina del sistema solo
+                      quedará inactivo e invisibles para cada uno de los
+                      módulos correspondiente del sistema."
+                      />
+                      </div>
                       </dl>
                     </div>
                   </div>

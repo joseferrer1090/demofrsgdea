@@ -1,0 +1,10 @@
+result.map((aux, id) => {
+    return(
+        <a onClick={this.function}>
+            {aux.nombre} - {aux.apellido}
+        </a>
+    )
+});
+
+<Select options={this.state.newarray} multi/>
+

@@ -22,7 +22,7 @@ class FormCreateTipoLlegada extends Component {
         <Row>
           <Col sm={{ size: 8, offset: 2 }}>
             <Card>
-              <CardHeader> Registrar tipo de envio - llegada </CardHeader>
+              <CardHeader> Registro de tipo de envío / llegada </CardHeader>
               <CardBody>
                 <form className="form">
                   <div className="row">
@@ -54,9 +54,7 @@ class FormCreateTipoLlegada extends Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Descripción <span className="text-danger">
-                            *
-                          </span>{" "}
+                          Descripción
                         </label>
                         <textarea className="form-control form-control-sm" />
                       </div>
@@ -67,7 +65,7 @@ class FormCreateTipoLlegada extends Component {
                           {" "}
                           Estado <span className="text-danger">*</span>{" "}
                         </label>
-                        <div className="">
+                        <div className="text-justify">
                           <CustomInput
                             type="checkbox"
                             id="ExampleInputCheckbox"

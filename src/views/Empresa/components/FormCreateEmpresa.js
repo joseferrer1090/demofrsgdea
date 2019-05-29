@@ -18,7 +18,7 @@ const dataConglomerado = [
   { value: "3", label: "Conglomerado 3" }
 ];
 
-const dataRolResponsable = [{ value: "0", label: "Rol responsable" }];
+// const dataRolResponsable = [{ value: "0", label: "Cargo responsable" }];
 
 class FormCreateEmpresa extends Component {
   constructor(props) {
@@ -56,47 +56,7 @@ class FormCreateEmpresa extends Component {
                 <CardBody>
                   <form className="form">
                     <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Nit <span className="text-danger">*</span>{" "}
-                          </label>
-                          <input
-                            className="form-control form-control-sm"
-                            type="text"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Código <span className="text-danger">*</span>{" "}
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control form-control-sm"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Nombre <span className="text-danger">*</span>{" "}
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control form-control-sm"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-6">
+                    <div className="col-md-6">
                         <div className="form-group">
                           <label>
                             {" "}
@@ -112,27 +72,69 @@ class FormCreateEmpresa extends Component {
                         </div>
                       </div>
                       <div className="col-md-6">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          Código <span className="text-danger">*</span>{" "}
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control form-control-md"
+                        />
+                      </div>
+                    </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Nit <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            className="form-control form-control-md"
+                            type="text"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          Nombre <span className="text-danger">*</span>{" "}
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control form-control-md"
+                        />
+                      </div>
+                    </div>
+                    </div>
+                    <div className="row">
+
+                    </div>
+                    <div className="row">
+
+                    <div className="col-md-12">
+                    <div className="form-group">
+                      <label> Descripción </label>
+                      <textarea className="form-control form-control-sm" />
+                    </div>
+                  </div>
+                      <div className="col-md-12">
                         <div className="form-group">
                           <label>
                             {" "}
                             Cargo responsable{" "}
-                            <span className="text-danger">*</span>{" "}
+
                           </label>
-                          <Select
-                            value={selectedOptionRolResponsable}
-                            onChange={this.handleChangeRolResponsable}
-                            options={dataRolResponsable}
-                          />
+                          <select className="form-control form-control-md">
+                            {" "}
+                            <option> Seleccione... </option>{" "}
+                          </select>
                         </div>
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label> Descripción </label>
-                          <textarea className="form-control form-control-sm" />
-                        </div>
-                      </div>
+
                     </div>
                     <div className="row">
                       <div className="col-md-12">
@@ -145,7 +147,7 @@ class FormCreateEmpresa extends Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <div className="">
+                              <div className="text-justify">
                                 <CustomInput
                                   type="checkbox"
                                   id="exampleCheck1"

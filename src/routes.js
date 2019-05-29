@@ -111,19 +111,19 @@ const routes = [
   {
     path: "/configuracion/roles",
     exact: true,
-    name: " Configuración / Roles y permisos ",
+    name: " Configuración / Roles  ",
     component: Roles
   },
   {
     path: "/configuracion/grupos",
     exact: true,
-    name: " Configuración / Grupos ",
+    name: " Configuración / Grupo de usuarios ",
     component: GruposUsuarios
   },
   {
     path: "/configuracion/remitentes",
     exact: true,
-    name: " Configuración / Remitentes ",
+    name: " Configuración / Terceros",
     component: Remitentes
   },
   {
@@ -183,13 +183,13 @@ const routes = [
   {
     path: "/configuracion/mensajero",
     exact: true,
-    name: " Configuracion / Mensajero  ",
+    name: " Configuración / Mensajero  ",
     component: Mensajero
   },
   {
     path: "/configuracion/tipollegada",
     exact: true,
-    name: " Configuracion / tipo de llegada  ",
+    name: " Configuración / Tipo de envío/llegada  ",
     component: TipoLlegada
   },
   {

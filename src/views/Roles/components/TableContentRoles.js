@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import data from "./../../../data/data";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewRoles";
@@ -87,7 +88,8 @@ class TableContentRoles extends Component {
       modalview: false,
       modaldel: false,
       modaledit: false,
-      modalpermission: false
+      modalpermission: false,
+      data: this.props.data
     };
   }
 
@@ -163,6 +165,7 @@ class TableContentRoles extends Component {
   }
 
   render() {
+    console.log(this.state.data);
     return (
 
       <div className="animated fadeIn">
@@ -191,7 +194,7 @@ class TableContentRoles extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn dataSort={true} dataField="codigo" dataAlign="center" width={"100"}>
 
-              Codigo
+              Código
             </TableHeaderColumn>
             <TableHeaderColumn dataSort={true} dataField="nombre" dataAlign="center" width={"150"}>
               {" "}
@@ -230,6 +233,7 @@ class TableContentRoles extends Component {
         <ModalEdit modaledit={this.state.modaledit} ref="child2" />
         <ModalDelete modaldelete={this.state.modaldel} ref="child3" />
         <ModalPermission
+          datamodal={this.state.data}
           modaleditpermission={this.state.modalpermission}
           ref="child4"
         />

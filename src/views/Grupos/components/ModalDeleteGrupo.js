@@ -20,7 +20,7 @@ class ModalDeletePais extends Component {
     return (
       <div>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar grupo </ModalHeader>
+          <ModalHeader> Eliminar grupo de usuarios </ModalHeader>
           <ModalBody>
             <form className="form">
               <p className="text-center">
@@ -38,7 +38,7 @@ class ModalDeletePais extends Component {
               <br />
               <p className="text-center text-danger">
                 {" "}
-                El grupo de usuariosgit quedará eliminado de manera permanente.{" "}
+                El grupo de usuarios quedará eliminado de manera permanente.{" "}
               </p>
             </form>
           </ModalBody>

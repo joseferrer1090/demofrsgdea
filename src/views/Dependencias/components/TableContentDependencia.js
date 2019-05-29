@@ -395,33 +395,8 @@ class TableContentDependencia extends Component {
                     >
                       #
                     </TableHeaderColumn>
-            <TableHeaderColumn
-               width={"50"}
-              dataField="Codigo"
-
-              dataAlign="center"
-              dataSort={true}
-            >
-              Código
-            </TableHeaderColumn>
-            <TableHeaderColumn
-            width={"100"}
-              dataField="Nombre"
-              dataSort={true}
-              dataAlign="center"
-            >
-              Nombre
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              width={"160"}
-              dataField="Cargo"
-              dataAlign="center"
-              dataSort={true}
-            >
-              Cargo responsable
-            </TableHeaderColumn>
-            <TableHeaderColumn
-            width={"120"}
+                    <TableHeaderColumn
+              width={"140"}
               dataField="Sede"
               dataAlign="center"
               dataSort={true}
@@ -429,7 +404,32 @@ class TableContentDependencia extends Component {
               Sede
             </TableHeaderColumn>
             <TableHeaderColumn
-            width={"80"}
+               width={"45"}
+              dataField="Codigo"
+              dataAlign="center"
+              dataSort={true}
+            >
+              Código
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              width={"120"}
+              dataField="Nombre"
+              dataSort={true}
+              dataAlign="center"
+            >
+              Nombre
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              width={"150"}
+              dataField="Cargo"
+              dataAlign="center"
+              dataSort={true}
+            >
+              Cargo responsable
+            </TableHeaderColumn>
+
+            <TableHeaderColumn
+            width={"70"}
               dataField="Estado"
               dataAlign="center"
               dataSort={true}

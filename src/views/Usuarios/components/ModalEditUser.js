@@ -16,17 +16,25 @@ import {
   NavItem,
   CardTitle,
   CardText,
-  NavLink
+  NavLink,
+CustomInput
 } from "reactstrap";
+import Select from "react-select";
 
 import classnames from "classnames";
-
+const dataExmapleRoles = [
+  { value: "rol1", label: "rol 1" },
+  { value: "rol2", label: "rol 2" },
+  { value: "rol3", label: "rol 3" },
+  { value: "rol4", label: "rol 4" }
+];
 class ModalEditUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: this.props.modaledit,
-      activeTab: "1"
+      activeTab: "1",
+      selectedOptionRoles: null
     };
     this.inputOpenFileRef = React.createRef();
   }
@@ -48,7 +56,15 @@ class ModalEditUser extends Component {
   showOpenFileDlg = () => {
     this.inputOpenFileRef.current.click();
   };
+  handleSelectedOptionRoles = selectedOptionRoles => {
+    this.setState({ selectedOptionRoles });
+    console.log(this.state.selectedOptionRoles);
+  };
+
   render() {
+    const{
+      selectedOptionRoles
+    }=this.state
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader> Actualizar usuario</ModalHeader>
@@ -85,7 +101,9 @@ class ModalEditUser extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Identificación </dt>
+                        Identificación <span className="text-danger">
+                        *
+                      </span>{" "}
                         <dd>
                           <input
                             type="text"
@@ -98,7 +116,9 @@ class ModalEditUser extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
+                       Nombre <span className="text-danger">
+                       *
+                     </span>{" "}
                         <dd>
                           {" "}
                           <input
@@ -112,7 +132,9 @@ class ModalEditUser extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>E-mail </dt>
+                        E-mail <span className="text-danger">
+                        *
+                      </span>{" "}
                         <dd>
                           <input
                             type="text"
@@ -125,7 +147,9 @@ class ModalEditUser extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Teléfono </dt>
+                      Teléfono <span className="text-danger">
+                      *
+                    </span>{" "}
                         <dd>
                           {" "}
                           <input
@@ -139,7 +163,7 @@ class ModalEditUser extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Dirección </dt>
+                        Dirección
                         <dd>
                           {" "}
                           <input
@@ -153,11 +177,11 @@ class ModalEditUser extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de nacimiento </dt>
+                        Fecha de nacimiento
                         <dd>
                           {" "}
                           <input
-                            type="text"
+                            type="date"
                             className="form-control form-control-sm"
                           />{" "}
                         </dd>
@@ -288,37 +312,51 @@ class ModalEditUser extends Component {
                                     <span className="text-danger">*</span>
                                   </label>
                                   <input
+                                  disabled
                                     type="text"
-                                    className="form-control form-control-sm"
+                                    className="form-control form-control-md"
                                   />
                                 </div>
                               </div>
                               <div className="col-md-6">
-                                <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    Roles <span className="text-danger">
-                                      *
-                                    </span>{" "}
-                                  </label>
-                                  <select className="form-control form-control-sm">
-                                    {" "}
-                                    <option> Seleccione... </option>{" "}
-                                  </select>
-                                </div>
-                              </div>
+                            <div className="form-group">
+                              <label>
+                                {" "}
+                                Roles <span className="text-danger">
+                                  *
+                                </span>{" "}
+                              </label>
+                              <Select
+                                value={selectedOptionRoles}
+                                onChange={this.handleSelectedOptionRoles}
+                                options={dataExmapleRoles}
+                                placeholder={"Selecciones los roles"}
+                                isMulti
+                              />
+                            </div>
+                          </div>
                               <div className="col-md-12">
                                 <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    Estado{" "}
-                                    <span className="text-danger">*</span>{" "}
-                                  </label>
-                                  <select className="form-control form-control-sm">
-                                    {" "}
-                                    <option> Activo </option>{" "}
-                                    <option> Desactivado </option>{" "}
-                                  </select>
+                                <label>
+                                {" "}
+                                Estado <span className="text-danger">
+                                  *
+                                </span>{" "}
+                              </label>
+                              <div className="text-justify">
+                                <CustomInput
+                                  type="checkbox"
+                                  id="CheckBoxEditUser"
+                                  label="Si esta opción se encuentra activada,
+                                representa que el usuario es visible en el
+                                sistema y se podrán realizar operaciones entre
+                                cada uno de los módulos correspondientes de la
+                                aplicación. En caso contrario el usuario no se
+                                elimina del sistema solo quedará inactivo e
+                                invisibles para cada uno de los módulos
+                                correspondiente del sistema."
+                                />
+                                </div>
                                 </div>
                               </div>
                             </div>

@@ -126,7 +126,7 @@ class ModalViewCargo extends Component {
               <Table size="sm" striped hover>
                 <thead>
                   <tr className="text-center">
-                    <th>  </th>
+                  <th> Asignar responsabilidades</th>
                     <th>  </th>
                     <th> Responsable </th>
                   </tr>

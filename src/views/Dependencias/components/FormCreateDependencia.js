@@ -29,6 +29,42 @@ class FromCreateDependencia extends Component {
                 <CardBody>
                   <form className="form" role="form">
                     <div className="row">
+                    <div className="col-md-4">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Conglomerado <span className="text-danger">
+                          *
+                        </span>{" "}
+                      </label>
+                      <select className="form-control form-control-sm">
+                        <option> Seleccione </option>
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Empresa <span className="text-danger">*</span>{" "}
+                      </label>
+                      <select className="form-control form-control-sm">
+                        {" "}
+                        <option> Seleccione... </option>{" "}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Sede <span className="text-danger">*</span>{" "}
+                      </label>
+                      <select className="form-control form-control-sm">
+                        <option>Seleccione...</option>
+                      </select>
+                    </div>
+                  </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>
@@ -63,47 +99,12 @@ class FromCreateDependencia extends Component {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-4">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Conglomerado <span className="text-danger">
-                              *
-                            </span>{" "}
-                          </label>
-                          <select className="form-control form-control-sm">
-                            <option> Seleccione </option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Empresa <span className="text-danger">*</span>{" "}
-                          </label>
-                          <select className="form-control form-control-sm">
-                            {" "}
-                            <option> Seleccione... </option>{" "}
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Sede <span className="text-danger">*</span>{" "}
-                          </label>
-                          <select className="form-control form-control-sm">
-                            <opotion>Seleccione</opotion>
-                          </select>
-                        </div>
-                      </div>
+
                     </div>
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label> Cargo responsable </label>
+                          <label> Cargo responsable <span className="text-danger">*</span> </label>
                           <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione... </option>{" "}
@@ -116,10 +117,10 @@ class FromCreateDependencia extends Component {
                             {" "}
                             Estado <span className="text-danger">*</span>{" "}
                           </label>
-                          <div className="">
+                          <div className="text-justify">
                             <CustomInput
                               type="checkbox"
-                              id="ExampleInputCheckbox"
+                              id="CheckboxEditDependencia"
                               label=" Si esta opción se encuentra activada, representa
                               que la dependencia es visible en el sistema y se
                               podrán realizar operaciones entre cada uno de los

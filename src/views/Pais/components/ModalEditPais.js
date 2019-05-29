@@ -6,7 +6,8 @@ import {
   ModalFooter,
   ModalBody,
   Row,
-  Col
+  Col,
+  CustomInput
 } from "reactstrap";
 
 import IMGCOUNTRY from "./../../../assets/img/flag.svg";
@@ -67,14 +68,23 @@ class ModalEditPais extends Component {
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label>
-                          {" "}
-                          Estado <span className="text-danger">*</span>{" "}
-                        </label>
-                        <select className="form-control form-control-sm">
-                          {" "}
-                          <option> Seleccione... </option>{" "}
-                        </select>
+                      <label>
+                      {" "}
+                      Estado <span className="text-danger">*</span>{" "}
+                    </label>
+                    <div className="text-justify">
+                      <CustomInput
+                        type="checkbox"
+                        id="CheckboxEditPais"
+                        label="Si esta opción se encuentra activada, representa que
+                        el país es visible en el sistema y se podrán
+                        realizar operaciones entre cada uno de los módulos
+                        correspondientes de la aplicación. En caso contrario
+                        el país no se elimina del sistema solo quedará
+                        inactivo e invisibles para cada uno de los módulos
+                        correspondiente del sistema."
+                      />
+                      </div>
                       </div>
                     </div>
                   </div>

@@ -20,7 +20,7 @@ const dataEmpresa = [
   { value: "5", label: "Empresa5" }
 ];
 
-const dataExampleRolResponsable = [{ value: "1", label: "rol responsable" }];
+const dataExampleRolResponsable = [{ value: "1", label: "Cargo responsable" }];
 
 class FormCreateSedes extends Component {
   constructor(props) {
@@ -62,6 +62,35 @@ class FormCreateSedes extends Component {
                 <CardBody>
                   <form className="form">
                     <Row>
+                    <Col sm="6">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Conglomerado <span className="text-danger">
+                              *
+                            </span>{" "}
+                          </label>
+                          <select className="form-control form-control-md">
+                            {" "}
+                            <option> Seleccione... </option>{" "}
+                          </select>
+                        </div>
+                      </Col>
+                      <Col sm="6">
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Empresa <span className="text-danger">*</span>
+                          </label>
+                          <br />
+                          <Select className=""
+                            value={this.state.selectedOptionEmpresa}
+                            onChange={this.handleChangeOptionEmpresa}
+                            options={dataEmpresa}
+                          />
+
+                        </div>
+                      </Col>
                       <Col sm="6">
                         <div className="form-group">
                           <label>
@@ -70,7 +99,7 @@ class FormCreateSedes extends Component {
                           </label>
                           <input
                             type="text"
-                            className="form-control form-control-sm"
+                            className="form-control form-control-md"
                           />
                         </div>
                       </Col>
@@ -82,7 +111,7 @@ class FormCreateSedes extends Component {
                           </label>
                           <input
                             type="text"
-                            className="form-control form-control-sm"
+                            className="form-control form-control-md"
                           />
                         </div>
                       </Col>
@@ -94,36 +123,9 @@ class FormCreateSedes extends Component {
                       </Col>
                     </Row>
                     <Row>
-                      <Col sm="12">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Conglomerado <span className="text-danger">
-                              *
-                            </span>{" "}
-                          </label>
-                          <select className="form-control form-control-sm">
-                            {" "}
-                            <option> Seleccione... </option>{" "}
-                          </select>
-                        </div>
-                      </Col>
-                      <Col sm="4">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Empresa <span className="text-danger">*</span>{" "}
-                          </label>
-                          <br />
-                          <Select className=""
-                            value={this.state.selectedOptionEmpresa}
-                            onChange={this.handleChangeOptionEmpresa}
-                            options={dataEmpresa}
-                          />
 
-                        </div>
-                      </Col>
-                      <Col sm="4">
+
+                      <Col sm="6">
                         <div className="form-group">
                           <label>
                             {" "}
@@ -138,7 +140,7 @@ class FormCreateSedes extends Component {
                           />
                         </div>
                       </Col>
-                      <Col sm="4">
+                      <Col sm="6">
                         <div className="form-group">
                           <label>
                             {" "}
@@ -214,7 +216,7 @@ class FormCreateSedes extends Component {
                               *
                             </span>{" "}
                           </label>
-                          <textarea className="form-control form-control-sm" />
+                          <input type="text" className="form-control form-control-sm" />
                         </div>
                       </Col>
                       <Col sm="5">
@@ -248,7 +250,7 @@ class FormCreateSedes extends Component {
                             {" "}
                             Estado <span className="text-danger">*</span>{" "}
                           </label>
-                          <div className="">
+                          <div className="text-justify">
                             <CustomInput
                               type="checkbox"
                               id="ExampleInputCheckbox"

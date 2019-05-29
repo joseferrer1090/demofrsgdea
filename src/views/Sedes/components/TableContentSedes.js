@@ -186,14 +186,7 @@ class TableContentSedes extends Component {
                 >
                   #
                 </TableHeaderColumn>
-                <TableHeaderColumn
-                  dataField={"Codigo"}
-                  dataAlign="center"
-                  width={"100"}
-                  dataSort={true}
-                >
-                  Código
-                </TableHeaderColumn>
+
                 <TableHeaderColumn
                   dataField={"Empresa"}
                   dataAlign={"center"}
@@ -202,6 +195,14 @@ class TableContentSedes extends Component {
                 >
                   {" "}
                   Empresa{" "}
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataField={"Codigo"}
+                  dataAlign="center"
+                  width={"100"}
+                  dataSort={true}
+                >
+                  Código
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataField={"Nombre"}

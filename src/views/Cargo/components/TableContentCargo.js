@@ -162,9 +162,6 @@ class TableContentCargo extends Component {
             >
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataAlign="center" dataField="nombre" width={"100"}>
-              Nombre
-            </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
               dataField="codigo"
@@ -173,6 +170,10 @@ class TableContentCargo extends Component {
               {" "}
               Código{" "}
             </TableHeaderColumn>
+            <TableHeaderColumn dataAlign="center" dataField="nombre" width={"100"}>
+              Nombre
+            </TableHeaderColumn>
+
             <TableHeaderColumn
               dataAlign="center"
               dataField="descripcion"
@@ -191,8 +192,8 @@ class TableContentCargo extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-            width={"200"}
-            export={false}
+              width={"200"}
+              export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesCargo(cell, row)}
             >

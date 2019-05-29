@@ -34,16 +34,16 @@ class ModalSearchAuditoria extends Component {
           <ModalBody>
             <form className="">
               <div className="row">
-                <div className="col">
-                  <label>Desde</label>
+                <div className="col-sm-6  ">
+                  <label>Fecha desde</label>
                   <input
                     type="date"
                     className="form-control form-control-sm"
                     placeholder="Desde"
                   />
                 </div>
-                <div className="col">
-                  <label>Hasta</label>
+                <div className="col-sm-6">
+                  <label>Fecha hasta</label>
                   <input
                     type="date"
                     className="form-control form-control-sm"
@@ -53,7 +53,32 @@ class ModalSearchAuditoria extends Component {
               </div>
               <br />
               <div className="row">
-                <div className="col">
+              <div className="col-sm-6">
+                  <label>Módulo</label>
+                  <select
+                    id="modulo"
+                    name="modulo"
+                    className="form-control form-control-sm"
+                    onChange={e => this.handleChangeSelect(e)}
+                  >
+                  <option value="Módulo de configuración">Módulo de configuración</option>
+                  <option value="Módulo de correspondencia">Módulo de correspondencia</option>
+                  <option value="Módulo de archivo">Módulo de archivo</option>
+                  <option value="Módulo de workflow">Módulo de workflow</option>
+                  </select>
+                </div>
+                <div className="col-sm-6">
+                <label>Entidad</label>
+                <select
+                  className="form-control form-control-sm"
+                >
+                  <option>Entidad asociada al módulo</option>
+                </select>
+              </div>
+              </div>
+              <br/>
+              <div className="row">
+                <div className="col-sm-6">
                   <label>Acciones</label>
                   <select
                     id="acciones"
@@ -66,7 +91,60 @@ class ModalSearchAuditoria extends Component {
                     <option value="eliminar">Eliminar</option>
                   </select>
                 </div>
-                <div className="col">
+                <div className="col-sm-6">
+                  <label>Operación</label>
+                  <select
+                    id="operación"
+                    name="operación"
+                    className="form-control form-control-sm"
+                    onChange={e => this.handleChangeSelect(e)}
+                  >
+                    <option value="insert">Insert</option>
+                    <option value="update">Update</option>
+                    <option value="delete">Delete</option>
+                    <option value="select">Select</option>
+                  </select>
+                </div>
+                </div>
+                <br/>
+                <div className="row">
+              <div className="col-sm-6">
+                  <label>Conglomerado</label>
+                  <select
+                    className="form-control form-control-sm">
+                  <option >Seleccione...</option>
+                  </select>
+                </div>
+                <div className="col-sm-6">
+                <label>Empresa</label>
+                <select
+                  className="form-control form-control-sm"
+                >
+                  <option>Seleccione</option>
+                </select>
+              </div>
+              </div>
+              <br/>
+              <div className="row">
+              <div className="col-sm-6">
+                  <label>Sede</label>
+                  <select
+                    className="form-control form-control-sm">
+                  <option >Seleccione...</option>
+                  </select>
+                </div>
+                <div className="col-sm-6">
+                <label>Dependencia</label>
+                <select
+                  className="form-control form-control-sm"
+                >
+                  <option>Seleccione</option>
+                </select>
+              </div>
+              </div>
+                <br />
+                <div className="row">
+                <div className="col-sm-6">
                   <label>Usuarios</label>
                   <select
                     id="usuarios"
@@ -312,7 +390,7 @@ class ModalSearchAuditoria extends Component {
                     </optgroup>
                   </select>
                 </div>
-              </div>
+                </div>
             </form>
           </ModalBody>
           <ModalFooter>

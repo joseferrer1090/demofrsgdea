@@ -41,7 +41,7 @@ export default {
           url: "/configuracion/mensajero"
         },
         {
-          name: "Tipo llegada",
+          name: "Tipo de envío/llegada",
           icon: "icon-settings",
           url: "/configuracion/tipollegada"
         },
@@ -56,6 +56,7 @@ export default {
           url: "/configuracion/usuarios"
         },
         {
+
           name: "Tipo de terceros",
           icon: "fa fa-truck",
           url: "/configuracion/tipotercero"
@@ -71,7 +72,7 @@ export default {
           url: "/configuracion/grupos"
         },
         {
-          name: "Remitente",
+          name: "Terceros",
           icon: "icon-settings",
           url: "/configuracion/remitentes"
         },

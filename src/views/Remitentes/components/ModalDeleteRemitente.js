@@ -18,12 +18,12 @@ class ModalDeleteRemitente extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Eliminar remitente </ModalHeader>
+        <ModalHeader> Eliminar tercero </ModalHeader>
         <ModalBody>
           <form className="form">
             <p className="text-center">
               {" "}
-              Confirmar el <code> Nombre </code> para eliminar el remitente{" "}
+              Confirmar el <code> Nombre </code> para eliminar el tercero{" "}
             </p>
 
             <input
@@ -35,7 +35,7 @@ class ModalDeleteRemitente extends Component {
             <br />
             <p className="text-center text-danger">
               {" "}
-              El remitente quedará eliminado de manera permanente.{" "}
+              El tercero quedará eliminado de manera permanente.{" "}
             </p>
           </form>
         </ModalBody>

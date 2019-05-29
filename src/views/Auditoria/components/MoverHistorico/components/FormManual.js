@@ -23,7 +23,7 @@ class FormManual extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-server" />
-                Movimiento Historico manual
+                Movimiento Histórico manual
               </CardHeader>
               <CardBody>
                 <p className="text-justify">
@@ -93,18 +93,18 @@ class FormManual extends Component {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col-md-8">
+                      <div className="col-md-6">
                         <div className="form-group">
                           <label>
                             {" "}
-                            Opción <span className="text-danger">*</span>{" "}
+                            Entidad <span className="text-danger">*</span>{" "}
                           </label>
                           <select className="form-control form-control-sm">
                             <option>Selecciones</option>
                           </select>
                         </div>
                       </div>
-                      <div className="col-md-4">
+                      <div className="col-md-6">
                         <div className="form-group">
                           <label>
                             {" "}
@@ -123,7 +123,7 @@ class FormManual extends Component {
                 <div className="float-right">
                   <button className="btn btn-secondary btn-sm">
                     {" "}
-                    <i className="fa fa-gear" /> Mover a historico{" "}
+                    <i className="fa fa-gear" /> Mover a histórico{" "}
                   </button>
                 </div>
               </CardFooter>

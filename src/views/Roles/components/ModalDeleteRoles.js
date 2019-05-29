@@ -16,7 +16,7 @@ class ModalDeleteRoles extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Eliminar roles </ModalHeader>
+        <ModalHeader> Eliminar rol </ModalHeader>
         <ModalBody>
           <form className="form">
             <p className="text-center">

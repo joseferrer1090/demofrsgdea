@@ -32,7 +32,10 @@ const dataExample = [
     accion: "Grabar",
     tabla: "tabla_entidad",
     usuario: "usuario_nanme",
-    tipo: "usuario_type"
+    tipo: "usuario_type",
+    modulo:"Módulo de configuración",
+    operacion:"",
+    entidad:"Entidad 5"
   },
   {
     id: 2,
@@ -40,7 +43,10 @@ const dataExample = [
     accion: "Grabar",
     tabla: "tabla_entidad",
     usuario: "usuario_nanme",
-    tipo: "usuario_type"
+    tipo: "usuario_type",
+    modulo:"Módulo de configuración",
+    operacion:"",
+    entidad:"Entidad 8"
   },
   {
     id: 3,
@@ -48,7 +54,10 @@ const dataExample = [
     accion: "Grabar",
     tabla: "tabla_entidad",
     usuario: "usuario_nanme",
-    tipo: "usuario_type"
+    tipo: "usuario_type",
+    modulo:"Módulo de configuración",
+    operacion:"",
+    entidad:"Entidad 1"
   },
   {
     id: 4,
@@ -56,7 +65,10 @@ const dataExample = [
     accion: "Grabar",
     tabla: "tabla_entidad",
     usuario: "usuario_nanme",
-    tipo: "usuario_type"
+    tipo: "usuario_type",
+    modulo: "Módulo de configuración",
+    operacion:"",
+    entidad:"Entidad 3"
   },
   {
     id: 5,
@@ -64,7 +76,10 @@ const dataExample = [
     accion: "Grabar",
     tabla: "tabla_entidad",
     usuario: "usuario_nanme",
-    tipo: "usuario_type"
+    tipo: "usuario_type",
+    modulo: "Módulo de configuración",
+    operacion:"",
+    entidad:"Entidad 2"
   },
   {
     id: 6,
@@ -72,7 +87,10 @@ const dataExample = [
     accion: "Grabar",
     tabla: "tabla_entidad",
     usuario: "usuario_nanme",
-    tipo: "usuario_type"
+    tipo: "usuario_type",
+    modulo: "Módulo de configuración",
+    operacion:"",
+    entidad:"Entidad 1"
   }
 ];
 
@@ -101,7 +119,7 @@ class Auditoria extends Component {
 
   accionVerAuditoria(cel, row) {
     return (
-      <div className="table-actionMenuAuditoria" style={{marginRight:"90px"}}>
+      <div className="table-actionMenuAuditoria" style={{marginRight:"107px"}}>
       <button
         className="btn btn-secondary btn-sm "
         data-trigger="hover"
@@ -166,28 +184,31 @@ class Auditoria extends Component {
                 // headerStyle={{ height: "39px" }}
                 bod
               >
-                <TableHeaderColumn isKey dataField="fecha" dataAlign="center">
+                <TableHeaderColumn isKey dataField="fecha" dataAlign="center" width={"100"}>
                   {" "}
                   Fecha{" "}
                 </TableHeaderColumn>
-                <TableHeaderColumn dataField="accion" dataAlign="center">
+                <TableHeaderColumn dataField="modulo" dataAlign="center">
+                  {" "}
+                  Módulo{" "}
+                </TableHeaderColumn>
+                <TableHeaderColumn dataField="entidad" dataAlign="center">
+                {" "}
+                Entidad{" "}
+              </TableHeaderColumn>
+                <TableHeaderColumn dataField="accion" dataAlign="center" width={"100"}>
                   {" "}
                   Accion{" "}
                 </TableHeaderColumn>
-                <TableHeaderColumn dataField="tabla" dataAlign="center">
-                  {" "}
-                  Tabla{" "}
-                </TableHeaderColumn>
+
                 <TableHeaderColumn dataField="usuario" dataAlign="center">
                   {" "}
                   Usuario{" "}
                 </TableHeaderColumn>
-                <TableHeaderColumn dataField="tipo" dataAlign="center">
-                  {" "}
-                  Tipo{" "}
-                </TableHeaderColumn>
+
 
                 <TableHeaderColumn
+                  export={false}
                   dataAlign="center"
                   dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
                 >

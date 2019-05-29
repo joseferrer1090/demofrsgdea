@@ -14,7 +14,8 @@ import {
   NavItem,
   NavLink,
   Card,
-  CardBody
+  CardBody,
+  CustomInput
 } from "reactstrap";
 import classnames from "classnames";
 import IMGDEPENDENCIA from "./../../../assets/img/settings-work-tool.svg";
@@ -57,79 +58,91 @@ class ModalEditDependencia extends Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Datos personales{" "}
+                    Datos {" "}
                   </h5>{" "}
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Código </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Nombre </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Descripción </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Estado </label>
-                      <select className="form-control">
-                        {" "}
-                        <option> Activo </option> <option> Inactivo </option>{" "}
-                      </select>
-                    </div>
-                  </div>
+                <div className="col-md-6">
+                <div className="form-group">
+                  <label> Conglomerado <span className="text-danger">*</span> </label>
+                  <select className="form-control form-control-sm">
+                    {" "}
+                    <option> Seleccione... </option>{" "}
+                  </select>
                 </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label> Empresa <span className="text-danger">*</span> </label>
+                  <select className="form-control form-control-sm">
+                    {" "}
+                    <option> Seleccione... </option>{" "}
+                  </select>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label> Sede <span className="text-danger">*</span> </label>
+                  <select className="form-control form-control-sm">
+                    {" "}
+                    <option> Seleccione... </option>{" "}
+                  </select>
+                </div>
+              </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label> Código <span className="text-danger">*</span> </label>
+                      <input type="text" className="form-control form-control-sm" />
+                    </div>
+                  </div>
+
+                </div>
+                <br/>
               </Col>
               <Col sm="12">
-              <Card>
-              <CardBody>
               <div className="row">
               <div className="col-md-6">
-                <div className="form-group">
-                  <label> Conglomerado </label>
-                  <select className="form-control">
-                    {" "}
-                    <option> Seleccione... </option>{" "}
-                  </select>
-                </div>
+              <div className="form-group">
+                <label> Nombre <span className="text-danger">*</span> </label>
+                <input type="text" className="form-control form-control-sm" />
               </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label> Empresa </label>
-                  <select className="form-control">
-                    {" "}
-                    <option> Seleccione... </option>{" "}
-                  </select>
-                </div>
+            </div>
+            <div className="col-md-6">
+            <div className="form-group">
+              <label> Cargo responsable <span className="text-danger">*</span> </label>
+              <select className="form-control form-control-sm">
+              {" "}
+              <option> Seleccione... </option>{" "}
+            </select>
+            </div>
+          </div>
+            <div className="col-md-12">
+              <div className="form-group">
+                <label> Descripción </label>
+                <textarea  className="form-control" />
               </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label> Sede </label>
-                  <select className="form-control">
-                    {" "}
-                    <option> Seleccione... </option>{" "}
-                  </select>
-                </div>
+            </div>
+            <div className="col-md-12">
+            <div className="form-group">
+              <label>
+              Estado <span className="text-danger">*</span>
+            </label>
+            <div className="text-justify">
+              <CustomInput
+                type="checkbox"
+                id="ExampleInputCheckbox"
+                label="Si esta opción se encuentra activada, Representa que
+               la sede es visible en el sistema y se podrán
+               realizar operaciones entre cada uno de los módulos
+               correspondientes de la aplicación. En caso contrario
+               la sede no se elimina del sistema solo quedará
+               inactiva e invisibles para cada uno de los módulos
+               correspondiente del sistema."
+              />
+            </div>
+            </div>
               </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <label> Cargo responsable </label>
-                  <input type="text" className="form-control" />
-                </div>
-              </div>
-              </div>
-              </CardBody>
-              </Card>
+            </div>
               </Col>
             </Row>
           </ModalBody>

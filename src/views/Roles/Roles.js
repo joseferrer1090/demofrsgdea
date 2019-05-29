@@ -78,7 +78,7 @@ export default class Roles extends React.Component {
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <TableContent />
+                <TableContent data={data} />
               </Col>
             </Row>
           </TabPane>

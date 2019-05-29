@@ -46,12 +46,23 @@ export default {
           url: "/configuracion/tipollegada"
         },
         {
+          name: "Tipo Tramite",
+          icon: "fa fa-code-fork",
+          url: "/configuracion/tipotramite"
+        },
+        {
           name: "Usuarios",
           icon: "icon-user",
           url: "/configuracion/usuarios"
         },
         {
-          name: "Roles",
+
+          name: "Tipo de terceros",
+          icon: "fa fa-truck",
+          url: "/configuracion/tipotercero"
+        },
+        {
+          name: "Roles y permisos",
           icon: "icon-lock",
           url: "/configuracion/roles"
         },
@@ -106,6 +117,11 @@ export default {
               icon: "fa fa-server"
             }
           ]
+        },
+        {
+          name: "Plantilla de datos",
+          url: "/configuracion/plantilla",
+          icon: "fa fa-puzzle-piece"
         },
         {
           name: "Tema",

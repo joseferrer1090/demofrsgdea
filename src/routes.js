@@ -6,6 +6,7 @@ import Ciudad from "./views/Ciudad/Ciudad";
 import Departamento from "./views/Departamento/Departamento";
 import Profile from "./views/Pages/Profile/Profle";
 import Tema from "./views/Tema/Tema";
+import EditTramite from "./views/TipoTramite/components/ViewEditTramite";
 
 const Configuracion = React.lazy(() =>
   import("./views/Configuracion/Configuracion")
@@ -196,6 +197,12 @@ const routes = [
     exact: true,
     name: "Configuracion / tipo de tramite",
     component: TipoTramite
+  },
+  {
+    path: "/configuracion/tipotramite/editartramite",
+    exact: true,
+    name: "Configuracion / tipo de tramite",
+    component: EditTramite
   },
   {
     path: "/configuracion/tipotercero",

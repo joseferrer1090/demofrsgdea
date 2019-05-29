@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Select from "react-select";
 import {
   Modal,
   ModalHeader,
@@ -13,13 +14,16 @@ import {
   CardTitle,
   CustomInput
 } from "reactstrap";
-
+import { dataGrupoUsuarios } from "./FormCreateGrupos";
+const filtraritems = [];
 class ModalEditPais extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: this.props.modalgitedit,
-      dataOk: false
+      dataOk: false,
+      items: dataGrupoUsuarios,
+      selectedOptionUserAsigandos: null
     };
   }
   toggle = () => {
@@ -27,8 +31,31 @@ class ModalEditPais extends Component {
       modal: !this.state.modal
     });
   };
+
+  handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
+    this.setState({ selectedOptionUserAsigandos });
+    console.log(this.state.selectedOptionUserAsigandos);
+  };
+
   render() {
-    const { dataOk } = this.state;
+    const {dataOk, items, selectedOptionUserAsigandos} = this.state;
+    const buscarOpciones = items.map(item => (
+      <option
+        key={item.id}
+        onClick={() => {
+        const string = JSON.stringify({
+          value: `${item.id}`,
+          label: `${item.nombre}`
+        });
+        filtraritems.push(JSON.parse(string));
+        console.log(filtraritems);
+      }}
+    >
+      {item.nombre}
+    </option>
+        ));
+    console.log(filtraritems);
+
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -137,7 +164,7 @@ class ModalEditPais extends Component {
                           <div className="form-group">
                             <label>Usuarios disponibles</label>
                             <select className="form-control form-control-sm"  multiple>
-                            {console.log("Se esta mostrando el option?")}
+                            {buscarOpciones}
                             </select>
 
                           </div>
@@ -170,10 +197,15 @@ class ModalEditPais extends Component {
                         Seleccione usuario(s) asignados{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <select className="form-control form-control-sm">
-                        {" "}
-                        <option> Seleccione </option>{" "}
-                      </select>
+                      <Select
+                           onChange={selectedOptionUserAsigandos}
+                           defaultValue={{
+                              value: 'loadUsers',
+                              label: 'Cargar usuarios'
+                            }}
+                            options={filtraritems}
+                            isMulti
+                          />
                     </div>
                   </div>
                   <div className="col-sm-12">

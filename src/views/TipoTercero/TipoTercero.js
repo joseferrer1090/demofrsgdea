@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreate from "./components/FormCreateTipoTercero";
+import TableContent from "./components/TableContentTipoTerceros";
 import FormUpload from "./components/FormUploadTipoTercero";
 
 class TipoTercero extends Component {
@@ -75,7 +76,7 @@ class TipoTercero extends Component {
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <p>Probando apenas</p>
+                <TableContent />
               </Col>
             </Row>
           </TabPane>

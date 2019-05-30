@@ -101,6 +101,11 @@ class TableContentPlantilla extends Component {
     this.refs.child3.toggle();
   }
 
+  openModalEdit() {
+    let path = `/#/configuracion/plantilla/edit`;
+    window.location.replace(path);
+  }
+
   openModalView() {
     this.refs.child1.toggle();
   }

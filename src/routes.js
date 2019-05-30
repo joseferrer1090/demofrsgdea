@@ -7,6 +7,7 @@ import Departamento from "./views/Departamento/Departamento";
 import Profile from "./views/Pages/Profile/Profle";
 import Tema from "./views/Tema/Tema";
 import EditTramite from "./views/TipoTramite/components/ViewEditTramite";
+import EditPlantilla from "./views/Plantilla/components/EditPlantilla";
 
 const Configuracion = React.lazy(() =>
   import("./views/Configuracion/Configuracion")
@@ -215,6 +216,12 @@ const routes = [
     exact: true,
     name: "Plantilla de datos",
     component: Plantilla
+  },
+  {
+    path: "/configuracion/plantilla/edit",
+    exact: true,
+    name: "Editar plantilla de datos",
+    component: EditPlantilla
   }
 ];
 

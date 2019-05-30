@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
+import ModalDelete from "./ModalDeletePlantilla";
+import ModalView from "./ModalViewPlantilla";
+import ModalViewPlantilla from "./ModalViewPlantilla";
 
 const dataExample = [
   {
@@ -35,6 +38,73 @@ const dataExample = [
 ];
 
 class TableContentPlantilla extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modaldelete: false,
+      modalview_: false
+    };
+  }
+
+  accionesPlnatilla = (cel, row) => {
+    return (
+      <div
+        className="table-actionMenuGUsu"
+        style={{ textAlign: "center", padding: "0", marginRight: "105px" }}
+      >
+        <button
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalView();
+          }}
+        >
+          {" "}
+          <i className="fa fa-eye" />{" "}
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalEdit();
+          }}
+        >
+          <i className="fa fa-pencil" />
+        </button>
+        &nbsp;
+        <button
+          className="btn btn-danger btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalDelete();
+          }}
+        >
+          {" "}
+          <i className="fa fa-trash" />{" "}
+        </button>
+      </div>
+    );
+  };
+
+  estadoPlantilla(cell, row) {
+    let status;
+    if (row.estado === true) {
+      status = <p className="text-success"> Activo </p>;
+    } else if (row.estado !== true) {
+      status = <p className="text-danger"> Inactivo </p>;
+    }
+    return status;
+  }
+
+  openModalDelete() {
+    this.refs.child3.toggle();
+  }
+
+  openModalView() {
+    this.refs.child1.toggle();
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -80,17 +150,24 @@ class TableContentPlantilla extends Component {
                 width={"200"}
                 dataField="estado"
                 dataAlign="center"
+                dataFormat={(cell, row) => this.estadoPlantilla(cell, row)}
               >
                 {" "}
                 Estado{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn export={false} dataAlign="center">
+              <TableHeaderColumn
+                export={false}
+                dataAlign="center"
+                dataFormat={(cell, row) => this.accionesPlnatilla(cell, row)}
+              >
                 {" "}
                 Acciones{" "}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>
+        <ModalViewPlantilla modalview={this.state.modalview_} ref={"child1"} />
+        <ModalDelete modaldelete={this.state.modaldelete} ref={"child3"} />
       </div>
     );
   }

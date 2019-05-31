@@ -77,7 +77,7 @@ class TableContentPlantilla extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openViewAddIndexes();
           }}
         >
           <i className="fa fa-address-card-o " />
@@ -117,7 +117,7 @@ class TableContentPlantilla extends Component {
   }
 
   openViewAddIndexes() {
-    let path = `/#/configuracion/plantilla/indices`;
+    let path = `/#/configuracion/plantilla/addindexes`;
     window.location.replace(path);
   }
 

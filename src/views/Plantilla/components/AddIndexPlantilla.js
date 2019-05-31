@@ -1,8 +1,32 @@
 import React, { Component } from "react";
 import { Card, CardBody, CardFooter, CardHeader, Row, Col } from "reactstrap";
+import ModalAddIndexes from "./ModalAddIndexes";
+import ModalEditIndexes from "./ModalEditIndex";
+import ModalDeleteIndex from "./ModalDeleteIndex";
 import PropTypes from "prop-types";
 
 class AddIndexPlantilla extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      modaladd: false,
+      modaledit: false,
+      modaldel: false
+    };
+  }
+
+  openModalAdd() {
+    this.refs.child.toggle();
+  }
+
+  openModaEdit() {
+    this.refs.child2.toggle();
+  }
+
+  openModalDelete() {
+    this.refs.child3.toggle();
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -14,7 +38,10 @@ class AddIndexPlantilla extends Component {
               </div>
               <CardBody>
                 <div className="btn-toolbar mb-1">
-                  <button className="btn btn-success btn-sm mr-1">
+                  <button
+                    className="btn btn-success btn-sm mr-1"
+                    onClick={() => this.openModalAdd()}
+                  >
                     <i className="fa fa-plus" /> Nuevo indice
                   </button>
                   <button className="btn btn-danger btn-sm mr-1">
@@ -40,13 +67,19 @@ class AddIndexPlantilla extends Component {
                       <th scope="row">
                         <input type="checkbox" />
                       </th>
-                      <td>Mark</td>
-                      <td>Otto</td>
+                      <td>Adjuntar archivo</td>
+                      <td>archivo</td>
                       <td>
-                        <button className="btn btn-secondary btn-sm mr-1">
+                        <button
+                          className="btn btn-secondary btn-sm mr-1"
+                          onClick={() => this.openModaEdit()}
+                        >
                           <i className="fa fa-pencil" />{" "}
                         </button>
-                        <button className="btn btn-danger btn-sm mr-1">
+                        <button
+                          className="btn btn-danger btn-sm mr-1"
+                          onClick={() => this.openModalDelete()}
+                        >
                           <i className="fa fa-trash" />
                         </button>
                       </td>
@@ -57,6 +90,15 @@ class AddIndexPlantilla extends Component {
             </Card>
           </Col>
         </Row>
+        <ModalAddIndexes modaladdindexes={this.state.modaladd} ref={"child"} />
+        <ModalEditIndexes
+          modaleditindexes={this.state.modaledit}
+          ref={"child2"}
+        />
+        <ModalDeleteIndex
+          modaldeleteindex={this.state.modaldel}
+          ref={"child3"}
+        />
       </div>
     );
   }

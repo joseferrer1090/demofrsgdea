@@ -8,6 +8,7 @@ import Profile from "./views/Pages/Profile/Profle";
 import Tema from "./views/Tema/Tema";
 import EditTramite from "./views/TipoTramite/components/ViewEditTramite";
 import EditPlantilla from "./views/Plantilla/components/EditPlantilla";
+import AddIndexPlantilla from "./views/Plantilla/components/AddIndexPlantilla";
 
 const Configuracion = React.lazy(() =>
   import("./views/Configuracion/Configuracion")
@@ -222,6 +223,12 @@ const routes = [
     exact: true,
     name: "Editar plantilla de datos",
     component: EditPlantilla
+  },
+  {
+    path: "/configuracion/plantilla/addindexes",
+    exact: true,
+    name: "Agregar indices de datos",
+    component: AddIndexPlantilla
   }
 ];
 

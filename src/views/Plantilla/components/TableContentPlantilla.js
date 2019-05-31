@@ -50,7 +50,7 @@ class TableContentPlantilla extends Component {
     return (
       <div
         className="table-actionMenuGUsu"
-        style={{ textAlign: "center", padding: "0", marginRight: "105px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "190px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

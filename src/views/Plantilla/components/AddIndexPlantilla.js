@@ -3,6 +3,7 @@ import { Card, CardBody, CardFooter, CardHeader, Row, Col } from "reactstrap";
 import ModalAddIndexes from "./ModalAddIndexes";
 import ModalEditIndexes from "./ModalEditIndex";
 import ModalDeleteIndex from "./ModalDeleteIndex";
+import ModalMultiple from "./ModalDeleteMultipleIndex";
 import PropTypes from "prop-types";
 
 class AddIndexPlantilla extends Component {
@@ -11,7 +12,8 @@ class AddIndexPlantilla extends Component {
     this.state = {
       modaladd: false,
       modaledit: false,
-      modaldel: false
+      modaldel: false,
+      modaldelmul: false
     };
   }
 
@@ -25,6 +27,10 @@ class AddIndexPlantilla extends Component {
 
   openModalDelete() {
     this.refs.child3.toggle();
+  }
+
+  openModalMult() {
+    this.refs.child4.toggle();
   }
 
   render() {
@@ -44,7 +50,10 @@ class AddIndexPlantilla extends Component {
                   >
                     <i className="fa fa-plus" /> Nuevo indice
                   </button>
-                  <button className="btn btn-danger btn-sm mr-1">
+                  <button
+                    className="btn btn-danger btn-sm mr-1"
+                    onClick={() => this.openModalMult()}
+                  >
                     <i className="fa fa-trash" /> Eliminar
                   </button>
                   <button className="btn btn-secondary btn-sm mr-1">
@@ -98,6 +107,10 @@ class AddIndexPlantilla extends Component {
         <ModalDeleteIndex
           modaldeleteindex={this.state.modaldel}
           ref={"child3"}
+        />
+        <ModalMultiple
+          modaldeletemultiple={this.state.modalmul}
+          ref={"child4"}
         />
       </div>
     );

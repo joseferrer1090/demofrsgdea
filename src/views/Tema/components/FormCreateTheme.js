@@ -22,38 +22,87 @@ class FormCreateTheme extends Component {
               <CardHeader>Crear nuevo tema</CardHeader>
               <CardBody>
                 <div className="row">
-                  <div className="col-md-6">
-                    <Card body>
-                      <h5 style={{ marginBottom: "5px !important" }}>
-                        {" "}
-                        Colores en el header <hr
-                          style={{ marginTop: "5px" }}
-                        />{" "}
-                      </h5>
-                      <p>Probando</p>
-                    </Card>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label>
+                        Código <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                      />
+                    </div>
                   </div>
-                  <div className="col-md-6">
-                    <Card body>
-                      <h5>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label>
                         {" "}
-                        Colores en el footer{" "}
-                        <hr style={{ marginBottom: "5px" }} />{" "}
-                      </h5>
-                      <p>Probando</p>
-                    </Card>
+                        Nombre <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label> Descripción </label>
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                      />
+                    </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <Card body>
-                      <h5>
-                        {" "}
-                        Colores en el body{" "}
-                        <hr style={{ marginBottom: "5px" }} />{" "}
-                      </h5>
-                      <p> Probando </p>
-                    </Card>
+                <div className="card">
+                  <div className="p-2 mb-2 bg-secondary text-dark">
+                    Datos adicionales
+                  </div>
+                  <div className="card-body">
+                    <div className="row">
+                      <div className="col-md-6">
+                        <Card body>
+                          <h5 style={{ marginBottom: "5px !important" }}>
+                            {" "}
+                            Colores en el header{" "}
+                            <hr style={{ marginTop: "5px" }} />{" "}
+                          </h5>
+                          <p>Probando</p>
+                        </Card>
+                      </div>
+                      <div className="col-md-6">
+                        <Card body>
+                          <h5>
+                            {" "}
+                            Colores en el footer{" "}
+                            <hr style={{ marginBottom: "5px" }} />{" "}
+                          </h5>
+                          <p>Probando</p>
+                        </Card>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <Card body>
+                          <h5>
+                            {" "}
+                            Colores en el body{" "}
+                            <hr style={{ marginBottom: "5px" }} />{" "}
+                          </h5>
+                          <p> Probando </p>
+                        </Card>
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <div className="">
+                        <CustomInput
+                          type="checkbox"
+                          id="ExampleInputCheckbox2"
+                          label="Aplicar a todos los usuarios"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="form-group">

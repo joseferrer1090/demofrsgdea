@@ -6,13 +6,24 @@ import {
   CardFooter,
   CustomInput
 } from "reactstrap";
+import InputColor from "react-input-color";
 import PropTypes from "prop-types";
 
 class FormCreateTheme extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      setColor: "#999999"
+    };
   }
+
+  handlesetColor = e => {
+    this.setState({
+      setColor: e.target.value
+    });
+    console.log(this.state.setColor);
+  };
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -68,7 +79,29 @@ class FormCreateTheme extends Component {
                             Colores en el header{" "}
                             <hr style={{ marginTop: "5px" }} />{" "}
                           </h5>
-                          <p>Probando</p>
+                          <p>
+                            Este color afectara los diferentes header de la
+                            aplicacion{" "}
+                          </p>
+                          <form>
+                            <div className="row">
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <input
+                                    type="color"
+                                    value={this.state.setColor}
+                                    id="favcolor"
+                                    onChange={event => {
+                                      this.setState({
+                                        setColor: event.target.value
+                                      });
+                                      console.log(this.state.setColor);
+                                    }}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </form>
                         </Card>
                       </div>
                       <div className="col-md-6">

@@ -6,7 +6,8 @@ import {
   ModalFooter,
   Row,
   Col,
-  Card
+  Card,
+  CustomInput
 } from "reactstrap";
 import PropTypes from "prop-types";
 
@@ -26,9 +27,29 @@ class ModalEditTheme extends Component {
 
   render() {
     return (
-      <Modal className="modal-xl" isOpen={this.state.modal}>
+      <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader>Editar tema</ModalHeader>
         <ModalBody>
+          <Row>
+            <Col sm="4">
+              <div className="form-group">
+                <label> Código </label>
+                <input type="text" className="form-control form-control-sm" />
+              </div>
+            </Col>
+            <Col sm="4">
+              <div className="form-group">
+                <label>Nombre</label>
+                <input type="text" className="form-control form-control-sm" />
+              </div>
+            </Col>
+            <Col sm="4">
+              <div className="form-group">
+                <label>Descripción</label>
+                <input type="text" className="form-control form-control-sm" />
+              </div>
+            </Col>
+          </Row>
           <Row>
             <Col sm="6">
               <Card body>
@@ -48,14 +69,28 @@ class ModalEditTheme extends Component {
                 <p>Estos son los posibles datos</p>
               </Card>
             </Col>
-            <Col sm="6">
+            <Col sm="12">
               <div className="form-group">
-                <label>
-                  Estado <span className="text-danger">*</span>
-                </label>
-                <select className="form-control form-control-sm">
-                  <option>Seleccione</option>
-                </select>
+                <CustomInput
+                  type="checkbox"
+                  id="ExampleInputCheckbox5"
+                  label="Aplicar para todo los usuarios"
+                />
+              </div>
+            </Col>
+            <Col sm="12">
+              <div className="form-group">
+                <CustomInput
+                  type="checkbox"
+                  id="ExampleInputCheckbox6"
+                  label="Si esta opción se encuentra activada, Representa que
+                             el tema es visible en el sistema y se podrán
+                             realizar operaciones entre cada uno de los módulos
+                             correspondientes de la aplicación. En caso contrario
+                             el tema no se elimina del sistema solo quedará
+                             inactiva e invisibles para cada uno de los módulos
+                             correspondiente del sistema."
+                />
               </div>
             </Col>
           </Row>

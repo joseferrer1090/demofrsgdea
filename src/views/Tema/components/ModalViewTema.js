@@ -69,6 +69,14 @@ class ModalViewTema extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
+                      <dt>Datos adicionales </dt>
+                      <dd> datos adiconales </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
                       <dt>Estado </dt>
                       <dd> Estado </dd>
                     </dl>

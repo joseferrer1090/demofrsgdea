@@ -271,7 +271,7 @@ class FormCreateTipoDocumental extends Component {
                     </Card>
                   </Col>
                 </div>
-                <div className="row">
+                {/* <div className="row">
                   <Col sm="12">
                     <Card>
                       <CardHeader>Asignar indices</CardHeader>
@@ -300,7 +300,7 @@ class FormCreateTipoDocumental extends Component {
                       </CardBody>
                     </Card>
                   </Col>
-                </div>
+                </div> */}
                 <Row>
                   <Col sm="12">
                     <div className="form-group">

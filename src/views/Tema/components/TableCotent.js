@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import ModalViewTheme from "./ModalViewTema";
 import ModalEditTheme from "./ModalEditTheme";
 import ModalDisabledTheme from "./ModalDisabledTheme";
-import "./../../../css/styleTableTema.css"
+import "./../../../css/styleTableTema.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
@@ -52,7 +52,7 @@ class TableCotent extends Component {
 
   accionesTemas = (cell, row) => {
     return (
-      <div className="table-actionMenuTema" style={{marginRight:"100px"}}>
+      <div className="table-actionMenuTema" style={{ marginRight: "180px" }}>
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
@@ -121,20 +121,33 @@ class TableCotent extends Component {
           searchPlaceholder={"Buscar"}
           className="tableTema texto-Tema"
         >
-          <TableHeaderColumn isKey dataField={"id"} dataAlign="center" width={"100"}>
+          <TableHeaderColumn
+            isKey
+            dataField={"id"}
+            dataAlign="center"
+            width={"100"}
+          >
             {" "}
-            Id{" "}
+            Código{" "}
           </TableHeaderColumn>
-          <TableHeaderColumn dataField={"name"} dataAlign="center" width={"200"}>
+          <TableHeaderColumn
+            dataField={"name"}
+            dataAlign="center"
+            width={"200"}
+          >
             {" "}
             Nombre{" "}
           </TableHeaderColumn>
-          <TableHeaderColumn dataField={"descripcion"} dataAlign="center" width={"300"}>
+          <TableHeaderColumn
+            dataField={"descripcion"}
+            dataAlign="center"
+            width={"300"}
+          >
             {" "}
             Descripcion{" "}
           </TableHeaderColumn>
           <TableHeaderColumn
-          width={"200"}
+            width={"200"}
             dataField={"estado"}
             dataAlign="center"
             dataFormat={(cell, row) => this.estadoTema(cell, row)}

@@ -79,11 +79,11 @@ class FormCreateTipoDocumental extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col sm="12">
+          <Col sm={{ size: 8, offset: 2 }}>
             <Card>
               <CardBody>
                 <div className="row">
-                  <Col sm="6">
+                  <Col sm={{ size: 12 }}>
                     <Card>
                       <CardHeader> Datos del tipo documental </CardHeader>
                       <CardBody>
@@ -151,7 +151,7 @@ class FormCreateTipoDocumental extends Component {
                       </CardBody>
                     </Card>
                   </Col>
-                  <Col sm="6">
+                  {/* <Col sm="6">
                     <Card>
                       <CardHeader> Indices documentales </CardHeader>
                       <CardBody>
@@ -178,8 +178,8 @@ class FormCreateTipoDocumental extends Component {
                         </div>
                       </CardBody>
                     </Card>
-                  </Col>
-                  <Col sm="12">
+                  </Col> */}
+                  <Col sm={{ size: 12 }}>
                     <div className="form-group">
                       <label>
                         {" "}

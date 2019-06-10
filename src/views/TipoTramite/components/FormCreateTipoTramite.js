@@ -70,6 +70,19 @@ class FormCreateTipoTramite extends Component {
                                 />
                               </div>
                             </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>
+                                  Días máximos de respuesta{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  type="number"
+                                  className="form-control form-control-sm"
+                                  min={0}
+                                />
+                              </div>
+                            </div>
                             <Col sm="12">
                               <div className="form-group">
                                 <label>
@@ -78,7 +91,7 @@ class FormCreateTipoTramite extends Component {
                                     *
                                   </span>{" "}
                                 </label>
-                                <div className="">
+                                <div className="text-justify">
                                   <CustomInput
                                     type="checkbox"
                                     id="ExampleInputCheckbox"
@@ -179,6 +192,12 @@ class FormCreateTipoTramite extends Component {
                                   </div>
                                 </div>
                               </div>
+                              <textarea
+                                className="form-control form-control-sm"
+                                disabled
+                                placeholder="Usuarios disponibles de la consulta"
+                                rows={8}
+                              />
                             </div>
                           </div>
                         </form>
@@ -215,7 +234,7 @@ class FormCreateTipoTramite extends Component {
                                     <td>DEPENDENCIA I</td>
                                     <td>
                                       <CustomInput
-                                        type="checkbox"
+                                        type="radio"
                                         id="exampleCustomCheckbox2"
                                       />{" "}
                                     </td>
@@ -248,9 +267,7 @@ class FormCreateTipoTramite extends Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>Asunto</label>
-                                <select className="form-control form-control-sm">
-                                  <option>Seleccione</option>
-                                </select>
+                                <textarea className="form-control form-control-sm" />
                               </div>
                             </div>
                           </div>

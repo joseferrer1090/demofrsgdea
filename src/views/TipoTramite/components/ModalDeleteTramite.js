@@ -24,7 +24,8 @@ class ModalDeleteTramite extends Component {
           <form className="form">
             <p className="text-center">
               {" "}
-              Confirmar el <code> Nombre </code> para eliminar el tramite{" "}
+              Confirmar el <code> Nombre </code> para eliminar el tipo de
+              tramite{" "}
             </p>
 
             <input

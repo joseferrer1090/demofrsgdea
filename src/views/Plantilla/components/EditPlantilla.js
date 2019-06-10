@@ -55,7 +55,7 @@ class EditPlantilla extends Component {
               <div className="col-md-12">
                 <div className="card">
                   <div className="p-2 mb-2 bg-secondary text-black">
-                    Editar plantilla de datos
+                    Editar plantilla
                   </div>
                   <div className="card-body">
                     <form className="form">
@@ -157,7 +157,7 @@ class EditPlantilla extends Component {
                                   <thead className="thead-light">
                                     <tr className="text-center">
                                       <th>id</th>
-                                      <th>Dependencia</th>
+                                      <th>Dependécia</th>
                                       <th>Todos</th>
                                     </tr>
                                   </thead>

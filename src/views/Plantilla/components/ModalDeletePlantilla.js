@@ -19,12 +19,12 @@ class ModalDeletePlantilla extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Eliminar plantilla de datos </ModalHeader>
+        <ModalHeader> Eliminar plantilla</ModalHeader>
         <ModalBody>
           <form className="form">
             <p className="text-center">
               {" "}
-              Confirmar el <code> Nombre </code> para la plantilla de datos{" "}
+              Confirmar el <code> Nombre </code> para la plantilla{" "}
             </p>
 
             <input
@@ -36,7 +36,7 @@ class ModalDeletePlantilla extends Component {
             <br />
             <p className="text-center text-danger">
               {" "}
-              La plantilla de datos quedara eliminada de manera permanente.{" "}
+              La plantilla quedara eliminada de manera permanente.{" "}
             </p>
           </form>
         </ModalBody>

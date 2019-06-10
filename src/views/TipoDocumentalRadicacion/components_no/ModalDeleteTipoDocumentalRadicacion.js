@@ -1,34 +1,33 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import PropTypes from "prop-types";
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 
-class ModalDeletePlantilla extends Component {
+class ModalDeleteTipoDocumental extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modaldeleteindex
+      modal: this.props.modaldelete
     };
   }
 
   toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+    this.setState({ modal: !this.state.modal });
   };
 
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Eliminar índice de la plantilla</ModalHeader>
+        <ModalHeader> Eliminar tipo documental radicación </ModalHeader>
         <ModalBody>
           <form className="form">
             <p className="text-center">
               {" "}
-              Confirmar el <code> Nombre </code> para el índice de la planitilla{" "}
+              Confirmar el <code> Nombre </code> para eliminar el tipo
+              documental radicación{" "}
             </p>
 
             <input
-              className="form-control col-sm-6 offset-sm-3 form-control-sm"
+              className="form-control form-control-sm col-sm-6 offset-sm-3"
               type="text"
               placeholder=""
               style={{ textAlign: "center" }}
@@ -36,22 +35,19 @@ class ModalDeletePlantilla extends Component {
             <br />
             <p className="text-center text-danger">
               {" "}
-              El índice quedara eliminado de manera permanente.{" "}
+              El tipo documental radicación quedará eliminado de manera
+              permanente.{" "}
             </p>
           </form>
         </ModalBody>
         <ModalFooter>
-          <button className="btn btn-outline-danger btn-sm">
-            {" "}
-            <i className="fa fa-trash" /> Eliminar{" "}
-          </button>
           <button
+            type="button"
             className="btn btn-secondary btn-sm"
             onClick={() => {
               this.setState({ modal: false });
             }}
           >
-            {" "}
             <i className="fa fa-times" /> Cerrar{" "}
           </button>
         </ModalFooter>
@@ -60,8 +56,8 @@ class ModalDeletePlantilla extends Component {
   }
 }
 
-ModalDeletePlantilla.propTypes = {
-  modaldeleteindex: PropTypes.bool.isRequired
+ModalDeleteTipoDocumental.propTypes = {
+  modaldelete: PropTypes.bool.isRequired
 };
 
-export default ModalDeletePlantilla;
+export default ModalDeleteTipoDocumental;

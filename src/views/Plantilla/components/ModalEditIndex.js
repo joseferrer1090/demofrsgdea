@@ -20,7 +20,7 @@ class ModalAddIndexes extends Component {
     return (
       <div>
         <Modal className="" isOpen={this.state.modal}>
-          <ModalHeader>Editar indice</ModalHeader>
+          <ModalHeader>Editar índice</ModalHeader>
           <ModalBody>
             <form className="form">
               <div className="row">
@@ -70,7 +70,7 @@ class ModalAddIndexes extends Component {
           </ModalBody>
           <ModalFooter>
             <button type="button" className="btn btn-outline-success btn-sm">
-              <i className="fa fa-plus" /> Editar indice
+              <i className="fa fa-plus" /> Editar índice
             </button>
             <button
               type="button"

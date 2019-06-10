@@ -60,6 +60,12 @@ const TipoTercero = React.lazy(() => import("./views/TipoTercero/TipoTercero"));
 
 const Plantilla = React.lazy(() => import("./views/Plantilla/Plantilla"));
 
+const EditTipoDocumentalRadication = React.lazy(() =>
+  import(
+    "./views/TipoDocumentalRadicacion/components/ViewEditTipoDocumentalRadication"
+  )
+);
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   {
@@ -139,6 +145,12 @@ const routes = [
     exact: true,
     name: " Configuración / Tipo documental de radicacion ",
     component: TipoDocumentalesRadicacion
+  },
+  {
+    path: "/configuracion/tipodocumentalradication/edit",
+    exact: true,
+    name: "Configuracion / Tipo documental de radicacion",
+    component: EditTipoDocumentalRadication
   },
   {
     path: "/configuracion/pais",

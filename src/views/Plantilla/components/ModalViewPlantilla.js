@@ -39,7 +39,7 @@ class ModalViewPlantilla extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver platilla de datos</ModalHeader>
+          <ModalHeader>Ver plantilla</ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -50,7 +50,7 @@ class ModalViewPlantilla extends Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Datos personales{" "}
+                    Datos plantilla{" "}
                   </h5>{" "}
                 </div>
 

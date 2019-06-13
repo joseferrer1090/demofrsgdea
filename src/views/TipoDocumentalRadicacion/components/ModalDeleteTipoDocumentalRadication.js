@@ -19,13 +19,13 @@ class ModalDeleteTramite extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Eliminar tramite </ModalHeader>
+        <ModalHeader> Eliminar tipo documental de radicación </ModalHeader>
         <ModalBody>
           <form className="form">
             <p className="text-center">
               {" "}
-              Confirmar el <code> Nombre </code> para eliminar el tipo de
-              tramite{" "}
+              Confirmar el <code> Nombre </code> para eliminar el tipo
+              documental de radicación{" "}
             </p>
 
             <input
@@ -37,7 +37,8 @@ class ModalDeleteTramite extends Component {
             <br />
             <p className="text-center text-danger">
               {" "}
-              El tramite quedará eliminada de manera permanente.{" "}
+              El tipo documental de radicación quedará eliminada de manera
+              permanente.{" "}
             </p>
           </form>
         </ModalBody>

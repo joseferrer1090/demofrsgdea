@@ -1,11 +1,24 @@
 import React, { Component } from "react";
-import { Row, Col, CustomInput } from "reactstrap";
-import PropTypes from "prop-types";
+import {
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardFooter,
+  CardBody,
+  CardTitle,
+  Alert,
+  CustomInput
+} from "reactstrap";
 
-class FormCreateTipoTramite extends Component {
+class FormCreateTipoDocumental extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      values: [],
+      TypeDocumentName: "nombre del tipo documental",
+      dataOk: false
+    };
   }
   render() {
     return (
@@ -96,27 +109,27 @@ class FormCreateTipoTramite extends Component {
                                     type="checkbox"
                                     id="ExampleInputCheckbox"
                                     label="Si esta opción se encuentra activada, Representa que
-                            el tipo de tramite es visible en el sistema y se podrán
-                             realizar operaciones entre cada uno de los módulos
-                             correspondientes de la aplicación. En caso contrario
-                             la sede no se elimina del sistema solo quedará
-                             inactiva e invisibles para cada uno de los módulos
-                             correspondiente del sistema."
+                          el tipo de tramite es visible en el sistema y se podrán
+                           realizar operaciones entre cada uno de los módulos
+                           correspondientes de la aplicación. En caso contrario
+                           la sede no se elimina del sistema solo quedará
+                           inactiva e invisibles para cada uno de los módulos
+                           correspondiente del sistema."
                                   />
                                 </div>
                                 {/* <p
-                            className="text-muted"
-                            style={{ textAlign: "justify" }}
-                          >
-                            {" "}
-                            Si esta opción se encuentra activada, Representa que
-                            la sede es visible en el sistema y se podrán
-                            realizar operaciones entre cada uno de los módulos
-                            correspondientes de la aplicación. En caso contrario
-                            la sede no se elimina del sistema solo quedará
-                            inactiva e invisibles para cada uno de los módulos
-                            correspondiente del sistema.
-                          </p> */}
+                          className="text-muted"
+                          style={{ textAlign: "justify" }}
+                        >
+                          {" "}
+                          Si esta opción se encuentra activada, Representa que
+                          la sede es visible en el sistema y se podrán
+                          realizar operaciones entre cada uno de los módulos
+                          correspondientes de la aplicación. En caso contrario
+                          la sede no se elimina del sistema solo quedará
+                          inactiva e invisibles para cada uno de los módulos
+                          correspondiente del sistema.
+                        </p> */}
                               </div>
                             </Col>
                           </div>
@@ -258,7 +271,7 @@ class FormCreateTipoTramite extends Component {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-4">
+                  <div className="col-md-6">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">Asunto</div>
                       <div className="card-body">
@@ -275,28 +288,8 @@ class FormCreateTipoTramite extends Component {
                       </div>
                     </div>
                   </div>
-                  <div className="col-md-4">
-                    <div className="card">
-                      <div className="p-2 mb-1 bg-light text-dark">
-                        Plantilla
-                      </div>
-                      <div className="card-body">
-                        <form>
-                          <div className="row">
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>Plantilla</label>
-                                <select className="form-control form-control-sm">
-                                  <option>Seleccione</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-4">
+
+                  <div className="col-md-6">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         Workflow
@@ -335,4 +328,4 @@ class FormCreateTipoTramite extends Component {
   }
 }
 
-export default FormCreateTipoTramite;
+export default FormCreateTipoDocumental;

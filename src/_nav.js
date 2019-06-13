@@ -56,7 +56,6 @@ export default {
           url: "/configuracion/usuarios"
         },
         {
-
           name: "Tipo de terceros",
           icon: "fa fa-truck",
           url: "/configuracion/tipotercero"
@@ -76,11 +75,11 @@ export default {
           icon: "icon-settings",
           url: "/configuracion/terceros"
         },
-        {
-          name: "Tipo documental",
-          icon: "icon-folder-alt",
-          url: "/configuracion/tipodocumental"
-        },
+        // {
+        //   name: "Tipo documental",
+        //   icon: "icon-folder-alt",
+        //   url: "/configuracion/tipodocumental"
+        // },
         {
           name: "Tipo documental radicación",
           icon: "icon-book-open",
@@ -119,7 +118,7 @@ export default {
           ]
         },
         {
-          name: "Plantilla de datos",
+          name: "Plantilla",
           url: "/configuracion/plantilla",
           icon: "fa fa-puzzle-piece"
         },

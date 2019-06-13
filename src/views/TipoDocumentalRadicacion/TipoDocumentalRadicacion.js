@@ -14,9 +14,10 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreate from "./components/FormCreateTipoDocumentalRadicacion";
-import FormImport from "./components/FormUploadTipoDocumentalRadicacion";
-import TableContent from "./components/TableContentTipoDocumentalRadicacion";
-export default class TipoDocumental extends React.Component {
+import FormImport from "./components/FormUploadTipoDocumentalRadication";
+import TableContent from "./components/TableContentTipoDocumentalRadication";
+
+export default class TipoDocumentalRadicacion extends React.Component {
   constructor(props) {
     super(props);
 

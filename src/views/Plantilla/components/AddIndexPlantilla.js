@@ -40,7 +40,7 @@ class AddIndexPlantilla extends Component {
           <Col sm={{ size: 10, offset: 1 }}>
             <Card>
               <div className="p-2 mb-2 bg-secondary text-black">
-                Indices plantilla de datos
+                Índices de plantilla
               </div>
               <CardBody>
                 <div className="btn-toolbar mb-1">
@@ -48,7 +48,7 @@ class AddIndexPlantilla extends Component {
                     className="btn btn-success btn-sm mr-1"
                     onClick={() => this.openModalAdd()}
                   >
-                    <i className="fa fa-plus" /> Nuevo indice
+                    <i className="fa fa-plus" /> Nuevo índice
                   </button>
                   <button
                     className="btn btn-danger btn-sm mr-1"

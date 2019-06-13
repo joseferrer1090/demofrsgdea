@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
 import PropTypes from "prop-types";
+import { Modal, ModalBody, ModalHeader, ModalFooter } from "reactstrap";
 
-class ModalDeleteTramite extends Component {
+class ModalDeleteTipoDocumental extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,25 +11,23 @@ class ModalDeleteTramite extends Component {
   }
 
   toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+    this.setState({ modal: !this.state.modal });
   };
 
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Eliminar tramite </ModalHeader>
+        <ModalHeader> Eliminar tipo documental radicación </ModalHeader>
         <ModalBody>
           <form className="form">
             <p className="text-center">
               {" "}
-              Confirmar el <code> Nombre </code> para eliminar el tipo de
-              tramite{" "}
+              Confirmar el <code> Nombre </code> para eliminar el tipo
+              documental radicación{" "}
             </p>
 
             <input
-              className="form-control col-sm-6 offset-sm-3"
+              className="form-control form-control-sm col-sm-6 offset-sm-3"
               type="text"
               placeholder=""
               style={{ textAlign: "center" }}
@@ -37,32 +35,29 @@ class ModalDeleteTramite extends Component {
             <br />
             <p className="text-center text-danger">
               {" "}
-              El tramite quedará eliminada de manera permanente.{" "}
+              El tipo documental radicación quedará eliminado de manera
+              permanente.{" "}
             </p>
           </form>
         </ModalBody>
         <ModalFooter>
-          <Button type="button" className="btn btn-danger">
-            {" "}
-            <i className="fa fa-trash" /> Eliminar{" "}
-          </Button>
-          <Button
+          <button
             type="button"
-            className="btn btn-secondary"
+            className="btn btn-secondary btn-sm"
             onClick={() => {
               this.setState({ modal: false });
             }}
           >
             <i className="fa fa-times" /> Cerrar{" "}
-          </Button>
+          </button>
         </ModalFooter>
       </Modal>
     );
   }
 }
 
-ModalDeleteTramite.propTypes = {
-  modaldelte: PropTypes.bool.isRequired
+ModalDeleteTipoDocumental.propTypes = {
+  modaldelete: PropTypes.bool.isRequired
 };
 
-export default ModalDeleteTramite;
+export default ModalDeleteTipoDocumental;

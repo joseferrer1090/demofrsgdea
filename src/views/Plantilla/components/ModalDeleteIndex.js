@@ -19,12 +19,12 @@ class ModalDeletePlantilla extends Component {
   render() {
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader> Eliminar indice de la plantilla</ModalHeader>
+        <ModalHeader> Eliminar índice de la plantilla</ModalHeader>
         <ModalBody>
           <form className="form">
             <p className="text-center">
               {" "}
-              Confirmar el <code> Nombre </code> para el indice de la planitilla{" "}
+              Confirmar el <code> Nombre </code> para el índice de la planitilla{" "}
             </p>
 
             <input
@@ -36,7 +36,7 @@ class ModalDeletePlantilla extends Component {
             <br />
             <p className="text-center text-danger">
               {" "}
-              El indice quedara eliminado de manera permanente.{" "}
+              El índice quedara eliminado de manera permanente.{" "}
             </p>
           </form>
         </ModalBody>

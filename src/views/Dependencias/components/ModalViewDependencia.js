@@ -52,7 +52,7 @@ class ModalViewDependencia extends Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Datos personales{" "}
+                    Datos{" "}
                   </h5>{" "}
                 </div>
 

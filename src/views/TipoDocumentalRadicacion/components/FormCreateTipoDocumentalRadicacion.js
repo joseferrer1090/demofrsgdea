@@ -258,7 +258,7 @@ class FormCreateTipoTramite extends Component {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">Asunto</div>
                       <div className="card-body">
@@ -275,7 +275,7 @@ class FormCreateTipoTramite extends Component {
                       </div>
                     </div>
                   </div>
-                  {/* <div className="col-md-4">
+                  <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         Plantilla
@@ -295,8 +295,8 @@ class FormCreateTipoTramite extends Component {
                         </form>
                       </div>
                     </div>
-                  </div> */}
-                  <div className="col-md-6">
+                  </div>
+                  <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         Workflow
@@ -306,7 +306,7 @@ class FormCreateTipoTramite extends Component {
                           <div className="row">
                             <div className="col-md-12">
                               <div className="form-group">
-                                <label>Asunto</label>
+                                <label>Workflow</label>
                                 <select className="form-control form-control-sm">
                                   <option>Seleccione</option>
                                 </select>

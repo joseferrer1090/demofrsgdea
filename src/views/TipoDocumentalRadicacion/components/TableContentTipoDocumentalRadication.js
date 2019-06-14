@@ -5,6 +5,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewTipoDocumentalRadication from "./ModalViewTipoDocumentalRadication";
 import ModalDeleteTipoDocumentalRadication from "./ModalDeleteTipoDocumentalRadication";
 import PropTypes from "prop-types";
+import { stat } from "fs";
 
 const dataExample = [
   {
@@ -43,7 +44,7 @@ class TableContentTramite extends Component {
     return (
       <div
         className="table-actionMenuTLlegada"
-        style={{ textAlign: "center", padding: "0", marginRight: "70px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "0px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -74,6 +75,17 @@ class TableContentTramite extends Component {
       </div>
     );
   };
+
+  estadoTipodocumentalradicacion = (cell, row) => {
+    let status;
+    if (row.estado === true) {
+      status = <p className="text-success"> Activo </p>;
+    } else if (row.estado !== true) {
+      status = <p className="text-danger"> Inactivo </p>;
+    }
+    return status;
+  };
+
   openModalView() {
     this.refs.child1.toggle();
   }
@@ -118,7 +130,13 @@ class TableContentTramite extends Component {
                 {" "}
                 Descripción{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"estado"} dataAlign="center">
+              <TableHeaderColumn
+                dataField={"estado"}
+                dataAlign="center"
+                dataFormat={(cell, row) =>
+                  this.estadoTipodocumentalradicacion(cell, row)
+                }
+              >
                 {" "}
                 Estado{" "}
               </TableHeaderColumn>

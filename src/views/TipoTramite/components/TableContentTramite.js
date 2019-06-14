@@ -74,6 +74,17 @@ class TableContentTramite extends Component {
       </div>
     );
   };
+
+  estadotramite = (cell, row) => {
+    let status;
+    if (row.estado === true) {
+      status = <div className="text-success"> Activo </div>;
+    } else if (row.estado !== true) {
+      status = <div className="text-danger"> Inactivo </div>;
+    }
+    return status;
+  };
+
   openModalView() {
     this.refs.child1.toggle();
   }
@@ -118,7 +129,11 @@ class TableContentTramite extends Component {
                 {" "}
                 Descripción{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"estado"} dataAlign="center">
+              <TableHeaderColumn
+                dataField={"estado"}
+                dataAlign="center"
+                dataFormat={(cell, row) => this.estadotramite(cell, row)}
+              >
                 {" "}
                 Estado{" "}
               </TableHeaderColumn>

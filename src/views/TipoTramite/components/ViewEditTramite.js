@@ -310,7 +310,7 @@ class ViewEditTable extends Component {
                           <div className="row">
                             <div className="col-md-12">
                               <div className="form-group">
-                                <label>Asunto</label>
+                                <label>Workflow</label>
                                 <select className="form-control form-control-sm">
                                   <option>Seleccione</option>
                                 </select>

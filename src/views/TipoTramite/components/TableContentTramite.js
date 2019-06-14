@@ -79,7 +79,7 @@ class TableContentTramite extends Component {
   }
 
   routeChange = () => {
-    let path = `#/configuracion/tipotramite/editartramite`;
+    let path = `/#/configuracion/tipotramite/edit`;
     window.location.replace(path);
   };
 

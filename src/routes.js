@@ -143,13 +143,13 @@ const routes = [
   {
     path: "/configuracion/tipodocumentalradicacion",
     exact: true,
-    name: " Configuración / Tipo documental de radicacion ",
+    name: " Configuración / Tipo documental de radicación ",
     component: TipoDocumentalesRadicacion
   },
   {
     path: "/configuracion/tipodocumentalradication/edit",
     exact: true,
-    name: "Configuracion / Tipo documental de radicacion",
+    name: "Configuración / Tipo documental de radicación",
     component: EditTipoDocumentalRadication
   },
   {
@@ -179,19 +179,19 @@ const routes = [
   {
     path: "/configuracion/auditoria",
     exact: true,
-    name: " Configuracion / Auditoria ",
+    name: " Configuración / Auditoria ",
     component: Auditoria
   },
   {
     path: "/configuracion/auditoria/moverhistorico",
     exact: true,
-    name: "Mover historico",
+    name: "Mover histórico",
     component: MoverHistorico
   },
   {
     path: "/configuracion/tema",
     exact: true,
-    name: " Configuracion / tema  ",
+    name: " Configuración / tema  ",
     component: Tema
   },
   {
@@ -209,25 +209,25 @@ const routes = [
   {
     path: "/configuracion/tipotramite",
     exact: true,
-    name: "Configuracion / tipo de tramite",
+    name: "Configuración / Tipo trámite",
     component: TipoTramite
   },
   {
-    path: "/configuracion/tipotramite/editartramite",
+    path: "/configuracion/tipotramite/edit",
     exact: true,
-    name: "Configuracion / tipo de tramite",
+    name: "Editar tipo de tramite",
     component: EditTramite
   },
   {
     path: "/configuracion/tipotercero",
     exact: true,
-    name: "Configuracion / tipo de tercero",
+    name: "Configuración / tipo de tercero",
     component: TipoTercero
   },
   {
     path: "/configuracion/plantilla",
     exact: true,
-    name: "Plantilla de datos",
+    name: "Configuración / Plantilla de datos",
     component: Plantilla
   },
   {

@@ -61,7 +61,7 @@ export default {
           url: "/configuracion/tipotercero"
         },
         {
-          name: "Roles y permisos",
+          name: "Roles",
           icon: "icon-lock",
           url: "/configuracion/roles"
         },

@@ -7,7 +7,7 @@ import {
   CustomInput
 } from "reactstrap";
 import PropTypes from "prop-types";
-import { SketchPicker } from "react-color";
+import { ChromePicker } from "react-color";
 
 class FormCreateTheme extends Component {
   constructor(props) {
@@ -76,7 +76,7 @@ class FormCreateTheme extends Component {
                             Este color afectapra los diferentes header de la
                             aplicacion{" "}
                           </p>
-                          <SketchPicker
+                          <ChromePicker
                             color={"#333"}
                             onChange={handleColorChange}
                           />
@@ -93,7 +93,7 @@ class FormCreateTheme extends Component {
                             {" "}
                             Este Color afectara al footer de la aplicacion{" "}
                           </p>
-                          <SketchPicker
+                          <ChromePicker
                             color={"#333"}
                             onChange={handleColorChange}
                           />
@@ -109,7 +109,7 @@ class FormCreateTheme extends Component {
                             {" "}
                             Este color afectara algunas secciones del body
                           </p>
-                          <SketchPicker
+                          <ChromePicker
                             color={"#333"}
                             onChange={handleColorChange}
                           />

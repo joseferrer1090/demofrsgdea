@@ -4,6 +4,11 @@ import PropTypes from "prop-types";
 import Tabinformaction from "./components/TabProfile";
 
 class Profle extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+    this.inputOpenFileRef = React.createRef();
+  }
   render() {
     return (
       <div className="animated fadeIn">
@@ -14,13 +19,18 @@ class Profle extends Component {
               <a
                 className="text-center"
                 onClick={() => {
-                  alert("hola");
+                  this.inputOpenFileRef.current.click();
                 }}
               >
                 <img
                   className="img-responsive "
                   src="/assets/img/avatars/user2.jpg"
                   style={{ margin: "10px" }}
+                />
+                <input
+                  type="file"
+                  style={{ display: "none" }}
+                  ref={this.inputOpenFileRef}
                 />
               </a>
               <CardTitle>

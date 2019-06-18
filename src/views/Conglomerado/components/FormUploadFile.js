@@ -121,6 +121,7 @@ class FormUploadFile extends Component {
                         </label>
                         <br />
                         <input
+                          id="real-file"
                           type="file"
                           className="form-control"
                           onChange={this.onChange}

@@ -33,7 +33,7 @@ class TableContent extends Component {
     return (
       <div
         className="table-actionMenuGUsu"
-        style={{ textAlign: "center", padding: "0", marginRight: "105px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "195px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -111,21 +111,28 @@ class TableContent extends Component {
               dataField="id"
               dataAlign="center"
               width={"100"}
-            
             >
               {" "}
               #{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="codigo" dataAlign="center" width={"200"}>
+            <TableHeaderColumn
+              dataField="codigo"
+              dataAlign="center"
+              width={"200"}
+            >
               {" "}
               Codigo{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="nombre" dataAlign="center" width={"250"}>
+            <TableHeaderColumn
+              dataField="nombre"
+              dataAlign="center"
+              width={"250"}
+            >
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-            width={"200"}
+              width={"200"}
               dataField="estado"
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoGrupo(cell, row)}
@@ -134,7 +141,7 @@ class TableContent extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              export = {false}
+              export={false}
               dataFormat={(cell, row) => this.accionesGrupo(cell, row)}
               dataAlign="center"
             >

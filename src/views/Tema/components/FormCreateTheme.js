@@ -7,38 +7,18 @@ import {
   CustomInput
 } from "reactstrap";
 import PropTypes from "prop-types";
+import { SketchPicker } from "react-color";
 
 class FormCreateTheme extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      color: "#999"
-    };
-    this.colorSelector = React.createRef();
+    this.state = {};
   }
 
-  onChangecolorSelector = () => {
-    this.setState({
-      color: this.colorSelector.current.value
-    });
-    console.log(this.state.color);
-  };
   render() {
-    const styles = {
-      title: "Color Picker",
-      labelStyle: {
-        paddingBottom: "7px",
-        fontSize: "11px"
-      },
-      colorTextBoxStyle: {
-        height: "35px",
-        border: "none",
-        borderBottom: "1px solid lightgray",
-        paddingLeft: "35px"
-      }
+    const handleColorChange = ({ hex }) => {
+      console.log(hex);
     };
-
-    console.log(this.state.color);
     return (
       <div className="animated fadeIn">
         <div className="row">
@@ -86,43 +66,58 @@ class FormCreateTheme extends Component {
                   </div>
                   <div className="card-body">
                     <div className="row">
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <Card body>
-                          <h5 style={{ marginBottom: "5px !important" }}>
-                            {" "}
+                          <h5 className="text-center">
                             Colores en el header{" "}
-                            <hr style={{ marginTop: "5px" }} />{" "}
+                            <hr style={{ marginTop: "2px" }} />{" "}
                           </h5>
-                          <p>
+                          <p className="text-center">
                             Este color afectapra los diferentes header de la
                             aplicacion{" "}
                           </p>
-                          Selecciona el color:
-                          <input
-                            type="color"
-                            ref={this.colorSelector}
-                            value={this.state.color}
-                            className="form-control form-control-sm"
+                          <SketchPicker
+                            color={"#333"}
+                            onChange={handleColorChange}
                           />
                         </Card>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-4">
                         <Card body>
-                          <h5>
+                          <h5 className="text-center">
                             {" "}
                             Colores en el footer{" "}
                             <hr style={{ marginBottom: "5px" }} />{" "}
                           </h5>
-                          <p>
+                          <p className="text-center">
                             {" "}
                             Este Color afectara al footer de la aplicacion{" "}
                           </p>
-                          <div className="form-group" />
+                          <SketchPicker
+                            color={"#333"}
+                            onChange={handleColorChange}
+                          />
+                        </Card>
+                      </div>
+                      <div className="col-md-4">
+                        <Card body>
+                          <h5 className="text-center">
+                            Colores en el body{" "}
+                            <hr style={{ marginBottom: "5px" }} />{" "}
+                          </h5>
+                          <p className="text-center">
+                            {" "}
+                            Este color afectara algunas secciones del body
+                          </p>
+                          <SketchPicker
+                            color={"#333"}
+                            onChange={handleColorChange}
+                          />
                         </Card>
                       </div>
                     </div>
-                    <div className="row">
-                      <div className="col-md-12">
+                    {/* <div className="row">
+                      <div className="col-md-4">
                         <Card body>
                           <h5>
                             {" "}
@@ -132,7 +127,7 @@ class FormCreateTheme extends Component {
                           <p> Probando </p>
                         </Card>
                       </div>
-                    </div>
+                    </div> */}
                     <div className="form-group">
                       <div className="">
                         <CustomInput

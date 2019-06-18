@@ -43,7 +43,7 @@ class TableContentTramite extends Component {
     return (
       <div
         className="table-actionMenuTLlegada"
-        style={{ textAlign: "center", padding: "0", marginRight: "70px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

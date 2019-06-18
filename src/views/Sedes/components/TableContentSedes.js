@@ -108,10 +108,7 @@ class TableContentSedes extends Component {
 
   accionesSedes = (cell, row) => {
     return (
-      <div
-        className="table-actionMenuSedes"
-        style={{ marginRight: "80px" }}
-      >
+      <div className="table-actionMenuSedes" style={{ marginRight: "150px" }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -216,7 +213,7 @@ class TableContentSedes extends Component {
                   dataField={"Estado"}
                   dataFormat={(cell, row) => this.SedesStatus(cell, row)}
                   dataAlign={"center"}
-                  width ={"200"}
+                  width={"200"}
                   dataSort={true}
                 >
                   {" "}

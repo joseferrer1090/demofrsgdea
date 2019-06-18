@@ -5,7 +5,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewTipoDocumentalRadication from "./ModalViewTipoDocumentalRadication";
 import ModalDeleteTipoDocumentalRadication from "./ModalDeleteTipoDocumentalRadication";
 import PropTypes from "prop-types";
-import { stat } from "fs";
+import "./../../../css/styleTableTipoDocumentalRadicacion.css";
 
 const dataExample = [
   {

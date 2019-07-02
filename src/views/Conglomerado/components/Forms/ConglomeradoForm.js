@@ -147,7 +147,9 @@ const ConglomeradorForm = props => {
               {isSubmitting ? (
                 <i className=" fa fa-spinner fa-spin" />
               ) : (
-                "Guardar"
+                <div>
+                  <i className="fa fa-save" /> Guardar
+                </div>
               )}
             </button>
           </div>

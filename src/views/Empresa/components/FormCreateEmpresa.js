@@ -56,7 +56,7 @@ class FormCreateEmpresa extends Component {
                 <CardBody>
                   <form className="form">
                     <div className="row">
-                    <div className="col-md-6">
+                      <div className="col-md-6">
                         <div className="form-group">
                           <label>
                             {" "}
@@ -72,17 +72,17 @@ class FormCreateEmpresa extends Component {
                         </div>
                       </div>
                       <div className="col-md-6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Código <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control form-control-md"
-                        />
+                        <div className="form-group">
+                          <label>
+                            {" "}
+                            Código <span className="text-danger">*</span>{" "}
+                          </label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
+                        </div>
                       </div>
-                    </div>
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>
@@ -90,52 +90,43 @@ class FormCreateEmpresa extends Component {
                             Nit <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            className="form-control form-control-md"
+                            className="form-control form-control-sm"
                             type="text"
                           />
                         </div>
                       </div>
                       <div className="col-md-6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Nombre <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          type="text"
-                          className="form-control form-control-md"
-                        />
-                      </div>
-                    </div>
-                    </div>
-                    <div className="row">
-
-                    </div>
-                    <div className="row">
-
-                    <div className="col-md-12">
-                    <div className="form-group">
-                      <label> Descripción </label>
-                      <textarea className="form-control form-control-sm" />
-                    </div>
-                  </div>
-                      <div className="col-md-12">
                         <div className="form-group">
                           <label>
                             {" "}
-                            Cargo responsable{" "}
-
+                            Nombre <span className="text-danger">*</span>{" "}
                           </label>
-                          <select className="form-control form-control-md">
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row" />
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label> Descripción </label>
+                          <textarea className="form-control form-control-sm" />
+                        </div>
+                      </div>
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label> Cargo responsable </label>
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>
                         </div>
                       </div>
                     </div>
-                    <div className="row">
-
-                    </div>
+                    <div className="row" />
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">

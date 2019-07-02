@@ -144,7 +144,11 @@ const ConglomeradorForm = props => {
               disabled={isSubmitting}
               onClick={handleSubmit}
             >
-              {isSubmitting ? <i class=" fa fa-spinner fa-spin" /> : "Guardar"}
+              {isSubmitting ? (
+                <i className=" fa fa-spinner fa-spin" />
+              ) : (
+                "Guardar"
+              )}
             </button>
           </div>
         </CardFooter>

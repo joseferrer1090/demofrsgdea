@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import {
   Card,
   CardBody,
@@ -43,7 +44,13 @@ const SedesForm = props => {
                     {" "}
                     Conglomerado <span className="text-danger">*</span>{" "}
                   </label>
-                  <select className="form-control form-control-sm">
+                  <select
+                    name="conglomerado"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.conglomerado}
+                    className="form-control form-control-sm"
+                  >
                     {" "}
                     <option>--Seleccione-- </option>{" "}
                   </select>
@@ -56,7 +63,13 @@ const SedesForm = props => {
                     Empresa <span className="text-danger">*</span>
                   </label>
                   <br />
-                  <select className="form-control form-control-sm">
+                  <select
+                    name="empresa"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.empresa}
+                    className="form-control form-control-sm"
+                  >
                     <option>--seleccione--</option>
                   </select>
                   {/* <Select
@@ -73,7 +86,14 @@ const SedesForm = props => {
                     {" "}
                     Código <span className="text-danger">*</span>{" "}
                   </label>
-                  <input type="text" className="form-control form-control-sm" />
+                  <input
+                    name="codigo"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.codigo}
+                    type="text"
+                    className="form-control form-control-sm"
+                  />
                 </div>
               </Col>
               <Col sm="6">
@@ -82,13 +102,26 @@ const SedesForm = props => {
                     {" "}
                     Nombre <span className="text-danger">*</span>{" "}
                   </label>
-                  <input type="text" className="form-control form-control-sm" />
+                  <input
+                    name="nombre"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.nombre}
+                    type="text"
+                    className="form-control form-control-sm"
+                  />
                 </div>
               </Col>
               <Col sm="12">
                 <div className="form-group">
                   <label> Descripción </label>
-                  <textarea className="form-control form-control-sm" />
+                  <textarea
+                    name="direccion"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.direccion}
+                    className="form-control form-control-sm"
+                  />
                 </div>
               </Col>
             </Row>
@@ -102,6 +135,10 @@ const SedesForm = props => {
                     </span>{" "}
                   </label>
                   <input
+                    name="pre_radicacion"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.pre_radicacion}
                     type="text"
                     className="form-control form-control-sm"
                     maxLength={"6"}
@@ -117,6 +154,10 @@ const SedesForm = props => {
                     <span className="text-danger">*</span>{" "}
                   </label>
                   <input
+                    name={"sec_radicacion"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.sec_radicacion}
                     type="number"
                     className="form-control form-control-sm"
                     min={0}
@@ -149,7 +190,13 @@ const SedesForm = props => {
               <Col sm="4">
                 <div className="form-group">
                   <label>País</label>
-                  <select className="form-control form-control-sm">
+                  <select
+                    name={"pais"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.pais}
+                    className="form-control form-control-sm"
+                  >
                     <option>--Seleccione--</option>
                   </select>
                 </div>
@@ -157,7 +204,13 @@ const SedesForm = props => {
               <Col sm="4">
                 <div className="form-group">
                   <label>Departamento</label>
-                  <select className="form-control form-control-sm">
+                  <select
+                    name={"departamento"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.departamento}
+                    className="form-control form-control-sm"
+                  >
                     <option>--Seleccione--</option>
                   </select>
                 </div>
@@ -167,7 +220,13 @@ const SedesForm = props => {
                   <label>
                     Ciudad <span className="text-danger">*</span>
                   </label>
-                  <select className="form-control form-control-sm">
+                  <select
+                    name={"pais"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.pais}
+                    className="form-control form-control-sm"
+                  >
                     <option>--Seleccione--</option>
                   </select>
                 </div>
@@ -178,7 +237,14 @@ const SedesForm = props => {
                     {" "}
                     Dirección <span className="text-danger">*</span>{" "}
                   </label>
-                  <input type="text" className="form-control form-control-sm" />
+                  <input
+                    name={"direccion"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.direccion}
+                    type="text"
+                    className="form-control form-control-sm"
+                  />
                 </div>
               </Col>
               <Col sm="5">
@@ -187,7 +253,14 @@ const SedesForm = props => {
                     {" "}
                     Teléfono <span className="text-danger">*</span>{" "}
                   </label>
-                  <input type="text" className="form-control form-control-sm" />
+                  <input
+                    name={"telefono"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.telefono}
+                    type="text"
+                    className="form-control form-control-sm"
+                  />
                 </div>
               </Col>
             </Row>
@@ -201,7 +274,13 @@ const SedesForm = props => {
                     onChange={this.handleChangeOptionRolResponsable}
                     options={dataExampleRolResponsable}
                   /> */}
-                  <select className="form-control form-control-sm">
+                  <select
+                    name={"c_responsable"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.c_responsable}
+                    className="form-control form-control-sm"
+                  >
                     <option>--Seleccione--</option>
                   </select>
                 </div>
@@ -214,6 +293,10 @@ const SedesForm = props => {
                   </label>
                   <div className="text-justify">
                     <CustomInput
+                      name={"estado"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.estado}
                       type="checkbox"
                       id="ExampleInputCheckbox"
                       label="Si esta opción se encuentra activada, Representa que
@@ -256,4 +339,49 @@ const SedesForm = props => {
   );
 };
 
-export default withFormik({})(SedesForm);
+export default withFormik({
+  mapPropsToValues: props => ({
+    conglomerado: props.sede.conglomerado,
+    empresa: props.sede.empresa,
+    codigo: props.sede.codigo,
+    nombre: props.sede.nombre,
+    descripcion: props.sede.descripcion,
+    pre_radicacion: props.sede.pre_radicacion,
+    sec_radicacion: props.sede.sec_radicacion,
+    pais: props.sede.pais,
+    departamento: props.sede.departamento,
+    ciudad: props.sede.ciudad,
+    direccion: props.sede.direccion,
+    telefono: props.sede.telefono,
+    c_responsable: props.sede.c_responsable,
+    estado: props.sede.estado
+  }),
+  validationSchema: Yup.object().shape({
+    conglomerado: Yup.string()
+      .required("conglomerado requerido")
+      .ensure(),
+    empresa: Yup.string()
+      .required("empresa requerida")
+      .ensure(),
+    codigo: Yup.string()
+      .required("se requiere codigo")
+      .max(6)
+      .min(6),
+    nombre: Yup.string()
+      .required("se requiere nombre")
+      .min(100)
+      .max(100),
+    descripcion: Yup.string().max(250),
+    pre_radicacion: Yup.string()
+      .required("se requiere asignar un prefijo de radicacion para la sede")
+      .length(6),
+    sec_radicacion: Yup.number()
+      .required("se requiere una secuencia de radicacion")
+      .integer()
+      .positive(),
+    pais: Yup.string().ensure(),
+    departamento: Yup.string().ensure(),
+    ciudad: Yup.string(),
+    direccion: Yup.string().max(250)
+  })
+})(SedesForm);

@@ -10,8 +10,18 @@ import {
   CustomInput
 } from "reactstrap";
 
+import * as Yup from "yup";
+
 const TipoLlegadaForm = props => {
-  const {} = props;
+  const {
+    values,
+    errors,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    isSubmitting
+  } = props;
   return (
     <div>
       <Row>
@@ -28,9 +38,16 @@ const TipoLlegadaForm = props => {
                         Código <span className="text-danger"> * </span>
                       </label>
                       <input
+                        name={"codigo"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.codigo}
                         type="text"
-                        className="form-control form-control-sm"
+                        className={`form-control form-control-sm ${errors.codigo &&
+                          touched.codigo &&
+                          "is-invalid"}`}
                       />
+                      <ErrorMessage name={"codigo"} />
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -40,15 +57,28 @@ const TipoLlegadaForm = props => {
                         Nombre <span className="text-danger">*</span>{" "}
                       </label>
                       <input
+                        name={"nombre"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.nombre}
                         type="text"
-                        className="form-control form-control-sm"
+                        className={`form-control form-control-sm ${errors.nombre &&
+                          touched.nombre &&
+                          "is-invalid"}`}
                       />
+                      <ErrorMessage name="nombre" />
                     </div>
                   </div>
                   <div className="col-md-12">
                     <div className="form-group">
                       <label> Descripción</label>
-                      <textarea className="form-control form-control-sm" />
+                      <textarea
+                        name={"descripcion"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.descripcion}
+                        className="form-control form-control-sm"
+                      />
                     </div>
                   </div>
                   <div className="col-md-12">
@@ -68,6 +98,15 @@ const TipoLlegadaForm = props => {
                              la sede no se elimina del sistema solo quedará
                              inactiva e invisibles para cada uno de los módulos
                              correspondiente del sistema."
+                          name={"estado"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.estado}
+                          className={
+                            errors.estado &&
+                            touched.estado &&
+                            "invalid-feedback"
+                          }
                         />
                       </div>
                       {/* <p
@@ -90,9 +129,19 @@ const TipoLlegadaForm = props => {
             </CardBody>
             <CardFooter>
               <div className="float-right">
-                <button className="btn btn-secondary btn-sm">
-                  {" "}
-                  <i className="fa fa-plus" /> Registrar{" "}
+                <button
+                  type="submit"
+                  className="btn btn-outline-secondary btn-sm"
+                  disabled={isSubmitting}
+                  onClick={handleSubmit}
+                >
+                  {isSubmitting ? (
+                    <i className=" fa fa-spinner fa-spin" />
+                  ) : (
+                    <div>
+                      <i className="fa fa-save" /> Guardar
+                    </div>
+                  )}
                 </button>
               </div>
             </CardFooter>
@@ -103,4 +152,28 @@ const TipoLlegadaForm = props => {
   );
 };
 
-export default withFormik({})(TipoLlegadaForm);
+export default withFormik({
+  mapPropsToValues: props => ({
+    codigo: props.tipollegada.codigo,
+    nombre: props.tipollegada.nombre,
+    descripcion: props.tipollegada.descripcion,
+    estado: props.tipollegada.estado
+  }),
+  validationSchema: Yup.object().shape({
+    codigo: Yup.string().required("codigo requerido"),
+    nombre: Yup.string().required("nombre requerido"),
+    descripcion: Yup.string(),
+    estado: Yup.bool().test(
+      "Activo",
+      "Es necesario activar el estado para el tipo de llegada",
+      value => value === true
+    )
+  }),
+  handleSubmit: (values, { setSubmitting, resetForm }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+      resetForm();
+    }, 1000);
+  }
+})(TipoLlegadaForm);

@@ -49,11 +49,14 @@ const SedesForm = props => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.conglomerado}
-                    className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${errors.conglomerado &&
+                      touched.conglomerado &&
+                      "is-invalid"}`}
                   >
                     {" "}
                     <option>--Seleccione-- </option>{" "}
                   </select>
+                  <ErrorMessage name="conglomerado" />
                 </div>
               </Col>
               <Col sm="6">
@@ -68,10 +71,13 @@ const SedesForm = props => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.empresa}
-                    className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${errors.empresa &&
+                      touched.empresa &&
+                      "is-invalid"}`}
                   >
                     <option>--seleccione--</option>
                   </select>
+                  <ErrorMessage name="empresa" />
                   {/* <Select
                     className=""
                     value={this.state.selectedOptionEmpresa}
@@ -92,8 +98,11 @@ const SedesForm = props => {
                     onBlur={handleBlur}
                     value={values.codigo}
                     type="text"
-                    className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${errors.codigo &&
+                      touched.codigo &&
+                      "is-invalid"}`}
                   />
+                  <ErrorMessage name="codigo" />
                 </div>
               </Col>
               <Col sm="6">
@@ -108,8 +117,11 @@ const SedesForm = props => {
                     onBlur={handleBlur}
                     value={values.nombre}
                     type="text"
-                    className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${errors.nombre &&
+                      touched.nombre &&
+                      "is-invalid"}`}
                   />
+                  <ErrorMessage name="nombre" />
                 </div>
               </Col>
               <Col sm="12">
@@ -140,10 +152,13 @@ const SedesForm = props => {
                     onBlur={handleBlur}
                     value={values.pre_radicacion}
                     type="text"
-                    className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${errors.pre_radicacion &&
+                      touched.pre_radicacion &&
+                      "is-invalid"}`}
                     maxLength={"6"}
                     placeholder=" "
                   />
+                  <ErrorMessage name="pre_radicacion" />
                 </div>
               </Col>
               <Col sm="6">
@@ -159,9 +174,12 @@ const SedesForm = props => {
                     onBlur={handleBlur}
                     value={values.sec_radicacion}
                     type="number"
-                    className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${errors.sec_radicacion &&
+                      touched.sec_radicacion &&
+                      "is-invalid"}`}
                     min={0}
                   />
+                  <ErrorMessage name="sec_radicacion" />
                 </div>
               </Col>
               <Col sm="12">
@@ -225,10 +243,13 @@ const SedesForm = props => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.pais}
-                    className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${errors.ciudad &&
+                      touched.ciudad &&
+                      "is-invalid"}`}
                   >
                     <option>--Seleccione--</option>
                   </select>
+                  <ErrorMessage name="ciudad" />
                 </div>
               </Col>
               <Col sm="7">
@@ -243,8 +264,11 @@ const SedesForm = props => {
                     onBlur={handleBlur}
                     value={values.direccion}
                     type="text"
-                    className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${errors.direccion &&
+                      touched.direccion &&
+                      "is-invalid"}`}
                   />
+                  <ErrorMessage name="direccion" />
                 </div>
               </Col>
               <Col sm="5">
@@ -259,8 +283,11 @@ const SedesForm = props => {
                     onBlur={handleBlur}
                     value={values.telefono}
                     type="text"
-                    className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${errors.telefono &&
+                      touched.telefono &&
+                      "is-invalid"}`}
                   />
+                  <ErrorMessage name="telefono" />
                 </div>
               </Col>
             </Row>
@@ -306,6 +333,9 @@ const SedesForm = props => {
                              la sede no se elimina del sistema solo quedará
                              inactiva e invisibles para cada uno de los módulos
                              correspondiente del sistema."
+                      className={
+                        errors.estado && touched.estado && "invalid-feedback"
+                      }
                     />
                   </div>
                   {/* <p
@@ -328,9 +358,19 @@ const SedesForm = props => {
         </CardBody>
         <CardFooter>
           <div className="float-right">
-            <button className="btn btn-secondary btn-sm">
-              {" "}
-              <i className="fa fa-plus" /> Registrar{" "}
+            <button
+              type="submit"
+              className="btn btn-outline-secondary btn-sm"
+              disabled={isSubmitting}
+              onClick={handleSubmit}
+            >
+              {isSubmitting ? (
+                <i className=" fa fa-spinner fa-spin" />
+              ) : (
+                <div>
+                  <i className="fa fa-save" /> Guardar
+                </div>
+              )}
             </button>
           </div>
         </CardFooter>
@@ -382,6 +422,20 @@ export default withFormik({
     pais: Yup.string().ensure(),
     departamento: Yup.string().ensure(),
     ciudad: Yup.string(),
-    direccion: Yup.string().max(250)
-  })
+    direccion: Yup.string().required("direcciones es importante"),
+    telefono: Yup.string()
+      .max(8)
+      .required("telefono requerido para la empresa"),
+    c_responsable: Yup.string().ensure(),
+    estado: Yup.bool()
+      .test("Activo", "Es necesario activar la sede", value => value === true)
+      .required("necesario activar la sede")
+  }),
+  handleSubmit: (values, { setSubmitting, resetForm }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+      resetForm();
+    }, 1000);
+  }
 })(SedesForm);

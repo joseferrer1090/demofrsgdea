@@ -521,7 +521,7 @@ export default withFormik({
         "contraseña no valida, la contraseña debe tener al menos una letra en mayuscula, al menos un digito, no espacio en blanco, al menos un caracter especial"
       )
       .required("contraseña es necesaria")
-      .min(8, "minimo son 10 caracteres")
+      .min(8, "minimo son 8 caracteres")
       .max(15),
     confirm_password: Yup.string()
       .oneOf([Yup.ref("password"), null], "contraseñas no coinciden")

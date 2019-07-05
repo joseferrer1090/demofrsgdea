@@ -382,10 +382,13 @@ const UserForm = props => {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.roles}
-                        className="form-control form-control-sm"
+                        className={`form-control form-control-sm ${errors.roles &&
+                          touched.roles &&
+                          "is-invalid"}`}
                       >
                         <option>--Seleccione--</option>
                       </select>
+                      <ErrorMessage name="roles" />
                     </div>
                   </div>
                   <div className="col-md-12">
@@ -410,6 +413,11 @@ const UserForm = props => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.estado}
+                          className={
+                            errors.estado &&
+                            touched.estado &&
+                            "invalid-feedback"
+                          }
                         />
                         {/* <label
                                   className="form-check-label"
@@ -440,9 +448,19 @@ const UserForm = props => {
         </CardBody>
         <CardFooter>
           <div className="float-right">
-            <button className="btn btn-secondary">
-              {" "}
-              <i className="fa fa-plus" /> Registrar{" "}
+            <button
+              type="submit"
+              className="btn btn-outline-secondary btn-sm"
+              disabled={isSubmitting}
+              onClick={handleSubmit}
+            >
+              {isSubmitting ? (
+                <i className=" fa fa-spinner fa-spin" />
+              ) : (
+                <div>
+                  <i className="fa fa-save" /> Guardar
+                </div>
+              )}
             </button>
           </div>
         </CardFooter>
@@ -507,6 +525,21 @@ export default withFormik({
       .oneOf([Yup.ref("password"), null], "contraseñas no coinciden")
       .required("necesario confirmar la contraseña")
       .min(10, "minimo son 10 caracteres")
-      .max(200)
-  })
+      .max(200),
+    roles: Yup.string()
+      .ensure()
+      .required("seleccionar rol"),
+    estado: Yup.bool().test(
+      "Activo",
+      "se requiere la activacion el usuario",
+      value => value === true
+    )
+  }),
+  handleSubmit: (values, { setSubmitting, resetForm }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+      resetForm();
+    }, 1000);
+  }
 })(UserForm);

@@ -22,8 +22,6 @@ const UserForm = props => {
     isSubmitting
   } = props;
 
-  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-
   return (
     <div>
       <Card>
@@ -518,9 +516,13 @@ export default withFormik({
       .required("cargo requerido"),
     username: Yup.string().required("username requerido "),
     password: Yup.string()
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,15}$/, // esta expresion regular valida la contraseña
+        "contraseña no valida, la contraseña debe tener al menos una letra en mayuscula, al menos un digito, no espacio en blanco, al menos un caracter especial"
+      )
       .required("contraseña es necesaria")
-      .min(10, "minimo son 10 caracteres")
-      .max(200),
+      .min(8, "minimo son 10 caracteres")
+      .max(15),
     confirm_password: Yup.string()
       .oneOf([Yup.ref("password"), null], "contraseñas no coinciden")
       .required("necesario confirmar la contraseña")

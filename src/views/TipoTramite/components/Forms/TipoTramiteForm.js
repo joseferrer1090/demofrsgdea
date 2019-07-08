@@ -39,12 +39,15 @@ const TipoTramiteForm = props => {
                             value={values.t_correspondencia}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className="form-control form-control-sm"
+                            className={`form-control form-control-sm ${errors.t_correspondencia &&
+                              touched.t_correspondencia &&
+                              "is-invalid"}`}
                           >
                             <option>Recibida</option>
                             <option>Despachada</option>
                             <option>Interna</option>
                           </select>
+                          <ErrorMessage name="t_correspondencia" />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -58,8 +61,11 @@ const TipoTramiteForm = props => {
                             onBlur={handleBlur}
                             value={values.codigo}
                             type="text"
-                            className="form-control form-control-sm"
+                            className={`form-control form-control-sm ${errors.codigo &&
+                              touched.codigo &&
+                              "is-invalid"}`}
                           />
+                          <ErrorMessage name={"codigo"} />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -73,8 +79,11 @@ const TipoTramiteForm = props => {
                             onBlur={handleBlur}
                             value={values.nombre}
                             type="text"
-                            className="form-control form-control-sm"
+                            className={`form-control form-control-sm ${errors.nombre &&
+                              touched.nombre &&
+                              "is-invalid"}`}
                           />
+                          <ErrorMessage name="nombre" />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -83,13 +92,16 @@ const TipoTramiteForm = props => {
                             Descripción <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            name={"descripciont"}
+                            name={"descripcion"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.description}
                             type="text"
-                            className="form-control form-control-sm"
+                            className={`form-control form-control-sm ${errors.descripcion &&
+                              touched.descripcion &&
+                              "is-invalid"}`}
                           />
+                          <ErrorMessage name={"descripcion"} />
                         </div>
                       </div>
                       <div className="col-md-12">
@@ -104,9 +116,12 @@ const TipoTramiteForm = props => {
                             onBlur={handleBlur}
                             value={values.d_maximos}
                             type="number"
-                            className="form-control form-control-sm"
+                            className={`form-control form-control-sm ${errors.d_maximos &&
+                              touched.d_maximos &&
+                              "is-invalid"}`}
                             min={0}
                           />
+                          <ErrorMessage name="d_maximos" />
                         </div>
                       </div>
                       <Col sm="12">
@@ -130,6 +145,11 @@ const TipoTramiteForm = props => {
                      la sede no se elimina del sistema solo quedará
                      inactiva e invisibles para cada uno de los módulos
                      correspondiente del sistema."
+                              className={
+                                errors.estado &&
+                                touched.estado &&
+                                "invalid-feedback"
+                              }
                             />
                           </div>
                           {/* <p
@@ -386,7 +406,7 @@ export default withFormik({
   mapPropsToValues: props => ({
     t_correspondencia: props.tipotramite.t_correspondencia,
     codigo: props.tipotramite.codigo,
-    description: props.tipotramite.description,
+    descripcion: props.tipotramite.descripcion,
     d_maximos: props.tipotramite.d_maximos,
     user_enabled: props.tipotramite.user_enabled,
     estado: props.tipotramite.estado,
@@ -402,7 +422,7 @@ export default withFormik({
       "necesario asignar un codigo al tipo de tramite"
     ),
     nombre: Yup.string().required("necesario nombre para el tipo de tramite"),
-    description: Yup.string().required("necesario la descripcion del tramite"),
+    descripcion: Yup.string().required("necesario la descripcion del tramite"),
     d_maximos: Yup.number()
       .integer()
       .required("necesita dias maximos de respuestas"),

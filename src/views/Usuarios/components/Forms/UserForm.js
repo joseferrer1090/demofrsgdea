@@ -243,6 +243,7 @@ const UserForm = props => {
                         {" "}
                         <option> Seleccione... </option> <option>sede1</option>
                       </select>
+                      <ErrorMessage name={"sede"} />
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -383,6 +384,12 @@ const UserForm = props => {
                         error={errors.roles}
                         touched={touched.roles}
                       />
+                      {touched ? (
+                        <div style={{ color: "red" }}>
+                          {" "}
+                          <ErrorMessage name={"roles"} />
+                        </div>
+                      ) : null}
                       {/* <select
                         name={"roles"}
                         onChange={handleChange}
@@ -508,7 +515,7 @@ export default withFormik({
     identificacion: Yup.string().required("identificacion requerida"),
     sede: Yup.string()
       .ensure()
-      .required("requere sede"),
+      .required("requiere sede"),
     conglomerado: Yup.string()
       .ensure()
       .required("conglomerado requerido"),
@@ -540,12 +547,14 @@ export default withFormik({
       "se requiere la activacion el usuario",
       value => value === true
     ),
-    roles: Yup.array().of(
-      Yup.object().shape({
-        label: Yup.string().required(),
-        value: Yup.string().required()
-      })
-    )
+    roles: Yup.array()
+      .of(
+        Yup.object().shape({
+          label: Yup.string().required(),
+          value: Yup.string().required()
+        })
+      )
+      .required("se requiere al menos un rol")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
@@ -578,6 +587,7 @@ class MySelect extends React.Component {
     return (
       <div style={{ margin: "0" }}>
         <Select
+          name={this.props.name}
           options={options}
           isMulti
           onChange={this.handleChange}
@@ -593,8 +603,6 @@ class MySelect extends React.Component {
             {this.props.error}
           </div>
         )} */}
-
-        <ErrorMessage name={this.props.name} />
       </div>
     );
   }

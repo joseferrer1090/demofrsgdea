@@ -404,7 +404,7 @@ const TipoTramiteForm = props => {
 
 export default withFormik({
   mapPropsToValues: props => ({
-    t_correspondencia: props.tipotramite.t_correspondencia,
+    t_correspondencia: props.tipotramite.t_correspondeencia,
     codigo: props.tipotramite.codigo,
     descripcion: props.tipotramite.descripcion,
     d_maximos: props.tipotramite.d_maximos,

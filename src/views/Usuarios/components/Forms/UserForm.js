@@ -10,6 +10,7 @@ import {
   CustomInput
 } from "reactstrap";
 import * as Yup from "yup";
+import Select from "react-select";
 
 const UserForm = props => {
   const {
@@ -19,7 +20,9 @@ const UserForm = props => {
     handleChange,
     handleBlur,
     handleSubmit,
-    isSubmitting
+    isSubmitting,
+    setFieldTouched,
+    setFieldValue
   } = props;
 
   return (
@@ -368,14 +371,14 @@ const UserForm = props => {
                         {" "}
                         Roles <span className="text-danger">*</span>{" "}
                       </label>
-                      {/* <Select
-                        value={selectedOptionRoles}
-                        onChange={this.handleSelectedOptionRoles}
-                        options={dataExmapleRoles}
-                        placeholder={"Selecciones los roles"}
-                        isMulti
-                      /> */}
-                      <select
+                      <MySelect
+                        value={values.topics}
+                        onChange={setFieldValue}
+                        onBlur={setFieldTouched}
+                        error={errors.topics}
+                        touched={touched.topics}
+                      />
+                      {/* <select
                         name={"roles"}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -385,7 +388,7 @@ const UserForm = props => {
                           "is-invalid"}`}
                       >
                         <option>--Seleccione--</option>
-                      </select>
+                      </select> */}
                       <ErrorMessage name="roles" />
                     </div>
                   </div>
@@ -484,7 +487,8 @@ export default withFormik({
     password: props.user.password,
     confirm_password: props.user.confirm_password,
     roles: props.user.roles,
-    estado: props.user.estado
+    estado: props.user.estado,
+    topics: props.user.topics
   }),
   validationSchema: Yup.object().shape({
     email: Yup.string()
@@ -535,7 +539,8 @@ export default withFormik({
       "Activo",
       "se requiere la activacion el usuario",
       value => value === true
-    )
+    ),
+    topics: Yup.array().required("Seleccione al menos un rol")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
@@ -545,3 +550,45 @@ export default withFormik({
     }, 1000);
   }
 })(UserForm);
+
+const options = [
+  { value: "Food", label: "Food" },
+  { value: "Being Fabulous", label: "Being Fabulous" },
+  { value: "Ken Wheeler", label: "Ken Wheeler" },
+  { value: "ReasonML", label: "ReasonML" },
+  { value: "Unicorns", label: "Unicorns" },
+  { value: "Kittens", label: "Kittens" }
+];
+
+class MySelect extends React.Component {
+  handleChange = value => {
+    // this is going to call setFieldValue and manually update values.topcis
+    this.props.onChange("topics", value);
+  };
+
+  handleBlur = () => {
+    // this is going to call setFieldTouched and manually update touched.topcis
+    this.props.onBlur("topics", true);
+  };
+
+  render() {
+    return (
+      <div style={{ margin: "1rem 0" }}>
+        <label htmlFor="color">Topics (select at least 3) </label>
+        <Select
+          id="color"
+          options={options}
+          isMulti
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          value={this.props.value}
+        />
+        {!!this.props.error && this.props.touched && (
+          <div style={{ color: "red", marginTop: ".5rem" }}>
+            {this.props.error}
+          </div>
+        )}
+      </div>
+    );
+  }
+}

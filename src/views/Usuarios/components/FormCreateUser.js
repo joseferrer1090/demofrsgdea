@@ -30,7 +30,8 @@ const dataUser = {
   password: "",
   confirm_password: "",
   roles: "",
-  estado: ""
+  estado: "",
+  topics: []
 };
 
 const FormCreateUser = () => {

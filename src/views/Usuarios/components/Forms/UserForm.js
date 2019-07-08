@@ -198,6 +198,7 @@ const UserForm = props => {
                       >
                         {" "}
                         <option>Seleccione...</option>{" "}
+                        <option>conglomerado1</option>
                       </select>
                       <ErrorMessage name="conglomerado" />
                     </div>
@@ -219,6 +220,7 @@ const UserForm = props => {
                       >
                         {" "}
                         <option>Seleccione... </option>{" "}
+                        <option>empresa1</option>
                       </select>
                       <ErrorMessage name="empresa" />
                     </div>
@@ -239,7 +241,7 @@ const UserForm = props => {
                           "is-invalid"}`}
                       >
                         {" "}
-                        <option> Seleccione... </option>{" "}
+                        <option> Seleccione... </option> <option>sede1</option>
                       </select>
                     </div>
                   </div>
@@ -265,6 +267,7 @@ const UserForm = props => {
                           "is-invalid"}`}
                       >
                         <option>--Seleccione--</option>
+                        <option>dependencia</option>
                       </select>
                       <ErrorMessage name="dependencia" />
                     </div>
@@ -291,6 +294,7 @@ const UserForm = props => {
                           "is-invalid"}`}
                       >
                         <option>--Seleccione--</option>
+                        <option>cargo1</option>
                       </select>
                       <ErrorMessage name="cargo" />
                     </div>
@@ -372,11 +376,12 @@ const UserForm = props => {
                         Roles <span className="text-danger">*</span>{" "}
                       </label>
                       <MySelect
-                        value={values.topics}
+                        name={"roles"}
+                        value={values.roles}
                         onChange={setFieldValue}
                         onBlur={setFieldTouched}
-                        error={errors.topics}
-                        touched={touched.topics}
+                        error={errors.roles}
+                        touched={touched.roles}
                       />
                       {/* <select
                         name={"roles"}
@@ -389,7 +394,6 @@ const UserForm = props => {
                       >
                         <option>--Seleccione--</option>
                       </select> */}
-                      <ErrorMessage name="roles" />
                     </div>
                   </div>
                   <div className="col-md-12">
@@ -487,8 +491,7 @@ export default withFormik({
     password: props.user.password,
     confirm_password: props.user.confirm_password,
     roles: props.user.roles,
-    estado: props.user.estado,
-    topics: props.user.topics
+    estado: props.user.estado
   }),
   validationSchema: Yup.object().shape({
     email: Yup.string()
@@ -532,15 +535,17 @@ export default withFormik({
       .required("necesario confirmar la contraseña")
       .min(10, "minimo son 10 caracteres")
       .max(200),
-    roles: Yup.string()
-      .ensure()
-      .required("seleccionar rol"),
     estado: Yup.bool().test(
       "Activo",
       "se requiere la activacion el usuario",
       value => value === true
     ),
-    topics: Yup.array().required("Seleccione al menos un rol")
+    roles: Yup.array().of(
+      Yup.object().shape({
+        label: Yup.string().required(),
+        value: Yup.string().required()
+      })
+    )
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
@@ -562,13 +567,11 @@ const options = [
 
 class MySelect extends React.Component {
   handleChange = value => {
-    // this is going to call setFieldValue and manually update values.topcis
-    this.props.onChange("topics", value);
+    this.props.onChange("roles", value);
   };
 
   handleBlur = () => {
-    // this is going to call setFieldTouched and manually update touched.topcis
-    this.props.onBlur("topics", true);
+    this.props.onBlur("roles", true);
   };
 
   render() {
@@ -582,11 +585,16 @@ class MySelect extends React.Component {
           value={this.props.value}
           placeholder={"-- seleccione rol --"}
         />
-        {!!this.props.error && this.props.touched && (
-          <div style={{ color: "red", marginTop: ".5rem" }}>
+        {/* {!!this.props.error && this.props.touched && (
+          <div
+            style={{ color: "red", marginTop: ".5rem" }}
+            className="invalid-feedback"
+          >
             {this.props.error}
           </div>
-        )}
+        )} */}
+
+        <ErrorMessage name={this.props.name} />
       </div>
     );
   }

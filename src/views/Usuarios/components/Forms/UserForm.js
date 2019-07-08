@@ -25,6 +25,10 @@ const UserForm = props => {
     setFieldValue
   } = props;
 
+  const showOpenFileDlg = () => {
+    alert("debe mostrar la ventana import");
+  };
+
   return (
     <div>
       <Card>
@@ -43,12 +47,15 @@ const UserForm = props => {
                   type="file"
                   style={{ display: "none" }}
                   // ref={this.inputOpenFileRef}
+                  value={values.imageUser}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
                 <button
                   type="button"
                   className="btn btn-secondary btn-sm "
                   style={{ width: "160px" }}
-                  // onClick={this.showOpenFileDlg}
+                  onClick={showOpenFileDlg}
                 >
                   {" "}
                   <i className="fa fa-camera" /> Cambiar imagen{" "}

@@ -29,8 +29,9 @@ const dataUser = {
   username: "",
   password: "",
   confirm_password: "",
-  roles: "",
-  estado: ""
+  roles: [],
+  estado: "",
+  imageUser: ""
 };
 
 const FormCreateUser = () => {

@@ -16,6 +16,7 @@ const GrupoUsuariosForm = props => {
     isSubmitting,
     handleChange,
     setFieldValue,
+    setFieldTouched,
     handleBlur,
     handleSubmit,
     handleReset
@@ -23,10 +24,10 @@ const GrupoUsuariosForm = props => {
 return(
   <Row>
         <Col sm="8" md={{ offset: 2 }}>
+        <form>
           <Card>
             <CardHeader> Registro de grupo de usuarios </CardHeader>
             <CardBody>
-                  <form>
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
@@ -83,7 +84,6 @@ return(
                         </div>
                       </div>
                     </div>
-                  </form>
                   <div className="row">
                     <div className="col-md-12">
                       <Card>
@@ -91,7 +91,6 @@ return(
                           <h5 className=""> Búsqueda de usuarios </h5>
                           <hr />
                           <br />
-                          <form className="form">
                             <div className="row">
                               <div className="col-md-3">
                                 <div className="form-group">
@@ -194,6 +193,16 @@ return(
                                 </div>
                               </div>
                             </div>
+                            <div className="form-group">
+                                  <label>Usuarios disponibles</label>
+                                  <select
+                                  className="form-control form-control-sm"
+                                  multiple
+                                  disabled
+                                  >
+                                        <option>Usuarios disponibles de la consulta</option>
+                                  </select>
+                                </div>
 
                             {/*dataOk ? (
                                 <div className="form-group">
@@ -203,8 +212,6 @@ return(
                                   </select>
                                 </div>
                             ) : null*/}
-
-                          </form>
                         </CardBody>
                         <CardFooter>
                           <div className="float-right">
@@ -231,15 +238,20 @@ return(
                           Seleccione usuario(s) asignados{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
-                        <Select
-                          //  onChange={selectedOptionUserAsigandos}
-                           defaultValue={{
-                              value: 'loadUsers',
-                              label: 'Cargar usuarios'
-                            }}
-                            // options={filtraritems}
-                            isMulti
-                          />
+                        <MySelect
+                          name={"roles"}
+                          value={values.roles}
+                          onChange={setFieldValue}
+                          onBlur={setFieldTouched}
+                          error={errors.roles}
+                          touched={touched.roles}
+                        />
+                        {touched ? (
+                          <div style={{ color: "red" }}>
+                            {" "}
+                            <ErrorMessage name={"roles"} />
+                          </div>
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -281,6 +293,7 @@ return(
                       </div>
                     </div>
                   </div>
+
               </CardBody>
               <CardFooter>
               <div className="pull-right">
@@ -301,6 +314,7 @@ return(
               </div>
             </CardFooter>
           </Card>
+          </form>
         </Col>
       </Row>
   );
@@ -315,7 +329,8 @@ export default withFormik({
     empresa: props.grupoUsuarios.empresa,
     sede: props.grupoUsuarios.sede,
     dependencia: props.grupoUsuarios.dependencia,
-    estado: props.grupoUsuarios.estado
+    estado: props.grupoUsuarios.estado,
+    roles: props.grupoUsuarios.roles
   }),
   validationSchema: Yup.object().shape({
     codigo: Yup.string()
@@ -345,7 +360,15 @@ export default withFormik({
         "Es necesario activar el conglomerado",
         value => value === true
       )
-      .required("se debe aceptar la activacion de la empresa")
+      .required("se debe aceptar la activacion de la empresa"),
+    roles: Yup.array()
+      .of(
+        Yup.object().shape({
+          label: Yup.string().required(),
+          value: Yup.string().required()
+        })
+      )
+      .required("se requiere al menos un rol")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
@@ -356,3 +379,45 @@ export default withFormik({
   }
 })(GrupoUsuariosForm);
 
+const options = [
+  { value: "Food", label: "Food" },
+  { value: "Being Fabulous", label: "Being Fabulous" },
+  { value: "Ken Wheeler", label: "Ken Wheeler" },
+  { value: "ReasonML", label: "ReasonML" },
+  { value: "Unicorns", label: "Unicorns" },
+  { value: "Kittens", label: "Kittens" }
+];
+
+class MySelect extends React.Component {
+  handleChange = value => {
+    this.props.onChange("roles", value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur("roles", true);
+  };
+
+  render() {
+    return (
+      <div style={{ margin: "0" }}>
+        <Select
+          name={this.props.name}
+          options={options}
+          isMulti
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          value={this.props.value}
+          placeholder={"-- seleccione rol --"}
+        />
+        {/* {!!this.props.error && this.props.touched && (
+          <div
+            style={{ color: "red", marginTop: ".5rem" }}
+            className="invalid-feedback"
+          >
+            {this.props.error}
+          </div>
+        )} */}
+      </div>
+    );
+  }
+}

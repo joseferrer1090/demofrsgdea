@@ -33,7 +33,7 @@ const UserForm = props => {
           <Row>
             <Col sm="3">
               <div className="text-center">
-                {/* <img
+                <img
                   src={"/assets/img/avatar2.png"}
                   className="img-thumbnail"
                 />
@@ -42,17 +42,17 @@ const UserForm = props => {
                 <input
                   type="file"
                   style={{ display: "none" }}
-                  ref={this.inputOpenFileRef}
+                  // ref={this.inputOpenFileRef}
                 />
                 <button
                   type="button"
                   className="btn btn-secondary btn-sm "
                   style={{ width: "160px" }}
-                  onClick={this.showOpenFileDlg}
+                  // onClick={this.showOpenFileDlg}
                 >
                   {" "}
                   <i className="fa fa-camera" /> Cambiar imagen{" "}
-                </button> */}
+                </button>
               </div>
             </Col>
 

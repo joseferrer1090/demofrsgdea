@@ -156,19 +156,19 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     codigo: Yup.string()
-      .min(6, "Minimo son 6 caracteres en el codigo")
-      .max(6, "Maximo son 6 caracteres")
-      .required("Codigo es requerido"),
+      .min(6, "Mínimo son 6 caracteres")
+      .max(6, "Máximo son 6 caracteres")
+      .required("Código es requerido"),
     nombre: Yup.string()
       .required("Nombre es requerido")
       .max(100),
     estado: Yup.bool()
       .test(
         "Activo",
-        "Es necesario activar el conglomerado",
+        "Es necesario activar el país",
         value => value === true
       )
-      .required("Es importante activar el conglomerado")
+      .required("Es necesario activar el país")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

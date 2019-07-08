@@ -573,15 +573,14 @@ class MySelect extends React.Component {
 
   render() {
     return (
-      <div style={{ margin: "1rem 0" }}>
-        <label htmlFor="color">Topics (select at least 3) </label>
+      <div style={{ margin: "0" }}>
         <Select
-          id="color"
           options={options}
           isMulti
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           value={this.props.value}
+          placeholder={"-- seleccione rol --"}
         />
         {!!this.props.error && this.props.touched && (
           <div style={{ color: "red", marginTop: ".5rem" }}>

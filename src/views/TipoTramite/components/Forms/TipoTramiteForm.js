@@ -1,9 +1,20 @@
 import React from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import { CustomInput, Row, Col } from "reactstrap";
+import * as Yup from "yup";
 
 const TipoTramiteForm = props => {
-  const {} = props;
+  const {
+    values,
+    touched,
+    errors,
+    dirty,
+    isSubmitting,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    handleReset
+  } = props;
   return (
     <div className="col-md-12">
       <div className="card">
@@ -23,7 +34,13 @@ const TipoTramiteForm = props => {
                             Tipo de correspondencia{" "}
                             <span className="text-danger">* </span>
                           </label>
-                          <select className="form-control form-control-sm">
+                          <select
+                            name={"t_correspondencia"}
+                            value={values.t_correspondencia}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            className="form-control form-control-sm"
+                          >
                             <option>Recibida</option>
                             <option>Despachada</option>
                             <option>Interna</option>
@@ -36,6 +53,10 @@ const TipoTramiteForm = props => {
                             Código <span className="text-danger">*</span>{" "}
                           </label>
                           <input
+                            name={"codigo"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.codigo}
                             type="text"
                             className="form-control form-control-sm"
                           />
@@ -47,6 +68,10 @@ const TipoTramiteForm = props => {
                             Nombre <span className="text-danger">*</span>{" "}
                           </label>
                           <input
+                            name={"nombre"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.nombre}
                             type="text"
                             className="form-control form-control-sm"
                           />
@@ -58,6 +83,10 @@ const TipoTramiteForm = props => {
                             Descripción <span className="text-danger">*</span>{" "}
                           </label>
                           <input
+                            name={"descripciont"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.description}
                             type="text"
                             className="form-control form-control-sm"
                           />
@@ -70,6 +99,10 @@ const TipoTramiteForm = props => {
                             <span className="text-danger">*</span>{" "}
                           </label>
                           <input
+                            name={"d_maximos"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.d_maximos}
                             type="number"
                             className="form-control form-control-sm"
                             min={0}
@@ -84,6 +117,10 @@ const TipoTramiteForm = props => {
                           </label>
                           <div className="text-justify">
                             <CustomInput
+                              name={"estado"}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.estado}
                               type="checkbox"
                               id="ExampleInputCheckbox"
                               label="Si esta opción se encuentra activada, Representa que
@@ -256,7 +293,13 @@ const TipoTramiteForm = props => {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label>Asunto</label>
-                          <textarea className="form-control form-control-sm" />
+                          <textarea
+                            name={"asutno"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.asunto}
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                     </div>
@@ -273,7 +316,13 @@ const TipoTramiteForm = props => {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label>Plantilla</label>
-                          <select className="form-control form-control-sm">
+                          <select
+                            name={"plantilla"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.plantilla}
+                            className="form-control form-control-sm"
+                          >
                             <option>Seleccione</option>
                           </select>
                         </div>
@@ -292,7 +341,13 @@ const TipoTramiteForm = props => {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label>Workflow</label>
-                          <select className="form-control form-control-sm">
+                          <select
+                            name={"workflow"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.workflow}
+                            className="form-control form-control-sm"
+                          >
                             <option>Seleccione</option>
                           </select>
                         </div>
@@ -305,10 +360,20 @@ const TipoTramiteForm = props => {
           </div>
         </div>
         <div className="card-footer">
-          <div className="float-right">
-            <button type="button" className="btn btn-secondary btn-sm">
-              {" "}
-              + Registrar{" "}
+          <div className="pull-right">
+            <button
+              type="submit"
+              className="btn btn-outline-secondary btn-sm"
+              disabled={isSubmitting}
+              onClick={handleSubmit}
+            >
+              {isSubmitting ? (
+                <i className=" fa fa-spinner fa-spin" />
+              ) : (
+                <div>
+                  <i className="fa fa-save" /> Guardar
+                </div>
+              )}
             </button>
           </div>
         </div>
@@ -317,4 +382,45 @@ const TipoTramiteForm = props => {
   );
 };
 
-export default withFormik({})(TipoTramiteForm);
+export default withFormik({
+  mapPropsToValues: props => ({
+    t_correspondencia: props.tipotramite.t_correspondencia,
+    codigo: props.tipotramite.codigo,
+    description: props.tipotramite.description,
+    d_maximos: props.tipotramite.d_maximos,
+    user_enabled: props.tipotramite.user_enabled,
+    estado: props.tipotramite.estado,
+    asunto: props.tipotramite.asunto,
+    plantilla: props.tipotramite.plantilla,
+    workflow: props.tipotramite.workflow
+  }),
+  validationSchema: Yup.object().shape({
+    t_correspondencia: Yup.string()
+      .ensure()
+      .required("necesario seleccionar el tipo correspondencia"),
+    codigo: Yup.string().required(
+      "necesario asignar un codigo al tipo de tramite"
+    ),
+    nombre: Yup.string().required("necesario nombre para el tipo de tramite"),
+    description: Yup.string().required("necesario la descripcion del tramite"),
+    d_maximos: Yup.number()
+      .integer()
+      .required("necesita dias maximos de respuestas"),
+    estado: Yup.bool().test(
+      "Activo",
+      "Es necesario activar el tipo de tramite",
+      value => value === true
+    ),
+    asunto: Yup.string(),
+    workflow: Yup.string().ensure(),
+    plantilla: Yup.string().ensure(),
+    user_enabled: Yup.object()
+  }),
+  handleSubmit: (values, { setSubmitting, reseForm }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+      reseForm();
+    });
+  }
+})(TipoTramiteForm);

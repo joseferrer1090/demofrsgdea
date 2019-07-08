@@ -412,7 +412,8 @@ export default withFormik({
     estado: props.tipotramite.estado,
     asunto: props.tipotramite.asunto,
     plantilla: props.tipotramite.plantilla,
-    workflow: props.tipotramite.workflow
+    workflow: props.tipotramite.workflow,
+    nombre: props.tipotramite.nombre
   }),
   validationSchema: Yup.object().shape({
     t_correspondencia: Yup.string()
@@ -436,11 +437,12 @@ export default withFormik({
     plantilla: Yup.string().ensure(),
     user_enabled: Yup.object()
   }),
-  handleSubmit: (values, { setSubmitting, reseForm }) => {
+  handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-      reseForm();
-    });
+      // alert(JSON.stringify(values, null, 2));
+      // setSubmitting(false);
+      // resetForm();
+      console.log("hola");
+    }, 1000);
   }
 })(TipoTramiteForm);

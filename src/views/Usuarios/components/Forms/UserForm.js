@@ -10,6 +10,7 @@ import {
   CustomInput
 } from "reactstrap";
 import * as Yup from "yup";
+import Select from "react-select";
 
 const UserForm = props => {
   const {
@@ -19,10 +20,14 @@ const UserForm = props => {
     handleChange,
     handleBlur,
     handleSubmit,
-    isSubmitting
+    isSubmitting,
+    setFieldTouched,
+    setFieldValue
   } = props;
 
-  const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+  const showOpenFileDlg = () => {
+    alert("debe mostrar la ventana import");
+  };
 
   return (
     <div>
@@ -32,7 +37,7 @@ const UserForm = props => {
           <Row>
             <Col sm="3">
               <div className="text-center">
-                {/* <img
+                <img
                   src={"/assets/img/avatar2.png"}
                   className="img-thumbnail"
                 />
@@ -41,17 +46,20 @@ const UserForm = props => {
                 <input
                   type="file"
                   style={{ display: "none" }}
-                  ref={this.inputOpenFileRef}
+                  // ref={this.inputOpenFileRef}
+                  value={values.imageUser}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
                 <button
                   type="button"
                   className="btn btn-secondary btn-sm "
                   style={{ width: "160px" }}
-                  onClick={this.showOpenFileDlg}
+                  onClick={showOpenFileDlg}
                 >
                   {" "}
                   <i className="fa fa-camera" /> Cambiar imagen{" "}
-                </button> */}
+                </button>
               </div>
             </Col>
 
@@ -197,6 +205,7 @@ const UserForm = props => {
                       >
                         {" "}
                         <option>Seleccione...</option>{" "}
+                        <option>conglomerado1</option>
                       </select>
                       <ErrorMessage name="conglomerado" />
                     </div>
@@ -218,6 +227,7 @@ const UserForm = props => {
                       >
                         {" "}
                         <option>Seleccione... </option>{" "}
+                        <option>empresa1</option>
                       </select>
                       <ErrorMessage name="empresa" />
                     </div>
@@ -238,8 +248,9 @@ const UserForm = props => {
                           "is-invalid"}`}
                       >
                         {" "}
-                        <option> Seleccione... </option>{" "}
+                        <option> Seleccione... </option> <option>sede1</option>
                       </select>
+                      <ErrorMessage name={"sede"} />
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -264,6 +275,7 @@ const UserForm = props => {
                           "is-invalid"}`}
                       >
                         <option>--Seleccione--</option>
+                        <option>dependencia</option>
                       </select>
                       <ErrorMessage name="dependencia" />
                     </div>
@@ -290,6 +302,7 @@ const UserForm = props => {
                           "is-invalid"}`}
                       >
                         <option>--Seleccione--</option>
+                        <option>cargo1</option>
                       </select>
                       <ErrorMessage name="cargo" />
                     </div>
@@ -370,22 +383,31 @@ const UserForm = props => {
                         {" "}
                         Roles <span className="text-danger">*</span>{" "}
                       </label>
-                      {/* <Select
-                        value={selectedOptionRoles}
-                        onChange={this.handleSelectedOptionRoles}
-                        options={dataExmapleRoles}
-                        placeholder={"Selecciones los roles"}
-                        isMulti
-                      /> */}
-                      <select
+                      <MySelect
+                        name={"roles"}
+                        value={values.roles}
+                        onChange={setFieldValue}
+                        onBlur={setFieldTouched}
+                        error={errors.roles}
+                        touched={touched.roles}
+                      />
+                      {touched ? (
+                        <div style={{ color: "red" }}>
+                          {" "}
+                          <ErrorMessage name={"roles"} />
+                        </div>
+                      ) : null}
+                      {/* <select
                         name={"roles"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.roles}
-                        className="form-control form-control-sm"
+                        className={`form-control form-control-sm ${errors.roles &&
+                          touched.roles &&
+                          "is-invalid"}`}
                       >
                         <option>--Seleccione--</option>
-                      </select>
+                      </select> */}
                     </div>
                   </div>
                   <div className="col-md-12">
@@ -410,6 +432,11 @@ const UserForm = props => {
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.estado}
+                          className={
+                            errors.estado &&
+                            touched.estado &&
+                            "invalid-feedback"
+                          }
                         />
                         {/* <label
                                   className="form-check-label"
@@ -440,9 +467,19 @@ const UserForm = props => {
         </CardBody>
         <CardFooter>
           <div className="float-right">
-            <button className="btn btn-secondary">
-              {" "}
-              <i className="fa fa-plus" /> Registrar{" "}
+            <button
+              type="submit"
+              className="btn btn-outline-secondary btn-sm"
+              disabled={isSubmitting}
+              onClick={handleSubmit}
+            >
+              {isSubmitting ? (
+                <i className=" fa fa-spinner fa-spin" />
+              ) : (
+                <div>
+                  <i className="fa fa-save" /> Guardar
+                </div>
+              )}
             </button>
           </div>
         </CardFooter>
@@ -485,7 +522,7 @@ export default withFormik({
     identificacion: Yup.string().required("identificacion requerida"),
     sede: Yup.string()
       .ensure()
-      .required("requere sede"),
+      .required("requiere sede"),
     conglomerado: Yup.string()
       .ensure()
       .required("conglomerado requerido"),
@@ -500,13 +537,80 @@ export default withFormik({
       .required("cargo requerido"),
     username: Yup.string().required("username requerido "),
     password: Yup.string()
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,15}$/, // esta expresion regular valida la contraseña
+        "contraseña no valida, la contraseña debe tener al menos una letra en mayuscula, al menos un digito, no espacio en blanco, al menos un caracter especial"
+      )
       .required("contraseña es necesaria")
-      .min(10, "minimo son 10 caracteres")
-      .max(200),
+      .min(8, "minimo son 8 caracteres")
+      .max(15),
     confirm_password: Yup.string()
       .oneOf([Yup.ref("password"), null], "contraseñas no coinciden")
       .required("necesario confirmar la contraseña")
       .min(10, "minimo son 10 caracteres")
-      .max(200)
-  })
+      .max(200),
+    estado: Yup.bool().test(
+      "Activo",
+      "se requiere la activacion el usuario",
+      value => value === true
+    ),
+    roles: Yup.array()
+      .of(
+        Yup.object().shape({
+          label: Yup.string().required(),
+          value: Yup.string().required()
+        })
+      )
+      .required("se requiere al menos un rol")
+  }),
+  handleSubmit: (values, { setSubmitting, resetForm }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+      resetForm();
+    }, 1000);
+  }
 })(UserForm);
+
+const options = [
+  { value: "Food", label: "Food" },
+  { value: "Being Fabulous", label: "Being Fabulous" },
+  { value: "Ken Wheeler", label: "Ken Wheeler" },
+  { value: "ReasonML", label: "ReasonML" },
+  { value: "Unicorns", label: "Unicorns" },
+  { value: "Kittens", label: "Kittens" }
+];
+
+class MySelect extends React.Component {
+  handleChange = value => {
+    this.props.onChange("roles", value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur("roles", true);
+  };
+
+  render() {
+    return (
+      <div style={{ margin: "0" }}>
+        <Select
+          name={this.props.name}
+          options={options}
+          isMulti
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          value={this.props.value}
+          placeholder={"-- seleccione rol --"}
+        />
+        {/* {!!this.props.error && this.props.touched && (
+          <div
+            style={{ color: "red", marginTop: ".5rem" }}
+            className="invalid-feedback"
+          >
+            {this.props.error}
+          </div>
+        )} */}
+      </div>
+    );
+  }
+}

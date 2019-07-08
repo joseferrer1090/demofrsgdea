@@ -3,6 +3,19 @@ import { Row, Col, CustomInput } from "reactstrap";
 import PropTypes from "prop-types";
 import TipoTramiteForm from "./Forms/TipoTramiteForm";
 
+const dataTramite = {
+  t_correspondencia: "",
+  codigo: "",
+  nombre: "",
+  descripcion: "",
+  d_maximos: "",
+  user_enabled: [],
+  estados: "",
+  asunto: "",
+  plantilla: "",
+  workflow: ""
+};
+
 const FormCreateTipoTramite = () => {
   return (
     <div className="animated fadeIn">

@@ -239,7 +239,7 @@ const SedesForm = props => {
                     Ciudad <span className="text-danger">*</span>
                   </label>
                   <select
-                    name={"pais"}
+                    name={"ciudad"}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.pais}
@@ -421,7 +421,7 @@ export default withFormik({
       .positive(),
     pais: Yup.string().ensure(),
     departamento: Yup.string().ensure(),
-    ciudad: Yup.string(),
+    ciudad: Yup.string().required("se requiere la ciudad para la sede"),
     direccion: Yup.string().required("direcciones es importante"),
     telefono: Yup.string()
       .max(8)

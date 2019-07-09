@@ -1,9 +1,18 @@
 import React from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import { Row, Col, CustomInput } from "reactstrap";
+import * as Yup from "yup";
 
 const TipoDocumentalRadicacion = props => {
-  const {} = props;
+  const {
+    values,
+    error,
+    touched,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    resetForm
+  } = props;
   return (
     <div className="col-md-12">
       <div className="card">
@@ -23,7 +32,13 @@ const TipoDocumentalRadicacion = props => {
                             Tipo de correspondencia{" "}
                             <span className="text-danger">* </span>
                           </label>
-                          <select className="form-control form-control-sm">
+                          <select
+                            name={"tipo_correspondencia"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.tipo_correspondencia}
+                            className="form-control form-control-sm"
+                          >
                             <option>Recibida</option>
                             <option>Despachada</option>
                             <option>Interna</option>
@@ -36,6 +51,10 @@ const TipoDocumentalRadicacion = props => {
                             Código <span className="text-danger">*</span>{" "}
                           </label>
                           <input
+                            name={"codigo"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            values={values.codigo}
                             type="text"
                             className="form-control form-control-sm"
                           />
@@ -48,6 +67,10 @@ const TipoDocumentalRadicacion = props => {
                           </label>
                           <input
                             type="text"
+                            name={"nombre"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.nombre}
                             className="form-control form-control-sm"
                           />
                         </div>
@@ -58,6 +81,10 @@ const TipoDocumentalRadicacion = props => {
                             Descripción <span className="text-danger">*</span>{" "}
                           </label>
                           <input
+                            name={"descripcion"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.descripcion}
                             type="text"
                             className="form-control form-control-sm"
                           />
@@ -70,6 +97,10 @@ const TipoDocumentalRadicacion = props => {
                             <span className="text-danger">*</span>{" "}
                           </label>
                           <input
+                            name={"d_maximo_respuesta"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.d_maximos_respuesta}
                             type="number"
                             className="form-control form-control-sm"
                             min={0}
@@ -84,6 +115,10 @@ const TipoDocumentalRadicacion = props => {
                           </label>
                           <div className="text-justify">
                             <CustomInput
+                              name={"estado"}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.estados}
                               type="checkbox"
                               id="ExampleInputCheckbox"
                               label="Si esta opción se encuentra activada, Representa que
@@ -317,4 +352,34 @@ const TipoDocumentalRadicacion = props => {
   );
 };
 
-export default withFormik({})(TipoDocumentalRadicacion);
+export default withFormik({
+  mapPropsToValues: props => ({
+    tipo_correspondencia: props.tdocumentalradicacion.tipo_correspondencia,
+    codigo: props.tdocumentalradicacion.codigo,
+    nombre: props.tdocumentalradicacion.nombre,
+    descripcion: props.tdocumentalradicacion.descripcion,
+    d_maximos_respuesta: props.tdocumentalradicacion.d_maximos_respuesta,
+    estado: props.tdocumentalradicacion.estado
+  }),
+  validationSchema: Yup.object().shape({
+    tipo_correspondencia: Yup.string()
+      .ensure()
+      .required("necesario seleccionar el tipo de correspondencia"),
+    codigo: Yup.string().required("codigo necesario"),
+    nombre: Yup.string().required(
+      "necesario el nombre para el tipo documental de radicacion"
+    ),
+    descripcion: Yup.string().required(
+      "necesario la descripcion para el tipo documental de radicacion"
+    ),
+    d_maximos_respuesta: Yup.number()
+      .positive()
+      .integer()
+      .required("se debe asignar el numero de dias"),
+    estado: Yup.bool().test(
+      "Activo",
+      "Se necesita activar el tipo documental de radicacion",
+      value => value === true
+    )
+  })
+})(TipoDocumentalRadicacion);

@@ -114,6 +114,12 @@ const RolesForm = props => {
                               onChange={setFieldValue}
                               onBlur={setFieldTouched}
                             />
+                            {touched ? (
+                              <div style={{ color: "red" }}>
+                                {" "}
+                                <ErrorMessage name={"modulos"} />
+                              </div>
+                            ) : null}
                             {/* <select className="form-control form-control-sm">
                               {" "}
                               <option> Seleccione... </option>{" "}
@@ -134,6 +140,12 @@ const RolesForm = props => {
                               onChange={setFieldValue}
                               onBlur={setFieldTouched}
                             />
+                            {touched ? (
+                              <div style={{ color: "red" }}>
+                                {" "}
+                                <ErrorMessage name={"entidades"} />
+                              </div>
+                            ) : null}
                             {/* <select
                               className="form-control form-control-sm
                                 "
@@ -294,7 +306,15 @@ export default withFormik({
           label: Yup.string().required
         })
       )
-      .required("necesario selecionar modulos")
+      .required("necesario selecionar modulos"),
+    entidades: Yup.array()
+      .of(
+        Yup.object().shape({
+          value: Yup.string().required(),
+          label: Yup.string().required
+        })
+      )
+      .required("necesario seleccionar entidades")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

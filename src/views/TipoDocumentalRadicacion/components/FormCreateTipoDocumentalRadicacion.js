@@ -9,7 +9,10 @@ const dataTipoDocumental = {
   descripcion: "",
   d_maximos_respuesta: "",
   estado: "",
-  user_enabled: []
+  user_enabled: [],
+  workflow: "",
+  plantilla: "",
+  asunto: ""
 };
 
 const FormCreateTipoTramite = props => {

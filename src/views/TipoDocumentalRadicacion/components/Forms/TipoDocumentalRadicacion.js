@@ -390,7 +390,10 @@ export default withFormik({
     descripcion: props.tdocumentalradicacion.descripcion,
     d_maximos_respuesta: props.tdocumentalradicacion.d_maximos_respuesta,
     estado: props.tdocumentalradicacion.estado,
-    user_enabled: props.tdocumentalradicacion.user_enabled
+    user_enabled: props.tdocumentalradicacion.user_enabled,
+    asunto: props.tdocumentalradicacion.asunto,
+    plantilla: props.tdocumentalradicacion.plantilla,
+    workflow: props.tdocumentalradicacion.workflow
   }),
   validationSchema: Yup.object().shape({
     tipo_correspondencia: Yup.string()
@@ -414,7 +417,12 @@ export default withFormik({
     ),
     user_enabled: Yup.array().of(
       Yup.object().shape({ id: Yup.number(), name: Yup.string() })
-    )
+    ),
+    plantilla: Yup.string().notRequired(),
+    workflow: Yup.string()
+      .ensure()
+      .notRequired(),
+    asunto: Yup.string().notRequired()
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

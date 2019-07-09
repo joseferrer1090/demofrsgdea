@@ -128,13 +128,19 @@ const RolesForm = props => {
                                 *
                               </span>{" "}
                             </label>
-                            <select
+                            <MySelectEntidades
+                              name={"entidades"}
+                              value={values.entidades}
+                              onChange={setFieldValue}
+                              onBlur={setFieldTouched}
+                            />
+                            {/* <select
                               className="form-control form-control-sm
                                 "
                             >
                               {" "}
                               <option> Seleccione... </option>{" "}
-                            </select>
+                            </select> */}
                           </div>
                         </Col>
                         {/*  Aqui va la funcionalidad    */}
@@ -349,4 +355,28 @@ class MySelectModulos extends React.Component {
   }
 }
 
-class MySelectEntidades extends React.Component {}
+class MySelectEntidades extends React.Component {
+  handleChange = value => {
+    this.props.onChange("entidades", value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur("entidades", true);
+  };
+
+  render() {
+    return (
+      <div>
+        <Select
+          name={this.props.name}
+          value={this.props.value}
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          options={dataEntidades}
+          placeholder={"-- seleccione --"}
+          isMulti
+        />
+      </div>
+    );
+  }
+}

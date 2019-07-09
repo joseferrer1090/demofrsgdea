@@ -146,6 +146,9 @@ const RolesForm = props => {
                         {/*  Aqui va la funcionalidad    */}
                         <div className="row">
                           <div className="col-md-6">
+                            <label className="col-md-12">
+                              <dt>Permisos disponibles:</dt>
+                            </label>
                             <div className="form-group">
                               <select
                                 multiple
@@ -165,6 +168,9 @@ const RolesForm = props => {
                             </div>
                           </div>
                           <div className="col-md-6">
+                            <label>
+                              <dt>Permisos asignados:</dt>
+                            </label>
                             <select
                               multiple
                               className="form-control"

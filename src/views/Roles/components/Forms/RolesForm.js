@@ -21,7 +21,9 @@ const RolesForm = props => {
     handleChange,
     handleBlur,
     handleSubmit,
-    isSubmitting
+    isSubmitting,
+    setFieldTouched,
+    setFieldValue
   } = props;
   return (
     <div>
@@ -106,10 +108,16 @@ const RolesForm = props => {
                               {" "}
                               Modulo <span className="text-danger">*</span>{" "}
                             </label>
-                            <select className="form-control form-control-sm">
+                            <MySelectModulos
+                              name={"modulos"}
+                              value={values.modulos}
+                              onChange={setFieldValue}
+                              onBlur={setFieldTouched}
+                            />
+                            {/* <select className="form-control form-control-sm">
                               {" "}
                               <option> Seleccione... </option>{" "}
-                            </select>
+                            </select> */}
                           </div>
                         </Col>
                         <Col sm="6">
@@ -266,7 +274,15 @@ export default withFormik({
     descripcion: Yup.string().required("necesario descripcion"),
     estado: Yup.bool()
       .test("Activo", "necesario activar el rol", value => value === true)
-      .required("necesario activar el rol")
+      .required("necesario activar el rol"),
+    modulos: Yup.array()
+      .of(
+        Yup.object().shape({
+          value: Yup.string().required(),
+          label: Yup.string().required
+        })
+      )
+      .required("necesario selecionar modulos")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
@@ -276,3 +292,61 @@ export default withFormik({
     }, 1000);
   }
 })(RolesForm);
+
+const dataModulos = [
+  { value: "10", label: "Configuracion" },
+  { value: "11", label: "Correspondencia" },
+  { value: "12", label: "Archivo" },
+  { value: "13", label: "Workflow" }
+];
+
+const dataEntidades = [
+  { value: "1", label: "Conglomerado" },
+  { value: "2", label: "Empresa" },
+  { value: "3", label: "Sedes" },
+  { value: "4", label: "Dependencia" },
+  { value: "5", label: "Cargo" },
+  { value: "6", label: "Mensajero" },
+  { value: "7", label: "Tipo de envio / llegada" },
+  { value: "8", label: "Tramite" },
+  { value: "9", label: "Usuarios" },
+  { value: "10", label: "Tipo de terceros" },
+  { value: "11", label: "Roles" },
+  { value: "12", label: "Grupo de usuarios" },
+  { value: "13", label: "Terceros" },
+  { value: "14", label: "Tipo documental de radicacion" },
+  { value: "15", label: "Pais" },
+  { value: "16", label: "Departamentio" },
+  { value: "17", label: "Ciudad" },
+  { value: "18", label: "Auditoria" },
+  { value: "19", label: "Plantilla" },
+  { value: "20", label: "Tema" }
+];
+
+class MySelectModulos extends React.Component {
+  handleChange = value => {
+    this.props.onChange("modulos", value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur("modulos", true);
+  };
+
+  render() {
+    return (
+      <div>
+        <Select
+          name={this.props.name}
+          options={dataModulos}
+          isMulti
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          value={this.props.value}
+          placeholder={"-- selecione --"}
+        />
+      </div>
+    );
+  }
+}
+
+class MySelectEntidades extends React.Component {}

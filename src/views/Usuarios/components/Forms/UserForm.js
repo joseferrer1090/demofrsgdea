@@ -582,6 +582,7 @@ const options = [
 ];
 
 class MySelect extends React.Component {
+
   handleChange = value => {
     this.props.onChange("roles", value);
   };

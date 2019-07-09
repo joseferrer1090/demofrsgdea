@@ -14,15 +14,15 @@ import {
   CardTitle,
   CustomInput
 } from "reactstrap";
-import { dataGrupoUsuarios } from "./FormCreateGrupos";
-const filtraritems = [];
+// import { dataGrupoUsuarios } from "./FormCreateGrupos";
+// const filtraritems = [];
 class ModalEditPais extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: this.props.modalgitedit,
       dataOk: false,
-      items: dataGrupoUsuarios,
+      // items: dataGrupoUsuarios,
       selectedOptionUserAsigandos: null
     };
   }
@@ -32,29 +32,29 @@ class ModalEditPais extends Component {
     });
   };
 
-  handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
-    this.setState({ selectedOptionUserAsigandos });
-    console.log(this.state.selectedOptionUserAsigandos);
-  };
+  // handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
+  //   this.setState({ selectedOptionUserAsigandos });
+  //   console.log(this.state.selectedOptionUserAsigandos);
+  // };
 
   render() {
-    const {dataOk, items, selectedOptionUserAsigandos} = this.state;
-    const buscarOpciones = items.map(item => (
-      <option
-        key={item.id}
-        onClick={() => {
-        const string = JSON.stringify({
-          value: `${item.id}`,
-          label: `${item.nombre}`
-        });
-        filtraritems.push(JSON.parse(string));
-        console.log(filtraritems);
-      }}
-    >
-      {item.nombre}
-    </option>
-        ));
-    console.log(filtraritems);
+    // const {dataOk, items, selectedOptionUserAsigandos} = this.state;
+    // const buscarOpciones = items.map(item => (
+    //   <option
+    //     key={item.id}
+    //     onClick={() => {
+    //     const string = JSON.stringify({
+    //       value: `${item.id}`,
+    //       label: `${item.nombre}`
+    //     });
+    //     filtraritems.push(JSON.parse(string));
+    //     console.log(filtraritems);
+    //   }}
+    // >
+    //   {item.nombre}
+    // </option>
+    //     ));
+    // console.log(filtraritems);
 
     return (
       <div>
@@ -160,15 +160,15 @@ class ModalEditPais extends Component {
                         </div>
                       </div>
 
-                      {dataOk ? (
+
                           <div className="form-group">
                             <label>Usuarios disponibles</label>
                             <select className="form-control form-control-sm"  multiple>
-                            {buscarOpciones}
+                              <option>Usuarios disponibles de la consulta </option>
                             </select>
 
                           </div>
-                      ) : null}
+
 
                     </form>
                   </CardBody>
@@ -198,12 +198,12 @@ class ModalEditPais extends Component {
                         <span className="text-danger">*</span>{" "}
                       </label>
                       <Select
-                           onChange={selectedOptionUserAsigandos}
+                          //  onChange={selectedOptionUserAsigandos}
                            defaultValue={{
                               value: 'loadUsers',
                               label: 'Cargar usuarios'
                             }}
-                            options={filtraritems}
+                            // options={filtraritems}
                             isMulti
                           />
                     </div>

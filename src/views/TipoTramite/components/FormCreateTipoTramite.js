@@ -10,7 +10,7 @@ const dataTramite = {
   descripcion: "",
   d_maximos: "",
   user_enabled: [],
-  estados: "",
+  estado: "",
   asunto: "",
   plantilla: "",
   workflow: ""
@@ -20,7 +20,7 @@ const FormCreateTipoTramite = () => {
   return (
     <div className="animated fadeIn">
       <div className="row">
-        <TipoTramiteForm />
+        <TipoTramiteForm tipotramite={dataTramite} />
       </div>
     </div>
   );

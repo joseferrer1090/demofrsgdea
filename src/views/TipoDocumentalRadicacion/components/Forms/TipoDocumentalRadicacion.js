@@ -6,12 +6,12 @@ import * as Yup from "yup";
 const TipoDocumentalRadicacion = props => {
   const {
     values,
-    error,
+    errors,
     touched,
     handleChange,
     handleBlur,
     handleSubmit,
-    resetForm
+    isSubmitting
   } = props;
   return (
     <div className="col-md-12">
@@ -37,12 +37,15 @@ const TipoDocumentalRadicacion = props => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.tipo_correspondencia}
-                            className="form-control form-control-sm"
+                            className={`form-control form-control-sm ${errors.tipo_correspondencia &&
+                              touched.tipo_correspondencia &&
+                              "is-invalid"}`}
                           >
                             <option>Recibida</option>
                             <option>Despachada</option>
                             <option>Interna</option>
                           </select>
+                          <ErrorMessage name={"tipo_correspondencia"} />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -56,8 +59,11 @@ const TipoDocumentalRadicacion = props => {
                             onBlur={handleBlur}
                             values={values.codigo}
                             type="text"
-                            className="form-control form-control-sm"
+                            className={`form-control form-control-sm ${errors.codigo &&
+                              touched.codigo &&
+                              "is-invalid"}`}
                           />
+                          <ErrorMessage name={"codigo"} />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -71,8 +77,11 @@ const TipoDocumentalRadicacion = props => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.nombre}
-                            className="form-control form-control-sm"
+                            className={`form-control form-control-sm ${errors.nombre &&
+                              touched.nombre &&
+                              "is-invalid"}`}
                           />
+                          <ErrorMessage name={"nombre"} />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -86,8 +95,11 @@ const TipoDocumentalRadicacion = props => {
                             onBlur={handleBlur}
                             value={values.descripcion}
                             type="text"
-                            className="form-control form-control-sm"
+                            className={`form-control form-control-sm ${errors.descripcion &&
+                              touched.descripcion &&
+                              "is-invalid"}`}
                           />
+                          <ErrorMessage name={"descripcion"} />
                         </div>
                       </div>
                       <div className="col-md-12">
@@ -97,14 +109,17 @@ const TipoDocumentalRadicacion = props => {
                             <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            name={"d_maximo_respuesta"}
+                            name={"d_maximos_respuesta"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.d_maximos_respuesta}
                             type="number"
-                            className="form-control form-control-sm"
                             min={0}
+                            className={`form-control form-control-sm ${errors.d_maximos_respuesta &&
+                              touched.d_maximos_respuesta &&
+                              "is-invalid"}`}
                           />
+                          <ErrorMessage name={"d_maximos_respuesta"} />
                         </div>
                       </div>
                       <Col sm="12">
@@ -128,6 +143,11 @@ const TipoDocumentalRadicacion = props => {
                      la sede no se elimina del sistema solo quedará
                      inactiva e invisibles para cada uno de los módulos
                      correspondiente del sistema."
+                              className={
+                                errors.estado &&
+                                touched.estado &&
+                                "invalid-feedback"
+                              }
                             />
                           </div>
                           {/* <p
@@ -341,9 +361,19 @@ const TipoDocumentalRadicacion = props => {
         </div>
         <div className="card-footer">
           <div className="float-right">
-            <button type="button" className="btn btn-secondary btn-sm">
-              {" "}
-              + Registrar{" "}
+            <button
+              type="submit"
+              className="btn btn-outline-secondary btn-sm"
+              disabled={isSubmitting}
+              onClick={handleSubmit}
+            >
+              {isSubmitting ? (
+                <i className=" fa fa-spinner fa-spin" />
+              ) : (
+                <div>
+                  <i className="fa fa-save" /> Guardar
+                </div>
+              )}
             </button>
           </div>
         </div>
@@ -359,7 +389,8 @@ export default withFormik({
     nombre: props.tdocumentalradicacion.nombre,
     descripcion: props.tdocumentalradicacion.descripcion,
     d_maximos_respuesta: props.tdocumentalradicacion.d_maximos_respuesta,
-    estado: props.tdocumentalradicacion.estado
+    estado: props.tdocumentalradicacion.estado,
+    user_enabled: props.tdocumentalradicacion.user_enabled
   }),
   validationSchema: Yup.object().shape({
     tipo_correspondencia: Yup.string()
@@ -380,6 +411,16 @@ export default withFormik({
       "Activo",
       "Se necesita activar el tipo documental de radicacion",
       value => value === true
+    ),
+    user_enabled: Yup.array().of(
+      Yup.object().shape({ id: Yup.number(), name: Yup.string() })
     )
-  })
+  }),
+  handleSubmit: (values, { setSubmitting, resetForm }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+      resetForm();
+    }, 1000);
+  }
 })(TipoDocumentalRadicacion);

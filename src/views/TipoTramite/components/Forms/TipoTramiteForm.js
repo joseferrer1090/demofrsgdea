@@ -1,9 +1,9 @@
 import React from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
-import { CustomInput, Row, Col } from "reactstrap";
 import * as Yup from "yup";
+import { Col, Row, CustomInput } from "reactstrap";
 
-const TipoTramiteForm = props => {
+const TipoTramite = props => {
   const {
     values,
     touched,
@@ -17,16 +17,16 @@ const TipoTramiteForm = props => {
   } = props;
   return (
     <div className="col-md-12">
-      <div className="card">
-        <div className="card-body">
-          <div className="row">
-            <div className="col-md-6">
-              <div className="card">
-                <div className="p-2 mb-1 bg-light text-dark">
-                  Información básica
-                </div>
-                <div className="card-body">
-                  <form className="form">
+      <form className="form">
+        <div className="card">
+          <div className="card-body">
+            <div className="row">
+              <div className="col-md-6">
+                <div className="card">
+                  <div className="p-2 mb-1 bg-light text-dark">
+                    Información básica
+                  </div>
+                  <div className="card-body">
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
@@ -47,7 +47,7 @@ const TipoTramiteForm = props => {
                             <option>Despachada</option>
                             <option>Interna</option>
                           </select>
-                          <ErrorMessage name="t_correspondencia" />
+                          <ErrorMessage name={"t_correspondencia"} />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -83,7 +83,7 @@ const TipoTramiteForm = props => {
                               touched.nombre &&
                               "is-invalid"}`}
                           />
-                          <ErrorMessage name="nombre" />
+                          <ErrorMessage name={"nombre"} />
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -121,7 +121,7 @@ const TipoTramiteForm = props => {
                               "is-invalid"}`}
                             min={0}
                           />
-                          <ErrorMessage name="d_maximos" />
+                          <ErrorMessage name={"d_maximos"} />
                         </div>
                       </div>
                       <Col sm="12">
@@ -168,281 +168,291 @@ const TipoTramiteForm = props => {
                         </div>
                       </Col>
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-md-6">
-              <div className="card">
-                <div className="p-2 mb-1 bg-light text-dark">
-                  Usuarios disponibles
-                </div>
-                <div className="card-body">
-                  <form>
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label> Conglomerado </label>
-                          <select className="form-control form-control-sm">
-                            <option>Seleccione</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label>Empresa </label>
-                          <select className="form-control form-control-sm">
-                            <option>Seleccione</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label> Sede </label>
-                          <select className="form-control form-control-sm">
-                            <option>Seleccione</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label> Dependencia </label>
-                          <select className="form-control form-control-sm">
-                            <option>Seleccione</option>
-                          </select>
-                        </div>
-                      </div>
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label> Buscar usuario </label>
-                          <div className="input-group input-group-sm">
-                            <input
-                              type="text"
-                              className="form-control form-control-sm"
-                              aria-label="Dollar amount (with dot and two decimal places)"
-                            />
-                            <div
-                              className="input-group-append"
-                              id="button-addon4"
-                            >
-                              <button
-                                className="btn btn-secondary"
-                                type="button"
-                              >
-                                <i className="fa fa-search" />
-                              </button>
-                              <button
-                                className="btn btn-secondary"
-                                type="button"
-                              >
-                                <i className="fa fa-plus" /> Agregar
-                              </button>
-                            </div>
+              <div className="col-md-6">
+                <div className="card">
+                  <div className="p-2 mb-1 bg-light text-dark">
+                    Usuarios disponibles
+                  </div>
+                  <div className="card-body">
+                    <div>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label> Conglomerado </label>
+                            <select className="form-control form-control-sm">
+                              <option>Seleccione</option>
+                            </select>
                           </div>
                         </div>
-                        <textarea
-                          className="form-control form-control-sm"
-                          disabled
-                          placeholder="Usuarios disponibles de la consulta"
-                          rows={8}
-                        />
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-12">
-              <div className="card">
-                <div className="p-2 mb-1 bg-light text-dark">
-                  Usuarios disponibles
-                </div>
-                <div className="card-body">
-                  <form>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <table className="table table-bordered table-sm">
-                          <thead className="thead-light">
-                            <tr className="text-center">
-                              <th scope="col">Usuario</th>
-                              <th scope="col">Sede</th>
-                              <th scope="col">Dependencia</th>
-                              <th scope="col">Original</th>
-                              <th scope="col">Eliminar</th>
-                            </tr>
-                          </thead>
-                          <tbody className="text-center">
-                            <tr>
-                              <td scope="row">NOMBRE COMPLETO DEL USUARIO</td>
-                              <td>SEDE I</td>
-                              <td>DEPENDENCIA I</td>
-                              <td>
-                                <CustomInput
-                                  type="radio"
-                                  id="exampleCustomCheckbox2"
-                                />{" "}
-                              </td>
-                              <td>
-                                {" "}
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label>Empresa </label>
+                            <select className="form-control form-control-sm">
+                              <option>Seleccione</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label> Sede </label>
+                            <select className="form-control form-control-sm">
+                              <option>Seleccione</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label> Dependencia </label>
+                            <select className="form-control form-control-sm">
+                              <option>Seleccione</option>
+                            </select>
+                          </div>
+                        </div>
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label> Buscar usuario </label>
+                            <div className="input-group input-group-sm">
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                                aria-label="Dollar amount (with dot and two decimal places)"
+                              />
+                              <div
+                                className="input-group-append"
+                                id="button-addon4"
+                              >
                                 <button
+                                  className="btn btn-secondary"
                                   type="button"
-                                  className="btn btn-sm btn-danger"
                                 >
-                                  <i className="fa fa-trash" />
-                                </button>{" "}
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="row">
-            <div className="col-md-4">
-              <div className="card">
-                <div className="p-2 mb-1 bg-light text-dark">Asunto</div>
-                <div className="card-body">
-                  <form>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label>Asunto</label>
+                                  <i className="fa fa-search" />
+                                </button>
+                                <button
+                                  className="btn btn-secondary"
+                                  type="button"
+                                >
+                                  <i className="fa fa-plus" /> Agregar
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                           <textarea
-                            name={"asutno"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.asunto}
                             className="form-control form-control-sm"
+                            disabled
+                            placeholder="Usuarios disponibles de la consulta"
+                            rows={8}
                           />
                         </div>
                       </div>
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="col-md-4">
-              <div className="card">
-                <div className="p-2 mb-1 bg-light text-dark">Plantilla</div>
-                <div className="card-body">
-                  <form>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label>Plantilla</label>
-                          <select
-                            name={"plantilla"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.plantilla}
-                            className="form-control form-control-sm"
-                          >
-                            <option>Seleccione</option>
-                          </select>
+            <div className="row">
+              <div className="col-md-12">
+                <div className="card">
+                  <div className="p-2 mb-1 bg-light text-dark">
+                    Usuarios disponibles
+                  </div>
+                  <div className="card-body">
+                    <div>
+                      <div className="row">
+                        <div className="col-md-12">
+                          <table className="table table-bordered table-sm">
+                            <thead className="thead-light">
+                              <tr className="text-center">
+                                <th scope="col">Usuario</th>
+                                <th scope="col">Sede</th>
+                                <th scope="col">Dependencia</th>
+                                <th scope="col">Original</th>
+                                <th scope="col">Eliminar</th>
+                              </tr>
+                            </thead>
+                            <tbody className="text-center">
+                              <tr>
+                                <td scope="row">NOMBRE COMPLETO DEL USUARIO</td>
+                                <td>SEDE I</td>
+                                <td>DEPENDENCIA I</td>
+                                <td>
+                                  <CustomInput
+                                    type="radio"
+                                    id="exampleCustomCheckbox2"
+                                  />{" "}
+                                </td>
+                                <td>
+                                  {" "}
+                                  <button
+                                    type="button"
+                                    className="btn btn-sm btn-danger"
+                                  >
+                                    <i className="fa fa-trash" />
+                                  </button>{" "}
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="col-md-4">
-              <div className="card">
-                <div className="p-2 mb-1 bg-light text-dark">Workflow</div>
-                <div className="card-body">
-                  <form>
-                    <div className="row">
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label>Workflow</label>
-                          <select
-                            name={"workflow"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.workflow}
-                            className="form-control form-control-sm"
-                          >
-                            <option>Seleccione</option>
-                          </select>
+            <div className="row">
+              <div className="col-md-4">
+                <div className="card">
+                  <div className="p-2 mb-1 bg-light text-dark">Asunto</div>
+                  <div className="card-body">
+                    <div>
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label>Asunto</label>
+                            <textarea
+                              name={"asunto"}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.asunto}
+                              className="form-control form-control-sm"
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </form>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="card">
+                  <div className="p-2 mb-1 bg-light text-dark">Plantilla</div>
+                  <div className="card-body">
+                    <div>
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label>Plantilla</label>
+                            <select
+                              name={"plantilla"}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.plantilla}
+                              className="form-control form-control-sm"
+                            >
+                              <option>Seleccione</option>
+                              <option>Plantilla 1</option>
+                              <option>Plantilla 2</option>
+                              <option>Plantilla 3</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="card">
+                  <div className="p-2 mb-1 bg-light text-dark">Workflow</div>
+                  <div className="card-body">
+                    <div>
+                      <div className="row">
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label>Workflow</label>
+                            <select
+                              name={"workflow"}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.workflow}
+                              className="form-control form-control-sm"
+                            >
+                              <option>Seleccione</option>
+                              <option>Workflow1</option>
+                              <option>Workflow2</option>
+                              <option>Workflow3</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="card-footer">
-          <div className="pull-right">
-            <button
-              type="submit"
-              className="btn btn-outline-secondary btn-sm"
-              disabled={isSubmitting}
-              onClick={handleSubmit}
-            >
-              {isSubmitting ? (
-                <i className=" fa fa-spinner fa-spin" />
-              ) : (
-                <div>
-                  <i className="fa fa-save" /> Guardar
-                </div>
-              )}
-            </button>
+          <div className="card-footer">
+            <div className="pull-right">
+              <button
+                type="submit"
+                className="btn btn-outline-secondary btn-sm"
+                disabled={isSubmitting}
+                onClick={handleSubmit}
+              >
+                {isSubmitting ? (
+                  <i className=" fa fa-spinner fa-spin" />
+                ) : (
+                  <div>
+                    <i className="fa fa-save" /> Guardar
+                  </div>
+                )}
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
 
 export default withFormik({
   mapPropsToValues: props => ({
-    t_correspondencia: props.tipotramite.t_correspondeencia,
+    t_correspondencia: props.tipotramite.t_correspondencia,
     codigo: props.tipotramite.codigo,
+    nombre: props.tipotramite.nombre,
     descripcion: props.tipotramite.descripcion,
     d_maximos: props.tipotramite.d_maximos,
-    user_enabled: props.tipotramite.user_enabled,
     estado: props.tipotramite.estado,
-    asunto: props.tipotramite.asunto,
     plantilla: props.tipotramite.plantilla,
+    asunto: props.tipotramite.asunto,
     workflow: props.tipotramite.workflow,
-    nombre: props.tipotramite.nombre
+    user_enabled: props.tipotramite.user_enabled
   }),
   validationSchema: Yup.object().shape({
     t_correspondencia: Yup.string()
       .ensure()
-      .required("necesario seleccionar el tipo correspondencia"),
-    codigo: Yup.string().required(
-      "necesario asignar un codigo al tipo de tramite"
+      .required("necesario el tipo de correspondencia"),
+    codigo: Yup.string().required("necesario codigo para el tipo de tramite"),
+    nombre: Yup.string().required("nombre necesario para el tipo de tramite"),
+    descripcion: Yup.string().required(
+      "descripcion importante para el registro"
     ),
-    nombre: Yup.string().required("necesario nombre para el tipo de tramite"),
-    descripcion: Yup.string().required("necesario la descripcion del tramite"),
     d_maximos: Yup.number()
       .integer()
-      .required("necesita dias maximos de respuestas"),
-    estado: Yup.bool().test(
-      "Activo",
-      "Es necesario activar el tipo de tramite",
-      value => value === true
+      .positive()
+      .required("la respuesta es importante para el tramite"),
+    estado: Yup.bool()
+      .test(
+        "Activo",
+        "Es necesario activar el tipo de tramite",
+        value => value === true
+      )
+      .required("es necesario activar el tipo de tramite"),
+    user_enabled: Yup.array().of(
+      Yup.object().shape({ id: Yup.number(), name: Yup.string() })
     ),
     asunto: Yup.string(),
-    workflow: Yup.string().ensure(),
     plantilla: Yup.string().ensure(),
-    user_enabled: Yup.object()
+    workflow: Yup.string().ensure()
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
-      // alert(JSON.stringify(values, null, 2));
-      // setSubmitting(false);
-      // resetForm();
-      console.log("hola");
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+      resetForm();
     }, 1000);
   }
-})(TipoTramiteForm);
+})(TipoTramite);

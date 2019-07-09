@@ -80,65 +80,64 @@ class FormCreateRoles extends Component {
                       </Col>
                       <Col sm="12">
                         <div className="form-group">
-                          <label>
-                            {" "}
-                            Descripción
-                          </label>
+                          <label> Descripción</label>
                           <textarea className="form-control form-control-sm" />
                         </div>
                       </Col>
                     </Row>
                     <Row>
                       <Col sm="12">
-
-                          <CardTitle>
+                        <CardTitle>
+                          {" "}
+                          <h5>
                             {" "}
-                            <h5>
-                              {" "}
-                              Asignar permisos <hr />{" "}
-                            </h5>
-                          </CardTitle>
-                          <Row>
-                            <Col sm="6">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  Módulo <span className="text-danger">
-                                    *
-                                  </span>{" "}
-                                </label>
-                                <select className="form-control form-control-sm">
-                                  {" "}
-                                  <option> Seleccione... </option>{" "}
-                                </select>
-                              </div>
-                            </Col>
-                            <Col sm="6">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  Entidades{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <select
-                                  className="form-control form-control-sm
+                            Asignar permisos <hr />{" "}
+                          </h5>
+                        </CardTitle>
+                        <Row>
+                          <Col sm="6">
+                            <div className="form-group">
+                              <label>
+                                {" "}
+                                Módulo <span className="text-danger">
+                                  *
+                                </span>{" "}
+                              </label>
+                              <select className="form-control form-control-sm">
+                                {" "}
+                                <option> Seleccione... </option>{" "}
+                              </select>
+                            </div>
+                          </Col>
+                          <Col sm="6">
+                            <div className="form-group">
+                              <label>
+                                {" "}
+                                Entidades <span className="text-danger">
+                                  *
+                                </span>{" "}
+                              </label>
+                              <select
+                                className="form-control form-control-sm
                                 "
-                                >
-                                  {" "}
-                                  <option> Seleccione... </option>{" "}
-                                </select>
-                              </div>
-                            </Col>
-                            {/*  Aqui va la funcionalidad    */}
-                            <Row>
-                              <div className="col-md-6">
-                              <label className="col-md-12"><dt>Permisos disponibles:</dt></label>
-                                  <ListaRoles
-                                    data={this.props.data}
-                                    favouritesroles={this.state.favourites}
-                                    addFavourite={this.addFavourite.bind(this)}
-                                  />
-                                  {/* <select
+                              >
+                                {" "}
+                                <option> Seleccione... </option>{" "}
+                              </select>
+                            </div>
+                          </Col>
+                          {/*  Aqui va la funcionalidad    */}
+                          <Row>
+                            <div className="col-md-6">
+                              <label className="col-md-12">
+                                <dt>Permisos disponibles:</dt>
+                              </label>
+                              <ListaRoles
+                                data={this.props.data}
+                                favouritesroles={this.state.favourites}
+                                addFavourite={this.addFavourite.bind(this)}
+                              />
+                              {/* <select
                                     multiple
                                     className="form-control"
                                     style={{
@@ -148,17 +147,19 @@ class FormCreateRoles extends Component {
                                   >
                                     <option> Seleccione </option>
                                   </select> */}
-                              </div>
-                              <div className="col-md-6">
-                              <label><dt>Permisos asignados:</dt></label>
-                                <NuevaListaRoles
-                                  data={this.props.data}
-                                  favourites={this.state.favourites}
-                                  deleteFavourite={this.deleteFavourite.bind(
-                                    this
-                                  )}
-                                />
-                                {/* <select
+                            </div>
+                            <div className="col-md-6">
+                              <label>
+                                <dt>Permisos asignados:</dt>
+                              </label>
+                              <NuevaListaRoles
+                                data={this.props.data}
+                                favourites={this.state.favourites}
+                                deleteFavourite={this.deleteFavourite.bind(
+                                  this
+                                )}
+                              />
+                              {/* <select
                                   multiple
                                   className="form-control"
                                   disabled
@@ -169,14 +170,13 @@ class FormCreateRoles extends Component {
                                 >
                                   <option> las nuevas opciones</option>
                                 </select> */}
-
-                              </div>
-                              </Row>
-                            {/*  Fin   */}
+                            </div>
                           </Row>
+                          {/*  Fin   */}
+                        </Row>
                       </Col>
                     </Row>
-                    <br/>
+                    <br />
                     <Row>
                       <Col sm="12">
                         <div className="form-group">

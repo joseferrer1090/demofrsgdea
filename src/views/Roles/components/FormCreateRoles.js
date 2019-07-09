@@ -7,6 +7,7 @@ import RolesForm from "./Forms/RolesForm";
 const dataRoles = {
   codigo: "",
   nombre: "",
+  descripcion: "",
   modulos: [],
   entidades: [],
   estado: ""

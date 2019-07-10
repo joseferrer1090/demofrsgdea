@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -8,6 +8,7 @@ import {
   CardBody,
   Col,
   Row,
+  Collapse
 } from "reactstrap";
 const AutomaticoForm = props =>{
   const {
@@ -22,6 +23,13 @@ const AutomaticoForm = props =>{
     handleSubmit,
     handleReset
   } = props;
+  const [inputs, setInputs] = useState(null);
+  const [collapse, setCollapse] = useState(false);
+
+  const toggle = () => {
+    setCollapse(!collapse)
+  }
+
   return(
     <Row>
     <Col sm={{ size: 8, offset: 2 }}>
@@ -333,11 +341,15 @@ const AutomaticoForm = props =>{
 
                             <div className="col-md-6 offset-3">
                               <div className="offset-2">
+                              <div>
                                 Sí{" "}
                                 <input
                                   name="notificacionSi"
                                   type="radio"
                                   value="si"
+                                  onClick={()=>{
+                                    toggle();
+                                  }}
                                 />{" "}
                                 <span className="offset-6">
                                   {" "}
@@ -346,11 +358,16 @@ const AutomaticoForm = props =>{
                                   name="notificacionNo"
                                   type="radio"
                                   value="no"
+                                  onClick={()=>{
+                                    setCollapse(false)
+                                  }}
                                   />{" "}
                                 </span>
+                                </div>
                               </div>
                             </div>
                             <br/>
+                            <Collapse isOpen={collapse}>
                               <div className="col-md-6 offset-3">
                                 <Card body>
                                   <div className="row">
@@ -362,24 +379,29 @@ const AutomaticoForm = props =>{
                                           *
                                         </span>
                                       </label>
-                                      <input
-                                        type="number"
-                                        className="form-control form-control-sm"
-                                      />
+                                      {inputs === ''
+                                        ? null
+                                        : inputs === '1'
+                                        ? InputDays()
+                                        : inputs === '2'
+                                        ? InputTime()
+                                        : null}
                                       <br />
                                       <div className="">
                                         <select
                                           className="form-control form-control-sm"
+                                          onChange={e=>{setInputs(e.target.value)}}
                                         >
-
-                                          <option value={"1"}>Dias</option>
-                                          <option value={"2"}>Horas</option>
+                                          <option> --Seleccione-- </option>
+                                          <option value={'1'}>Dias</option>
+                                          <option value={'2'}>Horas</option>
                                         </select>
                                       </div>
                                     </div>
                                   </div>
                                 </Card>
                               </div>
+                            </Collapse>
                           </div>
                         </div>
                       </form>
@@ -473,3 +495,18 @@ export default withFormik({
     }, 1000);
   }
 })(AutomaticoForm);
+
+const InputTime = () =>(
+  <input type="time" className={'form-control from-control-sm'}/>
+);
+
+const InputDays = () =>(
+  <input
+    type="number"
+    className="form-control form-control-sm"
+    defaultValue={1}
+    min={1}
+    max={31}
+  />
+);
+

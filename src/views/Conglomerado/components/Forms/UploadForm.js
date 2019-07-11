@@ -175,13 +175,9 @@ export default withFormik({
     ),
     cabeza_titulos: Yup.bool().test("Activado", "", value => value === true),
     archivo: Yup.mixed()
-      .test(
-        "tamaño de archivo",
-        "tañano del archivo no puede ser 0",
-        value => value.size > 0
-      )
-      .test("tipo de archivo", "tipo de archivo no soportado", value =>
-        [".csv"].includes(value.type)
+      .test("file size", "File size is not null", value => value.size > 0)
+      .test("fileType", "Unsupported File Format", value =>
+        ["application/vnd.ms-excel"].includes(value.type)
       )
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
@@ -189,8 +185,8 @@ export default withFormik({
       alert(
         JSON.stringify(
           {
-            separador: values.separador.value,
-            cabeza_titulos: values.cabeza_titulos.value,
+            separador: values.separador,
+            cabeza_titulos: values.cabeza_titulos,
             fileName: values.archivo.name,
             type: values.archivo.type,
             size: `${values.archivo.size} bytes`

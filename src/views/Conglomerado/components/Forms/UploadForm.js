@@ -181,7 +181,7 @@ export default withFormik({
         value => value.size > 0
       )
       .test("tipo de archivo", "tipo de archivo no soportado", value =>
-        ["*.csv"].includes(value.type)
+        [".csv"].includes(value.type)
       )
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {

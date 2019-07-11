@@ -4,7 +4,9 @@ import { CsvToHtmlTable } from "react-csv-to-table";
 import UploadForm from "./Forms/UploadForm";
 
 const data = {
-  separador: ""
+  separador: "",
+  archivo: [],
+  cabeza_titulos: ""
 };
 
 const FormUploadFile = props => {

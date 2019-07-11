@@ -12,7 +12,8 @@ const UploadForm = props => {
     handleBlur,
     handleSubmit,
     handleReset,
-    isSubmitting
+    isSubmitting,
+    setFieldValue
   } = props;
   return (
     <div>
@@ -72,6 +73,7 @@ const UploadForm = props => {
                         name={"separador"}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        value={values.separador}
                         type="text"
                         className={`form-control form-control-sm ${errors.separador &&
                           touched.separador &&
@@ -87,9 +89,12 @@ const UploadForm = props => {
                         name={"cabeza_titulos"}
                         onChange={handleChange}
                         onBlur={handleBlur}
+                        value={values.cabeza_titulos}
                         type="checkbox"
-                        label={
-                          "(El primer registro contiene los títulos de las columnas)"
+                        id="ExampleInputCheckbox3"
+                        label="(El primer registro contiene los títulos de las columnas)"
+                        className={
+                          errors.estado && touched.estado && "invalid-feedback"
                         }
                       />{" "}
                     </div>
@@ -107,6 +112,21 @@ const UploadForm = props => {
                         </span>{" "}
                       </label>
                       <br />
+                      <input
+                        name="archivo"
+                        type="file"
+                        onChange={event => {
+                          setFieldValue(
+                            event.target.name,
+                            event.currentTarget.files[0]
+                          );
+                        }}
+                        onBlur={handleBlur}
+                        className={`form-control ${errors.archivo &&
+                          touched.archivo &&
+                          "is-invalid"}`}
+                      />
+                      <ErrorMessage name={"archivo"} />
                       {/* <input
                            id="real-file"
                            type="file"
@@ -150,14 +170,36 @@ export default withFormik({
     cabeza_titulos: props.importarmasivo.cabeza_titulos
   }),
   validationSchema: Yup.object().shape({
-    separador: Yup.string()
-      .length(1)
-      .required("es necesario asignar el separador que utilizo"),
-    cabeza_titulos: Yup.bool().test("Activado", "", value => value === true)
+    separador: Yup.string().required(
+      "es necesario asignar el separador que utilizo"
+    ),
+    cabeza_titulos: Yup.bool().test("Activado", "", value => value === true),
+    archivo: Yup.mixed()
+      .test(
+        "tamaño de archivo",
+        "tañano del archivo no puede ser 0",
+        value => value.size > 0
+      )
+      .test("tipo de archivo", "tipo de archivo no soportado", value =>
+        ["*.csv"].includes(value.type)
+      )
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      alert(
+        JSON.stringify(
+          {
+            separador: values.separador.value,
+            cabeza_titulos: values.cabeza_titulos.value,
+            fileName: values.archivo.name,
+            type: values.archivo.type,
+            size: `${values.archivo.size} bytes`
+          },
+          null,
+          1
+        )
+      );
+      console.log(values);
       setSubmitting(false);
       resetForm();
     }, 1000);

@@ -170,9 +170,9 @@ export default withFormik({
     cabeza_titulos: props.importarmasivo.cabeza_titulos
   }),
   validationSchema: Yup.object().shape({
-    separador: Yup.string().required(
-      "es necesario asignar el separador que utilizo"
-    ),
+    separador: Yup.string()
+      .required("es necesario asignar el separador que utilizo")
+      .required("necesario el separador"),
     cabeza_titulos: Yup.bool().test("Activado", "", value => value === true),
     archivo: Yup.mixed()
       .test("file size", "File size is not null", value => value.size > 0)

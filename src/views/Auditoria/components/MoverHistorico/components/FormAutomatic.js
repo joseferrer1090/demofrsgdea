@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import AutomaticoForm from './Forms/AutomaticoFrom';
+import AutomaticoForm from './Forms/AutomaticoForm/AutomaticoForm';
 
 const dataAutomaticoForm ={
   operacion:"",
@@ -7,8 +7,16 @@ const dataAutomaticoForm ={
   entidad:"",
   accion:"",
   fechaDesde:"",
-  fechaHasta:""
-
+  fechaHasta:"",
+  periodo:"",
+  hora:"",
+  diaMes: "",
+  diaSemana:"",
+  mes:"",
+  inputsCondition:"",
+  selectNotification:"",
+  days:"",
+  hours:"",
 }
 const FormAutomatic = ()=> {
   return (

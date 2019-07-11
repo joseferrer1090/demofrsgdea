@@ -51,6 +51,7 @@
     "react-table-container": "^2.0.1",
     "react-test-renderer": "^16.7.0",
     "reactstrap": "^6.5.0",
+    "reactstrap-formik": "^1.0.9",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "simple-line-icons": "^2.4.1",

@@ -1,6 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import { Formik, withFormik, ErrorMessage } from "formik";
+import React, {useState} from 'react';
+import { Formik, withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import { RadioButtonSi, RadioButtonNo } from './radio-buttons';
 import {
   Card,
   CardHeader,
@@ -10,6 +11,10 @@ import {
   Row,
   Collapse
 } from "reactstrap";
+
+const SI = { label: 'Si', value: 'true' };
+const NO = { label: 'No', value: 'false' };
+
 const AutomaticoForm = props =>{
   const {
     values,
@@ -25,6 +30,7 @@ const AutomaticoForm = props =>{
   } = props;
   const [inputs, setInputs] = useState(null);
   const [collapse, setCollapse] = useState(false);
+  const requiredNotification = values.inputsCondition === SI.value;
 
   const toggle = () => {
     setCollapse(!collapse)
@@ -341,67 +347,94 @@ const AutomaticoForm = props =>{
 
                             <div className="col-md-6 offset-3">
                               <div className="offset-2">
-                              <div>
-                                Sí{" "}
-                                <input
-                                  name="notificacionSi"
-                                  type="radio"
-                                  value="si"
-                                  onClick={()=>{
-                                    toggle();
-                                  }}
-                                />{" "}
-                                <span className="offset-6">
-                                  {" "}
-                                  No{" "}
-                                  <input
-                                  name="notificacionNo"
-                                  type="radio"
-                                  value="no"
-                                  onClick={()=>{
-                                    setCollapse(false)
-                                  }}
-                                  />{" "}
-                                </span>
-                                </div>
+                              <Field
+                              component={RadioButtonSi}
+                              name="inputsCondition"
+                              id="true"
+                              label="Si"
+                              value="true"
+                            />
+                            <Field
+                              component={RadioButtonNo}
+                              name="inputsCondition"
+                              id="false"
+                              label="No"
+                              value="false"
+                            />
+                            <br/>
+                            <ErrorMessage name="inputsCondition" />
                               </div>
                             </div>
                             <br/>
-                            <Collapse isOpen={collapse}>
+                            {requiredNotification && (
                               <div className="col-md-6 offset-3">
                                 <Card body>
                                   <div className="row">
                                     <div className="col">
                                       <label>
-                                        Días / horas antes que se desea
-                                        enviar la notificación{" "}
-                                        <span className="text-danger">
-                                          *
-                                        </span>
+                                        Días / horas antes que se desea enviar la
+                                        notificación <span className="text-danger">*</span>
                                       </label>
-                                      {inputs === ''
-                                        ? null
-                                        : inputs === '1'
-                                        ? InputDays()
-                                        : inputs === '2'
-                                        ? InputTime()
-                                        : null}
-                                      <br />
-                                      <div className="">
-                                        <select
-                                          className="form-control form-control-sm"
-                                          onChange={e=>{setInputs(e.target.value)}}
-                                        >
-                                          <option> --Seleccione-- </option>
-                                          <option value={'1'}>Dias</option>
-                                          <option value={'2'}>Horas</option>
-                                        </select>
-                                      </div>
+                                      <select
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        name={"selectNotification"}
+                                        type="select"
+                                        onClick={e => {
+                                          setInputs(e.target.value);
+                                        }}
+                                        className={`form-control form-control-sm ${errors.selectNotification &&
+                                          touched.selectNotification &&
+                                          "is-invalid"}`}
+                                          value={values.selectNotification}
+                                      >
+                                        <option>--Seleccione--</option>
+                                        <option value={'1'}>Días</option>
+                                        <option value={'2'}>Horas</option>
+                                      </select>
+                                      <ErrorMessage name="selectNotification" />
+                                      <br/>
+                                      {inputs === '0' ? (
+                                        null
+                                      ) : inputs === '1' ? (
+                                        <div>
+                                          <input
+                                          name={"days"}
+                                          type="number"
+                                          onChange={handleChange}
+                                          onBlur={handleBlur}
+                                          value={values.days}
+                                          className={`form-control form-control-sm ${errors.days &&
+                                          touched.days &&
+                                          "is-invalid"}`}
+                                          defaultValue={1}
+                                          min={1}
+                                          max={31}
+                                          />
+                                          <ErrorMessage name="days" />
+                                        </div>
+                                      ) : inputs === '2' ? (
+                                        <div>
+                                        <input
+                                        name={"hours"}
+                                        type="time"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.hours}
+                                        className={`form-control form-control-sm ${errors.hours &&
+                                        touched.hours &&
+                                        "is-invalid"}`}
+                                        defaultValue={1}
+                                        min={1}
+                                        max={31}
+                                        />
+                                        </div>
+                                      ) : null}
                                     </div>
                                   </div>
                                 </Card>
                               </div>
-                            </Collapse>
+                            )}
                           </div>
                         </div>
                       </form>
@@ -453,6 +486,10 @@ export default withFormik({
     diaMes: props.auditoriaMHAutomaticoForm.diaMes,
     diaSemana:props.auditoriaMHAutomaticoForm.diaSemana,
     mes:props.auditoriaMHAutomaticoForm.mes,
+    inputsCondition: props.auditoriaMHAutomaticoForm.inputsCondition,
+    selectNotification: props.auditoriaMHAutomaticoForm.selectNotification,
+    days: props.auditoriaMHAutomaticoForm.days,
+    hours: props.auditoriaMHAutomaticoForm.hours
   }),
   validationSchema: Yup.object().shape({
     operacion: Yup.string()
@@ -472,19 +509,28 @@ export default withFormik({
     fechaHasta: Yup.date()
       .required("Fecha requerida."),
     periodo: Yup.string()
-    .ensure()
-    .required("Periodo requerido."),
+      .ensure()
+      .required("Periodo requerido."),
     hora: Yup.string()
-    .required("Hora requerida."),
+      .required("Hora requerida."),
     diaSemana: Yup.string()
-    .ensure()
-    .required("Día de la semana requerido."),
+      .ensure()
+      .required("Día de la semana requerido."),
     diaMes: Yup.string()
-    .ensure()
-    .required("Día del mes requerido."),
+      .ensure()
+      .required("Día del mes requerido."),
     mes: Yup.string()
-    .ensure()
-    .required("Mes requerido."),
+      .ensure()
+      .required("Mes requerido."),
+    inputsCondition: Yup.bool()
+      .required('¿Desea qué se le notifique?'),
+    selectNotification: Yup.string()
+      .ensure()
+      .required('Notificacion requerida'),
+    days: Yup.string()
+      .notRequired('Días requeridos.'),
+    hours: Yup.string()
+      .notRequired('Hora requerida.')
   }),
 
   handleSubmit: (values, { setSubmitting, resetForm }) => {

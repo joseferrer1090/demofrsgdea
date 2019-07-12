@@ -177,7 +177,7 @@ export default withFormik({
     archivo: Yup.mixed()
       .test("file size", "File size is not null", value => value.size > 0)
       .test("fileType", "Unsupported File Format", value =>
-        ["application/vnd.ms-excel"].includes(value.type)
+        ["application/vnd.ms-excel", "text/csv"].includes(value.type)
       )
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {

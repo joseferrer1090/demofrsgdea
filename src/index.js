@@ -6,16 +6,8 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import thunk from "redux-thunk";
+import store from "./store/store";
 import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import { routerMiddleware } from "react-router-redux";
-import createHistory from "./../node_modules/history/createBrowserHistory";
-import reducers from "./reducers";
-
-const history = createHistory();
-const middleware = [routerMiddleware(history), thunk];
-const store = createStore(reducers, applyMiddleware(...middleware));
 
 ReactDOM.render(
   <Provider store={store}>

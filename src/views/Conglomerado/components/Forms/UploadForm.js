@@ -170,15 +170,26 @@ export default withFormik({
     cabeza_titulos: props.importarmasivo.cabeza_titulos
   }),
   validationSchema: Yup.object().shape({
-    separador: Yup.string()
-      .required("es necesario asignar el separador que utilizo")
-      .required("necesario el separador"),
+    separador: Yup.string().test(
+      "valor",
+      "valor maximo 1 caracter",
+      val => val.length === 1
+    ),
     cabeza_titulos: Yup.bool().test("Activado", "", value => value === true),
     archivo: Yup.mixed()
-      .test("file size", "File size is not null", value => value.size > 0)
-      .test("fileType", "Unsupported File Format", value =>
+      .test("file size", "archivo no puede ser vacio", value => value.size > 0)
+      .test("fileType", "extension no soportada", value =>
         ["application/vnd.ms-excel", "text/csv"].includes(value.type)
       )
+    // Yup.addMethod(Yup.array, "archivo", file => {
+    //    console.log(file.size);
+    //     return "this is not file valid";
+    //    })
+    //archivo: Yup.mixed()
+    //  .test("file size", "File size is not null", value => value.size > 0)
+    //  .test("fileType", "Unsupported File Format", value =>
+    //     ["application/vnd.ms-excel", "text/csv"].includes(value.type)
+    //   )
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
@@ -195,7 +206,7 @@ export default withFormik({
           1
         )
       );
-      console.log(values);
+      //console.log(values);
       setSubmitting(false);
       resetForm();
     }, 1000);

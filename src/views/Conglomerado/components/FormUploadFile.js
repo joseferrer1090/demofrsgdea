@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Row, Col } from "reactstrap";
 import { CsvToHtmlTable } from "react-csv-to-table";
 import UploadForm from "./Forms/UploadForm";

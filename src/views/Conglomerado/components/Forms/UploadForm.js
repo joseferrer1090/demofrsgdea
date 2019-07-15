@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Row, Col, CustomInput } from "reactstrap";
+import { CsvToHtmlTable } from "react-csv-to-table";
 
 const UploadForm = props => {
   const {
@@ -15,8 +16,9 @@ const UploadForm = props => {
     isSubmitting,
     setFieldValue
   } = props;
+
   return (
-    <div>
+    <Fragment>
       <Row>
         <Col md="4">
           <div className="list-group">
@@ -161,7 +163,19 @@ const UploadForm = props => {
           </div>
         </Col>
       </Row>
-    </div>
+      <br />
+      <frameElement>
+        <Row>
+          <Col sm={12}>
+            {/* <CsvToHtmlTable
+              data={}
+              csvDelimiter=","
+              tableClassName="table table-striped table-hover table-bordered"
+            /> */}
+          </Col>
+        </Row>
+      </frameElement>
+    </Fragment>
   );
 };
 export default withFormik({

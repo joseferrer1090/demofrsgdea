@@ -1,5 +1,11 @@
 import React from "react";
-import { Formik, withFormik, ErrorMessage, yupToFormErrors } from "formik";
+import {
+  Formik,
+  withFormik,
+  ErrorMessage,
+  yupToFormErrors,
+  Field
+} from "formik";
 import {
   Row,
   Col,
@@ -11,6 +17,7 @@ import {
 } from "reactstrap";
 import * as Yup from "yup";
 import Select from "react-select";
+import CustonImageInput from "./CustonImageInput";
 
 const UserForm = props => {
   const {
@@ -29,6 +36,7 @@ const UserForm = props => {
     alert("debe mostrar la ventana import");
   };
 
+  console.log(errors);
   return (
     <div>
       <Card>
@@ -37,21 +45,34 @@ const UserForm = props => {
           <Row>
             <Col sm="3">
               <div className="text-center">
-                <img
+                {/* <img
                   src={"/assets/img/avatar2.png"}
                   className="img-thumbnail"
+                /> */}
+                <br />
+                <br />
+                <Field
+                  name="imageUser"
+                  component={CustonImageInput}
+                  title="Select a file"
+                  setFieldValue={setFieldValue}
+                  errorMessage={
+                    errors["imageUser"] ? errors["imageUser"] : undefined
+                  }
+                  touched={touched["imageUser"]}
+                  style={{ display: "flex" }}
+                  onBlur={handleBlur}
+                  value={values.imageUser}
                 />
-                <br />
-                <br />
-                <input
+                {/* <input
                   type="file"
                   style={{ display: "none" }}
                   // ref={this.inputOpenFileRef}
                   value={values.imageUser}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                />
-                <button
+                /> */}
+                {/* <button
                   type="button"
                   className="btn btn-secondary btn-sm "
                   style={{ width: "160px" }}
@@ -59,7 +80,7 @@ const UserForm = props => {
                 >
                   {" "}
                   <i className="fa fa-camera" /> Cambiar imagen{" "}
-                </button>
+                </button> */}
               </div>
             </Col>
 
@@ -505,7 +526,8 @@ export default withFormik({
     password: props.user.password,
     confirm_password: props.user.confirm_password,
     roles: props.user.roles,
-    estado: props.user.estado
+    estado: props.user.estado,
+    imageUser: props.user.imageUser
   }),
   validationSchema: Yup.object().shape({
     email: Yup.string()
@@ -582,7 +604,6 @@ const options = [
 ];
 
 class MySelect extends React.Component {
-
   handleChange = value => {
     this.props.onChange("roles", value);
   };

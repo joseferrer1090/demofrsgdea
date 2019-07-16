@@ -49,7 +49,8 @@ class CustomImageInput extends Component {
       comp = (
         <img
           className="img"
-          src={`data:base64,${imagePreviewUrl}`}
+          // src={`data:base64,${imagePreviewUrl}`}
+          src={imagePreviewUrl}
           alt="..."
           className={"img-thumbnail"}
         />
@@ -64,15 +65,15 @@ class CustomImageInput extends Component {
     return comp;
   }
 
-  componentDidMount() {
-    console.log(this.fileUpload.current);
-  }
+  // componentDidMount() {
+  //   console.log(this.fileUpload.current);
+  // }
 
   render() {
     const { errorMessage, title, classes } = this.props;
     const { name, onBlur } = this.props.field;
-    console.log(this.state.file);
-    console.log(this.state.imagePreviewUrl);
+    // console.log(this.state.file);
+    //  console.log(this.state.imagePreviewUrl);
     return (
       <div className={"container"}>
         <div style={{ marginTop: "-20px" }}>

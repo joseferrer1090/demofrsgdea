@@ -1,8 +1,9 @@
 import React, { useState, Fragment, useEffect } from "react";
-import { Formik, withFormik, ErrorMessage } from "formik";
+import { Formik, withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { Row, Col, CustomInput } from "reactstrap";
 import { CsvToHtmlTable } from "react-csv-to-table";
+import { readFile } from "fs";
 
 const UploadForm = props => {
   const {
@@ -167,6 +168,7 @@ const UploadForm = props => {
       <frameElement>
         <Row>
           <Col sm={12}>
+            <PreviewFile file={values.archivo} />
             {/* <CsvToHtmlTable
               data={}
               csvDelimiter=","
@@ -225,3 +227,49 @@ export default withFormik({
     }, 1000);
   }
 })(UploadForm);
+
+class PreviewFile extends React.Component {
+  state = {
+    loading: false,
+    thumb: undefined
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.file) {
+      return;
+    }
+    this.setState(
+      {
+        loading: true
+      },
+      () => {
+        let reader = new FileReader();
+
+        reader.onloadend = () => {
+          this.setState({ loading: false, thumb: reader.result });
+        };
+
+        reader.readAsBinaryString(nextProps.file);
+      }
+    );
+  }
+  render() {
+    const { file } = this.props;
+    const { loading, thumb } = this.state;
+
+    if (!file) {
+      return null;
+    }
+
+    if (loading) {
+      return <p>loading...</p>;
+    }
+
+    return (
+      <CsvToHtmlTable
+        data={thumb}
+        tableClassName="table table-striped table-hover table-bordered"
+      />
+    );
+  }
+}

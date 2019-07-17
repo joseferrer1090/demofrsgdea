@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Row, Col, CustomInput } from "reactstrap";
+import { CsvToHtmlTable } from "react-csv-to-table";
 
 const UploadForm = props => {
   const {
@@ -15,8 +16,9 @@ const UploadForm = props => {
     isSubmitting,
     setFieldValue
   } = props;
+
   return (
-    <div>
+    <Fragment>
       <Row>
         <Col md="4">
           <div className="list-group">
@@ -161,7 +163,19 @@ const UploadForm = props => {
           </div>
         </Col>
       </Row>
-    </div>
+      <br />
+      <frameElement>
+        <Row>
+          <Col sm={12}>
+            {/* <CsvToHtmlTable
+              data={}
+              csvDelimiter=","
+              tableClassName="table table-striped table-hover table-bordered"
+            /> */}
+          </Col>
+        </Row>
+      </frameElement>
+    </Fragment>
   );
 };
 export default withFormik({
@@ -170,17 +184,16 @@ export default withFormik({
     cabeza_titulos: props.importarmasivo.cabeza_titulos
   }),
   validationSchema: Yup.object().shape({
-    separador: Yup.string().test(
-      "valor",
-      "valor maximo 1 caracter",
-      val => val.length === 1
-    ),
+    separador: Yup.string()
+      .test("valor", "valor maximo 1 caracter", val => val.length === 1)
+      .nullable(),
     cabeza_titulos: Yup.bool().test("Activado", "", value => value === true),
     archivo: Yup.mixed()
       .test("file size", "archivo no puede ser vacio", value => value.size > 0)
       .test("fileType", "extension no soportada", value =>
         ["application/vnd.ms-excel", "text/csv"].includes(value.type)
       )
+      .nullable()
     // Yup.addMethod(Yup.array, "archivo", file => {
     //    console.log(file.size);
     //     return "this is not file valid";

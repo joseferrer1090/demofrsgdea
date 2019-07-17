@@ -31,7 +31,7 @@ const dataUser = {
   confirm_password: "",
   roles: [],
   estado: "",
-  imageUser: ""
+  file: ""
 };
 
 const FormCreateUser = () => {

@@ -165,10 +165,13 @@ const UploadForm = props => {
         </Col>
       </Row>
       <br />
-      <frameElement>
+      <Fragment>
         <Row>
           <Col sm={12}>
-            <PreviewFile file={values.archivo} />
+            <PreviewFile
+              file={values.archivo}
+              estilos={"table table-striped table-hover table-bordered"}
+            />
             {/* <CsvToHtmlTable
               data={}
               csvDelimiter=","
@@ -176,7 +179,7 @@ const UploadForm = props => {
             /> */}
           </Col>
         </Row>
-      </frameElement>
+      </Fragment>
     </Fragment>
   );
 };
@@ -255,7 +258,8 @@ class PreviewFile extends React.Component {
   }
   render() {
     const { file } = this.props;
-    const { loading, thumb } = this.state;
+    const { loading } = this.state;
+    const thumb = this.state.thumb;
 
     if (!file) {
       return null;
@@ -265,11 +269,8 @@ class PreviewFile extends React.Component {
       return <p>loading...</p>;
     }
 
-    return (
-      <CsvToHtmlTable
-        data={thumb}
-        tableClassName="table table-striped table-hover table-bordered"
-      />
-    );
+    console.log(thumb.toString());
+
+    return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
   }
 }

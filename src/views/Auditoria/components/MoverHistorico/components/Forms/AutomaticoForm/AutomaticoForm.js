@@ -526,7 +526,7 @@ export default withFormik({
       .required('¿Desea qué se le notifique?'),
     selectNotification: Yup.string()
       .ensure()
-      .required('Notificacion requerida'),
+      .notRequired('Notificacion requerida'),
     days: Yup.string()
       .notRequired('Días requeridos.'),
     hours: Yup.string()

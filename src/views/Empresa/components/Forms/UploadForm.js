@@ -67,6 +67,7 @@ const UploadForm = props => {
                         <span>
                           {" "}
                           <b> (Para archivos planos) </b>{" "}
+                          <span className="text-danger">*</span>
                         </span>{" "}
                       </label>
                       <input
@@ -178,8 +179,8 @@ const UploadForm = props => {
 
 export default withFormik({
   mapPropsToStatus: props => ({
-    separador: props.importempresa.separador,
-    cabeza_titulos: props.importempresa.cabeza_titulos
+    separador: props.empresa.separador,
+    cabeza_titulos: props.empresa.cabeza_titulos
   }),
   validationSchema: Yup.object().shape({
     separador: Yup.string()

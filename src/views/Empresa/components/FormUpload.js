@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Row, Col } from "reactstrap";
-import { CsvToHtmlTable } from "react-csv-to-table";
 import UploadForm from "./Forms/UploadForm";
 
 const data = {
   separador: "",
+  archivo: [],
   cabeza_titulos: ""
 };
 
@@ -40,7 +40,7 @@ const FormUpload = props => {
 
   return (
     <div className="animated fadeIn">
-      <UploadForm importempresa={data} />
+      <UploadForm empresa={data} />
     </div>
   );
 };

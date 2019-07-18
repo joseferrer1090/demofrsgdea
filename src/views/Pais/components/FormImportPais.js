@@ -1,6 +1,4 @@
-import React, { useState } from "react";
-import { Row, Col } from "reactstrap";
-import { CsvToHtmlTable } from "react-csv-to-table";
+import React  from "react";
 import UploadFormPais from "./Forms/UploadFormPais";
 
 const data = {

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import CiudadForm from './Form/CiudadForm';
+import React  from "react";
+import CiudadForm from './Forms/CiudadForm';
 const dataCiudad ={
   pais:"",
   departamento:"",

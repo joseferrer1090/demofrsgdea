@@ -1,5 +1,5 @@
 import React from "react";
-import TipoTercerosForm from './Form/TipoTercerosForm';
+import TipoTercerosForm from './Forms/TipoTercerosForm';
 
 const dataTipoTercerosForm ={
   codigo:"",

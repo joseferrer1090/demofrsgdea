@@ -975,7 +975,7 @@ class TableContentUser extends Component {
 
   render() {
     function indexN(cell, row, enumObject, index) {
-      return <div>{index}</div>;
+      return <div>{index + 1 }</div>;
     }
     return (
       <div className="animated fadeIn">

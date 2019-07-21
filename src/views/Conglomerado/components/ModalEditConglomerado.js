@@ -52,7 +52,10 @@ class ModalEditConglomerado extends Component {
                         {" "}
                         Código <span className="text-danger">*</span>{" "}
                       </label>
-                      <input type="text" className="form-control" />
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                      />
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -61,27 +64,30 @@ class ModalEditConglomerado extends Component {
                         {" "}
                         Nombre <span className="text-danger">*</span>{" "}
                       </label>
-                      <input type="text" className="form-control" />
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                      />
                     </div>
                   </div>
                   <div className="col-md-12">
                     <div className="form-group">
                       <label> Descripción </label>
-                      <textarea className="form-control" />
+                      <textarea className="form-control form-control-sm" />
                     </div>
                   </div>
 
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label>
-                            {" "}
-                            Estado <span className="text-danger">*</span>{" "}
-                          </label>
-                          <div className="text-justify ">
-                            <CustomInput
-                              type="checkbox"
-                              id="CheckboxEdit"
-                              label=" Si esta opción se encuentra activada, representa
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Estado <span className="text-danger">*</span>{" "}
+                      </label>
+                      <div className="text-justify ">
+                        <CustomInput
+                          type="checkbox"
+                          id="CheckboxEdit"
+                          label=" Si esta opción se encuentra activada, representa
                               que el conglomerado es visible en el sistema y se
                               podrán realizar operaciones entre cada uno de los
                               módulos correspondientes de la aplicación. En caso
@@ -89,9 +95,9 @@ class ModalEditConglomerado extends Component {
                               sistema solo quedará inactivo e invisibles para
                               cada uno de los módulos correspondiente del
                               sistema."
-                            />
-                            </div>
-                            </div>
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

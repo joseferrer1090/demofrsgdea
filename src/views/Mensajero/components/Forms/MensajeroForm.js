@@ -49,7 +49,14 @@ const MensajeroForm = props => {
                           touched.identificacion &&
                           "is-invalid"}`}
                       />
+                      <div style={{ color: '#D54B4B' }}>
+                      {
+                        errors.identificacion && touched.identificacion ?
+                        <i class="fa fa-exclamation-triangle"/> :
+                        null
+                      }
                       <ErrorMessage name="identificacion" />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -68,7 +75,14 @@ const MensajeroForm = props => {
                           touched.nombre &&
                           "is-invalid"}`}
                       />
+                      <div style={{ color: '#D54B4B' }}>
+                      {
+                        errors.nombre && touched.nombre ?
+                        <i class="fa fa-exclamation-triangle"/> :
+                        null
+                      }
                       <ErrorMessage name="nombre" />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-12">
@@ -168,9 +182,10 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     identificacion: Yup.number()
-      .required("identificacion requerida para el mensajero")
+      .required(" Por favor introduzca una identificación.")
       .integer(),
-    nombre: Yup.string().required("nombre requerido para el mensajero"),
+    nombre: Yup.string()
+      .required(" Por favor introduzca un nombre."),
     descripcion: Yup.string(),
     estado: Yup.bool().test(
       "Activado",

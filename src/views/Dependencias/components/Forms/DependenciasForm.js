@@ -52,7 +52,14 @@ const DependenciaForm = props => {
                       >
                         <option> Seleccione </option>
                       </select>
+                      <div style={{ color: '#D54B4B' }}>
+                      {
+                        errors.conglomerado && touched.conglomerado ?
+                        <i class="fa fa-exclamation-triangle"/> :
+                        null
+                      }
                       <ErrorMessage name="conglomerado" />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-4">
@@ -73,7 +80,14 @@ const DependenciaForm = props => {
                         {" "}
                         <option> Seleccione... </option>{" "}
                       </select>
+                      <div style={{ color: '#D54B4B' }}>
+                      {
+                        errors.empresa && touched.empresa ?
+                        <i class="fa fa-exclamation-triangle"/> :
+                        null
+                      }
                       <ErrorMessage name="empresa" />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-4">
@@ -93,7 +107,14 @@ const DependenciaForm = props => {
                       >
                         <option>Seleccione...</option>
                       </select>
+                      <div style={{ color: '#D54B4B' }}>
+                      {
+                        errors.sede && touched.sede ?
+                        <i class="fa fa-exclamation-triangle"/> :
+                        null
+                      }
                       <ErrorMessage name="sede" />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -113,7 +134,14 @@ const DependenciaForm = props => {
                           touched.codigo &&
                           "is-invalid"}`}
                       />
+                      <div style={{ color: '#D54B4B' }}>
+                      {
+                        errors.codigo && touched.codigo ?
+                        <i class="fa fa-exclamation-triangle"/> :
+                        null
+                      }
                       <ErrorMessage name="codigo" />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -133,7 +161,14 @@ const DependenciaForm = props => {
                           touched.nombre &&
                           "is-invalid"}`}
                       />
+                      <div style={{ color: '#D54B4B' }}>
+                      {
+                        errors.nombre && touched.nombre ?
+                        <i class="fa fa-exclamation-triangle"/> :
+                        null
+                      }
                       <ErrorMessage name="nombre" />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-12">
@@ -146,7 +181,14 @@ const DependenciaForm = props => {
                         value={values.descripcion}
                         className="form-control form-control-sm"
                       />
+                      <div style={{ color: '#D54B4B' }}>
+                      {
+                        errors.descripcion && touched.descripcion ?
+                        <i class="fa fa-exclamation-triangle"/> :
+                        null
+                      }
                       <ErrorMessage name="descripcion" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -172,7 +214,14 @@ const DependenciaForm = props => {
                         {" "}
                         <option> Seleccione... </option>{" "}
                       </select>
+                      <div style={{ color: '#D54B4B' }}>
+                      {
+                        errors.c_responsable && touched.c_responsable ?
+                        <i class="fa fa-exclamation-triangle"/> :
+                        null
+                      }
                       <ErrorMessage name="c_responsable" />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-12">
@@ -259,23 +308,23 @@ export default withFormik({
   validationSchema: Yup.object().shape({
     conglomerado: Yup.string()
       .ensure()
-      .required("conglomerado requerido"),
+      .required(" Por favor seleccione un conglomerado."),
     empresa: Yup.string()
       .ensure()
-      .required("empresa requerida"),
+      .required(" Por favor seleccione una empresa."),
     sede: Yup.string()
       .ensure()
-      .required("sede requerida"),
-    codigo: Yup.string().required("codigo requerido"),
-    nombre: Yup.string().required("nombre requerido"),
+      .required(" Por favor seleccione una sede."),
+    codigo: Yup.string().required(" Por favor introduzca un código."),
+    nombre: Yup.string().required(" Por favor introduzca un nombre."),
     descripcion: Yup.string(),
     c_responsable: Yup.string()
-      .required("cargo responsable requerido")
+      .required(" Por favor seleccione un cargo.")
       .ensure()
-      .required("necesario el cargo"),
+      .required(" Por favor seleccione el cargo."),
     estado: Yup.bool().test(
       "Activo",
-      "Es necesario activar el conglomerado",
+      "Es necesario activar el conglomerado.",
       value => value === true
     )
   }),

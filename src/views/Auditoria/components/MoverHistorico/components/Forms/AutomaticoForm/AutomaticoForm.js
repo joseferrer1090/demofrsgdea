@@ -75,7 +75,14 @@ const AutomaticoForm = props =>{
                             touched.fechaDesde &&
                             "is-invalid"}`}
                         />
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.fechaDesde && touched.fechaDesde ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="fechaDesde"/>
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -95,7 +102,14 @@ const AutomaticoForm = props =>{
                           touched.fechaHasta &&
                           "is-invalid"}`}
                         />
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.fechaHasta && touched.fechaHasta ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="fechaHasta"/>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -121,7 +135,15 @@ const AutomaticoForm = props =>{
                       <option value={"1"}>Operación 1</option>
                       <option value={"2"}>Operación 2</option>
                     </select>
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.operacion && touched.operacion ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="operacion"/>
+                    </div>
+
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -142,7 +164,14 @@ const AutomaticoForm = props =>{
                       <option value={"1"}> Módulo 1</option>
                       <option value={"2"}> Módulo 2</option>
                     </select>
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.modulo && touched.modulo ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="modulo"/>
+                    </div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -163,7 +192,14 @@ const AutomaticoForm = props =>{
                       <option value={"1"}> Entidad 1</option>
                       <option value={"2"}> Entidad 2</option>
                     </select>
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.entidad && touched.entidad ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="entidad"/>
+                    </div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -185,7 +221,14 @@ const AutomaticoForm = props =>{
                       <option value={"1"}> Acción 1</option>
                       <option value={"2"}> Acción 2</option>
                     </select>
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.accion && touched.accion ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="accion"/>
+                    </div>
                       </div>
                     </div>
                   </div>
@@ -217,7 +260,14 @@ const AutomaticoForm = props =>{
                             <option value={"1"}> Periodo 1</option>
                             <option value={"2"}> Periodo 2</option>
                           </select>
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.periodo && touched.periodo ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name="periodo"/>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -238,7 +288,14 @@ const AutomaticoForm = props =>{
                               touched.hora &&
                               "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.hora && touched.hora ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name="hora"/>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -266,7 +323,14 @@ const AutomaticoForm = props =>{
                             <option value={"6"}>Sábado</option>
                             <option value={"7"}>Domingo</option>
                           </select>
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.diaSemana && touched.diaSemana ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name="diaSemana"/>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -291,7 +355,14 @@ const AutomaticoForm = props =>{
                               touched.diaMes &&
                               "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.diaMes && touched.diaMes ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name="diaMes"/>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -325,7 +396,14 @@ const AutomaticoForm = props =>{
                             <option value={"11"}>Noviembre</option>
                             <option value={"12"}>Diciembre</option>
                           </select>
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.mes && touched.mes ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name="mes"/>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -362,7 +440,14 @@ const AutomaticoForm = props =>{
                               value="false"
                             />
                             <br/>
+                            <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.inputsCondition && touched.inputsCondition ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                             <ErrorMessage name="inputsCondition" />
+                            </div>
                               </div>
                             </div>
                             <br/>
@@ -392,6 +477,7 @@ const AutomaticoForm = props =>{
                                         <option value={'1'}>Días</option>
                                         <option value={'2'}>Horas</option>
                                       </select>
+
                                       <ErrorMessage name="selectNotification" />
                                       <br/>
                                       {inputs === '0' ? (
@@ -494,36 +580,36 @@ export default withFormik({
   validationSchema: Yup.object().shape({
     operacion: Yup.string()
       .ensure()
-      .required("Operación requerida."),
+      .required(" Por favor seleccione una operación."),
     modulo: Yup.string()
       .ensure()
-      .required("Módulo requerido."),
+      .required(" Por favor seleccione un módulo."),
     entidad: Yup.string()
       .ensure()
-      .required("Entidad requerida."),
+      .required(" Por favor seleccione una entidad."),
     accion: Yup.string()
       .ensure()
-      .required("Acción requerida"),
+      .required(" Por favor seleccione una acción."),
     fechaDesde: Yup.date()
-      .required("Fecha requerida."),
+      .required(" Por favor introduzca una fecha valida."),
     fechaHasta: Yup.date()
-      .required("Fecha requerida."),
+      .required(" Por favor introduzca una fecha valida."),
     periodo: Yup.string()
       .ensure()
-      .required("Periodo requerido."),
+      .required(" Por favor seleccione un periodo."),
     hora: Yup.string()
-      .required("Hora requerida."),
+      .required(" Por favor introduzca una hora."),
     diaSemana: Yup.string()
       .ensure()
-      .required("Día de la semana requerido."),
+      .required(" Por favor seleccione un día de la semana."),
     diaMes: Yup.string()
       .ensure()
-      .required("Día del mes requerido."),
+      .required(" Por favor introduzca un día del mes."),
     mes: Yup.string()
       .ensure()
-      .required("Mes requerido."),
+      .required(" Por favor seleccione un mes."),
     inputsCondition: Yup.bool()
-      .required('¿Desea qué se le notifique?'),
+      .required(' ¿Desea qué se le notifique?'),
     selectNotification: Yup.string()
       .ensure()
       .notRequired('Notificacion requerida'),

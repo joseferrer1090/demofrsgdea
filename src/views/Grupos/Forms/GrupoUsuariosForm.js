@@ -45,7 +45,14 @@ return(
                               "is-invalid"}`}
                             value={values.codigo}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.codigo && touched.codigo ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="codigo" />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -64,7 +71,14 @@ return(
                               "is-invalid"}`}
                             value={values.nombre}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.nombre && touched.nombre ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="nombre" />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-12">
@@ -80,7 +94,14 @@ return(
                             onChange={handleChange}
                             onBlur={handleBlur}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.descripcion && touched.descripcion ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="descripcion" />
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -113,7 +134,14 @@ return(
                                     <option value={"2"}>Conglomerado 2</option>
                                     <option value={"3"}>Conglomerado 3</option>
                                   </select>
+                                  <div style={{ color: '#D54B4B' }}>
+                                  {
+                                    errors.conglomerado && touched.conglomerado ?
+                                    <i class="fa fa-exclamation-triangle"/> :
+                                    null
+                                  }
                                   <ErrorMessage name="conglomerado" />
+                                  </div>
                                 </div>
                               </div>
                               <div className="col-md-3">
@@ -138,7 +166,14 @@ return(
                                     <option value={"2"}>Empresa 2</option>
                                     <option value={"3"}>Empresa 3</option>
                                   </select>
+                                  <div style={{ color: '#D54B4B' }}>
+                                  {
+                                    errors.empresa && touched.empresa ?
+                                    <i class="fa fa-exclamation-triangle"/> :
+                                    null
+                                  }
                                   <ErrorMessage name="empresa"/>
+                                  </div>
                                 </div>
                               </div>
                               <div className="col-md-3">
@@ -164,7 +199,14 @@ return(
                                     <option value={"2"}>Sede 2</option>
                                     <option value={"3"}>Sede 3</option>
                                   </select>
+                                  <div style={{ color: '#D54B4B' }}>
+                                  {
+                                    errors.sede && touched.sede ?
+                                    <i class="fa fa-exclamation-triangle"/> :
+                                    null
+                                  }
                                   <ErrorMessage name="sede"/>
+                                  </div>
                                 </div>
                               </div>
                               <div className="col-md-3">
@@ -189,7 +231,14 @@ return(
                                     <option value={"2"}>Dependencia 2</option>
                                     <option value={"3"}>Dependencia 3</option>
                                   </select>
+                                  <div style={{ color: '#D54B4B' }}>
+                                  {
+                                    errors.dependencia && touched.dependencia ?
+                                    <i class="fa fa-exclamation-triangle"/> :
+                                    null
+                                  }
                                   <ErrorMessage name ="dependencia"/>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -249,7 +298,14 @@ return(
                         {touched ? (
                           <div style={{ color: "red" }}>
                             {" "}
+                            <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.roles && touched.roles ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                             <ErrorMessage name={"roles"} />
+                            </div>
                           </div>
                         ) : null}
                       </div>
@@ -334,33 +390,33 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     codigo: Yup.string()
-      .min(6, "Mínimo son 6 caracteres en el código")
-      .max(6, "Máximo son 6 caracteres")
-      .required("Codigo es requerido"),
+      .min(6, " Mínimo 6 caracteres.")
+      .max(6, " Máximo 6 caracteres.")
+      .required(" Por favor introduzca un código."),
     nombre: Yup.string()
-    .required("Nombre es requerido")
+    .required(" Por favor introduzca un nombre.")
     .max(100),
     descripcion: Yup.string()
-    .max(250, "Máximo 250 para la descripción del conglomerado"),
+    .max(250, " Máximo 250 para la descripción del conglomerado"),
     conglomerado: Yup.string()
       .ensure()
-      .required("Seleccionar conglomerador para el grupo de usuarios"),
+      .required(" Por favor seleccione un conglomerado."),
     empresa: Yup.string()
       .ensure()
-      .required("Seleccionar empresa para el grupo de usuarios"),
+      .required(" Por favor seleccione una empresa."),
     sede: Yup.string()
       .ensure()
-      .required("Seleccionar sede para el grupo de usuarios"),
+      .required(" Por favor seleccione una sede."),
     dependencia: Yup.string()
       .ensure()
-      .required("Seleccionar dependencia para el grupo de usuarios"),
+      .required(" Por favor seleccione una dependencia."),
     estado: Yup.bool()
       .test(
         "Activo",
-        "Es necesario activar el conglomerado",
+        "Es necesario activar el grupo de usuarios.",
         value => value === true
       )
-      .required("se debe aceptar la activacion de la empresa"),
+      .required(" Se debe aceptar la activacion de la empresa."),
     roles: Yup.array()
       .of(
         Yup.object().shape({
@@ -368,7 +424,7 @@ export default withFormik({
           value: Yup.string().required()
         })
       )
-      .required("se requiere al menos un rol")
+      .required(" Por favor seleccione al menos un rol.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

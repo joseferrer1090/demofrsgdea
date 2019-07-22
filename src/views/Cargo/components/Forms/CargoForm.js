@@ -52,7 +52,14 @@ const CargoForm = props => {
                     {" "}
                     <option> Seleccione </option>{" "}
                   </select>
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.conglomerado && touched.conglomerado ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="conglomerado" />
+                  </div>
                   <br />
                   <CustomInput
                     name={"conglomerado_responsable"}
@@ -68,7 +75,14 @@ const CargoForm = props => {
                       "invalid-feedback"
                     }
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.conglomerado_responsable && touched.conglomerado_responsable ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name={"conglomerado_responsable"} />
+                  </div>
                 </Card>
               </Col>
               <Col sm="6">
@@ -91,7 +105,14 @@ const CargoForm = props => {
                     {" "}
                     <option> Seleccione </option>{" "}
                   </select>
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.empresa && touched.empresa ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name={"empresa"} />
+                  </div>
                   <br />
                   <CustomInput
                     name={"empresa_responsable"}
@@ -131,7 +152,14 @@ const CargoForm = props => {
                     {" "}
                     <option> Seleccione </option>{" "}
                   </select>
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.sede && touched.sede ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name={"sede"} />
+                  </div>
                   <br />
                   <CustomInput
                     name={"sede_responsable"}
@@ -167,7 +195,14 @@ const CargoForm = props => {
                     {" "}
                     <option> Seleccione </option>{" "}
                   </select>
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.dependencia && touched.dependencia ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name={"dependencia"} />
+                  </div>
                   <br />
                   <CustomInput
                     name={"dependencia_responsable"}
@@ -211,7 +246,14 @@ const CargoForm = props => {
                       touched.codigo &&
                       "is-invalid"}`}
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.codigo && touched.codigo ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name={"codigo"} />
+                  </div>
                 </div>
               </div>
               <div className="col-md-6">
@@ -231,7 +273,14 @@ const CargoForm = props => {
                       touched.nombre &&
                       "is-invalid"}`}
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.nombre && touched.nombre ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name={"nombre"} />
+                  </div>
                 </div>
               </div>
             </div>
@@ -340,42 +389,43 @@ export default withFormik({
   validationSchema: Yup.object().shape({
     conglomerado: Yup.string()
       .ensure()
-      .required("seleccione un conglomerado para el cargo"),
+      .required(" Por favor seleccione un conglomerado."),
     conglomerado_responsable: Yup.bool()
-      .test("Activo", "necesario activar responsable", value => value === true)
-      .required("necesario activar responsable"),
+      .test("Activo", " Necesario activar responsable.", value => value === true)
+      .required(" Necesario activar responsable"),
     empresa: Yup.string()
       .ensure()
-      .required("seleccionar empresa para el cargo"),
+      .required(" Por favor seleccione una empresa."),
     empresa_responsable: Yup.bool()
-      .test("Activo", "necesario activar responsable", value => value === true)
-      .required("necesario activar el responsable"),
+      .test("Activo", "Necesario activar responsable.", value => value === true)
+      .required("Necesario activar el responsable."),
     sede: Yup.string()
       .ensure()
-      .required("seleccione una sede para el cargo"),
+      .required(" Por favor seleccione una sede."),
     sede_responsable: Yup.bool()
       .test(
         "Activo",
-        "necesario activar responsable de sede",
+        "Necesario activar responsable de sede.",
         value => value === true
       )
-      .required("necesario activar responsable de sede"),
+      .required("Necesario activar responsable de sede."),
     dependencia: Yup.string()
       .ensure()
-      .required("seleccione una dependencia para el cargo"),
+      .required(" Por favor seleccione una dependencia."),
     dependencia_responsable: Yup.bool()
       .test(
         "Activo",
-        "necesario activar responsable de dependencia",
+        "Necesario activar responsable de dependencia.",
         value => value === true
       )
       .required("necesario activar responsable de dependencia"),
-    codigo: Yup.string().required("necesario asignar codigo al cargo"),
-    nombre: Yup.string().required("necesario asignar nombre al cargo"),
-    descripcion: Yup.string(),
+    codigo: Yup.string().required(" Por favor introduzca un código."),
+    nombre: Yup.string().required(" Por favor introduzca un nombre."),
+    descripcion: Yup.string()
+        .max(250, " Máximo 250 caracteres."),
     estado: Yup.bool()
-      .test("Activo", "necesario activar el cargo", value => value === true)
-      .required("se debe activar el cargo")
+      .test("Activo", " Necesario activar el cargo. ", value => value === true)
+      .required(" Se debe activar el cargo.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

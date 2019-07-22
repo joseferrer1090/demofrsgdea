@@ -3,13 +3,37 @@ import { Row, Col, Card, CardTitle } from "reactstrap";
 import PropTypes from "prop-types";
 import Tabinformaction from "./components/TabProfile";
 
+const acceptedFileTypes = 'image/x-png, image/png, image/jpg, image/jpeg, image/gif';
+
 class Profle extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      image:'/assets/img/avatars/user2.jpg'
+    };
     this.inputOpenFileRef = React.createRef();
   }
+
+  onChange = (e) =>{
+    let files = e.target.files;
+    let dataImg = e.target.files[0]
+        console.warn("Data file:", files)
+        console.log(e.target.files[0].name)
+        let reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onload = (e) =>{
+          this.setState({image: e.target.result})
+          setTimeout((e)=>{
+            alert(`Se modifico con éxito la imagen:
+                  name: ${dataImg.name},
+                  size: ${dataImg.size},
+                  type: ${dataImg.type}`)
+          },1000)
+
+        }
+  }
   render() {
+    console.log(this.state.image);
     return (
       <div className="animated fadeIn">
         <Row>
@@ -23,14 +47,22 @@ class Profle extends Component {
                 }}
               >
                 <img
-                  className="img-responsive "
-                  src="/assets/img/avatars/user2.jpg"
-                  style={{ margin: "10px" }}
+                  className="img-thumbnail"
+                  // className="img-responsive "
+                  src={this.state.image}
+                  width="150"
+                  height="150"
+                  style={{margin: "10px"}}
                 />
+
                 <input
+                  multiple={false}
+                  accept={acceptedFileTypes}
                   type="file"
-                  style={{ display: "none" }}
+                  name="file"
+                  style={{ display: "none"}}
                   ref={this.inputOpenFileRef}
+                  onChange={(e)=> this.onChange(e)}
                 />
               </a>
               <CardTitle>

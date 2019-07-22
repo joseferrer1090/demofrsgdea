@@ -48,7 +48,14 @@ const TipoTercerosForm = props =>{
                       touched.codigo &&
                       "is-invalid"}`}
                     />
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.codigo && touched.codigo ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="codigo"/>
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -67,7 +74,14 @@ const TipoTercerosForm = props =>{
                       touched.nombre &&
                       "is-invalid"}`}
                     />
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.nombre && touched.nombre ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="nombre"/>
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -78,7 +92,19 @@ const TipoTercerosForm = props =>{
                         *
                       </span>{" "}
                     </label>
-                    <textarea className="form-control form-control-sm" />
+                    <textarea
+                         name={"descripcion"}
+                         onChange={handleChange}
+                         onBlur={handleBlur}
+                         value={values.descripcion}
+                         className={`form-control form-control-sm ${errors.descripcion &&
+                          touched.descripcion &&
+                          "is-invalid"}`}
+                           />
+                           <div style={{ color: '#D54B4B' }}>
+                           <ErrorMessage name="descripcion"/>
+                           </div>
+
                   </div>
                 </div>
                 <div className="col-md-12">
@@ -158,15 +184,18 @@ export default withFormik({
     codigo: props.TipoTercerosForm.codigo,
     nombre: props.TipoTercerosForm.nombre,
     estado: props.TipoTercerosForm.estado,
+    descripcion: props.TipoTercerosForm.descripcion
   }),
   validationSchema: Yup.object().shape({
     codigo: Yup.string()
-    .min(6, "Mínimo 6 caracteres")
-    .max(6, "Máximo 6 caracteres")
-    .required("Código requerido."),
+    .min(6, " Mínimo 6 caracteres")
+    .max(6, " Máximo 6 caracteres")
+    .required(" Por favor introduzaca un código."),
     nombre: Yup.string()
     .max(100)
-    .required("Nombre requerido"),
+    .required(" Por favor introduzca un nombre."),
+    descripcion: Yup.string()
+    .max(250, " Máximo 250 caracteres."),
     estado: Yup.bool().test(
       "Activo",
       "Se requiere la activacion del tipo de tercero.",

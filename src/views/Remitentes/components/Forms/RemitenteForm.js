@@ -58,7 +58,14 @@ const RemitenteForm = props =>{
                           <option value="4">Ley </option>
                           <option value="5">Otros </option>
                           </select>
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.tipoTercero && touched.tipoTercero ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="tipoTercero"/>
+                          </div>
                         </div>
                         </div>
                         <div className="col-md-6">
@@ -82,7 +89,14 @@ const RemitenteForm = props =>{
                           <option value="2">Destinatario </option>
                           <option value="3">Mixto </option>
                           </select>
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.elementoComunicacion && touched.elementoComunicacion ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="elementoComunicacion"/>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -102,7 +116,14 @@ const RemitenteForm = props =>{
                             touched.identificacion &&
                             "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.identificacion && touched.identificacion ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="identificacion"/>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -121,7 +142,14 @@ const RemitenteForm = props =>{
                             touched.nombre &&
                             "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.nombre && touched.nombre ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="nombre"/>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -142,7 +170,14 @@ const RemitenteForm = props =>{
                               touched.email &&
                               "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.email && touched.email ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="email"/>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -158,7 +193,14 @@ const RemitenteForm = props =>{
                             touched.telefonoFijo &&
                             "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.telefonoFijo && touched.telefonoFijo ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="telefonoFijo"/>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -174,7 +216,14 @@ const RemitenteForm = props =>{
                             touched.telefonoCelular &&
                             "is-invalid"}`}
                         />
+                        <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.telefonoCelular && touched.telefonoCelular ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                         <ErrorMessage name="telefonoCelular"/>
+                        </div>
                       </div>
                     </div>
                       <div className="col-md-12">
@@ -190,7 +239,14 @@ const RemitenteForm = props =>{
                               touched.direccion &&
                               "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.direccion && touched.direccion ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="direccion"/>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -214,7 +270,14 @@ const RemitenteForm = props =>{
                           <option value="1">País 1</option>
                           <option value="2">País 2 </option>
                           </select>
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.pais && touched.pais ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="pais"/>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -237,7 +300,14 @@ const RemitenteForm = props =>{
                           <option value="1">Departamento 1</option>
                           <option value="2">Departamento 2 </option>
                           </select>
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.departamento && touched.departamento ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="departamento"/>
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -259,7 +329,14 @@ const RemitenteForm = props =>{
                           <option value="1">Ciudad 1</option>
                           <option value="2">Ciudad 2 </option>
                           </select>
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.ciudad && touched.ciudad ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name="ciudad"/>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -394,45 +471,45 @@ export default withFormik({
   validationSchema: Yup.object().shape({
     tipoTercero: Yup.string()
     .ensure()
-    .required("Tipo de tercero requerido."),
+    .required(" Por favor seleccione el tipo de tercero."),
     elementoComunicacion: Yup.string()
     .ensure()
-    .required("Elemento de comunicación requerido."),
+    .required(" Por favor seleccione un elemento de comunicación."),
     pais: Yup.string()
     .ensure()
-    .required("País requerido."),
+    .required(" Por favor seleccione un país."),
     departamento: Yup.string()
     .ensure()
-    .required("Departamento requerido."),
+    .required(" Por favor seleccione un departamento."),
     ciudad: Yup.string()
     .ensure()
-    .required("Ciudad requerida."),
+    .required(" Por favor seleccione una ciudad."),
     identificacion: Yup.string()
     .max(20, "Máximo 20 caracteres")
-    .required("Identificación requerida."),
+    .required(" Por favor introduzca una identificación."),
     nombre: Yup.string()
     .max(45, "Máximo 45 caracteres.")
-    .required("Nombre requerido."),
+    .required(" Por favor introduzca un nombre."),
     email: Yup.string()
-    .email("email no es valido")
-    .required("Email requerido."),
+    .email(" Por favor introduzca un email valido.")
+    .required(" Por favor introduzca un email."),
     telefonoFijo: Yup.string()
     .matches(
       /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
-      "Número no valido."
+      " Número no valido."
     )
-    .length(10, "maximo 10 digitos")
-    .required("Número requerido."),
+    .length(10, " Máximo 10 digitos")
+    .required(" Por favor introduzca un teléfono fijo."),
     telefonoCelular: Yup.string()
     .matches(
       /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
-      "Nímero no valido."
+      " Número no valido."
     )
-    .length(10, "maximo 10 digitos")
-    .required("Número requerido."),
+    .length(10, " Máximo 10 digitos")
+    .required(" Por favor introduzca un teléfono celular."),
     direccion: Yup.string()
     .max(45, "Máximo 45 caracteres")
-    .required("Dirección requerida."),
+    .required("Por favor introduzca una dirección."),
     referencia: Yup.string()
     .notRequired()
     .max(50, "Máximo 50 caracteres."),

@@ -50,7 +50,14 @@ const RolesForm = props => {
                           touched.codigo &&
                           "is-invalid"}`}
                       />
+                      <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.codigo && touched.codigo ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                       <ErrorMessage name={"codigo"} />
+                      </div>
                     </div>
                   </Col>
                   <Col sm="6">
@@ -69,7 +76,14 @@ const RolesForm = props => {
                           touched.nombre &&
                           "is-invalid"}`}
                       />
+                      <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.nombre && touched.nombre ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                       <ErrorMessage name={"nombre"} />
+                      </div>
                     </div>
                   </Col>
                   <Col sm="12">
@@ -87,7 +101,14 @@ const RolesForm = props => {
                           touched.descripcion &&
                           "is-invalid"}`}
                       />
+                      <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.descripcion && touched.descripcion ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                       <ErrorMessage name={"descripcion"} />
+                      </div>
                     </div>
                   </Col>
                 </div>
@@ -117,7 +138,14 @@ const RolesForm = props => {
                             {touched ? (
                               <div style={{ color: "red" }}>
                                 {" "}
+                                <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.modulos && touched.modulos ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                                 <ErrorMessage name={"modulos"} />
+                                </div>
                               </div>
                             ) : null}
                             {/* <select className="form-control form-control-sm">
@@ -143,7 +171,14 @@ const RolesForm = props => {
                             {touched ? (
                               <div style={{ color: "red" }}>
                                 {" "}
+                                <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.entidades && touched.entidades ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                                 <ErrorMessage name={"entidades"} />
+                                </div>
                               </div>
                             ) : null}
                             {/* <select
@@ -293,12 +328,12 @@ export default withFormik({
     estado: props.roles.estado
   }),
   validationSchema: Yup.object().shape({
-    codigo: Yup.string().required("necesario el codigo"),
-    nombre: Yup.string().required("necesario el nombre"),
-    descripcion: Yup.string().required("necesario descripcion"),
+    codigo: Yup.string().required(" Por favor introduzca un código."),
+    nombre: Yup.string().required(" Por favor introduzca un nombre."),
+    descripcion: Yup.string().required(" Por favor introduzca una descripción."),
     estado: Yup.bool()
-      .test("Activo", "necesario activar el rol", value => value === true)
-      .required("necesario activar el rol"),
+      .test("Activo", " Necesario activar el rol.", value => value === true)
+      .required(" Necesario activar el rol."),
     modulos: Yup.array()
       .of(
         Yup.object().shape({
@@ -306,7 +341,7 @@ export default withFormik({
           label: Yup.string().required
         })
       )
-      .required("necesario selecionar modulos"),
+      .required(" Por favor seleccione un módulo."),
     entidades: Yup.array()
       .of(
         Yup.object().shape({
@@ -314,7 +349,7 @@ export default withFormik({
           label: Yup.string().required
         })
       )
-      .required("necesario seleccionar entidades")
+      .required(" Por favor seleccione una entidad.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

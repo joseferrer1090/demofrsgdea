@@ -498,14 +498,14 @@ export default withFormik({
       /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
       " Número no valido."
     )
-    .length(10, " Máximo 10 digitos")
+    .length(10, " Míximo 10 digitos")
     .required(" Por favor introduzca un teléfono fijo."),
     telefonoCelular: Yup.string()
     .matches(
       /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
       " Número no valido."
     )
-    .length(10, " Máximo 10 digitos")
+    .length(10, " Míximo 10 digitos")
     .required(" Por favor introduzca un teléfono celular."),
     direccion: Yup.string()
     .max(45, "Máximo 45 caracteres")

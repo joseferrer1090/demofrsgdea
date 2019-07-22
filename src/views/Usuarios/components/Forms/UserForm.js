@@ -105,7 +105,14 @@ const UserForm = props => {
                             touched.identificacion &&
                             "is-invalid"}`}
                         />
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.identificacion && touched.identificacion ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="identificacion" />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -124,7 +131,14 @@ const UserForm = props => {
                             touched.nombre &&
                             "is-invalid"}`}
                         />
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.nombre && touched.nombre ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="nombre" />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -145,7 +159,14 @@ const UserForm = props => {
                             touched.email &&
                             "is-invalid"}`}
                         />
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.email && touched.email ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="email" />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -164,7 +185,14 @@ const UserForm = props => {
                             touched.telefono &&
                             "is-invalid"}`}
                         />
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.telefono && touched.telefono ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="telefono" />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -222,7 +250,14 @@ const UserForm = props => {
                           <option>Seleccione...</option>{" "}
                           <option>conglomerado1</option>
                         </select>
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.conglomerado && touched.conglomerado ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="conglomerado" />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-4">
@@ -244,7 +279,14 @@ const UserForm = props => {
                           <option>Seleccione... </option>{" "}
                           <option>empresa1</option>
                         </select>
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.empresa && touched.empresa ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="empresa" />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-4">
@@ -266,7 +308,14 @@ const UserForm = props => {
                           <option> Seleccione... </option>{" "}
                           <option>sede1</option>
                         </select>
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.sede && touched.sede ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name={"sede"} />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -295,7 +344,14 @@ const UserForm = props => {
                           <option>--Seleccione--</option>
                           <option>dependencia</option>
                         </select>
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.dependencia && touched.dependencia ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="dependencia" />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -322,7 +378,14 @@ const UserForm = props => {
                           <option>--Seleccione--</option>
                           <option>cargo1</option>
                         </select>
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.cargo && touched.cargo ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="cargo" />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -349,7 +412,14 @@ const UserForm = props => {
                             "is-invalid"}`}
                           type="text"
                         />
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.username && touched.username ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="username" />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -370,7 +440,14 @@ const UserForm = props => {
                             "is-invalid"}`}
                           type="password"
                         />
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.password && touched.password ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="password" />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-12">
@@ -390,7 +467,14 @@ const UserForm = props => {
                             touched.confirm_password &&
                             "is-invalid"}`}
                         />
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.confirm_password && touched.confirm_password ?
+                          <i class="fa fa-exclamation-triangle"/> :
+                          null
+                        }
                         <ErrorMessage name="confirm_password" />
+                        </div>
                       </div>
                     </div>
 
@@ -411,7 +495,14 @@ const UserForm = props => {
                         {touched ? (
                           <div style={{ color: "red" }}>
                             {" "}
+                            <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.roles && touched.roles ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                             <ErrorMessage name={"roles"} />
+                            </div>
                           </div>
                         ) : null}
                         {/* <select
@@ -528,49 +619,52 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     email: Yup.string()
-      .email("email no es valido")
-      .required("email requerido"),
+      .email(" Por favor introduzca un email valido.")
+      .required(" Por favor introduzca un email."),
     telefono: Yup.string()
       .matches(
         /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
-        "numero no valido"
+        " Número no valido"
       )
-      .length(10, "maximo 10 digitos")
-      .required("numero requerido"),
-    nombre: Yup.string().required("nombre requerido"),
-    identificacion: Yup.string().required("identificacion requerida"),
+      .length(10, " Mínimo 10 digitos")
+      .required(" Por favor introduzca un número."),
+    nombre: Yup.string()
+      .required(" Por favor introduzca un nombre."),
+    identificacion: Yup.string()
+      .required(" Por favor introduzca una identificación."),
     sede: Yup.string()
       .ensure()
-      .required("requiere sede"),
+      .required(" Por favor seleccione una sede."),
     conglomerado: Yup.string()
       .ensure()
-      .required("conglomerado requerido"),
+      .required(" Por favor seleccione un conglomerado."),
     empresa: Yup.string()
       .ensure()
-      .required("empresa requerida"),
+      .required(" Por favor seleccione una empresa."),
     dependencia: Yup.string()
       .ensure()
-      .required("dependencia requerida"),
+      .required(" Por favor seleccione una dependencia."),
     cargo: Yup.string()
       .ensure()
-      .required("cargo requerido"),
-    username: Yup.string().required("username requerido "),
+      .required(" Por favor seleccione un cargo."),
+    username: Yup.string()
+      .required(" Por favor introduzca un username."),
     password: Yup.string()
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,15}$/, // esta expresion regular valida la contraseña
-        "contraseña no valida, la contraseña debe tener al menos una letra en mayuscula, al menos un digito, no espacio en blanco, al menos un caracter especial"
+        " Contraseña no valida, asegúrese de que lleve al menos una letra en mayuscula, un digito, y un caracter especial."
       )
-      .required("contraseña es necesaria")
-      .min(8, "minimo son 8 caracteres")
-      .max(15),
+      .required(" Por favor introduzca una contraseña.")
+      .min(8, "  Mínimo 8 caracteres. ")
+      .max(15, " Máximo 15 caracteres."),
     confirm_password: Yup.string()
-      .oneOf([Yup.ref("password"), null], "contraseñas no coinciden")
-      .required("necesario confirmar la contraseña")
-      .min(10, "minimo son 10 caracteres")
+      .oneOf([Yup.ref("password"), null], " Las contraseñas no coinciden.")
+      .required(" Por favor confirme la contraseña.")
+      .min(10, " Mínimo 10 caracteres.")
       .max(200),
     estado: Yup.bool().test(
       "Activo",
-      "se requiere la activacion el usuario",
+      "Se requiere la activacion del usuario",
       value => value === true
     ),
     roles: Yup.array()
@@ -580,7 +674,7 @@ export default withFormik({
           value: Yup.string().required()
         })
       )
-      .required("se requiere al menos un rol")
+      .required(" Por favor seleccione al menos un rol.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

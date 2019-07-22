@@ -47,7 +47,14 @@ const TipoLlegadaForm = props => {
                           touched.codigo &&
                           "is-invalid"}`}
                       />
+                      <div style={{ color: '#D54B4B' }}>
+                      {
+                        errors.codigo && touched.codigo ?
+                        <i class="fa fa-exclamation-triangle"/> :
+                        null
+                      }
                       <ErrorMessage name={"codigo"} />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -66,7 +73,14 @@ const TipoLlegadaForm = props => {
                           touched.nombre &&
                           "is-invalid"}`}
                       />
+                      <div style={{ color: '#D54B4B' }}>
+                      {
+                        errors.nombre && touched.nombre ?
+                        <i class="fa fa-exclamation-triangle"/> :
+                        null
+                      }
                       <ErrorMessage name="nombre" />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-12">
@@ -160,12 +174,12 @@ export default withFormik({
     estado: props.tipollegada.estado
   }),
   validationSchema: Yup.object().shape({
-    codigo: Yup.string().required("codigo requerido"),
-    nombre: Yup.string().required("nombre requerido"),
+    codigo: Yup.string().required(" Por favor introduzca un código."),
+    nombre: Yup.string().required(" Por favor introduzca un nombre."),
     descripcion: Yup.string(),
     estado: Yup.bool().test(
       "Activo",
-      "Es necesario activar el estado para el tipo de llegada",
+      " Es necesario activar el estado para el tipo de llegada",
       value => value === true
     )
   }),

@@ -49,7 +49,14 @@ const FormPais = props =>{
                     placeholder=""
                     value={values.codigo}
                     />
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.codigo && touched.codigo ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="codigo"/>
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -69,7 +76,14 @@ const FormPais = props =>{
                     value={values.nombre}
                     placeholder=""
                     />
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.nombre && touched.nombre ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="nombre"/>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -156,11 +170,11 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     codigo: Yup.string()
-      .min(6, "Mínimo son 6 caracteres")
-      .max(6, "Máximo son 6 caracteres")
-      .required("Código es requerido"),
+      .min(6, " Mínimo 6 caracteres.")
+      .max(6, " Máximo 6 caracteres.")
+      .required(" Por favor introduzca un código."),
     nombre: Yup.string()
-      .required("Nombre es requerido")
+      .required(" Por favor introduzca un nombre.")
       .max(100),
     estado: Yup.bool()
       .test(

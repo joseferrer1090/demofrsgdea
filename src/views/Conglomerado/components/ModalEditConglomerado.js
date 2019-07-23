@@ -14,7 +14,6 @@ import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
 
 class ModalEditConglomerado extends React.Component {
   state = {
@@ -75,17 +74,39 @@ class ModalEditConglomerado extends React.Component {
 
     return (
       <Fragment>
-        <Modal className={"modal-lg"} isOpen={this.state.modal}>
-          <ModalHeader> Actualizar conglomerado </ModalHeader>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
+          <ModalHeader>Actualizar conglomerado</ModalHeader>
           <Formik
             initialValues={dataPreview}
-            validate={validation}
-            onSubmit={this.handleSubmit}
-            render={formProps => {
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 500);
+            }}
+            validationSchema={Yup.object().shape({
+              codigo: Yup.string().required("codigo necesacio para la edicion"),
+              nombre: Yup.string().required("nombre necesario para la edicio"),
+              descripcion: Yup.string(),
+              estado: Yup.bool().test("Activdado", "", value => value === true)
+            })}
+          >
+            {props => {
+              const {
+                values,
+                touched,
+                errors,
+                dirty,
+                isSubmitting,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                handleReset
+              } = props;
               return (
                 <Fragment>
-                  <Form className={"form"}>
-                    <ModalBody>
+                  <ModalBody>
+                    <form className="form">
                       <div className="row">
                         <div className="col-md-3">
                           <img
@@ -113,11 +134,15 @@ class ModalEditConglomerado extends React.Component {
                                     *
                                   </span>{" "}
                                 </label>
-                                <Field
+                                <input
                                   type="text"
-                                  name="codigo"
-                                  placeholder=""
-                                  className={"form-control form-control-sm"}
+                                  name={"codigo"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.codigo}
+                                  className={`form-control form-control-sm ${errors.codigo &&
+                                    touched.codigo &&
+                                    "is-invalid"}`}
                                 />
                                 <ErrorMessage name="codigo" />
                               </div>
@@ -130,24 +155,40 @@ class ModalEditConglomerado extends React.Component {
                                     *
                                   </span>{" "}
                                 </label>
-                                <Field
+                                <input
+                                  type="text"
+                                  name="nombre"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.nombre}
+                                  className={`form-control form-control-sm ${errors.nombre &&
+                                    touched.nombre &&
+                                    "is-invalid"}`}
+                                />
+                                {/* <Field
                                   type="text"
                                   name="nombre"
                                   placeholder=""
                                   className={"form-control form-control-sm"}
-                                />
+                                /> */}
                                 <ErrorMessage name="nombre" />
                               </div>
                             </div>
-
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label> Descripción </label>
-                                <Field
+                                <textarea
+                                  name="descripcion"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.descripcion}
+                                  className="form-control form-control-sm"
+                                />
+                                {/* <Field
                                   type="text"
                                   name="descripcion"
                                   className="form-control form-control-sm"
-                                />
+                                /> */}
                                 <ErrorMessage name="descripcion" />
                               </div>
                             </div>
@@ -164,7 +205,28 @@ class ModalEditConglomerado extends React.Component {
                                     name="estado"
                                     type=""
                                     render={({ field, form }) => {
-                                      console.log("field", field);
+                                      //console.log("field", field);
+                                      return (
+                                        // <input
+                                        //   type="checkbox"
+                                        //   checked={field.value}
+                                        //   {...field}
+                                        // />
+                                        <CustomInput
+                                          type="checkbox"
+                                          id="conglomeradoModalEdit"
+                                          label="Check this custom checkbox"
+                                          {...field}
+                                          checked={field.value}
+                                        />
+                                      );
+                                    }}
+                                  />
+                                  {/* <Field
+                                    name="estado"
+                                    type=""
+                                    render={({ field, form }) => {
+                                      //console.log("field", field);
                                       return (
                                         <input
                                           type="checkbox"
@@ -173,7 +235,7 @@ class ModalEditConglomerado extends React.Component {
                                         />
                                       );
                                     }}
-                                  />
+                                  /> */}
                                   <ErrorMessage name="estado" />
                                 </div>
                               </div>
@@ -181,26 +243,32 @@ class ModalEditConglomerado extends React.Component {
                           </div>
                         </div>
                       </div>
-                    </ModalBody>
-                    <ModalFooter>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          this.setState({ modal: false });
-                        }}
-                      >
-                        {" "}
-                        Cerrar
-                      </button>
-                      <button type="submit" disabled={formProps.isSubmitting}>
-                        Submit Form
-                      </button>
-                    </ModalFooter>
-                  </Form>
+                    </form>
+                  </ModalBody>
+                  <ModalFooter>
+                    <button
+                      type="button"
+                      onClick={e => {
+                        e.preventDefault();
+                        handleSubmit();
+                      }}
+                    >
+                      Submit
+                    </button>
+                    <button
+                      className={"btn btn-outline-secondary btn-sm"}
+                      type="button"
+                      onClick={() => {
+                        this.setState({ modal: false });
+                      }}
+                    >
+                      <i className="fa fa-times" /> Cerrar
+                    </button>
+                  </ModalFooter>
                 </Fragment>
               );
             }}
-          />
+          </Formik>
         </Modal>
       </Fragment>
     );

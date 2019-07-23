@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import {
   Modal,
   ModalHeader,
@@ -12,14 +12,17 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
+import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
+import * as Yup from "yup";
 
-class ModalEditConglomerado extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: this.props.modaleditstate
-    };
-  }
+class ModalEditConglomerado extends React.Component {
+  state = {
+    modal: this.props.modaleditstate,
+    codigo: "",
+    nombre: "",
+    descripcion: "",
+    estado: ""
+  };
 
   toggle = () => {
     this.setState({
@@ -27,92 +30,247 @@ class ModalEditConglomerado extends Component {
     });
   };
 
-  render() {
-    return (
-      <div>
-        <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar conglomerado </ModalHeader>
-          <ModalBody>
-            <div className="row">
-              <div className="col-md-3">
-                <img src={IMGCONGLOMERADO} className="img-thumbnail" />
-              </div>
-              <div className="col-md-9">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Datos{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>
-                        {" "}
-                        Código <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>
-                        {" "}
-                        Nombre <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <label> Descripción </label>
-                      <textarea className="form-control" />
-                    </div>
-                  </div>
+  handleSubmit = (values, { props = this.props, setSubmitting }) => {
+    alert(JSON.stringify(values, null, 2));
+    setSubmitting(false);
+    return;
+  };
 
-                      <div className="col-md-12">
-                        <div className="form-group">
-                          <label>
+  componentDidMount() {
+    this.getUserInformation();
+  }
+
+  getUserInformation() {
+    fetch(`http://localhost:3001/conglomerado/2
+    `)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          nombre: data.nombre,
+          codigo: data.codigo,
+          descripcion: data.descripcion,
+          estado: data.estado
+        });
+        console.log(this.state);
+      })
+      .catch(error => console.log("Error", error));
+  }
+
+  render() {
+    const validation = Yup.object().shape({
+      codigo: Yup.string().required(),
+      nombre: Yup.string().required(),
+      descripcion: Yup.string().required(),
+      estado: Yup.bool().test("Activo", "", value => value === true)
+    });
+
+    const dataPreview = {
+      codigo: this.state.codigo,
+      nombre: this.state.nombre,
+      descripcion: this.state.descripcion,
+      estado: this.state.estado
+    };
+
+    return (
+      <Fragment>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
+          <ModalHeader>Actualizar conglomerado</ModalHeader>
+          <Formik
+            initialValues={dataPreview}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 500);
+            }}
+            validationSchema={Yup.object().shape({
+              codigo: Yup.string().required("codigo necesacio para la edicion"),
+              nombre: Yup.string().required("nombre necesario para la edicio"),
+              descripcion: Yup.string(),
+              estado: Yup.bool().test("Activdado", "", value => value === true)
+            })}
+          >
+            {props => {
+              const {
+                values,
+                touched,
+                errors,
+                dirty,
+                isSubmitting,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                handleReset
+              } = props;
+              return (
+                <Fragment>
+                  <ModalBody>
+                    <form className="form">
+                      <div className="row">
+                        <div className="col-md-3">
+                          <img
+                            src={IMGCONGLOMERADO}
+                            className="img-thumbnail"
+                          />
+                        </div>
+                        <div className="col-md-9">
+                          <div className="">
                             {" "}
-                            Estado <span className="text-danger">*</span>{" "}
-                          </label>
-                          <div className="text-justify ">
-                            <CustomInput
-                              type="checkbox"
-                              id="CheckboxEdit"
-                              label=" Si esta opción se encuentra activada, representa
-                              que el conglomerado es visible en el sistema y se
-                              podrán realizar operaciones entre cada uno de los
-                              módulos correspondientes de la aplicación. En caso
-                              contrario el conglomerado no se elimina del
-                              sistema solo quedará inactivo e invisibles para
-                              cada uno de los módulos correspondiente del
-                              sistema."
-                            />
+                            <h5
+                              className=""
+                              style={{ borderBottom: "1px solid black" }}
+                            >
+                              {" "}
+                              Datos{" "}
+                            </h5>{" "}
+                          </div>
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  Código <span className="text-danger">
+                                    *
+                                  </span>{" "}
+                                </label>
+                                <input
+                                  type="text"
+                                  name={"codigo"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.codigo}
+                                  className={`form-control form-control-sm ${errors.codigo &&
+                                    touched.codigo &&
+                                    "is-invalid"}`}
+                                />
+                                <ErrorMessage name="codigo" />
+                              </div>
                             </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  Nombre <span className="text-danger">
+                                    *
+                                  </span>{" "}
+                                </label>
+                                <input
+                                  type="text"
+                                  name="nombre"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.nombre}
+                                  className={`form-control form-control-sm ${errors.nombre &&
+                                    touched.nombre &&
+                                    "is-invalid"}`}
+                                />
+                                {/* <Field
+                                  type="text"
+                                  name="nombre"
+                                  placeholder=""
+                                  className={"form-control form-control-sm"}
+                                /> */}
+                                <ErrorMessage name="nombre" />
+                              </div>
                             </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <button type="button" className="btn btn-outline-success">
-              <i className="fa fa-pencil" /> Actualizar{" "}
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => {
-                this.setState({ modal: false });
-              }}
-            >
-              <i className="fa fa-times" /> Cerrar{" "}
-            </button>
-          </ModalFooter>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label> Descripción </label>
+                                <textarea
+                                  name="descripcion"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.descripcion}
+                                  className="form-control form-control-sm"
+                                />
+                                {/* <Field
+                                  type="text"
+                                  name="descripcion"
+                                  className="form-control form-control-sm"
+                                /> */}
+                                <ErrorMessage name="descripcion" />
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  Estado <span className="text-danger">
+                                    *
+                                  </span>{" "}
+                                </label>
+                                <div className="text-justify ">
+                                  <Field
+                                    name="estado"
+                                    type=""
+                                    render={({ field, form }) => {
+                                      //console.log("field", field);
+                                      return (
+                                        // <input
+                                        //   type="checkbox"
+                                        //   checked={field.value}
+                                        //   {...field}
+                                        // />
+                                        <CustomInput
+                                          type="checkbox"
+                                          id="conglomeradoModalEdit"
+                                          label="Check this custom checkbox"
+                                          {...field}
+                                          checked={field.value}
+                                        />
+                                      );
+                                    }}
+                                  />
+                                  {/* <Field
+                                    name="estado"
+                                    type=""
+                                    render={({ field, form }) => {
+                                      //console.log("field", field);
+                                      return (
+                                        <input
+                                          type="checkbox"
+                                          checked={field.value}
+                                          {...field}
+                                        />
+                                      );
+                                    }}
+                                  /> */}
+                                  <ErrorMessage name="estado" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </ModalBody>
+                  <ModalFooter>
+                    <button
+                      type="button"
+                      onClick={e => {
+                        e.preventDefault();
+                        handleSubmit();
+                      }}
+                    >
+                      Submit
+                    </button>
+                    <button
+                      className={"btn btn-outline-secondary btn-sm"}
+                      type="button"
+                      onClick={() => {
+                        this.setState({ modal: false });
+                      }}
+                    >
+                      <i className="fa fa-times" /> Cerrar
+                    </button>
+                  </ModalFooter>
+                </Fragment>
+              );
+            }}
+          </Formik>
         </Modal>
-      </div>
+      </Fragment>
     );
   }
 }
@@ -122,3 +280,35 @@ ModalEditConglomerado.propTypes = {
 };
 
 export default ModalEditConglomerado;
+
+function CheckBox(props) {
+  return (
+    <Field
+      {...props}
+      render={({ field, form }) => {
+        // console.log("field", field);
+        return <input type="checkbox" checked={field.value} {...field} />;
+      }}
+    />
+  );
+}
+
+{
+  /* <form className={"form"} onSubmit={this.handleSubmit}>
+<ModalBody>
+  <p>Probando</p>
+</ModalBody>
+<ModalFooter>
+  <button type={"submit"}> Actualizar </button>
+  <button
+    type="button"
+    onClick={() => {
+      this.toggle();
+    }}
+  >
+    {" "}
+    Cerrar
+  </button>
+</ModalFooter>
+</form> */
+}

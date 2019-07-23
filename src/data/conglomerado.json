@@ -1,0 +1,32 @@
+{
+  "conglomerado": [
+    {
+      "id": 1,
+      "codigo": 12547893,
+      "nombre": "conglomerado1",
+      "descripcion": "Este conglomerado es de prueba del proyecto",
+      "estado": true
+    },
+    {
+      "id": 2,
+      "codigo": 10254856,
+      "nombre": "conglomerado2",
+      "descripcion": "Este conglomerado es de prueba del proyecto 2",
+      "estado": false
+    },
+    {
+      "id": 3,
+      "codigo": 90091056,
+      "nombre": "Conglomerado3",
+      "descripcion": "Este conglomerado es de prueba del proyecto3",
+      "estado": true
+    },
+    {
+      "id": 4,
+      "codigo": 3076025,
+      "nombre": "Conglomerado4",
+      "descripcion": "Este conglomerado es de prueba del proyecto 4",
+      "estado": false
+    }
+  ]
+}

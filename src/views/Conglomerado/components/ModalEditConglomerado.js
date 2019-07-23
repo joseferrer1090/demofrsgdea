@@ -12,6 +12,15 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
+import { Formik, Field } from "formik";
+import * as Yup from "yup";
+
+const initialState = {
+  codigo: "",
+  nombre: "",
+  descripcion: "",
+  estado: ""
+};
 
 class ModalEditConglomerado extends Component {
   constructor(props) {

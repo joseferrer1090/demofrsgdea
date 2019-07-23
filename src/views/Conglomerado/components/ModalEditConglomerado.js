@@ -48,7 +48,7 @@ class ModalEditConglomerado extends React.Component {
               codigo: "",
               nombre: "",
               descripcion: "",
-              estado: [""]
+              estado: ""
             }}
             validate={validation}
             onSubmit={this.handleSubmit}

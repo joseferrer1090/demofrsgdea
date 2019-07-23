@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import {
   Modal,
   ModalHeader,
@@ -12,23 +12,13 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
-import { Formik, Field } from "formik";
+import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
-const initialState = {
-  codigo: "",
-  nombre: "",
-  descripcion: "",
-  estado: ""
-};
-
-class ModalEditConglomerado extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: this.props.modaleditstate
-    };
-  }
+class ModalEditConglomerado extends React.Component {
+  state = {
+    modal: this.props.modaleditstate
+  };
 
   toggle = () => {
     this.setState({
@@ -36,98 +26,145 @@ class ModalEditConglomerado extends Component {
     });
   };
 
-  render() {
-    return (
-      <div>
-        <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar conglomerado </ModalHeader>
-          <ModalBody>
-            <div className="row">
-              <div className="col-md-3">
-                <img src={IMGCONGLOMERADO} className="img-thumbnail" />
-              </div>
-              <div className="col-md-9">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Datos{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>
-                        {" "}
-                        Código <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>
-                        {" "}
-                        Nombre <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <label> Descripción </label>
-                      <textarea className="form-control form-control-sm" />
-                    </div>
-                  </div>
+  handleSubmit = (values, { props = this.props, setSubmitting }) => {
+    alert(JSON.stringify(values, null, 2));
+    setSubmitting(false);
+    return;
+  };
 
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <label>
-                        {" "}
-                        Estado <span className="text-danger">*</span>{" "}
-                      </label>
-                      <div className="text-justify ">
-                        <CustomInput
-                          type="checkbox"
-                          id="CheckboxEdit"
-                          label=" Si esta opción se encuentra activada, representa
-                              que el conglomerado es visible en el sistema y se
-                              podrán realizar operaciones entre cada uno de los
-                              módulos correspondientes de la aplicación. En caso
-                              contrario el conglomerado no se elimina del
-                              sistema solo quedará inactivo e invisibles para
-                              cada uno de los módulos correspondiente del
-                              sistema."
-                        />
+  render() {
+    const validation = Yup.object().shape({
+      codigo: Yup.string().nullable(),
+      nombre: Yup.string().nullable(),
+      descripcion: Yup.string().nullable(),
+      estado: Yup.bool().test("Activo", "", value => value === true)
+    });
+    return (
+      <Fragment>
+        <Modal className={"modal-lg"} isOpen={this.state.modal}>
+          <ModalHeader> Actualizar conglomerado </ModalHeader>
+          <Formik
+            initialValues={{
+              codigo: "",
+              nombre: "",
+              descripcion: "",
+              estado: ""
+            }}
+            validate={validation}
+            onSubmit={this.handleSubmit}
+            render={formProps => {
+              return (
+                <Fragment>
+                  <Form className={"form"}>
+                    <ModalBody>
+                      <div className="row">
+                        <div className="col-md-3">
+                          <img
+                            src={IMGCONGLOMERADO}
+                            className="img-thumbnail"
+                          />
+                        </div>
+                        <div className="col-md-9">
+                          <div className="">
+                            {" "}
+                            <h5
+                              className=""
+                              style={{ borderBottom: "1px solid black" }}
+                            >
+                              {" "}
+                              Datos{" "}
+                            </h5>{" "}
+                          </div>
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  Código <span className="text-danger">
+                                    *
+                                  </span>{" "}
+                                </label>
+                                <Field
+                                  type="text"
+                                  name="codigo"
+                                  placeholder=""
+                                  className={"form-control form-control-sm"}
+                                />
+                                <ErrorMessage name="codigo" />
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  Nombre <span className="text-danger">
+                                    *
+                                  </span>{" "}
+                                </label>
+                                <Field
+                                  type="text"
+                                  name="nombre"
+                                  placeholder=""
+                                  className={"form-control form-control-sm"}
+                                />
+                                <ErrorMessage name="nombre" />
+                              </div>
+                            </div>
+
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label> Descripción </label>
+                                <Field
+                                  type="text"
+                                  name="descripcion"
+                                  className="form-control form-control-sm"
+                                />
+                                <ErrorMessage name="descripcion" />
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  Estado <span className="text-danger">
+                                    *
+                                  </span>{" "}
+                                </label>
+                                <div className="text-justify ">
+                                  <div className="card">
+                                    <div>
+                                      <pre>Probando aepnas</pre>
+                                    </div>
+                                  </div>
+                                  <ErrorMessage name="estado" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </ModalBody>
-          <ModalFooter>
-            <button type="button" className="btn btn-outline-success">
-              <i className="fa fa-pencil" /> Actualizar{" "}
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => {
-                this.setState({ modal: false });
-              }}
-            >
-              <i className="fa fa-times" /> Cerrar{" "}
-            </button>
-          </ModalFooter>
+                    </ModalBody>
+                    <ModalFooter>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          this.setState({ modal: false });
+                        }}
+                      >
+                        {" "}
+                        Cerrar
+                      </button>
+                      <button type="submit" disabled={formProps.isSubmitting}>
+                        Submit Form
+                      </button>
+                    </ModalFooter>
+                  </Form>
+                </Fragment>
+              );
+            }}
+          />
         </Modal>
-      </div>
+      </Fragment>
     );
   }
 }
@@ -137,3 +174,23 @@ ModalEditConglomerado.propTypes = {
 };
 
 export default ModalEditConglomerado;
+
+{
+  /* <form className={"form"} onSubmit={this.handleSubmit}>
+<ModalBody>
+  <p>Probando</p>
+</ModalBody>
+<ModalFooter>
+  <button type={"submit"}> Actualizar </button>
+  <button
+    type="button"
+    onClick={() => {
+      this.toggle();
+    }}
+  >
+    {" "}
+    Cerrar
+  </button>
+</ModalFooter>
+</form> */
+}

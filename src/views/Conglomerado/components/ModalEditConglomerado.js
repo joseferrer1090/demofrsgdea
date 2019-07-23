@@ -14,10 +14,15 @@ import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 class ModalEditConglomerado extends React.Component {
   state = {
-    modal: this.props.modaleditstate
+    modal: this.props.modaleditstate,
+    codigo: "",
+    nombre: "",
+    descripcion: "",
+    estado: ""
   };
 
   toggle = () => {
@@ -32,24 +37,48 @@ class ModalEditConglomerado extends React.Component {
     return;
   };
 
+  componentDidMount() {
+    this.getUserInformation();
+  }
+
+  getUserInformation() {
+    fetch(`http://localhost:3001/conglomerado/2
+    `)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          nombre: data.nombre,
+          codigo: data.codigo,
+          descripcion: data.descripcion,
+          estado: data.estado
+        });
+        console.log(this.state);
+      })
+      .catch(error => console.log("Error", error));
+  }
+
   render() {
     const validation = Yup.object().shape({
-      codigo: Yup.string().nullable(),
-      nombre: Yup.string().nullable(),
-      descripcion: Yup.string().nullable(),
+      codigo: Yup.string().required(),
+      nombre: Yup.string().required(),
+      descripcion: Yup.string().required(),
       estado: Yup.bool().test("Activo", "", value => value === true)
     });
+
+    const dataPreview = {
+      codigo: this.state.codigo,
+      nombre: this.state.nombre,
+      descripcion: this.state.descripcion,
+      estado: this.state.estado
+    };
+
     return (
       <Fragment>
         <Modal className={"modal-lg"} isOpen={this.state.modal}>
           <ModalHeader> Actualizar conglomerado </ModalHeader>
           <Formik
-            initialValues={{
-              codigo: "",
-              nombre: "",
-              descripcion: "",
-              estado: ""
-            }}
+            initialValues={dataPreview}
             validate={validation}
             onSubmit={this.handleSubmit}
             render={formProps => {
@@ -131,7 +160,20 @@ class ModalEditConglomerado extends React.Component {
                                   </span>{" "}
                                 </label>
                                 <div className="text-justify ">
-                                  <CheckBox name="estado" value="probnado" />
+                                  <Field
+                                    name="estado"
+                                    type=""
+                                    render={({ field, form }) => {
+                                      console.log("field", field);
+                                      return (
+                                        <input
+                                          type="checkbox"
+                                          checked={field.value}
+                                          {...field}
+                                        />
+                                      );
+                                    }}
+                                  />
                                   <ErrorMessage name="estado" />
                                 </div>
                               </div>
@@ -173,29 +215,13 @@ export default ModalEditConglomerado;
 
 function CheckBox(props) {
   return (
-    <Field name={props.name}>
-      {({ field, form }) => (
-        <label>
-          <input
-            type="checkbox"
-            {...props}
-            checked={field.value.includes(props.value)}
-            onChange={() => {
-              if (field.value.includes(props.value)) {
-                const nextValue = field.value.filter(
-                  value => value !== props.value
-                );
-                form.setFieldValue(props.name, nextValue);
-              } else {
-                const nextValue = field.value.concat(props.value);
-                form.setFieldValue(props.name, nextValue);
-              }
-            }}
-          />
-          {props.value}
-        </label>
-      )}
-    </Field>
+    <Field
+      {...props}
+      render={({ field, form }) => {
+        // console.log("field", field);
+        return <input type="checkbox" checked={field.value} {...field} />;
+      }}
+    />
   );
 }
 

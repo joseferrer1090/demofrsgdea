@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import './../../../../../../css/styleErrorMessage.css'
 import {
   Alert,
   Row,
@@ -10,6 +11,11 @@ import {
   CardHeader,
   CardFooter
 } from "reactstrap";
+
+const handlechangeState = () =>{
+  console.log('Hola')
+}
+
 const ManualForm = props => {
   const {
     values,
@@ -56,13 +62,23 @@ const ManualForm = props => {
                       name={"fechaDesde"}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.fechaDesde}
-                      className={`form-control form-control-sm ${errors.fechaDesde &&
-                        touched.fechaDesde &&
-                        "is-invalid"}`}
+                      value={ values.fechaDesde}
+                      className={`form-control form-control-sm
+                        ${errors.fechaDesde &&
+                          touched.fechaDesde &&
+                          "is-invalid"} `}
                       type="date"
                     />
-                    <ErrorMessage name="fechaDesde"/>
+
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.fechaDesde && touched.fechaDesde ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
+                      <ErrorMessage name="fechaDesde"/>
+                    </div>
+
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -83,7 +99,14 @@ const ManualForm = props => {
                         touched.fechaHasta &&
                         "is-invalid"}`}
                     />
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.fechaHasta && touched.fechaHasta ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="fechaHasta"/>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -109,7 +132,14 @@ const ManualForm = props => {
                       <option value={"1"}>Operación 1</option>
                       <option value={"2"}>Operación 2</option>
                     </select>
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.operacion && touched.operacion ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="operacion"/>
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -131,7 +161,14 @@ const ManualForm = props => {
                       <option value={"1"}> Módulo 1</option>
                       <option value={"2"}> Módulo 2</option>
                     </select>
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.modulo && touched.modulo ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="modulo"/>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -155,7 +192,14 @@ const ManualForm = props => {
                       <option value={"1"}> Entidad 1</option>
                       <option value={"2"}> Entidad 2</option>
                     </select>
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.entidad && touched.entidad ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="entidad"/>
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-6">
@@ -177,7 +221,14 @@ const ManualForm = props => {
                       <option value={"1"}> Acción 1</option>
                       <option value={"2"}> Acción 2</option>
                     </select>
+                    <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.accion && touched.accion ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                     <ErrorMessage name="accion"/>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -219,20 +270,20 @@ export default withFormik({
   validationSchema: Yup.object().shape({
     operacion: Yup.string()
       .ensure()
-      .required("Operación requerida."),
+      .required(" Por favor seleccione una operación."),
     modulo: Yup.string()
       .ensure()
-      .required("Módulo requerido."),
+      .required(" Por favor seleccione un módulo."),
     entidad: Yup.string()
       .ensure()
-      .required("Entidad requerida."),
+      .required(" Por favor seleccione una entidad."),
     accion: Yup.string()
       .ensure()
-      .required("Acción requerida"),
+      .required(" Por favor seleccione una acción."),
     fechaDesde: Yup.date()
-      .required("Fecha requerida."),
+      .required(` Por favor introduzca una fecha valida.`),
     fechaHasta: Yup.date()
-      .required("Fecha requerida.")
+      .required(" Por favor introduzca una fecha valida.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

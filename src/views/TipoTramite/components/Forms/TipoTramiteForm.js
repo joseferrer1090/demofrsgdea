@@ -47,7 +47,14 @@ const TipoTramite = props => {
                             <option>Despachada</option>
                             <option>Interna</option>
                           </select>
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.t_correspondencia && touched.t_correspondencia ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name={"t_correspondencia"} />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -65,7 +72,14 @@ const TipoTramite = props => {
                               touched.codigo &&
                               "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.codigo && touched.codigo ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name={"codigo"} />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -83,7 +97,14 @@ const TipoTramite = props => {
                               touched.nombre &&
                               "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.nombre && touched.nombre ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name={"nombre"} />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -101,7 +122,14 @@ const TipoTramite = props => {
                               touched.descripcion &&
                               "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.descripcion && touched.descripcion ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name={"descripcion"} />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-12">
@@ -121,7 +149,14 @@ const TipoTramite = props => {
                               "is-invalid"}`}
                             min={0}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.d_maximos && touched.d_maximos ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name={"d_maximos"} />
+                          </div>
                         </div>
                       </div>
                       <Col sm="12">
@@ -424,23 +459,24 @@ export default withFormik({
   validationSchema: Yup.object().shape({
     t_correspondencia: Yup.string()
       .ensure()
-      .required("necesario el tipo de correspondencia"),
-    codigo: Yup.string().required("necesario codigo para el tipo de tramite"),
-    nombre: Yup.string().required("nombre necesario para el tipo de tramite"),
-    descripcion: Yup.string().required(
-      "descripcion importante para el registro"
-    ),
+      .required(" Por favor seleccione el tipo de correspondencia."),
+    codigo: Yup.string()
+      .required(" Por favor introduzca un código."),
+    nombre: Yup.string()
+      .required(" Por favor introduzca un nombre."),
+    descripcion: Yup.string()
+    .required(" Por favor introduzca una descripción."),
     d_maximos: Yup.number()
       .integer()
       .positive()
-      .required("la respuesta es importante para el tramite"),
+      .required(" Por favor introduzca los días máximos de respuesta."),
     estado: Yup.bool()
       .test(
         "Activo",
-        "Es necesario activar el tipo de tramite",
+        "Es necesario activar el tipo de trámite",
         value => value === true
       )
-      .required("es necesario activar el tipo de tramite"),
+      .required(" Es necesario activar el tipo de trámite."),
     user_enabled: Yup.array().of(
       Yup.object().shape({ id: Yup.number(), name: Yup.string() })
     ),

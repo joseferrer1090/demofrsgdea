@@ -4,7 +4,8 @@ import TipoTercerosForm from './Forms/TipoTercerosForm';
 const dataTipoTercerosForm ={
   codigo:"",
   nombre:"",
-  estado:""
+  estado:"",
+  descripcion:""
 }
 
 const  FormCreateTipoTercero =()=>{

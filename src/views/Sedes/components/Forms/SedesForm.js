@@ -56,7 +56,14 @@ const SedesForm = props => {
                     {" "}
                     <option>--Seleccione-- </option>{" "}
                   </select>
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.inputsCondition && touched.inputsCondition ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="conglomerado" />
+                  </div>
                 </div>
               </Col>
               <Col sm="6">
@@ -77,7 +84,14 @@ const SedesForm = props => {
                   >
                     <option>--seleccione--</option>
                   </select>
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.inputsCondition && touched.inputsCondition ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="empresa" />
+                  </div>
                   {/* <Select
                     className=""
                     value={this.state.selectedOptionEmpresa}
@@ -102,7 +116,14 @@ const SedesForm = props => {
                       touched.codigo &&
                       "is-invalid"}`}
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.codigo && touched.codigo ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="codigo" />
+                  </div>
                 </div>
               </Col>
               <Col sm="6">
@@ -121,7 +142,14 @@ const SedesForm = props => {
                       touched.nombre &&
                       "is-invalid"}`}
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.nombre && touched.nombre ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="nombre" />
+                  </div>
                 </div>
               </Col>
               <Col sm="12">
@@ -158,7 +186,14 @@ const SedesForm = props => {
                     maxLength={"6"}
                     placeholder=" "
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.pre_radicacion && touched.pre_radicacion ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="pre_radicacion" />
+                  </div>
                 </div>
               </Col>
               <Col sm="6">
@@ -179,7 +214,14 @@ const SedesForm = props => {
                       "is-invalid"}`}
                     min={0}
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.sec_radicacion && touched.sec_radicacion ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="sec_radicacion" />
+                  </div>
                 </div>
               </Col>
               <Col sm="12">
@@ -249,7 +291,14 @@ const SedesForm = props => {
                   >
                     <option>--Seleccione--</option>
                   </select>
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.ciudad && touched.ciudad ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="ciudad" />
+                  </div>
                 </div>
               </Col>
               <Col sm="7">
@@ -268,7 +317,14 @@ const SedesForm = props => {
                       touched.direccion &&
                       "is-invalid"}`}
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.direccion && touched.direccion ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="direccion" />
+                  </div>
                 </div>
               </Col>
               <Col sm="5">
@@ -287,7 +343,14 @@ const SedesForm = props => {
                       touched.telefono &&
                       "is-invalid"}`}
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.telefono && touched.telefono ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="telefono" />
+                  </div>
                 </div>
               </Col>
             </Row>
@@ -398,38 +461,38 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     conglomerado: Yup.string()
-      .required("conglomerado requerido")
+      .required(" Por favor seleccione un conglomerado.")
       .ensure(),
     empresa: Yup.string()
-      .required("empresa requerida")
+      .required(" Por favor seleccione una empresa.")
       .ensure(),
     codigo: Yup.string()
-      .required("se requiere codigo")
+      .required(" Por favor introduzca un código.")
       .max(6)
       .min(6),
     nombre: Yup.string()
-      .required("se requiere nombre")
+      .required(" Por favor introduzca un nombre.")
       .min(100)
       .max(100),
     descripcion: Yup.string().max(250),
     pre_radicacion: Yup.string()
-      .required("se requiere asignar un prefijo de radicacion para la sede")
+      .required(" Por favor asigne un prefijo de radicación.")
       .length(6),
     sec_radicacion: Yup.number()
-      .required("se requiere una secuencia de radicacion")
+      .required(" Por favor asigne una secuencia de radicación.")
       .integer()
       .positive(),
     pais: Yup.string().ensure(),
     departamento: Yup.string().ensure(),
-    ciudad: Yup.string().required("se requiere la ciudad para la sede"),
-    direccion: Yup.string().required("direcciones es importante"),
+    ciudad: Yup.string().required(" Por favor seleccione una ciudad."),
+    direccion: Yup.string().required(" Por favor introduzca una dirección."),
     telefono: Yup.string()
       .max(8)
-      .required("telefono requerido para la empresa"),
+      .required(" Por favor introduzca un teléfono."),
     c_responsable: Yup.string().ensure(),
     estado: Yup.bool()
-      .test("Activo", "Es necesario activar la sede", value => value === true)
-      .required("necesario activar la sede")
+      .test("Activo", "Es necesario activar la sede.", value => value === true)
+      .required("Necesario activar la sede.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

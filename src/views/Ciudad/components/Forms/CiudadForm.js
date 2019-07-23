@@ -50,7 +50,14 @@ const CiudadForm = props =>{
                     <option> Seleccione </option>
                     <option value={"1"}>País 1</option>
                   </select>
+                  <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.pais && touched.pais ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                   <ErrorMessage name="pais"/>
+                  </div>
                 </div>
               </div>
               <div className="col-md-6">
@@ -75,7 +82,14 @@ const CiudadForm = props =>{
                   <option value={"2"}> Departamento 2 </option>
                   <option value={"3"}> Departamento 3 </option>
                 </select>
+                <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.departamento && touched.departamento ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                 <ErrorMessage name="departamento"/>
+                </div>
               </div>
             </div>
               <div className="col-md-6">
@@ -95,7 +109,14 @@ const CiudadForm = props =>{
                     placeholder=""
                     value={values.codigo}
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.codigo && touched.codigo ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                   <ErrorMessage name="codigo"/>
+                  </div>
                 </div>
               </div>
               <div className="col-md-6">
@@ -115,7 +136,14 @@ const CiudadForm = props =>{
                     value={values.nombre}
                     placeholder=""
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                    {
+                      errors.nombre && touched.nombre ?
+                      <i class="fa fa-exclamation-triangle"/> :
+                      null
+                    }
                   <ErrorMessage name="nombre"/>
+                  </div>
                 </div>
               </div>
 
@@ -203,11 +231,11 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     codigo: Yup.string()
-      .min(6, "Mínimo son 6 caracteres en el codigo")
-      .max(6, "Máximo son 6 caracteres")
-      .required("Codigo es requerido"),
+      .min(6, " Mínimo 6 caracteres.")
+      .max(6, " Máximo 6 caracteres.")
+      .required(" Por favor introduzca un código."),
     nombre: Yup.string()
-      .required("Nombre es requerido")
+      .required(" Por favor introduzca un nombre.")
       .max(100),
     estado: Yup.bool()
       .test(
@@ -215,13 +243,13 @@ export default withFormik({
         "Es necesario activar la ciudad",
         value => value === true
       )
-      .required("Es necesario activar la ciudad"),
+      .required(" Es necesario activar la ciudad."),
     pais: Yup.string()
       .ensure()
-      .required("País requerido"),
+      .required(" Por favor seleccione un país."),
     departamento: Yup.string()
       .ensure()
-      .required("Departamento requerido"),
+      .required(" Por favor seleccione un departamento."),
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

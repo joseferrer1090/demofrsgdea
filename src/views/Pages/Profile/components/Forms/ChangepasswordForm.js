@@ -121,20 +121,20 @@ export default withFormik({
     old_password: props.changepassword.old_password
   }),
   validationSchema: Yup.object().shape({
-    old_password: Yup.string().required("necesario validar su calve antigua"),
+    old_password: Yup.string().required("Necesario validar su clave antigua."),
     new_password: Yup.string()
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,15}$/, // esta expresion regular valida la contraseña
-        "contraseña no valida, la contraseña debe tener al menos una letra en mayuscula, al menos un digito, no espacio en blanco, al menos un caracter especial"
+        "Contraseña no valida, la contraseña debe tener al menos una letra en mayuscula, al menos un dígito, no acepta espacios en blanco y al menos un carácter especial."
       )
-      .required("es necesario digitar la nueva contraseña")
+      .required("Es necesario digitar la nueva contraseña.")
       .min(8)
       .max(15),
     confirm_password: Yup.string()
-      .oneOf([Yup.ref("new_password"), null], "la contraseña no coincide")
+      .oneOf([Yup.ref("new_password"), null], "La contraseña no coincide.")
       .min(8)
       .max(15)
-      .required("es necesario repetir la contraseña")
+      .required("Es necesario repetir la contraseña.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

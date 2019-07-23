@@ -53,7 +53,14 @@ const EmpresaForm = props => {
                     <option value={"2"}>Conglomerado 2</option>
                     <option value={"3"}>Conglomerado 3</option>
                   </select>
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.conglomerado && touched.conglomerado ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="conglomerado" />
+                  </div>
                 </div>
               </div>
               <div className="col-md-6">
@@ -72,7 +79,14 @@ const EmpresaForm = props => {
                       touched.codigo &&
                       "is-invalid"}`}
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.codigo && touched.codigo ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="codigo" />
+                  </div>
                 </div>
               </div>
               <div className="col-md-6">
@@ -91,7 +105,14 @@ const EmpresaForm = props => {
                       "is-invalid"}`}
                     type="text"
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.nit && touched.nit ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="nit" />
+                  </div>
                 </div>
               </div>
               <div className="col-md-6">
@@ -110,7 +131,14 @@ const EmpresaForm = props => {
                       touched.nombre &&
                       "is-invalid"}`}
                   />
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.nombre && touched.nombre ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
                   <ErrorMessage name="nombre" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -237,18 +265,18 @@ export default withFormik({
   validationSchema: Yup.object().shape({
     conglomerado: Yup.string()
       .ensure()
-      .required("seleccionar conglomerador para la empresa"),
+      .required(" Por favor seleccione un conglomerado."),
     codigo: Yup.string()
-      .required("Codigo requerido")
+      .required(" Por favor introduzca un código.")
       .min(6)
       .max(6),
     nit: Yup.number()
-      .required("asociar nit para la empresa")
-      .positive("nit debe ser positivo")
-      .integer("nit no acepta puntos ni caracteres especiales"),
+      .required(" Por favor introduzca el Nit.")
+      .positive(" Nit debe ser positivo.")
+      .integer(" Nit no acepta puntos, ni caracteres especiales."),
     nombre: Yup.string()
-      .required("nombre requerido")
-      .max(100, "limite para el nombre 100 caracteres"),
+      .required(" Por favor introduzca un nombre.")
+      .max(100, "Máximo 100 caracteres."),
     descripcion: Yup.string().max(250),
     c_responsable: Yup.string().ensure(),
     estado: Yup.bool()
@@ -257,7 +285,7 @@ export default withFormik({
         "Es necesario activar el conglomerado",
         value => value === true
       )
-      .required("se debe aceptar la activacion de la empresa")
+      .required("Se debe aceptar la activacion de la empresa.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

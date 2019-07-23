@@ -45,7 +45,14 @@ const TipoDocumentalRadicacion = props => {
                             <option>Despachada</option>
                             <option>Interna</option>
                           </select>
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.tipo_correspondencia && touched.tipo_correspondencia ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name={"tipo_correspondencia"} />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -63,7 +70,14 @@ const TipoDocumentalRadicacion = props => {
                               touched.codigo &&
                               "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.codigo && touched.codigo ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name={"codigo"} />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -81,7 +95,14 @@ const TipoDocumentalRadicacion = props => {
                               touched.nombre &&
                               "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.nombre && touched.nombre ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name={"nombre"} />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -99,7 +120,14 @@ const TipoDocumentalRadicacion = props => {
                               touched.descripcion &&
                               "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.descripcion && touched.descripcion ?
+                            <i class="fa fa-exclamation-triangle"/> :
+                            null
+                          }
                           <ErrorMessage name={"descripcion"} />
+                          </div>
                         </div>
                       </div>
                       <div className="col-md-12">
@@ -119,7 +147,14 @@ const TipoDocumentalRadicacion = props => {
                               touched.d_maximos_respuesta &&
                               "is-invalid"}`}
                           />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.d_maximos_respuesta && touched.d_maximos_respuesta ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
                           <ErrorMessage name={"d_maximos_respuesta"} />
+                          </div>
                         </div>
                       </div>
                       <Col sm="12">
@@ -398,18 +433,17 @@ export default withFormik({
   validationSchema: Yup.object().shape({
     tipo_correspondencia: Yup.string()
       .ensure()
-      .required("necesario seleccionar el tipo de correspondencia"),
-    codigo: Yup.string().required("codigo necesario"),
-    nombre: Yup.string().required(
-      "necesario el nombre para el tipo documental de radicacion"
-    ),
-    descripcion: Yup.string().required(
-      "necesario la descripcion para el tipo documental de radicacion"
-    ),
+      .required(" Por favor seleccione el tipo de correspondencia."),
+    codigo: Yup.string()
+      .required(" Por favor introduzca un código. "),
+    nombre: Yup.string()
+      .required(" Por favor introduzca un nombre."),
+    descripcion: Yup.string()
+      .required(" Por favor introduzca una descripción."),
     d_maximos_respuesta: Yup.number()
       .positive()
       .integer()
-      .required("se debe asignar el numero de dias"),
+      .required(" Por favor introduzca el número de días de respuesta."),
     estado: Yup.bool().test(
       "Activo",
       "Se necesita activar el tipo documental de radicacion",
@@ -418,7 +452,8 @@ export default withFormik({
     user_enabled: Yup.array().of(
       Yup.object().shape({ id: Yup.number(), name: Yup.string() })
     ),
-    plantilla: Yup.string().notRequired(),
+    plantilla: Yup.string()
+      .notRequired(),
     workflow: Yup.string()
       .ensure()
       .notRequired(),

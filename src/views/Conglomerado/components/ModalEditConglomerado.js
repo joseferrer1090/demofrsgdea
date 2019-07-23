@@ -48,7 +48,7 @@ class ModalEditConglomerado extends React.Component {
               codigo: "",
               nombre: "",
               descripcion: "",
-              estado: ""
+              estado: [""]
             }}
             validate={validation}
             onSubmit={this.handleSubmit}
@@ -131,11 +131,7 @@ class ModalEditConglomerado extends React.Component {
                                   </span>{" "}
                                 </label>
                                 <div className="text-justify ">
-                                  <div className="card">
-                                    <div>
-                                      <pre>Probando aepnas</pre>
-                                    </div>
-                                  </div>
+                                  <CheckBox name="estado" value="probnado" />
                                   <ErrorMessage name="estado" />
                                 </div>
                               </div>
@@ -174,6 +170,34 @@ ModalEditConglomerado.propTypes = {
 };
 
 export default ModalEditConglomerado;
+
+function CheckBox(props) {
+  return (
+    <Field name={props.name}>
+      {({ field, form }) => (
+        <label>
+          <input
+            type="checkbox"
+            {...props}
+            checked={field.value.includes(props.value)}
+            onChange={() => {
+              if (field.value.includes(props.value)) {
+                const nextValue = field.value.filter(
+                  value => value !== props.value
+                );
+                form.setFieldValue(props.name, nextValue);
+              } else {
+                const nextValue = field.value.concat(props.value);
+                form.setFieldValue(props.name, nextValue);
+              }
+            }}
+          />
+          {props.value}
+        </label>
+      )}
+    </Field>
+  );
+}
 
 {
   /* <form className={"form"} onSubmit={this.handleSubmit}>

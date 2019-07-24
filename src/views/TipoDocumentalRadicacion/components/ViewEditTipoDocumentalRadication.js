@@ -1,322 +1,508 @@
-import React, { Component } from "react";
+import React, { Fragment } from "react";
 import { Col, CustomInput } from "reactstrap";
 import PropTypes from "prop-types";
+import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
+import * as Yup from "yup";
 
-class ViewEditTable extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
+class ViewEditTable extends React.Component {
+  state = {
+    tipo_correspondencia: "",
+    codigo: "",
+    nombre: "",
+    descripcion: "",
+    d_maximos_respuesta: "",
+    estado: ""
+  };
+
+  handleSubmit = (values, { props = this.props, setSubmitting }) => {
+    alert(JSON.stringify(values, null, 2));
+    setSubmitting(false);
+    return;
+  };
+
+  componentDidMount() {
+    this.getTipoRadicacionInformation()
   }
+
+  getTipoRadicacionInformation() {
+    fetch(`http://localhost:3001/tipodocumentalradicacion/1`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          tipo_correspondencia: data.tipo_correspondencia,
+          d_maximos_respuesta: data.d_maximos_respuesta,
+          descripcion: data.descripcion,
+          codigo: data.codigo,
+          nombre: data.nombre,
+          estado: data.estado
+        });
+        console.log(this.state);
+      })
+      .catch(error => console.log("Error", error));
+  }
+
   render() {
+    const dataPreview = {
+      tipo_correspondencia: this.state.tipo_correspondencia,
+      d_maximos_respuesta: this.state.d_maximos_respuesta,
+      descripcion: this.state.descripcion,
+      codigo: this.state.codigo,
+      nombre: this.state.nombre,
+      estado: this.state.estado
+    };
     return (
-      <div className="animated fadeIn">
-        <div className="row">
-          <div className="col-md-12">
-            <div className="card">
-              <div className="card-body">
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="card">
+      <Fragment>
+
+                  <Formik
+                    initialValues={dataPreview}
+                    onSubmit={(values, {setSubmitting}) =>{
+                      setTimeout(()=>{
+                        alert(JSON.stringify(values, null, 2));
+                        setSubmitting(false)
+                      },500)
+                    }}
+                    validationSchema={Yup.object().shape({
+                      tipo_correspondencia: Yup.string()
+                      .ensure()
+                      .required(" Por favor seleccione el tipo de correspondencia."),
+                      codigo: Yup.string()
+                        .required(" Por favor introduzca un código. "),
+                      nombre: Yup.string()
+                        .required(" Por favor introduzca un nombre."),
+                      descripcion: Yup.string()
+                        .required(" Por favor introduzca una descripción."),
+                      d_maximos_respuesta: Yup.number()
+                        .positive()
+                        .integer()
+                        .required(" Por favor introduzca el número de días de respuesta."),
+                      estado: Yup.bool()
+                        .test(
+                          "Activado",
+                          "",
+                          value=> value === true
+                        ),
+                    })}
+                  >
+                  {props => {
+                    const {
+                      values,
+                      touched,
+                      errors,
+                      dirty,
+                      isSubmitting,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      handleReset
+                    } = props;
+                    return(
+                      <Fragment>
+                      <div className="animated fadeIn">
+      <div className="row">
+        <div className="col-md-12">
+          <div className="card">
+            <div className="card-body">
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
-                        Información básica
-                      </div>
-                      <div className="card-body">
-                        <form className="form">
-                          <div className="row">
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  Tipo de correspondencia{" "}
-                                  <span className="text-danger">* </span>
-                                </label>
-                                <select className="form-control form-control-sm">
-                                  <option>Recibida</option>
-                                  <option>Despachada</option>
-                                  <option>Interna</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  Código <span className="text-danger">*</span>{" "}
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control form-control-sm"
-                                />
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  Nombre <span className="text-danger">*</span>{" "}
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control form-control-sm"
-                                />
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  Descripción{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <input
-                                  type="text"
-                                  className="form-control form-control-sm"
-                                />
-                              </div>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  Días máximos de respuesta{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <input
-                                  type="number"
-                                  className="form-control form-control-sm"
-                                  min={0}
-                                />
-                              </div>
-                            </div>
-                            <Col sm="12">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  Estado <span className="text-danger">
-                                    *
-                                  </span>{" "}
-                                </label>
-                                <div className=" text-justify">
+                    Información básica
+                  </div>
+                  <div className="card-body">
+                    <form className="form">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label>
+                              Tipo de correspondencia{" "}
+                              <span className="text-danger">* </span>
+                            </label>
+                            <select
+                            name={"tipo_correspondencia"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.tipo_correspondencia}
+                            className={`form-control form-control-sm ${errors.tipo_correspondencia &&
+                              touched.tipo_correspondencia &&
+                              "is-invalid"}`}
+                          >
+                            <option>Seleccione...</option>
+                            <option value={"1"}>Recibida</option>
+                            <option value={"1"}>Despachada</option>
+                            <option value={"1"}>Interna</option>
+                          </select>
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.tipo_correspondencia && touched.tipo_correspondencia ?
+                              <i className="fa fa-exclamation-triangle"/> :
+                              null
+                            }
+                          <ErrorMessage name={"tipo_correspondencia"} />
+                          </div>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label>
+                              Código <span className="text-danger">*</span>{" "}
+                            </label>
+                            <input
+                            name={"codigo"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            values={values.codigo}
+                            type="text"
+                            className={`form-control form-control-sm ${errors.codigo &&
+                              touched.codigo &&
+                              "is-invalid"}`}
+                          />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.codigo && touched.codigo ?
+                              <i className="fa fa-exclamation-triangle"/> :
+                              null
+                            }
+                          <ErrorMessage name={"codigo"} />
+                          </div>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label>
+                              Nombre <span className="text-danger">*</span>{" "}
+                            </label>
+                            <input
+                            type="text"
+                            name={"nombre"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.nombre}
+                            className={`form-control form-control-sm ${errors.nombre &&
+                              touched.nombre &&
+                              "is-invalid"}`}
+                          />
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.nombre && touched.nombre ?
+                            <i className="fa fa-exclamation-triangle"/> :
+                            null
+                          }
+                          <ErrorMessage name={"nombre"} />
+                          </div>
+                          </div>
+                        </div>
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <label>
+                              Descripción{" "}
+                              <span className="text-danger">*</span>{" "}
+                            </label>
+                            <input
+                            name={"descripcion"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.descripcion}
+                            type="text"
+                            className={`form-control form-control-sm ${errors.descripcion &&
+                              touched.descripcion &&
+                              "is-invalid"}`}
+                          />
+                          <div style={{ color: '#D54B4B' }}>
+                          {
+                            errors.descripcion && touched.descripcion ?
+                            <i className="fa fa-exclamation-triangle"/> :
+                            null
+                          }
+                          <ErrorMessage name={"descripcion"} />
+                          </div>
+                          </div>
+                        </div>
+                        <div className="col-md-12">
+                          <div className="form-group">
+                            <label>
+                              {" "}
+                              Días máximos de respuesta{" "}
+                              <span className="text-danger">*</span>{" "}
+                            </label>
+                            <input
+                            name={"d_maximos_respuesta"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.d_maximos_respuesta}
+                            type="number"
+                            min={0}
+                            className={`form-control form-control-sm ${errors.d_maximos_respuesta &&
+                              touched.d_maximos_respuesta &&
+                              "is-invalid"}`}
+                          />
+                          <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.d_maximos_respuesta && touched.d_maximos_respuesta ?
+                              <i class="fa fa-exclamation-triangle"/> :
+                              null
+                            }
+                          <ErrorMessage name={"d_maximos_respuesta"} />
+                          </div>
+                          </div>
+                        </div>
+                        <Col sm="12">
+                          <div className="form-group">
+                            <label>
+                              {" "}
+                              Estado <span className="text-danger">
+                                *
+                              </span>{" "}
+                            </label>
+                            <div className=" text-justify">
+                            <Field
+                            name="estado"
+                              render={({field, form})=>{
+                                return(
                                   <CustomInput
-                                    type="checkbox"
-                                    id="ExampleInputCheckbox"
-                                    label="Si esta opción se encuentra activada, Representa que
-                          el tipo documental de radicacion es visible en el sistema y se podrán
-                           realizar operaciones entre cada uno de los módulos
-                           correspondientes de la aplicación. En caso contrario
-                           la sede no se elimina del sistema solo quedará
-                           inactiva e invisibles para cada uno de los módulos
-                           correspondiente del sistema."
-                                  />
-                                </div>
-                                {/* <p
-                          className="text-muted"
-                          style={{ textAlign: "justify" }}
-                        >
-                          {" "}
-                          Si esta opción se encuentra activada, Representa que
-                          la sede es visible en el sistema y se podrán
-                          realizar operaciones entre cada uno de los módulos
-                          correspondientes de la aplicación. En caso contrario
-                          la sede no se elimina del sistema solo quedará
-                          inactiva e invisibles para cada uno de los módulos
-                          correspondiente del sistema.
-                        </p> */}
-                              </div>
-                            </Col>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="card">
-                      <div className="p-2 mb-1 bg-light text-dark">
-                        Usuarios disponibles
-                      </div>
-                      <div className="card-body">
-                        <form>
-                          <div className="row">
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label> Conglomerado </label>
-                                <select className="form-control form-control-sm">
-                                  <option>Seleccione</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>Empresa </label>
-                                <select className="form-control form-control-sm">
-                                  <option>Seleccione</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label> Sede </label>
-                                <select className="form-control form-control-sm">
-                                  <option>Seleccione</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label> Dependencia </label>
-                                <select className="form-control form-control-sm">
-                                  <option>Seleccione</option>
-                                </select>
-                              </div>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label> Buscar usuario </label>
-                                <div className="input-group input-group-sm">
-                                  <input
-                                    type="text"
-                                    className="form-control form-control-sm"
-                                    aria-label="Dollar amount (with dot and two decimal places)"
-                                  />
-                                  <div
-                                    className="input-group-append"
-                                    id="button-addon4"
-                                  >
-                                    <button
-                                      className="btn btn-secondary"
-                                      type="button"
-                                    >
-                                      <i className="fa fa-search" />
-                                    </button>
-                                    <button
-                                      className="btn btn-secondary"
-                                      type="button"
-                                    >
-                                      <i className="fa fa-plus" /> Agregar
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-                              <textarea
-                                className="form-control form-control-sm"
-                                placeholder="Usuarios ya seleccionado"
-                                rows={8}
-                                disabled
+                                type="checkbox"
+                                id="ExampleInputCheckbox"
+                                label="Si esta opción se encuentra activada, Representa que
+                                el tipo documental de radicacion es visible en el sistema y se podrán
+                                realizar operaciones entre cada uno de los módulos
+                                correspondientes de la aplicación. En caso contrario
+                                la sede no se elimina del sistema solo quedará
+                                inactiva e invisibles para cada uno de los módulos
+                                correspondiente del sistema."
+                                {...field}
+                                checked={field.value}
+                                className={
+                                  errors.estado &&
+                                  touched.estado &&
+                                  "invalid-feedback"
+                                }
                               />
+                                );
+                              }}
+                            />
+                              <ErrorMessage name="estado"/>
                             </div>
+                            {/* <p
+                      className="text-muted"
+                      style={{ textAlign: "justify" }}
+                    >
+                      {" "}
+                      Si esta opción se encuentra activada, Representa que
+                      la sede es visible en el sistema y se podrán
+                      realizar operaciones entre cada uno de los módulos
+                      correspondientes de la aplicación. En caso contrario
+                      la sede no se elimina del sistema solo quedará
+                      inactiva e invisibles para cada uno de los módulos
+                      correspondiente del sistema.
+                    </p> */}
                           </div>
-                        </form>
+                        </Col>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <div className="card">
-                      <div className="p-2 mb-1 bg-light text-dark">
-                        Usuarios disponibles
-                      </div>
-                      <div className="card-body">
-                        <form>
-                          <div className="row">
-                            <div className="col-md-12">
-                              <table className="table table-bordered table-sm">
-                                <thead className="thead-light">
-                                  <tr className="text-center">
-                                    <th scope="col">Usuario</th>
-                                    <th scope="col">Sede</th>
-                                    <th scope="col">Dependencia</th>
-                                    <th scope="col">Original</th>
-                                    <th scope="col">Eliminar</th>
-                                  </tr>
-                                </thead>
-                                <tbody className="text-center">
-                                  <tr>
-                                    <td scope="row">
-                                      NOMBRE COMPLETO DEL USUARIO
-                                    </td>
-                                    <td>SEDE I</td>
-                                    <td>DEPENDENCIA I</td>
-                                    <td>
-                                      <CustomInput
-                                        type="radio"
-                                        id="exampleCustomCheckbox2"
-                                      />{" "}
-                                    </td>
-                                    <td>
-                                      {" "}
-                                      <button
-                                        type="button"
-                                        className="btn btn-sm btn-danger"
-                                      >
-                                        <i className="fa fa-trash" />
-                                      </button>{" "}
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
+              </div>
+              <div className="col-md-6">
+                  <div className="card">
+                    <div className="p-2 mb-1 bg-light text-dark">
+                      Usuarios disponibles
+                    </div>
+                    <div className="card-body">
+                      <form>
+                        <div className="row">
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label> Conglomerado </label>
+                              <select className="form-control form-control-sm">
+                                <option>Seleccione</option>
+                              </select>
                             </div>
                           </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="card">
-                      <div className="p-2 mb-1 bg-light text-dark">Asunto</div>
-                      <div className="card-body">
-                        <form>
-                          <div className="row">
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>Asunto</label>
-                                <textarea
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label>Empresa </label>
+                              <select className="form-control form-control-sm">
+                                <option>Seleccione</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label> Sede </label>
+                              <select className="form-control form-control-sm">
+                                <option>Seleccione</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label> Dependencia </label>
+                              <select className="form-control form-control-sm">
+                                <option>Seleccione</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label> Buscar usuario </label>
+                              <div className="input-group input-group-sm">
+                                <input
+                                  type="text"
                                   className="form-control form-control-sm"
-                                  placeholder="Asunto ya cargado"
+                                  aria-label="Dollar amount (with dot and two decimal places)"
                                 />
+                                <div
+                                  className="input-group-append"
+                                  id="button-addon4"
+                                >
+                                  <button
+                                    className="btn btn-secondary"
+                                    type="button"
+                                  >
+                                    <i className="fa fa-search" />
+                                  </button>
+                                  <button
+                                    className="btn btn-secondary"
+                                    type="button"
+                                  >
+                                    <i className="fa fa-plus" /> Agregar
+                                  </button>
+                                </div>
                               </div>
                             </div>
+                            <textarea
+                              className="form-control form-control-sm"
+                              placeholder="Usuarios ya seleccionado"
+                              rows={8}
+                              disabled
+                            />
                           </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="card">
-                      <div className="p-2 mb-1 bg-light text-dark">
-                        Workflow
-                      </div>
-                      <div className="card-body">
-                        <form>
-                          <div className="row">
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>Asunto</label>
-                                <select className="form-control form-control-sm">
-                                  <option>Seleccione</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
+                        </div>
+                      </form>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="card-footer">
-                <div className="float-right">
-                  <button
-                    type="button"
-                    className="btn btn-outline-success btn-sm"
-                  >
-                    {" "}
-                    <i className="fa fa-pencil" /> Actualizar{" "}
-                  </button>
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="card">
+                    <div className="p-2 mb-1 bg-light text-dark">
+                      Usuarios disponibles
+                    </div>
+                    <div className="card-body">
+                      <form>
+                        <div className="row">
+                          <div className="col-md-12">
+                            <table className="table table-bordered table-sm">
+                              <thead className="thead-light">
+                                <tr className="text-center">
+                                  <th scope="col">Usuario</th>
+                                  <th scope="col">Sede</th>
+                                  <th scope="col">Dependencia</th>
+                                  <th scope="col">Original</th>
+                                  <th scope="col">Eliminar</th>
+                                </tr>
+                              </thead>
+                              <tbody className="text-center">
+                                <tr>
+                                  <td scope="row">
+                                    NOMBRE COMPLETO DEL USUARIO
+                                  </td>
+                                  <td>SEDE I</td>
+                                  <td>DEPENDENCIA I</td>
+                                  <td>
+                                    <CustomInput
+                                      type="radio"
+                                      id="exampleCustomCheckbox2"
+                                    />{" "}
+                                  </td>
+                                  <td>
+                                    {" "}
+                                    <button
+                                      type="button"
+                                      className="btn btn-sm btn-danger"
+                                    >
+                                      <i className="fa fa-trash" />
+                                    </button>{" "}
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="card">
+                    <div className="p-2 mb-1 bg-light text-dark">Asunto</div>
+                    <div className="card-body">
+                      <form>
+                        <div className="row">
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label>Asunto</label>
+                              <textarea
+                                className="form-control form-control-sm"
+                                placeholder="Asunto ya cargado"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="card">
+                    <div className="p-2 mb-1 bg-light text-dark">
+                      Workflow
+                    </div>
+                    <div className="card-body">
+                      <form>
+                        <div className="row">
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label>Asunto</label>
+                              <select className="form-control form-control-sm">
+                                <option>Seleccione</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="card-footer">
+              <div className="float-right">
+                <button
+                  type="button"
+                  className="btn btn-outline-success btn-sm"
+                  onClick={e=>{
+                    e.preventDefault();
+                    handleSubmit();
+                  }}
+                >
+                  {" "}
+                  <i className="fa fa-pencil" /> Actualizar{" "}
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    </Fragment>
+    );
+      }}
+      </Formik>
+      </Fragment>
     );
   }
 }

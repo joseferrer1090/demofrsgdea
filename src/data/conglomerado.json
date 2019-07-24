@@ -55,5 +55,16 @@
       "nombre": "Colombia",
       "estado": false
     }
+  ],
+  "tipodocumentalradicacion": [
+    {
+      "id": 1,
+      "tipo_correspondencia": "",
+      "codigo": 1109,
+      "nombre": "Nombre",
+      "descripcion": "La descripción",
+      "d_maximos_respuesta": 8,
+      "estado": true
+    }
   ]
 }

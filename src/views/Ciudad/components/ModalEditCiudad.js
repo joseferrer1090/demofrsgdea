@@ -16,8 +16,8 @@ import * as Yup from "yup";
 class ModalEditCiudad extends React.Component {
     state = {
       modal: this.props.modaledit,
-      pais:"1",
-      departamento:"1",
+      pais:"",
+      departamento:"",
       codigo:"",
       nombre:"",
       estado:""

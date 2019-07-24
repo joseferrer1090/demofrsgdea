@@ -85,5 +85,19 @@
       "descripcion": "Descripción",
       "estado": true
     }
+  ],
+  "grupos": [
+    {
+      "id": 1,
+      "codigo": 111111,
+      "nombre": "Grupo 1",
+      "descripcion": "La descripción",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "roles": "",
+      "estado": true
+    }
   ]
 }

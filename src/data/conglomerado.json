@@ -38,5 +38,14 @@
       "nombre": "Bogotá",
       "estado": true
     }
+  ],
+  "departamento": [
+    {
+      "id": 1,
+      "pais": "",
+      "codigo": 110111,
+      "nombre": "Cundinamarca",
+      "estado": true
+    }
   ]
 }

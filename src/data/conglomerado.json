@@ -28,5 +28,15 @@
       "descripcion": "Este conglomerado es de prueba del proyecto 4",
       "estado": false
     }
+  ],
+  "ciudad": [
+    {
+      "id": 1,
+      "pais": "",
+      "departamento": "",
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "estado": true
+    }
   ]
 }

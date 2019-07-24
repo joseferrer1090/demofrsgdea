@@ -99,5 +99,14 @@
       "roles": "",
       "estado": true
     }
+  ],
+  "roles": [
+    {
+      "id": 1,
+      "codigo": 132456,
+      "nombre": "Nombre",
+      "descripcion": "",
+      "estado": true
+    }
   ]
 }

@@ -47,5 +47,13 @@
       "nombre": "Cundinamarca",
       "estado": true
     }
+  ],
+  "pais": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Colombia",
+      "estado": false
+    }
   ]
 }

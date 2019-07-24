@@ -66,5 +66,24 @@
       "d_maximos_respuesta": 8,
       "estado": true
     }
+  ],
+  "terceros": [
+    {
+      "id": 1,
+      "tipo_tercero": "",
+      "elemento_comunicacion": "",
+      "identificacion": 1007647968,
+      "nombre": "Cristian Cuartas",
+      "email": "cristianhz1109@gmail.com",
+      "telefono_fijo": 6088257,
+      "telefono_celular": 313118257,
+      "direccion": "Calle 27a Sur # 22-05",
+      "pais": "",
+      "departamento": "",
+      "ciudad": "",
+      "referencia": "Referencia",
+      "descripcion": "Descripción",
+      "estado": true
+    }
   ]
 }

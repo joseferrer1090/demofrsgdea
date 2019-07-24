@@ -215,9 +215,21 @@ class ModalEditConglomerado extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="conglomeradoModalEdit"
-                                          label="Check this custom checkbox"
+                                          label="Si esta opción se encuentra activada, representa
+                                          que el conglomerado es visible en el sistema y se
+                                          podrán realizar operaciones entre cada uno de los
+                                          módulos correspondientes de la aplicación. En caso
+                                          contrario el conglomerado no se elimina del
+                                          sistema solo quedará inactivo e invisibles para
+                                          cada uno de los módulos correspondiente del
+                                          sistema."
                                           {...field}
                                           checked={field.value}
+                                          className={
+                                            errors.estado &&
+                                            touched.estado &&
+                                            "invalid-feedback"
+                                          }
                                         />
                                       );
                                     }}
@@ -248,12 +260,13 @@ class ModalEditConglomerado extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
+                      className={"btn btn-outline-success btn-sm"}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                     >
-                      Submit
+                      <i className="fa fa-pencil" /> Actualizar conglomerado
                     </button>
                     <button
                       className={"btn btn-outline-secondary btn-sm"}
@@ -281,17 +294,17 @@ ModalEditConglomerado.propTypes = {
 
 export default ModalEditConglomerado;
 
-function CheckBox(props) {
-  return (
-    <Field
-      {...props}
-      render={({ field, form }) => {
-        // console.log("field", field);
-        return <input type="checkbox" checked={field.value} {...field} />;
-      }}
-    />
-  );
-}
+// function CheckBox(props) {
+//   return (
+//     <Field
+//       {...props}
+//       render={({ field, form }) => {
+//         // console.log("field", field);
+//         return <input type="checkbox" checked={field.value} {...field} />;
+//       }}
+//     />
+//   );
+// }
 
 {
   /* <form className={"form"} onSubmit={this.handleSubmit}>

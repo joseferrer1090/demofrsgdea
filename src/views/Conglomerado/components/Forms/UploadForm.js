@@ -18,6 +18,8 @@ const UploadForm = props => {
     setFieldValue
   } = props;
 
+  console.log(props);
+
   return (
     <Fragment>
       <Row>
@@ -82,7 +84,12 @@ const UploadForm = props => {
                           touched.separador &&
                           "is-invalid"}`}
                       />
-                      <ErrorMessage name={"separador"} />
+                      <div className="" style={{ color: "#D54B4B" }}>
+                        {errors.separador && touched.separador ? (
+                          <i class="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="separador" />
+                      </div>
                     </div>
                   </div>
                   <div className="col-md-6">
@@ -129,7 +136,12 @@ const UploadForm = props => {
                           touched.archivo &&
                           "is-invalid"}`}
                       />
-                      <ErrorMessage name={"archivo"} />
+                      <div className="" style={{ color: "#D54B4B" }}>
+                        {errors.archivo && touched.archivo ? (
+                          <i class="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="archivo" />
+                      </div>
                       {/* <input
                            id="real-file"
                            type="file"
@@ -172,6 +184,10 @@ const UploadForm = props => {
               file={values.archivo}
               estilos={"table table-striped table-hover table-bordered"}
             />
+            {/* <PreviewFile
+              file={values.archivo}
+              estilos={"table table-striped table-hover table-bordered"}
+            /> */}
             {/* <CsvToHtmlTable
               data={}
               csvDelimiter=","
@@ -198,7 +214,7 @@ export default withFormik({
       .test("fileType", "extension no soportada", value =>
         ["application/vnd.ms-excel", "text/csv"].includes(value.type)
       )
-      .nullable()
+      .required()
     // Yup.addMethod(Yup.array, "archivo", file => {
     //    console.log(file.size);
     //     return "this is not file valid";
@@ -269,8 +285,11 @@ class PreviewFile extends React.Component {
       return <p>loading...</p>;
     }
 
-    console.log(thumb.toString());
+    // console.log(thumb.toString());
+    console.log(file.type);
 
     return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
   }
 }
+
+//<CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />

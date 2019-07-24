@@ -49,7 +49,12 @@ const ConglomeradorForm = props => {
                     placeholder=""
                     value={values.codigo}
                   />
-                  <ErrorMessage name="codigo" />
+                  <div className="" style={{ color: "#D54B4B" }}>
+                    {errors.codigo && touched.codigo ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="codigo" />
+                  </div>
                 </div>
               </div>
               <div className="col-md-6">
@@ -69,7 +74,12 @@ const ConglomeradorForm = props => {
                     value={values.nombre}
                     placeholder=""
                   />
-                  <ErrorMessage name="nombre" />
+                  <div className="" style={{ color: "#D54B4B" }}>
+                    {errors.nombre && touched.nombre ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="nombre" />
+                  </div>{" "}
                 </div>
               </div>
             </div>
@@ -85,7 +95,12 @@ const ConglomeradorForm = props => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  <ErrorMessage name="descripcion" />
+                  <div className="" style={{ color: "#D54B4B" }}>
+                    {errors.descripcion && touched.descripcion ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="descripcion" />
+                  </div>
                 </div>
               </div>
             </div>

@@ -52,7 +52,7 @@ const FormPais = props =>{
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.codigo && touched.codigo ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="codigo"/>
@@ -79,7 +79,7 @@ const FormPais = props =>{
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.nombre && touched.nombre ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="nombre"/>

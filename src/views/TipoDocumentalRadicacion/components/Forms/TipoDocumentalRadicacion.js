@@ -48,7 +48,7 @@ const TipoDocumentalRadicacion = props => {
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.tipo_correspondencia && touched.tipo_correspondencia ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name={"tipo_correspondencia"} />
@@ -73,7 +73,7 @@ const TipoDocumentalRadicacion = props => {
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.codigo && touched.codigo ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name={"codigo"} />
@@ -98,7 +98,7 @@ const TipoDocumentalRadicacion = props => {
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.nombre && touched.nombre ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name={"nombre"} />
@@ -123,7 +123,7 @@ const TipoDocumentalRadicacion = props => {
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.descripcion && touched.descripcion ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name={"descripcion"} />
@@ -150,7 +150,7 @@ const TipoDocumentalRadicacion = props => {
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.d_maximos_respuesta && touched.d_maximos_respuesta ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name={"d_maximos_respuesta"} />

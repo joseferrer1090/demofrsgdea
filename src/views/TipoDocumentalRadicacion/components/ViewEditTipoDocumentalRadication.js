@@ -239,7 +239,7 @@ class ViewEditTable extends React.Component {
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.d_maximos_respuesta && touched.d_maximos_respuesta ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name={"d_maximos_respuesta"} />

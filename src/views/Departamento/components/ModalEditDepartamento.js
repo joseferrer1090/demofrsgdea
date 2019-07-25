@@ -138,7 +138,7 @@ class ModalEditDepartamento extends React.Component {
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.pais && touched.pais ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                             <ErrorMessage name="pais"/>
@@ -162,7 +162,7 @@ class ModalEditDepartamento extends React.Component {
                             <div style={{ color: '#D54B4B' }}>
                                   {
                                     errors.codigo && touched.codigo ?
-                                    <i class="fa fa-exclamation-triangle"/> :
+                                    <i className="fa fa-exclamation-triangle"/> :
                                     null
                                   }
                           <ErrorMessage name="codigo"/>
@@ -187,7 +187,7 @@ class ModalEditDepartamento extends React.Component {
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.nombre && touched.nombre ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name="nombre"/>

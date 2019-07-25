@@ -196,7 +196,7 @@ class ModalEditPais extends React.Component {
                     <div style={{ color: '#D54B4B' }}>
                       {
                         errors.codigo && touched.codigo ?
-                        <i class="fa fa-exclamation-triangle"/> :
+                        <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
                     <ErrorMessage name="codigo" />
@@ -222,7 +222,7 @@ class ModalEditPais extends React.Component {
                     <div style={{ color: '#D54B4B' }}>
                       {
                         errors.nombre && touched.nombre ?
-                        <i class="fa fa-exclamation-triangle"/> :
+                        <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
                     <ErrorMessage name="nombre" />
@@ -243,7 +243,7 @@ class ModalEditPais extends React.Component {
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.descripcion && touched.descripcion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="descripcion" />
@@ -284,7 +284,7 @@ class ModalEditPais extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                       {
                         errors.conglomerado && touched.conglomerado ?
-                        <i class="fa fa-exclamation-triangle"/> :
+                        <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
                       <ErrorMessage name="conglomerado" />
@@ -316,7 +316,7 @@ class ModalEditPais extends React.Component {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.empresa && touched.empresa ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="empresa"/>
@@ -349,7 +349,7 @@ class ModalEditPais extends React.Component {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.sede && touched.sede ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="sede"/>
@@ -381,7 +381,7 @@ class ModalEditPais extends React.Component {
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.dependencia && touched.dependencia ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name ="dependencia"/>
@@ -441,7 +441,7 @@ class ModalEditPais extends React.Component {
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.roles && touched.roles ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                             <ErrorMessage name={"roles"} />

@@ -108,7 +108,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.identificacion && touched.identificacion ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="identificacion" />
@@ -134,7 +134,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.nombre && touched.nombre ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="nombre" />
@@ -162,7 +162,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.email && touched.email ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="email" />
@@ -188,7 +188,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.telefono && touched.telefono ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="telefono" />
@@ -253,7 +253,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.conglomerado && touched.conglomerado ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="conglomerado" />
@@ -282,7 +282,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.empresa && touched.empresa ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="empresa" />
@@ -311,7 +311,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.sede && touched.sede ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name={"sede"} />
@@ -347,7 +347,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.dependencia && touched.dependencia ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="dependencia" />
@@ -381,7 +381,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.cargo && touched.cargo ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="cargo" />
@@ -415,7 +415,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.username && touched.username ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="username" />
@@ -443,7 +443,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.password && touched.password ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="password" />
@@ -470,7 +470,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.confirm_password && touched.confirm_password ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="confirm_password" />
@@ -498,7 +498,7 @@ const UserForm = props => {
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.roles && touched.roles ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                             <ErrorMessage name={"roles"} />

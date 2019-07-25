@@ -50,7 +50,7 @@ const TipoTramite = props => {
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.t_correspondencia && touched.t_correspondencia ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name={"t_correspondencia"} />
@@ -75,7 +75,7 @@ const TipoTramite = props => {
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.codigo && touched.codigo ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name={"codigo"} />
@@ -100,7 +100,7 @@ const TipoTramite = props => {
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.nombre && touched.nombre ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name={"nombre"} />
@@ -125,7 +125,7 @@ const TipoTramite = props => {
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.descripcion && touched.descripcion ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name={"descripcion"} />
@@ -152,7 +152,7 @@ const TipoTramite = props => {
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.d_maximos && touched.d_maximos ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name={"d_maximos"} />

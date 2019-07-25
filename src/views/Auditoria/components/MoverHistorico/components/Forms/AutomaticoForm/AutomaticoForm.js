@@ -78,7 +78,7 @@ const AutomaticoForm = props =>{
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.fechaDesde && touched.fechaDesde ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="fechaDesde"/>
@@ -105,7 +105,7 @@ const AutomaticoForm = props =>{
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.fechaHasta && touched.fechaHasta ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="fechaHasta"/>
@@ -138,7 +138,7 @@ const AutomaticoForm = props =>{
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.operacion && touched.operacion ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="operacion"/>
@@ -167,7 +167,7 @@ const AutomaticoForm = props =>{
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.modulo && touched.modulo ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="modulo"/>
@@ -195,7 +195,7 @@ const AutomaticoForm = props =>{
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.entidad && touched.entidad ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="entidad"/>
@@ -224,7 +224,7 @@ const AutomaticoForm = props =>{
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.accion && touched.accion ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="accion"/>
@@ -263,7 +263,7 @@ const AutomaticoForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.periodo && touched.periodo ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name="periodo"/>
@@ -291,7 +291,7 @@ const AutomaticoForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.hora && touched.hora ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name="hora"/>
@@ -326,7 +326,7 @@ const AutomaticoForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.diaSemana && touched.diaSemana ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name="diaSemana"/>
@@ -358,7 +358,7 @@ const AutomaticoForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.diaMes && touched.diaMes ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name="diaMes"/>
@@ -399,7 +399,7 @@ const AutomaticoForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.mes && touched.mes ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name="mes"/>
@@ -443,7 +443,7 @@ const AutomaticoForm = props =>{
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.inputsCondition && touched.inputsCondition ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                             <ErrorMessage name="inputsCondition" />

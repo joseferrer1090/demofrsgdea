@@ -159,5 +159,14 @@
       "descripcion": "La descripción",
       "estado": true
     }
+  ],
+  "mensajero": [
+    {
+      "id": 1,
+      "identificacion": 1007647968,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción",
+      "estado": true
+    }
   ]
 }

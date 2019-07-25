@@ -27,8 +27,19 @@ const dataConglomeradoExample = [
 class ModalEditEmpresa extends React.Component {
   state = {
     modal: this.props.modaleditempresa,
-    selectedOptionUpdateConglomerado: null
+    selectedOptionUpdateConglomerado: null,
+    conglomerado: "",
+    codigo: "",
+    nit: "",
+    nombre: "",
+    descripcion: "",
+    cargo_responsable: "",
+    estado: ""
   };
+
+  componentDidMount() {
+    this.getEmpresaData();
+  }
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
@@ -37,6 +48,23 @@ class ModalEditEmpresa extends React.Component {
   handleChangeSelectedOptionUpdateConglomerado = selectedOptionUpdateConglomerado => {
     this.setState({ selectedOptionUpdateConglomerado });
     console.log(`Option selected:`, selectedOptionUpdateConglomerado);
+  };
+
+  getEmpresaData = () => {
+    fetch("http://localhost:3001/empresa")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          conglomerado: data.conglomerado,
+          codigo: data.codigo,
+          nit: data.nit,
+          nombre: data.nombre,
+          descripcion: data.descripcion,
+          cargo_responsable: data.cargo_responsable,
+          estado: data.estado
+        });
+      })
+      .catch(error => console.log(error));
   };
 
   render() {
@@ -178,12 +206,12 @@ class ModalEditEmpresa extends React.Component {
             </Row>
           </ModalBody>
           <ModalFooter>
-            <button className="btn btn-outline-success">
+            <button className="btn btn-outline-success btn-sm">
               {" "}
               <i className="fa fa-pencil" /> Actualizar
             </button>
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

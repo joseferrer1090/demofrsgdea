@@ -226,7 +226,6 @@ class ModalEditRoles extends React.Component {
                       }
                       />
                       );
-
                     }}
                   />
                     <ErrorMessage name="estado"/>

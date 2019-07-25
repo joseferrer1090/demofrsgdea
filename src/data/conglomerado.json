@@ -108,5 +108,14 @@
       "descripcion": "",
       "estado": true
     }
+  ],
+  "tipoterceros": [
+    {
+      "id": 1,
+      "codigo": 123456,
+      "nombre": "Nombre del tecero",
+      "descripcion": "La descripción",
+      "estado": false
+    }
   ]
 }

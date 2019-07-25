@@ -1,0 +1,44 @@
+{
+  "empresa": [
+    {
+      "id": 1,
+      "conglomerado": "conglomerado 1",
+      "codigo": 123654,
+      "nit": 123654789,
+      "nombre": "Empresa 1",
+      "descripcion": "Empresa de prueba 1",
+      "cargo_responsable": "nombre_cargo1",
+      "estado": true
+    },
+    {
+      "id": 2,
+      "conglomerado": "conglomerado 2",
+      "codigo": 125489,
+      "nit": 987856,
+      "nombre": "Empresa 2",
+      "descripcion": "Empresa de prueba 2",
+      "cargo_responsable": "nombre_cargo2",
+      "estado": false
+    },
+    {
+      "id": 3,
+      "conglomerado": "conglomerado 3",
+      "codigo": 856497,
+      "nit": 85791352,
+      "nombre": "Empresa 3",
+      "descripcion": "Empresa de prueba 3",
+      "cargo_responsable": "nombre_cargo3",
+      "estado": true
+    },
+    {
+      "id": 4,
+      "conglomerado": "conglomerado 3",
+      "codigo": 7954631,
+      "nit": 7956431,
+      "nombre": "Empresa 4",
+      "descripcion": "Empresa de prueba 4",
+      "cargo_responsable": "nombre_cargo4",
+      "estado": false
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import {
   Row,
@@ -13,9 +13,9 @@ import {
   CardFooter,
   CustomInput
 } from "reactstrap";
-
+import { Formik, withFormik, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import IMGEMPRESA from "./../../../assets/img/company.svg";
-
 import Select from "react-select";
 
 const dataConglomeradoExample = [
@@ -24,14 +24,11 @@ const dataConglomeradoExample = [
   { value: "3", label: "Conglomerado 3" }
 ];
 
-class ModalEditEmpresa extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: this.props.modaleditempresa,
-      selectedOptionUpdateConglomerado: null
-    };
-  }
+class ModalEditEmpresa extends React.Component {
+  state = {
+    modal: this.props.modaleditempresa,
+    selectedOptionUpdateConglomerado: null
+  };
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
@@ -45,7 +42,7 @@ class ModalEditEmpresa extends Component {
   render() {
     const { selectedOptionUpdateConglomerado } = this.state;
     return (
-      <div>
+      <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar empresa </ModalHeader>
           <ModalBody>
@@ -64,31 +61,47 @@ class ModalEditEmpresa extends Component {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
-                    <dl className="param">
-
-                          Conglomerado <span className="text-danger">*</span>{" "}
-
+                      <dl className="param">
+                        Conglomerado <span className="text-danger">*</span>{" "}
                         <dd>
                           {" "}
-                          <Select
+                          <select className="form-control form-control-sm">
+                            <option>seleccione conglomerado</option>
+                          </select>
+                          {/* <Select
                             onChange={
                               this.handleChangeSelectedOptionUpdateConglomerado
                             }
                             value={this.selectedOptionUpdateConglomerado}
                             options={dataConglomeradoExample}
+                          /> */}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        Código <span className="text-danger">*</span>{" "}
+                        <dd>
+                          <input
+                            type="text"
+                            className="form-control form-control form-control-sm"
                           />
                         </dd>
-</dl>
+                      </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-
-                          Código <span className="text-danger">*</span>{" "}
-
+                        Nit <span className="text-danger">*</span>{" "}
                         <dd>
-                          <input type="text" className="form-control" />
+                          {" "}
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />{" "}
                         </dd>
                       </dl>
                     </div>
@@ -96,25 +109,13 @@ class ModalEditEmpresa extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-
-                          Nit <span className="text-danger">*</span>{" "}
-
+                        Nombre<span className="text-danger">*</span>{" "}
                         <dd>
                           {" "}
-                          <input type="text" className="form-control" />{" "}
-                        </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-
-                          Nombre<span className="text-danger">*</span>{" "}
-
-                        <dd>
-                          {" "}
-                          <input type="text" className="form-control" />{" "}
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />{" "}
                         </dd>
                       </dl>
                     </div>
@@ -132,17 +133,16 @@ class ModalEditEmpresa extends Component {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label> Descripción </label>
-                          <input type="text" className="form-control" />
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                          />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>
-                            {" "}
-                            Cargo responsable{" "}
-
-                          </label>
-                          <select className="form-control form-control-md">
+                          <label> Cargo responsable </label>
+                          <select className="form-control form-control-sm">
                             {" "}
                             <option> Seleccione... </option>{" "}
                           </select>
@@ -151,17 +151,15 @@ class ModalEditEmpresa extends Component {
 
                       <div className="col-md-12">
                         <div className="form-group">
-                        <label>
-                        {" "}
-                        Estado <span className="text-danger">
-                          *
-                        </span>{" "}
-                      </label>
-                      <div className="text-justify">
-                        <CustomInput
-                          type="checkbox"
-                          id="CheckEditEmpresa"
-                          label="Si esta opción se encuentra activada,
+                          <label>
+                            {" "}
+                            Estado <span className="text-danger">*</span>{" "}
+                          </label>
+                          <div className="text-justify">
+                            <CustomInput
+                              type="checkbox"
+                              id="CheckEditEmpresa"
+                              label="Si esta opción se encuentra activada,
                           Representa que la empresa es visible en el
                           sistema y se podrán realizar operaciones entre
                           cada uno de los módulos correspondientes de la
@@ -169,11 +167,11 @@ class ModalEditEmpresa extends Component {
                           elimina del sistema solo quedará inactiva e
                           invisibles para cada uno de los módulos
                           correspondiente del sistema."
-                        />
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
-</div>
                   </CardBody>
                 </Card>
               </Col>
@@ -194,7 +192,7 @@ class ModalEditEmpresa extends Component {
             </button>
           </ModalFooter>
         </Modal>
-      </div>
+      </Fragment>
     );
   }
 }

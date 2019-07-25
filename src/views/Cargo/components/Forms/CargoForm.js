@@ -42,7 +42,7 @@ const CargoForm = props => {
                   </p>
                   <select
                     name={"conglomerado"}
-                    onChang={handleChange}
+                    onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.conglomerado_id}
                     className={`form-control form-control-sm ${errors.conglomerado &&

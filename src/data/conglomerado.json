@@ -168,5 +168,22 @@
       "descripcion": "La descripción",
       "estado": true
     }
+  ],
+  "cargo": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción",
+      "estado": true,
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "conglomerado_responsable": true,
+      "empresa_responsable": true,
+      "sede_responsable": true,
+      "dependencia_responsable": true
+    }
   ]
 }

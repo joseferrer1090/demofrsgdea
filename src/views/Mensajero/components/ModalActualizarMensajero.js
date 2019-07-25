@@ -136,7 +136,7 @@ class ModalActualizarMensajero extends React.Component {
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.identificacion && touched.identificacion ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="identificacion" />
@@ -166,7 +166,7 @@ class ModalActualizarMensajero extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                       {
                         errors.nombre && touched.nombre ?
-                        <i class="fa fa-exclamation-triangle"/> :
+                        <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
                       <ErrorMessage name="nombre" />

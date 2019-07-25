@@ -235,7 +235,7 @@ class ModalUpdateRemitente extends React.Component {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.tipo_tercero && touched.tipo_tercero ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="tipo_tercero"/>
@@ -266,7 +266,7 @@ class ModalUpdateRemitente extends React.Component {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.elemento_comunicacion && touched.elemento_comunicacion ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="elemento_comunicacion"/>
@@ -289,7 +289,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.identificacion && touched.identificacion ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="identificacion"/>
@@ -312,7 +312,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.nombre && touched.nombre ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="nombre"/>
@@ -335,7 +335,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.email && touched.email ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="email"/>
@@ -378,7 +378,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.telefono_fijo && touched.telefono_fijo ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="telefono_fijo"/>
@@ -401,7 +401,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.telefono_celular && touched.telefono_celular ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="telefono_celular"/>
@@ -424,7 +424,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.direccion && touched.direccion ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="direccion"/>
@@ -452,7 +452,7 @@ class ModalUpdateRemitente extends React.Component {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.pais && touched.pais ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="pais"/>
@@ -481,7 +481,7 @@ class ModalUpdateRemitente extends React.Component {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.departamento && touched.departamento ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="departamento"/>
@@ -508,7 +508,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.ciudad && touched.ciudad ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="ciudad"/>
@@ -531,7 +531,7 @@ class ModalUpdateRemitente extends React.Component {
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.referencia && touched.referencia ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="referencia"/>
@@ -554,7 +554,7 @@ class ModalUpdateRemitente extends React.Component {
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.descripcion && touched.descripcion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="descripcion"/>

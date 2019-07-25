@@ -53,7 +53,7 @@ const RolesForm = props => {
                       <div style={{ color: '#D54B4B' }}>
                             {
                               errors.codigo && touched.codigo ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                       <ErrorMessage name={"codigo"} />
@@ -79,7 +79,7 @@ const RolesForm = props => {
                       <div style={{ color: '#D54B4B' }}>
                             {
                               errors.nombre && touched.nombre ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                       <ErrorMessage name={"nombre"} />
@@ -104,7 +104,7 @@ const RolesForm = props => {
                       <div style={{ color: '#D54B4B' }}>
                             {
                               errors.descripcion && touched.descripcion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                       <ErrorMessage name={"descripcion"} />
@@ -141,7 +141,7 @@ const RolesForm = props => {
                                 <div style={{ color: '#D54B4B' }}>
                             {
                               errors.modulos && touched.modulos ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                                 <ErrorMessage name={"modulos"} />
@@ -174,7 +174,7 @@ const RolesForm = props => {
                                 <div style={{ color: '#D54B4B' }}>
                             {
                               errors.entidades && touched.entidades ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                                 <ErrorMessage name={"entidades"} />

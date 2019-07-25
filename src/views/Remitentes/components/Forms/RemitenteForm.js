@@ -61,7 +61,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.tipoTercero && touched.tipoTercero ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="tipoTercero"/>
@@ -92,7 +92,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.elementoComunicacion && touched.elementoComunicacion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="elementoComunicacion"/>
@@ -119,7 +119,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.identificacion && touched.identificacion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="identificacion"/>
@@ -145,7 +145,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.nombre && touched.nombre ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="nombre"/>
@@ -173,7 +173,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.email && touched.email ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="email"/>
@@ -196,7 +196,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.telefonoFijo && touched.telefonoFijo ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="telefonoFijo"/>
@@ -219,7 +219,7 @@ const RemitenteForm = props =>{
                         <div style={{ color: '#D54B4B' }}>
                             {
                               errors.telefonoCelular && touched.telefonoCelular ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                         <ErrorMessage name="telefonoCelular"/>
@@ -242,7 +242,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.direccion && touched.direccion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="direccion"/>
@@ -273,7 +273,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.pais && touched.pais ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="pais"/>
@@ -303,7 +303,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.departamento && touched.departamento ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="departamento"/>
@@ -332,7 +332,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.ciudad && touched.ciudad ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="ciudad"/>

@@ -329,7 +329,7 @@ class ModalEditCargo extends React.Component {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.conglomerado && touched.conglomerado ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="conglomerado" />
@@ -378,7 +378,7 @@ class ModalEditCargo extends React.Component {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.empresa && touched.empresa ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name={"empresa"} />
@@ -426,7 +426,7 @@ class ModalEditCargo extends React.Component {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.sede && touched.sede ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name={"sede"} />
@@ -474,7 +474,7 @@ class ModalEditCargo extends React.Component {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.dependencia && touched.dependencia ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name={"dependencia"} />

@@ -117,5 +117,27 @@
       "descripcion": "La descripción",
       "estado": false
     }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "identificacion": 1007647968,
+      "nombre": "Cristian Cuartas",
+      "email": "ccuartas@gmail.com",
+      "telefono": 6088287,
+      "direccion": "Calle 27a # 22-05",
+      "f_d_nacimiento": "11/08/2000",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "cargo": "",
+      "username": "CristianCuartas",
+      "password": "132456",
+      "confirm_password": "123456",
+      "roles": [],
+      "estado": true,
+      "file": ""
+    }
   ]
 }

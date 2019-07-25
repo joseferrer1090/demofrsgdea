@@ -748,14 +748,6 @@ class MySelect extends React.Component {
           value={this.props.value}
           placeholder={"-- seleccione rol --"}
         />
-        {/* {!!this.props.error && this.props.touched && (
-          <div
-            style={{ color: "red", marginTop: ".5rem" }}
-            className="invalid-feedback"
-          >
-            {this.props.error}
-          </div>
-        )} */}
       </div>
     );
   }

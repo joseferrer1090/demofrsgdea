@@ -28,5 +28,162 @@
       "descripcion": "Este conglomerado es de prueba del proyecto 4",
       "estado": false
     }
+  ],
+  "ciudad": [
+    {
+      "id": 1,
+      "pais": "",
+      "departamento": "",
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "estado": true
+    }
+  ],
+  "departamento": [
+    {
+      "id": 1,
+      "pais": "",
+      "codigo": 110111,
+      "nombre": "Cundinamarca",
+      "estado": true
+    }
+  ],
+  "pais": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Colombia",
+      "estado": false
+    }
+  ],
+  "tipodocumentalradicacion": [
+    {
+      "id": 1,
+      "tipo_correspondencia": "",
+      "codigo": 1109,
+      "nombre": "Nombre",
+      "descripcion": "La descripción",
+      "d_maximos_respuesta": 8,
+      "estado": true
+    }
+  ],
+  "terceros": [
+    {
+      "id": 1,
+      "tipo_tercero": "",
+      "elemento_comunicacion": "",
+      "identificacion": 1007647968,
+      "nombre": "Cristian Cuartas",
+      "email": "cristianhz1109@gmail.com",
+      "telefono_fijo": 6088257,
+      "telefono_celular": 313118257,
+      "direccion": "Calle 27a Sur # 22-05",
+      "pais": "",
+      "departamento": "",
+      "ciudad": "",
+      "referencia": "Referencia",
+      "descripcion": "Descripción",
+      "estado": true
+    }
+  ],
+  "grupos": [
+    {
+      "id": 1,
+      "codigo": 111111,
+      "nombre": "Grupo 1",
+      "descripcion": "La descripción",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "roles": "",
+      "estado": true
+    }
+  ],
+  "roles": [
+    {
+      "id": 1,
+      "codigo": 132456,
+      "nombre": "Nombre",
+      "descripcion": "",
+      "estado": true
+    }
+  ],
+  "tipoterceros": [
+    {
+      "id": 1,
+      "codigo": 123456,
+      "nombre": "Nombre del tecero",
+      "descripcion": "La descripción",
+      "estado": false
+    }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "identificacion": 1007647968,
+      "nombre": "Cristian Cuartas",
+      "email": "ccuartas@gmail.com",
+      "telefono": 6088287,
+      "direccion": "Calle 27a # 22-05",
+      "f_d_nacimiento": "11/08/2000",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "cargo": "",
+      "username": "CristianCuartas",
+      "password": "132456",
+      "confirm_password": "123456",
+      "roles": [],
+      "estado": true,
+      "file": ""
+    }
+  ],
+  "tipotramite": [
+    {
+      "id": 1,
+      "t_correspondencia": "",
+      "codigo": 134256,
+      "nombre": "Cristian Cuartas",
+      "descripcion": "La descripción",
+      "d_maximos": 10,
+      "estado": true
+    }
+  ],
+  "tipoenviollegada": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción",
+      "estado": true
+    }
+  ],
+  "mensajero": [
+    {
+      "id": 1,
+      "identificacion": 1007647968,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción",
+      "estado": true
+    }
+  ],
+  "cargo": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción",
+      "estado": true,
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "conglomerado_responsable": true,
+      "empresa_responsable": true,
+      "sede_responsable": true,
+      "dependencia_responsable": true
+    }
   ]
 }

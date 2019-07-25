@@ -150,5 +150,14 @@
       "d_maximos": 10,
       "estado": true
     }
+  ],
+  "tipoenviollegada": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción",
+      "estado": true
+    }
   ]
 }

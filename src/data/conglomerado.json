@@ -139,5 +139,16 @@
       "estado": true,
       "file": ""
     }
+  ],
+  "tipotramite": [
+    {
+      "id": 1,
+      "t_correspondencia": "",
+      "codigo": 134256,
+      "nombre": "Cristian Cuartas",
+      "descripcion": "La descripción",
+      "d_maximos": 10,
+      "estado": true
+    }
   ]
 }

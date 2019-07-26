@@ -75,8 +75,8 @@
       "identificacion": 1007647968,
       "nombre": "Cristian Cuartas",
       "email": "cristianhz1109@gmail.com",
-      "telefono_fijo": 6088257,
-      "telefono_celular": 313118257,
+      "telefono_fijo": 1234567,
+      "telefono_celular": 1234567891,
       "direccion": "Calle 27a Sur # 22-05",
       "pais": "",
       "departamento": "",
@@ -84,6 +84,96 @@
       "referencia": "Referencia",
       "descripcion": "Descripción",
       "estado": true
+    }
+  ],
+  "tercerosTipoTerceroSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Tipo tercero 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Tipo tercero 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Tipo tercero 3"
+    }
+  ],
+  "tercerosElementoComunicacionSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Remitente"
+    },
+    {
+      "id": 2,
+      "nombre": "Destinatario"
+    },
+    {
+      "id": 3,
+      "nombre": "Mixto"
+    }
+  ],
+  "tecerosPaisSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "País 1"
+    },
+    {
+      "id": 2,
+      "nombre": "País 2"
+    },
+    {
+      "id": 3,
+      "nombre": "País 3"
+    }
+  ],
+  "tecerosDepartamentoSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Departamento 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Departamento 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Departamento 3"
+    }
+  ],
+  "tecerosCiudadSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Ciudad 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Ciudad 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Ciudad 3"
     }
   ],
   "grupos": [

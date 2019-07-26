@@ -67,6 +67,24 @@
       "estado": true
     }
   ],
+  "tipodocumentalradicacionSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Recibida"
+    },
+    {
+      "id": 2,
+      "nombre": "Despachada"
+    },
+    {
+      "id": 3,
+      "nombre": "Interna"
+    }
+  ],
   "terceros": [
     {
       "id": 1,

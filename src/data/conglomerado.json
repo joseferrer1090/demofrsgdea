@@ -29,6 +29,16 @@
       "estado": false
     }
   ],
+  "tema": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Tema Sevenet AZUL",
+      "descripcion": "La descripción del tema",
+      "estado": true,
+      "aplicarTema": true
+    }
+  ],
   "ciudad": [
     {
       "id": 1,

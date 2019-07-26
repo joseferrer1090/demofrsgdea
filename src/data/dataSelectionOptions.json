@@ -1,110 +1,20 @@
 {
-  "tipotramiteSelected": [
+  "": [
     {
       "id": "",
       "nombre": "--Seleccione--"
     },
     {
       "id": 1,
-      "nombre": "Recibida"
+      "nombre": ""
     },
     {
       "id": 2,
-      "nombre": "Despachada"
+      "nombre": ""
     },
     {
       "id": 3,
-      "nombre": "Interna"
-    }
-  ],
-  "usuariosConglomeradoSelected": [
-    {
-      "id": "",
-      "nombre": "--Seleccione--"
-    },
-    {
-      "id": 1,
-      "nombre": "Conglomerado 1"
-    },
-    {
-      "id": 2,
-      "nombre": "Conglomerado 2"
-    },
-    {
-      "id": 3,
-      "nombre": "Conglomerado 3"
-    }
-  ],
-  "usuariosEmpresaSelected": [
-    {
-      "id": "",
-      "nombre": "--Seleccione--"
-    },
-    {
-      "id": 1,
-      "nombre": "Empresa 1"
-    },
-    {
-      "id": 2,
-      "nombre": "Empresa 2"
-    },
-    {
-      "id": 3,
-      "nombre": "Empresa 3"
-    }
-  ],
-  "usuariosSedeSelected": [
-    {
-      "id": "",
-      "nombre": "--Seleccione--"
-    },
-    {
-      "id": 1,
-      "nombre": "Sede 1"
-    },
-    {
-      "id": 2,
-      "nombre": "Sede 2"
-    },
-    {
-      "id": 3,
-      "nombre": "Sede 3"
-    }
-  ],
-  "usuariosDependenciaSelected": [
-    {
-      "id": "",
-      "nombre": "--Seleccione--"
-    },
-    {
-      "id": 1,
-      "nombre": "Dependencia 1"
-    },
-    {
-      "id": 2,
-      "nombre": "Dependencia 2"
-    },
-    {
-      "id": 3,
-      "nombre": "Dependencia 3"
-    }
-  ],
-  "usuariosCargoSelected": [
-    {
-      "id": "",
-      "nombre": "--Seleccione--"
-    },
-    {
-      "id": 1,
-      "nombre": "Cargo 1"
-    },
-    {
-      "id": 2,
-      "nombre": "Cargo 2"
-    },
-    {
-      "id": 3,
-      "nombre": "Cargo 3"
+      "nombre": ""
     }
   ]
 }

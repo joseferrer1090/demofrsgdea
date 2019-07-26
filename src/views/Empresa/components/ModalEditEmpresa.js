@@ -134,7 +134,7 @@ class ModalEditEmpresa extends React.Component {
             initialValues={dataPreview}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                alert(JSON.stringify(values));
+                alert(JSON.stringify(values, "", 2));
                 setSubmitting(false);
               }, 1000);
             }}

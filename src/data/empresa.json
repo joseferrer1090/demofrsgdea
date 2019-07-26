@@ -7,7 +7,7 @@
       "nit": 123654789,
       "nombre": "Empresa 1",
       "descripcion": "Empresa de prueba 1",
-      "cargo_responsable": "nombre_cargo1",
+      "cargo_responsable": 1,
       "estado": true
     },
     {
@@ -17,7 +17,7 @@
       "nit": 987856,
       "nombre": "Empresa 2",
       "descripcion": "Empresa de prueba 2",
-      "cargo_responsable": "nombre_cargo2",
+      "cargo_responsable": 2,
       "estado": false
     },
     {
@@ -27,7 +27,7 @@
       "nit": 85791352,
       "nombre": "Empresa 3",
       "descripcion": "Empresa de prueba 3",
-      "cargo_responsable": "nombre_cargo3",
+      "cargo_responsable": 3,
       "estado": true
     },
     {
@@ -37,7 +37,7 @@
       "nit": 7956431,
       "nombre": "Empresa 4",
       "descripcion": "Empresa de prueba 4",
-      "cargo_responsable": "nombre_cargo4",
+      "cargo_responsable": 4,
       "estado": false
     }
   ],

@@ -247,7 +247,7 @@ const UserForm = props => {
                             "is-invalid"}`}
                         >
                           {" "}
-                          <option value={""}> -- Seleccione -- </option>{" "}
+                          <option disabled value={""}> -- Seleccione -- </option>{" "}
                           <option value={"1"}> Conglomerado 1 </option>
                           <option value={"2"}> Conglomerado 2 </option>
                           <option value={"3"}> Conglomerado 3 </option>
@@ -278,7 +278,7 @@ const UserForm = props => {
                             "is-invalid"}`}
                         >
                           {" "}
-                          <option value={""}> -- Seleccione -- </option>{" "}
+                          <option disabled value={""}> -- Seleccione -- </option>{" "}
                           <option value={"1"}> Empresa 1 </option>
                           <option value={"2"}> Empresa 2 </option>
                           <option value={"3"}> Empresa 3 </option>
@@ -309,7 +309,7 @@ const UserForm = props => {
                             "is-invalid"}`}
                         >
                           {" "}
-                          <option value={""}> -- Seleccione -- </option>{" "}
+                          <option  disabled value={""}> -- Seleccione -- </option>{" "}
                           <option value={"1"}> Sede 1 </option>
                           <option value={"2"}> Sede 2 </option>
                           <option value={"3"}> Sede 3 </option>
@@ -341,7 +341,7 @@ const UserForm = props => {
                             touched.dependencia &&
                             "is-invalid"}`}
                         >
-                          <option value={""}> -- Seleccione -- </option>
+                          <option  disabled value={""}> -- Seleccione -- </option>
                           <option value={"1"}> Dependencia 1  </option>
                           <option value={"2"}> Dependencia 2 </option>
                           <option value={"3"}> Dependencia 3 </option>
@@ -371,7 +371,7 @@ const UserForm = props => {
                             touched.cargo &&
                             "is-invalid"}`}
                         >
-                          <option value={""}> -- Seleccione -- </option>
+                          <option  disabled value={""}> -- Seleccione -- </option>
                           <option value={"1"}> Cargo 1 </option>
                           <option value={"2"}> Cargo 2 </option>
                           <option value={"3"}> Cargo 3 </option>

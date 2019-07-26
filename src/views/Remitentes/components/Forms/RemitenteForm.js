@@ -51,7 +51,7 @@ const RemitenteForm = props =>{
                               touched.tipoTercero &&
                               "is-invalid"}`}
                           >
-                          <option>Selecione...</option>
+                          <option disabled value={""}>-- Selecione --</option>
                           <option value="1">Cliente</option>
                           <option value="2">Proveedor </option>
                           <option value="3">Stakeholders </option>
@@ -84,7 +84,7 @@ const RemitenteForm = props =>{
                               touched.elementoComunicacion &&
                               "is-invalid"}`}
                           >
-                          <option>Selecione...</option>
+                          <option disabled value={""}>-- Selecione --</option>
                           <option value="1">Remitente</option>
                           <option value="2">Destinatario </option>
                           <option value="3">Mixto </option>
@@ -266,7 +266,7 @@ const RemitenteForm = props =>{
                               touched.pais &&
                               "is-invalid"}`}
                           >
-                          <option>Seleccione...</option>
+                          <option disabled value={""}> -- Seleccione --</option>
                           <option value="1">País 1</option>
                           <option value="2">País 2 </option>
                           </select>
@@ -296,7 +296,7 @@ const RemitenteForm = props =>{
                               touched.departamento &&
                               "is-invalid"}`}
                           >
-                          <option>Seleccione...</option>
+                          <option disabled value={""}>-- Seleccione --</option>
                           <option value="1">Departamento 1</option>
                           <option value="2">Departamento 2 </option>
                           </select>
@@ -325,7 +325,7 @@ const RemitenteForm = props =>{
                               touched.ciudad &&
                               "is-invalid"}`}
                           >
-                          <option>Seleccione...</option>
+                          <option value={""} disabled>-- Seleccione --</option>
                           <option value="1">Ciudad 1</option>
                           <option value="2">Ciudad 2 </option>
                           </select>

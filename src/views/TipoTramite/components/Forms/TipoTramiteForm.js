@@ -43,7 +43,7 @@ const TipoTramite = props => {
                               touched.t_correspondencia &&
                               "is-invalid"}`}
                           >
-                            <option value={""}> --Seleccione-- </option>
+                            <option disabled value={""}> --Seleccione-- </option>
                             <option value={"1"}> Recibida </option>
                             <option value={"2"}> Despachada </option>
                             <option value={"3"}> Interna </option>

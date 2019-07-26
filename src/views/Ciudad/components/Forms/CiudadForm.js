@@ -47,8 +47,10 @@ const CiudadForm = props =>{
                       touched.pais &&
                       "is-invalid"}`}
                   >
-                    <option> Seleccione </option>
+                    <option value={""} disabled> -- Seleccione --</option>
                     <option value={"1"}>País 1</option>
+                    <option value={"2"}>País 2</option>
+                    <option value={"3"}>País 3</option>
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                     {
@@ -77,7 +79,7 @@ const CiudadForm = props =>{
                     touched.departamento &&
                     "is-invalid"}`}
                 >
-                  <option> Seleccione </option>
+                  <option value={""} disabled > Seleccione </option>
                   <option value={"1"}> Departamento 1 </option>
                   <option value={"2"}> Departamento 2 </option>
                   <option value={"3"}> Departamento 3 </option>

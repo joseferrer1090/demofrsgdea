@@ -55,7 +55,7 @@ class ModalEditDepartamento extends React.Component {
       .catch(error => console.log("Error", error));
   }
   gePaisData = () => {
-    fetch("http://localhost:3001/departamentoSelected")
+    fetch("http://localhost:3001/departamentoPaisSelected")
       .then(response => response.json())
       .then(data => {
         this.setState({

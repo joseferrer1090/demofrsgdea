@@ -1,15 +1,5 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React  from "react";
 import FormPais from "./Forms/FormPais";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Row,
-  Col,
-  CustomInput
-} from "reactstrap";
 const dataPais ={
   codigo:"",
   nombre:"",

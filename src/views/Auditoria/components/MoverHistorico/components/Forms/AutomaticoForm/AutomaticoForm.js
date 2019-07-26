@@ -131,7 +131,7 @@ const AutomaticoForm = props =>{
                         touched.operacion &&
                         "is-invalid"}`}
                     >
-                      <option value={""}> Seleccione </option>
+                      <option  disabled value={""}> -- Seleccione -- </option>
                       <option value={"1"}>Operación 1</option>
                       <option value={"2"}>Operación 2</option>
                     </select>
@@ -160,7 +160,7 @@ const AutomaticoForm = props =>{
                         touched.modulo &&
                         "is-invalid"}`}
                     >
-                      <option value={""}> Seleccione </option>
+                      <option  disabled value={""}> -- Seleccione -- </option>
                       <option value={"1"}> Módulo 1</option>
                       <option value={"2"}> Módulo 2</option>
                     </select>
@@ -188,7 +188,7 @@ const AutomaticoForm = props =>{
                         touched.entidad &&
                         "is-invalid"}`}
                     >
-                      <option value={""}> Seleccione </option>
+                      <option  disabled value={""}> -- Seleccione -- </option>
                       <option value={"1"}> Entidad 1</option>
                       <option value={"2"}> Entidad 2</option>
                     </select>
@@ -217,7 +217,7 @@ const AutomaticoForm = props =>{
                         touched.accion &&
                         "is-invalid"}`}
                     >
-                      <option value={""}> Seleccione </option>
+                      <option disabled value={""}> -- Seleccione -- </option>
                       <option value={"1"}> Acción 1</option>
                       <option value={"2"}> Acción 2</option>
                     </select>
@@ -256,7 +256,7 @@ const AutomaticoForm = props =>{
                             touched.periodo &&
                             "is-invalid"}`}
                           >
-                            <option value={""}>Seleccione</option>
+                            <option disabled value={""}>-- Seleccione --</option>
                             <option value={"1"}> Periodo 1</option>
                             <option value={"2"}> Periodo 2</option>
                           </select>
@@ -314,7 +314,7 @@ const AutomaticoForm = props =>{
                             touched.diaSemana &&
                             "is-invalid"}`}
                           >
-                            <option value={""}>Seleccione</option>
+                            <option disabled value={""}> -- Seleccione --</option>
                             <option value={"1"}>Lunes</option>
                             <option value={"2"}>Martes</option>
                             <option value={"3"}>Miercoles</option>
@@ -382,7 +382,7 @@ const AutomaticoForm = props =>{
                             touched.mes &&
                             "is-invalid"}`}
                           >
-                            <option value={""}>Seleccione</option>
+                            <option value={""} disabled> -- Seleccione --</option>
                             <option value={"1"}>Enero</option>
                             <option value={"2"}>Febrero</option>
                             <option value={"3"}>Marzo</option>
@@ -473,7 +473,7 @@ const AutomaticoForm = props =>{
                                           "is-invalid"}`}
                                           value={values.selectNotification}
                                       >
-                                        <option value={""}>--Seleccione--</option>
+                                        <option  disabled value={""}>--Seleccione--</option>
                                         <option value={'1'}>Días</option>
                                         <option value={'2'}>Horas</option>
                                       </select>

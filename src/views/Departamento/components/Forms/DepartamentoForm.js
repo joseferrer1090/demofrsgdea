@@ -46,8 +46,10 @@ return(
                     touched.pais &&
                     "is-invalid"}`}
                   >
-                  <option> Seleccione </option>
+                  <option disabled value={""}> -- Seleccione --</option>
                   <option value={"1"}> País 1</option>
+                  <option value={"2"}> País 2</option>
+                  <option value={"3"}> País 3</option>
                 </select>
                 <div style={{ color: '#D54B4B' }}>
                 {

@@ -17,6 +17,7 @@ class ModalEditDepartamento extends React.Component {
   state = {
       modal: this.props.modaledit,
       pais:"",
+      pais_selected:[],
       codigo:"",
       nombre:"",
       estado:""
@@ -34,7 +35,8 @@ class ModalEditDepartamento extends React.Component {
   };
 
   componentDidMount() {
-    this.getDeptoInformation()
+    this.getDeptoInformation();
+    this.gePaisData();
   }
 
   getDeptoInformation() {
@@ -52,7 +54,16 @@ class ModalEditDepartamento extends React.Component {
       })
       .catch(error => console.log("Error", error));
   }
-
+  gePaisData = () => {
+    fetch("http://localhost:3001/departamentoSelected")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          pais_selected: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
   render() {
     const dataPreview = {
       pais: this.state.pais,
@@ -60,7 +71,13 @@ class ModalEditDepartamento extends React.Component {
       nombre: this.state.nombre,
       estado: this.state.estado
     };
-
+    const auxSelected = this.state.pais_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -129,11 +146,7 @@ class ModalEditDepartamento extends React.Component {
                               touched.pais &&
                               "is-invalid"}`}
                         >
-                          {" "}
-                          <option> Seleccione... </option>
-                          <option value={"1"}> País 1</option>
-                          <option value={"2"}> País 2</option>
-                          <option value={"3"}> País 3</option>{" "}
+                          {auxSelected}
                         </select>
                           <div style={{ color: '#D54B4B' }}>
                             {

@@ -39,6 +39,42 @@
       "estado": true
     }
   ],
+  "ciudadPaisSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "País 1"
+    },
+    {
+      "id": 2,
+      "nombre": "País 2"
+    },
+    {
+      "id": 3,
+      "nombre": "País 3"
+    }
+  ],
+  "ciudadDepartamentoSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Departamento 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Departamento 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Departamento 3"
+    }
+  ],
   "departamento": [
     {
       "id": 1,
@@ -46,6 +82,24 @@
       "codigo": 110111,
       "nombre": "Cundinamarca",
       "estado": true
+    }
+  ],
+  "departamentoPaisSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "País 1"
+    },
+    {
+      "id": 2,
+      "nombre": "País 2"
+    },
+    {
+      "id": 3,
+      "nombre": "País 3"
     }
   ],
   "pais": [

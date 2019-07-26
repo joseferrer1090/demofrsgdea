@@ -30,6 +30,7 @@ class ModalEditEmpresa extends React.Component {
     selectedOptionUpdateConglomerado: null,
     conglomerado: "",
     conglomerado_selected: [],
+    cargo_responsable_selected: [],
     codigo: "",
     nit: "",
     nombre: "",
@@ -85,7 +86,9 @@ class ModalEditEmpresa extends React.Component {
     fetch("http://localhost:3001/cargoresponsable")
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          cargo_responsable_selected: data
+        });
       })
       .catch(error => console.log(error));
   };
@@ -112,6 +115,16 @@ class ModalEditEmpresa extends React.Component {
       );
     });
     console.log(auxSelected);
+
+    const auxSelectedCargo = this.state.cargo_responsable_selected.map(
+      (aux, id) => {
+        return (
+          <option key={id} value={aux.id}>
+            {aux.nombre}
+          </option>
+        );
+      }
+    );
 
     return (
       <Fragment>
@@ -308,9 +321,15 @@ class ModalEditEmpresa extends React.Component {
                               <div className="col-md-6">
                                 <div className="form-group">
                                   <label> Cargo responsable </label>
-                                  <select className="form-control form-control-sm">
+                                  <select
+                                    name={"cargo_responsable"}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.cargo_responsable}
+                                    className="form-control form-control-sm"
+                                  >
                                     {" "}
-                                    <option> Seleccione... </option>{" "}
+                                    {auxSelectedCargo}
                                   </select>
                                 </div>
                               </div>

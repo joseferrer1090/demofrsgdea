@@ -39,6 +39,73 @@
       "aplicarTema": true
     }
   ],
+  "plantilla": [
+    {
+      "id": 1,
+      "nombre": "Plantilla 1",
+      "descripcion": "La descripción",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "recibida": true,
+      "despachada": false,
+      "interna": true
+    }
+  ],
+  "plantillaConglomeradoSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Conglomerado 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Conglomerado 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Conglomerado 3"
+    }
+  ],
+  "plantillaEmpresaSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Empresa 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Empresa 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Empresa 3"
+    }
+  ],
+  "plantillaSedeSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Sede 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Sede 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Sede 3"
+    }
+  ],
   "ciudad": [
     {
       "id": 1,

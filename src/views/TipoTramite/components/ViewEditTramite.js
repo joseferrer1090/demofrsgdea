@@ -5,7 +5,7 @@ import * as Yup from "yup";
 
 class ViewEditTable extends React.Component {
   state = {
-    t_correspondencia: "",
+    t_correspondencia_selected:[],
     codigo: "",
     nombre: "",
     descripcion: "",
@@ -20,14 +20,14 @@ class ViewEditTable extends React.Component {
   };
 
   componentDidMount() {
-    this.getTipoTramiteInformation()
+    this.getTipoTramiteInformation();
+    this.getTipoTramiteData()
   }
 
   getTipoTramiteInformation() {
     fetch(`http://localhost:3001/tipotramite/1`)
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           t_correspondencia: data.t_correspondencia,
           codigo: data.codigo,
@@ -41,6 +41,17 @@ class ViewEditTable extends React.Component {
       .catch(error => console.log("Error", error));
 }
 
+  getTipoTramiteData = () => {
+    fetch("http://localhost:3001/tipotramite")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          t_correspondencia_selected: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+
   render() {
     const dataPreview={
       t_correspondencia: this.state.t_correspondencia,
@@ -50,6 +61,17 @@ class ViewEditTable extends React.Component {
       d_maximos: this.state.d_maximos,
       estado: this.state.estado
     }
+
+    console.log(this.state.t_correspondencia_selected);
+    const auxSelected = this.state.t_correspondencia_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+    console.log(auxSelected);
+
     return (
       <Fragment>
       <Formik
@@ -126,9 +148,7 @@ class ViewEditTable extends React.Component {
                                   touched.t_correspondencia &&
                                   "is-invalid"}`}
                               >
-                                <option>Recibida</option>
-                                <option>Despachada</option>
-                                <option>Interna</option>
+                                {auxSelected}
                               </select>
                               <div style={{ color: '#D54B4B' }}>
                               {

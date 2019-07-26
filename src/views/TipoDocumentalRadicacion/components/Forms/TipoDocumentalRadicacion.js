@@ -41,9 +41,10 @@ const TipoDocumentalRadicacion = props => {
                               touched.tipo_correspondencia &&
                               "is-invalid"}`}
                           >
-                            <option>Recibida</option>
-                            <option>Despachada</option>
-                            <option>Interna</option>
+                            <option  disabled value={""}> -- Seleccione -- </option>
+                            <option value={"1"}> Recibida </option>
+                            <option value={"2"}> Despachada </option>
+                            <option value={"3"}> Interna </option>
                           </select>
                           <div style={{ color: '#D54B4B' }}>
                             {

@@ -7,6 +7,7 @@ import * as Yup from "yup";
 class ViewEditTable extends React.Component {
   state = {
     tipo_correspondencia: "",
+    tipo_correspondencia_selected:[],
     codigo: "",
     nombre: "",
     descripcion: "",
@@ -21,7 +22,8 @@ class ViewEditTable extends React.Component {
   };
 
   componentDidMount() {
-    this.getTipoRadicacionInformation()
+    this.getTipoRadicacionInformation();
+    this.getTipoCorrespondenciaData();
   }
 
   getTipoRadicacionInformation() {
@@ -42,6 +44,17 @@ class ViewEditTable extends React.Component {
       .catch(error => console.log("Error", error));
   }
 
+  getTipoCorrespondenciaData = () => {
+    fetch("http://localhost:3001/tipodocumentalradicacionSelected")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          tipo_correspondencia_selected: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+
   render() {
     const dataPreview = {
       tipo_correspondencia: this.state.tipo_correspondencia,
@@ -51,9 +64,15 @@ class ViewEditTable extends React.Component {
       nombre: this.state.nombre,
       estado: this.state.estado
     };
+    const auxSelected = this.state.tipo_correspondencia_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
     return (
       <Fragment>
-
                   <Formik
                     initialValues={dataPreview}
                     onSubmit={(values, {setSubmitting}) =>{
@@ -127,10 +146,7 @@ class ViewEditTable extends React.Component {
                               touched.tipo_correspondencia &&
                               "is-invalid"}`}
                           >
-                            <option>Seleccione...</option>
-                            <option value={"1"}>Recibida</option>
-                            <option value={"1"}>Despachada</option>
-                            <option value={"1"}>Interna</option>
+                          {auxSelected}
                           </select>
                           <div style={{ color: '#D54B4B' }}>
                             {

@@ -42,7 +42,7 @@ class ViewEditTable extends React.Component {
 }
 
   getTipoTramiteData = () => {
-    fetch("http://localhost:3001/tipotramite")
+    fetch("http://localhost:3001/tipotramiteSelected")
       .then(response => response.json())
       .then(data => {
         this.setState({

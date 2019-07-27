@@ -51,5 +51,35 @@
       "telefono": 30215466,
       "estado": false
     }
+  ],
+
+  "conglomerado": [
+    {
+      "id": 1,
+      "nombre": "conglomerado 1"
+    },
+    {
+      "id": 2,
+      "nombre": "conglomerado 2"
+    },
+    {
+      "id": 3,
+      "nombre": "conglomerado 3"
+    }
+  ],
+
+  "empresa": [
+    {
+      "id": 1,
+      "nombre": "empresa 1"
+    },
+    {
+      "id": 2,
+      "nombre": "empresa 2"
+    },
+    {
+      "id": 3,
+      "nombre": "empresa 3"
+    }
   ]
 }

@@ -108,7 +108,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.identificacion && touched.identificacion ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="identificacion" />
@@ -134,7 +134,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.nombre && touched.nombre ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="nombre" />
@@ -162,7 +162,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.email && touched.email ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="email" />
@@ -188,7 +188,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.telefono && touched.telefono ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="telefono" />
@@ -247,13 +247,15 @@ const UserForm = props => {
                             "is-invalid"}`}
                         >
                           {" "}
-                          <option>Seleccione...</option>{" "}
-                          <option>conglomerado1</option>
+                          <option disabled value={""}> -- Seleccione -- </option>{" "}
+                          <option value={"1"}> Conglomerado 1 </option>
+                          <option value={"2"}> Conglomerado 2 </option>
+                          <option value={"3"}> Conglomerado 3 </option>
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.conglomerado && touched.conglomerado ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="conglomerado" />
@@ -276,13 +278,15 @@ const UserForm = props => {
                             "is-invalid"}`}
                         >
                           {" "}
-                          <option>Seleccione... </option>{" "}
-                          <option>empresa1</option>
+                          <option disabled value={""}> -- Seleccione -- </option>{" "}
+                          <option value={"1"}> Empresa 1 </option>
+                          <option value={"2"}> Empresa 2 </option>
+                          <option value={"3"}> Empresa 3 </option>
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.empresa && touched.empresa ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="empresa" />
@@ -305,13 +309,15 @@ const UserForm = props => {
                             "is-invalid"}`}
                         >
                           {" "}
-                          <option> Seleccione... </option>{" "}
-                          <option>sede1</option>
+                          <option  disabled value={""}> -- Seleccione -- </option>{" "}
+                          <option value={"1"}> Sede 1 </option>
+                          <option value={"2"}> Sede 2 </option>
+                          <option value={"3"}> Sede 3 </option>
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.sede && touched.sede ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name={"sede"} />
@@ -326,12 +332,6 @@ const UserForm = props => {
                             *
                           </span>{" "}
                         </label>
-                        {/* <Select
-                        value={selectedoptiondependencia}
-                        onChange={this.handleSelectedOptionDependencia}
-                        options={dataExampleDependencia}
-                        placeholder={""}
-                      /> */}
                         <select
                           name={"dependencia"}
                           onChange={handleChange}
@@ -341,13 +341,15 @@ const UserForm = props => {
                             touched.dependencia &&
                             "is-invalid"}`}
                         >
-                          <option>--Seleccione--</option>
-                          <option>dependencia</option>
+                          <option  disabled value={""}> -- Seleccione -- </option>
+                          <option value={"1"}> Dependencia 1  </option>
+                          <option value={"2"}> Dependencia 2 </option>
+                          <option value={"3"}> Dependencia 3 </option>
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.dependencia && touched.dependencia ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="dependencia" />
@@ -360,12 +362,6 @@ const UserForm = props => {
                           {" "}
                           Cargo <span className="text-danger">*</span>{" "}
                         </label>
-                        {/* <Select
-                        value={selectedoptioncargo}
-                        onChange={this.handleChangeSelectedOptionCargo}
-                        options={dataExampleCargo}
-                        placeholder={""}
-                      /> */}
                         <select
                           name={"cargo"}
                           onChange={handleChange}
@@ -375,13 +371,15 @@ const UserForm = props => {
                             touched.cargo &&
                             "is-invalid"}`}
                         >
-                          <option>--Seleccione--</option>
-                          <option>cargo1</option>
+                          <option  disabled value={""}> -- Seleccione -- </option>
+                          <option value={"1"}> Cargo 1 </option>
+                          <option value={"2"}> Cargo 2 </option>
+                          <option value={"3"}> Cargo 3 </option>
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.cargo && touched.cargo ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="cargo" />
@@ -415,7 +413,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.username && touched.username ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="username" />
@@ -443,7 +441,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.password && touched.password ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="password" />
@@ -470,7 +468,7 @@ const UserForm = props => {
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.confirm_password && touched.confirm_password ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="confirm_password" />
@@ -498,7 +496,7 @@ const UserForm = props => {
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.roles && touched.roles ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                             <ErrorMessage name={"roles"} />
@@ -748,14 +746,6 @@ class MySelect extends React.Component {
           value={this.props.value}
           placeholder={"-- seleccione rol --"}
         />
-        {/* {!!this.props.error && this.props.touched && (
-          <div
-            style={{ color: "red", marginTop: ".5rem" }}
-            className="invalid-feedback"
-          >
-            {this.props.error}
-          </div>
-        )} */}
       </div>
     );
   }

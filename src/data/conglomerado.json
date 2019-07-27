@@ -28,5 +28,582 @@
       "descripcion": "Este conglomerado es de prueba del proyecto 4",
       "estado": false
     }
+  ],
+  "tema": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Tema Sevenet AZUL",
+      "descripcion": "La descripción del tema",
+      "estado": true,
+      "aplicarTema": true
+    }
+  ],
+  "plantilla": [
+    {
+      "id": 1,
+      "nombre": "Plantilla 1",
+      "descripcion": "La descripción",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "recibida": true,
+      "despachada": false,
+      "interna": true
+    }
+  ],
+  "plantillaConglomeradoSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Conglomerado 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Conglomerado 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Conglomerado 3"
+    }
+  ],
+  "plantillaEmpresaSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Empresa 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Empresa 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Empresa 3"
+    }
+  ],
+  "plantillaSedeSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Sede 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Sede 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Sede 3"
+    }
+  ],
+  "ciudad": [
+    {
+      "id": 1,
+      "pais": "",
+      "departamento": "",
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "estado": true
+    }
+  ],
+  "ciudadPaisSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "País 1"
+    },
+    {
+      "id": 2,
+      "nombre": "País 2"
+    },
+    {
+      "id": 3,
+      "nombre": "País 3"
+    }
+  ],
+  "ciudadDepartamentoSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Departamento 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Departamento 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Departamento 3"
+    }
+  ],
+  "departamento": [
+    {
+      "id": 1,
+      "pais": "",
+      "codigo": 110111,
+      "nombre": "Cundinamarca",
+      "estado": true
+    }
+  ],
+  "departamentoPaisSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "País 1"
+    },
+    {
+      "id": 2,
+      "nombre": "País 2"
+    },
+    {
+      "id": 3,
+      "nombre": "País 3"
+    }
+  ],
+  "pais": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Colombia",
+      "estado": false
+    }
+  ],
+  "tipodocumentalradicacion": [
+    {
+      "id": 1,
+      "tipo_correspondencia": "",
+      "codigo": 1109,
+      "nombre": "Nombre",
+      "descripcion": "La descripción",
+      "d_maximos_respuesta": 8,
+      "estado": true
+    }
+  ],
+  "tipodocumentalradicacionSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Recibida"
+    },
+    {
+      "id": 2,
+      "nombre": "Despachada"
+    },
+    {
+      "id": 3,
+      "nombre": "Interna"
+    }
+  ],
+  "terceros": [
+    {
+      "id": 1,
+      "tipo_tercero": "",
+      "elemento_comunicacion": "",
+      "identificacion": 1007647968,
+      "nombre": "Cristian Cuartas",
+      "email": "cristianhz1109@gmail.com",
+      "telefono_fijo": 1234567,
+      "telefono_celular": 1234567891,
+      "direccion": "Calle 27a Sur # 22-05",
+      "pais": "",
+      "departamento": "",
+      "ciudad": "",
+      "referencia": "Referencia",
+      "descripcion": "Descripción",
+      "estado": true
+    }
+  ],
+  "tercerosTipoTerceroSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Tipo tercero 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Tipo tercero 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Tipo tercero 3"
+    }
+  ],
+  "tercerosElementoComunicacionSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Remitente"
+    },
+    {
+      "id": 2,
+      "nombre": "Destinatario"
+    },
+    {
+      "id": 3,
+      "nombre": "Mixto"
+    }
+  ],
+  "tecerosPaisSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "País 1"
+    },
+    {
+      "id": 2,
+      "nombre": "País 2"
+    },
+    {
+      "id": 3,
+      "nombre": "País 3"
+    }
+  ],
+  "tecerosDepartamentoSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Departamento 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Departamento 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Departamento 3"
+    }
+  ],
+  "tecerosCiudadSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Ciudad 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Ciudad 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Ciudad 3"
+    }
+  ],
+  "grupos": [
+    {
+      "id": 1,
+      "codigo": 111111,
+      "nombre": "Grupo 1",
+      "descripcion": "La descripción del grupo.",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "roles": "",
+      "estado": true
+    }
+  ],
+  "gruposConglomeradoSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Conglomerado 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Conglomerado 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Conglomerado 3"
+    }
+  ],
+  "gruposEmpresaSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Empresa 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Empresa 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Empresa 3"
+    }
+  ],
+  "gruposSedeSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Sede 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Sede 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Sede 3"
+    }
+  ],
+  "gruposDependenciaSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Dependencia 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Dependencia 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Dependencia 3"
+    }
+  ],
+
+  "roles": [
+    {
+      "id": 1,
+      "codigo": 132456,
+      "nombre": "Nombre",
+      "descripcion": "La descripción del rol.",
+      "estado": true
+    }
+  ],
+  "tipoterceros": [
+    {
+      "id": 1,
+      "codigo": 123456,
+      "nombre": "Nombre del tecero",
+      "descripcion": "La descripción",
+      "estado": false
+    }
+  ],
+  "tipotramiteSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Recibida"
+    },
+    {
+      "id": 2,
+      "nombre": "Despachada"
+    },
+    {
+      "id": 3,
+      "nombre": "Interna"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "identificacion": 1007647968,
+      "nombre": "Cristian Cuartas",
+      "email": "ccuartas@gmail.com",
+      "telefono": 3213118257,
+      "direccion": "Calle 27a # 22-05",
+      "f_d_nacimiento": "2019-07-26",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "cargo": "",
+      "username": "CristianCuartas",
+      "password": "132456",
+      "confirm_password": "123456",
+      "roles": [],
+      "estado": true,
+      "file": ""
+    }
+  ],
+  "usuariosConglomeradoSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Conglomerado 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Conglomerado 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Conglomerado 3"
+    }
+  ],
+  "usuariosEmpresaSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Empresa 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Empresa 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Empresa 3"
+    }
+  ],
+  "usuariosSedeSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Sede 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Sede 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Sede 3"
+    }
+  ],
+  "usuariosDependenciaSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Dependencia 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Dependencia 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Dependencia 3"
+    }
+  ],
+  "usuariosCargoSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Cargo 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Cargo 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Cargo 3"
+    }
+  ],
+  "tipotramite": [
+    {
+      "id": 1,
+      "t_correspondencia": "",
+      "codigo": 134256,
+      "nombre": "Cristian Cuartas",
+      "descripcion": "La descripción",
+      "d_maximos": 10,
+      "estado": true
+    }
+  ],
+  "tipoenviollegada": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción",
+      "estado": true
+    }
+  ],
+  "mensajero": [
+    {
+      "id": 1,
+      "identificacion": 1007647968,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción",
+      "estado": true
+    }
+  ],
+  "cargo": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción",
+      "estado": true,
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "conglomerado_responsable": true,
+      "empresa_responsable": true,
+      "sede_responsable": true,
+      "dependencia_responsable": true
+    }
   ]
 }

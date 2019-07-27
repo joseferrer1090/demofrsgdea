@@ -73,7 +73,7 @@ const ManualForm = props => {
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.fechaDesde && touched.fechaDesde ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                       <ErrorMessage name="fechaDesde"/>
@@ -102,7 +102,7 @@ const ManualForm = props => {
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.fechaHasta && touched.fechaHasta ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="fechaHasta"/>
@@ -128,14 +128,14 @@ const ManualForm = props => {
                         touched.operacion &&
                         "is-invalid"}`}
                     >
-                      <option> Seleccione </option>
+                      <option  disabled value={""}> --Seleccione-- </option>
                       <option value={"1"}>Operación 1</option>
                       <option value={"2"}>Operación 2</option>
                     </select>
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.operacion && touched.operacion ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="operacion"/>
@@ -157,14 +157,14 @@ const ManualForm = props => {
                         touched.modulo &&
                         "is-invalid"}`}
                     >
-                      <option> Seleccione </option>
+                      <option disabled value={""}>-- Seleccione --</option>
                       <option value={"1"}> Módulo 1</option>
                       <option value={"2"}> Módulo 2</option>
                     </select>
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.modulo && touched.modulo ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="modulo"/>
@@ -188,14 +188,14 @@ const ManualForm = props => {
                         touched.entidad &&
                         "is-invalid"}`}
                     >
-                      <option> Seleccione </option>
+                      <option disabled value={""}> --Seleccione-- </option>
                       <option value={"1"}> Entidad 1</option>
                       <option value={"2"}> Entidad 2</option>
                     </select>
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.entidad && touched.entidad ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="entidad"/>
@@ -217,14 +217,14 @@ const ManualForm = props => {
                         touched.accion &&
                         "is-invalid"}`}
                     >
-                      <option> Seleccione </option>
+                      <option  disabled value={""}> --Seleccione-- </option>
                       <option value={"1"}> Acción 1</option>
                       <option value={"2"}> Acción 2</option>
                     </select>
                     <div style={{ color: '#D54B4B' }}>
                     {
                       errors.accion && touched.accion ?
-                      <i class="fa fa-exclamation-triangle"/> :
+                      <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
                     <ErrorMessage name="accion"/>

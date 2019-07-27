@@ -1,0 +1,74 @@
+{
+  "empresa": [
+    {
+      "id": 1,
+      "conglomerado": 1,
+      "codigo": 123654,
+      "nit": 123654789,
+      "nombre": "Empresa 1",
+      "descripcion": "Empresa de prueba 1",
+      "cargo_responsable": 1,
+      "estado": true
+    },
+    {
+      "id": 2,
+      "conglomerado": 2,
+      "codigo": 125489,
+      "nit": 987856,
+      "nombre": "Empresa 2",
+      "descripcion": "Empresa de prueba 2",
+      "cargo_responsable": 2,
+      "estado": false
+    },
+    {
+      "id": 3,
+      "conglomerado": 3,
+      "codigo": 856497,
+      "nit": 85791352,
+      "nombre": "Empresa 3",
+      "descripcion": "Empresa de prueba 3",
+      "cargo_responsable": 3,
+      "estado": true
+    },
+    {
+      "id": 4,
+      "conglomerado": 4,
+      "codigo": 7954631,
+      "nit": 7956431,
+      "nombre": "Empresa 4",
+      "descripcion": "Empresa de prueba 4",
+      "cargo_responsable": 4,
+      "estado": false
+    }
+  ],
+
+  "conglomerado": [
+    {
+      "id": 1,
+      "nombre": "conglomerado 1"
+    },
+    {
+      "id": 2,
+      "nombre": "conglomerado 2"
+    },
+    {
+      "id": 3,
+      "nombre": "conglomerado 3"
+    }
+  ],
+
+  "cargoresponsable": [
+    {
+      "id": 1,
+      "nombre": "cargo responsable 1"
+    },
+    {
+      "id": 2,
+      "nombre": "cargo responsable 2"
+    },
+    {
+      "id": 3,
+      "nombre": "cargo responsable 3"
+    }
+  ]
+}

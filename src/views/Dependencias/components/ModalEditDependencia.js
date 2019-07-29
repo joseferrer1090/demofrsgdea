@@ -48,6 +48,7 @@ class ModalEditDependencia extends React.Component {
     this.getDataDependencia();
     this.getDataConglomerado();
     this.getDataEmpresa();
+    this.getDataSede();
     this.getDataCargoResponsable();
   }
 
@@ -144,7 +145,7 @@ class ModalEditDependencia extends React.Component {
       );
     });
 
-    const auxSelectedSedes = this.state.selected_sede.map((aux, id) => {
+    const auxSelectedSede = this.state.selected_sede.map((aux, id) => {
       return (
         <option key={id} value={aux.id}>
           {aux.nombre}
@@ -242,8 +243,7 @@ class ModalEditDependencia extends React.Component {
                                 value={values.conglomerado}
                                 className="form-control form-control-sm"
                               >
-                                {" "}
-                                <option> Seleccione... </option>{" "}
+                                {auxSelectedConglomegrado}
                               </select>
                             </div>
                           </div>
@@ -262,8 +262,7 @@ class ModalEditDependencia extends React.Component {
                                 value={values.empresa}
                                 className="form-control form-control-sm"
                               >
-                                {" "}
-                                <option> Seleccione... </option>{" "}
+                                {auxSelectedEmpresa}
                               </select>
                             </div>
                           </div>
@@ -280,8 +279,7 @@ class ModalEditDependencia extends React.Component {
                                 value={values.sede}
                                 className="form-control form-control-sm"
                               >
-                                {" "}
-                                <option> Seleccione... </option>{" "}
+                                {auxSelectedSede}
                               </select>
                             </div>
                           </div>
@@ -343,8 +341,7 @@ class ModalEditDependencia extends React.Component {
                                 value={values.cargo_responsable}
                                 className="form-control form-control-sm"
                               >
-                                {" "}
-                                <option> Seleccione... </option>{" "}
+                                {auxSelectedCargoResponsable}
                               </select>
                             </div>
                           </div>

@@ -10,6 +10,8 @@ import {
   CustomInput
 } from "reactstrap";
 import IMGDEPARTAMENTO from "./../../../assets/img/map-marker.svg";
+import {DEPARTAMENTO_EDIT, PAIS_SELECTED, PAIS_EDIT} from './../../../data/JSON-SERVER';
+
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -40,7 +42,7 @@ class ModalEditDepartamento extends React.Component {
   }
 
   getDeptoInformation() {
-    fetch(`http://localhost:3001/departamento/1`)
+    fetch(PAIS_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -55,7 +57,7 @@ class ModalEditDepartamento extends React.Component {
       .catch(error => console.log("Error", error));
   }
   gePaisData = () => {
-    fetch("http://localhost:3001/departamentoPaisSelected")
+    fetch(PAIS_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({

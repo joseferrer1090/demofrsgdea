@@ -11,6 +11,12 @@ import {
 import PropTypes from "prop-types";
 import dataDependencias from "./../../../data/json_dependencia.json";
 import "./css/fixedTable.css";
+import {
+  PLANTILLA_EDIT,
+  CONGLOMERADO_SELECTED,
+  EMPRESA_SELECTED,
+  SEDE_SELECTED
+} from './../../../data/JSON-SERVER'
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -55,7 +61,7 @@ class EditPlantilla extends React.Component {
   }
 
   getPlantillaInformation() {
-    fetch(`http://localhost:3001/plantilla/1`)
+    fetch(PLANTILLA_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -74,7 +80,7 @@ class EditPlantilla extends React.Component {
       .catch(error => console.log("Error", error));
   };
   getConglomeradoData = () => {
-    fetch("http://localhost:3001/plantillaConglomeradoSelected")
+    fetch(CONGLOMERADO_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -84,7 +90,7 @@ class EditPlantilla extends React.Component {
       .catch(error => console.log(error));
   };
   getEmpresaData = () => {
-    fetch("http://localhost:3001/plantillaEmpresaSelected")
+    fetch(EMPRESA_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -95,7 +101,7 @@ class EditPlantilla extends React.Component {
   };
 
   getSedeData = () => {
-    fetch("http://localhost:3001/plantillaSedeSelected")
+    fetch(SEDE_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({

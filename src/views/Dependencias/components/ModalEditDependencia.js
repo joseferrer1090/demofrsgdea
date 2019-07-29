@@ -18,6 +18,13 @@ import {
   CustomInput
 } from "reactstrap";
 import IMGDEPENDENCIA from "./../../../assets/img/settings-work-tool.svg";
+import {
+DEPENDENCIA_EDIT,
+CONGLOMERADO_SELECTED,
+EMPRESA_SELECTED,
+SEDE_SELECTED,
+CARGO_RESPONSABLE_SELECTED
+} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 
@@ -53,7 +60,7 @@ class ModalEditDependencia extends React.Component {
   }
 
   getDataDependencia = () => {
-    fetch("http://localhost:3002/dependencia/1")
+    fetch(DEPENDENCIA_EDIT)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -72,7 +79,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataConglomerado = () => {
-    fetch("http://localhost:3002/conglomerado")
+    fetch(CONGLOMERADO_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -83,7 +90,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataEmpresa = () => {
-    fetch("http://localhost:3002/empresa")
+    fetch(EMPRESA_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -94,7 +101,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataSede = () => {
-    fetch("http://localhost:3002/sede")
+    fetch(SEDE_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -105,7 +112,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataCargoResponsable = () => {
-    fetch("http://localhost:3002/cargo_responsable")
+    fetch(CARGO_RESPONSABLE_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({

@@ -10,6 +10,7 @@ import {
   CustomInput
 } from "reactstrap";
 import IMGROLES from "./../../../assets/img/shield.svg";
+import {ROLES_EDIT} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -39,7 +40,7 @@ class ModalEditRoles extends React.Component {
     }
 
     getRolesInformation() {
-      fetch(`http://localhost:3001/roles/1`)
+      fetch(ROLES_EDIT)
         .then(response => response.json())
         .then(data => {
           console.log(data);

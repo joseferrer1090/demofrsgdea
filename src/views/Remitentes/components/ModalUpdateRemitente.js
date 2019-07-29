@@ -24,6 +24,14 @@ import {
 import classnames from "classnames";
 
 import IMGPROFILE from "./../../../assets/img/profile.svg";
+import {
+  TERCEROS_EDIT,
+  TIPO_TERCERO_SELECTED,
+  ELEMENTO_COMUNICACION_SELECTED,
+  PAIS_SELECTED,
+  DEPARTAMENTO_SELECTED,
+  CIUDAD_SELECTED
+} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -82,7 +90,7 @@ class ModalUpdateRemitente extends React.Component {
   }
 
   getCityInformation() {
-    fetch(`http://localhost:3001/terceros/1`)
+    fetch(TERCEROS_EDIT)
       .then(response => response.json())
       .then(data => {
 
@@ -107,7 +115,7 @@ class ModalUpdateRemitente extends React.Component {
       })
     };
     getTipoTerceroData = () => {
-      fetch("http://localhost:3001/tercerosTipoTerceroSelected")
+      fetch(TIPO_TERCERO_SELECTED)
         .then(response => response.json())
         .then(data => {
           this.setState({
@@ -117,7 +125,7 @@ class ModalUpdateRemitente extends React.Component {
         .catch(error => console.log(error));
     };
     getElementoComunicacionData = () => {
-      fetch("http://localhost:3001/tercerosElementoComunicacionSelected")
+      fetch(ELEMENTO_COMUNICACION_SELECTED)
         .then(response => response.json())
         .then(data => {
           this.setState({
@@ -127,7 +135,7 @@ class ModalUpdateRemitente extends React.Component {
         .catch(error => console.log(error));
     };
     getPaisData = () => {
-      fetch("http://localhost:3001/tecerosPaisSelected")
+      fetch(PAIS_SELECTED)
         .then(response => response.json())
         .then(data => {
           this.setState({
@@ -137,7 +145,7 @@ class ModalUpdateRemitente extends React.Component {
         .catch(error => console.log(error));
     };
     getDepartamentoData = () => {
-      fetch("http://localhost:3001/tecerosDepartamentoSelected")
+      fetch(DEPARTAMENTO_SELECTED)
         .then(response => response.json())
         .then(data => {
           this.setState({
@@ -147,7 +155,7 @@ class ModalUpdateRemitente extends React.Component {
         .catch(error => console.log(error));
     };
     getCiudadData = () => {
-      fetch("http://localhost:3001/tecerosCiudadSelected")
+      fetch(CIUDAD_SELECTED)
         .then(response => response.json())
         .then(data => {
           this.setState({

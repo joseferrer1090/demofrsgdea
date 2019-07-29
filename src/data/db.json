@@ -1,0 +1,434 @@
+{
+  "conglomerado": [
+    {
+      "id": 1,
+      "codigo": 12547893,
+      "nombre": "conglomerado1",
+      "descripcion": "Este conglomerado es de prueba del proyecto",
+      "estado": true
+    }
+  ],
+  "empresa": [
+    {
+      "id": 1,
+      "conglomerado": 1,
+      "codigo": 123654,
+      "nit": 123654789,
+      "nombre": "Empresa 1",
+      "descripcion": "Empresa de prueba 1",
+      "cargo_responsable": 1,
+      "estado": true
+    }
+  ],
+  "sedes": [
+    {
+      "id": 1,
+      "conglomerado": 1,
+      "empresa": 1,
+      "codigo": 120546,
+      "nombre": "Sede 1",
+      "descripcion": "Descripcion de la sede",
+      "prefijo_radicacion": "PREPRE",
+      "sec_radicacion": 1990,
+      "cargo_responsable": "cargo responsable1",
+      "pais": "pais1",
+      "departamento": "departamento1",
+      "ciudad": "ciudad1",
+      "direccion": "direccion de la sede",
+      "telefono": 30215466,
+      "estado": true
+    }
+  ],
+  "dependencia": [
+    {
+      "id": 1,
+      "conglomerado": 1,
+      "empresa": 1,
+      "sede": 1,
+      "codigo": "1010101",
+      "nombre": "dependencia 1",
+      "cargo_responsable": "cargo responsable 1",
+      "descripcion": "descripcion de la dependencia ",
+      "estado": true
+    }
+  ],
+  "cargo": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción",
+      "estado": true,
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "conglomerado_responsable": true,
+      "empresa_responsable": true,
+      "sede_responsable": true,
+      "dependencia_responsable": true
+    }
+  ],
+  "mensajero": [
+    {
+      "id": 1,
+      "identificacion": 1007647968,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción",
+      "estado": true
+    }
+  ],
+  "tipoenviollegada": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "descripcion": "La descripción tipo de envio llegada.",
+      "estado": true
+    }
+  ],
+  "tipotramite": [
+    {
+      "id": 1,
+      "t_correspondencia": "",
+      "codigo": 134256,
+      "nombre": "Cristian Cuartas",
+      "descripcion": "La descripción",
+      "d_maximos": 10,
+      "estado": true
+    }
+  ],
+  "usuarios": [
+    {
+      "id": 1,
+      "identificacion": 1007647968,
+      "nombre": "Cristian Cuartas",
+      "email": "ccuartas@gmail.com",
+      "telefono": 3213118257,
+      "direccion": "Calle 27a # 22-05",
+      "f_d_nacimiento": "2019-07-26",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "cargo": "",
+      "username": "CristianCuartas",
+      "password": "132456",
+      "confirm_password": "123456",
+      "roles": [],
+      "estado": true,
+      "file": ""
+    }
+  ],
+  "tipoterceros": [
+    {
+      "id": 1,
+      "codigo": 123456,
+      "nombre": "Nombre del tecero",
+      "descripcion": "La descripción",
+      "estado": false
+    }
+  ],
+  "roles": [
+    {
+      "id": 1,
+      "codigo": 132456,
+      "nombre": "Nombre",
+      "descripcion": "La descripción del rol.",
+      "estado": true
+    }
+  ],
+  "grupos": [
+    {
+      "id": 1,
+      "codigo": 111111,
+      "nombre": "Grupo 1",
+      "descripcion": "La descripción del grupo.",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "dependencia": "",
+      "roles": "",
+      "estado": true
+    }
+  ],
+  "terceros": [
+    {
+      "id": 1,
+      "tipo_tercero": "",
+      "elemento_comunicacion": "",
+      "identificacion": 1007647968,
+      "nombre": "Cristian Cuartas",
+      "email": "cristianhz1109@gmail.com",
+      "telefono_fijo": 1234567,
+      "telefono_celular": 1234567891,
+      "direccion": "Calle 27a Sur # 22-05",
+      "pais": "",
+      "departamento": "",
+      "ciudad": "",
+      "referencia": "Referencia",
+      "descripcion": "Descripción",
+      "estado": true
+    }
+  ],
+  "tipodocumentalradicacion": [
+    {
+      "id": 1,
+      "tipo_correspondencia": "",
+      "codigo": 1109,
+      "nombre": "Nombre",
+      "descripcion": "La descripción",
+      "d_maximos_respuesta": 8,
+      "estado": true
+    }
+  ],
+  "pais": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Colombia",
+      "estado": true
+    }
+  ],
+  "departamento": [
+    {
+      "id": 1,
+      "pais": "",
+      "codigo": 110111,
+      "nombre": "Cundinamarca",
+      "estado": true
+    }
+  ],
+  "ciudad": [
+    {
+      "id": 1,
+      "pais": "",
+      "departamento": "",
+      "codigo": 110111,
+      "nombre": "Bogotá",
+      "estado": true
+    }
+  ],
+  "plantilla": [
+    {
+      "id": 1,
+      "nombre": "Plantilla 1",
+      "descripcion": "La descripción",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "recibida": true,
+      "despachada": false,
+      "interna": true
+    }
+  ],
+  "tema": [
+    {
+      "id": 1,
+      "codigo": 110111,
+      "nombre": "Tema Sevenet AZUL",
+      "descripcion": "La descripción del tema",
+      "estado": true,
+      "aplicarTema": true
+    }
+  ],
+
+  "ConglomeradoSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Conglomerado 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Conglomerado 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Conglomerado 3"
+    }
+  ],
+  "EmpresaSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Empresa 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Empresa 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Empresa 3"
+    }
+  ],
+  "SedeSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Sede 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Sede 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Sede 3"
+    }
+  ],
+  "DependenciaSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Dependencia 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Dependencia 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Dependencia 3"
+    }
+  ],
+  "CargoResponsableSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Cargo responsable 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Cargo responsable 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Cargo responsable 3"
+    }
+  ],
+  "PaisSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "País 1"
+    },
+    {
+      "id": 2,
+      "nombre": "País 2"
+    },
+    {
+      "id": 3,
+      "nombre": "País 3"
+    }
+  ],
+  "DepartamentoSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Departamento 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Departamento 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Departamento 3"
+    }
+  ],
+  "CiudadSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Ciudad 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Ciudad 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Ciudad 3"
+    }
+  ],
+  "TipoCorrespondenciaSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Recibida"
+    },
+    {
+      "id": 2,
+      "nombre": "Despachada"
+    },
+    {
+      "id": 3,
+      "nombre": "Interna"
+    }
+  ],
+  "TipoTerceroSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Tipo tercero 1"
+    },
+    {
+      "id": 2,
+      "nombre": "Tipo tercero 2"
+    },
+    {
+      "id": 3,
+      "nombre": "Tipo tercero 3"
+    }
+  ],
+  "ElementoComunicacionSelected": [
+    {
+      "id": "",
+      "nombre": "--Seleccione--"
+    },
+    {
+      "id": 1,
+      "nombre": "Remitente"
+    },
+    {
+      "id": 2,
+      "nombre": "Destinatario"
+    },
+    {
+      "id": 3,
+      "nombre": "Mixto"
+    }
+  ]
+}

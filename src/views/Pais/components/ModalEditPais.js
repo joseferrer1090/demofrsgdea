@@ -9,7 +9,7 @@ import {
   Col,
   CustomInput
 } from "reactstrap";
-
+import {PAIS_EDIT} from './../../../data/JSON-SERVER';
 import IMGCOUNTRY from "./../../../assets/img/flag.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -39,7 +39,7 @@ class ModalEditPais extends React.Component {
   }
 
   getPaisInformation() {
-    fetch(`http://localhost:3001/pais/1`)
+    fetch(PAIS_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);

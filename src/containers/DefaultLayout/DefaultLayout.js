@@ -25,7 +25,21 @@ const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 
 class DefaultLayout extends Component {
   loading = () => (
-    <div className="animated fadeIn pt-1 text-center">Loading...</div>
+    // <div className="animated fadeIn pt-1 text-center">Loading...</div>
+    <div
+      className=""
+      style={{
+        margin: "0",
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        marginRight: "-50%",
+        transform: "translate(-50%, -50%)"
+      }}
+    >
+      <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
+      <p>Loading ... </p>
+    </div>
   );
 
   signOut(e) {
@@ -42,7 +56,7 @@ class DefaultLayout extends Component {
           </Suspense>
         </AppHeader>
         <div className="app-body">
-          <AppSidebar fixed display="xl">
+          <AppSidebar fixed display="lg">
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>

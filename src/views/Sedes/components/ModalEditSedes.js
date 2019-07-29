@@ -483,6 +483,10 @@ class ModalEditSedes extends React.Component {
                                   "is-invalid"}`}
                                 maxLength={"6"}
                                 placeholder=" "
+                                name={"prefijo_radicacion"}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.prefijo_radicacion}
                               />
                               <div style={{ color: '#D54B4B' }}>
                               {

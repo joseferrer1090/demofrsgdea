@@ -21,6 +21,14 @@ CustomInput
 } from "reactstrap";
 import Select from "react-select";
 import classnames from "classnames";
+import {
+  USUARIOS_EDIT,
+  CONGLOMERADO_SELECTED,
+  EMPRESA_SELECTED,
+  SEDE_SELECTED,
+  DEPENDENCIA_SELECTED,
+  CARGO_RESPONSABLE_SELECTED
+} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -90,7 +98,7 @@ class ModalEditUser extends React.Component {
 
 
   getRolesInformation() {
-    fetch(`http://localhost:3001/usuarios/1`)
+    fetch(USUARIOS_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -119,7 +127,7 @@ class ModalEditUser extends React.Component {
 }
 
 getConglomeradoData = () => {
-  fetch("http://localhost:3001/usuariosConglomeradoSelected")
+  fetch(CONGLOMERADO_SELECTED)
     .then(response => response.json())
     .then(data => {
       this.setState({
@@ -129,7 +137,7 @@ getConglomeradoData = () => {
     .catch(error => console.log(error));
 };
 getEmpresaData = () => {
-  fetch("http://localhost:3001/usuariosEmpresaSelected")
+  fetch(EMPRESA_SELECTED)
     .then(response => response.json())
     .then(data => {
       this.setState({
@@ -139,7 +147,7 @@ getEmpresaData = () => {
     .catch(error => console.log(error));
 };
 getSedeData = () => {
-  fetch("http://localhost:3001/usuariosSedeSelected")
+  fetch(SEDE_SELECTED)
     .then(response => response.json())
     .then(data => {
       this.setState({
@@ -149,7 +157,7 @@ getSedeData = () => {
     .catch(error => console.log(error));
 };
 getDependenciaData = () => {
-  fetch("http://localhost:3001/usuariosDependenciaSelected")
+  fetch(DEPENDENCIA_SELECTED)
     .then(response => response.json())
     .then(data => {
       this.setState({
@@ -159,7 +167,7 @@ getDependenciaData = () => {
     .catch(error => console.log(error));
 };
 getCargoData = () => {
-  fetch("http://localhost:3001/usuariosCargoSelected")
+  fetch(CARGO_RESPONSABLE_SELECTED)
     .then(response => response.json())
     .then(data => {
       this.setState({

@@ -10,6 +10,7 @@ import {
   CustomInput
 } from "reactstrap";
 import IMGCITY from "./../../../assets/img/skyline.svg";
+import {CIUDAD_EDIT, PAIS_SELECTED, DEPARTAMENTO_SELECTED} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -44,7 +45,7 @@ class ModalEditCiudad extends React.Component {
   }
 
   getCityInformation() {
-    fetch(`http://localhost:3001/ciudad/1`)
+    fetch(CIUDAD_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -60,7 +61,7 @@ class ModalEditCiudad extends React.Component {
       .catch(error => console.log("Error", error));
   };
   getPaisData = () => {
-    fetch("http://localhost:3001/ciudadPaisSelected")
+    fetch(PAIS_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -70,7 +71,7 @@ class ModalEditCiudad extends React.Component {
       .catch(error => console.log(error));
   };
   getDepartamentoData = () => {
-    fetch("http://localhost:3001/ciudadDepartamentoSelected")
+    fetch(DEPARTAMENTO_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({

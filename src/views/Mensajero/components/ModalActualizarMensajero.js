@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import ImgMensajero from "./../../../assets/img/courier.svg";
+import {MENSAJERO_EDIT} from './../../../data/JSON-SERVER'
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -39,7 +40,7 @@ class ModalActualizarMensajero extends React.Component {
   }
 
   getMensajeroInformation() {
-    fetch(`http://localhost:3001/mensajero/1`)
+    fetch(MENSAJERO_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);

@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 import IMGPackage from "./../../../assets/img/package.svg";
 import PropTypes from "prop-types";
+import {TIPO_ENV_LLGD_EDIT} from './../../../data/JSON-SERVER'
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -39,7 +40,7 @@ class ModalEditTipoLlegada extends React.Component {
   }
 
   getTipoLlegadaInformation() {
-    fetch(`http://localhost:3001/tipoenviollegada/1`)
+    fetch(TIPO_ENV_LLGD_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);

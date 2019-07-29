@@ -1,6 +1,10 @@
 import React, { Fragment } from "react";
 import { Col, CustomInput } from "reactstrap";
 import PropTypes from "prop-types";
+import {
+  TIPO_DOCUMENTAL_RADICACION_EDIT,
+  TIPO_CORRESPONDENCIA_SELECTED
+} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -27,7 +31,7 @@ class ViewEditTable extends React.Component {
   }
 
   getTipoRadicacionInformation() {
-    fetch(`http://localhost:3001/tipodocumentalradicacion/1`)
+    fetch(TIPO_DOCUMENTAL_RADICACION_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -45,7 +49,7 @@ class ViewEditTable extends React.Component {
   }
 
   getTipoCorrespondenciaData = () => {
-    fetch("http://localhost:3001/tipodocumentalradicacionSelected")
+    fetch(TIPO_CORRESPONDENCIA_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({

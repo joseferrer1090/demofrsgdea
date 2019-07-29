@@ -10,6 +10,7 @@ import {
   CustomInput
 } from "reactstrap";
 import PropTypes from "prop-types";
+import {TEMA_EDIT} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -40,7 +41,7 @@ class ModalEditTheme extends React.Component {
   }
 
   getTemaInformation() {
-    fetch(`http://localhost:3001/tema/1`)
+    fetch(TEMA_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);

@@ -14,6 +14,9 @@ import {
   CustomInput
 } from "reactstrap";
 import IMGCARGO from "./../../../assets/img/employee.svg";
+import {
+  CARGO_EDIT
+} from "./../../../data/JSON-SERVER";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -52,7 +55,7 @@ class ModalEditCargo extends React.Component {
   }
 
   getCargoInformation() {
-    fetch(`http://localhost:3001/cargo/1`)
+    fetch(CARGO_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);

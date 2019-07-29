@@ -54,11 +54,15 @@ const SedesForm = props => {
                       "is-invalid"}`}
                   >
                     {" "}
-                    <option>--Seleccione-- </option>{" "}
+                    <option value={""} disabled>-- Seleccione --</option>
+                    <option value={"1"}> Conglomerado 1</option>
+                    <option value={"2"}> Conglomerado 2</option>
+                    <option value={"3"}> Conglomerado 3</option>
+                    {" "}
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                   {
-                    errors.inputsCondition && touched.inputsCondition ?
+                    errors.conglomerado && touched.conglomerado ?
                     <i class="fa fa-exclamation-triangle"/> :
                     null
                   }
@@ -82,11 +86,14 @@ const SedesForm = props => {
                       touched.empresa &&
                       "is-invalid"}`}
                   >
-                    <option>--seleccione--</option>
+                    <option value={""} disabled >-- Seleccione --</option>
+                    <option value={"1"}> Empresa 1</option>
+                    <option value={"2"}> Empresa 2</option>
+                    <option value={"3"}> Empresa 3</option>
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                   {
-                    errors.inputsCondition && touched.inputsCondition ?
+                    errors.empresa && touched.empresa ?
                     <i class="fa fa-exclamation-triangle"/> :
                     null
                   }
@@ -255,10 +262,23 @@ const SedesForm = props => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.pais}
-                    className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${errors.pais &&
+                      touched.pais &&
+                      "is-invalid"}`}
                   >
-                    <option>--Seleccione--</option>
+                    <option value={""} disabled>-- Seleccione --</option>
+                    <option vakue={"1"}> País 1</option>
+                    <option vakue={"2"}> País 2</option>
+                    <option vakue={"3"}> País 3</option>
                   </select>
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.pais && touched.pais ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
+                  <ErrorMessage name="pais" />
+                  </div>
                 </div>
               </Col>
               <Col sm="4">
@@ -269,10 +289,23 @@ const SedesForm = props => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.departamento}
-                    className="form-control form-control-sm"
+                    className={`form-control form-control-sm ${errors.departamento &&
+                      touched.departamento &&
+                      "is-invalid"}`}
                   >
-                    <option>--Seleccione--</option>
+                    <option value={""} disabled >-- Seleccione --</option>
+                    <option value={"1"}> Departamento 1</option>
+                    <option value={"2"}> Departamento 2</option>
+                    <option value={"3"}> Departamento 3</option>
                   </select>
+                  <div style={{ color: '#D54B4B' }}>
+                  {
+                    errors.departamento && touched.departamento ?
+                    <i class="fa fa-exclamation-triangle"/> :
+                    null
+                  }
+                  <ErrorMessage name="departamento" />
+                  </div>
                 </div>
               </Col>
               <Col sm="4">
@@ -289,7 +322,10 @@ const SedesForm = props => {
                       touched.ciudad &&
                       "is-invalid"}`}
                   >
-                    <option>--Seleccione--</option>
+                    <option value={""} disabled>-- Seleccione --</option>
+                    <option value={"1"}>Ciudad 1</option>
+                    <option value={"2"}>Ciudad 2</option>
+                    <option value={"3"}>Ciudad 3</option>
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                   {
@@ -371,7 +407,10 @@ const SedesForm = props => {
                     value={values.c_responsable}
                     className="form-control form-control-sm"
                   >
-                    <option>--Seleccione--</option>
+                    <option value={""} >-- Seleccione --</option>
+                    <option value={"1"}> Cargo responsable 1</option>
+                    <option value={"2"}> Cargo responsable 2</option>
+                    <option value={"3"}> Cargo responsable 3</option>
                   </select>
                 </div>
               </Col>
@@ -482,9 +521,15 @@ export default withFormik({
       .required(" Por favor asigne una secuencia de radicación.")
       .integer()
       .positive(),
-    pais: Yup.string().ensure(),
-    departamento: Yup.string().ensure(),
-    ciudad: Yup.string().required(" Por favor seleccione una ciudad."),
+    pais: Yup.string()
+      .ensure()
+      .required(" Por favor seleccione un país."),
+    departamento: Yup.string()
+      .ensure()
+      .required(" Por favor seleccione un departamento."),
+    ciudad: Yup.string()
+      .ensure()
+      .required(" Por favor seleccione una ciudad."),
     direccion: Yup.string().required(" Por favor introduzca una dirección."),
     telefono: Yup.string()
       .max(8)

@@ -10,6 +10,7 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGTERCERO from "./../../../assets/img/supply.svg";
+import {TIPO_TERCEROS_EDIT} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -39,7 +40,7 @@ class ModalEditTipoTercero extends React.Component {
   }
 
   getTipoTercerosInformation() {
-    fetch(`http://localhost:3001/tipoterceros/1`)
+    fetch(TIPO_TERCEROS_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);

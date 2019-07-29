@@ -13,16 +13,14 @@ import {
   CardFooter,
   CustomInput
 } from "reactstrap";
+import {
+  EMPRESA_EDIT,
+  CONGLOMERADO_SELECTED,
+  CARGO_RESPONSABLE_SELECTED
+} from './../../../data/JSON-SERVER'
 import { Formik, withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import IMGEMPRESA from "./../../../assets/img/company.svg";
-import Select from "react-select";
-
-const dataConglomeradoExample = [
-  { value: "1", label: "Conglomerado 1" },
-  { value: "2", label: "Conglomerado 2" },
-  { value: "3", label: "Conglomerado 3" }
-];
 
 class ModalEditEmpresa extends React.Component {
   state = {
@@ -55,7 +53,7 @@ class ModalEditEmpresa extends React.Component {
   };
 
   getempresaData = () => {
-    fetch("http://localhost:3001/empresa/1")
+    fetch(EMPRESA_EDIT)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -72,7 +70,7 @@ class ModalEditEmpresa extends React.Component {
   };
 
   getconglomeradoData = () => {
-    fetch("http://localhost:3001/conglomerado")
+    fetch(CONGLOMERADO_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -83,7 +81,7 @@ class ModalEditEmpresa extends React.Component {
   };
 
   getcargoresponsableData = () => {
-    fetch("http://localhost:3001/cargoresponsable")
+    fetch(CARGO_RESPONSABLE_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -94,7 +92,6 @@ class ModalEditEmpresa extends React.Component {
   };
 
   render() {
-    const { selectedOptionUpdateConglomerado } = this.state;
     const dataPreview = {
       conglomerado: this.state.conglomerado,
       codigo: this.state.codigo,
@@ -138,12 +135,22 @@ class ModalEditEmpresa extends React.Component {
                 setSubmitting(false);
               }, 1000);
             }}
-            validationSchema={Yup.object().shape({
-              conglomerado: Yup.string().ensure(),
-              codigo: Yup.string().required("codigo requerido"),
-              nit: Yup.string().required("NIT requerido para la modificacion"),
-              nombre: Yup.string().required("Nombre requerido para la edicion"),
-              descripcion: Yup.string(),
+            validationSchema={
+              Yup.object().shape({
+              conglomerado: Yup.string()
+                .ensure()
+                .required(" Por favor seleccione un conglomerado."),
+              codigo: Yup.string()
+                .required(" Por favor introduzca un código."),
+              nombre: Yup.string()
+                .required(" Por favor introduzca un nombre."),
+              nit: Yup.string()
+                .required(" Por favor introduzca un NIT."),
+              descripcion: Yup.string()
+                .max(250, " Máximo 250 caracteres."),
+              cargo_responsable: Yup.string()
+              .ensure()
+              .required(" Por favor seleccione un cargo responsable."),
               estado: Yup.bool().test("Activo", "", value => value === true)
             })}
           >
@@ -187,7 +194,9 @@ class ModalEditEmpresa extends React.Component {
                                 <dd>
                                   {" "}
                                   <select
-                                    className="form-control form-control-sm"
+                                  className={`form-control form-control-sm ${errors.conglomerado &&
+                                    touched.conglomerado &&
+                                    "is-invalid"}`}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     name={"conglomerado"}
@@ -195,6 +204,14 @@ class ModalEditEmpresa extends React.Component {
                                   >
                                     {auxSelected}
                                   </select>
+                                  <div style={{ color: '#D54B4B' }}>
+                                  {
+                                    errors.conglomerado && touched.conglomerado ?
+                                    <i className="fa fa-exclamation-triangle"/> :
+                                    null
+                                  }
+                                  <ErrorMessage name="conglomerado" />
+                                  </div>
                                   {/* <Select
                             onChange={
                               this.handleChangeSelectedOptionUpdateConglomerado
@@ -326,11 +343,21 @@ class ModalEditEmpresa extends React.Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.cargo_responsable}
-                                    className="form-control form-control-sm"
+                                    className={`form-control form-control-sm ${errors.cargo_responsable &&
+                                      touched.cargo_responsable &&
+                                      "is-invalid"}`}
                                   >
                                     {" "}
                                     {auxSelectedCargo}
                                   </select>
+                                  <div style={{ color: '#D54B4B' }}>
+                                  {
+                                    errors.cargo_responsable && touched.cargo_responsable ?
+                                    <i className="fa fa-exclamation-triangle"/> :
+                                    null
+                                  }
+                                  <ErrorMessage name="cargo_responsable" />
+                                  </div>
                                 </div>
                               </div>
 

@@ -14,6 +14,13 @@ import {
   CardTitle,
   CustomInput
 } from "reactstrap";
+import {
+  GRUPO_USUARIOS_EDIT,
+  CONGLOMERADO_SELECTED,
+  EMPRESA_SELECTED,
+  SEDE_SELECTED,
+  DEPENDENCIA_SELECTED
+} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -60,7 +67,7 @@ class ModalEditPais extends React.Component {
   }
 
   getGrupoInformation() {
-    fetch(`http://localhost:3001/grupos/1`)
+    fetch(GRUPO_USUARIOS_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -80,7 +87,7 @@ class ModalEditPais extends React.Component {
       .catch(error => console.log("Error", error));
   }
   getConglomeradoData = () => {
-    fetch("http://localhost:3001/gruposConglomeradoSelected")
+    fetch(CONGLOMERADO_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -90,7 +97,7 @@ class ModalEditPais extends React.Component {
       .catch(error => console.log(error));
   };
   getEmpresaData = () => {
-    fetch("http://localhost:3001/gruposEmpresaSelected")
+    fetch(EMPRESA_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -100,7 +107,7 @@ class ModalEditPais extends React.Component {
       .catch(error => console.log(error));
   };
   getSedeData = () => {
-    fetch("http://localhost:3001/gruposSedeSelected")
+    fetch(SEDE_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -110,7 +117,7 @@ class ModalEditPais extends React.Component {
       .catch(error => console.log(error));
   };
   getDependenciaData = () => {
-    fetch("http://localhost:3001/gruposDependenciaSelected")
+    fetch(DEPENDENCIA_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({

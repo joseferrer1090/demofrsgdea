@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
+import {CONGLOMERADO_EDIT} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -41,8 +42,8 @@ class ModalEditConglomerado extends React.Component {
   }
 
   getUserInformation() {
-    fetch(`http://localhost:3001/conglomerado/2
-    `)
+    // fetch(`http://localhost:3001/conglomerado/2`)
+    fetch(CONGLOMERADO_EDIT)
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -85,8 +86,8 @@ class ModalEditConglomerado extends React.Component {
               }, 500);
             }}
             validationSchema={Yup.object().shape({
-              codigo: Yup.string().required("codigo necesacio para la edicion"),
-              nombre: Yup.string().required("nombre necesario para la edicio"),
+              codigo: Yup.string().required(" Por favor introduzca un código."),
+              nombre: Yup.string().required(" Por favor introduzca un nombre."),
               descripcion: Yup.string(),
               estado: Yup.bool().test("Activdado", "", value => value === true)
             })}
@@ -144,7 +145,14 @@ class ModalEditConglomerado extends React.Component {
                                     touched.codigo &&
                                     "is-invalid"}`}
                                 />
-                                <ErrorMessage name="codigo" />
+                                <div style={{ color: '#D54B4B' }}>
+                                  {
+                                    errors.codigo && touched.codigo ?
+                                    <i className="fa fa-exclamation-triangle"/> :
+                                    null
+                                  }
+                                  <ErrorMessage name={"codigo"} />
+                                  </div>
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -171,7 +179,14 @@ class ModalEditConglomerado extends React.Component {
                                   placeholder=""
                                   className={"form-control form-control-sm"}
                                 /> */}
-                                <ErrorMessage name="nombre" />
+                                  <div style={{ color: '#D54B4B' }}>
+                                  {
+                                    errors.nombre && touched.nombre ?
+                                    <i className="fa fa-exclamation-triangle"/> :
+                                    null
+                                  }
+                                  <ErrorMessage name={"nombre"} />
+                                  </div>
                               </div>
                             </div>
                             <div className="col-md-12">

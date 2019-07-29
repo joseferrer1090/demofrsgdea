@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Col, CustomInput } from "reactstrap";
+import {TIPO_TRAMITE_EDIT, TIPO_CORRESPONDENCIA_SELECTED} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
@@ -25,7 +26,7 @@ class ViewEditTable extends React.Component {
   }
 
   getTipoTramiteInformation() {
-    fetch(`http://localhost:3001/tipotramite/1`)
+    fetch(TIPO_TRAMITE_EDIT)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -42,7 +43,7 @@ class ViewEditTable extends React.Component {
 }
 
   getTipoTramiteData = () => {
-    fetch("http://localhost:3001/tipotramiteSelected")
+    fetch(TIPO_CORRESPONDENCIA_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({

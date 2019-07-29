@@ -48,7 +48,7 @@ const EmpresaForm = props => {
                       "is-invalid"}`}
                     value={values.conglomerado}
                   >
-                    <option value={""}>--Seleccione--</option>
+                    <option value={""} disabled>--Seleccione--</option>
                     <option value={"1"}>Conglomerado 1</option>
                     <option value={"2"}>Conglomerado 2</option>
                     <option value={"3"}>Conglomerado 3</option>
@@ -167,7 +167,7 @@ const EmpresaForm = props => {
                     className="form-control form-control-sm"
                   >
                     {" "}
-                    <option> Seleccione... </option>
+                    <option value={""} disabled> -- Seleccione -- </option>
                     <option value="1">Cargo 1</option>
                     <option value="2">Cargo 2</option>
                     <option value="3">Cargo 3</option>
@@ -268,8 +268,8 @@ export default withFormik({
       .required(" Por favor seleccione un conglomerado."),
     codigo: Yup.string()
       .required(" Por favor introduzca un código.")
-      .min(6)
-      .max(6),
+      .min(6, " Mínimo 6 caracteres.")
+      .max(6, " Máximo 6 caracteres."),
     nit: Yup.number()
       .required(" Por favor introduzca el Nit.")
       .positive(" Nit debe ser positivo.")

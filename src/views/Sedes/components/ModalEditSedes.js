@@ -15,6 +15,15 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGSEDE from "./../../../assets/img/teamwork.svg";
+import {
+  SEDES_EDIT,
+  CONGLOMERADO_SELECTED,
+  EMPRESA_SELECTED,
+  PAIS_SELECTED,
+  DEPARTAMENTO_SELECTED,
+  CIUDAD_SELECTED,
+  CARGO_RESPONSABLE_SELECTED
+} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 
@@ -64,7 +73,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataSedes = () => {
-    fetch("http://localhost:3001/sedes/1")
+    fetch(SEDES_EDIT)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -89,7 +98,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataConglomerado = () => {
-    fetch("http://localhost:3001/conglomerado")
+    fetch(CONGLOMERADO_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -100,7 +109,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataEmpresa = () => {
-    fetch("http://localhost:3001/empresa")
+    fetch(EMPRESA_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -111,7 +120,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataCargoResponsable = () => {
-    fetch("http://localhost:3001/cargo_responsable")
+    fetch(CARGO_RESPONSABLE_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -122,7 +131,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataPais = () => {
-    fetch("http://localhost:3001/pais")
+    fetch(PAIS_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -133,7 +142,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataCiudad = () => {
-    fetch("http://localhost:3001/ciudad")
+    fetch(CIUDAD_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -144,7 +153,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataDepartamento = () => {
-    fetch("http://localhost:3001/departamento")
+    fetch(DEPARTAMENTO_SELECTED)
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -228,35 +237,69 @@ class ModalEditSedes extends React.Component {
           <Formik
             initialValues={dataPreview}
             validationSchema={Yup.object().shape({
+              // conglomerado: Yup.string()
+              //   .ensure()
+              //   .required("necesario asignar conglomerado"),
+              // empresa: Yup.string()
+              //   .ensure()
+              //   .required("necesario asignar empresa"),
+              // codigo: Yup.string().required("necesario el codigo para la sede"),
+              // nombre: Yup.string().required("necesario para la sede"),
+              // descripcion: Yup.string(),
+              // prefijo_radicacion: Yup.string().required(
+              //   "necesario asignar un prefijo en las sede"
+              // ),
+              // sec_radicacion: Yup.string().required(
+              //   "necesario asignar secuencia de radicacion"
+              // ),
+              // cargo_responsable: Yup.string()
+              //   .ensure()
+              //   .required("necesario asigar cargo responsable"),
+              // pais: Yup.string(),
+              // departamento: Yup.string(),
+              // ciudad: Yup.string().required(
+              //   "necesario asignar ciudad a la sede"
+              // ),
+              // direccion: Yup.string().required(
+              //   "necesario asignar direccion a la sede"
+              // ),
+              // telefono: Yup.string().required(
+              //   "necesario asignar telefono a la sede"
+              // ),
               conglomerado: Yup.string()
-                .ensure()
-                .required("necesario asignar conglomerado"),
+                .required(" Por favor seleccione un conglomerado.")
+                .ensure(),
               empresa: Yup.string()
+                .required(" Por favor seleccione una empresa.")
+                .ensure(),
+              codigo: Yup.string()
+                .required(" Por favor introduzca un código.")
+                .max(6)
+                .min(6),
+              nombre: Yup.string()
+                .required(" Por favor introduzca un nombre."),
+              descripcion: Yup.string().max(250),
+              prefijo_radicacion: Yup.string()
+                .required(" Por favor asigne un prefijo de radicación.")
+                .length(6),
+              sec_radicacion: Yup.number()
+                .required(" Por favor asigne una secuencia de radicación.")
+                .integer()
+                .positive(),
+              pais: Yup.string()
                 .ensure()
-                .required("necesario asignar empresa"),
-              codigo: Yup.string().required("necesario el codigo para la sede"),
-              nombre: Yup.string().required("necesario para la sede"),
-              descripcion: Yup.string(),
-              prefijo_radicacion: Yup.string().required(
-                "necesario asignar un prefijo en las sede"
-              ),
-              sec_radicacion: Yup.string().required(
-                "necesario asignar secuencia de radicacion"
-              ),
-              cargo_responsable: Yup.string()
+                .required(" Por favor seleccione un país."),
+              departamento: Yup.string()
                 .ensure()
-                .required("necesario asigar cargo responsable"),
-              pais: Yup.string(),
-              departamento: Yup.string(),
-              ciudad: Yup.string().required(
-                "necesario asignar ciudad a la sede"
-              ),
-              direccion: Yup.string().required(
-                "necesario asignar direccion a la sede"
-              ),
-              telefono: Yup.string().required(
-                "necesario asignar telefono a la sede"
-              ),
+                .required(" Por favor seleccione un departamento."),
+              ciudad: Yup.string()
+                .ensure()
+                .required(" Por favor seleccione una ciudad."),
+              direccion: Yup.string().required(" Por favor introduzca una dirección."),
+              telefono: Yup.string()
+                .max(8)
+                .required(" Por favor introduzca un teléfono."),
+              c_responsable: Yup.string().ensure(),
               estado: Yup.bool().test("Activo", "", value => value === true)
             })}
             onSubmit={(values, { setSubmitting }) => {
@@ -313,11 +356,16 @@ class ModalEditSedes extends React.Component {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                               >
-                                {" "}
-                                <option value="">Seleccione...</option>{" "}
                                 {auxSelected}
                               </select>
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.conglomerado && touched.conglomerado ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
                               <ErrorMessage name="conglomerado" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -337,11 +385,16 @@ class ModalEditSedes extends React.Component {
                                   touched.empresa &&
                                   "is-invalid"}`}
                               >
-                                {" "}
-                                <option value="">Seleccione...</option>{" "}
                                 {auxSelectedEmpresa}
                               </select>
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.empresa && touched.empresa ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
                               <ErrorMessage name="empresa" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -359,7 +412,14 @@ class ModalEditSedes extends React.Component {
                                   touched.codigo &&
                                   "is-invalid"}`}
                               />
-                              <ErrorMessage name={"codigo"} />
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.codigo && touched.codigo ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
+                              <ErrorMessage name="codigo" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -380,7 +440,14 @@ class ModalEditSedes extends React.Component {
                                   touched.nombre &&
                                   "is-invalid"}`}
                               />
-                              <ErrorMessage name={"nombre"} />
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.nombre && touched.nombre ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
+                              <ErrorMessage name="nombre" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-12">
@@ -411,11 +478,20 @@ class ModalEditSedes extends React.Component {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.prefijo_radicacion}
-                                className="form-control form-control-sm"
+                                className={`form-control form-control-sm ${
+                                  errors.prefijo_radicacion && touched.prefijo_radicacion &&
+                                  "is-invalid"}`}
                                 maxLength={"6"}
                                 placeholder=" "
                               />
-                              <ErrorMessage name={"prefijo_radicacion"} />
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.prefijo_radicacion && touched.prefijo_radicacion ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
+                              <ErrorMessage name="prefijo_radicacion" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -434,7 +510,14 @@ class ModalEditSedes extends React.Component {
                                 className="form-control form-control-sm"
                                 min={0}
                               />
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.sec_radicacion && touched.sec_radicacion ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
                               <ErrorMessage name="sec_radicacion" />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -480,15 +563,26 @@ class ModalEditSedes extends React.Component {
                                     <div className="form-group">
                                       <label> País</label>
                                       <select
-                                        name="pais"
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        className="form-control form-control-sm"
-                                        value={values.pais}
+                                      name={"pais"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.pais}
+                                      className={`form-control form-control-sm ${errors.pais &&
+                                        touched.pais &&
+                                        "is-invalid"}`}
                                       >
-                                        {" "}
-                                        {auxSelectedPais}
-                                      </select>
+                                      {" "}
+                                      {auxSelectedPais}
+                                      {" "}
+                                    </select>{" "}
+                                    <div style={{ color: '#D54B4B' }}>
+                                      {
+                                        errors.pais && touched.pais ?
+                                        <i className="fa fa-exclamation-triangle"/> :
+                                        null
+                                      }
+                                    <ErrorMessage name="pais"/>
+                                    </div>
                                     </div>
                                   </div>
                                   <div className="col-md-4">
@@ -499,10 +593,20 @@ class ModalEditSedes extends React.Component {
                                         value={values.departamento}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="form-control form-control-sm"
+                                        className={`form-control form-control-sm ${errors.departamento &&
+                                          touched.departamento &&
+                                          "is-invalid"}`}
                                       >
                                         {auxDepartamento}
                                       </select>
+                                      <div style={{ color: '#D54B4B' }}>
+                                      {
+                                        errors.departamento && touched.departamento ?
+                                        <i class="fa fa-exclamation-triangle"/> :
+                                        null
+                                      }
+                                      <ErrorMessage name="departamento" />
+                                      </div>
                                     </div>
                                   </div>
                                   <div className="col-md-4">
@@ -519,10 +623,20 @@ class ModalEditSedes extends React.Component {
                                         value={values.ciudad}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className="form-control form-control-sm"
+                                        className={`form-control form-control-sm ${errors.ciudad &&
+                                          touched.ciudad &&
+                                          "is-invalid"}`}
                                       >
                                         {auxCiudadSelected}
                                       </select>
+                                      <div style={{ color: '#D54B4B' }}>
+                                      {
+                                        errors.ciudad && touched.ciudad ?
+                                        <i class="fa fa-exclamation-triangle"/> :
+                                        null
+                                      }
+                                      <ErrorMessage name="ciudad" />
+                                      </div>
                                     </div>
                                   </div>
 
@@ -545,7 +659,14 @@ class ModalEditSedes extends React.Component {
                                           touched.direccion &&
                                           "is-invalid"}`}
                                       />
+                                      <div style={{ color: '#D54B4B' }}>
+                                      {
+                                        errors.direccion && touched.direccion ?
+                                        <i class="fa fa-exclamation-triangle"/> :
+                                        null
+                                      }
                                       <ErrorMessage name="direccion" />
+                                      </div>
                                     </div>
                                   </div>
                                   <div className="col-md-4">
@@ -567,7 +688,14 @@ class ModalEditSedes extends React.Component {
                                           touched.telefono &&
                                           "is-invalid"}`}
                                       />
+                                      <div style={{ color: '#D54B4B' }}>
+                                      {
+                                        errors.telefono && touched.telefono ?
+                                        <i class="fa fa-exclamation-triangle"/> :
+                                        null
+                                      }
                                       <ErrorMessage name="telefono" />
+                                      </div>
                                     </div>
                                   </div>
                                 </div>

@@ -135,7 +135,8 @@ class ModalEditEmpresa extends React.Component {
                 setSubmitting(false);
               }, 1000);
             }}
-            validationSchema={Yup.object().shape({
+            validationSchema={
+              Yup.object().shape({
               conglomerado: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione un conglomerado."),
@@ -193,7 +194,9 @@ class ModalEditEmpresa extends React.Component {
                                 <dd>
                                   {" "}
                                   <select
-                                    className="form-control form-control-sm"
+                                  className={`form-control form-control-sm ${errors.conglomerado &&
+                                    touched.conglomerado &&
+                                    "is-invalid"}`}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     name={"conglomerado"}
@@ -340,7 +343,9 @@ class ModalEditEmpresa extends React.Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.cargo_responsable}
-                                    className="form-control form-control-sm"
+                                    className={`form-control form-control-sm ${errors.cargo_responsable &&
+                                      touched.cargo_responsable &&
+                                      "is-invalid"}`}
                                   >
                                     {" "}
                                     {auxSelectedCargo}

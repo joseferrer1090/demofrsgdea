@@ -407,7 +407,7 @@ const SedesForm = props => {
                     value={values.c_responsable}
                     className="form-control form-control-sm"
                   >
-                    <option value={""}>-- Seleccione --</option>
+                    <option value={""} >-- Seleccione --</option>
                     <option value={"1"}> Cargo responsable 1</option>
                     <option value={"2"}> Cargo responsable 2</option>
                     <option value={"3"}> Cargo responsable 3</option>

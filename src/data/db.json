@@ -11,29 +11,29 @@
   "empresa": [
     {
       "id": 1,
-      "conglomerado": 1,
+      "conglomerado": "",
       "codigo": 123654,
       "nit": 123654789,
       "nombre": "Empresa 1",
       "descripcion": "Empresa de prueba 1",
-      "cargo_responsable": 1,
+      "cargo_responsable": "",
       "estado": true
     }
   ],
   "sedes": [
     {
       "id": 1,
-      "conglomerado": 1,
-      "empresa": 1,
+      "conglomerado": "",
+      "empresa": "",
       "codigo": 120546,
       "nombre": "Sede 1",
       "descripcion": "Descripcion de la sede",
       "prefijo_radicacion": "PREPRE",
       "sec_radicacion": 1990,
-      "cargo_responsable": "cargo responsable1",
-      "pais": "pais1",
-      "departamento": "departamento1",
-      "ciudad": "ciudad1",
+      "cargo_responsable": "",
+      "pais": "",
+      "departamento": "",
+      "ciudad": "",
       "direccion": "direccion de la sede",
       "telefono": 30215466,
       "estado": true
@@ -42,12 +42,12 @@
   "dependencia": [
     {
       "id": 1,
-      "conglomerado": 1,
-      "empresa": 1,
-      "sede": 1,
-      "codigo": "1010101",
+      "conglomerado": "",
+      "empresa": "",
+      "sede": "",
+      "codigo": 1010101,
       "nombre": "dependencia 1",
-      "cargo_responsable": "cargo responsable 1",
+      "cargo_responsable": "",
       "descripcion": "descripcion de la dependencia ",
       "estado": true
     }

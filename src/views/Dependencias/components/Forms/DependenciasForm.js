@@ -50,7 +50,10 @@ const DependenciaForm = props => {
                           touched.conglomerado &&
                           "is-invalid"}`}
                       >
-                        <option> Seleccione </option>
+                        <option value={""}>-- Seleccione --</option>
+                        <option value={"1"}> Conglomerado 1</option>
+                        <option value={"2"}> Conglomerado 2</option>
+                        <option value={"3"}> Conglomerado 3</option>
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                       {
@@ -78,7 +81,11 @@ const DependenciaForm = props => {
                           "is-invalid"}`}
                       >
                         {" "}
-                        <option> Seleccione... </option>{" "}
+                        <option value={""}> -- Seleccione --</option>
+                        <option value={"1"}> Empresa 1</option>
+                        <option value={"2"}> Empresa 2</option>
+                        <option value={"3"}> Empresa 3</option>
+                        {" "}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                       {
@@ -105,7 +112,10 @@ const DependenciaForm = props => {
                           touched.sede &&
                           "is-invalid"}`}
                       >
-                        <option>Seleccione...</option>
+                        <option>-- Seleccione --</option>
+                        <option value={"1"}> Sede 1</option>
+                        <option value={"2"}> Sede 2</option>
+                        <option value={"3"}> Sede 3</option>
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                       {
@@ -212,7 +222,11 @@ const DependenciaForm = props => {
                           "is-invalid"}`}
                       >
                         {" "}
-                        <option> Seleccione... </option>{" "}
+                        <option value={""}>-- Seleccione --</option>
+                        <option value={"1"}> Cargo responsable 1</option>
+                        <option value={"2"}> Cargo responsable 2</option>
+                        <option value={"3"}> Cargo responsable 3 </option>
+                        {" "}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                       {

@@ -179,23 +179,24 @@ class ModalEditDependencia extends React.Component {
             validationSchema={Yup.object().shape({
               conglomerado: Yup.string()
                 .ensure()
-                .required("necesario el conglomerado para la dependencia"),
+                .required(" Por favor seleccione un conglomerado."),
               empresa: Yup.string()
                 .ensure()
-                .required("necesaria la empresa para la dependencia"),
+                .required(" Por favor seleccione una empresa."),
               sede: Yup.string()
                 .ensure()
-                .required("necesaria la sede para la dependencia"),
+                .required(" Por favor seleccione una sede."),
               codigo: Yup.string().required(
-                "codigo necesario para la dependencia"
+                " Por favor introduzca un código."
               ),
               nombre: Yup.string().required(
-                "nombre necesario para la dependencia"
+                " Por favor introduzca un código."
               ),
-              descripcion: Yup.string(),
+              descripcion: Yup.string()
+                .max(250, "Máximo 250 caracteres."),
               cargo_responsable: Yup.string()
                 .ensure()
-                .required("asignar cargo responsable para la dependencia"),
+                .required(" Por favor seleccione el cargo."),
               estado: Yup.bool().test("Activado", "", value => value === true)
             })}
             onSubmit={(values, { setSubmitting }) => {
@@ -252,6 +253,14 @@ class ModalEditDependencia extends React.Component {
                               >
                                 {auxSelectedConglomegrado}
                               </select>
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.conglomerado && touched.conglomerado ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
+                              <ErrorMessage name="conglomerado" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -271,6 +280,14 @@ class ModalEditDependencia extends React.Component {
                               >
                                 {auxSelectedEmpresa}
                               </select>
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.empresa && touched.empresa ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
+                              <ErrorMessage name="empresa" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -288,6 +305,14 @@ class ModalEditDependencia extends React.Component {
                               >
                                 {auxSelectedSede}
                               </select>
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.sede && touched.sede ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
+                              <ErrorMessage name="sede" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -306,6 +331,14 @@ class ModalEditDependencia extends React.Component {
                                 value={values.codigo}
                                 className="form-control form-control-sm"
                               />
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.codigo && touched.codigo ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
+                              <ErrorMessage name="codigo" />
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -331,7 +364,14 @@ class ModalEditDependencia extends React.Component {
                                   touched.nombre &&
                                   "is-invalid"}`}
                               />
-                              <ErrorMessage name={"nombre"} />
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.nombre && touched.nombre ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
+                              <ErrorMessage name="nombre" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -350,6 +390,14 @@ class ModalEditDependencia extends React.Component {
                               >
                                 {auxSelectedCargoResponsable}
                               </select>
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.cargo_responsable && touched.cargo_responsable ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
+                              <ErrorMessage name="cargo_responsable" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-12">
@@ -362,6 +410,14 @@ class ModalEditDependencia extends React.Component {
                                 value={values.descripcion}
                                 className="form-control"
                               />
+                              <div style={{ color: '#D54B4B' }}>
+                              {
+                                errors.descripcion && touched.descripcion ?
+                                <i class="fa fa-exclamation-triangle"/> :
+                                null
+                              }
+                              <ErrorMessage name="descripcion" />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-12">

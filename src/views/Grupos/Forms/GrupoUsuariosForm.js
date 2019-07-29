@@ -48,7 +48,7 @@ return(
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.codigo && touched.codigo ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="codigo" />
@@ -74,7 +74,7 @@ return(
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.nombre && touched.nombre ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="nombre" />
@@ -97,7 +97,7 @@ return(
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.descripcion && touched.descripcion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="descripcion" />
@@ -129,7 +129,7 @@ return(
                                         "is-invalid"}`}
                                       value={values.conglomerado}
                                     >
-                                    <option value={""}>--Seleccione--</option>
+                                    <option  disabled value={""}>--Seleccione--</option>
                                     <option value={"1"}>Conglomerado 1</option>
                                     <option value={"2"}>Conglomerado 2</option>
                                     <option value={"3"}>Conglomerado 3</option>
@@ -137,7 +137,7 @@ return(
                                   <div style={{ color: '#D54B4B' }}>
                                   {
                                     errors.conglomerado && touched.conglomerado ?
-                                    <i class="fa fa-exclamation-triangle"/> :
+                                    <i className="fa fa-exclamation-triangle"/> :
                                     null
                                   }
                                   <ErrorMessage name="conglomerado" />
@@ -161,7 +161,7 @@ return(
                                         "is-invalid"}`}
                                       value={values.empresa}
                                     >
-                                    <option value={""}>--Seleccione--</option>
+                                    <option disabled value={""}>--Seleccione--</option>
                                     <option value={"1"}>Empresa 1</option>
                                     <option value={"2"}>Empresa 2</option>
                                     <option value={"3"}>Empresa 3</option>
@@ -169,7 +169,7 @@ return(
                                   <div style={{ color: '#D54B4B' }}>
                                   {
                                     errors.empresa && touched.empresa ?
-                                    <i class="fa fa-exclamation-triangle"/> :
+                                    <i className="fa fa-exclamation-triangle"/> :
                                     null
                                   }
                                   <ErrorMessage name="empresa"/>
@@ -194,7 +194,7 @@ return(
                                         "is-invalid"}`}
                                       value={values.sede}
                                     >
-                                    <option value={""}>--Seleccione--</option>
+                                    <option  disabled value={""}>--Seleccione--</option>
                                     <option value={"1"}>Sede 1</option>
                                     <option value={"2"}>Sede 2</option>
                                     <option value={"3"}>Sede 3</option>
@@ -202,7 +202,7 @@ return(
                                   <div style={{ color: '#D54B4B' }}>
                                   {
                                     errors.sede && touched.sede ?
-                                    <i class="fa fa-exclamation-triangle"/> :
+                                    <i className="fa fa-exclamation-triangle"/> :
                                     null
                                   }
                                   <ErrorMessage name="sede"/>
@@ -226,7 +226,7 @@ return(
                                         "is-invalid"}`}
                                     value={values.dependencia}
                                     >
-                                    <option value={""}>--Seleccione--</option>
+                                    <option disabled value={""}>--Seleccione--</option>
                                     <option value={"1"}>Dependencia 1</option>
                                     <option value={"2"}>Dependencia 2</option>
                                     <option value={"3"}>Dependencia 3</option>
@@ -234,7 +234,7 @@ return(
                                   <div style={{ color: '#D54B4B' }}>
                                   {
                                     errors.dependencia && touched.dependencia ?
-                                    <i class="fa fa-exclamation-triangle"/> :
+                                    <i className="fa fa-exclamation-triangle"/> :
                                     null
                                   }
                                   <ErrorMessage name ="dependencia"/>
@@ -301,7 +301,7 @@ return(
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.roles && touched.roles ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                             <ErrorMessage name={"roles"} />

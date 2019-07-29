@@ -33,7 +33,9 @@ class ModalUpdateRemitente extends React.Component {
       modal: this.props.modalupdate,
       activeTab: "1",
       tipo_tercero: "",
+      tipo_tercero_selected:[],
       elemento_comunicacion: "",
+      elemento_comunicacion_selected:[],
       identificacion: 1007647968,
       nombre: "Cristian Cuartas",
       email: "cristianhz1109@gmail.com",
@@ -41,8 +43,11 @@ class ModalUpdateRemitente extends React.Component {
       telefono_celular: 313118257,
       direccion: "Calle 27a Sur # 22-05",
       pais: "",
+      pais_selected:[],
       departamento: "",
+      departamento_selected:[],
       ciudad: "",
+      ciudad_selected:[],
       referencia: "Referencia",
       descripcion: "Descripción",
       estado: true
@@ -68,7 +73,12 @@ class ModalUpdateRemitente extends React.Component {
   };
 
   componentDidMount() {
-    this.getCityInformation()
+    this.getCityInformation();
+    this.getTipoTerceroData();
+    this.getElementoComunicacionData();
+    this.getPaisData();
+    this.getDepartamentoData();
+    this.getCiudadData();
   }
 
   getCityInformation() {
@@ -95,7 +105,57 @@ class ModalUpdateRemitente extends React.Component {
         });
         console.log(this.state);
       })
-    }
+    };
+    getTipoTerceroData = () => {
+      fetch("http://localhost:3001/tercerosTipoTerceroSelected")
+        .then(response => response.json())
+        .then(data => {
+          this.setState({
+            tipo_tercero_selected: data
+          });
+        })
+        .catch(error => console.log(error));
+    };
+    getElementoComunicacionData = () => {
+      fetch("http://localhost:3001/tercerosElementoComunicacionSelected")
+        .then(response => response.json())
+        .then(data => {
+          this.setState({
+            elemento_comunicacion_selected: data
+          });
+        })
+        .catch(error => console.log(error));
+    };
+    getPaisData = () => {
+      fetch("http://localhost:3001/tecerosPaisSelected")
+        .then(response => response.json())
+        .then(data => {
+          this.setState({
+            pais_selected: data
+          });
+        })
+        .catch(error => console.log(error));
+    };
+    getDepartamentoData = () => {
+      fetch("http://localhost:3001/tecerosDepartamentoSelected")
+        .then(response => response.json())
+        .then(data => {
+          this.setState({
+            departamento_selected: data
+          });
+        })
+        .catch(error => console.log(error));
+    };
+    getCiudadData = () => {
+      fetch("http://localhost:3001/tecerosCiudadSelected")
+        .then(response => response.json())
+        .then(data => {
+          this.setState({
+            ciudad_selected: data
+          });
+        })
+        .catch(error => console.log(error));
+    };
 
   render() {
     const dataPreview = {
@@ -114,6 +174,42 @@ class ModalUpdateRemitente extends React.Component {
           descripcion: this.state.descripcion,
           estado: this.state.estado
     };
+    const auxSelectedTipoTercero = this.state.tipo_tercero_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+    const auxSelectedElementoComunicacion = this.state.elemento_comunicacion_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+    const auxSelectedPais = this.state.pais_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+    const auxSelectedDepartamento = this.state.departamento_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+    const auxSelectedCiudad = this.state.ciudad_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+
 
     return (
       <Fragment>
@@ -157,14 +253,14 @@ class ModalUpdateRemitente extends React.Component {
             /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
             " Número no valido."
           )
-          .length(10, " Máximo 10 digitos")
+          .length(7, " Por favor introduzca un número de 7 dígitos")
           .required(" Por favor introduzca un teléfono fijo."),
           telefono_celular: Yup.string()
           .matches(
             /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
             " Número no valido."
           )
-          .length(10, " Máximo 10 digitos")
+          .length(10, " Por favor introduzca un número de 10 dígitos")
           .required(" Por favor introduzca un teléfono celular."),
           direccion: Yup.string()
           .max(45, "Máximo 45 caracteres")
@@ -227,15 +323,12 @@ class ModalUpdateRemitente extends React.Component {
                               touched.tipo_tercero &&
                               "is-invalid"}`}
                         >
-                        <option>Selecione...</option>
-                        <option value={"1"}>Tipo de tercero 1</option>
-                        <option value={"2"}>Tipo de tercero 2</option>
-                        <option value={"3"}>Tipo de tercero 3</option>
+                        {auxSelectedTipoTercero}
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.tipo_tercero && touched.tipo_tercero ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="tipo_tercero"/>
@@ -258,15 +351,12 @@ class ModalUpdateRemitente extends React.Component {
                             touched.elemento_comunicacion &&
                             "is-invalid"}`}
                         >
-                        <option>Selecione...</option>
-                        <option value={"1"}> Elemento de comunicación 1</option>
-                        <option value={"2"}> Elemento de comunicación 2</option>
-                        <option value={"3"}> Elemento de comunicación 3</option>
+                        {auxSelectedElementoComunicacion}
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.elemento_comunicacion && touched.elemento_comunicacion ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="elemento_comunicacion"/>
@@ -289,7 +379,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.identificacion && touched.identificacion ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="identificacion"/>
@@ -312,7 +402,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.nombre && touched.nombre ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="nombre"/>
@@ -335,7 +425,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.email && touched.email ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="email"/>
@@ -378,7 +468,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.telefono_fijo && touched.telefono_fijo ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="telefono_fijo"/>
@@ -401,7 +491,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.telefono_celular && touched.telefono_celular ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="telefono_celular"/>
@@ -424,7 +514,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.direccion && touched.direccion ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="direccion"/>
@@ -443,16 +533,12 @@ class ModalUpdateRemitente extends React.Component {
                             touched.pais &&
                             "is-invalid"}`}
                         >
-                          {" "}
-                          <option> Seleccione... </option>
-                          <option value={"1"}>País 1</option>
-                          <option value={"2"}>País 2</option>
-                          <option value={"3"}>País 3</option>{" "}
+                          {auxSelectedPais}
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.pais && touched.pais ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="pais"/>
@@ -472,16 +558,13 @@ class ModalUpdateRemitente extends React.Component {
                             "is-invalid"}`}
                         >
                           {" "}
-                          <option> Seleccione... </option>
-                          <option value={"1"}> Departamento 1</option>
-                          <option value={"2"}> Departamento 2</option>
-                          <option value={"3"}> Departamento 3</option>
+                          {auxSelectedDepartamento}
                           {" "}
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.departamento && touched.departamento ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="departamento"/>
@@ -500,15 +583,12 @@ class ModalUpdateRemitente extends React.Component {
                         touched.ciudad &&
                         "is-invalid"}`}
                         >
-                        <option>Seleccione...</option>
-                        <option value={"1"}>Ciudad 1</option>
-                        <option value={"2"}>Ciudad 2</option>
-                        <option value={"3"}>Ciudad 3</option>
+                        {auxSelectedCiudad}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.ciudad && touched.ciudad ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                       <ErrorMessage name="ciudad"/>
@@ -531,7 +611,7 @@ class ModalUpdateRemitente extends React.Component {
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.referencia && touched.referencia ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="referencia"/>
@@ -554,7 +634,7 @@ class ModalUpdateRemitente extends React.Component {
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.descripcion && touched.descripcion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="descripcion"/>

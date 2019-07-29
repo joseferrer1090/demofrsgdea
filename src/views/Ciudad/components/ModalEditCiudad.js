@@ -17,7 +17,9 @@ class ModalEditCiudad extends React.Component {
     state = {
       modal: this.props.modaledit,
       pais:"",
+      pais_selected:[],
       departamento:"",
+      departamento_selected:[],
       codigo:"",
       nombre:"",
       estado:""
@@ -36,7 +38,9 @@ class ModalEditCiudad extends React.Component {
   };
 
   componentDidMount() {
-    this.getCityInformation()
+    this.getCityInformation();
+    this.getPaisData();
+    this.getDepartamentoData();
   }
 
   getCityInformation() {
@@ -54,7 +58,27 @@ class ModalEditCiudad extends React.Component {
         console.log(this.state);
       })
       .catch(error => console.log("Error", error));
-  }
+  };
+  getPaisData = () => {
+    fetch("http://localhost:3001/ciudadPaisSelected")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          pais_selected: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+  getDepartamentoData = () => {
+    fetch("http://localhost:3001/ciudadDepartamentoSelected")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          departamento_selected: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
 
   render() {
 
@@ -65,7 +89,20 @@ class ModalEditCiudad extends React.Component {
       nombre: this.state.nombre,
       estado: this.state.estado
     };
-
+    const auxSelectedPais = this.state.pais_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+    const auxSelectedDepartamento = this.state.departamento_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -141,16 +178,13 @@ class ModalEditCiudad extends React.Component {
                               "is-invalid"}`}
                             >
                             {" "}
-                            <option> Seleccione... </option>
-                            <option value={"1"}> País 1 </option>
-                            <option value={"2"}> País 2 </option>
-                            <option value={"3"}> País 3 </option>
+                            {auxSelectedPais}
                             {" "}
                           </select>{" "}
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.pais && touched.pais ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="pais"/>
@@ -175,16 +209,13 @@ class ModalEditCiudad extends React.Component {
                             "is-invalid"}`}
                           >
                           {" "}
-                          <option> Seleccione... </option>
-                          <option value={"1"}> Departamento 1</option>
-                          <option value={"2"}> Departamento 2</option>
-                          <option value={"3"}> Departamento 3</option>
+                          {auxSelectedDepartamento}
                           {" "}
                         </select>{" "}
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.departamento && touched.departamento ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="departamento" />
@@ -212,7 +243,7 @@ class ModalEditCiudad extends React.Component {
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.codigo && touched.codigo ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="codigo"/>
@@ -241,7 +272,7 @@ class ModalEditCiudad extends React.Component {
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.nombre && touched.nombre ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="nombre"/>

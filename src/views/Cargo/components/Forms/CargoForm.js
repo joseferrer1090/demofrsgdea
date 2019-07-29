@@ -55,7 +55,7 @@ const CargoForm = props => {
                   <div style={{ color: '#D54B4B' }}>
                   {
                     errors.conglomerado && touched.conglomerado ?
-                    <i class="fa fa-exclamation-triangle"/> :
+                    <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
                   <ErrorMessage name="conglomerado" />
@@ -78,7 +78,7 @@ const CargoForm = props => {
                   <div style={{ color: '#D54B4B' }}>
                   {
                     errors.conglomerado_responsable && touched.conglomerado_responsable ?
-                    <i class="fa fa-exclamation-triangle"/> :
+                    <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
                   <ErrorMessage name={"conglomerado_responsable"} />
@@ -108,7 +108,7 @@ const CargoForm = props => {
                   <div style={{ color: '#D54B4B' }}>
                   {
                     errors.empresa && touched.empresa ?
-                    <i class="fa fa-exclamation-triangle"/> :
+                    <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
                   <ErrorMessage name={"empresa"} />
@@ -155,7 +155,7 @@ const CargoForm = props => {
                   <div style={{ color: '#D54B4B' }}>
                   {
                     errors.sede && touched.sede ?
-                    <i class="fa fa-exclamation-triangle"/> :
+                    <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
                   <ErrorMessage name={"sede"} />
@@ -198,7 +198,7 @@ const CargoForm = props => {
                   <div style={{ color: '#D54B4B' }}>
                   {
                     errors.dependencia && touched.dependencia ?
-                    <i class="fa fa-exclamation-triangle"/> :
+                    <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
                   <ErrorMessage name={"dependencia"} />
@@ -249,7 +249,7 @@ const CargoForm = props => {
                   <div style={{ color: '#D54B4B' }}>
                   {
                     errors.codigo && touched.codigo ?
-                    <i class="fa fa-exclamation-triangle"/> :
+                    <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
                   <ErrorMessage name={"codigo"} />
@@ -276,7 +276,7 @@ const CargoForm = props => {
                   <div style={{ color: '#D54B4B' }}>
                   {
                     errors.nombre && touched.nombre ?
-                    <i class="fa fa-exclamation-triangle"/> :
+                    <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
                   <ErrorMessage name={"nombre"} />

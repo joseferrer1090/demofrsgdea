@@ -35,11 +35,23 @@ class ModalEditSedes extends React.Component {
     ciudad: "",
     direccion: "",
     telefono: "",
-    estado: ""
+    estado: "",
+    selected_conglomerado: [],
+    selected_empresa: [],
+    selected_cargo_responsable: [],
+    selected_pais: [],
+    selected_departamento: [],
+    selected_ciudad: []
   };
 
   componentDidMount() {
-    // this.getDataSedes();
+    this.getDataSedes();
+    this.getDataConglomerado();
+    this.getDataEmpresa();
+    this.getDataCargoResponsable();
+    this.getDataPais();
+    this.getDataCiudad();
+    this.getDataDepartamento();
   }
 
   toggle = () => {
@@ -55,7 +67,89 @@ class ModalEditSedes extends React.Component {
     fetch("http://localhost:3001/sedes/1")
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          conglomerado: data.conglomerado,
+          nombre: data.nombre,
+          empresa: data.empresa,
+          codigo: data.codigo,
+          descripcion: data.descripcion,
+          prefijo_radicacion: data.prefijo_radicacion,
+          sec_radicacion: data.sec_radicacion,
+          cargo_responsable: data.cargo_responsable,
+          pais: data.pais,
+          departamento: data.departamento,
+          ciudad: data.ciudad,
+          direccion: data.direccion,
+          telefono: data.telefono,
+          estado: data.estado
+        });
+        console.log(this.state);
+      })
+      .catch(error => console.log(error));
+  };
+
+  getDataConglomerado = () => {
+    fetch("http://localhost:3001/conglomerado")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          selected_conglomerado: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+
+  getDataEmpresa = () => {
+    fetch("http://localhost:3001/empresa")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          selected_empresa: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+
+  getDataCargoResponsable = () => {
+    fetch("http://localhost:3001/cargo_responsable")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          selected_cargo_responsable: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+
+  getDataPais = () => {
+    fetch("http://localhost:3001/pais")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          selected_pais: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+
+  getDataCiudad = () => {
+    fetch("http://localhost:3001/ciudad")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          selected_ciudad: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+
+  getDataDepartamento = () => {
+    fetch("http://localhost:3001/departamento")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          selected_departamento: data
+        });
       })
       .catch(error => console.log(error));
   };
@@ -77,6 +171,56 @@ class ModalEditSedes extends React.Component {
       telefono: this.state.telefono,
       estado: this.state.estado
     };
+
+    const auxSelected = this.state.selected_conglomerado.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+
+    const auxSelectedEmpresa = this.state.selected_empresa.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+
+    const auxSelectedCargoResponsable = this.state.selected_cargo_responsable.map(
+      (aux, id) => {
+        return (
+          <option key={id} value={aux.id}>
+            {aux.nombre}
+          </option>
+        );
+      }
+    );
+
+    const auxSelectedPais = this.state.selected_pais.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+
+    const auxDepartamento = this.state.selected_departamento.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+
+    const auxCiudadSelected = this.state.selected_ciudad.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -160,10 +304,20 @@ class ModalEditSedes extends React.Component {
                                 Conglomerado{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <select className="form-control form-control-sm">
+                              <select
+                                name="conglomerado"
+                                className={`form-control form-control-sm ${errors.conglomerado &&
+                                  touched.conglomerado &&
+                                  "is-invalid"}`}
+                                value={values.conglomerado}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                              >
                                 {" "}
-                                <option>Seleccione...</option>{" "}
+                                <option value="">Seleccione...</option>{" "}
+                                {auxSelected}
                               </select>
+                              <ErrorMessage name="conglomerado" />
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -174,10 +328,20 @@ class ModalEditSedes extends React.Component {
                                   *
                                 </span>{" "}
                               </label>
-                              <select className="form-control form-control-sm">
+                              <select
+                                name={"empresa"}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.empresa}
+                                className={`form-control form-control-sm ${errors.empresa &&
+                                  touched.empresa &&
+                                  "is-invalid"}`}
+                              >
                                 {" "}
-                                <option>Seleccione...</option>{" "}
+                                <option value="">Seleccione...</option>{" "}
+                                {auxSelectedEmpresa}
                               </select>
+                              <ErrorMessage name="empresa" />
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -243,6 +407,10 @@ class ModalEditSedes extends React.Component {
                               </label>
                               <input
                                 type="text"
+                                name="prefijo_radicacion"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.prefijo_radicacion}
                                 className="form-control form-control-sm"
                                 maxLength={"6"}
                                 placeholder=" "
@@ -251,6 +419,7 @@ class ModalEditSedes extends React.Component {
                                 onBlur={handleBlur}
                                 value={values.prefijo_radicacion}
                               />
+                              <ErrorMessage name={"prefijo_radicacion"} />
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -262,10 +431,14 @@ class ModalEditSedes extends React.Component {
                               </label>
                               <input
                                 type="number"
+                                name="sec_radicacion"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.sec_radicacion}
                                 className="form-control form-control-sm"
-                                defaultValue={this.state.secuencia}
                                 min={0}
                               />
+                              <ErrorMessage name="sec_radicacion" />
                             </div>
                           </div>
                         </div>
@@ -289,32 +462,50 @@ class ModalEditSedes extends React.Component {
                             <CardBody>
                               <form className="form">
                                 <div className="row" />
-
                                 <div className="row">
                                   <div className="col-md-12">
                                     <div className="form-group">
                                       <label> Cargo responsable </label>
-                                      <select className="form-control form-control-sm">
-                                        {" "}
-                                        <option>Seleccione...</option>{" "}
+                                      <select
+                                        name="cargo_responsable"
+                                        className={`form-control form-control-sm ${errors.cargo_responsable &&
+                                          touched.cargo_responsable &&
+                                          "is-invalid"}`}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.cargo_responsable}
+                                      >
+                                        {auxSelectedCargoResponsable}
                                       </select>
+                                      <ErrorMessage name="cargo_responsable" />
                                     </div>
                                   </div>
                                   <div className="col-md-4">
                                     <div className="form-group">
                                       <label> País</label>
-                                      <select className="form-control form-control-sm">
+                                      <select
+                                        name="pais"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        className="form-control form-control-sm"
+                                        value={values.pais}
+                                      >
                                         {" "}
-                                        <option>Seleccione...</option>{" "}
+                                        {auxSelectedPais}
                                       </select>
                                     </div>
                                   </div>
                                   <div className="col-md-4">
                                     <div className="form-group">
                                       <label> Departamento</label>
-                                      <select className="form-control form-control-sm">
-                                        {" "}
-                                        <option>Seleccione...</option>{" "}
+                                      <select
+                                        name="departamento"
+                                        value={values.departamento}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        className="form-control form-control-sm"
+                                      >
+                                        {auxDepartamento}
                                       </select>
                                     </div>
                                   </div>
@@ -327,9 +518,14 @@ class ModalEditSedes extends React.Component {
                                           *
                                         </span>{" "}
                                       </label>
-                                      <select className="form-control form-control-sm">
-                                        {" "}
-                                        <option> Seleccione... </option>{" "}
+                                      <select
+                                        name="ciudad"
+                                        value={values.ciudad}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        className="form-control form-control-sm"
+                                      >
+                                        {auxCiudadSelected}
                                       </select>
                                     </div>
                                   </div>
@@ -344,9 +540,16 @@ class ModalEditSedes extends React.Component {
                                         </span>{" "}
                                       </label>
                                       <input
+                                        name={"direccion"}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.direccion}
                                         type="text"
-                                        className="form-control form-control-sm"
+                                        className={`form-control form-control-sm ${errors.direccion &&
+                                          touched.direccion &&
+                                          "is-invalid"}`}
                                       />
+                                      <ErrorMessage name="direccion" />
                                     </div>
                                   </div>
                                   <div className="col-md-4">
@@ -360,8 +563,15 @@ class ModalEditSedes extends React.Component {
                                       </label>
                                       <input
                                         type="text"
-                                        className="form-control form-control-sm"
+                                        name="telefono"
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.telefono}
+                                        className={`form-control form-control-sm ${errors.telefono &&
+                                          touched.telefono &&
+                                          "is-invalid"}`}
                                       />
+                                      <ErrorMessage name="telefono" />
                                     </div>
                                   </div>
                                 </div>
@@ -375,16 +585,37 @@ class ModalEditSedes extends React.Component {
                                     <span className="text-danger">*</span>{" "}
                                   </label>
                                   <div className="text-justify">
-                                    <CustomInput
-                                      type="checkbox"
-                                      id="CheckboxEditSedes"
-                                      label="Si esta opción se encuentra activada, Representa que
-             la sede es visible en el sistema y se podrán
-             realizar operaciones entre cada uno de los módulos
-             correspondientes de la aplicación. En caso contrario
-             la sede no se elimina del sistema solo quedará
-             inactiva e invisibles para cada uno de los módulos
-             correspondiente del sistema."
+                                    <Field
+                                      name="estado"
+                                      render={({ field, form }) => {
+                                        //console.log("field", field);
+                                        return (
+                                          // <input
+                                          //   type="checkbox"
+                                          //   checked={field.value}
+                                          //   {...field}
+                                          // />
+                                          <CustomInput
+                                            type="checkbox"
+                                            id="conglomeradoModalEdit"
+                                            label="Si esta opción se encuentra activada, representa
+                                          que el conglomerado es visible en el sistema y se
+                                          podrán realizar operaciones entre cada uno de los
+                                          módulos correspondientes de la aplicación. En caso
+                                          contrario el conglomerado no se elimina del
+                                          sistema solo quedará inactivo e invisibles para
+                                          cada uno de los módulos correspondiente del
+                                          sistema."
+                                            {...field}
+                                            checked={field.value}
+                                            className={
+                                              errors.estado &&
+                                              touched.estado &&
+                                              "invalid-feedback"
+                                            }
+                                          />
+                                        );
+                                      }}
                                     />
                                   </div>
                                 </div>
@@ -398,10 +629,13 @@ class ModalEditSedes extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className="btn btn-outline-success btn-sm"
+                      className={"btn btn-outline-success btn-sm"}
+                      onClick={e => {
+                        e.preventDefault();
+                        handleSubmit();
+                      }}
                     >
-                      {" "}
-                      <i className="fa fa-pencil" /> Actualizar{" "}
+                      <i className="fa fa-pencil" /> Actualizar sede
                     </button>
                     <button
                       type="button"

@@ -51,5 +51,91 @@
       "telefono": 30215466,
       "estado": false
     }
+  ],
+
+  "conglomerado": [
+    {
+      "id": 1,
+      "nombre": "conglomerado 1"
+    },
+    {
+      "id": 2,
+      "nombre": "conglomerado 2"
+    },
+    {
+      "id": 3,
+      "nombre": "conglomerado 3"
+    }
+  ],
+
+  "empresa": [
+    {
+      "id": 1,
+      "nombre": "empresa 1"
+    },
+    {
+      "id": 2,
+      "nombre": "empresa 2"
+    },
+    {
+      "id": 3,
+      "nombre": "empresa 3"
+    }
+  ],
+  "cargo_responsable": [
+    {
+      "id": 1,
+      "nombre": "cargo responsable 1"
+    },
+    {
+      "id": 2,
+      "nombre": "cargo responsable 2"
+    },
+    {
+      "id": 3,
+      "nombre": "cargo responsable 3"
+    }
+  ],
+  "ciudad": [
+    {
+      "id": 1,
+      "nombre": "ciudad 1"
+    },
+    {
+      "id": 2,
+      "nombre": "ciudad 2"
+    },
+    {
+      "id": 3,
+      "nombre": "ciudad 3"
+    }
+  ],
+  "departamento": [
+    {
+      "id": 1,
+      "nombre": "departamento 1"
+    },
+    {
+      "id": 2,
+      "nombre": "departamento 2"
+    },
+    {
+      "id": 3,
+      "nombre": "departamento 3"
+    }
+  ],
+  "pais": [
+    {
+      "id": 1,
+      "nombre": "pais 1"
+    },
+    {
+      "id": 2,
+      "nombre": "pais 2"
+    },
+    {
+      "id": 3,
+      "nombre": "pais 3"
+    }
   ]
 }

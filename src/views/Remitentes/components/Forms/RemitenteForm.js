@@ -51,7 +51,7 @@ const RemitenteForm = props =>{
                               touched.tipoTercero &&
                               "is-invalid"}`}
                           >
-                          <option>Selecione...</option>
+                          <option disabled value={""}>-- Selecione --</option>
                           <option value="1">Cliente</option>
                           <option value="2">Proveedor </option>
                           <option value="3">Stakeholders </option>
@@ -61,7 +61,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.tipoTercero && touched.tipoTercero ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="tipoTercero"/>
@@ -84,7 +84,7 @@ const RemitenteForm = props =>{
                               touched.elementoComunicacion &&
                               "is-invalid"}`}
                           >
-                          <option>Selecione...</option>
+                          <option disabled value={""}>-- Selecione --</option>
                           <option value="1">Remitente</option>
                           <option value="2">Destinatario </option>
                           <option value="3">Mixto </option>
@@ -92,7 +92,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.elementoComunicacion && touched.elementoComunicacion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="elementoComunicacion"/>
@@ -119,7 +119,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.identificacion && touched.identificacion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="identificacion"/>
@@ -145,7 +145,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.nombre && touched.nombre ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="nombre"/>
@@ -173,7 +173,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.email && touched.email ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="email"/>
@@ -196,7 +196,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.telefonoFijo && touched.telefonoFijo ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="telefonoFijo"/>
@@ -219,7 +219,7 @@ const RemitenteForm = props =>{
                         <div style={{ color: '#D54B4B' }}>
                             {
                               errors.telefonoCelular && touched.telefonoCelular ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                         <ErrorMessage name="telefonoCelular"/>
@@ -242,7 +242,7 @@ const RemitenteForm = props =>{
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.direccion && touched.direccion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="direccion"/>
@@ -266,14 +266,14 @@ const RemitenteForm = props =>{
                               touched.pais &&
                               "is-invalid"}`}
                           >
-                          <option>Seleccione...</option>
+                          <option disabled value={""}> -- Seleccione --</option>
                           <option value="1">País 1</option>
                           <option value="2">País 2 </option>
                           </select>
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.pais && touched.pais ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="pais"/>
@@ -296,14 +296,14 @@ const RemitenteForm = props =>{
                               touched.departamento &&
                               "is-invalid"}`}
                           >
-                          <option>Seleccione...</option>
+                          <option disabled value={""}>-- Seleccione --</option>
                           <option value="1">Departamento 1</option>
                           <option value="2">Departamento 2 </option>
                           </select>
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.departamento && touched.departamento ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="departamento"/>
@@ -325,14 +325,14 @@ const RemitenteForm = props =>{
                               touched.ciudad &&
                               "is-invalid"}`}
                           >
-                          <option>Seleccione...</option>
+                          <option value={""} disabled>-- Seleccione --</option>
                           <option value="1">Ciudad 1</option>
                           <option value="2">Ciudad 2 </option>
                           </select>
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.ciudad && touched.ciudad ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="ciudad"/>

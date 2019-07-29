@@ -26,9 +26,13 @@ class ModalEditPais extends React.Component {
       codigo: "",
       nombre: "",
       conglomerado: "",
+      conglomerado_selected:[],
       empresa: "",
+      empresa_selected:[],
       sede: "",
+      sede_selected:[],
       dependencia: "",
+      dependencia_selected:[],
       roles: "",
       estado: "",
       descripcion:""
@@ -48,7 +52,11 @@ class ModalEditPais extends React.Component {
   };
 
   componentDidMount() {
-    this.getGrupoInformation()
+    this.getGrupoInformation();
+    this.getConglomeradoData();
+    this.getEmpresaData();
+    this.getSedeData();
+    this.getDependenciaData();
   }
 
   getGrupoInformation() {
@@ -71,6 +79,47 @@ class ModalEditPais extends React.Component {
       })
       .catch(error => console.log("Error", error));
   }
+  getConglomeradoData = () => {
+    fetch("http://localhost:3001/gruposConglomeradoSelected")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          conglomerado_selected: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+  getEmpresaData = () => {
+    fetch("http://localhost:3001/gruposEmpresaSelected")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          empresa_selected: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+  getSedeData = () => {
+    fetch("http://localhost:3001/gruposSedeSelected")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          sede_selected: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+  getDependenciaData = () => {
+    fetch("http://localhost:3001/gruposDependenciaSelected")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dependencia_selected: data
+        });
+      })
+      .catch(error => console.log(error));
+  };
+
 
   // handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
   //   this.setState({ selectedOptionUserAsigandos });
@@ -98,7 +147,7 @@ class ModalEditPais extends React.Component {
     const dataPreview = {
       codigo: this.state.codigo,
       nombre: this.state.nombre,
-      descripcion: this.state.descripción,
+      descripcion: this.state.descripcion,
       conglomerado: this.state.conglomerado,
       empresa: this.state.empresa,
       sede: this.state.sede,
@@ -106,7 +155,34 @@ class ModalEditPais extends React.Component {
       roles: this.state.roles,
       estado: this.state.estado
     };
-
+    const auxSelectedConglomerado = this.state.conglomerado_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+    const auxSelectedEmpresa = this.state.empresa_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+    const auxSelectedSede = this.state.sede_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
+    const auxSelectedDependencia = this.state.dependencia_selected.map((aux, id) => {
+      return (
+        <option key={id} value={aux.id}>
+          {aux.nombre}
+        </option>
+      );
+    });
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -184,7 +260,7 @@ class ModalEditPais extends React.Component {
                       Código <span className="text-danger">*</span>{" "}
                     </label>
                     <input
-                      name="codigo"
+                      name={"codigo"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       type="text"
@@ -196,7 +272,7 @@ class ModalEditPais extends React.Component {
                     <div style={{ color: '#D54B4B' }}>
                       {
                         errors.codigo && touched.codigo ?
-                        <i class="fa fa-exclamation-triangle"/> :
+                        <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
                     <ErrorMessage name="codigo" />
@@ -210,7 +286,7 @@ class ModalEditPais extends React.Component {
                       Nombre <span className="text-danger">*</span>{" "}
                     </label>
                     <input
-                      name="nombre"
+                      name={"nombre"}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       type="text"
@@ -222,7 +298,7 @@ class ModalEditPais extends React.Component {
                     <div style={{ color: '#D54B4B' }}>
                       {
                         errors.nombre && touched.nombre ?
-                        <i class="fa fa-exclamation-triangle"/> :
+                        <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
                     <ErrorMessage name="nombre" />
@@ -234,7 +310,7 @@ class ModalEditPais extends React.Component {
                   <div className="form-group">
                     <label> Descripción </label>
                     <textarea
-                            name="descripcion"
+                            name={"descripcion"}
                             value={values.descripcion}
                             className="form-control form-control-sm"
                             onChange={handleChange}
@@ -243,7 +319,7 @@ class ModalEditPais extends React.Component {
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.descripcion && touched.descripcion ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                           <ErrorMessage name="descripcion" />
@@ -276,15 +352,12 @@ class ModalEditPais extends React.Component {
                             "is-invalid"}`}
                           value={values.conglomerado}
                         >
-                        <option value={""}>--Seleccione--</option>
-                        <option value={"1"}>Conglomerado 1</option>
-                        <option value={"2"}>Conglomerado 2</option>
-                        <option value={"3"}>Conglomerado 3</option>
+                        {auxSelectedConglomerado}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                       {
                         errors.conglomerado && touched.conglomerado ?
-                        <i class="fa fa-exclamation-triangle"/> :
+                        <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
                       <ErrorMessage name="conglomerado" />
@@ -308,15 +381,12 @@ class ModalEditPais extends React.Component {
                               "is-invalid"}`}
                             value={values.empresa}
                           >
-                          <option value={""}>--Seleccione--</option>
-                          <option value={"1"}>Empresa 1</option>
-                          <option value={"2"}>Empresa 2</option>
-                          <option value={"3"}>Empresa 3</option>
+                          {auxSelectedEmpresa}
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.empresa && touched.empresa ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="empresa"/>
@@ -341,15 +411,12 @@ class ModalEditPais extends React.Component {
                               "is-invalid"}`}
                             value={values.sede}
                           >
-                          <option value={""}>--Seleccione--</option>
-                          <option value={"1"}>Sede 1</option>
-                          <option value={"2"}>Sede 2</option>
-                          <option value={"3"}>Sede 3</option>
+                          {auxSelectedSede}
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.sede && touched.sede ?
-                          <i class="fa fa-exclamation-triangle"/> :
+                          <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
                         <ErrorMessage name="sede"/>
@@ -373,15 +440,12 @@ class ModalEditPais extends React.Component {
                                 "is-invalid"}`}
                             value={values.dependencia}
                             >
-                            <option value={""}>--Seleccione--</option>
-                            <option value={"1"}>Dependencia 1</option>
-                            <option value={"2"}>Dependencia 2</option>
-                            <option value={"3"}>Dependencia 3</option>
+                            {auxSelectedDependencia}
                           </select>
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.dependencia && touched.dependencia ?
-                            <i class="fa fa-exclamation-triangle"/> :
+                            <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
                           <ErrorMessage name ="dependencia"/>
@@ -441,7 +505,7 @@ class ModalEditPais extends React.Component {
                             <div style={{ color: '#D54B4B' }}>
                             {
                               errors.roles && touched.roles ?
-                              <i class="fa fa-exclamation-triangle"/> :
+                              <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
                             <ErrorMessage name={"roles"} />

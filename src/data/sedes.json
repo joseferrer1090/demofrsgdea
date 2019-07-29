@@ -1,0 +1,141 @@
+{
+  "sedes": [
+    {
+      "id": 1,
+      "conglomerado": 1,
+      "empresa": 1,
+      "codigo": 1205469,
+      "nombre": "Sede 1",
+      "descripcion": "Descripcion de la sede",
+      "prefijo_radicacion": "PRE",
+      "sec_radicacion": 1990,
+      "cargo_responsable": "cargo responsable1",
+      "pais": "pais1",
+      "departamento": "departamento1",
+      "ciudad": "ciudad1",
+      "direccion": "direccion de la sede",
+      "telefono": 30215466,
+      "estado": true
+    },
+    {
+      "id": 2,
+      "conglomerado": 2,
+      "empresa": 2,
+      "codigo": 1205468,
+      "nombre": "Sede 2",
+      "descripcion": "Descripcion de la sede",
+      "prefijo_radicacion": "PRE",
+      "sec_radicacion": 1630,
+      "cargo_responsable": "cargo responsable1",
+      "pais": "pais2",
+      "departamento": "departamento2",
+      "ciudad": "ciudad2",
+      "direccion": "direccion de la sede",
+      "telefono": 30215466,
+      "estado": false
+    },
+    {
+      "id": 3,
+      "conglomerado": 3,
+      "empresa": 3,
+      "codigo": 1205425,
+      "nombre": "Sede 3",
+      "descripcion": "Descripcion de la sede",
+      "prefijo_radicacion": "PRE",
+      "sec_radicacion": 1090,
+      "cargo_responsable": "cargo responsable3",
+      "pais": "pais2",
+      "departamento": "departamento2",
+      "ciudad": "ciudad2",
+      "direccion": "direccion de la sede",
+      "telefono": 30215466,
+      "estado": false
+    }
+  ],
+
+  "conglomerado": [
+    {
+      "id": 1,
+      "nombre": "conglomerado 1"
+    },
+    {
+      "id": 2,
+      "nombre": "conglomerado 2"
+    },
+    {
+      "id": 3,
+      "nombre": "conglomerado 3"
+    }
+  ],
+
+  "empresa": [
+    {
+      "id": 1,
+      "nombre": "empresa 1"
+    },
+    {
+      "id": 2,
+      "nombre": "empresa 2"
+    },
+    {
+      "id": 3,
+      "nombre": "empresa 3"
+    }
+  ],
+  "cargo_responsable": [
+    {
+      "id": 1,
+      "nombre": "cargo responsable 1"
+    },
+    {
+      "id": 2,
+      "nombre": "cargo responsable 2"
+    },
+    {
+      "id": 3,
+      "nombre": "cargo responsable 3"
+    }
+  ],
+  "ciudad": [
+    {
+      "id": 1,
+      "nombre": "ciudad 1"
+    },
+    {
+      "id": 2,
+      "nombre": "ciudad 2"
+    },
+    {
+      "id": 3,
+      "nombre": "ciudad 3"
+    }
+  ],
+  "departamento": [
+    {
+      "id": 1,
+      "nombre": "departamento 1"
+    },
+    {
+      "id": 2,
+      "nombre": "departamento 2"
+    },
+    {
+      "id": 3,
+      "nombre": "departamento 3"
+    }
+  ],
+  "pais": [
+    {
+      "id": 1,
+      "nombre": "pais 1"
+    },
+    {
+      "id": 2,
+      "nombre": "pais 2"
+    },
+    {
+      "id": 3,
+      "nombre": "pais 3"
+    }
+  ]
+}

@@ -246,6 +246,10 @@ class ModalEditSedes extends React.Component {
                                 className="form-control form-control-sm"
                                 maxLength={"6"}
                                 placeholder=" "
+                                name={"prefijo_radicacion"}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.prefijo_radicacion}
                               />
                             </div>
                           </div>

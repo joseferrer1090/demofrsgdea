@@ -4,7 +4,21 @@ import Loadable from "react-loadable";
 import "./App.scss";
 
 const loading = () => (
-  <div className="animated fadeIn pt-3 text-center">Loading...</div>
+  // <div className="animated fadeIn pt-3 text-center">Loading...</div>
+  <div
+    className=""
+    style={{
+      margin: "0",
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)"
+    }}
+  >
+    <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
+    <p>Loading ... </p>
+  </div>
 );
 
 // Containers

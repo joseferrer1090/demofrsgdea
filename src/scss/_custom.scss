@@ -1,1 +1,6 @@
 // Here you can add other styles
+@media (min-width: 992px){
+    .sidebar-minimized .sidebar .sidebar-nav {
+       overflow-y: visible !important;
+    }
+}   

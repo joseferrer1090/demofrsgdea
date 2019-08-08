@@ -189,10 +189,7 @@ export default withFormik({
     nombre: Yup.string()
       .required(" Por favor introduzca un nombre.")
       .max(100),
-    descripcion: Yup.string().max(
-      250,
-      " Máximo 250 caracteres."
-    ),
+    descripcion: Yup.string().max(250, " Máximo 250 caracteres."),
     estado: Yup.bool()
       .test(
         "Activo",

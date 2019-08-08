@@ -8,7 +8,7 @@ import {
   CardHeader,
   Card
 } from "reactstrap";
-
+import { CONGLOMERATES } from "./../../../../services/EndPoints";
 const ConglomeradorForm = props => {
   const {
     values,
@@ -25,6 +25,7 @@ const ConglomeradorForm = props => {
 
   console.log(errors);
   console.log(touched);
+
   return (
     <div>
       <Card>
@@ -199,8 +200,40 @@ export default withFormik({
       .required(" Es importante activar el conglomerado")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      fetch("https://address-book-database.firebaseio.com/contact.json", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          code: values.codigo,
+          name: values.nombre,
+          description: values.descripcion,
+          status: tipoEstado(values.estado),
+          userName: "jferrer"
+        })
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (response.ok) {
+              console.log("conglomerado registrado");
+            } else if (response.status === 400) {
+              console.log("no se puedo crear el conglomerado");
+            }
+          })
+        )
+        .catch(error => console.log(" ", error));
       setSubmitting(false);
       resetForm();
     }, 1000);

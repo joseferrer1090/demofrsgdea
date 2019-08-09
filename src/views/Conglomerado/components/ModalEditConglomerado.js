@@ -12,9 +12,10 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
-import {CONGLOMERADO_EDIT} from './../../../data/JSON-SERVER';
+import { CONGLOMERADO_EDIT } from "./../../../data/JSON-SERVER";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
+import { CONGLOMERATE } from "./../../../services/EndPoints";
 
 class ModalEditConglomerado extends React.Component {
   state = {
@@ -22,13 +23,19 @@ class ModalEditConglomerado extends React.Component {
     codigo: "",
     nombre: "",
     descripcion: "",
-    estado: ""
+    estado: "",
+    id: this.props.id
   };
 
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
+  toggle = id => {
+    this.setState(
+      {
+        modal: !this.state.modal,
+        id: id
+      },
+      this.getConglomeradoByID(id)
+    );
+    // this.getConglomeradoByID(id);
   };
 
   handleSubmit = (values, { props = this.props, setSubmitting }) => {
@@ -37,42 +44,34 @@ class ModalEditConglomerado extends React.Component {
     return;
   };
 
-  componentDidMount() {
-    this.getUserInformation();
-  }
-
-  getUserInformation() {
-    // fetch(`http://localhost:3001/conglomerado/2`)
-    fetch(CONGLOMERADO_EDIT)
+  getConglomeradoByID(id) {
+    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/${id}/jferrer`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
-          nombre: data.nombre,
-          codigo: data.codigo,
-          descripcion: data.descripcion,
-          estado: data.estado
+          codigo: data.code,
+          nombre: data.name,
+          descripcion: data.description,
+          estado: data.status
         });
         console.log(this.state);
       })
-      .catch(error => console.log("Error", error));
+      .catch(error => console.log(error));
   }
 
   render() {
-    const validation = Yup.object().shape({
-      codigo: Yup.string().required(),
-      nombre: Yup.string().required(),
-      descripcion: Yup.string().required(),
-      estado: Yup.bool().test("Activo", "", value => value === true)
-    });
-
     const dataPreview = {
       codigo: this.state.codigo,
       nombre: this.state.nombre,
       descripcion: this.state.descripcion,
       estado: this.state.estado
     };
-
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -145,14 +144,12 @@ class ModalEditConglomerado extends React.Component {
                                     touched.codigo &&
                                     "is-invalid"}`}
                                 />
-                                <div style={{ color: '#D54B4B' }}>
-                                  {
-                                    errors.codigo && touched.codigo ?
-                                    <i className="fa fa-exclamation-triangle"/> :
-                                    null
-                                  }
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.codigo && touched.codigo ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
                                   <ErrorMessage name={"codigo"} />
-                                  </div>
+                                </div>
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -179,14 +176,12 @@ class ModalEditConglomerado extends React.Component {
                                   placeholder=""
                                   className={"form-control form-control-sm"}
                                 /> */}
-                                  <div style={{ color: '#D54B4B' }}>
-                                  {
-                                    errors.nombre && touched.nombre ?
-                                    <i className="fa fa-exclamation-triangle"/> :
-                                    null
-                                  }
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.nombre && touched.nombre ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
                                   <ErrorMessage name={"nombre"} />
-                                  </div>
+                                </div>
                               </div>
                             </div>
                             <div className="col-md-12">

@@ -48,7 +48,7 @@ class ModalViewConglomerado extends Component {
 
   render() {
     // console.log(this.state.id);
-    console.log(this.state.dataConglomerado);
+    // console.log(this.state.dataConglomerado);
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>

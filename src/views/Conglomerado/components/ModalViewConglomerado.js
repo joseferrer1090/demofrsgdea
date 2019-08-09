@@ -19,21 +19,40 @@ class ModalViewConglomerado extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalviewstate
+      modal: this.props.modalviewstate,
+      id: this.props.id,
+      dataConglomerado: {}
     };
   }
 
-  toggle = () => {
+  toggle = id => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id: id
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/${id}/ccuartas`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataConglomerado: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
   };
 
   render() {
+    // console.log(this.state.id);
+    console.log(this.state.dataConglomerado);
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver conglomerado </ModalHeader>
+          <ModalHeader>{this.state.dataConglomerado.name} </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -52,7 +71,7 @@ class ModalViewConglomerado extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Código </dt>
-                        <dd> codigo </dd>
+                        <dd> {this.state.dataConglomerado.code} </dd>
                       </dl>
                     </div>
                   </div>
@@ -60,7 +79,7 @@ class ModalViewConglomerado extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Nombre </dt>
-                        <dd> nombre </dd>
+                        <dd> {this.state.dataConglomerado.name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -68,23 +87,23 @@ class ModalViewConglomerado extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Descripción </dt>
-                        <dd> descripción </dd>
+                        <dd> {this.state.dataConglomerado.description} </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt> Estado </dt>
-                      <dd> estado </dd>
-                    </dl>
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt> Estado </dt>
+                        <dd> {this.state.dataConglomerado.status} </dd>
+                      </dl>
+                    </div>
                   </div>
-                </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
                         <dt> Fecha de creación </dt>
-                        <dd> Fecha de creación </dd>
+                        <dd> {this.state.dataConglomerado.createdAt} </dd>
                       </dl>
                     </div>
                   </div>
@@ -92,7 +111,7 @@ class ModalViewConglomerado extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Fecha de modificación </dt>
-                        <dd> fecha de modificación </dd>
+                        <dd> {this.state.dataConglomerado.updatedAt} </dd>
                       </dl>
                     </div>
                   </div>
@@ -103,7 +122,7 @@ class ModalViewConglomerado extends Component {
           <ModalFooter>
             <Button
               type="button"
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

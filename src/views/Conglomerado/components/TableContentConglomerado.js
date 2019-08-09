@@ -11,30 +11,6 @@ import "./../../../css/styleTableConglomerado.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import { CONGLOMERATES } from "./../../../services/EndPoints";
 
-const data = [
-  {
-    id: 1,
-    codigo: "CG1",
-    nombre: "Conglomerado1",
-    descripcion: "descripcion del conglomerado",
-    estado: true
-  },
-  {
-    id: 2,
-    codigo: "CG2",
-    nombre: "Conglomerado 2",
-    descripcion: "descripcion del conglomerado",
-    estado: false
-  },
-  {
-    id: 3,
-    codigo: "CG3",
-    nombre: "Conglomerado 3",
-    descripcion: "descripcion del conglomerado",
-    estado: true
-  }
-];
-
 class TableContentConglomerado extends Component {
   constructor(props) {
     super(props);
@@ -44,7 +20,8 @@ class TableContentConglomerado extends Component {
       modalEdit: false,
       modalCustom: false,
       modalCustom2: false,
-      dataConglomerates: []
+      dataConglomerates: [],
+      hiddenColumnID: true
     };
   }
 
@@ -79,7 +56,7 @@ class TableContentConglomerado extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -120,8 +97,8 @@ class TableContentConglomerado extends Component {
     return status;
   }
 
-  openModalView() {
-    this.refs.child.toggle();
+  openModalView(id) {
+    this.refs.child.toggle(id);
   }
 
   openModalDelete() {
@@ -170,11 +147,15 @@ class TableContentConglomerado extends Component {
                     className="tableConglo tableConglo1 texto-Conglo actionMenuConglo"
                   >
                     <TableHeaderColumn
-                      dataSort={true}
                       isKey
-                      dataFormat={this.indexN}
                       dataField={"id"}
+                      hidden={this.state.hiddenColumnID}
+                    />
+                    <TableHeaderColumn
+                      dataSort={true}
+                      dataFormat={this.indexN}
                       width={"50"}
+                      dataField={"id"}
                       dataAlign="center"
                     >
                       #

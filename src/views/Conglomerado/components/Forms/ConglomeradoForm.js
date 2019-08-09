@@ -210,7 +210,7 @@ export default withFormik({
       return null;
     };
     setTimeout(() => {
-      fetch("https://address-book-database.firebaseio.com/contact.json", {
+      fetch(CONGLOMERATES, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -231,11 +231,11 @@ export default withFormik({
             } else if (response.status === 400) {
               console.log("no se puedo crear el conglomerado");
             }
-          })
+          }
         )
         .catch(error => console.log(" ", error));
       setSubmitting(false);
       resetForm();
     }, 1000);
   }
-})(ConglomeradorForm);
+})(ConglomeradorF)

@@ -9,6 +9,7 @@ import ModalCustom from "./../customcomponent/CustomModalTable";
 import ModalCustom2 from "./../customcomponent/CustomModalTable2";
 import "./../../../css/styleTableConglomerado.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import { CONGLOMERATES } from "./../../../services/EndPoints";
 
 const data = [
   {
@@ -42,9 +43,31 @@ class TableContentConglomerado extends Component {
       modalDelete: false,
       modalEdit: false,
       modalCustom: false,
-      modalCustom2: false
+      modalCustom2: false,
+      dataConglomerates: []
     };
   }
+
+  componentDidMount() {
+    this.getDataConglomerates();
+  }
+
+  getDataConglomerates = () => {
+    fetch(CONGLOMERATES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataConglomerates: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
 
   accionesConglomerado(cell, row) {
     return (
@@ -87,11 +110,11 @@ class TableContentConglomerado extends Component {
     );
   }
 
-  estadoConglomeraro(cell, row ) {
+  estadoConglomeraro(cell, row) {
     let status;
-    if (row.estado === true ) {
-        status = <p className="text-success">Activo</p>
-    } else if(row.estado !== true) {
+    if (row.status === 1) {
+      status = <p className="text-success">Activo</p>;
+    } else if (row.status === 0) {
       status = <p className="text-danger">Inactivo</p>;
     }
     return status;
@@ -119,6 +142,10 @@ class TableContentConglomerado extends Component {
   };
   //
 
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
   render() {
     const options = {
       btnGroup: this.createButtonCustom
@@ -132,7 +159,7 @@ class TableContentConglomerado extends Component {
                 <Col md="12">
                   <BootstrapTable
                     options={options}
-                    data={data}
+                    data={this.state.dataConglomerates}
                     pagination
                     search={true}
                     exportCSV
@@ -145,6 +172,7 @@ class TableContentConglomerado extends Component {
                     <TableHeaderColumn
                       dataSort={true}
                       isKey
+                      dataFormat={this.indexN}
                       dataField={"id"}
                       width={"50"}
                       dataAlign="center"
@@ -153,7 +181,7 @@ class TableContentConglomerado extends Component {
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       dataSort={true}
-                      dataField={"codigo"}
+                      dataField={"code"}
                       dataAlign="center"
                       width={"150"}
                     >
@@ -162,7 +190,7 @@ class TableContentConglomerado extends Component {
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       dataSort={true}
-                      dataField={"nombre"}
+                      dataField={"name"}
                       dataAlign="center"
                       width={"205"}
                     >
@@ -170,17 +198,25 @@ class TableContentConglomerado extends Component {
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       dataSort={true}
-                      dataField={"descripcion"}
+                      dataField={"description"}
                       dataAlign="center"
                       width={"230"}
                     >
                       Descripción
                     </TableHeaderColumn>
-                    <TableHeaderColumn width={""} dataField={"estado"} dataSort={true} dataAlign={"center"} dataFormat={(cell, row) => this.estadoConglomeraro(cell, row)}>
+                    <TableHeaderColumn
+                      width={""}
+                      dataField={"status"}
+                      dataSort={true}
+                      dataAlign={"center"}
+                      dataFormat={(cell, row) =>
+                        this.estadoConglomeraro(cell, row)
+                      }
+                    >
                       Estado
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                    width={"256"}
+                      width={"256"}
                       export={false}
                       dataAlign="center"
                       dataFormat={(cell, row) =>

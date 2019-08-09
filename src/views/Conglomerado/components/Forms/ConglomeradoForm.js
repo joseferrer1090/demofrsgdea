@@ -226,16 +226,18 @@ export default withFormik({
       })
         .then(response =>
           response.json().then(data => {
-            if (response.ok) {
-              console.log("conglomerado registrado");
+            if (response.status === 201) {
+              alert("oki");
             } else if (response.status === 400) {
-              console.log("no se puedo crear el conglomerado");
+              alert("Erro en el cuerpo");
             }
-          }
+          })
         )
-        .catch(error => console.log(" ", error));
+        .catch(error => {
+          console.log(" ", error);
+        });
       setSubmitting(false);
       resetForm();
     }, 1000);
   }
-})(ConglomeradorF)
+})(ConglomeradorForm);

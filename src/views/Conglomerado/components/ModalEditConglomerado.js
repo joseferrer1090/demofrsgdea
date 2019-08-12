@@ -15,36 +15,23 @@ import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
 import { CONGLOMERADO_EDIT } from "./../../../data/JSON-SERVER";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
-import { CONGLOMERATE } from "./../../../services/EndPoints";
+import { CONGLOMERATES } from "./../../../services/EndPoints";
 
 class ModalEditConglomerado extends React.Component {
   state = {
     modal: this.props.modaleditstate,
-    codigo: "",
-    nombre: "",
-    descripcion: "",
-    estado: "",
-    id: this.props.id
+    idConglomerado: this.props.id,
+    dataResult: {}
   };
-
   toggle = id => {
-    this.setState(
-      {
-        modal: !this.state.modal,
-        id: id
-      },
-      this.getConglomeradoByID(id)
-    );
-    // this.getConglomeradoByID(id);
+    this.setState({
+      modal: !this.state.modal,
+      idConglomerado: id
+    });
+    this.getConglomeradoByID(id);
   };
 
-  handleSubmit = (values, { props = this.props, setSubmitting }) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    return;
-  };
-
-  getConglomeradoByID(id) {
+  getConglomeradoByID = id => {
     fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/${id}/jferrer`, {
       method: "GET",
       headers: {
@@ -55,40 +42,80 @@ class ModalEditConglomerado extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          codigo: data.code,
-          nombre: data.name,
-          descripcion: data.description,
-          estado: data.status
+          dataResult: {
+            conglomerate_name: data.name,
+            code: data.code,
+            description: data.description,
+            status: data.status
+          }
         });
-        console.log(this.state);
       })
       .catch(error => console.log(error));
-  }
+  };
 
+  handleSubmit = (values, { props = this.props, setSubmitting }) => {
+    alert(JSON.stringify(values, null, 2));
+    setSubmitting(false);
+    return;
+  };
   render() {
-    const dataPreview = {
-      codigo: this.state.codigo,
-      nombre: this.state.nombre,
-      descripcion: this.state.descripcion,
-      estado: this.state.estado
-    };
+    const dataResult = this.state.dataResult;
+    const auxID = this.state.idConglomerado;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Actualizar conglomerado</ModalHeader>
+          <ModalHeader>
+            Actualizar&nbsp;{this.state.dataResult.conglomerate_name}
+          </ModalHeader>
           <Formik
-            initialValues={dataPreview}
+            enableReinitialize={true}
+            initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
+              const tipoEstado = data => {
+                let tipo = null;
+                if (data === true) {
+                  return (tipo = 1);
+                } else if (data === false) {
+                  return (tipo = 0);
+                }
+                return null;
+              };
               setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
+                fetch(CONGLOMERATES, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                  },
+                  body: JSON.stringify({
+                    id: this.state.idConglomerado,
+                    code: values.code,
+                    name: values.conglomerate_name,
+                    description: values.description,
+                    status: tipoEstado(values.status),
+                    userName: "jferrer"
+                  })
+                })
+                  .then(response =>
+                    response.json().then(data => {
+                      if (response.status === 200) {
+                        console.log("Se actualizo de manera exitosa");
+                      } else if (response.status !== 200) {
+                        console.log("ver la consola");
+                      }
+                    })
+                  )
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
-              }, 500);
+              }, 1000);
             }}
             validationSchema={Yup.object().shape({
-              codigo: Yup.string().required(" Por favor introduzca un código."),
-              nombre: Yup.string().required(" Por favor introduzca un nombre."),
-              descripcion: Yup.string(),
-              estado: Yup.bool().test("Activdado", "", value => value === true)
+              code: Yup.string().required(" Por favor introduzca un código."),
+              conglomerate_name: Yup.string().required(
+                " Por favor introduzca un nombre."
+              ),
+              description: Yup.string(),
+              status: Yup.bool().test("Activdado", "", value => value === true)
             })}
           >
             {props => {
@@ -136,19 +163,19 @@ class ModalEditConglomerado extends React.Component {
                                 </label>
                                 <input
                                   type="text"
-                                  name={"codigo"}
+                                  name={"code"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.codigo}
-                                  className={`form-control form-control-sm ${errors.codigo &&
-                                    touched.codigo &&
+                                  value={values.code}
+                                  className={`form-control form-control-sm ${errors.code &&
+                                    touched.code &&
                                     "is-invalid"}`}
                                 />
                                 <div style={{ color: "#D54B4B" }}>
-                                  {errors.codigo && touched.codigo ? (
+                                  {errors.code && touched.code ? (
                                     <i className="fa fa-exclamation-triangle" />
                                   ) : null}
-                                  <ErrorMessage name={"codigo"} />
+                                  <ErrorMessage name={"code"} />
                                 </div>
                               </div>
                             </div>
@@ -162,12 +189,12 @@ class ModalEditConglomerado extends React.Component {
                                 </label>
                                 <input
                                   type="text"
-                                  name="nombre"
+                                  name="conglomerate_name"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.nombre}
-                                  className={`form-control form-control-sm ${errors.nombre &&
-                                    touched.nombre &&
+                                  value={values.conglomerate_name}
+                                  className={`form-control form-control-sm ${errors.conglomerate_name &&
+                                    touched.conglomerate_name &&
                                     "is-invalid"}`}
                                 />
                                 {/* <Field
@@ -177,10 +204,11 @@ class ModalEditConglomerado extends React.Component {
                                   className={"form-control form-control-sm"}
                                 /> */}
                                 <div style={{ color: "#D54B4B" }}>
-                                  {errors.nombre && touched.nombre ? (
+                                  {errors.conglomerate_name &&
+                                  touched.conglomerate_name ? (
                                     <i className="fa fa-exclamation-triangle" />
                                   ) : null}
-                                  <ErrorMessage name={"nombre"} />
+                                  <ErrorMessage name={"conglomerate_name"} />
                                 </div>
                               </div>
                             </div>
@@ -188,10 +216,10 @@ class ModalEditConglomerado extends React.Component {
                               <div className="form-group">
                                 <label> Descripción </label>
                                 <textarea
-                                  name="descripcion"
+                                  name="description"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.descripcion}
+                                  value={values.description}
                                   className="form-control form-control-sm"
                                 />
                                 {/* <Field
@@ -199,7 +227,7 @@ class ModalEditConglomerado extends React.Component {
                                   name="descripcion"
                                   className="form-control form-control-sm"
                                 /> */}
-                                <ErrorMessage name="descripcion" />
+                                <ErrorMessage name="description" />
                               </div>
                             </div>
                             <div className="col-md-12">
@@ -212,7 +240,7 @@ class ModalEditConglomerado extends React.Component {
                                 </label>
                                 <div className="text-justify ">
                                   <Field
-                                    name="estado"
+                                    name="status"
                                     type=""
                                     render={({ field, form }) => {
                                       //console.log("field", field);
@@ -236,8 +264,8 @@ class ModalEditConglomerado extends React.Component {
                                           {...field}
                                           checked={field.value}
                                           className={
-                                            errors.estado &&
-                                            touched.estado &&
+                                            errors.status &&
+                                            touched.status &&
                                             "invalid-feedback"
                                           }
                                         />
@@ -258,7 +286,7 @@ class ModalEditConglomerado extends React.Component {
                                       );
                                     }}
                                   /> */}
-                                  <ErrorMessage name="estado" />
+                                  <ErrorMessage name="status" />
                                 </div>
                               </div>
                             </div>
@@ -299,7 +327,8 @@ class ModalEditConglomerado extends React.Component {
 }
 
 ModalEditConglomerado.propTypes = {
-  modaleditstate: PropTypes.bool.isRequired
+  modaleditstate: PropTypes.bool.isRequired,
+  id: PropTypes.string
 };
 
 export default ModalEditConglomerado;

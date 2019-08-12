@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Button } from "reactstrap";
 import ModalView from "./ModalViewConglomerado";
 import ModalDelete from "./ModalDeleteConglomerado";
 import ModalEdit from "./ModalEditConglomerado";
@@ -9,7 +9,10 @@ import ModalCustom from "./../customcomponent/CustomModalTable";
 import ModalCustom2 from "./../customcomponent/CustomModalTable2";
 import "./../../../css/styleTableConglomerado.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import { CONGLOMERATES } from "./../../../services/EndPoints";
+import {
+  CONGLOMERATES,
+  CONGLOMERATE_EXPORT
+} from "./../../../services/EndPoints";
 
 class TableContentConglomerado extends Component {
   constructor(props) {
@@ -117,16 +120,42 @@ class TableContentConglomerado extends Component {
   openModalCustom2 = () => {
     this.refs.child5.toggle();
   };
-  //
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
+  getExportDocument = () => {
+    fetch(CONGLOMERATE_EXPORT, {
+      method: "GET",
+      headers: {
+        Authorization: "BASIC " + window.btoa("sgdea:123456")
+      }
+    }).then(response => {
+      if (response.ok) {
+        console.log("descargo el documento");
+      } else {
+        console.log("revisar el network");
+      }
+    });
+  };
+
+  // createButtonCustom = props => {
+  //   return (
+  //     <Button
+  //       href={` http://192.168.10.180:7000/api/sgdea/conglomerate/export/jferrer`}
+  //       className={`btn btn-secondary btn-sm`}
+  //     >
+  //       <i className="fa fa-cloud-download" /> Exportar
+  //     </Button>
+  //   );
+  // };
+
   render() {
     const options = {
       btnGroup: this.createButtonCustom
     };
+
     return (
       <div className="animated fadeIn">
         <Row>
@@ -147,6 +176,7 @@ class TableContentConglomerado extends Component {
                     className="tableConglo tableConglo1 texto-Conglo actionMenuConglo"
                   >
                     <TableHeaderColumn
+                      export={false}
                       isKey
                       dataField={"id"}
                       hidden={this.state.hiddenColumnID}

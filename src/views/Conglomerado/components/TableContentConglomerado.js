@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col, Button } from "reactstrap";
+import { Row, Col, Button, ButtonGroup } from "reactstrap";
 import ModalView from "./ModalViewConglomerado";
 import ModalDelete from "./ModalDeleteConglomerado";
 import ModalEdit from "./ModalEditConglomerado";
@@ -20,14 +20,14 @@ class TableContentConglomerado extends Component {
       modalView: false,
       modalDelete: false,
       modalEdit: false,
-      modalexport: true,
+      modalexport: false,
       dataConglomerates: [],
       hiddenColumnID: true
     };
   }
 
   componentDidMount() {
-    //this.getDataConglomerates();
+    this.getDataConglomerates();
   }
 
   getDataConglomerates = () => {
@@ -140,16 +140,15 @@ class TableContentConglomerado extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        MyCustomBtn
+        <i className="fa fa-download" /> Exportar CSV
       </button>
     );
   };
 
   render() {
     const options = {
-      btnGroup: this.createButtonCustom
+      btnGroup: this.createCustomButtonGroup
     };
-
     return (
       <div className="animated fadeIn">
         <Row>
@@ -160,9 +159,9 @@ class TableContentConglomerado extends Component {
                   <BootstrapTable
                     options={options}
                     data={this.state.dataConglomerates}
-                    exportCSV
                     pagination
                     search={true}
+                    exportCSV
                     hover
                     striped
                     bordered={false}

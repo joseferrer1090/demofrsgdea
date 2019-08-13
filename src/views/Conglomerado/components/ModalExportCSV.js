@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Table } from "reactstrap";
 import "./styles/table_fixed.css";
 import { CSVLink, CSVDownload } from "react-csv";
-import json2csv from "json2csv";
+import { Parser } from "json2csv";
 
 class ModalExportCSV extends Component {
   constructor(props) {
@@ -97,6 +97,28 @@ class ModalExportCSV extends Component {
       };
     });
 
+    const fields = [
+      {
+        label: "code",
+        value: "code"
+      },
+      {
+        label: "name",
+        value: "name"
+      },
+      {
+        label: "description",
+        value: "description"
+      },
+      {
+        label: "status",
+        value: "status"
+      }
+    ];
+
+    const json2csvParser = new Parser({ fields, quote: "" });
+    const csv = json2csvParser.parse(data);
+    console.log(csv);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -136,9 +158,7 @@ class ModalExportCSV extends Component {
               <i className="fa fa-times" /> Cerrar{" "}
             </button>
 
-            <CSVLink data={records} headers={headers} className="btn">
-              Download me !{" "}
-            </CSVLink>
+            <CSVLink data={csv}>Download me</CSVLink>
             {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
               {" "}
               <i className="fa fa-download" /> Exportar CSV{" "}

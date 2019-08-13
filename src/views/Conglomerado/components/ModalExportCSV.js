@@ -2,8 +2,9 @@ import React, { Component, Fragment } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import PropTypes from "prop-types";
 import { Table } from "reactstrap";
-import CSVDownload from "react-json-to-csv";
 import "./styles/table_fixed.css";
+import { CSVLink, CSVDownload } from "react-csv";
+import json2csv from "json2csv";
 
 class ModalExportCSV extends Component {
   constructor(props) {
@@ -45,9 +46,57 @@ class ModalExportCSV extends Component {
       .catch(error => console.log(" ", error));
   };
 
+  // createFileCSV = () => {
+  //   const data = this.state.dataExport;
+  //   const createCsvWriter = require("csv-writer").createObjectCsvWriter;
+  //   const csvWriter = createCsvWriter({
+  //     path: "/public/conglomerado.csv",
+  //     header: [
+  //       { id: "code", title: "code" },
+  //       { id: "name", title: "name" },
+  //       { id: "description", title: "description" },
+  //       { id: "status", title: "status" }
+  //     ]
+  //   });
+
+  //   const records = data.map(aux => {
+  //     return {
+  //       code: aux.code,
+  //       name: aux.name,
+  //       description: aux.description,
+  //       status: aux.status
+  //     };
+  //   });
+
+  //   csvWriter.writeRecords(records).then(() => {
+  //     console.log("...Done");
+  //   });
+
+  //   // console.log(csvStringifier.getHeaderString());
+  //   // => 'NAME,LANGUAGE\n'
+  //   // console.log(csvStringifier.stringifyRecords(records));
+  //   // => 'Bob,"French, English"\nMary,English\n'
+  //   console.log(data);
+  // };
+
   render() {
     const data = this.state.dataExport;
-    console.log(data);
+    const headers = [
+      { label: "code", key: "code" },
+      { label: "name", key: "name" },
+      { label: "description", key: "description" },
+      { label: "status", key: "status" }
+    ];
+
+    const records = data.map(aux => {
+      return {
+        code: aux.code,
+        name: aux.name,
+        description: aux.description,
+        status: aux.status
+      };
+    });
+
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -86,13 +135,14 @@ class ModalExportCSV extends Component {
               {" "}
               <i className="fa fa-times" /> Cerrar{" "}
             </button>
-            <CSVDownload
-              className="btn btn-secondary btn-sm"
-              data={this.state.dataExport}
-            >
+
+            <CSVLink data={records} headers={headers} className="btn">
+              Download me !{" "}
+            </CSVLink>
+            {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
               {" "}
               <i className="fa fa-download" /> Exportar CSV{" "}
-            </CSVDownload>
+            </CSVDownload> */}
           </ModalFooter>
         </Modal>
       </Fragment>

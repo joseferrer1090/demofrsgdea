@@ -5,8 +5,7 @@ import { Row, Col, Button } from "reactstrap";
 import ModalView from "./ModalViewConglomerado";
 import ModalDelete from "./ModalDeleteConglomerado";
 import ModalEdit from "./ModalEditConglomerado";
-import ModalCustom from "./../customcomponent/CustomModalTable";
-import ModalCustom2 from "./../customcomponent/CustomModalTable2";
+import ModalExport from "./ModalExportCSV";
 import "./../../../css/styleTableConglomerado.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import {
@@ -21,15 +20,14 @@ class TableContentConglomerado extends Component {
       modalView: false,
       modalDelete: false,
       modalEdit: false,
-      modalCustom: false,
-      modalCustom2: false,
+      modalexport: true,
       dataConglomerates: [],
       hiddenColumnID: true
     };
   }
 
   componentDidMount() {
-    this.getDataConglomerates();
+    //this.getDataConglomerates();
   }
 
   getDataConglomerates = () => {
@@ -112,44 +110,40 @@ class TableContentConglomerado extends Component {
     this.refs.child3.toggle(id);
   }
 
-  // Esta son los modal de personalizacion
-  openModalCustom = () => {
+  openModalExport = () => {
     this.refs.child4.toggle();
-  };
-
-  openModalCustom2 = () => {
-    this.refs.child5.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
-  getExportDocument = () => {
-    fetch(CONGLOMERATE_EXPORT, {
-      method: "GET",
-      headers: {
-        Authorization: "BASIC " + window.btoa("sgdea:123456")
-      }
-    }).then(response => {
-      if (response.ok) {
-        console.log("descargo el documento");
-      } else {
-        console.log("revisar el network");
-      }
-    });
-  };
-
-  // createButtonCustom = props => {
-  //   return (
-  //     <Button
-  //       href={` http://192.168.10.180:7000/api/sgdea/conglomerate/export/jferrer`}
-  //       className={`btn btn-secondary btn-sm`}
-  //     >
-  //       <i className="fa fa-cloud-download" /> Exportar
-  //     </Button>
-  //   );
+  // getExportDocument = () => {
+  //   fetch(CONGLOMERATE_EXPORT, {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: "BASIC " + window.btoa("sgdea:123456")
+  //     }
+  //   }).then(response => {
+  //     if (response.ok) {
+  //       console.log("descargo el documento");
+  //     } else {
+  //       console.log("revisar el network");
+  //     }
+  //   });
   // };
+
+  createCustomButtonGroup = props => {
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        MyCustomBtn
+      </button>
+    );
+  };
 
   render() {
     const options = {
@@ -166,9 +160,9 @@ class TableContentConglomerado extends Component {
                   <BootstrapTable
                     options={options}
                     data={this.state.dataConglomerates}
+                    exportCSV
                     pagination
                     search={true}
-                    exportCSV
                     hover
                     striped
                     bordered={false}
@@ -246,8 +240,7 @@ class TableContentConglomerado extends Component {
         <ModalView modalviewstate={this.state.modalView} ref="child" />
         <ModalDelete modaldeletestate={this.state.modalDelete} ref="child2" />
         <ModalEdit modaleditstate={this.state.modalEdit} ref="child3" />
-        <ModalCustom modalcustom={this.state.modalCustom} ref="child4" />
-        <ModalCustom2 modalcustom2={this.state.modalCustom2} ref="child5" />
+        <ModalExport modalexport={this.state.modalexport} ref="child4" />
       </div>
     );
   }

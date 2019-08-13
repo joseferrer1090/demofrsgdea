@@ -158,7 +158,9 @@ class ModalExportCSV extends Component {
               <i className="fa fa-times" /> Cerrar{" "}
             </button>
 
-            <CSVLink data={csv}>Download me</CSVLink>
+            <CSVLink data={csv} className="btn btn-secondary btn-sm">
+              <i className="fa fa-download" /> Exportar CSV
+            </CSVLink>
             {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
               {" "}
               <i className="fa fa-download" /> Exportar CSV{" "}

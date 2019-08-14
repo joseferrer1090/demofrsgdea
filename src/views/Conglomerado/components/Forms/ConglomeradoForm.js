@@ -9,6 +9,10 @@ import {
   Card
 } from "reactstrap";
 import { CONGLOMERATES } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
+
 const ConglomeradorForm = props => {
   const {
     values,
@@ -23,12 +27,13 @@ const ConglomeradorForm = props => {
     handleReset
   } = props;
 
-  console.log(errors);
-  console.log(touched);
+  //  console.log(errors);
+  //  console.log(touched);
 
   return (
     <div>
       <Card>
+        <ToastContainer />
         <CardHeader> Registro de conglomerado </CardHeader>
         <CardBody>
           <form className="form" noValidate>
@@ -209,6 +214,7 @@ export default withFormik({
       }
       return null;
     };
+
     setTimeout(() => {
       fetch(CONGLOMERATES, {
         method: "POST",
@@ -227,7 +233,13 @@ export default withFormik({
         .then(response =>
           response.json().then(data => {
             if (response.status === 201) {
-              alert("oki");
+              toast.success("Se creo el conglomerado con exito", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              // alert("oki");
             } else if (response.status === 400) {
               alert("Erro en el cuerpo");
             }

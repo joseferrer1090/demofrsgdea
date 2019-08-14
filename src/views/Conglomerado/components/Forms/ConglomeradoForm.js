@@ -240,13 +240,24 @@ export default withFormik({
                 })
               });
               // alert("oki");
-            } else if (response.status === 400) {
-              alert("Erro en el cuerpo");
+            } else if (response.status === 500) {
+              toast.error("Error, Conglomeraron ya existe", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              //alert("Erro en el cuerpo");
             }
           })
         )
         .catch(error => {
-          console.log(" ", error);
+          toast.error(`Error ${error}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: css({
+              marginTop: "60px"
+            })
+          });
         });
       setSubmitting(false);
       resetForm();

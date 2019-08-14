@@ -14,7 +14,8 @@ class ModalDeleteConglomerado extends React.Component {
     this.setState({
       modal: !this.state.modal,
       nombre: "",
-      idConglomerado: id
+      idConglomerado: id,
+      useLogged: "jferrer"
     });
   };
 
@@ -33,7 +34,7 @@ class ModalDeleteConglomerado extends React.Component {
                 fetch(
                   `http://192.168.10.180:7000/api/sgdea/conglomerate/${
                     this.state.idConglomerado
-                  }/${values.nombre}/jferrer`,
+                  }?name=${values.nombre}&username=${this.state.useLogged}`,
                   {
                     method: "DELETE",
                     headers: {
@@ -42,7 +43,9 @@ class ModalDeleteConglomerado extends React.Component {
                     }
                   }
                 )
-                  .then(response => response.json())
+                  .then(response => {
+                    this.setState({ modal: false });
+                  })
                   .catch(error => console.log(" ", error));
                 setSubmitting(false);
               }, 500);

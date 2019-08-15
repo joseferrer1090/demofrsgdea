@@ -9,7 +9,8 @@ import {
   DropdownToggle,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  UncontrolledDropdown
 } from "reactstrap";
 import PropTypes from "prop-types";
 
@@ -88,7 +89,7 @@ class DefaultHeader extends Component {
               <i className="icon-location-pin" />
             </NavLink>
           </NavItem> */}
-          <AppHeaderDropdown direction="down">
+          <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav style={{ marginRight: "4px !important" }}>
               Administrador
               <img
@@ -97,7 +98,7 @@ class DefaultHeader extends Component {
                 alt="administratos@image"
               />
             </DropdownToggle>
-            <DropdownMenu right style={{ right: "auto" }}>
+            <DropdownMenu style={{ marginLeft: "-45px" }}>
               <DropdownItem header tag="div" className="text-center">
                 <strong>Cuenta</strong>
               </DropdownItem>
@@ -131,7 +132,7 @@ class DefaultHeader extends Component {
                 <i className="fa fa-lock" /> Salir
               </DropdownItem>
             </DropdownMenu>
-          </AppHeaderDropdown>
+          </UncontrolledDropdown>
         </Nav>
         {/* <AppAsideToggler className="d-md-down-none" />
         <AppAsideToggler className="d-lg-none" mobile /> */}

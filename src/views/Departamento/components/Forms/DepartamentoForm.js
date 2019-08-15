@@ -29,7 +29,7 @@ const DepartamentoForm = props =>{
     handleReset
   } = props;
 
-  const [optionsDepartment, setOptionsDepartment] = useState([]);
+  const [optionsCountries, setOptionsCountries] = useState([]);
 
   useEffect (() => {
     getDataCountries()
@@ -45,7 +45,7 @@ const DepartamentoForm = props =>{
     })
       .then(response => response.json())
       .then(data => {
-        setOptionsDepartment(data)
+        setOptionsCountries(data)
         // this.setState({
         //   dataConglomerates: data
         // });
@@ -54,7 +54,7 @@ const DepartamentoForm = props =>{
   };
 
   const mapOptionsCountries =
-  optionsDepartment.map((aux,idx)=>{
+  optionsCountries.map((aux,idx)=>{
       console.log("Id: " + aux.id)
       console.log("Name: " + aux.name)
       return(
@@ -271,8 +271,7 @@ export default withFormik({
           Authorization: "Basic " + window.btoa("sgdea:123456")
         },
         body: JSON.stringify({
-          countryId: values.countryId
-          ,
+          countryId: values.countryId,
           code: values.code,
           name: values.name,
           status: tipoEstado(values.status),

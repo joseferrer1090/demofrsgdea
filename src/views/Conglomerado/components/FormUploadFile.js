@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { Row, Col } from "reactstrap";
-import { CsvToHtmlTable } from "react-csv-to-table";
-import UploadForm from "./Forms/UploadForm";
+import React, { useState } from 'react';
+import { Row, Col } from 'reactstrap';
+import { CsvToHtmlTable } from 'react-csv-to-table';
+import UploadForm from './Forms/UploadForm';
 
 const data = {
-  separador: "",
+  separador: '',
   archivo: [],
-  cabeza_titulos: ""
+  cabeza_titulos: ''
 };
 
 const FormUploadFile = props => {

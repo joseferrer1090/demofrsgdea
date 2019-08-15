@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   TabContent,
   TabPane,
@@ -15,18 +15,17 @@ import {
   CardBody,
   CardFooter,
   CardHeader
-} from "reactstrap";
-import classnames from "classnames";
-import FromCreate from "./components/FormCreateSedes";
-import FormCreateSedes from "./components/FormCreateSedes";
-import TableContent from "./components/TableContentSedes";
-import FormImport from "./components/FormUploadSedes";
+} from 'reactstrap';
+import classnames from 'classnames';
+import FormCreateSedes from './components/FormCreateSedes';
+import TableContent from './components/TableContentSedes';
+import FormImport from './components/FormUploadSedes';
 
 class Sedes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1"
+      activeTab: '1'
     };
   }
 
@@ -44,9 +43,9 @@ class Sedes extends Component {
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "1" })}
+              className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
-                this.toggle("1");
+                this.toggle('1');
               }}
             >
               <i className="fa fa-plus" /> Registrar
@@ -54,9 +53,9 @@ class Sedes extends Component {
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "2" })}
+              className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => {
-                this.toggle("2");
+                this.toggle('2');
               }}
             >
               <i className="fa fa-gear" /> Administrar
@@ -64,9 +63,9 @@ class Sedes extends Component {
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "3" })}
+              className={classnames({ active: this.state.activeTab === '3' })}
               onClick={() => {
-                this.toggle("3");
+                this.toggle('3');
               }}
             >
               <i className="fa fa-upload" /> Importar

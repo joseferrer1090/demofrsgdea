@@ -59,7 +59,7 @@
     "react-toastify": "^5.3.2",
     "react-toastr": "^3.0.0",
     "react-toasts": "^3.0.3",
-    "reactstrap": "^6.5.0",
+    "reactstrap": "^8.0.1",
     "reactstrap-formik": "^1.0.9",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",

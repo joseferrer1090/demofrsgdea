@@ -35,25 +35,25 @@ class ModalActualizarMensajero extends React.Component {
     return;
   };
 
-  componentDidMount() {
-    this.getMensajeroInformation()
-  }
+//   componentDidMount() {
+//     this.getMensajeroInformation()
+//   }
 
-  getMensajeroInformation() {
-    fetch(MENSAJERO_EDIT)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          identificacion: data.identificacion,
-          nombre: data.nombre,
-          descripcion: data.descripcion,
-          estado: data.estado
-        });
-        console.log(this.state);
-      })
-      .catch(error => console.log("Error", error));
-}
+//   getMensajeroInformation() {
+//     fetch(MENSAJERO_EDIT)
+//       .then(response => response.json())
+//       .then(data => {
+//         console.log(data);
+//         this.setState({
+//           identificacion: data.identificacion,
+//           nombre: data.nombre,
+//           descripcion: data.descripcion,
+//           estado: data.estado
+//         });
+//         console.log(this.state);
+//       })
+//       .catch(error => console.log("Error", error));
+// }
 
   render() {
     const dataPreview={

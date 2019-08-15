@@ -7,15 +7,11 @@ import {
   CardFooter,
   CardHeader,
   Card
-<<<<<<< HEAD
 } from "reactstrap";
 import { CONGLOMERATES } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
-=======
-} from 'reactstrap';
->>>>>>> 35df646e27fed776f1ca4eb9465a818bdcbc7360
 
 const ConglomeradorForm = props => {
   const {

@@ -6,13 +6,16 @@ import { Formik, withFormik, ErrorMessage, Field, From } from "formik";
 
 class ModalDeleteConglomerado extends React.Component {
   state = {
-    modal: this.props.modaldeletestate
+    modal: this.props.modaldeletestate,
+    idConglomerado: this.props.id
   };
 
-  toggle = () => {
+  toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      nombre: ""
+      nombre: "",
+      idConglomerado: id,
+      useLogged: "jferrer"
     });
   };
 
@@ -28,7 +31,22 @@ class ModalDeleteConglomerado extends React.Component {
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
+                fetch(
+                  `http://192.168.10.180:7000/api/sgdea/conglomerate/${
+                    this.state.idConglomerado
+                  }?name=${values.nombre}&username=${this.state.useLogged}`,
+                  {
+                    method: "DELETE",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                    }
+                  }
+                )
+                  .then(response => {
+                    this.setState({ modal: false });
+                  })
+                  .catch(error => console.log(" ", error));
                 setSubmitting(false);
               }, 500);
             }}

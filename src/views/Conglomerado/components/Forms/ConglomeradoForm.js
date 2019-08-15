@@ -7,7 +7,15 @@ import {
   CardFooter,
   CardHeader,
   Card
+<<<<<<< HEAD
+} from "reactstrap";
+import { CONGLOMERATES } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
+=======
 } from 'reactstrap';
+>>>>>>> 35df646e27fed776f1ca4eb9465a818bdcbc7360
 
 const ConglomeradorForm = props => {
   const {
@@ -23,11 +31,13 @@ const ConglomeradorForm = props => {
     handleReset
   } = props;
 
-  console.log(errors);
-  console.log(touched);
+  //  console.log(errors);
+  //  console.log(touched);
+
   return (
     <div>
       <Card>
+        <ToastContainer />
         <CardHeader> Registro de conglomerado </CardHeader>
         <CardBody>
           <form className="form" noValidate>
@@ -198,8 +208,60 @@ export default withFormik({
       .required(' Es importante activar el conglomerado')
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
+
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      fetch(CONGLOMERATES, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          code: values.codigo,
+          name: values.nombre,
+          description: values.descripcion,
+          status: tipoEstado(values.estado),
+          userName: "jferrer"
+        })
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (response.status === 201) {
+              toast.success("Se creo el conglomerado con exito", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              // alert("oki");
+            } else if (response.status === 500) {
+              toast.error("Error, Conglomeraron ya existe", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              //alert("Erro en el cuerpo");
+            }
+          })
+        )
+        .catch(error => {
+          toast.error(`Error ${error}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: css({
+              marginTop: "60px"
+            })
+          });
+        });
       setSubmitting(false);
       resetForm();
     }, 1000);

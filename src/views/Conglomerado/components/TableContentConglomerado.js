@@ -1,38 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Button, ButtonGroup } from "reactstrap";
 import ModalView from "./ModalViewConglomerado";
 import ModalDelete from "./ModalDeleteConglomerado";
 import ModalEdit from "./ModalEditConglomerado";
-import ModalCustom from "./../customcomponent/CustomModalTable";
-import ModalCustom2 from "./../customcomponent/CustomModalTable2";
+import ModalExport from "./ModalExportCSV";
 import "./../../../css/styleTableConglomerado.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-
-const data = [
-  {
-    id: 1,
-    codigo: "CG1",
-    nombre: "Conglomerado1",
-    descripcion: "descripcion del conglomerado",
-    estado: true
-  },
-  {
-    id: 2,
-    codigo: "CG2",
-    nombre: "Conglomerado 2",
-    descripcion: "descripcion del conglomerado",
-    estado: false
-  },
-  {
-    id: 3,
-    codigo: "CG3",
-    nombre: "Conglomerado 3",
-    descripcion: "descripcion del conglomerado",
-    estado: true
-  }
-];
+import {
+  CONGLOMERATES,
+  CONGLOMERATE_EXPORT
+} from "./../../../services/EndPoints";
 
 class TableContentConglomerado extends Component {
   constructor(props) {
@@ -41,10 +20,32 @@ class TableContentConglomerado extends Component {
       modalView: false,
       modalDelete: false,
       modalEdit: false,
-      modalCustom: false,
-      modalCustom2: false
+      modalexport: false,
+      dataConglomerates: [],
+      hiddenColumnID: true
     };
   }
+
+  componentDidMount() {
+    this.getDataConglomerates();
+  }
+
+  getDataConglomerates = () => {
+    fetch(CONGLOMERATES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataConglomerates: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
 
   accionesConglomerado(cell, row) {
     return (
@@ -56,7 +57,7 @@ class TableContentConglomerado extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -67,7 +68,7 @@ class TableContentConglomerado extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -77,7 +78,7 @@ class TableContentConglomerado extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           {" "}
@@ -87,41 +88,66 @@ class TableContentConglomerado extends Component {
     );
   }
 
-  estadoConglomeraro(cell, row ) {
+  estadoConglomeraro(cell, row) {
     let status;
-    if (row.estado === true ) {
-        status = <p className="text-success">Activo</p>
-    } else if(row.estado !== true) {
+    if (row.status === 1) {
+      status = <p className="text-success">Activo</p>;
+    } else if (row.status === 0) {
       status = <p className="text-danger">Inactivo</p>;
     }
     return status;
   }
 
-  openModalView() {
-    this.refs.child.toggle();
+  openModalView(id) {
+    this.refs.child.toggle(id);
   }
 
-  openModalDelete() {
-    this.refs.child2.toggle();
+  openModalDelete(id) {
+    this.refs.child2.toggle(id);
   }
 
-  openModalEdit() {
-    this.refs.child3.toggle();
+  openModalEdit(id) {
+    this.refs.child3.toggle(id);
   }
 
-  // Esta son los modal de personalizacion
-  openModalCustom = () => {
+  openModalExport = () => {
     this.refs.child4.toggle();
   };
 
-  openModalCustom2 = () => {
-    this.refs.child5.toggle();
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
+  // getExportDocument = () => {
+  //   fetch(CONGLOMERATE_EXPORT, {
+  //     method: "GET",
+  //     headers: {
+  //       Authorization: "BASIC " + window.btoa("sgdea:123456")
+  //     }
+  //   }).then(response => {
+  //     if (response.ok) {
+  //       console.log("descargo el documento");
+  //     } else {
+  //       console.log("revisar el network");
+  //     }
+  //   });
+  // };
+
+  createCustomButtonGroup = props => {
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" /> Exportar CSV
+      </button>
+    );
   };
-  //
 
   render() {
     const options = {
-      btnGroup: this.createButtonCustom
+      btnGroup: this.createCustomButtonGroup
     };
     return (
       <div className="animated fadeIn">
@@ -132,7 +158,7 @@ class TableContentConglomerado extends Component {
                 <Col md="12">
                   <BootstrapTable
                     options={options}
-                    data={data}
+                    data={this.state.dataConglomerates}
                     pagination
                     search={true}
                     exportCSV
@@ -143,17 +169,23 @@ class TableContentConglomerado extends Component {
                     className="tableConglo tableConglo1 texto-Conglo actionMenuConglo"
                   >
                     <TableHeaderColumn
-                      dataSort={true}
+                      export={false}
                       isKey
                       dataField={"id"}
+                      hidden={this.state.hiddenColumnID}
+                    />
+                    <TableHeaderColumn
+                      dataSort={true}
+                      dataFormat={this.indexN}
                       width={"50"}
+                      dataField={"id"}
                       dataAlign="center"
                     >
                       #
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       dataSort={true}
-                      dataField={"codigo"}
+                      dataField={"code"}
                       dataAlign="center"
                       width={"150"}
                     >
@@ -162,7 +194,7 @@ class TableContentConglomerado extends Component {
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       dataSort={true}
-                      dataField={"nombre"}
+                      dataField={"name"}
                       dataAlign="center"
                       width={"205"}
                     >
@@ -170,17 +202,25 @@ class TableContentConglomerado extends Component {
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       dataSort={true}
-                      dataField={"descripcion"}
+                      dataField={"description"}
                       dataAlign="center"
                       width={"230"}
                     >
                       Descripción
                     </TableHeaderColumn>
-                    <TableHeaderColumn width={""} dataField={"estado"} dataSort={true} dataAlign={"center"} dataFormat={(cell, row) => this.estadoConglomeraro(cell, row)}>
+                    <TableHeaderColumn
+                      width={""}
+                      dataField={"status"}
+                      dataSort={true}
+                      dataAlign={"center"}
+                      dataFormat={(cell, row) =>
+                        this.estadoConglomeraro(cell, row)
+                      }
+                    >
                       Estado
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                    width={"256"}
+                      width={"256"}
                       export={false}
                       dataAlign="center"
                       dataFormat={(cell, row) =>
@@ -199,8 +239,7 @@ class TableContentConglomerado extends Component {
         <ModalView modalviewstate={this.state.modalView} ref="child" />
         <ModalDelete modaldeletestate={this.state.modalDelete} ref="child2" />
         <ModalEdit modaleditstate={this.state.modalEdit} ref="child3" />
-        <ModalCustom modalcustom={this.state.modalCustom} ref="child4" />
-        <ModalCustom2 modalcustom2={this.state.modalCustom2} ref="child5" />
+        <ModalExport modalexport={this.state.modalexport} ref="child4" />
       </div>
     );
   }

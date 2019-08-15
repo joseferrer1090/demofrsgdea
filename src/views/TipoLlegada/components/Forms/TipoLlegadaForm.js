@@ -9,7 +9,10 @@ import {
   Col,
   CustomInput
 } from "reactstrap";
-
+import { TYPESHIPMENTARRIVAL } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 import * as Yup from "yup";
 
 const TipoLlegadaForm = props => {
@@ -27,6 +30,7 @@ const TipoLlegadaForm = props => {
       <Row>
         <Col sm={{ size: 8, offset: 2 }}>
           <Card>
+          <ToastContainer/>
             <CardHeader> Registro de tipo de envío / llegada </CardHeader>
             <CardBody>
               <form className="form">
@@ -38,22 +42,22 @@ const TipoLlegadaForm = props => {
                         Código <span className="text-danger"> * </span>
                       </label>
                       <input
-                        name={"codigo"}
+                        name={"code"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.codigo}
+                        value={values.code}
                         type="text"
-                        className={`form-control form-control-sm ${errors.codigo &&
-                          touched.codigo &&
+                        className={`form-control form-control-sm ${errors.code &&
+                          touched.code &&
                           "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.codigo && touched.codigo ?
+                        errors.code && touched.code ?
                         <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name={"codigo"} />
+                      <ErrorMessage name={"code"} />
                       </div>
                     </div>
                   </div>
@@ -64,22 +68,22 @@ const TipoLlegadaForm = props => {
                         Nombre <span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        name={"nombre"}
+                        name={"name"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.nombre}
+                        value={values.name}
                         type="text"
-                        className={`form-control form-control-sm ${errors.nombre &&
-                          touched.nombre &&
+                        className={`form-control form-control-sm ${errors.name &&
+                          touched.name &&
                           "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.nombre && touched.nombre ?
+                        errors.name && touched.name ?
                         <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name="nombre" />
+                      <ErrorMessage name="name" />
                       </div>
                     </div>
                   </div>
@@ -87,10 +91,10 @@ const TipoLlegadaForm = props => {
                     <div className="form-group">
                       <label> Descripción</label>
                       <textarea
-                        name={"descripcion"}
+                        name={"description"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.descripcion}
+                        value={values.description}
                         className="form-control form-control-sm"
                       />
                     </div>
@@ -112,13 +116,13 @@ const TipoLlegadaForm = props => {
                              la sede no se elimina del sistema solo quedará
                              inactiva e invisibles para cada uno de los módulos
                              correspondiente del sistema."
-                          name={"estado"}
+                          name={"status"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.estado}
+                          value={values.status}
                           className={
-                            errors.estado &&
-                            touched.estado &&
+                            errors.status &&
+                            touched.status &&
                             "invalid-feedback"
                           }
                         />
@@ -168,24 +172,78 @@ const TipoLlegadaForm = props => {
 
 export default withFormik({
   mapPropsToValues: props => ({
-    codigo: props.tipollegada.codigo,
-    nombre: props.tipollegada.nombre,
-    descripcion: props.tipollegada.descripcion,
-    estado: props.tipollegada.estado
+    code: props.tipollegada.code,
+    name: props.tipollegada.name,
+    description: props.tipollegada.description,
+    status: props.tipollegada.status
   }),
   validationSchema: Yup.object().shape({
-    codigo: Yup.string().required(" Por favor introduzca un código."),
-    nombre: Yup.string().required(" Por favor introduzca un nombre."),
-    descripcion: Yup.string(),
-    estado: Yup.bool().test(
+    code: Yup.string()
+    .min(6, " Mínimo 6 caracteres.")
+    .max(6, " Máximo 6 caracteres.")
+    .required(" Por favor introduzca un código."),
+    name: Yup.string().required(" Por favor introduzca un nombre."),
+    description: Yup.string(),
+    status: Yup.bool().test(
       "Activo",
       " Es necesario activar el estado para el tipo de llegada",
       value => value === true
     )
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      fetch(TYPESHIPMENTARRIVAL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          code: values.code,
+          name: values.name,
+          description: values.description,
+          status: tipoEstado(values.status),
+          userName: "jferrer"
+        })
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (response.status === 201) {
+              toast.success("Se creo el tipo de envío / llegada con exito", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              // alert("oki");
+            } else if (response.status === 500) {
+              toast.error("Error, tipo de envío / llegada ya existe", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              //alert("Erro en el cuerpo");
+            }
+          })
+        )
+        .catch(error => {
+          toast.error(`Error ${error}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: css({
+              marginTop: "60px"
+            })
+          });
+        });
       setSubmitting(false);
       resetForm();
     }, 1000);

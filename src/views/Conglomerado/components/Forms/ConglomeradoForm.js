@@ -1,13 +1,13 @@
-import React from "react";
-import { Formik, withFormik, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import React from 'react';
+import { Formik, withFormik, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import {
   CustomInput,
   CardBody,
   CardFooter,
   CardHeader,
   Card
-} from "reactstrap";
+} from 'reactstrap';
 
 const ConglomeradorForm = props => {
   const {
@@ -35,8 +35,8 @@ const ConglomeradorForm = props => {
               <div className="col-md-6">
                 <div className="form-group">
                   <label>
-                    {" "}
-                    Código <span className="text-danger">*</span>{" "}
+                    {' '}
+                    Código <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name="codigo"
@@ -45,11 +45,11 @@ const ConglomeradorForm = props => {
                     type="text"
                     className={`form-control form-control-sm ${errors.codigo &&
                       touched.codigo &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                     placeholder=""
                     value={values.codigo}
                   />
-                  <div className="" style={{ color: "#D54B4B" }}>
+                  <div className="" style={{ color: '#D54B4B' }}>
                     {errors.codigo && touched.codigo ? (
                       <i class="fa fa-exclamation-triangle" />
                     ) : null}
@@ -60,8 +60,8 @@ const ConglomeradorForm = props => {
               <div className="col-md-6">
                 <div className="form-group">
                   <label>
-                    {" "}
-                    Nombre <span className="text-danger">*</span>{" "}
+                    {' '}
+                    Nombre <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name="nombre"
@@ -70,16 +70,16 @@ const ConglomeradorForm = props => {
                     type="text"
                     className={`form-control form-control-sm ${errors.nombre &&
                       touched.nombre &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                     value={values.nombre}
                     placeholder=""
                   />
-                  <div className="" style={{ color: "#D54B4B" }}>
+                  <div className="" style={{ color: '#D54B4B' }}>
                     {errors.nombre && touched.nombre ? (
                       <i class="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="nombre" />
-                  </div>{" "}
+                  </div>{' '}
                 </div>
               </div>
             </div>
@@ -95,7 +95,7 @@ const ConglomeradorForm = props => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  <div className="" style={{ color: "#D54B4B" }}>
+                  <div className="" style={{ color: '#D54B4B' }}>
                     {errors.descripcion && touched.descripcion ? (
                       <i class="fa fa-exclamation-triangle" />
                     ) : null}
@@ -108,8 +108,8 @@ const ConglomeradorForm = props => {
               <div className="col-md-12">
                 <div className="form-group">
                   <label>
-                    {" "}
-                    Estado <span className="text-danger">*</span>{" "}
+                    {' '}
+                    Estado <span className="text-danger">*</span>{' '}
                   </label>
                   <div className="text-justify">
                     <CustomInput
@@ -117,7 +117,7 @@ const ConglomeradorForm = props => {
                       name="estado"
                       type="checkbox"
                       id="ExampleInputCheckbox"
-                      label=" Si esta opción se encuentra activada, representa
+                      label="Si esta opción se encuentra activada, representa
                               que el conglomerado es visible en el sistema y se
                               podrán realizar operaciones entre cada uno de los
                               módulos correspondientes de la aplicación. En caso
@@ -128,10 +128,9 @@ const ConglomeradorForm = props => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className={
-                        errors.estado && touched.estado && "invalid-feedback"
+                        errors.estado && touched.estado && 'invalid-feedback'
                       }
                     />
-
                     {/* <p
                               className="text-muted"
                               style={{ textAlign: "justify" }}
@@ -183,20 +182,20 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     codigo: Yup.string()
-      .min(6, " Mínimo 6 caracteres.")
-      .max(6, " Máximo 6 caracteres.")
-      .required(" Por favor introduzca un código."),
+      .min(6, ' Mínimo 6 caracteres.')
+      .max(6, ' Máximo 6 caracteres.')
+      .required(' Por favor introduzca un código.'),
     nombre: Yup.string()
-      .required(" Por favor introduzca un nombre.")
+      .required(' Por favor introduzca un nombre.')
       .max(100),
-    descripcion: Yup.string().max(250, " Máximo 250 caracteres."),
+    descripcion: Yup.string().max(250, ' Máximo 250 caracteres.'),
     estado: Yup.bool()
       .test(
-        "Activo",
-        " Es necesario activar el conglomerado",
+        'Activo',
+        ' Es necesario activar el conglomerado',
         value => value === true
       )
-      .required(" Es importante activar el conglomerado")
+      .required(' Es importante activar el conglomerado')
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

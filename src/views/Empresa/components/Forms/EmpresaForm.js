@@ -23,8 +23,9 @@ const EmpresaForm = props => {
     handleReset
   } = props;
 
-  console.log(errors);
-  console.log(touched);
+  console.log(`Errors: ${errors}`);
+  console.log(`Touched: ${touched}`);
+
 
   return (
     <div>

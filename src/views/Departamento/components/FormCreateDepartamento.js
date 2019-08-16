@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import DepartamentoForm from './Forms/DepartamentoForm';
 const dataDepartamento ={
-  codigo:"",
-  nombre:"",
-  estado:"",
-  pais:""
+  code:"",
+  name:"",
+  status:"",
+  countryId:""
 }
 const FormCreateDepartamento = () => {
   return (

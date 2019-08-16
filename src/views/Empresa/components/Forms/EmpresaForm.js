@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState, useEffect} from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -8,8 +8,13 @@ import {
   CardHeader,
   CustomInput
 } from "reactstrap";
+import { CONGLOMERATES,COMPANYS, CHARGES } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
-const EmpresaForm = props => {
+const EmpresaForm = props =>{
+
   const {
     values,
     touched,
@@ -23,12 +28,70 @@ const EmpresaForm = props => {
     handleReset
   } = props;
 
-  console.log(errors);
-  console.log(touched);
+  // console.log(`Errors: ${errors}`);
+  // console.log(`Touched: ${touched}`);
+const [optionsConglomerate, setOptionsConglomerate] = useState([]);
+const [optionsCharges, setOptionsCharges] = useState([]);
 
+
+  useEffect (() => {
+    getDataConglomerates();
+    getDataCharges();
+  }, []);
+
+  const getDataConglomerates = (data) => {
+    fetch(CONGLOMERATES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsConglomerate(data)
+        // this.setState({
+        //   dataConglomerates: data
+        // });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  const mapOptionsConglomerate =
+    optionsConglomerate.map((aux,idx)=>{
+      return(
+        <option value={aux.id}>{aux.name}</option>
+      );
+    });
+
+    const getDataCharges = (data) => {
+      fetch(CHARGES, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          setOptionsCharges(data)
+          // this.setState({
+          //   dataConglomerates: data
+          // });
+        })
+        .catch(Error => console.log(" ", Error));
+    };
+
+    const mapOptionsCharges =
+      optionsCharges.map((aux,idx)=>{
+        return(
+          <option value={aux.id}>{aux.name}</option>
+        );
+      });
   return (
     <div>
       <Card>
+      <ToastContainer/>
         <CardHeader> Registro de empresa </CardHeader>
         <CardBody>
           <form className="form">
@@ -40,26 +103,24 @@ const EmpresaForm = props => {
                     Conglomerado <span className="text-danger">*</span>{" "}
                   </label>
                   <select
-                    name="conglomerado"
+                    name="conglomerateId"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    className={`form-control form-control-sm ${errors.conglomerado &&
-                      touched.conglomerado &&
+                    className={`form-control form-control-sm ${errors.conglomerateId &&
+                      touched.conglomerateId &&
                       "is-invalid"}`}
-                    value={values.conglomerado}
+                    value={values.conglomerateId}
                   >
                     <option value={""} disabled>--Seleccione--</option>
-                    <option value={"1"}>Conglomerado 1</option>
-                    <option value={"2"}>Conglomerado 2</option>
-                    <option value={"3"}>Conglomerado 3</option>
+                      {mapOptionsConglomerate}
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                   {
-                    errors.conglomerado && touched.conglomerado ?
+                    errors.conglomerateId && touched.conglomerateId ?
                     <i class="fa fa-exclamation-triangle"/> :
                     null
                   }
-                  <ErrorMessage name="conglomerado" />
+                  <ErrorMessage name="conglomerateId" />
                   </div>
                 </div>
               </div>
@@ -70,22 +131,22 @@ const EmpresaForm = props => {
                     Código <span className="text-danger">*</span>{" "}
                   </label>
                   <input
-                    name="codigo"
+                    name="code"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.codigo}
+                    value={values.code}
                     type="text"
-                    className={`form-control form-control-sm ${errors.codigo &&
-                      touched.codigo &&
+                    className={`form-control form-control-sm ${errors.code &&
+                      touched.code &&
                       "is-invalid"}`}
                   />
                   <div style={{ color: '#D54B4B' }}>
                   {
-                    errors.codigo && touched.codigo ?
+                    errors.code && touched.code ?
                     <i class="fa fa-exclamation-triangle"/> :
                     null
                   }
-                  <ErrorMessage name="codigo" />
+                  <ErrorMessage name="code" />
                   </div>
                 </div>
               </div>
@@ -122,22 +183,22 @@ const EmpresaForm = props => {
                     Nombre <span className="text-danger">*</span>{" "}
                   </label>
                   <input
-                    name="nombre"
+                    name="name"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.nombre}
+                    value={values.name}
                     type="text"
-                    className={`form-control form-control-sm ${errors.nombre &&
-                      touched.nombre &&
+                    className={`form-control form-control-sm ${errors.name &&
+                      touched.name &&
                       "is-invalid"}`}
                   />
                   <div style={{ color: '#D54B4B' }}>
                   {
-                    errors.nombre && touched.nombre ?
+                    errors.name && touched.name ?
                     <i class="fa fa-exclamation-triangle"/> :
                     null
                   }
-                  <ErrorMessage name="nombre" />
+                  <ErrorMessage name="name" />
                   </div>
                 </div>
               </div>
@@ -148,10 +209,10 @@ const EmpresaForm = props => {
                 <div className="form-group">
                   <label> Descripción </label>
                   <textarea
-                    name="descripcion"
+                    name="description"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.descripcion}
+                    value={values.description}
                     className="form-control form-control-sm"
                   />
                 </div>
@@ -160,17 +221,15 @@ const EmpresaForm = props => {
                 <div className="form-group">
                   <label> Cargo responsable </label>
                   <select
-                    name="c_responsable"
+                    name="chargeId"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.c_responsable}
+                    value={values.chargeId}
                     className="form-control form-control-sm"
                   >
                     {" "}
                     <option value={""} disabled> -- Seleccione -- </option>
-                    <option value="1">Cargo 1</option>
-                    <option value="2">Cargo 2</option>
-                    <option value="3">Cargo 3</option>
+                    {mapOptionsCharges}
                   </select>
                 </div>
               </div>
@@ -187,7 +246,7 @@ const EmpresaForm = props => {
                       </label>
                       <div className="text-justify">
                         <CustomInput
-                          name="estado"
+                          name="status"
                           onChange={handleChange}
                           onBlur={handleBlur}
                           type="checkbox"
@@ -201,11 +260,11 @@ const EmpresaForm = props => {
                                   invisibles para cada uno de los módulos
                                   correspondiente del sistema."
                           className={
-                            errors.estado &&
-                            touched.estado &&
+                            errors.status &&
+                            touched.status &&
                             "invalid-feedback"
                           }
-                          value={values.estado}
+                          value={values.status}
                         />
 
                         {/* <p
@@ -254,19 +313,19 @@ const EmpresaForm = props => {
 
 export default withFormik({
   mapPropsToValues: props => ({
-    conglomerado: props.empresa.conglomerado,
-    codigo: props.empresa.codigo,
+    conglomerateId: props.empresa.conglomerateId,
+    code: props.empresa.code,
     nit: props.empresa.nit,
-    nombre: props.empresa.nombre,
-    descripcion: props.empresa.descripcion,
-    c_responsable: props.empresa.c_responsable,
-    estado: props.empresa.estado
+    name: props.empresa.name,
+    description: props.empresa.description,
+    chargeId: props.empresa.chargeId,
+    status: props.empresa.status
   }),
   validationSchema: Yup.object().shape({
-    conglomerado: Yup.string()
+    conglomerateId: Yup.string()
       .ensure()
       .required(" Por favor seleccione un conglomerado."),
-    codigo: Yup.string()
+    code: Yup.string()
       .required(" Por favor introduzca un código.")
       .min(6, " Mínimo 6 caracteres.")
       .max(6, " Máximo 6 caracteres."),
@@ -274,12 +333,12 @@ export default withFormik({
       .required(" Por favor introduzca el Nit.")
       .positive(" Nit debe ser positivo.")
       .integer(" Nit no acepta puntos, ni caracteres especiales."),
-    nombre: Yup.string()
+    name: Yup.string()
       .required(" Por favor introduzca un nombre.")
       .max(100, "Máximo 100 caracteres."),
-    descripcion: Yup.string().max(250),
-    c_responsable: Yup.string().ensure(),
-    estado: Yup.bool()
+    description: Yup.string().max(250),
+    chargeId: Yup.string().ensure(),
+    status: Yup.bool()
       .test(
         "Activo",
         "Es necesario activar el conglomerado",
@@ -288,8 +347,62 @@ export default withFormik({
       .required("Se debe aceptar la activacion de la empresa.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      fetch(COMPANYS, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          conglomerateId: values.conglomerateId,
+          code: values.code,
+          nit: values.nit,
+          name: values.name,
+          description: values.description,
+          chargeId: values.chargeId,
+          status: tipoEstado(values.status),
+          userName: "jferrer"
+        })
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (response.status === 201) {
+              toast.success("Se creo la empresa con exito", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              // alert("oki");
+            } else if (response.status === 500) {
+              toast.error("Error, la empresa ya existe", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              //alert("Erro en el cuerpo");
+            }
+          })
+        )
+        .catch(error => {
+          toast.error(`Error ${error}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: css({
+              marginTop: "60px"
+            })
+          });
+        });
       setSubmitting(false);
       resetForm();
     }, 1000);

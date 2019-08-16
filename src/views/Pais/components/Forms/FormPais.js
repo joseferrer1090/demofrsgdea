@@ -10,7 +10,10 @@ import {
   Row,
   Col
 } from "reactstrap";
-
+import { COUNTRIES } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 const FormPais = props =>{
   const {
     values,
@@ -28,6 +31,7 @@ const FormPais = props =>{
     <Row>
       <Col sm="8" md={{ offset: 2 }}>
         <Card>
+        <ToastContainer/>
           <CardHeader> Registro de país </CardHeader>
           <CardBody>
             <form className="form">
@@ -39,23 +43,23 @@ const FormPais = props =>{
                       Código <span className="text-danger">*</span>{" "}
                     </label>
                     <input
-                    name="codigo"
+                    name="code"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     type="text"
-                    className={`form-control form-control-sm ${errors.codigo &&
-                      touched.codigo &&
+                    className={`form-control form-control-sm ${errors.code &&
+                      touched.code &&
                       "is-invalid"}`}
                     placeholder=""
-                    value={values.codigo}
+                    value={values.code}
                     />
                     <div style={{ color: '#D54B4B' }}>
                     {
-                      errors.codigo && touched.codigo ?
+                      errors.code && touched.code ?
                       <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
-                    <ErrorMessage name="codigo"/>
+                    <ErrorMessage name="code"/>
                     </div>
                   </div>
                 </div>
@@ -66,23 +70,23 @@ const FormPais = props =>{
                       Nombre <span className="text-danger">*</span>{" "}
                     </label>
                     <input
-                    name="nombre"
+                    name="name"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     type="text"
-                    className={`form-control form-control-sm ${errors.nombre &&
-                      touched.nombre &&
+                    className={`form-control form-control-sm ${errors.name &&
+                      touched.name &&
                       "is-invalid"}`}
-                    value={values.nombre}
+                    value={values.name}
                     placeholder=""
                     />
                     <div style={{ color: '#D54B4B' }}>
                     {
-                      errors.nombre && touched.nombre ?
+                      errors.name && touched.name ?
                       <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
-                    <ErrorMessage name="nombre"/>
+                    <ErrorMessage name="name"/>
                     </div>
                   </div>
                 </div>
@@ -96,12 +100,12 @@ const FormPais = props =>{
                     </label>
                     <div className="text-justify">
                       <CustomInput
-                        value={values.estado}
-                        name="estado"
+                        value={values.status}
+                        name="status"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className={
-                          errors.estado && touched.estado && "invalid-feedback"
+                          errors.status && touched.status && "invalid-feedback"
                         }
                         type="checkbox"
                         id="ExampleCheckboxInput"
@@ -164,19 +168,19 @@ const FormPais = props =>{
 
 export default withFormik({
   mapPropsToValues: props => ({
-    codigo: props.pais.codigo,
-    nombre: props.pais.nombre,
-    estado: props.pais.estado
+    code: props.pais.code,
+    name: props.pais.name,
+    status: props.pais.status
   }),
   validationSchema: Yup.object().shape({
-    codigo: Yup.string()
-      .min(6, " Mínimo 6 caracteres.")
-      .max(6, " Máximo 6 caracteres.")
+    code: Yup.string()
+      .min(2, " Mínimo 6 caracteres.")
+      .max(3, " Máximo 6 caracteres.")
       .required(" Por favor introduzca un código."),
-    nombre: Yup.string()
+    name: Yup.string()
       .required(" Por favor introduzca un nombre.")
       .max(100),
-    estado: Yup.bool()
+    status: Yup.bool()
       .test(
         "Activo",
         "Es necesario activar el país",
@@ -185,8 +189,58 @@ export default withFormik({
       .required("Es necesario activar el país")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      fetch(COUNTRIES, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          code: values.code,
+          name: values.name,
+          status: tipoEstado(values.status),
+          userName: "jferrer"
+        })
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (response.status === 201) {
+              toast.success("Se creo el país con exito", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              // alert("oki");
+            } else if (response.status === 500) {
+              toast.error("Error, país ya existe", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              //alert("Erro en el cuerpo");
+            }
+          })
+        )
+        .catch(error => {
+          toast.error(`Error ${error}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: css({
+              marginTop: "60px"
+            })
+          });
+        });
       setSubmitting(false);
       resetForm();
     }, 1000);

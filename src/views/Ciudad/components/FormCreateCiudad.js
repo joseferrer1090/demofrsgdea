@@ -1,11 +1,11 @@
 import React  from "react";
 import CiudadForm from './Forms/CiudadForm';
 const dataCiudad ={
-  pais:"",
-  departamento:"",
-  codigo:"",
-  nombre:"",
-  estado:""
+  countryId:"",
+  departmentId:"",
+  code:"",
+  name:"",
+  status:""
 }
 const  FormCreateCiudad =()=>{
     return (

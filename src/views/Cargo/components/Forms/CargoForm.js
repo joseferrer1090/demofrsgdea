@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { Formik, withFormik, ErrorMessage, yupToFormErrors } from "formik";
 import {
   Row,
@@ -11,7 +11,10 @@ import {
   Table
 } from "reactstrap";
 import * as Yup from "yup";
-
+import { CONGLOMERATES, COMPANYS, DEPENDENCIES, HEADQUARTERS, CHARGES} from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 const CargoForm = props => {
   const {
     values,
@@ -25,10 +28,124 @@ const CargoForm = props => {
     handleSubmit,
     handleReset
   } = props;
+
+  const [optionsConglomerate, setOptionsConglomerate] = useState([]);
+  const [optionsCompanys, setOptionsCompanys] = useState([]);
+  const [optionsHeadquarters, setOptionsHeadquarters] = useState([]);
+  const [optionsDependencies, setOptionsDependencies] = useState([]);
+
+  useEffect (() => {
+    getDataConglomerates();
+    getDataCompany();
+    getDataHeadquarters();
+    getDataDependencies();
+  }, []);
+
+  const getDataConglomerates = (data) => {
+    fetch(CONGLOMERATES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsConglomerate(data)
+        // this.setState({
+        //   dataConglomerates: data
+        // });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  const mapOptionsConglomerate =
+    optionsConglomerate.map((aux,idx)=>{
+      return(
+        <option value={aux.id}>{aux.name}</option>
+      );
+    });
+
+    const getDataCompany = (data) => {
+      fetch(COMPANYS, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          setOptionsCompanys(data)
+          // this.setState({
+          //   dataConglomerates: data
+          // });
+        })
+        .catch(Error => console.log(" ", Error));
+    };
+
+    const mapOptionsCompanys =
+      optionsCompanys.map((aux,idx)=>{
+        return(
+          <option value={aux.id}>{aux.name}</option>
+        );
+      });
+      const getDataHeadquarters = (data) => {
+        fetch(HEADQUARTERS, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa("sgdea:123456")
+          }
+        })
+          .then(response => response.json())
+          .then(data => {
+            setOptionsHeadquarters(data)
+            // this.setState({
+            //   dataConglomerates: data
+            // });
+          })
+          .catch(Error => console.log(" ", Error));
+      };
+
+      const mapOptionsHeadquarters =
+        optionsHeadquarters.map((aux,idx)=>{
+          return(
+            <option value={aux.id}>{aux.name}</option>
+          );
+        });
+
+        const getDataDependencies = (data) => {
+          fetch(DEPENDENCIES, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Basic " + window.btoa("sgdea:123456")
+            }
+          })
+            .then(response => response.json())
+            .then(data => {
+              setOptionsDependencies(data)
+              // this.setState({
+              //   dataConglomerates: data
+              // });
+            })
+            .catch(Error => console.log(" ", Error));
+        };
+
+        const mapOptionsDependencies =
+          optionsDependencies.map((aux,idx)=>{
+            return(
+              <option value={aux.id}>{aux.name}</option>
+            );
+          });
+
+
   return (
     <div className="row">
       <div className="col-md-6">
         <Card>
+        <ToastContainer/>
           <CardHeader>Asignar responsabilidades</CardHeader>
           <CardBody>
             <Row>
@@ -41,24 +158,25 @@ const CargoForm = props => {
                     Esta asignando este cargo como responsable del conglomerado:
                   </p>
                   <select
-                    name={"conglomerado"}
+                    name={"conglomerateId"}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.conglomerado_id}
-                    className={`form-control form-control-sm ${errors.conglomerado &&
-                      touched.conglomerado &&
+                    value={values.conglomerateId}
+                    className={`form-control form-control-sm ${errors.conglomerateId &&
+                      touched.conglomerateId &&
                       "is-invalid"}`}
                   >
                     {" "}
-                    <option> Seleccione </option>{" "}
+                    <option value={""} disabled> Seleccione </option>{" "}
+                    {mapOptionsConglomerate}
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                   {
-                    errors.conglomerado && touched.conglomerado ?
+                    errors.conglomerateId && touched.conglomerateId ?
                     <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
-                  <ErrorMessage name="conglomerado" />
+                  <ErrorMessage name="conglomerateId" />
                   </div>
                   <br />
                   <CustomInput
@@ -94,24 +212,25 @@ const CargoForm = props => {
                     Esta asignando este cargo como responsable del empresa:
                   </p>
                   <select
-                    name={"empresa"}
-                    value={values.empresa}
+                    name={"companyId"}
+                    value={values.companyId}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className={`form-control form-control-sm ${errors.empresa &&
-                      touched.empresa &&
+                    className={`form-control form-control-sm ${errors.companyId &&
+                      touched.companyId &&
                       "is-invalid"}`}
                   >
                     {" "}
-                    <option> Seleccione </option>{" "}
+                    <option value={""} disabled> Seleccione </option>{" "}
+                    {mapOptionsCompanys}
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                   {
-                    errors.empresa && touched.empresa ?
+                    errors.companyId && touched.companyId ?
                     <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
-                  <ErrorMessage name={"empresa"} />
+                  <ErrorMessage name={"companyId"} />
                   </div>
                   <br />
                   <CustomInput
@@ -141,24 +260,25 @@ const CargoForm = props => {
                     Esta asignando este cargo como responsable de la Sede:
                   </p>
                   <select
-                    name={"sede"}
+                    name={"headquarterId"}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.sede}
-                    className={`form-control form-control-sm ${errors.sede &&
-                      touched.sede &&
+                    value={values.headquarterId}
+                    className={`form-control form-control-sm ${errors.headquarterId &&
+                      touched.headquarterId &&
                       "is-invalid"}`}
                   >
                     {" "}
-                    <option> Seleccione </option>{" "}
+                    <option value={""} disabled> Seleccione </option>{" "}
+                    {mapOptionsHeadquarters}
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                   {
-                    errors.sede && touched.sede ?
+                    errors.headquarterId && touched.headquarterId ?
                     <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
-                  <ErrorMessage name={"sede"} />
+                  <ErrorMessage name={"headquarterId"} />
                   </div>
                   <br />
                   <CustomInput
@@ -184,24 +304,25 @@ const CargoForm = props => {
                     dependencia:
                   </p>
                   <select
-                    name={"dependencia"}
+                    name={"dependencyId"}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.dependencia}
-                    className={`form-control form-control-sm ${errors.dependencia &&
-                      touched.dependencia &&
+                    value={values.dependencyId}
+                    className={`form-control form-control-sm ${errors.dependencyId &&
+                      touched.dependencyId &&
                       "is-invalid"}`}
                   >
                     {" "}
-                    <option> Seleccione </option>{" "}
+                    <option value={""} disabled> Seleccione </option>{" "}
+                    {mapOptionsDependencies}
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                   {
-                    errors.dependencia && touched.dependencia ?
+                    errors.dependencyId && touched.dependencyId ?
                     <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
-                  <ErrorMessage name={"dependencia"} />
+                  <ErrorMessage name={"dependencyId"} />
                   </div>
                   <br />
                   <CustomInput
@@ -236,23 +357,23 @@ const CargoForm = props => {
                     Código <span className="text-danger">*</span>{" "}
                   </label>
                   <input
-                    name={"codigo"}
+                    name={"code"}
                     type="text"
                     placeholder=""
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.codigo}
-                    className={`form-control form-control-sm ${errors.codigo &&
-                      touched.codigo &&
+                    value={values.code}
+                    className={`form-control form-control-sm ${errors.code &&
+                      touched.code &&
                       "is-invalid"}`}
                   />
                   <div style={{ color: '#D54B4B' }}>
                   {
-                    errors.codigo && touched.codigo ?
+                    errors.code && touched.code ?
                     <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
-                  <ErrorMessage name={"codigo"} />
+                  <ErrorMessage name={"code"} />
                   </div>
                 </div>
               </div>
@@ -263,23 +384,23 @@ const CargoForm = props => {
                     Nombre <span className="text-danger">*</span>{" "}
                   </label>
                   <input
-                    name={"nombre"}
+                    name={"name"}
                     type="text"
                     placeholder=""
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.nombre}
-                    className={`form-control form-control-sm ${errors.nombre &&
-                      touched.nombre &&
+                    value={values.name}
+                    className={`form-control form-control-sm ${errors.name &&
+                      touched.name &&
                       "is-invalid"}`}
                   />
                   <div style={{ color: '#D54B4B' }}>
                   {
-                    errors.nombre && touched.nombre ?
+                    errors.name && touched.name ?
                     <i className="fa fa-exclamation-triangle"/> :
                     null
                   }
-                  <ErrorMessage name={"nombre"} />
+                  <ErrorMessage name={"name"} />
                   </div>
                 </div>
               </div>
@@ -289,12 +410,12 @@ const CargoForm = props => {
                 <div className="form-group">
                   <label> Descripción</label>
                   <textarea
-                    name={"descripcion"}
+                    name={"description"}
                     className="form-control form-control-sm"
                     placeholder=""
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.descripcion}
+                    value={values.description}
                   />
                 </div>
               </div>
@@ -308,7 +429,7 @@ const CargoForm = props => {
                   </label>
                   <div className="text-justify">
                     <CustomInput
-                      name={"estado"}
+                      name={"status"}
                       type="checkbox"
                       id="ExampleCheckboxInput"
                       label=" Si esta opción se encuentra activada, representa
@@ -321,7 +442,7 @@ const CargoForm = props => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className={
-                        errors.estado && touched.estado && "invalid-feedback"
+                        errors.status && touched.status && "invalid-feedback"
                       }
                     />
                     {/* <label
@@ -373,33 +494,33 @@ const CargoForm = props => {
 
 export default withFormik({
   mapPropsToValues: props => ({
-    conglomerado: props.cargo.conglomerado,
+    conglomerateId: props.cargo.conglomerateId,
     conglomerado_responsable: props.cargo.conglomerado,
-    empresa: props.cargo.empresa,
+    companyId: props.cargo.companyId,
     empresa_responsable: props.cargo.empresa,
-    sede: props.cargo.sede,
+    headquarterId: props.cargo.headquarterId,
     sede_responsable: props.cargo.sede_responsable,
-    dependencia: props.cargo.dependencia,
+    dependencyId: props.cargo.dependencyId,
     dependencia_responsable: props.cargo.dependencia_responsable,
-    codigo: props.cargo.codigo,
-    nombre: props.cargo.nombre,
-    descripcion: props.cargo.descripcion,
-    estado: props.cargo.estado
+    code: props.cargo.code,
+    name: props.cargo.name,
+    description: props.cargo.description,
+    status: props.cargo.status
   }),
   validationSchema: Yup.object().shape({
-    conglomerado: Yup.string()
+    conglomerateId: Yup.string()
       .ensure()
       .required(" Por favor seleccione un conglomerado."),
     conglomerado_responsable: Yup.bool()
       .test("Activo", " Necesario activar responsable.", value => value === true)
       .required(" Necesario activar responsable"),
-    empresa: Yup.string()
+    companyId: Yup.string()
       .ensure()
       .required(" Por favor seleccione una empresa."),
     empresa_responsable: Yup.bool()
       .test("Activo", "Necesario activar responsable.", value => value === true)
       .required("Necesario activar el responsable."),
-    sede: Yup.string()
+    headquarterId: Yup.string()
       .ensure()
       .required(" Por favor seleccione una sede."),
     sede_responsable: Yup.bool()
@@ -409,7 +530,7 @@ export default withFormik({
         value => value === true
       )
       .required("Necesario activar responsable de sede."),
-    dependencia: Yup.string()
+    dependencyId: Yup.string()
       .ensure()
       .required(" Por favor seleccione una dependencia."),
     dependencia_responsable: Yup.bool()
@@ -419,17 +540,71 @@ export default withFormik({
         value => value === true
       )
       .required("necesario activar responsable de dependencia"),
-    codigo: Yup.string().required(" Por favor introduzca un código."),
-    nombre: Yup.string().required(" Por favor introduzca un nombre."),
-    descripcion: Yup.string()
+    code: Yup.string().required(" Por favor introduzca un código.")
+    .min(6, "Mínimo 6 caracteres.")
+    .max(6, "Máximo 6 caracteres.")
+    ,
+    name: Yup.string().required(" Por favor introduzca un nombre."),
+    description: Yup.string()
         .max(250, " Máximo 250 caracteres."),
-    estado: Yup.bool()
+    status: Yup.bool()
       .test("Activo", " Necesario activar el cargo. ", value => value === true)
       .required(" Se debe activar el cargo.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      fetch(CHARGES, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          description: values.description,
+          code: values.code,
+          name: values.name,
+          status: tipoEstado(values.status),
+          userName: "jferrer"
+        })
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (response.status === 201) {
+              toast.success("Se creo el cargo con exito", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              // alert("oki");
+            } else if (response.status === 500) {
+              toast.error("Error, el cargo ya existe", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              //alert("Erro en el cuerpo");
+            }
+          })
+        )
+        .catch(error => {
+          toast.error(`Error ${error}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: css({
+              marginTop: "60px"
+            })
+          });
+        });
       setSubmitting(false);
       resetForm();
     }, 1000);

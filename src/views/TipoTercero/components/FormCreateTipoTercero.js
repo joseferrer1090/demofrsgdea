@@ -2,10 +2,10 @@ import React from "react";
 import TipoTercerosForm from './Forms/TipoTercerosForm';
 
 const dataTipoTercerosForm ={
-  codigo:"",
-  nombre:"",
-  estado:"",
-  descripcion:""
+  code:"",
+  name:"",
+  status:"",
+  description:""
 }
 
 const  FormCreateTipoTercero =()=>{

@@ -3,18 +3,18 @@ import PropTypes from "prop-types";
 import CargoForm from "./Forms/CargoForm";
 
 const dataCargo = {
-  conglomerado: "",
+  conglomerateId: "",
   conglomerado_responsable: "",
-  empresa: "",
+  companyId: "",
   empresa_responsable: "",
-  sede: "",
+  headquarterId: "",
   sede_responsable: "",
-  dependencia: "",
+  dependencyId: "",
   dependencia_responsable: "",
-  codigo: "",
-  nombre: "",
-  descripcion: "",
-  estado: ""
+  code: "",
+  name: "",
+  description: "",
+  status: ""
 };
 
 const FormCreateCargo = () => {

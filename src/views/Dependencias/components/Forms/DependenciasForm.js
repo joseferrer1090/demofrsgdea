@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect}from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -12,7 +12,10 @@ import {
   Buttom,
   CustomInput
 } from "reactstrap";
-
+import { CONGLOMERATES, COMPANYS, HEADQUARTERS, DEPENDENCIES, CHARGES } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 const DependenciaForm = props => {
   const {
     values,
@@ -26,11 +29,126 @@ const DependenciaForm = props => {
     handleSubmit,
     handleReset
   } = props;
+
+  const [optionsConglomerate, setOptionsConglomerate] = useState([]);
+  const [optionsCompanys, setOptionsCompanys] = useState([]);
+  const [optionsHeadquarters, setOptionsHeadquarters] = useState([]);
+  const [optionsCharges, setOptionsCharges] = useState([]);
+
+
+  useEffect (() => {
+    getDataConglomerates();
+    getDataCompanys();
+    getDataHeadquarters();
+    getDataCharges();
+  }, []);
+
+  const getDataConglomerates = (data) => {
+    fetch(CONGLOMERATES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsConglomerate(data)
+        // this.setState({
+        //   dataConglomerates: data
+        // });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  const mapOptionsConglomerate =
+    optionsConglomerate.map((aux,idx)=>{
+      return(
+        <option value={aux.id}>{aux.name}</option>
+      );
+    });
+
+    const getDataCompanys = (data) => {
+      fetch(COMPANYS, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          setOptionsCompanys(data)
+          // this.setState({
+          //   dataConglomerates: data
+          // });
+        })
+        .catch(Error => console.log(" ", Error));
+    };
+
+    const mapOptionsCompanys =
+      optionsCompanys.map((aux,idx)=>{
+        return(
+          <option value={aux.id}>{aux.name}</option>
+        );
+      });
+
+  const getDataHeadquarters = (data) => {
+    fetch(HEADQUARTERS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsHeadquarters(data)
+        // this.setState({
+        //   dataConglomerates: data
+        // });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  const mapOptionsHeadquarters =
+  optionsHeadquarters.map((aux,idx)=>{
+      return(
+        <option value={aux.id}>{aux.name}</option>
+      );
+    });
+
+    const getDataCharges = (data) => {
+      fetch(CHARGES, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          setOptionsCharges(data)
+          // this.setState({
+          //   dataConglomerates: data
+          // });
+        })
+        .catch(Error => console.log(" ", Error));
+    };
+
+    const mapOptionsCharges =
+      optionsCharges.map((aux,idx)=>{
+        return(
+          <option value={aux.id}>{aux.name}</option>
+        );
+      });
+
   return (
     <div>
       <Row>
         <Col sm="8" md={{ offset: 2 }}>
           <Card>
+          <ToastContainer/>
             <CardHeader>Registro de dependencia</CardHeader>
             <CardBody>
               <form className="form" role="form">
@@ -42,26 +160,24 @@ const DependenciaForm = props => {
                         Conglomerado <span className="text-danger">*</span>{" "}
                       </label>
                       <select
-                        name="conglomerado"
+                        name="conglomerateId"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.conglomerado}
-                        className={`form-control form-control-sm ${errors.conglomerado &&
-                          touched.conglomerado &&
+                        value={values.conglomerateId}
+                        className={`form-control form-control-sm ${errors.conglomerateId &&
+                          touched.conglomerateId &&
                           "is-invalid"}`}
                       >
                         <option value={""}>-- Seleccione --</option>
-                        <option value={"1"}> Conglomerado 1</option>
-                        <option value={"2"}> Conglomerado 2</option>
-                        <option value={"3"}> Conglomerado 3</option>
+                        {mapOptionsConglomerate}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.conglomerado && touched.conglomerado ?
+                        errors.conglomerateId && touched.conglomerateId ?
                         <i class="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name="conglomerado" />
+                      <ErrorMessage name="conglomerateId" />
                       </div>
                     </div>
                   </div>
@@ -72,28 +188,26 @@ const DependenciaForm = props => {
                         Empresa <span className="text-danger">*</span>{" "}
                       </label>
                       <select
-                        name={"empresa"}
+                        name={"companyId"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.empresa}
-                        className={`form-control form-control-sm ${errors.empresa &&
-                          touched.empresa &&
+                        value={values.companyId}
+                        className={`form-control form-control-sm ${errors.companyId &&
+                          touched.companyId &&
                           "is-invalid"}`}
                       >
                         {" "}
                         <option value={""}> -- Seleccione --</option>
-                        <option value={"1"}> Empresa 1</option>
-                        <option value={"2"}> Empresa 2</option>
-                        <option value={"3"}> Empresa 3</option>
+                        {mapOptionsCompanys}
                         {" "}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.empresa && touched.empresa ?
+                        errors.companyId && touched.companyId ?
                         <i class="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name="empresa" />
+                      <ErrorMessage name="companyId" />
                       </div>
                     </div>
                   </div>
@@ -104,26 +218,24 @@ const DependenciaForm = props => {
                         Sede <span className="text-danger">*</span>{" "}
                       </label>
                       <select
-                        name={"sede"}
+                        name={"headquarterId"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.sede}
-                        className={`form-control form-control-sm ${errors.sede &&
-                          touched.sede &&
+                        value={values.headquarterId}
+                        className={`form-control form-control-sm ${errors.headquarterId &&
+                          touched.headquarterId &&
                           "is-invalid"}`}
                       >
-                        <option>-- Seleccione --</option>
-                        <option value={"1"}> Sede 1</option>
-                        <option value={"2"}> Sede 2</option>
-                        <option value={"3"}> Sede 3</option>
+                        <option value={""}>-- Seleccione --</option>
+                          {mapOptionsHeadquarters}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.sede && touched.sede ?
+                        errors.headquarterId && touched.headquarterId ?
                         <i class="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name="sede" />
+                      <ErrorMessage name="headquarterId" />
                       </div>
                     </div>
                   </div>
@@ -134,23 +246,23 @@ const DependenciaForm = props => {
                         Código <span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        name={"codigo"}
+                        name={"code"}
                         type="text"
                         placeholder=""
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.codigo}
-                        className={`form-control form-control-sm ${errors.codigo &&
-                          touched.codigo &&
+                        value={values.code}
+                        className={`form-control form-control-sm ${errors.code &&
+                          touched.code &&
                           "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.codigo && touched.codigo ?
+                        errors.code && touched.code ?
                         <i class="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name="codigo" />
+                      <ErrorMessage name="code" />
                       </div>
                     </div>
                   </div>
@@ -161,23 +273,23 @@ const DependenciaForm = props => {
                         Nombre <span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        name={"nombre"}
+                        name={"name"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.nombre}
+                        value={values.name}
                         type="text"
                         placeholder=""
-                        className={`form-control form-control-sm ${errors.nombre &&
-                          touched.nombre &&
+                        className={`form-control form-control-sm ${errors.name &&
+                          touched.name &&
                           "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.nombre && touched.nombre ?
+                        errors.name && touched.name ?
                         <i class="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name="nombre" />
+                      <ErrorMessage name="name" />
                       </div>
                     </div>
                   </div>
@@ -185,19 +297,19 @@ const DependenciaForm = props => {
                     <div className="form-group">
                       <label> Descripción </label>
                       <textarea
-                        name={"descripcion"}
+                        name={"description"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.descripcion}
+                        value={values.description}
                         className="form-control form-control-sm"
                       />
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.descripcion && touched.descripcion ?
+                        errors.description && touched.description ?
                         <i class="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name="descripcion" />
+                      <ErrorMessage name="description" />
                       </div>
                     </div>
                   </div>
@@ -213,28 +325,26 @@ const DependenciaForm = props => {
                         </span>{" "}
                       </label>
                       <select
-                        name={"c_responsable"}
+                        name={"chargeId"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.c_responsable}
-                        className={`form-control form-control-sm ${errors.c_responsable &&
-                          touched.c_responsable &&
+                        value={values.chargeId}
+                        className={`form-control form-control-sm ${errors.chargeId &&
+                          touched.chargeId &&
                           "is-invalid"}`}
                       >
                         {" "}
                         <option value={""}>-- Seleccione --</option>
-                        <option value={"1"}> Cargo responsable 1</option>
-                        <option value={"2"}> Cargo responsable 2</option>
-                        <option value={"3"}> Cargo responsable 3 </option>
+                          {mapOptionsCharges}
                         {" "}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.c_responsable && touched.c_responsable ?
+                        errors.chargeId && touched.chargeId ?
                         <i class="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name="c_responsable" />
+                      <ErrorMessage name="chargeId" />
                       </div>
                     </div>
                   </div>
@@ -246,10 +356,10 @@ const DependenciaForm = props => {
                       </label>
                       <div className="text-justify">
                         <CustomInput
-                          name={"estado"}
+                          name={"status"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.estado}
+                          value={values.status}
                           type="checkbox"
                           id="CheckboxEditDependencia"
                           label=" Si esta opción se encuentra activada, representa
@@ -260,8 +370,8 @@ const DependenciaForm = props => {
                               solo quedará inactivo e invisibles para cada uno
                               de los módulos correspondiente del sistema."
                           className={
-                            errors.estado &&
-                            touched.estado &&
+                            errors.status &&
+                            touched.status &&
                             "invalid-feedback"
                           }
                         />
@@ -310,41 +420,96 @@ const DependenciaForm = props => {
 
 export default withFormik({
   mapPropsToValues: props => ({
-    conglomerado: props.dependencia.conglomerado,
-    empresa: props.dependencia.empresa,
-    sede: props.dependencia.sede,
-    codigo: props.dependencia.codigo,
-    nombre: props.dependencia.nombre,
-    descripcion: props.dependencia.descripcion,
-    c_responsable: props.dependencia.c_responsable,
-    estado: props.dependencia.estado
+    conglomerateId: props.dependencia.conglomerateId,
+    companyId: props.dependencia.companyId,
+    headquarterId: props.dependencia.headquarterId,
+    code: props.dependencia.code,
+    name: props.dependencia.name,
+    description: props.dependencia.description,
+    chargeId: props.dependencia.chargeId,
+    status: props.dependencia.status
   }),
   validationSchema: Yup.object().shape({
-    conglomerado: Yup.string()
+    conglomerateId: Yup.string()
       .ensure()
       .required(" Por favor seleccione un conglomerado."),
-    empresa: Yup.string()
+    companyId: Yup.string()
       .ensure()
       .required(" Por favor seleccione una empresa."),
-    sede: Yup.string()
+      headquarterId: Yup.string()
       .ensure()
       .required(" Por favor seleccione una sede."),
-    codigo: Yup.string().required(" Por favor introduzca un código."),
-    nombre: Yup.string().required(" Por favor introduzca un nombre."),
-    descripcion: Yup.string(),
-    c_responsable: Yup.string()
+    code: Yup.string().required(" Por favor introduzca un código.")
+    .min(6, " Mínimo 6 caracteres.")
+    .max(6, " Máximo 6 caracteres."),
+    name: Yup.string().required(" Por favor introduzca un nombre."),
+    description: Yup.string(),
+    chargeId: Yup.string()
       .required(" Por favor seleccione un cargo.")
       .ensure()
       .required(" Por favor seleccione el cargo."),
-    estado: Yup.bool().test(
+      status: Yup.bool().test(
       "Activo",
       "Es necesario activar el conglomerado.",
       value => value === true
     )
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      fetch(DEPENDENCIES, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          description: values.description,
+          code: values.code,
+          name: values.name,
+          headquarterId: values.headquarterId,
+          chargeId: values.chargeId,
+          status: tipoEstado(values.status),
+          userName: "jferrer"
+        })
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (response.status === 201) {
+              toast.success("Se creo la dependencia con exito", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              // alert("oki");
+            } else if (response.status === 500) {
+              toast.error("Error, la dependencia ya existe", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              //alert("Erro en el cuerpo");
+            }
+          })
+        )
+        .catch(error => {
+          toast.error(`Error ${error}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: css({
+              marginTop: "60px"
+            })
+          });
+        });
       setSubmitting(false);
       resetForm();
     }, 1000);

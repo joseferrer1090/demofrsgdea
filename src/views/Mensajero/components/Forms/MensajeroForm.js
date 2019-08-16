@@ -10,7 +10,10 @@ import {
   Col,
   CustomInput
 } from "reactstrap";
-
+import { MESSENGERS } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 const MensajeroForm = props => {
   const {
     values,
@@ -27,6 +30,7 @@ const MensajeroForm = props => {
       <Row>
         <Col sm={{ size: 8, offset: 2 }}>
           <Card>
+          <ToastContainer />
             <CardHeader>Registro de mensajero</CardHeader>
             <CardBody>
               <form className="form">
@@ -40,22 +44,22 @@ const MensajeroForm = props => {
                         </span>{" "}
                       </label>
                       <input
-                        name={"identificacion"}
+                        name={"identification"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.identificacion}
+                        value={values.identification}
                         type="text"
-                        className={`form-control form-control-sm ${errors.identificacion &&
-                          touched.identificacion &&
+                        className={`form-control form-control-sm ${errors.identification &&
+                          touched.identification &&
                           "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.identificacion && touched.identificacion ?
+                        errors.identification && touched.identification ?
                         <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name="identificacion" />
+                      <ErrorMessage name="identification" />
                       </div>
                     </div>
                   </div>
@@ -66,22 +70,22 @@ const MensajeroForm = props => {
                         Nombre <span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        name={"nombre"}
+                        name={"name"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.nombre}
+                        value={values.name}
                         type="text"
-                        className={`form-control form-control-sm ${errors.nombre &&
-                          touched.nombre &&
+                        className={`form-control form-control-sm ${errors.name &&
+                          touched.name &&
                           "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.nombre && touched.nombre ?
+                        errors.name && touched.name ?
                         <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name="nombre" />
+                      <ErrorMessage name="name" />
                       </div>
                     </div>
                   </div>
@@ -89,10 +93,10 @@ const MensajeroForm = props => {
                     <div className="form-group">
                       <label> Descripción </label>
                       <textarea
-                        name={"descripcion"}
+                        name={"description"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.descripcion}
+                        value={values.description}
                         className="form-control form-control-sm"
                       />
                     </div>
@@ -105,10 +109,10 @@ const MensajeroForm = props => {
                       </label>
                       <div className="text-justify">
                         <CustomInput
-                          name={"estado"}
+                          name={"status"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.estado}
+                          value={values.status}
                           type="checkbox"
                           id="ExampleCheckboxInput"
                           label=" Si esta opción se encuentra activada, representa
@@ -119,8 +123,8 @@ const MensajeroForm = props => {
                               quedará inactivo e invisibles para cada uno de los
                               módulos correspondiente del sistema."
                           className={
-                            errors.estado &&
-                            touched.estado &&
+                            errors.status &&
+                            touched.status &&
                             "invalid-feedback"
                           }
                         />
@@ -175,27 +179,79 @@ const MensajeroForm = props => {
 
 export default withFormik({
   mapPropsToValues: props => ({
-    identificacion: props.mensajero.identificacion,
-    nombre: props.mensajero.nombre,
-    descripcion: props.mensajero.descripcion,
-    estado: props.mensajero.estado
+    identification: props.mensajero.identification,
+    name: props.mensajero.name,
+    description: props.mensajero.description,
+    status: props.mensajero.status
   }),
   validationSchema: Yup.object().shape({
-    identificacion: Yup.number()
+    identification: Yup.number()
       .required(" Por favor introduzca una identificación.")
       .integer(),
-    nombre: Yup.string()
+      name: Yup.string()
       .required(" Por favor introduzca un nombre."),
-    descripcion: Yup.string(),
-    estado: Yup.bool().test(
+      description: Yup.string(),
+      status: Yup.bool().test(
       "Activado",
       "Es necesario la activacion del mensajero",
       value => value === true
     )
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
+
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      fetch(MESSENGERS, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          identification: values.identification,
+          name: values.name,
+          description: values.description,
+          status: tipoEstado(values.status),
+          userName: "jferrer"
+        })
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (response.status === 201) {
+              toast.success("Se creo el mensajero con exito", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              // alert("oki");
+            } else if (response.status === 500) {
+              toast.error("Error, mensajero ya existe", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              //alert("Erro en el cuerpo");
+            }
+          })
+        )
+        .catch(error => {
+          toast.error(`Error ${error}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: css({
+              marginTop: "60px"
+            })
+          });
+        });
       setSubmitting(false);
       resetForm();
     }, 1000);

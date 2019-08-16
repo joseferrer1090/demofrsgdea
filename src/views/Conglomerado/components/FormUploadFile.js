@@ -6,9 +6,9 @@ import { Row, Col, CustomInput } from "reactstrap";
 
 class FormUploadFile extends React.Component {
   state = {
-    separator: "",
-    file: ""
+    document: ""
   };
+
   render() {
     return (
       <Fragment>
@@ -49,7 +49,18 @@ class FormUploadFile extends React.Component {
             </div>
           </Col>
           <Col md="8">
-            <Formik>
+            <Formik
+              onSubmit={(values, { setSubmitting }) => {
+                setTimeout(() => {
+                  alert(
+                    JSON.stringify({
+                      separador: values.separador,
+                      titulos: values.titulos
+                    })
+                  );
+                }, 1000);
+              }}
+            >
               {props => {
                 const {
                   values,
@@ -80,7 +91,6 @@ class FormUploadFile extends React.Component {
                                   </span>{" "}
                                 </label>
                                 <input
-                                  id={"quotes"}
                                   name={"separador"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -102,16 +112,16 @@ class FormUploadFile extends React.Component {
                               <div className="form-group">
                                 <label>Títulos</label>
                                 <CustomInput
-                                  name={"cabeza_titulos"}
+                                  name={"titulos"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.cabeza_titulos}
+                                  value={values.titulos}
                                   type="checkbox"
                                   id="ExampleInputCheckbox3"
                                   label="(El primer registro contiene los títulos de las columnas)"
                                   className={
-                                    errors.estado &&
-                                    touched.estado &&
+                                    errors.titulos &&
+                                    touched.titulos &&
                                     "invalid-feedback"
                                   }
                                 />{" "}
@@ -133,9 +143,15 @@ class FormUploadFile extends React.Component {
                       </div>
                       <div className="card-footer">
                         <div className="text-right">
-                          <button className="btn btn-outline-secondary btn-sm">
-                            {" "}
-                            <i className="fa fa-save" /> cargar información{" "}
+                          <button
+                            type="button"
+                            className={"btn btn-outline-secondary btn-sm"}
+                            onClick={e => {
+                              e.preventDefault();
+                              handleSubmit();
+                            }}
+                          >
+                            <i className="fa fa-save" /> subir archivo
                           </button>
                         </div>
                       </div>

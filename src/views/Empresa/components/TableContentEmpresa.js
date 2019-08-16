@@ -4,43 +4,13 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ModalViewEmpresa";
 import ModalEdit from "./ModalEditEmpresa";
 import ModalDel from "./ModalDeleteEmpresa";
+import ModalExport from "./ModalExportCSV";
 import { Row, Col } from "reactstrap";
 import "./../../../css/styleTableEmpresa.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-const data = [
-  {
-    id: 1,
-    conglomerado: "Conglomerado 1",
-    codigo: "EMP01",
-    nit: "1234568870",
-    nombre: "Empresa 1",
-    estado: true
-  },
-  {
-    id: 2,
-    conglomerado: "Conglomerado 3",
-    codigo: "EMP02",
-    nit: "1234687950",
-    nombre: "Empresa 2",
-    estado: false
-  },
-  {
-    id: 3,
-    conglomerado: "Conglomerado 1",
-    codigo: "EMP03",
-    nit: "1235879640",
-    nombre: "Empresa 3",
-    estado: true
-  },
-  {
-    id: 4,
-    conglomerado: "Conglomerado 2",
-    codigo: "EMP04",
-    nit: "123794650",
-    nombre: "Empesa 4",
-    estado: false
-  }
-];
+import {
+  COMPANYS
+} from "./../../../services/EndPoints";
 
 class TableContentEmpresa extends Component {
   constructor(props) {
@@ -48,9 +18,33 @@ class TableContentEmpresa extends Component {
     this.state = {
       modalview: false,
       modaledit: false,
-      modaldel: false
+      modaldel: false,
+      modalexport: false,
+      dataCompanys: [],
+      hiddenColumnID: true
     };
   }
+
+  componentDidMount() {
+    this.getDataCompany();
+  }
+
+  getDataCompany = () => {
+    fetch(COMPANYS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCompanys: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
 
   accionesEmpresa = (cel, row) => {
     return (
@@ -95,9 +89,9 @@ class TableContentEmpresa extends Component {
 
   EstadoEmpresa(cell, row) {
     let status;
-    if (row.estado === true) {
+    if (row.status === 1) {
       status = <b className="text-success">Activo</b>;
-    } else if (row.estado !== true) {
+    } else if (row.state === 0) {
       status = <b className="text-danger">Desactivo</b>;
     }
     return status;
@@ -115,12 +109,37 @@ class TableContentEmpresa extends Component {
     this.refs.child3.toggle();
   };
 
+  openModalExport = () => {
+    this.refs.child4.toggle();
+  };
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  };
+
+  createCustomButtonGroup = props => {
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" /> Exportar CSV
+      </button>
+    );
+  };
+
   render() {
+    const options = {
+      btnGroup: this.createCustomButtonGroup
+    };
+    console.log(this.state.dataCompanys);
     return (
       <div className="animated fadeIn">
         <Col md="12">
           <BootstrapTable
-            data={data}
+            options={options}
+            data={this.state.dataCompanys}
             pagination
             search={true}
             exportCSV
@@ -131,32 +150,40 @@ class TableContentEmpresa extends Component {
             className="tableEmpre tableEmpre1 texto-Empre"
           >
             <TableHeaderColumn
-              dataSort={true}
+              export={false}
               isKey
+              dataField={"id"}
+              hidden={this.state.hiddenColumnID}
+            />
+            <TableHeaderColumn
+              dataSort={true}
+              dataFormat={this.indexN}
               dataField={"id"}
               width={"50"}
               dataAlign="center"
             >
               #
             </TableHeaderColumn>
+
             <TableHeaderColumn
-            width={"200"}
+              width={"200"}
               dataSort={true}
-              dataField={"conglomerado"}
+              dataField={"conglomerate"}
               dataAlign="center"
             >
               Conglomerado
             </TableHeaderColumn>
+
             <TableHeaderColumn
-            width={"180"}
+              width={"180"}
               dataSort={true}
-              dataField={"codigo"}
+              dataField={"code"}
               dataAlign="center"
             >
               Código
             </TableHeaderColumn>
             <TableHeaderColumn
-            width={"200"}
+              width={"200"}
               dataSort={true}
               dataField={"nit"}
               dataAlign="center"
@@ -165,21 +192,21 @@ class TableContentEmpresa extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
-              dataField={"nombre"}
+              dataField={"name"}
               dataAlign="center"
             >
               Nombre
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
-              dataField={"estado"}
+              dataField={"status"}
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoEmpresa(cell, row)}
             >
               Estado
             </TableHeaderColumn>
             <TableHeaderColumn
-            width={"190"}
+              width={"190"}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesEmpresa(cell, row)}
@@ -193,6 +220,7 @@ class TableContentEmpresa extends Component {
         <ModalView modalviewempesa={this.state.modalview} ref={"child"} />
         <ModalEdit modaleditempresa={this.state.modaledit} ref={"child2"} />
         <ModalDel modaldelempresa={this.state.modaldel} ref="child3" />
+        <ModalExport modalexport={this.state.modalexport} ref="child4" />
       </div>
     );
   }

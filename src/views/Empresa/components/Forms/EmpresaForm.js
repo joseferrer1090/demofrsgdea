@@ -8,7 +8,7 @@ import {
   CardHeader,
   CustomInput
 } from "reactstrap";
-import { CONGLOMERATES,COMPANYS } from "./../../../../services/EndPoints";
+import { CONGLOMERATES,COMPANYS, CHARGES } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
@@ -31,9 +31,12 @@ const EmpresaForm = props =>{
   // console.log(`Errors: ${errors}`);
   // console.log(`Touched: ${touched}`);
 const [optionsConglomerate, setOptionsConglomerate] = useState([]);
+const [optionsCharges, setOptionsCharges] = useState([]);
+
 
   useEffect (() => {
-    getDataConglomerates()
+    getDataConglomerates();
+    getDataCharges();
   }, []);
 
   const getDataConglomerates = (data) => {
@@ -61,6 +64,30 @@ const [optionsConglomerate, setOptionsConglomerate] = useState([]);
       );
     });
 
+    const getDataCharges = (data) => {
+      fetch(CHARGES, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      })
+        .then(response => response.json())
+        .then(data => {
+          setOptionsCharges(data)
+          // this.setState({
+          //   dataConglomerates: data
+          // });
+        })
+        .catch(Error => console.log(" ", Error));
+    };
+
+    const mapOptionsCharges =
+      optionsCharges.map((aux,idx)=>{
+        return(
+          <option value={aux.id}>{aux.name}</option>
+        );
+      });
   return (
     <div>
       <Card>
@@ -202,6 +229,7 @@ const [optionsConglomerate, setOptionsConglomerate] = useState([]);
                   >
                     {" "}
                     <option value={""} disabled> -- Seleccione -- </option>
+                    {mapOptionsCharges}
                   </select>
                 </div>
               </div>

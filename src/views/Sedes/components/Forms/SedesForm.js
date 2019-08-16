@@ -11,7 +11,7 @@ import {
   Row,
   Alert
 } from "reactstrap";
-import { CONGLOMERATES, COMPANYS, COUNTRIES, DEPARTMENTS, CITYS, HEADQUARTERS } from "./../../../../services/EndPoints";
+import { CONGLOMERATES, COMPANYS, COUNTRIES, DEPARTMENTS, CITYS, HEADQUARTERS, CHARGES} from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
@@ -36,7 +36,7 @@ const SedesForm = props => {
   const [optionsCountries, setOptionsCountries] = useState([]);
   const [optionsCitys, setOptionsCitys] = useState([]);
   const [visibleAlert, setVisibleAlert] = useState(true);
-
+  const [optionsCharges, setOptionsCharges] = useState([]);
 
   useEffect (() => {
     getDataConglomerates();
@@ -44,6 +44,7 @@ const SedesForm = props => {
     getDataCountries();
     getDataDepartments();
     getDataCitys();
+    getDataCharges();
   }, []);
 
   const getDataConglomerates = (data) => {
@@ -170,6 +171,31 @@ const SedesForm = props => {
             <option value={aux.id}>{aux.name}</option>
           );
         });
+
+        const getDataCharges = (data) => {
+          fetch(CHARGES, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Basic " + window.btoa("sgdea:123456")
+            }
+          })
+            .then(response => response.json())
+            .then(data => {
+              setOptionsCharges(data)
+              // this.setState({
+              //   dataConglomerates: data
+              // });
+            })
+            .catch(Error => console.log(" ", Error));
+        };
+
+        const mapOptionsCharges =
+          optionsCharges.map((aux,idx)=>{
+            return(
+              <option value={aux.id}>{aux.name}</option>
+            );
+          });
 
         const onDismiss = () => {
     console.log(visibleAlert);
@@ -543,6 +569,7 @@ const SedesForm = props => {
                     className="form-control form-control-sm"
                   >
                     <option value={""} >-- Seleccione --</option>
+                    {mapOptionsCharges}
 
                   </select>
                 </div>

@@ -13,14 +13,14 @@ import {
 import DependenciaForm from "./Forms/DependenciasForm";
 
 const dataDependencia = {
-  conglomerado: "",
-  empresa: "",
-  sede: "",
-  codigo: "",
-  nombre: "",
-  descripcion: "",
-  c_responsable: "",
-  estado: ""
+  conglomerateId: "",
+  companyId: "",
+  headquarterId: "",
+  code: "",
+  name: "",
+  description: "",
+  chargeId: "",
+  status: ""
 };
 
 const FromCreateDependencia = () => {

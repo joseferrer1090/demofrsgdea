@@ -4,20 +4,20 @@ import { Row } from "reactstrap";
 import SedesForm from "./Forms/SedesForm";
 
 const dataSede = {
-  conglomerado: "",
-  empresa: "",
-  codigo: "",
-  nombre: "",
-  descripcion: "",
-  pre_radicacion: "",
-  sec_radicacion: "",
-  pais: "",
-  departamento: "",
-  ciudad: "",
-  direccion: "",
-  telefono: "",
-  c_responsable: "",
-  estado: ""
+  conglomerateId: "",
+  companyId: "",
+  code: "",
+  name: "",
+  description: "",
+  prefix: "",
+  sequence: "",
+  countryId: "",
+  departmentId: "",
+  cityId: "",
+  address: "",
+  phone: "",
+  chargeId: "",
+  status: ""
 };
 const FormCreateSedes = () => {
   return (

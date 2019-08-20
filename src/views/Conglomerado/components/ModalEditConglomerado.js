@@ -12,7 +12,6 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
-import { CONGLOMERADO_EDIT } from "./../../../data/JSON-SERVER";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 import { CONGLOMERATES } from "./../../../services/EndPoints";

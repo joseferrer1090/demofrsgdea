@@ -15,292 +15,269 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGSEDE from "./../../../assets/img/teamwork.svg";
-import {
-  SEDES_EDIT,
-  CONGLOMERADO_SELECTED,
-  EMPRESA_SELECTED,
-  PAIS_SELECTED,
-  DEPARTAMENTO_SELECTED,
-  CIUDAD_SELECTED,
-  CARGO_RESPONSABLE_SELECTED
-} from './../../../data/JSON-SERVER';
+import {HEADQUARTERS, CONGLOMERATES, COMPANYS, COUNTRIES, DEPARTMENTS, CITYS, CHARGES} from './../../../services/EndPoints';
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 
 class ModalEditSedes extends React.Component {
   state = {
     modal: this.props.modaledit,
-    secuencia: 1,
-    conglomerado: "",
-    empresa: "",
-    codigo: "",
-    nombre: "",
-    descripcion: "",
-    prefijo_radicacion: "",
-    sec_radicacion: "",
-    cargo_responsable: "",
-    pais: "",
-    departamento: "",
-    ciudad: "",
-    direccion: "",
-    telefono: "",
-    estado: "",
-    selected_conglomerado: [],
-    selected_empresa: [],
-    selected_cargo_responsable: [],
-    selected_pais: [],
-    selected_departamento: [],
-    selected_ciudad: []
+    collapse: false,
+    idSedes:this.props.id,
+    dataResult:{},
+    optionsConglomerate:[],
+    optionsCompanys:[],
+    optionsCountries:[],
+    optionsDepartment:[],
+    optionsCitys:[],
+    optionsCharges:[],
+    headquarter_charge: {}
   };
 
-  componentDidMount() {
-    this.getDataSedes();
-    this.getDataConglomerado();
-    this.getDataEmpresa();
-    this.getDataCargoResponsable();
-    this.getDataPais();
-    this.getDataCiudad();
-    this.getDataDepartamento();
-  }
+componentDidMount() {
+  this.getDataConglomerates();
+  this.getDataCompanys();
+  this.getDataCountries();
+  this.getDataDepartments();
+  this.getDataCitys();
+  this.getDataCharges();
+}
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      idSedes: id
     });
+    this.getHeadquarterByID(id);
   };
+
   toggleCollapse = () => {
-    this.setState({ collapse: !this.state.collapse, collapse2: false });
+    this.setState({ collapse: !this.state.collapse });
   };
 
-  getDataSedes = () => {
-    fetch(SEDES_EDIT)
+  getDataConglomerates = (data) => {
+    fetch(CONGLOMERATES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          conglomerado: data.conglomerado,
-          nombre: data.nombre,
-          empresa: data.empresa,
-          codigo: data.codigo,
-          descripcion: data.descripcion,
-          prefijo_radicacion: data.prefijo_radicacion,
-          sec_radicacion: data.sec_radicacion,
-          cargo_responsable: data.cargo_responsable,
-          pais: data.pais,
-          departamento: data.departamento,
-          ciudad: data.ciudad,
-          direccion: data.direccion,
-          telefono: data.telefono,
-          estado: data.estado
+          optionsConglomerate: data
         });
-        console.log(this.state);
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  getDataCompanys = (data) => {
+    fetch(COMPANYS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCompanys:data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  getDataCountries = (data) => {
+    fetch(COUNTRIES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCountries:data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+  getDataDepartments = (data) => {
+    fetch(DEPARTMENTS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsDepartment: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  getDataCitys = (data) => {
+    fetch(CITYS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCitys:data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  getDataCharges = (data) => {
+    fetch(CHARGES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCharges:data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  getHeadquarterByID = id => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/headquarter/${id}/jferrer`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataResult: {
+            headquarter_name: data.name,
+            headquarter_code: data.code,
+            headquarter_description: data.description,
+            headquarter_status: data.status,
+            headquarter_prefix: data.prefix,
+            headquarter_sequence: data.sequence,
+            headquarter_country: data.city.department.country.id,
+            headquarter_department: data.city.department.id,
+            headquarter_city: data.city.id,
+            headquarter_address: data.address,
+            headquarter_phone: data.phone,
+            headquarter_conglomerate: data.company.conglomerate.id,
+            headquarter_company: data.company.id
+          },
+          headquarter_charge: data.charge
+        });
       })
       .catch(error => console.log(error));
   };
 
-  getDataConglomerado = () => {
-    fetch(CONGLOMERADO_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          selected_conglomerado: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
 
-  getDataEmpresa = () => {
-    fetch(EMPRESA_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          selected_empresa: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-
-  getDataCargoResponsable = () => {
-    fetch(CARGO_RESPONSABLE_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          selected_cargo_responsable: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-
-  getDataPais = () => {
-    fetch(PAIS_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          selected_pais: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-
-  getDataCiudad = () => {
-    fetch(CIUDAD_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          selected_ciudad: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-
-  getDataDepartamento = () => {
-    fetch(DEPARTAMENTO_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          selected_departamento: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
 
   render() {
-    const dataPreview = {
-      conglomerado: this.state.conglomerado,
-      empresa: this.state.empresa,
-      codigo: this.state.codigo,
-      nombre: this.state.nombre,
-      descripcion: this.state.descripcion,
-      prefijo_radicacion: this.state.prefijo_radicacion,
-      sec_radicacion: this.state.sec_radicacion,
-      cargo_responsable: this.state.cargo_responsable,
-      pais: this.state.pais,
-      departamento: this.state.departamento,
-      ciudad: this.state.ciudad,
-      direccion: this.state.direccion,
-      telefono: this.state.telefono,
-      estado: this.state.estado
-    };
+   const data = this.state.headquarter_charge;
 
-    const auxSelected = this.state.selected_conglomerado.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
+   const mapOptionsConglomerate =
+    this.state.optionsConglomerate.map((aux,idx)=>{
+      return(
+        <option value={aux.id}>{aux.name}</option>
+      );
+    });
+    const mapOptionsCompanys =
+    this.state.optionsCompanys.map((aux,idx)=>{
+      return(
+        <option value={aux.id}>{aux.name}</option>
       );
     });
 
-    const auxSelectedEmpresa = this.state.selected_empresa.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
+    const mapOptionsCountries =
+    this.state.optionsCountries.map((aux,idx)=>{
+      return(
+        <option value={aux.id}>{aux.name}</option>
       );
     });
 
-    const auxSelectedCargoResponsable = this.state.selected_cargo_responsable.map(
-      (aux, id) => {
-        return (
-          <option key={id} value={aux.id}>
-            {aux.nombre}
-          </option>
+    const mapOptionsDepartments =
+      this.state.optionsDepartment.map((aux,idx)=>{
+      return(
+        <option value={aux.id}>{aux.name}</option>
+      );
+    });
+
+    const mapOptionsCitys =
+    this.state.optionsCitys.map((aux,idx)=>{
+        return(
+          <option value={aux.id}>{aux.name}</option>
         );
-      }
-    );
+      });
 
-    const auxSelectedPais = this.state.selected_pais.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
+    const mapOptionsCharges =
+    this.state.optionsCharges.map((aux,idx)=>{
+      return(
+        <option value={aux.id}>{aux.name}</option>
       );
     });
 
-    const auxDepartamento = this.state.selected_departamento.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
-
-    const auxCiudadSelected = this.state.selected_ciudad.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
+    const dataResult = this.state.dataResult
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar sede </ModalHeader>
           <Formik
-            initialValues={dataPreview}
+            enableReinitialize={true}
+            initialValues={dataResult}
             validationSchema={Yup.object().shape({
-              // conglomerado: Yup.string()
-              //   .ensure()
-              //   .required("necesario asignar conglomerado"),
-              // empresa: Yup.string()
-              //   .ensure()
-              //   .required("necesario asignar empresa"),
-              // codigo: Yup.string().required("necesario el codigo para la sede"),
-              // nombre: Yup.string().required("necesario para la sede"),
-              // descripcion: Yup.string(),
-              // prefijo_radicacion: Yup.string().required(
-              //   "necesario asignar un prefijo en las sede"
-              // ),
-              // sec_radicacion: Yup.string().required(
-              //   "necesario asignar secuencia de radicacion"
-              // ),
-              // cargo_responsable: Yup.string()
-              //   .ensure()
-              //   .required("necesario asigar cargo responsable"),
-              // pais: Yup.string(),
-              // departamento: Yup.string(),
-              // ciudad: Yup.string().required(
-              //   "necesario asignar ciudad a la sede"
-              // ),
-              // direccion: Yup.string().required(
-              //   "necesario asignar direccion a la sede"
-              // ),
-              // telefono: Yup.string().required(
-              //   "necesario asignar telefono a la sede"
-              // ),
-              conglomerado: Yup.string()
+              headquarter_conglomerate: Yup.string()
                 .required(" Por favor seleccione un conglomerado.")
                 .ensure(),
-              empresa: Yup.string()
+              headquarter_company: Yup.string()
                 .required(" Por favor seleccione una empresa.")
                 .ensure(),
-              codigo: Yup.string()
+              headquarter_code: Yup.string()
                 .required(" Por favor introduzca un código.")
                 .max(6)
                 .min(6),
-              nombre: Yup.string()
+              headquarter_name: Yup.string()
                 .required(" Por favor introduzca un nombre."),
-              descripcion: Yup.string().max(250),
-              prefijo_radicacion: Yup.string()
+              headquarter_description: Yup.string().max(250),
+              headquarter_prefix: Yup.string()
                 .required(" Por favor asigne un prefijo de radicación.")
                 .length(6),
-              sec_radicacion: Yup.number()
+              headquarter_sequence: Yup.number()
                 .required(" Por favor asigne una secuencia de radicación.")
                 .integer()
                 .positive(),
-              pais: Yup.string()
+              headquarter_country: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione un país."),
-              departamento: Yup.string()
+              headquarter_department: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione un departamento."),
-              ciudad: Yup.string()
+              headquarter_city: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione una ciudad."),
-              direccion: Yup.string().required(" Por favor introduzca una dirección."),
-              telefono: Yup.string()
+              headquarter_address: Yup.string().required(" Por favor introduzca una dirección."),
+              headquarter_phone: Yup.string()
                 .max(8)
                 .required(" Por favor introduzca un teléfono."),
-              c_responsable: Yup.string().ensure(),
-              estado: Yup.bool().test("Activo", "", value => value === true)
+              headquarter_charge: Yup.string().ensure(),
+              headquarter_status: Yup.bool().test("Activo", "", value => value === true)
             })}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
@@ -348,23 +325,24 @@ class ModalEditSedes extends React.Component {
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <select
-                                name="conglomerado"
-                                className={`form-control form-control-sm ${errors.conglomerado &&
-                                  touched.conglomerado &&
+                                name="headquarter_conglomerate"
+                                className={`form-control form-control-sm ${errors.headquarter_conglomerate &&
+                                  touched.headquarter_conglomerate &&
                                   "is-invalid"}`}
-                                value={values.conglomerado}
+                                value={values.headquarter_conglomerate}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                               >
-                                {auxSelected}
+                              <option value={""} disabled>-- Seleccione --</option>
+                                  {mapOptionsConglomerate}
                               </select>
                               <div style={{ color: '#D54B4B' }}>
                               {
-                                errors.conglomerado && touched.conglomerado ?
+                                errors.headquarter_conglomerate && touched.headquarter_conglomerate ?
                                 <i class="fa fa-exclamation-triangle"/> :
                                 null
                               }
-                              <ErrorMessage name="conglomerado" />
+                              <ErrorMessage name="headquarter_conglomerate" />
                               </div>
                             </div>
                           </div>
@@ -377,23 +355,24 @@ class ModalEditSedes extends React.Component {
                                 </span>{" "}
                               </label>
                               <select
-                                name={"empresa"}
+                                name={"headquarter_company"}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.empresa}
-                                className={`form-control form-control-sm ${errors.empresa &&
-                                  touched.empresa &&
+                                value={values.headquarter_company}
+                                className={`form-control form-control-sm ${errors.headquarter_company &&
+                                  touched.headquarter_company &&
                                   "is-invalid"}`}
                               >
-                                {auxSelectedEmpresa}
+                              <option value={""} disabled>-- Seleccione --</option>
+                                {mapOptionsCompanys}
                               </select>
                               <div style={{ color: '#D54B4B' }}>
                               {
-                                errors.empresa && touched.empresa ?
+                                errors.headquarter_company && touched.headquarter_company ?
                                 <i class="fa fa-exclamation-triangle"/> :
                                 null
                               }
-                              <ErrorMessage name="empresa" />
+                              <ErrorMessage name="headquarter_company" />
                               </div>
                             </div>
                           </div>
@@ -403,22 +382,22 @@ class ModalEditSedes extends React.Component {
                                 Código <span className="text-danger">*</span>{" "}
                               </label>
                               <input
-                                name={"codigo"}
+                                name={"headquarter_code"}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.codigo}
+                                value={values.headquarter_code}
                                 type="text"
-                                className={`form-control form-control-sm ${errors.codigo &&
-                                  touched.codigo &&
+                                className={`form-control form-control-sm ${errors.headquarter_code &&
+                                  touched.headquarter_code &&
                                   "is-invalid"}`}
                               />
                               <div style={{ color: '#D54B4B' }}>
                               {
-                                errors.codigo && touched.codigo ?
+                                errors.headquarter_code && touched.headquarter_code ?
                                 <i class="fa fa-exclamation-triangle"/> :
                                 null
                               }
-                              <ErrorMessage name="codigo" />
+                              <ErrorMessage name="headquarter_code" />
                               </div>
                             </div>
                           </div>
@@ -432,21 +411,21 @@ class ModalEditSedes extends React.Component {
                               </label>
                               <input
                                 type="text"
-                                name={"nombre"}
+                                name={"headquarter_name"}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.nombre}
-                                className={`form-control form-control-sm ${errors.nombre &&
-                                  touched.nombre &&
+                                value={values.headquarter_name}
+                                className={`form-control form-control-sm ${errors.headquarter_name &&
+                                  touched.headquarter_name &&
                                   "is-invalid"}`}
                               />
                               <div style={{ color: '#D54B4B' }}>
                               {
-                                errors.nombre && touched.nombre ?
+                                errors.headquarter_name && touched.headquarter_name ?
                                 <i class="fa fa-exclamation-triangle"/> :
                                 null
                               }
-                              <ErrorMessage name="nombre" />
+                              <ErrorMessage name="headquarter_name" />
                               </div>
                             </div>
                           </div>
@@ -454,15 +433,15 @@ class ModalEditSedes extends React.Component {
                             <div className="form-group">
                               <label> Descripción </label>
                               <textarea
-                                name={"descripcion"}
-                                value={values.descripcion}
+                                name={"headquarter_description"}
+                                value={values.headquarter_description}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                className={`form-control form-control-sm ${errors.descripcion &&
-                                  touched.descripcion &&
+                                className={`form-control form-control-sm ${errors.headquarter_description &&
+                                  touched.headquarter_description &&
                                   "is-invalid"}`}
                               />
-                              <ErrorMessage name={"descripcion"} />
+                              <ErrorMessage name={"headquarter_description"} />
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -474,27 +453,23 @@ class ModalEditSedes extends React.Component {
                               </label>
                               <input
                                 type="text"
-                                name="prefijo_radicacion"
+                                name="headquarter_prefix"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.prefijo_radicacion}
+                                value={values.headquarter_prefix}
                                 className={`form-control form-control-sm ${
-                                  errors.prefijo_radicacion && touched.prefijo_radicacion &&
+                                  errors.headquarter_prefix && touched.headquarter_prefix &&
                                   "is-invalid"}`}
                                 maxLength={"6"}
                                 placeholder=" "
-                                name={"prefijo_radicacion"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.prefijo_radicacion}
                               />
                               <div style={{ color: '#D54B4B' }}>
                               {
-                                errors.prefijo_radicacion && touched.prefijo_radicacion ?
+                                errors.headquarter_prefix && touched.headquarter_prefix ?
                                 <i class="fa fa-exclamation-triangle"/> :
                                 null
                               }
-                              <ErrorMessage name="prefijo_radicacion" />
+                              <ErrorMessage name="headquarter_prefix" />
                               </div>
                             </div>
                           </div>
@@ -507,20 +482,20 @@ class ModalEditSedes extends React.Component {
                               </label>
                               <input
                                 type="number"
-                                name="sec_radicacion"
+                                name="headquarter_sequence"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.sec_radicacion}
+                                value={values.headquarter_sequence}
                                 className="form-control form-control-sm"
                                 min={0}
                               />
                               <div style={{ color: '#D54B4B' }}>
                               {
-                                errors.sec_radicacion && touched.sec_radicacion ?
+                                errors.headquarter_sequence && touched.headquarter_sequence ?
                                 <i class="fa fa-exclamation-triangle"/> :
                                 null
                               }
-                              <ErrorMessage name="sec_radicacion" />
+                              <ErrorMessage name="headquarter_sequence" />
                               </div>
                             </div>
                           </div>
@@ -550,42 +525,45 @@ class ModalEditSedes extends React.Component {
                                     <div className="form-group">
                                       <label> Cargo responsable </label>
                                       <select
-                                        name="cargo_responsable"
-                                        className={`form-control form-control-sm ${errors.cargo_responsable &&
-                                          touched.cargo_responsable &&
+                                        name="headquarter_charge"
+                                        className={`form-control form-control-sm ${errors.headquarter_charge &&
+                                          touched.headquarter_charge &&
                                           "is-invalid"}`}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.cargo_responsable}
+                                        value={values.headquarter_charge}
                                       >
-                                        {auxSelectedCargoResponsable}
+                                      <option value={""} disabled>-- Seleccione --</option>
+                                      
                                       </select>
-                                      <ErrorMessage name="cargo_responsable" />
+                                      <ErrorMessage name="headquarter_charge" />
                                     </div>
                                   </div>
                                   <div className="col-md-4">
                                     <div className="form-group">
                                       <label> País</label>
                                       <select
-                                      name={"pais"}
+                                      name={"headquarter_country"}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      value={values.pais}
-                                      className={`form-control form-control-sm ${errors.pais &&
-                                        touched.pais &&
+                                      value={values.headquarter_country}
+                                      className={`form-control form-control-sm ${errors.headquarter_country &&
+                                        touched.headquarter_country &&
                                         "is-invalid"}`}
                                       >
                                       {" "}
-                                      {auxSelectedPais}
+
+                                      <option value={""} disabled>-- Seleccione --</option>
+                                      {mapOptionsCountries}
                                       {" "}
                                     </select>{" "}
                                     <div style={{ color: '#D54B4B' }}>
                                       {
-                                        errors.pais && touched.pais ?
+                                        errors.headquarter_country && touched.headquarter_country ?
                                         <i className="fa fa-exclamation-triangle"/> :
                                         null
                                       }
-                                    <ErrorMessage name="pais"/>
+                                    <ErrorMessage name="headquarter_country"/>
                                     </div>
                                     </div>
                                   </div>
@@ -593,23 +571,24 @@ class ModalEditSedes extends React.Component {
                                     <div className="form-group">
                                       <label> Departamento</label>
                                       <select
-                                        name="departamento"
-                                        value={values.departamento}
+                                        name="headquarter_department"
+                                        value={values.headquarter_department}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className={`form-control form-control-sm ${errors.departamento &&
-                                          touched.departamento &&
+                                        className={`form-control form-control-sm ${errors.headquarter_department &&
+                                          touched.headquarter_department &&
                                           "is-invalid"}`}
                                       >
-                                        {auxDepartamento}
+                                      <option value={""} disabled>-- Seleccione --</option>
+                                      {mapOptionsDepartments}
                                       </select>
                                       <div style={{ color: '#D54B4B' }}>
                                       {
-                                        errors.departamento && touched.departamento ?
+                                        errors.headquarter_department && touched.headquarter_department ?
                                         <i class="fa fa-exclamation-triangle"/> :
                                         null
                                       }
-                                      <ErrorMessage name="departamento" />
+                                      <ErrorMessage name="headquarter_department" />
                                       </div>
                                     </div>
                                   </div>
@@ -623,23 +602,24 @@ class ModalEditSedes extends React.Component {
                                         </span>{" "}
                                       </label>
                                       <select
-                                        name="ciudad"
-                                        value={values.ciudad}
+                                        name="headquarter_city"
+                                        value={values.headquarter_city}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        className={`form-control form-control-sm ${errors.ciudad &&
-                                          touched.ciudad &&
+                                        className={`form-control form-control-sm ${errors.headquarter_city &&
+                                          touched.headquarter_city &&
                                           "is-invalid"}`}
                                       >
-                                        {auxCiudadSelected}
+                                      <option value={""} disabled>-- Seleccione --</option>
+                                          {mapOptionsCitys}
                                       </select>
                                       <div style={{ color: '#D54B4B' }}>
                                       {
-                                        errors.ciudad && touched.ciudad ?
+                                        errors.headquarter_city && touched.headquarter_city ?
                                         <i class="fa fa-exclamation-triangle"/> :
                                         null
                                       }
-                                      <ErrorMessage name="ciudad" />
+                                      <ErrorMessage name="headquarter_city" />
                                       </div>
                                     </div>
                                   </div>
@@ -654,22 +634,22 @@ class ModalEditSedes extends React.Component {
                                         </span>{" "}
                                       </label>
                                       <input
-                                        name={"direccion"}
+                                        name={"headquarter_address"}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.direccion}
+                                        value={values.headquarter_address}
                                         type="text"
-                                        className={`form-control form-control-sm ${errors.direccion &&
-                                          touched.direccion &&
+                                        className={`form-control form-control-sm ${errors.headquarter_address &&
+                                          touched.headquarter_address &&
                                           "is-invalid"}`}
                                       />
                                       <div style={{ color: '#D54B4B' }}>
                                       {
-                                        errors.direccion && touched.direccion ?
+                                        errors.headquarter_address && touched.headquarter_address ?
                                         <i class="fa fa-exclamation-triangle"/> :
                                         null
                                       }
-                                      <ErrorMessage name="direccion" />
+                                      <ErrorMessage name="headquarter_address" />
                                       </div>
                                     </div>
                                   </div>
@@ -684,21 +664,21 @@ class ModalEditSedes extends React.Component {
                                       </label>
                                       <input
                                         type="text"
-                                        name="telefono"
+                                        name="headquarter_phone"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.telefono}
-                                        className={`form-control form-control-sm ${errors.telefono &&
-                                          touched.telefono &&
+                                        value={values.headquarter_phone}
+                                        className={`form-control form-control-sm ${errors.headquarter_phone &&
+                                          touched.headquarter_phone &&
                                           "is-invalid"}`}
                                       />
                                       <div style={{ color: '#D54B4B' }}>
                                       {
-                                        errors.telefono && touched.telefono ?
+                                        errors.headquarter_phone && touched.headquarter_phone ?
                                         <i class="fa fa-exclamation-triangle"/> :
                                         null
                                       }
-                                      <ErrorMessage name="telefono" />
+                                      <ErrorMessage name="headquarter_phone" />
                                       </div>
                                     </div>
                                   </div>
@@ -714,15 +694,11 @@ class ModalEditSedes extends React.Component {
                                   </label>
                                   <div className="text-justify">
                                     <Field
-                                      name="estado"
+                                      name="headquarter_status"
                                       render={({ field, form }) => {
-                                        //console.log("field", field);
+
                                         return (
-                                          // <input
-                                          //   type="checkbox"
-                                          //   checked={field.value}
-                                          //   {...field}
-                                          // />
+
                                           <CustomInput
                                             type="checkbox"
                                             id="conglomeradoModalEdit"
@@ -737,8 +713,8 @@ class ModalEditSedes extends React.Component {
                                             {...field}
                                             checked={field.value}
                                             className={
-                                              errors.estado &&
-                                              touched.estado &&
+                                              errors.headquarter_status &&
+                                              touched.headquarter_status &&
                                               "invalid-feedback"
                                             }
                                           />
@@ -787,7 +763,8 @@ class ModalEditSedes extends React.Component {
 }
 
 ModalEditSedes.propTypes = {
-  modaledit: PropTypes.bool.isRequired
+  modaledit: PropTypes.bool.isRequired,
+  id: PropTypes.string,
 };
 
 export default ModalEditSedes;

@@ -20,14 +20,33 @@ class ModalViewEmpresa extends Component {
     super(props);
     this.state = {
       modal: this.props.modalviewempresa,
-      collapase: false
+      collapase: false,
+      id: this.props.id,
+      dataComponey: {},
+      dataCompanyConglomerate: {}
     };
   }
 
-  toggle = () => {
+  toggle = id => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id: id
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/company/${id}/jferrer`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataComponey: data,
+          dataCompanyConglomerate: data.conglomerate
+        });
+      })
+      .catch(Error => console.log(Error));
   };
 
   toggleCollapse = () => {
@@ -37,10 +56,34 @@ class ModalViewEmpresa extends Component {
   };
 
   render() {
+    const company = this.state.dataComponey;
+    const companyconglomerate = this.state.dataCompanyConglomerate;
+    // console.log(company);
+    // console.log(companyconglomerate);
+    const statusCompany = data => {
+      let status;
+      if (data === 1) {
+        status = <b className="text-success">Activada</b>;
+      } else if (data === 0) {
+        status = <b className="text-danger">Inactiva</b>;
+      }
+      return status;
+    };
+
+    const chargeStatus = data => {
+      let charge;
+      if (data === null) {
+        charge = <b className="text-danger"> Cargo asignado </b>;
+      } else if (data !== null) {
+        charge = <b>{data}</b>;
+      }
+      return charge;
+    };
+
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver empresa </ModalHeader>
+          <ModalHeader> Ver empresa {company.name} </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -55,46 +98,44 @@ class ModalViewEmpresa extends Component {
                   </h5>{" "}
                 </div>
                 <div className="row">
-                <div className="col-md-6">
+                  <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
                         <dt>Conglomerado </dt>
-                        <dd>conglomerado </dd>
+                        <dd>{companyconglomerate.name}</dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>Código </dt>
-                      <dd> codigo </dd>
-                    </dl>
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Código </dt>
+                        <dd> {company.code} </dd>
+                      </dl>
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-6">
+                  <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
                         <dt>Nit </dt>
-                        <dd>nit </dd>
+                        <dd>{company.nit} </dd>
                       </dl>
                     </div>
                   </div>
-                <div className="col-md-6">
+                  <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
                         <dt>Nombre </dt>
-                        <dd>nombre </dd>
+                        <dd>{company.name}</dd>
                       </dl>
                     </div>
                   </div>
-
-
 
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
                         <dt>Descripción </dt>
-                        <dd> descripción </dd>
+                        <dd>{company.description}</dd>
                       </dl>
                     </div>
                   </div>
@@ -102,7 +143,7 @@ class ModalViewEmpresa extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Estado </dt>
-                        <dd> estado </dd>
+                        <dd>{statusCompany(company.status)}</dd>
                       </dl>
                     </div>
                   </div>
@@ -132,7 +173,7 @@ class ModalViewEmpresa extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Cargo responsable </dt>
-                              <dd> cargo responsable </dd>
+                              <dd> {chargeStatus(company.charge)}</dd>
                             </dl>
                           </div>
                         </div>
@@ -140,7 +181,7 @@ class ModalViewEmpresa extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt> Fecha de creación </dt>
-                              <dd> fecha de creación </dd>
+                              <dd> {company.createdAt} </dd>
                             </dl>
                           </div>
                         </div>
@@ -148,7 +189,7 @@ class ModalViewEmpresa extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt> Fecha de modificación </dt>
-                              <dd> fecha de modificación </dd>
+                              <dd> {company.updatedAt} </dd>
                             </dl>
                           </div>
                         </div>
@@ -161,7 +202,7 @@ class ModalViewEmpresa extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

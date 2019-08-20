@@ -10,7 +10,6 @@ import "./../../../css/styleTableEmpresa.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import { COMPANYS } from "./../../../services/EndPoints";
 
-
 class TableContentEmpresa extends Component {
   constructor(props) {
     super(props);
@@ -52,7 +51,7 @@ class TableContentEmpresa extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -93,8 +92,8 @@ class TableContentEmpresa extends Component {
     return status;
   }
 
-  openModalView = () => {
-    this.refs.child.toggle();
+  openModalView = id => {
+    this.refs.child.toggle(id);
   };
 
   openModalEdit = () => {
@@ -111,7 +110,7 @@ class TableContentEmpresa extends Component {
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
-  };
+  }
 
   createCustomButtonGroup = props => {
     return (

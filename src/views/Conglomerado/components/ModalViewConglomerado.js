@@ -49,6 +49,15 @@ class ModalViewConglomerado extends Component {
   render() {
     // console.log(this.state.id);
     // console.log(this.state.dataConglomerado);
+    const statusConglomerado = data => {
+      let status;
+      if (data === 1) {
+        status = <p className="text-success"> Activo </p>;
+      } else if (data === 0) {
+        status = <p className="text-danger"> Inactivo </p>;
+      }
+      return status;
+    };
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -95,7 +104,12 @@ class ModalViewConglomerado extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Estado </dt>
-                        <dd> {this.state.dataConglomerado.status} </dd>
+                        <dd>
+                          {" "}
+                          {statusConglomerado(
+                            this.state.dataConglomerado.status
+                          )}{" "}
+                        </dd>
                       </dl>
                     </div>
                   </div>

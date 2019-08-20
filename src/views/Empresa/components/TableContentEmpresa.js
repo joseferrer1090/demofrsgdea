@@ -10,6 +10,7 @@ import "./../../../css/styleTableEmpresa.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import { COMPANYS } from "./../../../services/EndPoints";
 
+
 class TableContentEmpresa extends Component {
   constructor(props) {
     super(props);
@@ -110,7 +111,7 @@ class TableContentEmpresa extends Component {
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
-  }
+  };
 
   createCustomButtonGroup = props => {
     return (
@@ -127,7 +128,6 @@ class TableContentEmpresa extends Component {
   ConglomerateInfo = conglomerate => {
     return !conglomerate ? null : `<div>${conglomerate.name}</div>`;
   };
-
   render() {
     const options = {
       btnGroup: this.createCustomButtonGroup

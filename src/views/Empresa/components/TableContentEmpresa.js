@@ -8,9 +8,8 @@ import ModalExport from "./ModalExportCSV";
 import { Row, Col } from "reactstrap";
 import "./../../../css/styleTableEmpresa.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import {
-  COMPANYS
-} from "./../../../services/EndPoints";
+import { COMPANYS } from "./../../../services/EndPoints";
+
 
 class TableContentEmpresa extends Component {
   constructor(props) {
@@ -48,10 +47,7 @@ class TableContentEmpresa extends Component {
 
   accionesEmpresa = (cel, row) => {
     return (
-      <div
-        className="table-actionMenuEmpre"
-        style={{marginRight: "60px"}}
-      >
+      <div className="table-actionMenuEmpre" style={{ marginRight: "60px" }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -129,6 +125,9 @@ class TableContentEmpresa extends Component {
     );
   };
 
+  ConglomerateInfo = conglomerate => {
+    return !conglomerate ? null : `<div>${conglomerate.name}</div>`;
+  };
   render() {
     const options = {
       btnGroup: this.createCustomButtonGroup
@@ -170,6 +169,7 @@ class TableContentEmpresa extends Component {
               dataSort={true}
               dataField={"conglomerate"}
               dataAlign="center"
+              dataFormat={this.ConglomerateInfo}
             >
               Conglomerado
             </TableHeaderColumn>

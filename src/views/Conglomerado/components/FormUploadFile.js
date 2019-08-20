@@ -3,13 +3,19 @@ import PropTypes from "prop-types";
 import { Formik, Field, ErrorMessage, withFormik } from "formik";
 import * as Yup from "yup";
 import { Row, Col, CustomInput } from "reactstrap";
+import axios, { POST } from "axios";
 
 class FormUploadFile extends React.Component {
   state = {
-    document: ""
+    file: null
+  };
+
+  onChange = e => {
+    this.setState({ file: e.target.files[0] });
   };
 
   render() {
+    console.log(this.state.file);
     return (
       <Fragment>
         <Row>
@@ -51,13 +57,24 @@ class FormUploadFile extends React.Component {
           <Col md="8">
             <Formik
               onSubmit={(values, { setSubmitting }) => {
+                const formData = new FormData();
+                const file = this.state.file;
+                const separador = values.separador;
+                formData.append("file", file);
+                formData.append("separator", separador);
                 setTimeout(() => {
-                  alert(
-                    JSON.stringify({
-                      separador: values.separador,
-                      titulos: values.titulos
-                    })
-                  );
+                  axios
+                    .post(
+                      `http://192.168.10.180:7001/api/sgdea/conglomerate/import/jferrer`,
+                      formData,
+                      {
+                        headers: {
+                          "Content-Type": "multipart/form-data"
+                        }
+                      }
+                    )
+                    .then(response => response.json())
+                    .catch(error => console.log("", error));
                 }, 1000);
               }}
             >
@@ -77,7 +94,7 @@ class FormUploadFile extends React.Component {
                   <Fragment>
                     <div className="card">
                       <div className="card-body">
-                        <form className="form" encType="multipart/form-data">
+                        <form className="form">
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
@@ -135,7 +152,11 @@ class FormUploadFile extends React.Component {
                                   Archivo a importar en extnsion <b>CSV</b>{" "}
                                   <span className="text-danger"> * </span>
                                 </label>
-                                <input type="file" className="form-control" />
+                                <input
+                                  type="file"
+                                  className={"form-control"}
+                                  onChange={e => this.onChange(e)}
+                                />
                               </div>
                             </div>
                           </div>

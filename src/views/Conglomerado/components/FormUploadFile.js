@@ -4,6 +4,7 @@ import { Formik, Field, ErrorMessage, withFormik } from "formik";
 import * as Yup from "yup";
 import { Row, Col, CustomInput } from "reactstrap";
 import axios from "axios";
+import { CsvToHtmlTable } from "react-csv-to-table";
 
 class FormUploadFile extends React.Component {
   state = {
@@ -183,9 +184,63 @@ class FormUploadFile extends React.Component {
             </Formik>
           </Col>
         </Row>
+        <br />
+        <Row>
+          <Col md={12}>
+            <PreviewFile
+              file={this.state.file}
+              estilos={"table table-striped table-hover table-bordered"}
+            />
+          </Col>
+        </Row>
       </Fragment>
     );
   }
 }
 
 export default FormUploadFile;
+
+class PreviewFile extends React.Component {
+  state = {
+    loading: false,
+    thumb: undefined
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.file) {
+      return;
+    }
+    this.setState(
+      {
+        loading: true
+      },
+      () => {
+        let reader = new FileReader();
+
+        reader.onloadend = () => {
+          this.setState({ loading: false, thumb: reader.result });
+        };
+
+        reader.readAsBinaryString(nextProps.file);
+      }
+    );
+  }
+  render() {
+    const { file } = this.props;
+    const { loading } = this.state;
+    const thumb = this.state.thumb;
+
+    if (!file) {
+      return null;
+    }
+
+    if (loading) {
+      return <p>loading...</p>;
+    }
+
+    // console.log(thumb.toString());
+    console.log(file.type);
+
+    return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
+  }
+}

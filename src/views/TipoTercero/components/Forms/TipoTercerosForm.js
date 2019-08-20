@@ -10,6 +10,10 @@ import {
   Col,
   CustomInput
 } from "reactstrap";
+import { TYPETHIRDPARTYS } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 const TipoTercerosForm = props =>{
   const {
     values,
@@ -28,6 +32,7 @@ const TipoTercerosForm = props =>{
     <Row>
       <Col sm={{ size: 8, offset: 2 }}>
         <Card>
+        <ToastContainer/>
           <CardHeader> Registrar tipo de tercero </CardHeader>
           <CardBody>
             <form className="form">
@@ -39,22 +44,22 @@ const TipoTercerosForm = props =>{
                       Código <span className="text-danger"> * </span>
                     </label>
                     <input
-                    name={"codigo"}
+                    name={"code"}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.codigo}
+                    value={values.code}
                     type="text"
-                    className={`form-control form-control-sm ${errors.codigo &&
-                      touched.codigo &&
+                    className={`form-control form-control-sm ${errors.code &&
+                      touched.code &&
                       "is-invalid"}`}
                     />
                     <div style={{ color: '#D54B4B' }}>
                     {
-                      errors.codigo && touched.codigo ?
+                      errors.code && touched.code ?
                       <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
-                    <ErrorMessage name="codigo"/>
+                    <ErrorMessage name="code"/>
                     </div>
                   </div>
                 </div>
@@ -65,22 +70,22 @@ const TipoTercerosForm = props =>{
                       Nombre <span className="text-danger">*</span>{" "}
                     </label>
                     <input
-                    name={"nombre"}
+                    name={"name"}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.nombre}
+                    value={values.name}
                     type="text"
-                    className={`form-control form-control-sm ${errors.nombre &&
-                      touched.nombre &&
+                    className={`form-control form-control-sm ${errors.name &&
+                      touched.name &&
                       "is-invalid"}`}
                     />
                     <div style={{ color: '#D54B4B' }}>
                     {
-                      errors.nombre && touched.nombre ?
+                      errors.name && touched.name ?
                       <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
-                    <ErrorMessage name="nombre"/>
+                    <ErrorMessage name="name"/>
                     </div>
                   </div>
                 </div>
@@ -93,16 +98,16 @@ const TipoTercerosForm = props =>{
                       </span>{" "}
                     </label>
                     <textarea
-                         name={"descripcion"}
+                         name={"description"}
                          onChange={handleChange}
                          onBlur={handleBlur}
-                         value={values.descripcion}
-                         className={`form-control form-control-sm ${errors.descripcion &&
-                          touched.descripcion &&
+                         value={values.description}
+                         className={`form-control form-control-sm ${errors.description &&
+                          touched.description &&
                           "is-invalid"}`}
                            />
                            <div style={{ color: '#D54B4B' }}>
-                           <ErrorMessage name="descripcion"/>
+                           <ErrorMessage name="description"/>
                            </div>
 
                   </div>
@@ -124,17 +129,17 @@ const TipoTercerosForm = props =>{
                          la sede no se elimina del sistema solo quedará
                          inactiva e invisibles para cada uno de los módulos
                          correspondiente del sistema."
-                         name={"estado"}
+                         name={"status"}
                          onChange={handleChange}
                          onBlur={handleBlur}
-                         value={values.estado}
+                         value={values.status}
                          className={
-                            errors.estado &&
-                            touched.estado &&
+                            errors.status &&
+                            touched.status &&
                             "invalid-feedback"
                           }
                       />
-                      <ErrorMessage name="estado"/>
+                      <ErrorMessage name="this.status"/>
                     </div>
                     {/* <p
                         className="text-muted"
@@ -181,30 +186,81 @@ const TipoTercerosForm = props =>{
 
 export default withFormik({
   mapPropsToValues: props => ({
-    codigo: props.TipoTercerosForm.codigo,
-    nombre: props.TipoTercerosForm.nombre,
-    estado: props.TipoTercerosForm.estado,
-    descripcion: props.TipoTercerosForm.descripcion
+    code: props.TipoTercerosForm.code,
+    name: props.TipoTercerosForm.name,
+    status: props.TipoTercerosForm.status,
+    description: props.TipoTercerosForm.description
   }),
   validationSchema: Yup.object().shape({
-    codigo: Yup.string()
+    code: Yup.string()
     .min(6, " Mínimo 6 caracteres")
     .max(6, " Máximo 6 caracteres")
     .required(" Por favor introduzaca un código."),
-    nombre: Yup.string()
+    name: Yup.string()
     .max(100)
     .required(" Por favor introduzca un nombre."),
-    descripcion: Yup.string()
+    description: Yup.string()
     .max(250, " Máximo 250 caracteres."),
-    estado: Yup.bool().test(
+    status: Yup.bool().test(
       "Activo",
       "Se requiere la activacion del tipo de tercero.",
       value => value === true
     )
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      fetch(TYPETHIRDPARTYS, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          code: values.code,
+          name: values.name,
+          description: values.description,
+          status: tipoEstado(values.status),
+          userName: "jferrer"
+        })
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (response.status === 201) {
+              toast.success("Se creo el tipo de tercero con exito", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              // alert("oki");
+            } else if (response.status === 500) {
+              toast.error("Error, tipo de tercero ya existe", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+              //alert("Erro en el cuerpo");
+            }
+          })
+        )
+        .catch(error => {
+          toast.error(`Error ${error}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: css({
+              marginTop: "60px"
+            })
+          });
+        });
       setSubmitting(false);
       resetForm();
     }, 1000);

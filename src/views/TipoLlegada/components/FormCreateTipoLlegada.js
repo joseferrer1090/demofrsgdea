@@ -1,10 +1,10 @@
 import React from "react";
 import TipoLlegadaForm from "./Forms/TipoLlegadaForm";
 const dataTipollegada = {
-  codigo: "",
-  nombre: "",
-  decripcion: "",
-  estado: ""
+  code: "",
+  name: "",
+  description: "",
+  status: ""
 };
 const FormCreateTipoLlegada = () => {
   return (

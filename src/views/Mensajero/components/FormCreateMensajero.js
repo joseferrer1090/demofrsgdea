@@ -2,10 +2,10 @@ import React from "react";
 import MensajeroForm from "./Forms/MensajeroForm";
 
 const dataMensajero = {
-  identificacion: "",
-  nombre: "",
-  descripcion: "",
-  estado: ""
+  identification: "",
+  name: "",
+  description: "",
+  status: ""
 };
 
 const FormCreateMensajero = () => {

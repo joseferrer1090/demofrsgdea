@@ -1,9 +1,9 @@
 import React  from "react";
 import FormPais from "./Forms/FormPais";
 const dataPais ={
-  codigo:"",
-  nombre:"",
-  estado:""
+  code:"",
+  name:"",
+  status:""
 }
 const FormCreatePais =()=>{
   return (

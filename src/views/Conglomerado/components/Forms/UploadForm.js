@@ -3,7 +3,6 @@ import { Formik, withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { Row, Col, CustomInput } from "reactstrap";
 import { CsvToHtmlTable } from "react-csv-to-table";
-import { readFile } from "fs";
 
 const UploadForm = props => {
   const {
@@ -15,7 +14,8 @@ const UploadForm = props => {
     handleSubmit,
     handleReset,
     isSubmitting,
-    setFieldValue
+    setFieldValue,
+    setValues
   } = props;
 
   console.log(props);
@@ -75,6 +75,7 @@ const UploadForm = props => {
                         </span>{" "}
                       </label>
                       <input
+                        id={"quotes"}
                         name={"separador"}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -94,7 +95,7 @@ const UploadForm = props => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Títulos</label>
+                      <label>Títulos</label>3
                       <CustomInput
                         name={"cabeza_titulos"}
                         onChange={handleChange}
@@ -123,6 +124,7 @@ const UploadForm = props => {
                       </label>
                       <br />
                       <input
+                        id={"file_conglomerado"}
                         name="archivo"
                         type="file"
                         onChange={event => {
@@ -180,10 +182,10 @@ const UploadForm = props => {
       <Fragment>
         <Row>
           <Col sm={12}>
-            <PreviewFile
+            {/* <PreviewFile
               file={values.archivo}
               estilos={"table table-striped table-hover table-bordered"}
-            />
+            /> */}
             {/* <PreviewFile
               file={values.archivo}
               estilos={"table table-striped table-hover table-bordered"}
@@ -227,20 +229,33 @@ export default withFormik({
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
-      alert(
-        JSON.stringify(
-          {
-            separador: values.separador,
-            cabeza_titulos: values.cabeza_titulos,
-            fileName: values.archivo.name,
-            type: values.archivo.type,
-            size: `${values.archivo.size} bytes`
+      fetch(
+        `http://192.168.10.180:7001/api/sgdea/conglomerate/import/jferrer`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type":
+              " multipart/form-data; boundary=—-WebKitFormBoundaryfgtsKTYLsT7PNUVD"
           },
-          null,
-          1
-        )
-      );
-      //console.log(values);
+          body: {
+            separator: values.separador,
+            file: values.archivo
+          }
+        }
+      ).catch(error => console.log("Error", error));
+      // alert(
+      //   JSON.stringify(
+      //     {
+      //       separador: values.separador,
+      //       cabeza_titulos: values.cabeza_titulos,
+      //       fileName: values.archivo.name,
+      //       type: values.archivo.type,
+      //       size: `${values.archivo.size} bytes`
+      //     },
+      //     null,
+      //     1
+      //   )
+      // );
       setSubmitting(false);
       resetForm();
     }, 1000);

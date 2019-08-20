@@ -5,10 +5,13 @@ import * as Yup from "yup";
 import { Row, Col, CustomInput } from "reactstrap";
 import axios from "axios";
 import { CsvToHtmlTable } from "react-csv-to-table";
+import { ToastContainer, toast } from "react-toastify";
+import { css } from "glamor";
 
 class FormUploadFile extends React.Component {
   state = {
-    file: null
+    file: null,
+    username: "jferrer"
   };
 
   onChange = e => {
@@ -20,6 +23,7 @@ class FormUploadFile extends React.Component {
     return (
       <Fragment>
         <Row>
+          <ToastContainer />
           <Col md="4">
             <div className="list-group">
               <a className="list-group-item list-group-item-action flex-column align-items-start">
@@ -66,7 +70,9 @@ class FormUploadFile extends React.Component {
                 setTimeout(() => {
                   axios
                     .post(
-                      `http://192.168.10.180:7001/api/sgdea/conglomerate/import/jferrer`,
+                      `http://192.168.10.180:7001/api/sgdea/conglomerate/import/?username=${
+                        this.state.username
+                      }`,
                       formData,
                       {
                         headers: {
@@ -74,8 +80,34 @@ class FormUploadFile extends React.Component {
                         }
                       }
                     )
-                    .then(response => response.json())
-                    .catch(error => console.log("", error));
+                    .then(response => {
+                      if (response.status === 200) {
+                        toast.success(
+                          "se importo el conglomerado y creo el conglomerado",
+                          {
+                            position: toast.POSITION.TOP_RIGHT,
+                            className: css({
+                              marginTop: "60px"
+                            })
+                          }
+                        );
+                      } else if (response !== 200) {
+                        toast("Verificar el archivo csv", {
+                          position: toast.POSITION.TOP_RIGHT,
+                          className: css({
+                            marginTop: "60px"
+                          })
+                        });
+                      }
+                    })
+                    .catch(error => {
+                      toast.error(`${error}`, {
+                        position: toast.POSITION.TOP_RIGHT,
+                        className: css({
+                          marginTop: "60px"
+                        })
+                      });
+                    });
                 }, 1000);
               }}
             >

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Formik, Field, ErrorMessage, withFormik } from "formik";
 import * as Yup from "yup";
 import { Row, Col, CustomInput } from "reactstrap";
-import axios, { POST } from "axios";
+import axios from "axios";
 
 class FormUploadFile extends React.Component {
   state = {

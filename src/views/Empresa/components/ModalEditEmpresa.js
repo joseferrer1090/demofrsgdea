@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import {
   Row,
@@ -130,20 +130,60 @@ class ModalEditEmpresa extends React.Component {
     } else {
       selection = chargeList;
     }
-
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar Empresa {companyById.name} </ModalHeader>
+          <ModalHeader> Actualizar Empresa </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={companyById}
             onSubmit={(values, { setSubmitting }) => {
+              const tipoEstado = data => {
+                let tipo = null;
+                if (data === true) {
+                  return (tipo = 1);
+                } else if (data === false) {
+                  return (tipo = 0);
+                }
+                return null;
+              };
               setTimeout(() => {
-                alert(JSON.stringify(values, "", 2));
+                fetch(`http://192.168.10.180:7000/api/sgdea/company`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                  },
+                  body: JSON.stringify({
+                    id: this.state.id,
+                    code: values.code,
+                    nit: values.nit,
+                    name: values.name,
+                    description: values.description,
+                    conglomerateId: values.conglomerate,
+                    chargeId: values.charge,
+                    status: tipoEstado(values.status),
+                    userName: "jferrer"
+                  })
+                })
+                  .then(response => {
+                    response.json().then(data => {
+                      if (response.status === 200) {
+                        console.log("Se actualizo de manera exitosa");
+                      } else if (response.status !== 200) {
+                        console.log("ver la consola");
+                      }
+                    });
+                  })
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
-              }, 1000);
+              }, 2000);
             }}
+            // onSubmit={(values, { isSubmitting }) => {
+            //   setTimeout(() => {
+            //     alert(JSON.stringify(values, "", 2));
+            //   }, 3000);
+            // }}
             validationSchema={Yup.object().shape({
               conglomerate: Yup.string()
                 .ensure()
@@ -152,7 +192,7 @@ class ModalEditEmpresa extends React.Component {
               name: Yup.string().required(" Por favor introduzca un nombre."),
               nit: Yup.string().required(" Por favor introduzca un NIT."),
               description: Yup.string().max(250, " Máximo 250 caracteres."),
-              cargo_responsable: Yup.string()
+              charge: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione un cargo responsable."),
               status: Yup.bool().test("Activo", "", value => value === true)
@@ -170,223 +210,225 @@ class ModalEditEmpresa extends React.Component {
                 handleSubmit,
                 handleReset
               } = props;
-
               return (
-                <form className="form">
+                <Fragment>
                   <ModalBody>
-                    <Row>
-                      <Col sm="3">
-                        <img src={IMGEMPRESA} className="img-thumbnail" />
-                      </Col>
-                      <Col sm="9">
-                        <div className="">
-                          {" "}
-                          <h5
-                            className=""
-                            style={{ borderBottom: "1px solid black" }}
-                          >
+                    <form className="form">
+                      <Row>
+                        <Col sm="3">
+                          <img src={IMGEMPRESA} className="img-thumbnail" />
+                        </Col>
+                        <Col sm="9">
+                          <div className="">
                             {" "}
-                            Datos{" "}
-                          </h5>{" "}
-                        </div>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                Conglomerado{" "}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <select
-                                    className={`form-control form-control-sm ${errors.conglomerate &&
-                                      touched.conglomerate &&
-                                      "is-invalid"}`}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    name={"conglomerate"}
-                                    value={values.conglomerate}
-                                  >
-                                    {conglomerateList}
-                                  </select>
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.conglomerate &&
-                                    touched.conglomerate ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="conglomerate" />
-                                  </div>
-                                  {/* <Select
+                            <h5
+                              className=""
+                              style={{ borderBottom: "1px solid black" }}
+                            >
+                              {" "}
+                              Datos{" "}
+                            </h5>{" "}
+                          </div>
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  Conglomerado{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                  <dd>
+                                    {" "}
+                                    <select
+                                      className={`form-control form-control-sm ${errors.conglomerate &&
+                                        touched.conglomerate &&
+                                        "is-invalid"}`}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      name={"conglomerate"}
+                                      value={values.conglomerate}
+                                    >
+                                      {conglomerateList}
+                                    </select>
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.conglomerate &&
+                                      touched.conglomerate ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="conglomerate" />
+                                    </div>
+                                    {/* <Select
                             onChange={
                               this.handleChangeSelectedOptionUpdateConglomerado
                             }
                             value={this.selectedOptionUpdateConglomerado}
                             options={dataConglomeradoExample}
                           /> */}
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                Código <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  <input
-                                    name={"code"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.code}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.code &&
-                                      touched.code &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div
-                                    className=""
-                                    style={{ color: "#D54B4B" }}
-                                  >
-                                    {errors.code && touched.code ? (
-                                      <i class="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="code" />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                Nit <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    type="text"
-                                    name={"nit"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.nit}
-                                    className={`form-control form-control-sm ${errors.nit &&
-                                      touched.nit &&
-                                      "is-invalid"}`}
-                                  />{" "}
-                                  <div
-                                    className=""
-                                    style={{ color: "#D54B4B" }}
-                                  >
-                                    {errors.nit && touched.nit ? (
-                                      <i class="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="nit" />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                Nombre<span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"name"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.name}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.name &&
-                                      touched.name &&
-                                      "is-invalid"}`}
-                                  />{" "}
-                                  <div
-                                    className=""
-                                    style={{ color: "#D54B4B" }}
-                                  >
-                                    {errors.name && touched.name ? (
-                                      <i class="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="name" />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                        </div>
-                      </Col>
-                    </Row>
-                    <br />
-                    <Row>
-                      <Col sm="12">
-                        <Card>
-                          <CardHeader> Mas informacion </CardHeader>
-                          <CardBody>
-                            <div className="row">
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <label> Descripción </label>
-                                  <input
-                                    name="description"
-                                    value={values.description}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.description &&
-                                      touched.description &&
-                                      "is-invalid"}`}
-                                  />
-                                  <ErrorMessage name="description" />
-                                </div>
+                                  </dd>
+                                </dl>
                               </div>
-                              <div className="col-md-6">
-                                <div className="form-group">
-                                  <label> Cargo responsable </label>
-                                  <select
-                                    name={"charge"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.charge}
-                                    className={`form-control form-control-sm ${errors.charge &&
-                                      touched.charge &&
-                                      "is-invalid"}`}
-                                  >
-                                    <option value={" "}>
-                                      Seleccione cargo
-                                    </option>
-                                    {selection}
-                                  </select>
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.charge && touched.charge ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="charge" />
-                                  </div>
-                                </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  Código <span className="text-danger">*</span>{" "}
+                                  <dd>
+                                    <input
+                                      name={"code"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.code}
+                                      type="text"
+                                      className={`form-control form-control-sm ${errors.code &&
+                                        touched.code &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div
+                                      className=""
+                                      style={{ color: "#D54B4B" }}
+                                    >
+                                      {errors.code && touched.code ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="code" />
+                                    </div>
+                                  </dd>
+                                </dl>
                               </div>
-
-                              <div className="col-md-12">
-                                <div className="form-group">
-                                  <label>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  Nit <span className="text-danger">*</span>{" "}
+                                  <dd>
                                     {" "}
-                                    Estado{" "}
-                                    <span className="text-danger">*</span>{" "}
-                                  </label>
-                                  <div className="text-justify">
-                                    <Field
-                                      name="status"
-                                      type=""
-                                      render={({ field, form }) => {
-                                        //console.log("field", field);
-                                        return (
-                                          // <input
-                                          //   type="checkbox"
-                                          //   checked={field.value}
-                                          //   {...field}
-                                          // />
-                                          <CustomInput
-                                            type="checkbox"
-                                            id="conglomeradoModalEdit"
-                                            label="Si esta opción se encuentra activada, representa
+                                    <input
+                                      type="text"
+                                      name={"nit"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.nit}
+                                      className={`form-control form-control-sm ${errors.nit &&
+                                        touched.nit &&
+                                        "is-invalid"}`}
+                                    />{" "}
+                                    <div
+                                      className=""
+                                      style={{ color: "#D54B4B" }}
+                                    >
+                                      {errors.nit && touched.nit ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="nit" />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  Nombre<span className="text-danger">*</span>{" "}
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"name"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.name}
+                                      type="text"
+                                      className={`form-control form-control-sm ${errors.name &&
+                                        touched.name &&
+                                        "is-invalid"}`}
+                                    />{" "}
+                                    <div
+                                      className=""
+                                      style={{ color: "#D54B4B" }}
+                                    >
+                                      {errors.name && touched.name ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="name" />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                      <br />
+                      <Row>
+                        <Col sm="12">
+                          <Card>
+                            <CardHeader> Mas informacion </CardHeader>
+                            <CardBody>
+                              <div className="row">
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label> Descripción </label>
+                                    <input
+                                      name="description"
+                                      value={values.description}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      type="text"
+                                      className={`form-control form-control-sm ${errors.description &&
+                                        touched.description &&
+                                        "is-invalid"}`}
+                                    />
+                                    <ErrorMessage name="description" />
+                                  </div>
+                                </div>
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label> Cargo responsable </label>
+                                    <select
+                                      name={"charge"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.charge}
+                                      className={`form-control form-control-sm ${errors.charge &&
+                                        touched.charge &&
+                                        "is-invalid"}`}
+                                    >
+                                      <option value={" "}>
+                                        Seleccione cargo
+                                      </option>
+                                      {selection}
+                                    </select>
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.charge && touched.charge ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="charge" />
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="col-md-12">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      Estado{" "}
+                                      <span className="text-danger">
+                                        *
+                                      </span>{" "}
+                                    </label>
+                                    <div className="text-justify">
+                                      <Field
+                                        name="status"
+                                        type=""
+                                        render={({ field, form }) => {
+                                          //console.log("field", field);
+                                          return (
+                                            // <input
+                                            //   type="checkbox"
+                                            //   checked={field.value}
+                                            //   {...field}
+                                            // />
+                                            <CustomInput
+                                              type="checkbox"
+                                              id="conglomeradoModalEdit"
+                                              label="Si esta opción se encuentra activada, representa
                                           que el conglomerado es visible en el sistema y se
                                           podrán realizar operaciones entre cada uno de los
                                           módulos correspondientes de la aplicación. En caso
@@ -394,18 +436,18 @@ class ModalEditEmpresa extends React.Component {
                                           sistema solo quedará inactivo e invisibles para
                                           cada uno de los módulos correspondiente del
                                           sistema."
-                                            {...field}
-                                            checked={field.value}
-                                            className={
-                                              errors.status &&
-                                              touched.status &&
-                                              "invalid-feedback"
-                                            }
-                                          />
-                                        );
-                                      }}
-                                    />
-                                    {/* <Field
+                                              {...field}
+                                              checked={field.value}
+                                              className={
+                                                errors.status &&
+                                                touched.status &&
+                                                "invalid-feedback"
+                                              }
+                                            />
+                                          );
+                                        }}
+                                      />
+                                      {/* <Field
                                     name="estado"
                                     type=""
                                     render={({ field, form }) => {
@@ -419,8 +461,8 @@ class ModalEditEmpresa extends React.Component {
                                       );
                                     }}
                                   /> */}
-                                    <ErrorMessage name="status" />
-                                    {/* <CustomInput
+                                      <ErrorMessage name="status" />
+                                      {/* <CustomInput
                                       type="checkbox"
                                       id="CheckEditEmpresa"
                                       label="Si esta opción se encuentra activada,
@@ -432,21 +474,23 @@ class ModalEditEmpresa extends React.Component {
                           invisibles para cada uno de los módulos
                           correspondiente del sistema."
                                     /> */}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
+                            </CardBody>
+                          </Card>
+                        </Col>
+                      </Row>
+                    </form>
                   </ModalBody>
                   <ModalFooter>
                     <button
                       type="button"
                       className={"btn btn-outline-success btn-sm"}
-                      onClick={() => {
-                        alert("Hola");
+                      onClick={e => {
+                        e.preventDefault();
+                        handleSubmit();
                       }}
                     >
                       <i className="fa fa-pencil" /> Actualizar Empesa
@@ -461,7 +505,7 @@ class ModalEditEmpresa extends React.Component {
                       <i className="fa fa-times" /> Cerrar
                     </button>
                   </ModalFooter>
-                </form>
+                </Fragment>
               );
             }}
           </Formik>
@@ -470,9 +514,5 @@ class ModalEditEmpresa extends React.Component {
     );
   }
 }
-
-ModalEditEmpresa.propTypes = {
-  modaleditempresa: PropTypes.bool.isRequired
-};
 
 export default ModalEditEmpresa;

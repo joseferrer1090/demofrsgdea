@@ -21,14 +21,39 @@ class ModalViewDependencia extends Component {
     super(props);
     this.state = {
       modal: this.props.modalView,
-      collapse: false
+      collapse: false,
+      id: this.props.id,
+      userLogged: "jferrer",
+      dataDependence: {},
+      dataDependenceHeadquarter: {},
+      dataDependenceHeadquarterCompany: {},
+      dataDependenceHeadquarterCompanyConglomerate: {}
     };
   }
 
-  toggle = () => {
+  toggle = id => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id: id
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/dependence/${id}/jferrer`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDependence: data,
+          dataDependenceHeadquarter: data.headquarter,
+          dataDependenceHeadquarterCompany: data.headquarter.company,
+          dataDependenceHeadquarterCompanyConglomerate:
+            data.headquarter.company.conglomerate
+        });
+      })
+      .catch(Error => console.log(Error));
   };
 
   toggleCollapse = () => {
@@ -38,10 +63,18 @@ class ModalViewDependencia extends Component {
   };
 
   render() {
+    console.log(this.state.dataDependence);
+    console.log(this.state.dataDependenceHeadquarter);
+    console.log(this.state.dataDependenceHeadquarterCompany);
+    console.log(this.state.dataDependenceHeadquarterCompanyConglomerate);
+
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver dependencia </ModalHeader>
+          <ModalHeader>
+            {" "}
+            Ver dependencia {this.state.dataDependence.name}{" "}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -57,11 +90,16 @@ class ModalViewDependencia extends Component {
                 </div>
 
                 <div className="row">
-                <div className="col-md-6">
+                  <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
                         <dt>Conglomerado </dt>
-                        <dd> 301-7923-466 </dd>
+                        <dd>
+                          {
+                            this.state
+                              .dataDependenceHeadquarterCompanyConglomerate.name
+                          }
+                        </dd>
                       </dl>
                     </div>
                   </div>
@@ -69,7 +107,9 @@ class ModalViewDependencia extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Empresa </dt>
-                        <dd> Cra 44c # 22 - 86 int 702</dd>
+                        <dd>
+                          {this.state.dataDependenceHeadquarterCompany.name}
+                        </dd>
                       </dl>
                     </div>
                   </div>
@@ -77,7 +117,7 @@ class ModalViewDependencia extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Sede </dt>
-                        <dd>San petesburgo</dd>
+                        <dd>{this.state.dataDependenceHeadquarter.name}</dd>
                       </dl>
                     </div>
                   </div>
@@ -85,7 +125,7 @@ class ModalViewDependencia extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Codigo </dt>
-                        <dd> 1047425246 </dd>
+                        <dd>{this.state.dataDependence.code} </dd>
                       </dl>
                     </div>
                   </div>
@@ -93,7 +133,7 @@ class ModalViewDependencia extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Nombre </dt>
-                        <dd> Jose Carlos Ferrer Bermudez</dd>
+                        <dd>{this.state.dataDependence.name}</dd>
                       </dl>
                     </div>
                   </div>
@@ -101,11 +141,10 @@ class ModalViewDependencia extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Descripción </dt>
-                        <dd> jcfb90@gmail.com </dd>
+                        <dd>{this.state.dataDependence.description} </dd>
                       </dl>
                     </div>
                   </div>
-
                 </div>
               </Col>
               <Col sm="12">
@@ -129,7 +168,7 @@ class ModalViewDependencia extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Cargo responsable </dt>
-                              <dd>cargo responsable </dd>
+                              <dd>{this.state.dataDependence.charge} </dd>
                             </dl>
                           </div>
                         </div>
@@ -137,7 +176,7 @@ class ModalViewDependencia extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Estado </dt>
-                              <dd> estado </dd>
+                              <dd> {this.state.dataDependence.status} </dd>
                             </dl>
                           </div>
                         </div>
@@ -145,7 +184,7 @@ class ModalViewDependencia extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Fecha de creación </dt>
-                              <dd> dd/mm/aaaa </dd>
+                              <dd>{this.state.dataDependence.createdAt} </dd>
                             </dl>
                           </div>
                         </div>
@@ -153,7 +192,7 @@ class ModalViewDependencia extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Fecha de modificación </dt>
-                              <dd>dd/mm/aaaa </dd>
+                              <dd>{this.state.dataDependence.updatedAt}</dd>
                             </dl>
                           </div>
                         </div>

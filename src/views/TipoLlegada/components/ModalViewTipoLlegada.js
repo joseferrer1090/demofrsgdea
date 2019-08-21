@@ -14,17 +14,51 @@ class ModalViewTipoLlegada extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalview
+      modal: this.props.modalview,
+      id: this.props.id,
+      dataTipoLlegada: {}
     };
   }
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState(prevState => ({
-      modal: !prevState.modal
+      modal: !prevState.modal,
+      id: id,
     }));
+    fetch(`http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/${id}/ccuartas`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataTipoLlegada: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
   };
 
   render() {
+    console.log(this.state.dataTipoLlegada);
+    const statusTipoLlegada = data => {
+      let status;
+      if (data === 1) {
+        status = <p className="text-success"> Activo </p>;
+      } else if (data === 0) {
+        status = <p className="text-danger"> Inactivo </p>;
+      }
+      return status;
+    };
+    const code= this.state.dataTipoLlegada.code;
+    const createdAt =  this.state.dataTipoLlegada.createdAt
+    const description = this.state.dataTipoLlegada.description
+    const id = this.state.dataTipoLlegada.id
+    const name = this.state.dataTipoLlegada.name
+    const status = this.state.dataTipoLlegada.status
+    const updatedAt = this.state.dataTipoLlegada.updatedAt
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -47,7 +81,7 @@ class ModalViewTipoLlegada extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Código </dt>
-                        <dd> Código </dd>
+                        <dd> {code} </dd>
                       </dl>
                     </div>
                   </div>
@@ -55,7 +89,7 @@ class ModalViewTipoLlegada extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Nombre </dt>
-                        <dd> Nombre </dd>
+                        <dd> {name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -63,7 +97,7 @@ class ModalViewTipoLlegada extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Descripción </dt>
-                        <dd> descripción </dd>
+                        <dd> {description} </dd>
                       </dl>
                     </div>
                   </div>
@@ -71,7 +105,7 @@ class ModalViewTipoLlegada extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Estado </dt>
-                        <dd> estado </dd>
+                        <dd> {statusTipoLlegada(status)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -79,7 +113,7 @@ class ModalViewTipoLlegada extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de creación </dt>
-                        <dd> Fecha de creación </dd>
+                        <dd>{createdAt}</dd>
                       </dl>
                     </div>
                   </div>
@@ -87,7 +121,7 @@ class ModalViewTipoLlegada extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de modificación </dt>
-                        <dd> Fecha de modificación </dd>
+                        <dd> {updatedAt} </dd>
                       </dl>
                     </div>
                   </div>

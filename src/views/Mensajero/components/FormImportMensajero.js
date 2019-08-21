@@ -233,6 +233,7 @@ class FormImportMensajero extends React.Component {
 };
 
 export default FormImportMensajero;
+
 class PreviewFile extends React.Component {
   state = {
     loading: false,

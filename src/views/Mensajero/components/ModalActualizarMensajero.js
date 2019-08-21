@@ -10,84 +10,118 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import ImgMensajero from "./../../../assets/img/courier.svg";
-import {MENSAJERO_EDIT} from './../../../data/JSON-SERVER'
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
+import {MESSENGERS} from './../../../services/EndPoints'
 
 class ModalActualizarMensajero extends React.Component {
   state = {
       modal: this.props.modalupdate,
-      identificacion: "",
-      nombre: "",
-      descripcion: "",
-      estado: ""
+      idMensajero: this.props.id,
+      dataResult:{}
     };
 
-  toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+  toggle = (id) => {
+    this.setState({
+      modal: !this.state.modal,
+      idMensajero: id
+    });
+    this.getMessengerByID(id);
   };
 
-  handleSubmit = (values, { props = this.props, setSubmitting }) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    return;
+getMessengerByID = id => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/messenger/${id}/ccuartas`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataResult: {
+            messenger_identification: data.identification,
+            messenger_name: data.name,
+            messenger_description: data.description,
+            messenger_status: data.status
+          }
+        });
+      })
+      .catch(error => console.log(error));
   };
 
-//   componentDidMount() {
-//     this.getMensajeroInformation()
-//   }
+  // handleSubmit = (values, { props = this.props, setSubmitting }) => {
+  //   alert(JSON.stringify(values, null, 2));
+  //   setSubmitting(false);
+  //   return;
+  // };
 
-//   getMensajeroInformation() {
-//     fetch(MENSAJERO_EDIT)
-//       .then(response => response.json())
-//       .then(data => {
-//         console.log(data);
-//         this.setState({
-//           identificacion: data.identificacion,
-//           nombre: data.nombre,
-//           descripcion: data.descripcion,
-//           estado: data.estado
-//         });
-//         console.log(this.state);
-//       })
-//       .catch(error => console.log("Error", error));
-// }
 
   render() {
-    const dataPreview={
-      identificacion: this.state.identificacion,
-      nombre: this.state.nombre,
-      descripcion: this.state.descripcion,
-      estado: this.state.estado
-    }
+    const dataResult= this.state.dataResult;
+    console.log(dataResult);
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
       <ModalHeader>Actualizar mensajero</ModalHeader>
       <Formik
-        initialValues={dataPreview}
-        onSubmit={(values, {setSubmitting}) =>{
-          setTimeout(()=>{
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false)
-          },500)
-        }}
+        enableReinitialize={true}
+        initialValues={dataResult}
         validationSchema={Yup.object().shape({
-          identificacion: Yup.number()
+          messenger_identification: Yup.number()
             .required(" Por favor introduzca una identificación.")
             .integer(),
-          nombre: Yup.string()
-            .required(" Por favor introduzca un nombre."),
-          descripcion: Yup.string(),
-          estado: Yup.bool()
+          messenger_name: Yup.string()
+            .required(" Por favor introduzca un nombre.")
+            .max(100),
+          messenger_description: Yup.string().max(250),
+          messenger_status: Yup.bool()
             .test(
               "Activado",
               "",
               value=> value === true
             ),
         })}
+        onSubmit={(values, {setSubmitting}) =>{
+          const tipoEstado = data => {
+            let tipo = null;
+            if (data === true) {
+              return (tipo = 1);
+            } else if (data === false) {
+              return (tipo = 0);
+            }
+            return null;
+          };
+          setTimeout(()=>{
+            fetch(MESSENGERS, {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: "Basic " + window.btoa("sgdea:123456")
+              },
+              body: JSON.stringify({
+                id: this.state.idMensajero,
+                identification: values.messenger_identification,
+                name: values.messenger_name,
+                description: values.messenger_description,
+                status: tipoEstado(values.messenger_status),
+                userName: "ccuartas"
+              })
+            })
+              .then(response =>
+                response.json().then(data => {
+                  if (response.status === 200) {
+                    console.log("Se actualizo de manera exitosa");
+                  } else if (response.status !== 200) {
+                    console.log("ver la consola");
+                  }
+                })
+              )
+              .catch(error => console.log("", error));
+            setSubmitting(false);
+          },1000)
+        }}
       >
       {props => {
         const {
@@ -125,22 +159,22 @@ class ModalActualizarMensajero extends React.Component {
                     </span>{" "}
                       <dd>
                       <input
-                      name={"identificacion"}
+                      name={"messenger_identification"}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.identificacion}
+                      value={values.messenger_identification}
                       type="text"
-                      className={`form-control form-control-sm ${errors.identificacion &&
-                        touched.identificacion &&
+                      className={`form-control form-control-sm ${errors.messenger_identification &&
+                        touched.messenger_identification &&
                         "is-invalid"}`}
                     />
                     <div style={{ color: '#D54B4B' }}>
                     {
-                      errors.identificacion && touched.identificacion ?
+                      errors.messenger_identification && touched.messenger_identification ?
                       <i className="fa fa-exclamation-triangle"/> :
                       null
                     }
-                    <ErrorMessage name="identificacion" />
+                    <ErrorMessage name="messenger_identification" />
                     </div>
                       </dd>
                     </dl>
@@ -155,22 +189,22 @@ class ModalActualizarMensajero extends React.Component {
                       <dd>
                         {" "}
                         <input
-                        name={"nombre"}
+                        name={"messenger_name"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.nombre}
+                        value={values.messenger_name}
                         type="text"
-                        className={`form-control form-control-sm ${errors.nombre &&
-                          touched.nombre &&
+                        className={`form-control form-control-sm ${errors.messenger_name &&
+                          touched.messenger_name &&
                           "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.nombre && touched.nombre ?
+                        errors.messenger_name && touched.messenger_name ?
                         <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name="nombre" />
+                      <ErrorMessage name="messenger_name" />
                       </div>
                       </dd>
                     </dl>
@@ -183,10 +217,10 @@ class ModalActualizarMensajero extends React.Component {
                       <dd>
                         {" "}
                         <textarea
-                        name={"descripcion"}
+                        name={"messenger_description"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.descripcion}
+                        value={values.messenger_description}
                         className="form-control form-control-sm"
                       />
                       </dd>
@@ -202,7 +236,7 @@ class ModalActualizarMensajero extends React.Component {
                   </label>
                   <div className="text-justify">
                   <Field
-                  name="estado"
+                  name="messenger_status"
                   render={({field, form })=>{
                     return(
                       <CustomInput
@@ -218,15 +252,15 @@ class ModalActualizarMensajero extends React.Component {
                         {...field}
                         checked={field.value}
                         className={
-                          errors.estado &&
-                          touched.estado &&
+                          errors.messenger_status &&
+                          touched.messenger_status &&
                           "invalid-feedback"
                         }
                       />
                     );
                   }}
                   />
-                    <ErrorMessage name="estado"/>
+                    <ErrorMessage name="messenger_status"/>
                     </div>
                     </dl>
                   </div>
@@ -264,7 +298,8 @@ class ModalActualizarMensajero extends React.Component {
 }
 
 ModalActualizarMensajero.propTypes = {
-  modalupdate: PropTypes.bool.isRequired
+  modalupdate: PropTypes.bool.isRequired,
+  id:PropTypes.string,
 };
 
 export default ModalActualizarMensajero;

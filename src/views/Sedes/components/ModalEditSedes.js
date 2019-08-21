@@ -31,7 +31,6 @@ class ModalEditSedes extends React.Component {
     optionsDepartment:[],
     optionsCitys:[],
     optionsCharges:[],
-    headquarter_charge: {}
   };
 
 componentDidMount() {
@@ -180,9 +179,10 @@ componentDidMount() {
             headquarter_address: data.address,
             headquarter_phone: data.phone,
             headquarter_conglomerate: data.company.conglomerate.id,
-            headquarter_company: data.company.id
+            headquarter_company: data.company.id,
+            headquarter_charge: data.charge !== null ?
+            {headquarter_charge: data.charge.id}: ""
           },
-          headquarter_charge: data.charge
         });
       })
       .catch(error => console.log(error));
@@ -191,25 +191,26 @@ componentDidMount() {
 
 
   render() {
-   const data = this.state.headquarter_charge;
+  const dataResult = this.state.dataResult
+  console.log(dataResult);
 
    const mapOptionsConglomerate =
     this.state.optionsConglomerate.map((aux,idx)=>{
       return(
-        <option value={aux.id}>{aux.name}</option>
+        <option key={aux.id} value={aux.id}>{aux.name}</option>
       );
     });
     const mapOptionsCompanys =
     this.state.optionsCompanys.map((aux,idx)=>{
       return(
-        <option value={aux.id}>{aux.name}</option>
+        <option key={aux.id} value={aux.id}>{aux.name}</option>
       );
     });
 
     const mapOptionsCountries =
     this.state.optionsCountries.map((aux,idx)=>{
       return(
-        <option value={aux.id}>{aux.name}</option>
+        <option key={aux.id} value={aux.id}>{aux.name}</option>
       );
     });
 
@@ -223,18 +224,33 @@ componentDidMount() {
     const mapOptionsCitys =
     this.state.optionsCitys.map((aux,idx)=>{
         return(
-          <option value={aux.id}>{aux.name}</option>
+          <option key={aux.id} value={aux.id}>{aux.name}</option>
         );
       });
 
-    const mapOptionsCharges =
+      const mapOptionsCharges =
     this.state.optionsCharges.map((aux,idx)=>{
-      return(
-        <option value={aux.id}>{aux.name}</option>
-      );
-    });
+          return(
+            <option key={aux.id} value={aux.id}>{aux.name}</option>
+          );
+        });
 
-    const dataResult = this.state.dataResult
+    // const optionToId = id => dataResult.headquarter_charge.id
+    // const optionToName = name => dataResult.headquarter_charge.name
+    // const mapOptionsCharges =
+    // this.state.optionsCharges.map((aux,idx)=>{
+    //   return(
+    //     dataResult.headquarter_charge !== null ?
+    //     <option
+    //     value={optionToId}>
+    //     {optionToName}
+    //     </option> :
+    //     <option value={aux.id}>{aux.name}</option>
+    //   );
+    // });
+
+
+    console.log(dataResult.headquarter_charge);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -254,11 +270,13 @@ componentDidMount() {
                 .max(6)
                 .min(6),
               headquarter_name: Yup.string()
-                .required(" Por favor introduzca un nombre."),
+                .required(" Por favor introduzca un nombre.")
+                .max(100),
               headquarter_description: Yup.string().max(250),
               headquarter_prefix: Yup.string()
                 .required(" Por favor asigne un prefijo de radicación.")
-                .length(6),
+                .min(2," Mínimo 2 caracteres.")
+                .max(6," Máximo 6 caracteres."),
               headquarter_sequence: Yup.number()
                 .required(" Por favor asigne una secuencia de radicación.")
                 .integer()
@@ -280,8 +298,48 @@ componentDidMount() {
               headquarter_status: Yup.bool().test("Activo", "", value => value === true)
             })}
             onSubmit={(values, { setSubmitting }) => {
+              const tipoEstado = data => {
+                let tipo = null;
+                if (data === true) {
+                  return (tipo = 1);
+                } else if (data === false) {
+                  return (tipo = 0);
+                }
+                return null;
+              };
               setTimeout(() => {
-                alert(JSON.stringify(values, "", 1));
+                fetch(HEADQUARTERS, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                  },
+                  body: JSON.stringify({
+                    id: this.state.idSedes,
+                    code:values.headquarter_code,
+                    name:values.headquarter_name,
+                    prefix:values.headquarter_prefix,
+                    sequence:values.headquarter_sequence,
+                    address:values.headquarter_address,
+                    phone:values.headquarter_phone,
+                    companyId:values.headquarter_company,
+                    cityId:values.headquarter_city,
+                    chargeId:values.headquarter_charge.id,
+                    description:values.headquarter_description,
+                    status:tipoEstado(values.headquarter_status),
+                    userName:"ccuartas"
+                  })
+                })
+                  .then(response =>
+                    response.json().then(data => {
+                      if (response.status === 200) {
+                        console.log("Se actualizo de manera exitosa");
+                      } else if (response.status !== 200) {
+                        console.log("ver la consola");
+                      }
+                    })
+                  )
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 1000);
             }}
@@ -534,7 +592,7 @@ componentDidMount() {
                                         value={values.headquarter_charge}
                                       >
                                       <option value={""} disabled>-- Seleccione --</option>
-                                      
+                                          {mapOptionsCharges}
                                       </select>
                                       <ErrorMessage name="headquarter_charge" />
                                     </div>

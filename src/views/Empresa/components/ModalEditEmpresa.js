@@ -13,11 +13,6 @@ import {
   CardFooter,
   CustomInput
 } from "reactstrap";
-import {
-  EMPRESA_EDIT,
-  CONGLOMERADO_SELECTED,
-  CARGO_RESPONSABLE_SELECTED
-} from "./../../../data/JSON-SERVER";
 import { Formik, withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import IMGEMPRESA from "./../../../assets/img/company.svg";
@@ -169,6 +164,7 @@ class ModalEditEmpresa extends React.Component {
                   .then(response => {
                     response.json().then(data => {
                       if (response.status === 200) {
+                        this.setState({modal: false})
                         console.log("Se actualizo de manera exitosa");
                       } else if (response.status !== 200) {
                         console.log("ver la consola");

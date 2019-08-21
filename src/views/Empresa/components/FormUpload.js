@@ -66,7 +66,7 @@ class FormUpload extends React.Component {
                 const file = this.state.file;
                 const separador = values.separador;
                 formData.append("file", file);
-                formData.append("separador", separador);
+                formData.append("separator", separador);
                 setTimeout(() => {
                   axios
                     .post(

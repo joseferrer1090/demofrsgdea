@@ -48,7 +48,7 @@ class ModalDeleteConglomerado extends React.Component {
                   })
                   .catch(error => console.log(" ", error));
                 setSubmitting(false);
-              }, 500);
+              }, 3000);
             }}
             validationSchema={Yup.object().shape({
               nombre: Yup.string().required("necesario nombre para eliminacion")

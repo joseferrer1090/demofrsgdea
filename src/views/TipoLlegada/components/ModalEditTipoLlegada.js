@@ -10,75 +10,105 @@ import {
 } from "reactstrap";
 import IMGPackage from "./../../../assets/img/package.svg";
 import PropTypes from "prop-types";
-import {TIPO_ENV_LLGD_EDIT} from './../../../data/JSON-SERVER'
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
+import {TYPESHIPMENTARRIVAL} from './../../../services/EndPoints';
 
 class ModalEditTipoLlegada extends React.Component {
   state = {
       modal: this.props.modaledit,
-      codigo: "",
-      nombre: "",
-      descripcion: "",
-      estado: ""
+      idTipoLlegada: this.props.id,
+      dataResult:{}
     };
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState(prevState => ({
-      modal: !prevState.modal
+      modal: !prevState.modal,
+      idTipoLlegada: id
     }));
+    this.getTipoLlegadaByID(id);
   };
 
-  handleSubmit = (values, { props = this.props, setSubmitting }) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    return;
-  };
-
-  componentDidMount() {
-    this.getTipoLlegadaInformation()
-  }
-
-  getTipoLlegadaInformation() {
-    fetch(TIPO_ENV_LLGD_EDIT)
+getTipoLlegadaByID = id => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/${id}/ccuartas`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
       .then(response => response.json())
       .then(data => {
         console.log(data);
         this.setState({
-          codigo: data.codigo,
-          nombre: data.nombre,
-          descripcion: data.descripcion,
-          estado: data.estado
+          dataResult: {
+            typeshipmentarrival_code: data.code,
+            typeshipmentarrival_name: data.name,
+            typeshipmentarrival_description: data.description,
+            typeshipmentarrival_status: data.status
+          }
         });
-        console.log(this.state);
       })
-      .catch(error => console.log("Error", error));
-}
+      .catch(error => console.log(error));
+  };
 
   render() {
-    const dataPreview={
-      codigo: this.state.codigo,
-      nombre: this.state.nombre,
-      descripcion: this.state.descripcion,
-      estado: this.state.estado
-    }
+    const dataResult= this.state.dataResult;
+    console.log(dataResult);
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>Actualizar tipo de envío / llegada</ModalHeader>
           <Formik
-          initialValues={dataPreview}
+          enableReinitialize={true}
+          initialValues={dataResult}
           onSubmit={(values, {setSubmitting}) =>{
+            const tipoEstado = data => {
+              let tipo = null;
+              if (data === true) {
+                return (tipo = 1);
+              } else if (data === false) {
+                return (tipo = 0);
+              }
+              return null;
+            };
             setTimeout(()=>{
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false)
-            },500)
+              fetch(TYPESHIPMENTARRIVAL, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Basic " + window.btoa("sgdea:123456")
+                },
+                body: JSON.stringify({
+                  id: this.state.idTipoLlegada,
+                  code: values.typeshipmentarrival_code,
+                  name: values.typeshipmentarrival_name,
+                  description: values.typeshipmentarrival_description,
+                  status: tipoEstado(values.typeshipmentarrival_status),
+                  userName: "ccuartas"
+                })
+              })
+                .then(response =>
+                  response.json().then(data => {
+                    if (response.status === 200) {
+                      console.log("Se actualizo de manera exitosa");
+                    } else if (response.status !== 200) {
+                      console.log("ver la consola");
+                    }
+                  })
+                )
+                .catch(error => console.log("", error));
+              setSubmitting(false);
+            },1000)
           }}
           validationSchema={Yup.object().shape({
-            codigo: Yup.string().required(" Por favor introduzca un código."),
-            nombre: Yup.string().required(" Por favor introduzca un nombre."),
-            descripcion: Yup.string().required(" Por favor introduzca una descripción."),
-            estado: Yup.bool()
+            typeshipmentarrival_code: Yup.string()
+              .required(" Por favor introduzca un código."),
+            typeshipmentarrival_name: Yup.string()
+              .required(" Por favor introduzca un nombre."),
+            typeshipmentarrival_description: Yup.string()
+              .required(" Por favor introduzca una descripción."),
+            typeshipmentarrival_status: Yup.bool()
               .test(
                 "Activado",
                 "",
@@ -121,22 +151,22 @@ class ModalEditTipoLlegada extends React.Component {
                           <dd>
                             {" "}
                             <input
-                            name={"codigo"}
+                            name={"typeshipmentarrival_code"}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.codigo}
+                            value={values.typeshipmentarrival_code}
                             type="text"
-                            className={`form-control form-control-sm ${errors.codigo &&
-                              touched.codigo &&
+                            className={`form-control form-control-sm ${errors.typeshipmentarrival_code &&
+                              touched.typeshipmentarrival_code &&
                               "is-invalid"}`}
                           />
                           <div style={{ color: '#D54B4B' }}>
                                 {
-                                  errors.codigo && touched.codigo ?
+                                  errors.typeshipmentarrival_code && touched.typeshipmentarrival_code ?
                                   <i className="fa fa-exclamation-triangle"/> :
                                   null
                                 }
-                          <ErrorMessage name={"codigo"} />
+                          <ErrorMessage name={"typeshipmentarrival_code"} />
                           </div>
                           </dd>
                         </dl>
@@ -149,22 +179,22 @@ class ModalEditTipoLlegada extends React.Component {
                           <dd>
                             {" "}
                             <input
-                            name={"nombre"}
+                            name={"typeshipmentarrival_name"}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.nombre}
+                            value={values.typeshipmentarrival_name}
                             type="text"
-                            className={`form-control form-control-sm ${errors.nombre &&
-                              touched.nombre &&
+                            className={`form-control form-control-sm ${errors.typeshipmentarrival_name &&
+                              touched.typeshipmentarrival_name &&
                               "is-invalid"}`}
                           />
                           <div style={{ color: '#D54B4B' }}>
                                 {
-                                  errors.nombre && touched.nombre ?
+                                  errors.typeshipmentarrival_name && touched.typeshipmentarrival_name ?
                                   <i className="fa fa-exclamation-triangle"/> :
                                   null
                                 }
-                          <ErrorMessage name={"nombre"} />
+                          <ErrorMessage name={"typeshipmentarrival_name"} />
                           </div>
                           </dd>
                         </dl>
@@ -177,21 +207,21 @@ class ModalEditTipoLlegada extends React.Component {
                           <dd>
                             {" "}
                             <textarea
-                            name={"descripcion"}
+                            name={"typeshipmentarrival_description"}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.descripcion}
-                            className={`form-control form-control-sm ${errors.descripcion &&
-                              touched.descripcion &&
+                            value={values.typeshipmentarrival_description}
+                            className={`form-control form-control-sm ${errors.typeshipmentarrival_description &&
+                              touched.typeshipmentarrival_description &&
                               "is-invalid"}`}
                           />
                           <div style={{ color: '#D54B4B' }}>
                                 {
-                                  errors.descripcion && touched.descripcion ?
+                                  errors.typeshipmentarrival_description && touched.typeshipmentarrival_description ?
                                   <i className="fa fa-exclamation-triangle"/> :
                                   null
                                 }
-                          <ErrorMessage name={"descripcion"} />
+                          <ErrorMessage name={"typeshipmentarrival_description"} />
                           </div>
                           </dd>
                         </dl>
@@ -206,7 +236,7 @@ class ModalEditTipoLlegada extends React.Component {
                       </label>
                       <div className="text-justify">
                       <Field
-                       name="estado"
+                       name="typeshipmentarrival_status"
                        render={({field, form})=>{
                          return(
                           <CustomInput
@@ -222,15 +252,15 @@ class ModalEditTipoLlegada extends React.Component {
                             {...field}
                             checked={field.value}
                             className={
-                              errors.estado &&
-                              touched.estado &&
+                              errors.typeshipmentarrival_status &&
+                              touched.typeshipmentarrival_status &&
                               "invalid-feedback"
                             }
                           />
                          );
                        }}
                       />
-                        <ErrorMessage name="estado"/>
+                        <ErrorMessage name="typeshipmentarrival_status"/>
                       </div>
                         </dl>
                       </div>

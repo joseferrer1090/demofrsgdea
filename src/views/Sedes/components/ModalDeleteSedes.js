@@ -7,12 +7,18 @@ import { Formik, ErrorMessage, Field } from "formik";
 class ModalDeleteSedes extends Component {
   state = {
     modal: this.props.modaldel,
-    nombre: ""
+    idSede: this.props.id,
+    nombre:"",
+    useLogged:""
   };
 
-  toggle = () => {
+  toggle = (id) => {
+    console.log(id);
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      nombre:"",
+      idSede: id,
+      useLogged:"ccuartas"
     });
   };
 
@@ -26,6 +32,27 @@ class ModalDeleteSedes extends Component {
           <ModalHeader> Eliminar sede </ModalHeader>
           <Formik
             initialValues={dataPreview}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                fetch(
+                  `http://192.168.10.180:7000/api/sgdea/headquarter/${
+                    this.state.idSede
+                  }?name=${values.nombre}&username=${this.state.useLogged}`,
+                  {
+                    method: "DELETE",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                    }
+                  }
+                )
+                  .then(response => {
+                    this.setState({ modal: false });
+                  })
+                  .catch(error => console.log(" ", error));
+                setSubmitting(false);
+              }, 500);
+            }}
             validationSchema={Yup.object().shape({
               nombre: Yup.string().required(
                 "Es requirido el nombre para la eliminacion"

@@ -10,21 +10,54 @@ import {
 import ImgMensajero from "./../../../assets/img/courier.svg";
 import PropTypes from "prop-types";
 
+
 class ModalViewMensajero extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalview
+      modal: this.props.modalview,
+      id: this.props.id,
+      dataMessenger:{}
     };
   }
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+      modal: !prevState.modal,
+      id: id
+      }));
+      fetch(`http://192.168.10.180:7000/api/sgdea/messenger/${id}/ccuartas`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataMessenger: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
   };
 
   render() {
+    const statusMessenger = data => {
+      let status;
+      if (data === 1) {
+        status = <p className="text-success"> Activo </p>;
+      } else if (data === 0) {
+        status = <p className="text-danger"> Inactivo </p>;
+      }
+      return status;
+    };
+    const identification = this.state.dataMessenger.identification;
+    const name = this.state.dataMessenger.name;
+    const description = this.state.dataMessenger.description;
+    const status = this.state.dataMessenger.status;
+    const createdAt = this.state.dataMessenger.createdAt;
+    const updatedAt = this.state.dataMessenger.updatedAt;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -47,7 +80,7 @@ class ModalViewMensajero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Identificación </dt>
-                        <dd>Identificación </dd>
+                        <dd>{identification} </dd>
                       </dl>
                     </div>
                   </div>
@@ -55,7 +88,7 @@ class ModalViewMensajero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Nombre </dt>
-                        <dd> Nombre </dd>
+                        <dd> {name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -63,7 +96,7 @@ class ModalViewMensajero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Descripción </dt>
-                        <dd> descripción </dd>
+                        <dd> {description} </dd>
                       </dl>
                     </div>
                   </div>
@@ -71,7 +104,7 @@ class ModalViewMensajero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Estado </dt>
-                        <dd> estado </dd>
+                        <dd> {statusMessenger(status)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -79,7 +112,7 @@ class ModalViewMensajero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de creación </dt>
-                        <dd> Fecha de creación </dd>
+                        <dd> {createdAt} </dd>
                       </dl>
                     </div>
                   </div>
@@ -87,7 +120,7 @@ class ModalViewMensajero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de modificación </dt>
-                        <dd> Fecha de modificación </dd>
+                        <dd> {updatedAt} </dd>
                       </dl>
                     </div>
                   </div>

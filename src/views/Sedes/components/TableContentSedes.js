@@ -81,7 +81,7 @@ class TableContentSedes extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           {" "}
@@ -99,8 +99,8 @@ class TableContentSedes extends Component {
     this.refs.child2.toggle(id);
   };
 
-  openModalDelete = () => {
-    this.refs.child3.toggle();
+  openModalDelete = (id) => {
+    this.refs.child3.toggle(id);
   };
 
   openModalExport = () => {

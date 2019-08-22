@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
+import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik, withFormik, ErrorMessage, Field, From } from "formik";
@@ -7,7 +7,9 @@ import { Formik, withFormik, ErrorMessage, Field, From } from "formik";
 class ModalDeleteConglomerado extends React.Component {
   state = {
     modal: this.props.modaldeletestate,
-    idConglomerado: this.props.id
+    idConglomerado: this.props.id,
+    alertError: false,
+    alertName: false
   };
 
   toggle = id => {
@@ -18,6 +20,14 @@ class ModalDeleteConglomerado extends React.Component {
       useLogged: "jferrer"
     });
   };
+
+  onDismiss = () =>{
+    this.setState({
+      alertError: false,
+      alertName:false
+    })
+  }
+
 
   render() {
     const dataInitial = {
@@ -44,7 +54,18 @@ class ModalDeleteConglomerado extends React.Component {
                   }
                 )
                   .then(response => {
-                    this.setState({ modal: false });
+
+                    if (response.status === 500) {
+                      this.setState({
+                        alertError: true
+                      })
+                    } else if (response === 204) {
+                      this.setState({ modal: false });
+                    } else if(response.status === 400){
+                      this.setState({
+                        alertName: true
+                      })
+                    }
                   })
                   .catch(error => console.log(" ", error));
                 setSubmitting(false);
@@ -70,6 +91,12 @@ class ModalDeleteConglomerado extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <form className="form">
+                      <Alert className="text-center" color="danger" isOpen={this.state.alertError} toggle={this.onDismiss}>
+                        El conglomerado que va a eliminar, esta asociado a otras entidades.
+                      </Alert>
+                      <Alert color="danger" isOpen={this.state.alertName} toggle={this.onDismiss}>
+                        Por favor introduzca un nombre valido.
+                      </Alert>
                       <p className="text-center">
                         {" "}
                         Confirmar el <code> Nombre </code> para eliminar el

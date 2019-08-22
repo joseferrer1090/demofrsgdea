@@ -68,7 +68,7 @@ const SedesForm = props => {
   const mapOptionsConglomerate =
     optionsConglomerate.map((aux,idx)=>{
       return(
-        <option value={aux.id}>{aux.name}</option>
+        <option key={aux.id} value={aux.id}>{aux.name}</option>
       );
     });
 
@@ -93,7 +93,7 @@ const SedesForm = props => {
     const mapOptionsCompanys =
       optionsCompanys.map((aux,idx)=>{
         return(
-          <option value={aux.id}>{aux.name}</option>
+          <option key={aux.id} value={aux.id}>{aux.name}</option>
         );
       });
 
@@ -118,7 +118,7 @@ const SedesForm = props => {
   const mapOptionsCountries =
   optionsCountries.map((aux,idx)=>{
       return(
-        <option value={aux.id}>{aux.name}</option>
+        <option key={aux.id} value={aux.id}>{aux.name}</option>
       );
     });
 
@@ -143,7 +143,7 @@ const SedesForm = props => {
     const mapOptionsDepartments =
     optionsDepartment.map((aux,idx)=>{
         return(
-          <option value={aux.id}>{aux.name}</option>
+          <option key={aux.id} value={aux.id}>{aux.name}</option>
         );
       });
 
@@ -168,7 +168,7 @@ const SedesForm = props => {
       const mapOptionsCitys =
       optionsCitys.map((aux,idx)=>{
           return(
-            <option value={aux.id}>{aux.name}</option>
+            <option key={aux.id} value={aux.id}>{aux.name}</option>
           );
         });
 
@@ -193,7 +193,7 @@ const SedesForm = props => {
         const mapOptionsCharges =
           optionsCharges.map((aux,idx)=>{
             return(
-              <option value={aux.id}>{aux.name}</option>
+              <option key={aux.id} value={aux.id}>{aux.name}</option>
             );
           });
 

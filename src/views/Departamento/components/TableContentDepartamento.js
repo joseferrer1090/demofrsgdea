@@ -4,56 +4,42 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ModalViewDepartamento";
 import ModalEdit from "./ModalEditDepartamento";
 import ModalDelete from "./ModalDeleteDepartamento";
+import ModalExport from './ModalExportCSV';
 import "./../../../css/styleTableDepartamento.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-const dataExample = [
-  {
-    id: 1,
-    codigo: 12345,
-    pais: "pais_name",
-    nombre: "Colombia1",
-    estado: true
-  },
-  {
-    id: 2,
-    codigo: 12345,
-    pais: "pais_name",
-    nombre: "Colombia2",
-    estado: true
-  },
-  {
-    id: 3,
-    codigo: 12345,
-    pais: "pais_name",
-    nombre: "Colombia3",
-    estado: true
-  },
-  {
-    id: 4,
-    codigo: 12345,
-    pais: "pais_name",
-    nombre: "Colombia4",
-    estado: true
-  },
-  {
-    id: 5,
-    codigo: 12345,
-    pais: "pais_name",
-    nombre: "Colombia5",
-    estado: true
-  },
-  { id: 6, codigo: 12345, pais: "pais_name", nombre: "Colombia6", estado: true }
-];
-
+import {DEPARTMENTS} from './../../../services/EndPoints';
 class TableContentDepartamento extends Component {
   constructor(props) {
     super(props);
     this.state = {
       ModalViewPais: false,
       ModalEdit: false,
-      ModalDel: false
+      ModalDel: false,
+      modalexport:false,
+      dataDepartment:[],
+      hiddenColumnID: true
     };
   }
+  componentDidMount() {
+    this.getDataDepartment();
+  }
+
+  getDataDepartment = () => {
+    fetch(DEPARTMENTS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDepartment: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
 
   accionesPais(cell, row) {
     return (
@@ -65,7 +51,7 @@ class TableContentDepartamento extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -76,7 +62,7 @@ class TableContentDepartamento extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -86,7 +72,7 @@ class TableContentDepartamento extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           {" "}
@@ -96,65 +82,116 @@ class TableContentDepartamento extends Component {
     );
   }
 
-  openModalView() {
-    this.refs.child.toggle();
+  openModalView(id) {
+    this.refs.child.toggle(id);
   }
 
-  openModalEdit() {
-    this.refs.child3.toggle();
+  openModalEdit(id) {
+    this.refs.child3.toggle(id);
   }
 
-  openModalDelete() {
-    this.refs.child2.toggle();
+  openModalDelete(id) {
+    this.refs.child2.toggle(id);
   }
+
+  openModalExport = () => {
+    this.refs.child4.toggle();
+  };
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  };
 
  DepartamentoStatus(cell, row) {
     let status;
-    if (row.estado === true) status = <b className="text-success">ACTIVO</b>;
-    else if (row.estado === false) {
+    if (row.status === 1) status = <b className="text-success">ACTIVO</b>;
+    else if (row.status === 0) {
       status = <b className="text-danger">INACTIVO</b>;
     }
     return status;
   }
 
+  createCustomButtonGroup = props => {
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" /> Exportar CSV
+      </button>
+    );
+  };
+
+  PaisInfo = country =>{
+    return !country ? null : `<div>${country.name}</div>`;
+  }
   render() {
+    const options = {
+      btnGroup: this.createCustomButtonGroup
+    };
     return (
       <div className="animated fadeIn">
         <div className="col-md-12">
           <BootstrapTable
+            options={options}
             exportCSV
             pagination
             search
             striped
             searchPlaceholder="Buscar"
-            data={dataExample}
+            data={this.state.dataDepartment}
             hover
             bordered={false}
             className="tableDepto texto-Depto"
           >
-            <TableHeaderColumn isKey dataField="id" dataAlign="center" width={"80"}>
+            <TableHeaderColumn
+              export={false}
+              isKey
+              dataField={"id"}
+              hidden={this.state.hiddenColumnID}
+            />
+            <TableHeaderColumn
+              dataField={"id"}
+              dataFormat={this.indexN}
+              width={"50"}
+              dataAlign="center"
+              dataSort={true}
+            >
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="pais" dataAlign="center" width={"130"}>
+            <TableHeaderColumn
+              dataField="country"
+              dataFormat={this.PaisInfo}
+              dataAlign="center"
+              width={"130"}>
               {" "}
               País{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="codigo" dataAlign="center" width={"130"}>
+            <TableHeaderColumn
+              dataField="code"
+              dataAlign="center"
+              width={"130"}>
               {" "}
               Código{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="nombre" dataAlign="center" width={"250"}>
+            <TableHeaderColumn
+              dataField="name"
+              dataAlign="center"
+              width={"250"}>
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="estado" dataAlign="center"
-            dataFormat={(cell, row) => this.DepartamentoStatus(cell, row)}>
+            <TableHeaderColumn
+              dataField="status"
+              dataAlign="center"
+              dataFormat={(cell, row) => this.DepartamentoStatus(cell, row)}>
               {" "}
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-            width={"200"}
-            export={false}
+              width={"200"}
+              export={false}
               dataAlign="center"
               dataFormat={(cel, row) => this.accionesPais(cel, row)}
             >
@@ -166,6 +203,7 @@ class TableContentDepartamento extends Component {
         <ModalView modalview={this.state.ModalViewPais} ref="child" />
         <ModalEdit modaledit={this.state.ModalEdit} ref="child3" />
         <ModalDelete modaldel={this.state.ModalDel} ref="child2" />
+        <ModalExport modalexport={this.state.ModalExport} ref="child4"/>
       </div>
     );
   }

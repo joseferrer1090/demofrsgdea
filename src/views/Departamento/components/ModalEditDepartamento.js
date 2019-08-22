@@ -10,97 +10,133 @@ import {
   CustomInput
 } from "reactstrap";
 import IMGDEPARTAMENTO from "./../../../assets/img/map-marker.svg";
-import {DEPARTAMENTO_EDIT, PAIS_SELECTED, PAIS_EDIT} from './../../../data/JSON-SERVER';
-
+import {COUNTRIES, DEPARTMENTS} from './../../../services/EndPoints';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
 class ModalEditDepartamento extends React.Component {
   state = {
       modal: this.props.modaledit,
-      pais:"",
-      pais_selected:[],
-      codigo:"",
-      nombre:"",
-      estado:""
+      idDepartment: this.props.id,
+      dataResult:{},
+      optionsCountries:[]
     };
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      idDepartment:id
     });
+    this.getDepartmentByID(id)
   };
-  handleSubmit = (values, { props = this.props, setSubmitting }) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    return;
-  };
-
-  componentDidMount() {
-    this.getDeptoInformation();
-    this.gePaisData();
-  }
-
-  getDeptoInformation() {
-    fetch(PAIS_EDIT)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          pais: data.pais,
-          codigo: data.codigo,
-          nombre: data.nombre,
-          estado: data.estado
-        });
-        console.log(this.state);
-      })
-      .catch(error => console.log("Error", error));
-  }
-  gePaisData = () => {
-    fetch(PAIS_SELECTED)
+  getDepartmentByID = id => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/department/${id}/jferrer`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          pais_selected: data
+          dataResult: {
+            department_country:data.country.id,
+            department_name:data.name,
+            department_code: data.code,
+            department_status: data.status
+          },
         });
       })
       .catch(error => console.log(error));
   };
+
+  componentDidMount() {
+    this.getDataCountries();
+  }
+
+  getDataCountries = (data) => {
+    fetch(COUNTRIES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          optionsCountries:data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
   render() {
-    const dataPreview = {
-      pais: this.state.pais,
-      codigo: this.state.codigo,
-      nombre: this.state.nombre,
-      estado: this.state.estado
-    };
-    const auxSelected = this.state.pais_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
+    const dataResult = this.state.dataResult;
+    const mapOptionsCountries =
+    this.state.optionsCountries.map((aux,idx)=>{
+      return(
+        <option key={aux.id} value={aux.id}>{aux.name}</option>
       );
     });
+    console.log(this.state.dataResult);
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar departamento </ModalHeader>
           <Formik
-          initialValues={dataPreview}
+          enableReinitialize={true}
+          initialValues={dataResult}
           onSubmit={(values, {setSubmitting}) => {
+            const tipoEstado = data => {
+              let tipo = null;
+              if (data === true) {
+                return (tipo = 1);
+              } else if (data === false) {
+                return (tipo = 0);
+              }
+              return null;
+            };
             setTimeout(()=>{
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false)
+              fetch(DEPARTMENTS, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Basic " + window.btoa("sgdea:123456")
+                },
+                body: JSON.stringify({
+                  id: this.state.idDepartment,
+                  code:values.department_code,
+                  name:values.department_name,
+                  countryId:values.department_country,
+                  status:tipoEstado(values.department_status),
+                  userName:"ccuartas"
+                })
+              })
+                .then(response =>
+                  response.json().then(data => {
+                    if (response.status === 200) {
+                      console.log("Se actualizo de manera exitosa");
+                    } else if (response.status !== 200) {
+                      console.log("ver la consola");
+                    }
+                  })
+                )
+                .catch(error => console.log("", error));
+              setSubmitting(false);
             },500)
           }}
           validationSchema={Yup.object().shape({
-            pais: Yup.string()
+            department_country: Yup.string()
               .ensure()
               .required(" Por favor seleccione un país."),
-            codigo: Yup.string()
+            department_code: Yup.string()
               .required(" Por favor introduzca un código."),
-            nombre: Yup.string()
+            department_name: Yup.string()
               .required( " Por favor introduzca un nombre."),
-            estado: Yup.bool()
+            department_status: Yup.bool()
               .test(
                 "Activado",
                 "",
@@ -140,23 +176,24 @@ class ModalEditDepartamento extends React.Component {
                       <div className="form-group">
                         <label> País <span className="text-danger">*</span>{" "} </label>
                         <select
-                            name={"pais"}
+                            name={"department_country"}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.pais}
-                            className={`form-control form-control-sm ${errors.pais &&
-                              touched.pais &&
+                            value={values.department_country}
+                            className={`form-control form-control-sm ${errors.department_country &&
+                              touched.department_country &&
                               "is-invalid"}`}
                         >
-                          {auxSelected}
+                        <option value={""} disabled>-- Seleccione --</option>
+                          {mapOptionsCountries}
                         </select>
                           <div style={{ color: '#D54B4B' }}>
                             {
-                              errors.pais && touched.pais ?
+                              errors.department_country && touched.department_country ?
                               <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
-                            <ErrorMessage name="pais"/>
+                            <ErrorMessage name="department_country"/>
                           </div>
                       </div>
                     </div>
@@ -164,23 +201,23 @@ class ModalEditDepartamento extends React.Component {
                       <div className="form-group">
                         <label> Código <span className="text-danger">*</span>{" "} </label>
                         <input
-                            name="codigo"
+                            name="department_code"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             type="text"
-                            className={`form-control form-control-sm ${errors.codigo &&
-                              touched.codigo &&
+                            className={`form-control form-control-sm ${errors.department_code &&
+                              touched.department_code &&
                               "is-invalid"}`}
                             placeholder=""
-                            value={values.codigo}
+                            value={values.department_code}
                             />
                             <div style={{ color: '#D54B4B' }}>
                                   {
-                                    errors.codigo && touched.codigo ?
+                                    errors.department_code && touched.department_code ?
                                     <i className="fa fa-exclamation-triangle"/> :
                                     null
                                   }
-                          <ErrorMessage name="codigo"/>
+                          <ErrorMessage name="department_code"/>
                           </div>
                       </div>
                     </div>
@@ -189,23 +226,23 @@ class ModalEditDepartamento extends React.Component {
                       <div className="form-group">
                         <label> Nombre <span className="text-danger">*</span>{" "} </label>
                         <input
-                          name="nombre"
+                          name="department_name"
                           onChange={handleChange}
                           onBlur={handleBlur}
                           type="text"
-                          className={`form-control form-control-sm ${errors.nombre &&
-                            touched.nombre &&
+                          className={`form-control form-control-sm ${errors.department_name &&
+                            touched.department_name &&
                             "is-invalid"}`}
-                          value={values.nombre}
+                          value={values.department_name}
                           placeholder=""
                           />
                           <div style={{ color: '#D54B4B' }}>
                           {
-                            errors.nombre && touched.nombre ?
+                            errors.department_name && touched.department_name ?
                             <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
-                          <ErrorMessage name="nombre"/>
+                          <ErrorMessage name="department_name"/>
                           </div>
                       </div>
                     </div>
@@ -217,7 +254,7 @@ class ModalEditDepartamento extends React.Component {
                     </label>
                     <div className="text-justify">
                     <Field
-                      name="estado"
+                      name="department_status"
                       render={({field, form})=>{
                         return(
                           <CustomInput
@@ -233,15 +270,15 @@ class ModalEditDepartamento extends React.Component {
                               {...field}
                               checked={field.value}
                               className={
-                                errors.estado &&
-                                touched.estado &&
+                                errors.department_status &&
+                                touched.department_status &&
                                 "invalid-feedback"
                               }
                             />
                         );
                       }}
                     />
-                      <ErrorMessage name="estado"/>
+                      <ErrorMessage name="department_status"/>
                       </div>
                       </div>
                     </div>

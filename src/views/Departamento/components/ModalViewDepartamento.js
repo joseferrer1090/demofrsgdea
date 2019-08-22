@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import {
   Modal,
@@ -8,22 +8,55 @@ import {
   Row,
   Col
 } from "reactstrap";
-
 import IMGDEPARTAMENTO from "./../../../assets/img/map-marker.svg";
 
 class ModalViewDepartamento extends Component {
   constructor(props) {
     super(props);
-    this.state = { modal: this.props.modalview };
+    this.state = {
+      modal: this.props.modalview,
+      id:this.props.id,
+      dataDepartamento:{},
+      dataPais:{},
+    };
   }
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id:id
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/department/${id}/ccuartas`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          dataPais: data.country,
+          dataDepartamento: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
   };
 
   render() {
+    const department = this.state.dataDepartamento;
+    const country = this.state.dataPais;
+
+    const statusDepartamento = data => {
+      let status;
+      if (data === 1) {
+        status = <b className="text-success">Activada</b>;
+      } else if (data === 0) {
+        status = <b className="text-danger">Inactiva</b>;
+      }
+      return status;
+    };
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -45,37 +78,37 @@ class ModalViewDepartamento extends Component {
                 <div className="col-md-6">
                     <dl className="param">
                       <dt> País </dt>
-                      <dd> país </dd>
+                      <dd> {country.name} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
                       <dt> Código </dt>
-                      <dd> codigo </dd>
+                      <dd> {department.code} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
                       <dt> Nombre </dt>
-                      <dd> nombre </dd>
+                      <dd> {department.name} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
                       <dt> Estado </dt>
-                      <dd> estado </dd>
+                      <dd> {statusDepartamento(department.status)} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
                       <dt> Fecha de creación </dt>
-                      <dd> fecha de creación </dd>
+                      <dd> {department.createdAt} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
                       <dt> Fecha de modificacíon </dt>
-                      <dd> fecha de modificacíon </dd>
+                      <dd> {department.updatedAt} </dd>
                     </dl>
                   </div>
                 </div>

@@ -37,7 +37,7 @@ class ModalDeletePais extends Component {
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
               fetch(
-                `http://192.168.10.180:7000/api/sgdea/messenger/${
+                `http://192.168.10.180:7000/api/sgdea/country/${
                   this.state.idPais
                 }?name=${values.nombre}&username=${this.state.useLogged}`,
                 {

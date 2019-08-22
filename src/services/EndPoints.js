@@ -397,15 +397,15 @@ export const CITY =
   "http://192.168.10.180:7000/api/sgdea/city/23ed762d-ae48-44af-a6cc-82b2430fc33b/ccuartas";
 
 /* GET */
-export const CITYS_STATUS =
+export const CITIES_STATUS =
   "http://192.168.10.180:7000/api/sgdea/city/status/1";
 
 /* GET */
-export const CITYS_EXPORT =
+export const CITIES_EXPORT =
   "http://192.168.10.180:7000/api/sgdea/city/export/ccuartas";
 
 /* GET */
-export const CITYS_PAGINATION = () => {
+export const CITIES_PAGINATION = () => {
   const page = 0;
   const size = 1;
   return `http://192.168.10.180:7000/api/sgdea/city/pagination?page=${page}&size=${size}`;

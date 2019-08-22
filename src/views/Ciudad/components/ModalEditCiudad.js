@@ -10,98 +10,103 @@ import {
   CustomInput
 } from "reactstrap";
 import IMGCITY from "./../../../assets/img/skyline.svg";
-import {CIUDAD_EDIT, PAIS_SELECTED, DEPARTAMENTO_SELECTED} from './../../../data/JSON-SERVER';
+import {COUNTRIES, DEPARTMENTS, CITYS} from './../../../services/EndPoints';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
 class ModalEditCiudad extends React.Component {
     state = {
       modal: this.props.modaledit,
-      pais:"",
-      pais_selected:[],
-      departamento:"",
-      departamento_selected:[],
-      codigo:"",
-      nombre:"",
-      estado:""
+      idCity: this.props.id,
+      dataResult:{},
+      optionsCountries:[],
+      optionsDepartment:[]
     };
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      idCity: id,
     });
-  };
-
-  handleSubmit = (values, { props = this.props, setSubmitting }) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    return;
+    this.getCityByID(id);
   };
 
   componentDidMount() {
-    this.getCityInformation();
-    this.getPaisData();
-    this.getDepartamentoData();
+    this.getDataCountries();
+    this.getDataDepartments();
   }
 
-  getCityInformation() {
-    fetch(CIUDAD_EDIT)
+  getCityByID = id => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/city/${id}/jferrer`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
       .then(response => response.json())
       .then(data => {
         console.log(data);
         this.setState({
-          pais: data.pais,
-          departamento: data.departamento,
-          codigo: data.codigo,
-          nombre: data.nombre,
-          estado: data.estado
-        });
-        console.log(this.state);
-      })
-      .catch(error => console.log("Error", error));
-  };
-  getPaisData = () => {
-    fetch(PAIS_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          pais_selected: data
+          dataResult: {
+            city_country: data.department.country.id,
+            city_department: data.department.id,
+            city_code: data.code,
+            city_name: data.name,
+            city_status: data.status
+          },
         });
       })
       .catch(error => console.log(error));
   };
-  getDepartamentoData = () => {
-    fetch(DEPARTAMENTO_SELECTED)
+
+  getDataCountries = (data) => {
+    fetch(COUNTRIES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          departamento_selected: data
+          optionsCountries:data
         });
       })
-      .catch(error => console.log(error));
+      .catch(Error => console.log(" ", Error));
+  };
+  getDataDepartments = (data) => {
+    fetch(DEPARTMENTS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsDepartment: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
   };
 
   render() {
+    const dataResult = this.state.dataResult
 
-    const dataPreview = {
-      pais: this.state.pais,
-      departamento: this.state.departamento,
-      codigo: this.state.codigo,
-      nombre: this.state.nombre,
-      estado: this.state.estado
-    };
-    const auxSelectedPais = this.state.pais_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
+    const mapOptionsCountries =
+    this.state.optionsCountries.map((aux,idx)=>{
+      return(
+        <option key={aux.id} value={aux.id}>{aux.name}</option>
       );
     });
-    const auxSelectedDepartamento = this.state.departamento_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
+
+    const mapOptionsDepartments =
+      this.state.optionsDepartment.map((aux,idx)=>{
+      return(
+        <option value={aux.id}>{aux.name}</option>
       );
     });
     return (
@@ -109,25 +114,60 @@ class ModalEditCiudad extends React.Component {
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar ciudad </ModalHeader>
           <Formik
-            initialValues={dataPreview}
+          enableReinitialize={true}
+            initialValues={dataResult}
             onSubmit={(values, {setSubmitting}) =>{
+              const tipoEstado = data => {
+                let tipo = null;
+                if (data === true) {
+                  return (tipo = 1);
+                } else if (data === false) {
+                  return (tipo = 0);
+                }
+                return null;
+              };
               setTimeout(()=>{
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false)
+                fetch(CITYS, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                  },
+                  body: JSON.stringify({
+                    id: this.state.idCity,
+                    code:values.city_code,
+                    name:values.city_name,
+                    departmentId:values.city_department,
+                    status:tipoEstado(values.city_status),
+                    userName:"ccuartas"
+                  })
+                })
+                  .then(response =>
+                    response.json().then(data => {
+                      if (response.status === 200) {
+                        console.log("Se actualizo de manera exitosa");
+                      } else if (response.status !== 200) {
+                        console.log("ver la consola");
+                      }
+                    })
+                  )
+                  .catch(error => console.log("", error));
+                setSubmitting(false);
               },500)
             }}
             validationSchema={Yup.object().shape({
-              pais: Yup.string()
+              city_country: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione un país."),
-              departamento: Yup.string()
+              city_department: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione un departamento."),
-              codigo: Yup.string()
+
+              city_code: Yup.string()
                 .required(" Por favor introduzca un código."),
-              nombre: Yup.string()
+              city_name: Yup.string()
                 .required( " Por favor introduzca un nombre."),
-              estado: Yup.bool()
+              city_status: Yup.bool()
                 .test(
                   "Activado",
                   "",
@@ -170,25 +210,26 @@ class ModalEditCiudad extends React.Component {
                         <dd>
                           {" "}
                           <select
-                            name={"pais"}
+                            name={"city_country"}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.pais}
-                            className={`form-control form-control-sm ${errors.pais &&
-                              touched.pais &&
+                            value={values.city_country}
+                            className={`form-control form-control-sm ${errors.city_country &&
+                              touched.city_country &&
                               "is-invalid"}`}
                             >
                             {" "}
-                            {auxSelectedPais}
+                            <option value={""} disabled>-- Seleccione --</option>
+                            {mapOptionsCountries}
                             {" "}
                           </select>{" "}
                           <div style={{ color: '#D54B4B' }}>
                             {
-                              errors.pais && touched.pais ?
+                              errors.city_country && touched.city_country ?
                               <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
-                          <ErrorMessage name="pais"/>
+                          <ErrorMessage name="city_country"/>
                           </div>
                         </dd>
                       </dl>
@@ -201,25 +242,26 @@ class ModalEditCiudad extends React.Component {
                       <dd>
                         {" "}
                         <select
-                          name={"departamento"}
+                          name={"city_department"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.departamento}
-                          className={`form-control form-control-sm ${errors.departamento &&
-                            touched.departamento &&
+                          value={values.city_department}
+                          className={`form-control form-control-sm ${errors.city_department &&
+                            touched.city_department &&
                             "is-invalid"}`}
                           >
                           {" "}
-                          {auxSelectedDepartamento}
+                          <option value={""} disabled>-- Seleccione --</option>
+                          {mapOptionsDepartments}
                           {" "}
                         </select>{" "}
                         <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.departamento && touched.departamento ?
+                          errors.city_department && touched.city_department ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                        <ErrorMessage name="departamento" />
+                        <ErrorMessage name="city_department" />
                         </div>
                       </dd>
                     </dl>
@@ -233,21 +275,21 @@ class ModalEditCiudad extends React.Component {
                           {" "}
                           <input
                             type="text"
-                            name={"codigo"}
+                            name={"city_code"}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.codigo}
-                            className={`form-control form-control-sm ${errors.codigo &&
-                              touched.codigo &&
+                            value={values.city_code}
+                            className={`form-control form-control-sm ${errors.city_code &&
+                              touched.city_code &&
                               "is-invalid"}`}
                           />
                             <div style={{ color: '#D54B4B' }}>
                             {
-                              errors.codigo && touched.codigo ?
+                              errors.city_code && touched.city_code ?
                               <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
-                          <ErrorMessage name="codigo"/>
+                          <ErrorMessage name="city_code"/>
                             </div>
                         </dd>
                       </dl>
@@ -262,21 +304,21 @@ class ModalEditCiudad extends React.Component {
                           {" "}
                           <input
                             type="text"
-                            name="nombre"
+                            name="city_name"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.nombre}
-                            className={`form-control form-control-sm ${errors.nombre &&
-                              touched.nombre &&
+                            value={values.city_name}
+                            className={`form-control form-control-sm ${errors.city_name &&
+                              touched.city_name &&
                               "is-invalid"}`}
                           />{" "}
                             <div style={{ color: '#D54B4B' }}>
                             {
-                              errors.nombre && touched.nombre ?
+                              errors.city_name && touched.city_name ?
                               <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
-                          <ErrorMessage name="nombre"/>
+                          <ErrorMessage name="city_name"/>
                             </div>
                         </dd>
                       </dl>
@@ -291,7 +333,7 @@ class ModalEditCiudad extends React.Component {
                     </label>
                     <div className="text-justify">
                       <Field
-                        name="estado"
+                        name="city_status"
                         render={({field, form}) =>{
                           return(
                             <CustomInput
@@ -307,8 +349,8 @@ class ModalEditCiudad extends React.Component {
                               {...field}
                               checked={field.value}
                               className={
-                                errors.estado &&
-                                touched.estado &&
+                                errors.city_status &&
+                                touched.city_status &&
                                 "invalid-feedback"
                               }
                             />
@@ -316,7 +358,7 @@ class ModalEditCiudad extends React.Component {
                         }}
 
                       />
-                      <ErrorMessage name="estado" />
+                      <ErrorMessage name="city_status" />
                       </div>
                       </dl>
                     </div>

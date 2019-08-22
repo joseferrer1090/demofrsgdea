@@ -13,73 +13,99 @@ import {PAIS_EDIT} from './../../../data/JSON-SERVER';
 import IMGCOUNTRY from "./../../../assets/img/flag.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
+import {COUNTRIES} from './../../../services/EndPoints';
 
 class ModalEditPais extends React.Component {
 
   state = {
       modal: this.props.modaledit,
-      codigo:"",
-      nombre:"",
-      estado:""
+      idPais: this.props.id,
+      dataResult:{}
     };
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      idPais:id
     });
-  };
-  handleSubmit = (values, { props = this.props, setSubmitting }) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    return;
+    this.getCountryByID(id);
   };
 
-  componentDidMount() {
-    this.getPaisInformation()
-  }
-
-  getPaisInformation() {
-    fetch(PAIS_EDIT)
+  getCountryByID = id => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/country/${id}/ccuartas`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
-          pais: data.pais,
-          departamento: data.departamento,
-          codigo: data.codigo,
-          nombre: data.nombre,
-          estado: data.estado
+          dataResult: {
+            country_code: data.code,
+            country_name: data.name,
+            country_status: data.status
+          }
         });
-        console.log(this.state);
       })
-      .catch(error => console.log("Error", error));
-  }
+      .catch(error => console.log(error));
+  };
 
   render() {
-    const dataPreview = {
-      codigo: this.state.codigo,
-      nombre: this.state.nombre,
-      estado: this.state.estado
-    };
-
+    const dataResult = this.state.dataResult;
+    console.log(dataResult)
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar país </ModalHeader>
           <Formik
-          initialValues={dataPreview}
+          enableReinitialize={true}
+          initialValues={dataResult}
             onSubmit={(values, {setSubmitting}) =>{
+              const tipoEstado = data => {
+                let tipo = null;
+                if (data === true) {
+                  return (tipo = 1);
+                } else if (data === false) {
+                  return (tipo = 0);
+                }
+                return null;
+              };
               setTimeout(()=>{
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false)
+                fetch(COUNTRIES, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                  },
+                  body: JSON.stringify({
+                    id: this.state.idPais,
+                    code: values.country_code,
+                    name: values.country_name,
+                    status: tipoEstado(values.country_status),
+                    userName: "ccuartas"
+                  })
+                })
+                  .then(response =>
+                    response.json().then(data => {
+                      if (response.status === 200) {
+                        console.log("Se actualizo de manera exitosa");
+                      } else if (response.status !== 200) {
+                        console.log("ver la consola");
+                      }
+                    })
+                  )
+                  .catch(error => console.log("", error));
+                setSubmitting(false);
               },500)
             }}
             validationSchema={Yup.object().shape({
-              codigo: Yup.string()
+              country_code: Yup.string()
                 .required(" Por favor introduzca un código."),
-              nombre: Yup.string()
+              country_name: Yup.string()
                 .required( " Por favor introduzca un nombre."),
-              estado: Yup.bool()
+              country_status: Yup.bool()
                 .test(
                   "Activado",
                   "",
@@ -123,21 +149,21 @@ class ModalEditPais extends React.Component {
                         </label>
                         <input
                             type="text"
-                            name={"codigo"}
+                            name={"country_code"}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.codigo}
-                            className={`form-control form-control-sm ${errors.codigo &&
-                              touched.codigo &&
+                            value={values.country_code}
+                            className={`form-control form-control-sm ${errors.country_code &&
+                              touched.country_code &&
                               "is-invalid"}`}
                           />
                             <div style={{ color: '#D54B4B' }}>
                             {
-                              errors.codigo && touched.codigo ?
+                              errors.country_code && touched.country_code ?
                               <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
-                          <ErrorMessage name="codigo"/>
+                          <ErrorMessage name="country_code"/>
                             </div>
                       </div>
                       <div className="col-md-6">
@@ -148,21 +174,21 @@ class ModalEditPais extends React.Component {
                           </label>
                           <input
                           type="text"
-                          name="nombre"
+                          name="country_name"
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.nombre}
-                          className={`form-control form-control-sm ${errors.nombre &&
-                            touched.nombre &&
+                          value={values.country_name}
+                          className={`form-control form-control-sm ${errors.country_name &&
+                            touched.country_name &&
                             "is-invalid"}`}
                         />{" "}
                           <div style={{ color: '#D54B4B' }}>
                           {
-                            errors.nombre && touched.nombre ?
+                            errors.country_name && touched.country_name ?
                             <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
-                        <ErrorMessage name="nombre"/>
+                        <ErrorMessage name="country_name"/>
                           </div>
                         </div>
                       </div>
@@ -174,7 +200,7 @@ class ModalEditPais extends React.Component {
                       </label>
                       <div className="text-justify">
                       <Field
-                        name="estado"
+                        name="country_status"
                         render={({field, form})=>{
                           return(
                           <CustomInput
@@ -190,8 +216,8 @@ class ModalEditPais extends React.Component {
                               {...field}
                               checked={field.value}
                               className={
-                                errors.estado &&
-                                touched.estado &&
+                                errors.country_status &&
+                                touched.country_status &&
                                 "invalid-feedback"
                               }
                             />
@@ -199,7 +225,7 @@ class ModalEditPais extends React.Component {
                         }}
 
                       />
-                        <ErrorMessage name="estado"/>
+                        <ErrorMessage name="country_status"/>
                         </div>
                         </div>
                       </div>

@@ -19,7 +19,7 @@ class TableContentCargo extends Component {
   }
 
   componentDidMount() {
-    this.getDataCharge();
+    // this.getDataCharge();
   }
 
   getDataCharge = () => {

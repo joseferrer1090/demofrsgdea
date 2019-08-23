@@ -21,13 +21,12 @@ class ModalDeleteConglomerado extends React.Component {
     });
   };
 
-  onDismiss = () =>{
+  onDismiss = () => {
     this.setState({
       alertError: false,
-      alertName:false
-    })
-  }
-
+      alertName: false
+    });
+  };
 
   render() {
     const dataInitial = {
@@ -54,17 +53,16 @@ class ModalDeleteConglomerado extends React.Component {
                   }
                 )
                   .then(response => {
-
                     if (response.status === 500) {
                       this.setState({
                         alertError: true
-                      })
+                      });
                     } else if (response === 204) {
                       this.setState({ modal: false });
-                    } else if(response.status === 400){
+                    } else if (response.status === 400) {
                       this.setState({
                         alertName: true
-                      })
+                      });
                     }
                   })
                   .catch(error => console.log(" ", error));
@@ -91,10 +89,20 @@ class ModalDeleteConglomerado extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <form className="form">
-                      <Alert className="text-center" color="danger" isOpen={this.state.alertError} toggle={this.onDismiss}>
-                        El conglomerado que va a eliminar, esta asociado a otras entidades.
+                      <Alert
+                        className="text-center"
+                        color="danger"
+                        isOpen={this.state.alertError}
+                        toggle={this.onDismiss}
+                      >
+                        El conglomerado que va a eliminar, esta asociado a otras
+                        entidades.
                       </Alert>
-                      <Alert color="danger" isOpen={this.state.alertName} toggle={this.onDismiss}>
+                      <Alert
+                        color="danger"
+                        isOpen={this.state.alertName}
+                        toggle={this.onDismiss}
+                      >
                         Por favor introduzca un nombre valido.
                       </Alert>
                       <p className="text-center">

@@ -41,9 +41,9 @@ class TableContentCargo extends Component {
 
   CargoStatus = (cell, row) => {
     let status;
-    if (row.estado === true) {
+    if (row.status === 1) {
       status = <b className="text-success">ACTIVO</b>;
-    } else if (row.estado === false) {
+    } else if (row.status === false) {
       status = <b className="text-danger">INACTIVO</b>;
     }
     return status;
@@ -59,7 +59,7 @@ class TableContentCargo extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -90,8 +90,8 @@ class TableContentCargo extends Component {
     );
   }
 
-  openModalView() {
-    this.refs.child1.toggle();
+  openModalView(id) {
+    this.refs.child1.toggle(id);
   }
 
   openModalEdit() {

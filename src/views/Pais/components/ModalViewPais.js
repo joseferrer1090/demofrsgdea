@@ -8,22 +8,54 @@ import {
   Row,
   Col
 } from "reactstrap";
-
 import IMGPAIS from "./../../../assets/img/flag.svg";
 
 class ModalViewPais extends Component {
   constructor(props) {
     super(props);
-    this.state = { modal: this.props.modalview };
+    this.state = {
+      modal: this.props.modalview,
+      dataPais:{},
+      id: this.props.id
+    };
   }
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id:id,
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/country/${id}/ccuartas`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataPais: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
   };
 
   render() {
+    const statusCountry = data => {
+      let status;
+      if (data === 1) {
+        status = <p className="text-success"> Activo </p>;
+      } else if (data === 0) {
+        status = <p className="text-danger"> Inactivo </p>;
+      }
+      return status;
+    };
+    const code = this.state.dataPais.code;
+    const name = this.state.dataPais.name;
+    const status = this.state.dataPais.status;
+    const createdAt = this.state.dataPais.createdAt;
+    const updatedAt = this.state.dataPais.updatedAt;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -46,7 +78,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Código </dt>
-                        <dd> código </dd>
+                        <dd> {code} </dd>
                       </dl>
                     </div>
                   </div>
@@ -54,7 +86,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Nombre </dt>
-                        <dd> nombre </dd>
+                        <dd> {name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -62,7 +94,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Estado </dt>
-                        <dd> estado </dd>
+                        <dd> {statusCountry(status)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -70,7 +102,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Fecha de creación </dt>
-                        <dd> fecha de creación </dd>
+                        <dd> {createdAt} </dd>
                       </dl>
                     </div>
                   </div>
@@ -78,7 +110,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Fecha de modificación </dt>
-                        <dd> fecha de modificación </dd>
+                        <dd> {updatedAt} </dd>
                       </dl>
                     </div>
                   </div>

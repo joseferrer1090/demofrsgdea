@@ -8,22 +8,57 @@ import {
   Row,
   Col
 } from "reactstrap";
-
 import IMGCITY from "./../../../assets/img/skyline.svg";
+import {CITIES} from './../../../services/EndPoints';
 
 class ModalViewCiudad extends Component {
   constructor(props) {
     super(props);
-    this.state = { modal: this.props.modalview };
+    this.state = {
+      modal: this.props.modalview,
+      idCity: this.props.id,
+      dataCity:{},
+      dataDepartment:{},
+      dataCountry:{}
+     };
   }
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      idCity:id,
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/city/${id}/ccuartas`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCity: data,
+          dataDepartment: data.department,
+          dataCountry: data.department.country
+        });
+      })
+      .catch(Error => console.log(" ", Error));
   };
 
   render() {
+    const dataCity = this.state.dataCity
+    const dataDepartment = this.state.dataDepartment;
+    const dataCountry = this.state.dataCountry;
+    const statusCity = data => {
+      let status;
+      if (data === 1) {
+        status = <p className="text-success"> Activo </p>;
+      } else if (data === 0) {
+        status = <p className="text-danger"> Inactivo </p>;
+      }
+      return status;
+    };
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -46,7 +81,7 @@ class ModalViewCiudad extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>País </dt>
-                        <dd> país </dd>
+                        <dd> {dataCountry.name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -54,7 +89,7 @@ class ModalViewCiudad extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Departamento </dt>
-                        <dd> departamento </dd>
+                        <dd> {dataDepartment.name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -62,7 +97,7 @@ class ModalViewCiudad extends Component {
                      <div className="form-group">
                        <dl className="param">
                           <dt> Código </dt>
-                          <dd> código </dd>
+                          <dd> {dataCity.code} </dd>
                        </dl>
                      </div>
                   </div>
@@ -70,7 +105,7 @@ class ModalViewCiudad extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Nombre </dt>
-                        <dd> nombre </dd>
+                        <dd> {dataCity.name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -78,7 +113,7 @@ class ModalViewCiudad extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Estado </dt>
-                        <dd> estado </dd>
+                        <dd> {statusCity(dataCity.status)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -86,7 +121,7 @@ class ModalViewCiudad extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Fecha de creación </dt>
-                        <dd> fecha de creación </dd>
+                        <dd> {dataCity.createdAt} </dd>
                       </dl>
                     </div>
                   </div>
@@ -94,7 +129,7 @@ class ModalViewCiudad extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Fecha de modificación </dt>
-                        <dd> fecha de modificación </dd>
+                        <dd> {dataCity.updatedAt} </dd>
                       </dl>
                     </div>
                   </div>

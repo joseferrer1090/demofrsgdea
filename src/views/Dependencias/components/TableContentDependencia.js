@@ -61,7 +61,7 @@ class TableContentDependencia extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -99,8 +99,8 @@ class TableContentDependencia extends Component {
     this.refs.child3.toggle(id);
   }
 
-  openModalEdit() {
-    this.refs.child2.toggle();
+  openModalEdit(id) {
+    this.refs.child2.toggle(id);
   }
 
   openModalExport() {

@@ -10,77 +10,103 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGTERCERO from "./../../../assets/img/supply.svg";
-import {TIPO_TERCEROS_EDIT} from './../../../data/JSON-SERVER';
+import {TYPETHIRDPARTYS} from './../../../services/EndPoints';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
 class ModalEditTipoTercero extends React.Component {
   state = {
       modal: this.props.modalupdate,
-      codigo: "",
-      nombre: "",
-      descripcion: "",
-      estado: ""
+      idTipoTerceros: this.props.id,
+      dataResult:{}
     };
 
-  toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+  toggle = (id) => {
+    this.setState({
+      modal: !this.state.modal,
+      idTipoTerceros: id
+    });
+    this.getTipoTercerosByID(id)
   };
 
-  handleSubmit = (values, { props = this.props, setSubmitting }) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    return;
-  };
-
-  componentDidMount() {
-    this.getTipoTercerosInformation()
-  }
-
-  getTipoTercerosInformation() {
-    fetch(TIPO_TERCEROS_EDIT)
+  getTipoTercerosByID = id => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}/ccuartas`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
-          codigo: data.codigo,
-          nombre: data.nombre,
-          descripcion: data.descripcion,
-          estado: data.estado
+          dataResult: {
+            typethirdparty_code: data.code,
+            typethirdparty_name: data.name,
+            typethirdparty_description: data.description,
+            typethirdparty_status: data.status
+          }
         });
-        console.log(this.state);
       })
-      .catch(error => console.log("Error", error));
-}
+      .catch(error => console.log(error));
+  };
   render() {
-    const dataPreview = {
-      codigo: this.state.codigo,
-      nombre: this.state.nombre,
-      descripcion: this.state.descripcion,
-      estado: this.state.estado
-    };
+    const dataResult= this.state.dataResult;
+    console.log(dataResult);
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>Actualizar tipo de tercero</ModalHeader>
           <Formik
-            initialValues={dataPreview}
+            enableReinitialize={true}
+            initialValues={dataResult}
             onSubmit={(values, {setSubmitting}) =>{
+              const tipoEstado = data => {
+                let tipo = null;
+                if (data === true) {
+                  return (tipo = 1);
+                } else if (data === false) {
+                  return (tipo = 0);
+                }
+                return null;
+              };
               setTimeout(()=>{
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false)
+                fetch(TYPETHIRDPARTYS, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                  },
+                  body: JSON.stringify({
+                    id: this.state.idTipoTerceros,
+                    code: values.typethirdparty_code,
+                    name: values.typethirdparty_name,
+                    description: values.typethirdparty_description,
+                    status: tipoEstado(values.typethirdparty_status),
+                    userName: "ccuartas"
+                  })
+                })
+                  .then(response =>
+                    response.json().then(data => {
+                      if (response.status === 200) {
+                        console.log("Se actualizo de manera exitosa");
+                      } else if (response.status !== 200) {
+                        console.log("ver la consola");
+                      }
+                    })
+                  )
+                  .catch(error => console.log("", error));
+                setSubmitting(false);
               },500)
             }}
             validationSchema={Yup.object().shape({
-              codigo: Yup.string()
+              typethirdparty_code: Yup.string()
               .min(6, " Mínimo 6 caracteres.")
               .max(6, " Máximo 6 caracteres.")
               .required(" Por favor introduzca un código."),
-              nombre: Yup.string().required(" Por favor introduzca un nombre."),
-              descripcion: Yup.string().required(" Por favor introduzca una descripción."),
-              estado: Yup.bool()
+              typethirdparty_name: Yup.string().required(" Por favor introduzca un nombre."),
+              typethirdparty_description: Yup.string().required(" Por favor introduzca una descripción."),
+              typethirdparty_status: Yup.bool()
                 .test(
                   "Activado",
                   "",
@@ -122,22 +148,22 @@ class ModalEditTipoTercero extends React.Component {
                           Código <span className="text-danger">*</span>
                         </label>{" "}
                         <input
-                          name={"codigo"}
+                          name={"typethirdparty_code"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.codigo}
+                          value={values.typethirdparty_code}
                           type="text"
-                          className={`form-control form-control-sm ${errors.codigo &&
-                            touched.codigo &&
+                          className={`form-control form-control-sm ${errors.typethirdparty_code &&
+                            touched.typethirdparty_code &&
                             "is-invalid"}`}
                         />
                         <div style={{ color: '#D54B4B' }}>
                               {
-                                errors.codigo && touched.codigo ?
+                                errors.typethirdparty_code && touched.typethirdparty_code ?
                                 <i className="fa fa-exclamation-triangle"/> :
                                 null
                               }
-                        <ErrorMessage name={"codigo"} />
+                        <ErrorMessage name={"typethirdparty_code"} />
                         </div>
                       </div>
                     </div>
@@ -147,22 +173,22 @@ class ModalEditTipoTercero extends React.Component {
                           Nombre <span className="text-danger">*</span>
                         </label>
                         <input
-                          name={"nombre"}
+                          name={"typethirdparty_name"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.nombre}
+                          value={values.typethirdparty_name}
                           type="text"
-                          className={`form-control form-control-sm ${errors.nombre &&
-                            touched.nombre &&
+                          className={`form-control form-control-sm ${errors.typethirdparty_name &&
+                            touched.typethirdparty_name &&
                             "is-invalid"}`}
                         />
                         <div style={{ color: '#D54B4B' }}>
                               {
-                                errors.nombre && touched.nombre ?
+                                errors.typethirdparty_name && touched.typethirdparty_name ?
                                 <i className="fa fa-exclamation-triangle"/> :
                                 null
                               }
-                        <ErrorMessage name={"nombre"} />
+                        <ErrorMessage name={"typethirdparty_name"} />
                         </div>
                       </div>
                     </div>
@@ -173,21 +199,21 @@ class ModalEditTipoTercero extends React.Component {
                           Descripción <span className="text-danger">*</span>{" "}
                         </label>
                         <textarea
-                          name={"descripcion"}
+                          name={"typethirdparty_description"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.descripcion}
-                          className={`form-control form-control-sm ${errors.descripcion &&
-                            touched.descripcion &&
+                          value={values.typethirdparty_description}
+                          className={`form-control form-control-sm ${errors.typethirdparty_description &&
+                            touched.typethirdparty_description &&
                             "is-invalid"}`}
                         />
                         <div style={{ color: '#D54B4B' }}>
                               {
-                                errors.descripcion && touched.descripcion ?
+                                errors.typethirdparty_description && touched.typethirdparty_description ?
                                 <i className="fa fa-exclamation-triangle"/> :
                                 null
                               }
-                        <ErrorMessage name={"descripcion"} />
+                        <ErrorMessage name={"typethirdparty_description"} />
                         </div>
                       </div>
                     </div>
@@ -199,7 +225,7 @@ class ModalEditTipoTercero extends React.Component {
                         </label>
                         <div className="text-justify">
                         <Field
-                        name="estado"
+                        name="typethirdparty_status"
                         render={({field, form})=>{
                           return(
                             <CustomInput
@@ -215,8 +241,8 @@ class ModalEditTipoTercero extends React.Component {
                           {...field}
                           checked={field.value}
                           className={
-                            errors.estado &&
-                            touched.estado &&
+                            errors.typethirdparty_status &&
+                            touched.typethirdparty_status &&
                             "invalid-feedback"
                           }
                           />

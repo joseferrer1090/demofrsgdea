@@ -4,38 +4,9 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewTipoTercero from "./ModalViewTipoTercero";
 import ModalDeleteTipoTercero from "./ModalDeleteTipoTercero";
 import ModalUpdateTipoTercero from "./ModalEditTipoTercero";
+import ModalExport from "./ModalExportCSV";
 import { Row, Col } from "reactstrap";
-
-const dataExample = [
-  {
-    id: 1,
-    codigo: "10101001",
-    nombre: "Tercero 1",
-    descripcion: "descripcion del tercer1",
-    estado: true
-  },
-  {
-    id: 2,
-    codigo: "10147522",
-    nombre: "Tercero 2",
-    descripcion: "descripcion del tercero2",
-    estado: false
-  },
-  {
-    id: 3,
-    codigo: "1212551",
-    nombre: "Tercero 3",
-    descripcion: "descripcion del tercero3",
-    estado: true
-  },
-  {
-    id: 4,
-    codigo: "15254530",
-    nombre: "Tercero 4",
-    descripcion: "descripcion del tercero4",
-    estado: false
-  }
-];
+import {TYPETHIRDPARTYS} from './../../../services/EndPoints';
 
 class TableContentTipoTerceros extends Component {
   constructor(props) {
@@ -43,21 +14,45 @@ class TableContentTipoTerceros extends Component {
     this.state = {
       modalView: false,
       modaldelete: false,
-      modaluptate: false
+      modaluptate: false,
+      modalexport: false,
+      dataTipoTercero: [],
+      hiddenColumnID: true
     };
   }
 
+  componentDidMount() {
+    this.getDataTipoTercero();
+  }
+
+  getDataTipoTercero = () => {
+    fetch(TYPETHIRDPARTYS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataTipoTercero: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
   estadoTipoTercero = (cell, row) => {
     let status;
-    if (row.estado === true) {
+    if (row.status === 1) {
       status = <div className="text-success"> Activo </div>;
-    } else if (row.estado !== true) {
+    } else if (row.status === 0) {
       status = <div className="text-danger"> Inactivo </div>;
     }
     return status;
   };
 
-  accionesTipoTercer = () => {
+  accionesTipoTercer = (cell, row) => {
     return (
       <div
         className="table-actionMenuTLlegada"
@@ -66,7 +61,7 @@ class TableContentTipoTerceros extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           <i className="fa fa-eye" />
@@ -75,7 +70,7 @@ class TableContentTipoTerceros extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -84,7 +79,7 @@ class TableContentTipoTerceros extends Component {
         <button
           className="btn btn-danger btn-sm"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           <i className="fa fa-trash" />
@@ -93,25 +88,47 @@ class TableContentTipoTerceros extends Component {
     );
   };
 
-  openModalView() {
-    this.refs.child.toggle();
+  openModalView(id) {
+    this.refs.child.toggle(id);
   }
 
-  openModalEdit() {
-    this.refs.child2.toggle();
+  openModalEdit(id) {
+    this.refs.child2.toggle(id);
   }
 
-  openModalDelete() {
-    this.refs.child3.toggle();
+  openModalDelete(id) {
+    this.refs.child3.toggle(id);
   }
+  openModalExport = () =>{
+    this.refs.child4.toggle();
+  }
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+  createCustomButtonGroup = props =>{
+    return(
+      <button
+      type="button"
+      className={`btn btn-secondary btn-sm`}
+      onClick={()=> this.openModalExport()}
+      >
+      <i className="fa fa-download"/> Exportar CSV
+      </button>
+    );
+  };
 
   render() {
+    const options={
+      btnGroup: this.createCustomButtonGroup
+    };
     return (
       <div className="animated fadeIn">
         <Row>
           <Col sm={12}>
             <BootstrapTable
-              data={dataExample}
+              options={options}
+              data={this.state.dataTipoTercero}
               bordered={false}
               hover
               pagination
@@ -121,24 +138,41 @@ class TableContentTipoTerceros extends Component {
               exportCSV
               className="texto-TLlegada"
             >
-              <TableHeaderColumn isKey dataField={"id"} width="50">
-                {" "}
-                #{" "}
+              <TableHeaderColumn
+                export={false}
+                isKey
+                dataField={"id"}
+                hidden={this.state.hiddenColumnID}
+              />
+                <TableHeaderColumn
+                dataSort={true}
+                dataFormat={this.indexN}
+                width={"50"}
+                dataField={"id"}
+                dataAlign="center"
+              >
+                #
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"codigo"} dataAlign="center">
+              <TableHeaderColumn
+                dataField={"code"}
+                dataAlign="center">
                 {" "}
                 Código{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"nombre"} dataAlign="center">
+              <TableHeaderColumn
+                dataField={"name"}
+                dataAlign="center">
                 {" "}
                 Nombre{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"descripcion"} dataAlign="center">
+              <TableHeaderColumn
+                dataField={"description"}
+                dataAlign="center">
                 {" "}
                 Descripción{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField={"estado"}
+                dataField={"status"}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.estadoTipoTercero(cell, row)}
               >
@@ -165,6 +199,7 @@ class TableContentTipoTerceros extends Component {
           modaldelete={this.state.modaldelete}
           ref={"child3"}
         />
+        <ModalExport modalexport={this.state.modalexport} ref={"child4"}/>
       </div>
     );
   }

@@ -14,17 +14,50 @@ class ModalViewTipoTercero extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalview
+      modal: this.props.modalview,
+      id: this.props.id,
+      dataTipoTercero:{}
     };
   }
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState(prevState => ({
-      modal: !prevState.modal
+      modal: !prevState.modal,
+      id:id
     }));
+    fetch(`http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}/ccuartas`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataTipoTercero: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
   };
 
   render() {
+    const statusTipoTercero = data => {
+      let status;
+      if (data === 1) {
+        status = <p className="text-success"> Activo </p>;
+      } else if (data === 0) {
+        status = <p className="text-danger"> Inactivo </p>;
+      }
+      return status;
+    };
+    console.log(this.state.dataTipoTercero);
+    const code = this.state.dataTipoTercero.code;
+    const name = this.state.dataTipoTercero.name;
+    const description= this.state.dataTipoTercero.description;
+    const status = this.state.dataTipoTercero.status;
+    const createdAt = this.state.dataTipoTercero.createdAt;
+    const updatedAt = this.state.dataTipoTercero.updatedAt;
     return (
       <div className="animated fadeIn">
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -47,7 +80,7 @@ class ModalViewTipoTercero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Código </dt>
-                        <dd> código </dd>
+                        <dd> {code} </dd>
                       </dl>
                     </div>
                   </div>
@@ -55,7 +88,7 @@ class ModalViewTipoTercero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Nombre </dt>
-                        <dd> nombre </dd>
+                        <dd> {name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -63,7 +96,7 @@ class ModalViewTipoTercero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Descripción </dt>
-                        <dd> descripción </dd>
+                        <dd> {description} </dd>
                       </dl>
                     </div>
                   </div>
@@ -71,7 +104,7 @@ class ModalViewTipoTercero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Estado </dt>
-                        <dd> estado </dd>
+                        <dd> {statusTipoTercero(status)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -79,7 +112,7 @@ class ModalViewTipoTercero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Fecha de creación </dt>
-                        <dd> fecha de creación </dd>
+                        <dd> {createdAt} </dd>
                       </dl>
                     </div>
                   </div>
@@ -87,7 +120,7 @@ class ModalViewTipoTercero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Fecha de modificación </dt>
-                        <dd> fecha de modificación </dd>
+                        <dd> {updatedAt} </dd>
                       </dl>
                     </div>
                   </div>

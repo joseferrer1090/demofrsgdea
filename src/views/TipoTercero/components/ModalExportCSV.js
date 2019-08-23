@@ -27,7 +27,7 @@ class ModalExportCSV extends Component {
 
   getDataExportCSV = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/export/data/ccuartas`,
+      `http://192.168.10.180:7000/api/sgdea/typethirdparty/export/data/ccuartas`,
       {
         method: "GET",
         headers: {
@@ -38,7 +38,7 @@ class ModalExportCSV extends Component {
     )
       .then(response =>
         response.json().then(data => {
-          console.log(data)
+          console.log(data);
           this.setState({
             dataExport: data
           });
@@ -66,19 +66,19 @@ class ModalExportCSV extends Component {
 
     const fields = [
       {
-        label: "code",
+        label: "Code",
         value: "code"
       },
       {
-        label: "name",
+        label: "Name",
         value: "name"
       },
       {
-        label: "description",
+        label: "Description",
         value: "description"
       },
       {
-        label: "status",
+        label: "Status",
         value: "status"
       }
     ];
@@ -89,14 +89,14 @@ class ModalExportCSV extends Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Exportar tabla de tipo envío / llegada</ModalHeader>
+          <ModalHeader>Exportar tabla de conglomerado</ModalHeader>
           <ModalBody>
             <table className="table table-responsive  table-hover table-striped fixed_header">
               <thead className="">
                 <tr>
                   <th>Código</th>
                   <th>Nombre</th>
-                  <th>Descripcion</th>
+                  <th>Descripción</th>
                   <th>Estado</th>
                 </tr>
               </thead>

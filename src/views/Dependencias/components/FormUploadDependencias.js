@@ -25,6 +25,7 @@ class FormUploadDependencias extends React.Component {
     return (
       <Fragment>
         <Row>
+          <ToastContainer />
           <Col md="4">
             <div className="list-group">
               <a className="list-group-item list-group-item-action flex-column align-items-start">

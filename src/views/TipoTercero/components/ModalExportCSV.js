@@ -27,7 +27,7 @@ class ModalExportCSV extends Component {
 
   getDataExportCSV = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/headquarter/export/data/jferrer`,
+      `http://192.168.10.180:7000/api/sgdea/typethirdparty/export/data/ccuartas`,
       {
         method: "GET",
         headers: {
@@ -38,7 +38,7 @@ class ModalExportCSV extends Component {
     )
       .then(response =>
         response.json().then(data => {
-          console.log(data)
+          console.log(data);
           this.setState({
             dataExport: data
           });
@@ -46,9 +46,6 @@ class ModalExportCSV extends Component {
       )
       .catch(error => console.log(" ", error));
   };
-
-
-
   render() {
     const data = this.state.dataExport;
     const headers = [
@@ -81,80 +78,36 @@ class ModalExportCSV extends Component {
         value: "description"
       },
       {
-        label: "Prefix",
-        value: "prefix"
-      },
-      {
-        label: "Sequence",
-        value: "sequence"
-      },
-      {
-        label: "Address",
-        value: "address"
-      },
-      {
-        label: "Phone",
-        value: "phone"
-      },
-      {
         label: "Status",
         value: "status"
-      },
-      {
-        label: "Code_Company",
-        value: "codeCompany"
-      },
-      {
-        label: "Code_Charge",
-        value: "codeCharge"
-      },
-      {
-        label: "Code_City",
-        value: "codeCity"
-      },
+      }
     ];
 
     const json2csvParser = new Parser({ fields, quote: "" });
     const csv = json2csvParser.parse(data);
     console.log(csv);
-    console.log(this.state.dataExport)
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Exportar tabla de sedes</ModalHeader>
+          <ModalHeader>Exportar tabla de conglomerado</ModalHeader>
           <ModalBody>
             <table className="table table-responsive  table-hover table-striped fixed_header">
               <thead className="">
                 <tr>
-                  <th>Codigo</th>
+                  <th>Código</th>
                   <th>Nombre</th>
                   <th>Descripción</th>
-                  <th>Pref. Radicación</th>
-                  <th>Secuencia Radicación</th>
-                  <th>Dirección</th>
-                  <th>Teléfono</th>
                   <th>Estado</th>
-                  <th>Empresa</th>
-                  <th>Cargo asociado</th>
-                  <th>Ciudad</th>
                 </tr>
               </thead>
               <tbody className="">
                 {data.map((aux, id) => {
-                  console.log(aux);
                   return [
                     <tr key={id}>
                       <td>{aux.code}</td>
                       <td>{aux.name}</td>
                       <td>{aux.description}</td>
-                      <td>{aux.prefix}</td>
-                      <td>{aux.sequence}</td>
-                      <td>{aux.address}</td>
-                      <td>{aux.phone}</td>
                       <td>{aux.status}</td>
-                      <td>{aux.codeCompany}</td>
-                      <td>{aux.codeCharge}</td>
-                      <td>{aux.codeCity}</td>
                     </tr>
                   ];
                 })}

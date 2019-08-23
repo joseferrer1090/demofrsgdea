@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik, ErrorMessage, Field } from "formik";
@@ -9,7 +9,10 @@ class ModalDeleteSedes extends Component {
     modal: this.props.modaldel,
     idSede: this.props.id,
     nombre:"",
-    useLogged:""
+    useLogged:"",
+    alertError: false,
+    alertName: false,
+    alertSuccess: false,
   };
 
   toggle = (id) => {
@@ -19,6 +22,14 @@ class ModalDeleteSedes extends Component {
       nombre:"",
       idSede: id,
       useLogged:"ccuartas"
+    });
+  };
+
+  onDismiss = () => {
+    this.setState({
+      alertError: false,
+      alertName: false,
+      alertSuccess: false,
     });
   };
 
@@ -46,10 +57,28 @@ class ModalDeleteSedes extends Component {
                     }
                   }
                 )
-                  .then(response => {
-                    this.setState({ modal: false });
+                .then(response => {
+                    if (response.status === 500) {
+                      this.setState({
+                        alertError: true
+                      });
+                    } else if (response.status === 204) {
+                        this.setState({
+                            alertSuccess: true
+                      });
+                      setTimeout(()=>{
+                        this.setState({
+                          modal:false,
+                          alertSuccess: false
+                        })
+                    },3000)
+                    } else if (response.status === 400) {
+                      this.setState({
+                        alertName: true
+                      });
+                    }
                   })
-                  .catch(error => console.log(" ", error));
+                .catch(error => console.log(" ", error));
                 setSubmitting(false);
               }, 500);
             }}
@@ -75,6 +104,30 @@ class ModalDeleteSedes extends Component {
                 <Fragment>
                   <ModalBody>
                     <form className="form">
+                    <Alert
+                        className="text-center"
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                        toggle={this.onDismiss}
+                      >
+                        La sede ha sido eliminada con exito.
+                      </Alert>
+                      <Alert
+                        className="text-center"
+                        color="danger"
+                        isOpen={this.state.alertError}
+                        toggle={this.onDismiss}
+                      >
+                        El conglomerado que va a eliminar, esta asociado a otras
+                        entidades.
+                      </Alert>
+                      <Alert
+                        color="danger"
+                        isOpen={this.state.alertName}
+                        toggle={this.onDismiss}
+                      >
+                        Por favor introduzca un nombre valido.
+                      </Alert>
                       <p className="text-center">
                         {" "}
                         Confirmar el <code> Nombre </code> para eliminar el sede{" "}
@@ -119,7 +172,12 @@ class ModalDeleteSedes extends Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                            modal: false ,
+                            alertError: false,
+                            alertName: false,
+                            alertSuccess: false,
+                          });
                       }}
                     >
                       <i className="fa fa-times" /> Cerrar{" "}

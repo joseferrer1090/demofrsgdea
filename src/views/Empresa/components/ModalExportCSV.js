@@ -27,7 +27,7 @@ class ModalExportCSV extends Component {
 
   getDataExportCSV = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/company/export/ccuartas`,
+      `http://192.168.10.180:7000/api/sgdea/company/export/data/ccuartas`,
       {
         method: "GET",
         headers: {
@@ -99,21 +99,33 @@ class ModalExportCSV extends Component {
 
     const fields = [
       {
-        label: "code",
+        label: "Code",
         value: "code"
       },
       {
-        label: "name",
+        label: "Nit",
+        value: "nit"
+      },
+      {
+        label: "Name",
         value: "name"
       },
       {
-        label: "description",
+        label: "Description",
         value: "description"
       },
       {
         label: "status",
         value: "status"
-      }
+      },
+      {
+        label: "Code_Conglomerate",
+        value: "codeConglomerate"
+      },
+      {
+        label: "Code_Charge",
+        value: "codeCharge"
+      },
     ];
 
     const json2csvParser = new Parser({ fields, quote: "" });
@@ -128,9 +140,12 @@ class ModalExportCSV extends Component {
               <thead className="">
                 <tr>
                   <th>Codigo</th>
+                  <th>Nit</th>
                   <th>Nombre</th>
-                  <th>Descripcion</th>
+                  <th>Descripción</th>
                   <th>Estado</th>
+                  <th>Conglomerado</th>
+                  <th>Cargo</th>
                 </tr>
               </thead>
               <tbody className="">
@@ -139,9 +154,12 @@ class ModalExportCSV extends Component {
                   return [
                     <tr key={id}>
                       <td>{aux.code}</td>
+                      <td>{aux.nit}</td>
                       <td>{aux.name}</td>
                       <td>{aux.description}</td>
                       <td>{aux.status}</td>
+                      <td>{aux.codeConglomerate}</td>
+                      <td>{aux.codeCharge}</td>
                     </tr>
                   ];
                 })}

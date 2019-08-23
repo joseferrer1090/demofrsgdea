@@ -20,7 +20,8 @@ class ModalDeleteDependencia extends Component {
     id: this.props.id,
     userLogged: "jferrer",
     alertError: false,
-    alertName: false
+    alertName: false,
+    alertSuccess: false
   };
 
   toggle = id => {
@@ -33,7 +34,8 @@ class ModalDeleteDependencia extends Component {
   onDismiss = () => {
     this.setState({
       alertError: false,
-      alertName: false
+      alertName: false,
+      alertSuccess: false
     });
   };
 
@@ -66,11 +68,11 @@ class ModalDeleteDependencia extends Component {
                       this.setState({
                         alertError: true
                       });
-                    } else if (response === 204) {
+                    } else if (response.status === 204) {
                       this.setState({
-                        modal: false
+                        alertSuccess: true
                       });
-                    } else if (response === 400) {
+                    } else if (response.status === 400) {
                       this.setState({
                         alertName: true
                       });
@@ -108,7 +110,7 @@ class ModalDeleteDependencia extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        El conglomerado que va a eliminar, esta asociado a otras
+                        La dependencia que va a eliminar, esta asociado a otras
                         entidades.
                       </Alert>
                       <Alert
@@ -117,6 +119,13 @@ class ModalDeleteDependencia extends Component {
                         toggle={this.onDismiss}
                       >
                         Por favor introduzca un nombre valido.
+                      </Alert>
+                      <Alert
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                        toggle={this.onDismiss}
+                      >
+                        Se elemino la dependencia
                       </Alert>
                       <p className="text-center">
                         {" "}

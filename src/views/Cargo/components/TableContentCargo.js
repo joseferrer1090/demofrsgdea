@@ -6,64 +6,6 @@ import ModalEdit from "./ModalEditCargo";
 import ModalDel from "./ModalDeleteCargo";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import "./../../../css/styleTableCargo.css";
-const dataExample = [
-  {
-    id: 1,
-    codigo: 1233455,
-    nombre: "Cargo 1",
-    descripcion: "Descripcion del cargo 1",
-    estado: true,
-    observacion: ""
-  },
-  {
-    id: 2,
-    codigo: 23324345,
-    nombre: "Cargo 2",
-    descripcion: "Descripcion del cargo 2",
-    estado: true,
-    observacion: ""
-  },
-  {
-    id: 3,
-    codigo: 34434545,
-    nombre: "Cargo 3",
-    descripcion: "Descripcion del cargo 3",
-    estado: true,
-    observacion: ""
-  },
-  {
-    id: 4,
-    codigo: 34567890,
-    nombre: "Cargo 3",
-    descripcion: "Descripcion del cargo 4",
-    estado: false,
-    observacion: ""
-  },
-  {
-    id: 5,
-    codigo: 9987767,
-    nombre: "Cargo 5",
-    descripcion: "Descripcion del cargo 5",
-    estado: false,
-    observacion: ""
-  },
-  {
-    id: 6,
-    codigo: 998776,
-    nombre: "Cargo 6",
-    descripcion: "Descripcion del cargo 6",
-    estado: true,
-    observacion: ""
-  },
-  {
-    id: 7,
-    codigo: 998776,
-    nombre: "Cargo 7",
-    descripcion: "Descripcion del cargo 7",
-    estado: true,
-    observacion: ""
-  }
-];
 
 class TableContentCargo extends Component {
   constructor(props) {
@@ -71,15 +13,37 @@ class TableContentCargo extends Component {
     this.state = {
       modalview: false,
       modaledit: false,
-      modaldelete: false
+      modaldelete: false,
+      dataCharge: []
     };
   }
 
+  componentDidMount() {
+    // this.getDataCharge();
+  }
+
+  getDataCharge = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/charge/`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setSta({
+          dataCharge: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
   CargoStatus = (cell, row) => {
     let status;
-    if (row.estado === true) {
+    if (row.status === 1) {
       status = <b className="text-success">ACTIVO</b>;
-    } else if (row.estado === false) {
+    } else if (row.status === false) {
       status = <b className="text-danger">INACTIVO</b>;
     }
     return status;
@@ -95,7 +59,7 @@ class TableContentCargo extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -126,8 +90,8 @@ class TableContentCargo extends Component {
     );
   }
 
-  openModalView() {
-    this.refs.child1.toggle();
+  openModalView(id) {
+    this.refs.child1.toggle(id);
   }
 
   openModalEdit() {
@@ -139,6 +103,7 @@ class TableContentCargo extends Component {
   }
 
   render() {
+    const data = this.state.dataCharge;
     return (
       <div className="animated fadeIn">
         <Col md="12">
@@ -147,7 +112,7 @@ class TableContentCargo extends Component {
             hover
             search
             searchPlaceholder="Buscar"
-            data={dataExample}
+            data={data}
             exportCSV
             pagination
             bordered={false}
@@ -170,7 +135,11 @@ class TableContentCargo extends Component {
               {" "}
               Código{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataAlign="center" dataField="nombre" width={"100"}>
+            <TableHeaderColumn
+              dataAlign="center"
+              dataField="nombre"
+              width={"100"}
+            >
               Nombre
             </TableHeaderColumn>
 

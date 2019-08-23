@@ -13,12 +13,15 @@ import { Formik, withFormik, ErrorMessage } from "formik";
 
 class ModalDeleteEmpresa extends React.Component {
   state = {
-    modal: this.props.modaldelempresa
+    modal: this.props.modaldelempresa,
+    idCompany: this.props.id
   };
 
-  toggle = () => {
+  toggle = id => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      idCompany: id,
+      useLogged: "jferrer"
     });
   };
 
@@ -26,6 +29,7 @@ class ModalDeleteEmpresa extends React.Component {
     const dataInitial = {
       nombre: ""
     };
+    console.log(this.state.idCompany);
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
@@ -34,9 +38,26 @@ class ModalDeleteEmpresa extends React.Component {
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
+                fetch(
+                  `http://192.168.10.180:7000/api/sgdea/company/${
+                    this.state.idCompany
+                  }?name=${values.nombre}&username=${this.state.useLogged}`,
+                  {
+                    method: "DELETE",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                    }
+                  }
+                )
+                  .then(response => {
+                    this.setState({
+                      modal: false
+                    });
+                  })
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
-              }, 500);
+              }, 3000);
             }}
             validationSchema={Yup.object().shape({
               nombre: Yup.string().required("necesario nombre para eliminacion")

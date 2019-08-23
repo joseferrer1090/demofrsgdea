@@ -73,7 +73,7 @@ class ModalViewEmpresa extends Component {
     const chargeStatus = data => {
       let charge;
       if (data === null) {
-        charge = <b className="text-danger"> Cargo asignado </b>;
+        charge = <b className="text-danger"> Cargo no asignado </b>;
       } else if (data !== null) {
         charge = <b>{data}</b>;
       }

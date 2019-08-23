@@ -68,14 +68,32 @@ class ModalDeleteDependencia extends Component {
                       this.setState({
                         alertError: true
                       });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError: false,
+                          modal: false
+                        });
+                      }, 2000);
                     } else if (response.status === 204) {
                       this.setState({
                         alertSuccess: true
                       });
+                      setTimeout(() => {
+                        this.setState({
+                          alertSuccess: false,
+                          modal: false
+                        });
+                      }, 2000);
                     } else if (response.status === 400) {
                       this.setState({
                         alertName: true
                       });
+                      setTimeout(() => {
+                        this.setState({
+                          alertName: false,
+                          modal: false
+                        });
+                      }, 2000);
                     }
                   })
                   .catch(Error => console.log("Error", Error));

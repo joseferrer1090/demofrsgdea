@@ -13,6 +13,11 @@ class FormUploadCargo extends React.Component {
     file: null,
     username: "jferrer"
   };
+
+  onChange = e => {
+    this.setState({ file: e.target.files[0] });
+  };
+
   render() {
     return (
       <Fragment>

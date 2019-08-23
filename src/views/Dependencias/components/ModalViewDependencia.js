@@ -27,7 +27,8 @@ class ModalViewDependencia extends Component {
       dataDependence: {},
       dataDependenceHeadquarter: {},
       dataDependenceHeadquarterCompany: {},
-      dataDependenceHeadquarterCompanyConglomerate: {}
+      dataDependenceHeadquarterCompanyConglomerate: {},
+      dataDependenceCharge: {}
     };
   }
 
@@ -50,7 +51,8 @@ class ModalViewDependencia extends Component {
           dataDependenceHeadquarter: data.headquarter,
           dataDependenceHeadquarterCompany: data.headquarter.company,
           dataDependenceHeadquarterCompanyConglomerate:
-            data.headquarter.company.conglomerate
+            data.headquarter.company.conglomerate,
+          dataDependenceCharge: data.charge
         });
       })
       .catch(Error => console.log(Error));
@@ -67,6 +69,17 @@ class ModalViewDependencia extends Component {
     console.log(this.state.dataDependenceHeadquarter);
     console.log(this.state.dataDependenceHeadquarterCompany);
     console.log(this.state.dataDependenceHeadquarterCompanyConglomerate);
+    console.log(this.state.dataDependenceCharge);
+
+    const statusDependence = data => {
+      let status;
+      if (data === 1) {
+        return (status = <p className="text-success">ACTIVADA</p>);
+      } else if (data === 0) {
+        return (status = <p className="text-danger"> INACTIVA </p>);
+      }
+      return status;
+    };
 
     return (
       <div>
@@ -168,7 +181,7 @@ class ModalViewDependencia extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Cargo responsable </dt>
-                              <dd>{this.state.dataDependence.charge} </dd>
+                              <dd> {this.state.dataDependenceCharge.name} </dd>
                             </dl>
                           </div>
                         </div>
@@ -176,7 +189,11 @@ class ModalViewDependencia extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Estado </dt>
-                              <dd> {this.state.dataDependence.status} </dd>
+                              <dd>
+                                {statusDependence(
+                                  this.state.dataDependence.status
+                                )}{" "}
+                              </dd>
                             </dl>
                           </div>
                         </div>

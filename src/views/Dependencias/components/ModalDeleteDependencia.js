@@ -7,7 +7,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Button
+  Button,
+  Alert
 } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
@@ -15,12 +16,24 @@ import * as Yup from "yup";
 class ModalDeleteDependencia extends Component {
   state = {
     modal: this.props.modalDel,
-    nombre: ""
+    nombre: "",
+    id: this.props.id,
+    userLogged: "jferrer",
+    alertError: false,
+    alertName: false
   };
 
-  toggle = () => {
+  toggle = id => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id: id
+    });
+  };
+
+  onDismiss = () => {
+    this.setState({
+      alertError: false,
+      alertName: false
     });
   };
 
@@ -28,23 +41,50 @@ class ModalDeleteDependencia extends Component {
     const dataInit = {
       nombre: ""
     };
+    console.log(this.state.id);
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader> Eliminar dependencia </ModalHeader>
           <Formik
             initialValues={dataInit}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                fetch(
+                  `http://192.168.10.180:7000/api/sgdea/dependence/${
+                    this.state.id
+                  }?name=${values.nombre}&username=${this.state.userLogged}`,
+                  {
+                    method: "DELETE",
+                    headers: {
+                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                    }
+                  }
+                )
+                  .then(response => {
+                    if (response.status === 500) {
+                      this.setState({
+                        alertError: true
+                      });
+                    } else if (response === 204) {
+                      this.setState({
+                        modal: false
+                      });
+                    } else if (response === 400) {
+                      this.setState({
+                        alertName: true
+                      });
+                    }
+                  })
+                  .catch(Error => console.log("Error", Error));
+                setSubmitting(false);
+              }, 500);
+            }}
             validationSchema={Yup.object().shape({
               nombre: Yup.string().required(
                 "nombre necesario para eliminar la dependencia"
               )
             })}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                alert(values, "", 2);
-                setSubmitting(false);
-              }, 1000);
-            }}
           >
             {props => {
               const {
@@ -62,6 +102,22 @@ class ModalDeleteDependencia extends Component {
                 <Fragment>
                   <ModalBody>
                     <form className="form">
+                      <Alert
+                        className="text-center"
+                        color="danger"
+                        isOpen={this.state.alertError}
+                        toggle={this.onDismiss}
+                      >
+                        El conglomerado que va a eliminar, esta asociado a otras
+                        entidades.
+                      </Alert>
+                      <Alert
+                        color="danger"
+                        isOpen={this.state.alertName}
+                        toggle={this.onDismiss}
+                      >
+                        Por favor introduzca un nombre valido.
+                      </Alert>
                       <p className="text-center">
                         {" "}
                         Confirmar el <code> Nombre </code> para eliminar la

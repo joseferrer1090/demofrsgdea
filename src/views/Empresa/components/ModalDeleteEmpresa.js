@@ -6,7 +6,8 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
+  Alert
 } from "reactstrap";
 import * as Yup from "yup";
 import { Formik, withFormik, ErrorMessage } from "formik";
@@ -14,7 +15,10 @@ import { Formik, withFormik, ErrorMessage } from "formik";
 class ModalDeleteEmpresa extends React.Component {
   state = {
     modal: this.props.modaldelempresa,
-    idCompany: this.props.id
+    idCompany: this.props.id,
+    alertSuccess: false,
+    alertError: false,
+    alertName: false
   };
 
   toggle = id => {
@@ -22,6 +26,13 @@ class ModalDeleteEmpresa extends React.Component {
       modal: !this.state.modal,
       idCompany: id,
       useLogged: "jferrer"
+    });
+  };
+  onDismiss = () => {
+    this.setState({
+      alertError: false,
+      alertName: false,
+      alertSuccess:false
     });
   };
 
@@ -46,18 +57,33 @@ class ModalDeleteEmpresa extends React.Component {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                        Authorization: "Basic " + window.btoa("sgdea:123456")
                     }
                   }
                 )
-                  .then(response => {
-                    this.setState({
-                      modal: false
-                    });
+                .then((response)=> {
+                    if (response.status === 500) {
+                      this.setState({
+                        alertError: true
+                      });
+                    } else if (response.status === 204) {
+                      this.setState({
+                        alertSuccess: true });
+                        setTimeout(()=>{
+                          this.setState({
+                            modal:false,
+                            alertSuccess: false
+                          })
+                        },3000)
+                    } else if (response.status === 400) {
+                      this.setState({
+                        alertName: true
+                      });
+                    }
                   })
-                  .catch(error => console.log("", error));
+                .catch(error => console.log("", error));
                 setSubmitting(false);
-              }, 3000);
+              }, 1000);
             }}
             validationSchema={Yup.object().shape({
               nombre: Yup.string().required("necesario nombre para eliminacion")
@@ -79,6 +105,29 @@ class ModalDeleteEmpresa extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <form className="form">
+                    <Alert
+                        className="text-center"
+                        color="danger"
+                        isOpen={this.state.alertError}
+                        toggle={this.onDismiss}
+                      >
+                        El conglomerado que va a eliminar, esta asociado a otras
+                        entidades.
+                      </Alert>
+                      <Alert
+                        color="danger"
+                        isOpen={this.state.alertName}
+                        toggle={this.onDismiss}
+                      >
+                        Por favor introduzca un nombre valido.
+                      </Alert>
+                      <Alert
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                        toggle={this.onDismiss}
+                      >
+                        La empresa ha eliminada con exito.
+                      </Alert>
                       <p className="text-center">
                         {" "}
                         Confirmar el <code> Nombre </code> para eliminar la
@@ -128,7 +177,11 @@ class ModalDeleteEmpresa extends React.Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                           modal: false,
+                           alertError: false,
+                           alertName: false
+                          });
                       }}
                     >
                       <i className="fa fa-times" /> Cerrar{" "}

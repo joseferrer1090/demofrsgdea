@@ -8,6 +8,7 @@ class ModalDeleteConglomerado extends React.Component {
   state = {
     modal: this.props.modaldeletestate,
     idConglomerado: this.props.id,
+    alertSuccess: false,
     alertError: false,
     alertName: false
   };
@@ -24,7 +25,8 @@ class ModalDeleteConglomerado extends React.Component {
   onDismiss = () => {
     this.setState({
       alertError: false,
-      alertName: false
+      alertName: false,
+      alertSuccess: false
     });
   };
 
@@ -53,17 +55,26 @@ class ModalDeleteConglomerado extends React.Component {
                   }
                 )
                   .then(response => {
-                    if (response.status === 500) {
-                      this.setState({
-                        alertError: true
-                      });
-                    } else if (response === 204) {
-                      this.setState({ modal: false });
-                    } else if (response.status === 400) {
-                      this.setState({
-                        alertName: true
-                      });
-                    }
+                      if (response.status === 500) {
+                        this.setState({
+                          alertError: true
+                        });
+                      }
+                        else if (response.status === 204) {
+                          this.setState({
+                              alertSuccess: true
+                        });
+                        setTimeout(()=>{
+                          this.setState({
+                            modal:false,
+                            alertSuccess: false
+                          })
+                        },3000)
+                      } else if (response.status === 400) {
+                        this.setState({
+                          alertName: true
+                        });
+                      }
                   })
                   .catch(error => console.log(" ", error));
                 setSubmitting(false);
@@ -104,6 +115,14 @@ class ModalDeleteConglomerado extends React.Component {
                         toggle={this.onDismiss}
                       >
                         Por favor introduzca un nombre valido.
+                      </Alert>
+                      <Alert
+                        className="text-center"
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                        toggle={this.onDismiss}
+                      >
+                        El conglomerado ha sido eliminado con exito.
                       </Alert>
                       <p className="text-center">
                         {" "}
@@ -154,7 +173,12 @@ class ModalDeleteConglomerado extends React.Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError: false,
+                          alertName: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" /> Cerrar{" "}

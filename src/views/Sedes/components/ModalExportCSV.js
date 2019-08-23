@@ -38,6 +38,7 @@ class ModalExportCSV extends Component {
     )
       .then(response =>
         response.json().then(data => {
+          console.log(data)
           this.setState({
             dataExport: data
           });
@@ -68,21 +69,49 @@ class ModalExportCSV extends Component {
 
     const fields = [
       {
-        label: "company",
-        value: "company"
-      },
-      {
-        label: "code",
+        label: "Code",
         value: "code"
       },
       {
-        label: "name",
+        label: "Name",
         value: "name"
       },
       {
-        label: "status",
+        label: "Description",
+        value: "description"
+      },
+      {
+        label: "Prefix",
+        value: "prefix"
+      },
+      {
+        label: "Sequence",
+        value: "sequence"
+      },
+      {
+        label: "Address",
+        value: "address"
+      },
+      {
+        label: "Phone",
+        value: "phone"
+      },
+      {
+        label: "Status",
         value: "status"
-      }
+      },
+      {
+        label: "Code_Company",
+        value: "codeCompany"
+      },
+      {
+        label: "Code_Charge",
+        value: "codeCharge"
+      },
+      {
+        label: "Code_City",
+        value: "codeCity"
+      },
     ];
 
     const json2csvParser = new Parser({ fields, quote: "" });
@@ -92,15 +121,22 @@ class ModalExportCSV extends Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Exportar tabla de conglomerado</ModalHeader>
+          <ModalHeader>Exportar tabla de sedes</ModalHeader>
           <ModalBody>
             <table className="table table-responsive  table-hover table-striped fixed_header">
               <thead className="">
                 <tr>
-                  <th>Empresa</th>
                   <th>Codigo</th>
                   <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Pref. Radicación</th>
+                  <th>Secuencia Radicación</th>
+                  <th>Dirección</th>
+                  <th>Teléfono</th>
                   <th>Estado</th>
+                  <th>Empresa</th>
+                  <th>Cargo asociado</th>
+                  <th>Ciudad</th>
                 </tr>
               </thead>
               <tbody className="">
@@ -108,10 +144,17 @@ class ModalExportCSV extends Component {
                   console.log(aux);
                   return [
                     <tr key={id}>
-                      <td>{aux.company}</td>
                       <td>{aux.code}</td>
                       <td>{aux.name}</td>
+                      <td>{aux.description}</td>
+                      <td>{aux.prefix}</td>
+                      <td>{aux.sequence}</td>
+                      <td>{aux.address}</td>
+                      <td>{aux.phone}</td>
                       <td>{aux.status}</td>
+                      <td>{aux.codeCompany}</td>
+                      <td>{aux.codeCharge}</td>
+                      <td>{aux.codeCity}</td>
                     </tr>
                   ];
                 })}

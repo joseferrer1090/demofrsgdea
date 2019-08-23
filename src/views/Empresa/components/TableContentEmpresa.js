@@ -174,7 +174,7 @@ class TableContentEmpresa extends Component {
             </TableHeaderColumn>
 
             <TableHeaderColumn
-              width={"180"}
+              width={"80"}
               dataSort={true}
               dataField={"code"}
               dataAlign="center"

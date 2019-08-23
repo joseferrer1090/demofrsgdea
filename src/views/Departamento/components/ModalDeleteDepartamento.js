@@ -49,9 +49,18 @@ class ModalDeleteDepartamento extends Component {
                 }
               )
                 .then(response => {
-                  this.setState({ modal: false });
+                    console.log(response);
+                    response.json().then(data => {
+                      console.log(data);
+                      if (response.status === 500) {
+                        console.log("El departamento no se puede eliminar");
+                      } else if (response.status === 204) {
+                        console.log("Departamento eliminado con exito");
+                      }
+                    })
+                  this.setState({ modal: false })
                 })
-                .catch(error => console.log(" ", error));
+                .catch(error => console.log(error));
               setSubmitting(false);
             }, 500);
           }}

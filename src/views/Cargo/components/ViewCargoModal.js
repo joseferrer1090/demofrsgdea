@@ -20,14 +20,17 @@ class ModalViewCargo extends Component {
     super(props);
     this.state = {
       modal: this.props.modalviewcargo,
-      id: this.props.id
+      id: this.props.id,
+      datCharge: {}
     };
   }
 
   toggle = id => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id: id
     });
+    this.getDataCargoById(id);
   };
 
   toggleCollapse = () => {
@@ -35,10 +38,39 @@ class ModalViewCargo extends Component {
       collapase: !this.state.collapase
     });
   };
+
+  getDataCargoById = id => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/charge/${id}/jferrer`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          datCharge: data
+        });
+      })
+      .catch("Error", console.log("Error", Error));
+  };
+
   render() {
+    console.log(this.state.id);
+    console.log(this.state.datCharge);
+    const statusCharge = data => {
+      let status;
+      if (data === 1) {
+        status = <p className="text-success">ACTIVADO</p>;
+      } else if (data === 0) {
+        status = <p className="text-danger"> INACTIVO </p>;
+      }
+      return status;
+    };
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader> Ver cargo </ModalHeader>
+        <ModalHeader> Ver cargo {this.state.datCharge.name} </ModalHeader>
         <ModalBody>
           <Row>
             <Col sm="3">
@@ -57,7 +89,7 @@ class ModalViewCargo extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Código </dt>
-                      <dd> código </dd>
+                      <dd> {this.state.datCharge.code} </dd>
                     </dl>
                   </div>
                 </div>
@@ -65,7 +97,7 @@ class ModalViewCargo extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Nombre </dt>
-                      <dd> nombre </dd>
+                      <dd> {this.state.datCharge.name} </dd>
                     </dl>
                   </div>
                 </div>
@@ -73,7 +105,7 @@ class ModalViewCargo extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Descripción </dt>
-                      <dd> descripción </dd>
+                      <dd> {this.state.datCharge.description} </dd>
                     </dl>
                   </div>
                 </div>
@@ -81,7 +113,7 @@ class ModalViewCargo extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Estado </dt>
-                      <dd> estado </dd>
+                      <dd> {statusCharge(this.state.datCharge.status)} </dd>
                     </dl>
                   </div>
                 </div>
@@ -89,7 +121,7 @@ class ModalViewCargo extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Fecha de creación </dt>
-                      <dd> fecha de creación </dd>
+                      <dd>{this.state.datCharge.createdAt}</dd>
                     </dl>
                   </div>
                 </div>
@@ -97,7 +129,7 @@ class ModalViewCargo extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Fecha de modificación </dt>
-                      <dd> fecha de modificación </dd>
+                      <dd>{this.state.datCharge.updatedAt} </dd>
                     </dl>
                   </div>
                 </div>

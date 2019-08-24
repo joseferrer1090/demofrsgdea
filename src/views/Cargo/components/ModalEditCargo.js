@@ -23,26 +23,99 @@ import * as Yup from "yup";
 class ModalEditCargo extends React.Component {
   state = {
       modal: this.props.modaledit,
-      codigo: "",
-      nombre: "",
-      descripcion: "",
-      estado: "",
-      conglomerado_responsable:"",
-      empresa_responsable: "",
-      sede_responsable: "",
-      dependencia_responsable: "",
-      conglomerado: "",
-      empresa: "",
-      sede: "",
-      dependencia: "",
+      id: this.props.id, 
+      dataCharge: {}, 
+      dataConglomerate: [], 
+      dataCompany: [], 
+      dataHeadquarter: [], 
+      dataDependence: []
     };
 
+   
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal, 
+      id: id
     });
+    this.getDataChargeById(id);
+    this.getConglomerate();
+    this.getCompany();
+    this.getHeadquarter();
+    this.getDependence();
   };
+
+  getDataChargeById = (id) => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/charge/${id}/jferrer`, {
+      method:"GET", 
+      headers:{
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataCharge: data
+      })
+    }).catch(Error, console.log("Error", Error))
+  }
+
+  getConglomerate = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate`, {
+      method: "GET", 
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"), 
+        "Content-Type": "application/json"
+      }
+    }).then(response => response.json()).then(
+      data => {
+        this.setState({
+          dataConglomerate: data
+        })
+      }
+    ).catch(Error, console.log("Error", Error));
+  }
+
+  getCompany = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/company`, {
+      method: "GET", 
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type":"application/json"
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataCompany: data
+      })
+    }).catch("Error", console.log("Error", Error))
+  }
+
+  getHeadquarter = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/headquarter`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataHeadquarter: data
+      })
+    }).catch(Error, console.log("Error", Error));
+  }
+
+  getDependence = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/dependence`, {
+      method: "GET", 
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataDependence: data
+      })
+    }).catch(Error,  console.log("Error", Error));
+  }
 
   handleSubmit = (values, { props = this.props, setSubmitting }) => {
     alert(JSON.stringify(values, null, 2));
@@ -50,54 +123,25 @@ class ModalEditCargo extends React.Component {
     return;
   };
 
-  componentDidMount() {
-    this.getCargoInformation()
-  }
-
-  getCargoInformation() {
-    fetch(CARGO_EDIT)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          codigo: data.codigo,
-          nombre: data.nombre,
-          descripcion: data.descripcion,
-          estado: data.estado,
-          conglomerado_responsable: data.conglomerado_responsable,
-          empresa_responsable: data.empresa_responsable,
-          sede_responsable: data.sede_responsable,
-          dependencia_responsable: data.dependencia_responsable,
-          conglomerado: data.conglomerado,
-          empresa: data.empresa,
-          sede: data.sede,
-          dependencia: data.dependencia,
-        });
-        console.log(this.state);
-      })
-      .catch(error => console.log("Error", error));
-}
   render() {
-    const dataPreview={
-      codigo: this.state.codigo,
-      nombre: this.state.nombre,
-      descripcion: this.state.descripcion,
-      estado: this.state.estado,
-      conglomerado_responsable: this.state.conglomerado_responsable,
-      empresa_responsable: this.state.empresa_responsable,
-      sede_responsable: this.state.sede_responsable,
-      dependencia_responsable: this.state.dependencia_responsable,
-      conglomerado: this.state.conglomerado,
-      empresa: this.state.empresa,
-      sede: this.state.sede,
-      dependencia: this.state.dependencia,
+     console.log(this.state.id);
+    const data = this.state.dataCharge;
+    const dataPreview = {
+      code: data.code, 
+      name: data.name, 
+      description: data.description, 
+      status: data.status, 
     }
-
+    console.log(this.state.dataCompany);
+    console.log(this.state.dataConglomerate);
+    console.log(this.state.dataHeadquarter);
+    console.log(this.state.dataDependence);
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader> Actualizar cargo </ModalHeader>
         <Formik
+          enableReinitialize={true}
           initialValues={dataPreview}
           onSubmit={(values, {setSubmitting}) =>{
             setTimeout(()=>{
@@ -106,9 +150,9 @@ class ModalEditCargo extends React.Component {
             },500)
           }}
           validationSchema={Yup.object().shape({
-            codigo: Yup.string().required(" Por favor introduzca un código."),
-            nombre: Yup.string().required(" Por favor introduzca un nombre."),
-            descripcion: Yup.string()
+            code: Yup.string().required(" Por favor introduzca un código."),
+            name: Yup.string().required(" Por favor introduzca un nombre."),
+            description: Yup.string()
                 .max(250, " Máximo 250 caracteres."),
             conglomerado: Yup.string()
                 .ensure()
@@ -122,7 +166,7 @@ class ModalEditCargo extends React.Component {
             dependencia: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione una dependencia."),
-            estado: Yup.bool()
+            status: Yup.bool()
               .test(
                 "Activado",
                 "",
@@ -189,23 +233,23 @@ class ModalEditCargo extends React.Component {
                         <dd>
                           {" "}
                           <input
-                          name={"codigo"}
+                          name={"code"}
                           type="text"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.codigo}
-                          className={`form-control form-control-sm ${errors.codigo &&
-                            touched.codigo &&
+                          value={values.code}
+                          className={`form-control form-control-sm ${errors.code &&
+                            touched.code &&
                             "is-invalid"}`}
                         />
                         <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.codigo && touched.codigo ?
+                          errors.code && touched.code ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                        <ErrorMessage name={"codigo"} />
+                        <ErrorMessage name={"code"} />
                         </div>
                         </dd>
                       </dl>
@@ -217,23 +261,23 @@ class ModalEditCargo extends React.Component {
                          Nombre <span className="text-danger">*</span>{" "}
                         <dd>
                         <input
-                        name={"nombre"}
+                        name={"name"}
                         type="text"
                         placeholder=""
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.nombre}
-                        className={`form-control form-control-sm ${errors.nombre &&
-                          touched.nombre &&
+                        value={values.name}
+                        className={`form-control form-control-sm ${errors.name &&
+                          touched.name &&
                           "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                       {
-                        errors.nombre && touched.nombre ?
+                        errors.name && touched.name ?
                         <i className="fa fa-exclamation-triangle"/> :
                         null
                       }
-                      <ErrorMessage name={"nombre"} />
+                      <ErrorMessage name={"name"} />
                       </div>
                         </dd>
                       </dl>
@@ -246,12 +290,12 @@ class ModalEditCargo extends React.Component {
                         <dd>
                           {" "}
                           <textarea
-                          name={"descripcion"}
+                          name={"description"}
                           className="form-control form-control-sm"
                           placeholder=""
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.descripcion}
+                          value={values.description}
                         />
                         </dd>
                       </dl>
@@ -266,7 +310,7 @@ class ModalEditCargo extends React.Component {
                     </label>
                     <div className="text-justify">
                     <Field
-                      name="estado"
+                      name="status"
                       render={({field, form})=>{
                         return(
                           <CustomInput
@@ -282,15 +326,15 @@ class ModalEditCargo extends React.Component {
                             {...field}
                             checked={field.value}
                             className={
-                              errors.estado &&
-                              touched.estado &&
+                              errors.status &&
+                              touched.status &&
                               "invalid-feedback"
                             }
                           />
                         );
                       }}
                     />
-                      <ErrorMessage name="estado"/>
+                      <ErrorMessage name="status"/>
                       </div>
                       </dl>
                     </div>

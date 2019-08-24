@@ -4,6 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ViewCargoModal";
 import ModalEdit from "./ModalEditCargo";
 import ModalDel from "./ModalDeleteCargo";
+import ModalExport from "./ModalExportCSV";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import "./../../../css/styleTableCargo.css";
 
@@ -14,12 +15,14 @@ class TableContentCargo extends Component {
       modalview: false,
       modaledit: false,
       modaldelete: false,
-      dataCharge: []
+      modalexport: false,
+      dataCharge: [],
+      HiddenColumn: true
     };
   }
 
   componentDidMount() {
-    // this.getDataCharge();
+    this.getDataCharge();
   }
 
   getDataCharge = () => {
@@ -32,7 +35,7 @@ class TableContentCargo extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        this.setSta({
+        this.setState({
           dataCharge: data
         });
       })
@@ -70,7 +73,7 @@ class TableContentCargo extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -94,25 +97,49 @@ class TableContentCargo extends Component {
     this.refs.child1.toggle(id);
   }
 
-  openModalEdit() {
-    this.refs.child2.toggle();
+  openModalEdit(id) {
+    this.refs.child2.toggle(id);
   }
 
   openModalDelete() {
     this.refs.child3.toggle();
   }
 
+  openModalExport() {
+    this.refs.child4.toggle();
+  }
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
+  createCustomButtonGroup = props => {
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" /> Exportar CSV
+      </button>
+    );
+  };
+
   render() {
-    const data = this.state.dataCharge;
+    console.log(this.state.dataCharge);
+    const options = {
+      btnGroup: this.createCustomButtonGroup
+    };
     return (
       <div className="animated fadeIn">
         <Col md="12">
           <BootstrapTable
+            options={options}
             striped
             hover
             search
             searchPlaceholder="Buscar"
-            data={data}
+            data={this.state.dataCharge}
             exportCSV
             pagination
             bordered={false}
@@ -124,20 +151,25 @@ class TableContentCargo extends Component {
               dataField={"id"}
               isKey
               width={50}
+              hidden={this.state.HiddenColumn}
             >
               #
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
-              dataField="codigo"
-              width={100}
+              dataField={"id"}
+              dataFormat={this.indexN}
+              width={50}
             >
+              #
+            </TableHeaderColumn>
+            <TableHeaderColumn dataAlign="center" dataField="code" width={100}>
               {" "}
               Código{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
-              dataField="nombre"
+              dataField="name"
               width={"100"}
             >
               Nombre
@@ -145,7 +177,7 @@ class TableContentCargo extends Component {
 
             <TableHeaderColumn
               dataAlign="center"
-              dataField="descripcion"
+              dataField="description"
               width={200}
             >
               {" "}
@@ -153,7 +185,7 @@ class TableContentCargo extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
-              dataField="estado"
+              dataField="status"
               dataFormat={(cell, row) => this.CargoStatus(cell, row)}
               width="100"
             >
@@ -174,6 +206,7 @@ class TableContentCargo extends Component {
         <ModalView modalviewcargo={this.state.modalview} ref="child1" />
         <ModalEdit modaleditcargo={this.state.modaledit} ref="child2" />
         <ModalDel modaldelete={this.state.modaldelete} ref="child3" />
+        <ModalExport modalexport={this.state.modalexport} ref="child4" />
       </div>
     );
   }

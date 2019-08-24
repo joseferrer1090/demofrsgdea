@@ -5,6 +5,7 @@ import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewDependencia";
 import ModalEdit from "./ModalEditDependencia";
 import ModalDelete from "./ModalDeleteDependencia";
+import ModalExport from "./ModalExportCSV";
 import "./../../../css/styleTableDependencia.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 
@@ -15,6 +16,7 @@ class TableContentDependencia extends Component {
       modalviewstate: false,
       modaleditstate: false,
       modaldelstate: false,
+      modalexport: false,
       dataDependence: [],
       hiddenColumnID: true
     };
@@ -59,7 +61,7 @@ class TableContentDependencia extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -69,7 +71,7 @@ class TableContentDependencia extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           {" "}
@@ -93,12 +95,16 @@ class TableContentDependencia extends Component {
     this.refs.child1.toggle(id);
   }
 
-  openModalDelete() {
-    this.refs.child3.toggle();
+  openModalDelete(id) {
+    this.refs.child3.toggle(id);
   }
 
-  openModalEdit() {
-    this.refs.child2.toggle();
+  openModalEdit(id) {
+    this.refs.child2.toggle(id);
+  }
+
+  openModalExport() {
+    this.refs.child4.toggle();
   }
 
   indexN(cell, row, enumObject, index) {
@@ -113,13 +119,28 @@ class TableContentDependencia extends Component {
     return !charge ? null : `<div>${charge.name}</div>`;
   };
 
+  createCustomButtonGroup = props => {
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" /> Exportar CSV
+      </button>
+    );
+  };
+
   render() {
     const dataDependence = this.state.dataDependence;
-    console.log(dataDependence);
+    const options = {
+      btnGroup: this.createCustomButtonGroup
+    };
     return (
       <div className="animated fadeIn">
         <Col md="12">
           <BootstrapTable
+            options={options}
             data={dataDependence}
             pagination
             search
@@ -203,6 +224,7 @@ class TableContentDependencia extends Component {
         <ModalView modalView={this.state.modalviewstate} ref="child1" />
         <ModalEdit modalEdit={this.state.modaleditstate} ref="child2" />
         <ModalDelete modalDel={this.state.modaldelstate} ref="child3" />
+        <ModalExport modalExport={this.state.modalexport} ref={"child4"} />
       </div>
     );
   }

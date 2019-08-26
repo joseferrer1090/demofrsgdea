@@ -12,7 +12,8 @@ import {
   CardHeader,
   CardFooter,
   CustomInput, 
-  Table
+  Table,
+  Alert
 } from "reactstrap";
 import { Formik, withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
@@ -27,7 +28,9 @@ class ModalEditCargo extends React.Component {
     dataCompany: [],
     dataHeadquarter: [],
     dataDependence: [], 
-    userName: "jferrer"
+    userName: "jferrer", 
+    alertError: false,
+    alertSuccess: false
   };
 
 
@@ -46,6 +49,7 @@ class ModalEditCargo extends React.Component {
     this.getDataChargeById(id);
   };
 
+ 
   getDataChargeById = (id) => {
     fetch(`http://192.168.10.180:7000/api/sgdea/charge/${id}/jferrer`, {
       method:"GET", 
@@ -149,7 +153,54 @@ class ModalEditCargo extends React.Component {
             initialValues={datainit}
             onSubmit={(values, { isSubmitting }) => {
               setTimeout(() => {
-                alert(JSON.stringify(values, "", 2));
+                const tipoEstado = data => {
+                  let tipo = null;
+                  if (data === true) {
+                    return (tipo = 1);
+                  } else if (data === false) {
+                    return (tipo = 0);
+                  }
+                  return tipo;
+                };
+                fetch(`http://192.168.10.180:7000/api/sgdea/charge/`, {
+                  method:"PUT", 
+                  headers: {
+                    Authorization: "Basic " + window.btoa("sgdea:123456"),
+                    "Content-Type": "application/json"
+                  }, 
+                  body: JSON.stringify({
+                    code: values.code, 
+                    name: values.name, 
+                    id: this.state.id, 
+                    status: tipoEstado(values.status), 
+                    description: values.description, 
+                    userName: this.state.userName
+                  })
+                }).then(response => {
+                  if (response.status === 200) {
+                    this.setState({
+                      alertSuccess: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertSuccess: false,
+                        modal: false
+                      });
+                    }, 2000);
+                  } else if (response.status === 500) {
+                    this.setState({
+                      alertError: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError: false,
+                        modal: !this.state.modal
+                      });
+                    }, 2000);
+                  }
+                }).catch(Error => {
+                    alert("Error", Error);
+                })
               }, 3000);
             }}
             
@@ -169,6 +220,20 @@ class ModalEditCargo extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
+                  <Alert
+                      color="danger"
+                      isOpen={this.state.alertError}
+                      toggle={this.onDismiss}
+                    >
+                      Error al actualizar la dependencia
+                    </Alert>
+                    <Alert
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                      toggle={this.onDismiss}
+                    >
+                      Se actualizo la dependencia
+                    </Alert>
                     <form className="form">
                     <Row>
               <Col sm="3">

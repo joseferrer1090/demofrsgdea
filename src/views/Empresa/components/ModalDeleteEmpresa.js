@@ -18,21 +18,21 @@ class ModalDeleteEmpresa extends React.Component {
     idCompany: this.props.id,
     alertSuccess: false,
     alertError: false,
-    alertName: false
+    alertName: false,
+    username: "jferrer"
   };
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      idCompany: id,
-      useLogged: "jferrer"
+      idCompany: id
     });
   };
   onDismiss = () => {
     this.setState({
       alertError: false,
       alertName: false,
-      alertSuccess:false
+      alertSuccess: false
     });
   };
 
@@ -44,7 +44,7 @@ class ModalDeleteEmpresa extends React.Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar conglomerado </ModalHeader>
+          <ModalHeader> Eliminar Empresa </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -52,36 +52,37 @@ class ModalDeleteEmpresa extends React.Component {
                 fetch(
                   `http://192.168.10.180:7000/api/sgdea/company/${
                     this.state.idCompany
-                  }?name=${values.nombre}&username=${this.state.useLogged}`,
+                  }?name=${values.nombre}&username=${this.state.username}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                        Authorization: "Basic " + window.btoa("sgdea:123456")
+                      Authorization: "Basic " + window.btoa("sgdea:123456")
                     }
                   }
                 )
-                .then((response)=> {
+                  .then(response => {
                     if (response.status === 500) {
                       this.setState({
                         alertError: true
                       });
                     } else if (response.status === 204) {
                       this.setState({
-                        alertSuccess: true });
-                        setTimeout(()=>{
-                          this.setState({
-                            modal:false,
-                            alertSuccess: false
-                          })
-                        },3000)
+                        alertSuccess: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false
+                        });
+                      }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
                         alertName: true
                       });
                     }
                   })
-                .catch(error => console.log("", error));
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 1000);
             }}
@@ -104,30 +105,30 @@ class ModalDeleteEmpresa extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <form className="form">
                     <Alert
-                        className="text-center"
-                        color="danger"
-                        isOpen={this.state.alertError}
-                        toggle={this.onDismiss}
-                      >
-                        El conglomerado que va a eliminar, esta asociado a otras
-                        entidades.
-                      </Alert>
-                      <Alert
-                        color="danger"
-                        isOpen={this.state.alertName}
-                        toggle={this.onDismiss}
-                      >
-                        Por favor introduzca un nombre valido.
-                      </Alert>
-                      <Alert
-                        color="success"
-                        isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
-                      >
-                        La empresa ha eliminada con exito.
-                      </Alert>
+                      className="text-center"
+                      color="danger"
+                      isOpen={this.state.alertError}
+                      toggle={this.onDismiss}
+                    >
+                      La Empresa a eliminar se encuentra relacionada con otras
+                      entidades
+                    </Alert>
+                    <Alert
+                      color="danger"
+                      isOpen={this.state.alertName}
+                      toggle={this.onDismiss}
+                    >
+                      Por favor introduzca un nombre valido.
+                    </Alert>
+                    <Alert
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                      toggle={this.onDismiss}
+                    >
+                      La empresa ha eliminada con exito.
+                    </Alert>
+                    <form className="form">
                       <p className="text-center">
                         {" "}
                         Confirmar el <code> Nombre </code> para eliminar la
@@ -178,10 +179,10 @@ class ModalDeleteEmpresa extends React.Component {
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
                         this.setState({
-                           modal: false,
-                           alertError: false,
-                           alertName: false
-                          });
+                          modal: false,
+                          alertError: false,
+                          alertName: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" /> Cerrar{" "}

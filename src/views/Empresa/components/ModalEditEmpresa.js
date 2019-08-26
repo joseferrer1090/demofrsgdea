@@ -11,7 +11,8 @@ import {
   CardBody,
   CardHeader,
   CardFooter,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import { Formik, withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
@@ -23,7 +24,9 @@ class ModalEditEmpresa extends React.Component {
     dataCompany: {},
     dataConglomerate: [],
     dataCharge: [],
-    id: this.props.id
+    id: this.props.id,
+    alertSuccess: false,
+    alertError: false
   };
 
   componentDidMount() {
@@ -160,18 +163,29 @@ class ModalEditEmpresa extends React.Component {
                     status: tipoEstado(values.status),
                     userName: "jferrer"
                   })
-                })
-                  .then(response => {
-                    response.json().then(data => {
-                      if (response.status === 200) {
-                        this.setState({modal: false})
-                        console.log("Se actualizo de manera exitosa");
-                      } else if (response.status !== 200) {
-                        console.log("ver la consola");
-                      }
+                }).then(response => {
+                  if (response.status === 200) {
+                    this.setState({
+                      alertSuccess: true
                     });
-                  })
-                  .catch(error => console.log("", error));
+                    setTimeout(() => {
+                      this.setState({
+                        alertSuccess: false,
+                        modal: false
+                      });
+                    }, 2000);
+                  } else if (response.status === 500) {
+                    this.setState({
+                      alertError: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError: false,
+                        modal: !this.state.modal
+                      });
+                    }, 2000);
+                  }
+                });
                 setSubmitting(false);
               }, 2000);
             }}
@@ -210,6 +224,20 @@ class ModalEditEmpresa extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <form className="form">
+                      <Alert
+                        color="danger"
+                        isOpen={this.state.alertError}
+                        toggle={this.onDismiss}
+                      >
+                        Error al actualizar el Cargo
+                      </Alert>
+                      <Alert
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                        toggle={this.onDismiss}
+                      >
+                        Se actualizo el cargo exitosamente
+                      </Alert>
                       <Row>
                         <Col sm="3">
                           <img src={IMGEMPRESA} className="img-thumbnail" />

@@ -151,6 +151,54 @@ class ModalEditCargo extends React.Component {
           <Formik
             enableReinitialize={true}
             initialValues={datainit}
+            validationSchema={Yup.object().shape({
+              code: Yup.string().required(" Por favor introduzca un código."),
+              name: Yup.string().required(" Por favor introduzca un nombre."),
+              description: Yup.string()
+                  .max(250, " Máximo 250 caracteres."),
+              conglomerado: Yup.string()
+                  .ensure()
+                  .required(" Por favor seleccione un conglomerado."),
+              empresa: Yup.string()
+                  .ensure()
+                  .required(" Por favor seleccione una empresa."),
+              sede: Yup.string()
+                  .ensure()
+                  .required(" Por favor seleccione una sede."),
+              dependencia: Yup.string()
+                  .ensure()
+                  .required(" Por favor seleccione una dependencia."),
+              status: Yup.bool()
+                .test(
+                  "Activado",
+                  "",
+                  value=> value === true
+                ),
+                conglomerado_responsable: Yup.bool()
+                .test(
+                  "Activado",
+                  "",
+                  value=> value === true
+                ),
+                empresa_responsable: Yup.bool()
+                .test(
+                  "Activado",
+                  "",
+                  value=> value === true
+                ),
+                sede_responsable: Yup.bool()
+                .test(
+                  "Activado",
+                  "",
+                  value=> value === true
+                ),
+                dependencia_responsable: Yup.bool()
+                .test(
+                  "Activado",
+                  "",
+                  value=> value === true
+                )
+            })}
             onSubmit={(values, { isSubmitting }) => {
               setTimeout(() => {
                 const tipoEstado = data => {
@@ -201,7 +249,6 @@ class ModalEditCargo extends React.Component {
                 }).catch(Error => {alert("Error", Error)})
               }, 3000);
             }}
-            
           >
             {props => {
               const {

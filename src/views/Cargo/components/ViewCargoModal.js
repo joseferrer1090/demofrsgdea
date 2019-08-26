@@ -211,7 +211,7 @@ class ModalViewCargo extends Component {
 
         <ModalFooter>
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary btn-sm"
             onClick={() => {
               this.setState({ modal: false });
             }}

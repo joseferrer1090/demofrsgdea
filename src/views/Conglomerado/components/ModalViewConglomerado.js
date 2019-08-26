@@ -61,7 +61,9 @@ class ModalViewConglomerado extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>{this.state.dataConglomerado.name} </ModalHeader>
+          <ModalHeader>
+            Conglomerado {this.state.dataConglomerado.name}{" "}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">

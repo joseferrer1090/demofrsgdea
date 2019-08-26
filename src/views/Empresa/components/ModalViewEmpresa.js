@@ -83,7 +83,7 @@ class ModalViewEmpresa extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver empresa {company.name} </ModalHeader>
+          <ModalHeader>Empresa {company.name} </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">

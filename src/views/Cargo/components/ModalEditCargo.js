@@ -147,7 +147,7 @@ class ModalEditCargo extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar Empresa </ModalHeader>
+          <ModalHeader>Actualizar Cargo {this.state.dataCharge.name} </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={datainit}

@@ -20,21 +20,21 @@ class ModalViewSedes extends Component {
     this.state = {
       modal: this.props.modalview,
       collapse: false,
-      id:this.props.id,
-      dataSedes:{},
-      dataEmpresa:{},
-      dataConglomerado:{},
-      dataCiudad:{},
-      dataDepartamento:{},
-      dataCargo:{},
-      dataPais:{}
+      id: this.props.id,
+      dataSedes: {},
+      dataEmpresa: {},
+      dataConglomerado: {},
+      dataCiudad: {},
+      dataDepartamento: {},
+      dataCargo: {},
+      dataPais: {}
     };
   }
 
-  toggle = (id) => {
+  toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      id:id
+      id: id
     });
     fetch(`http://192.168.10.180:7000/api/sgdea/headquarter/${id}/ccuartas`, {
       method: "GET",
@@ -63,30 +63,29 @@ class ModalViewSedes extends Component {
     this.setState({ collapse: !this.state.collapse, collapse2: false });
   };
 
-
   render() {
-    const dataSede = this.state.dataSedes
-    const dataEmpresa = this.state.dataEmpresa
-    const dataConglomerado = this.state.dataConglomerado
-    const dataPais = this.state.dataPais
-    const dataDepartamento = this.state.dataDepartamento
-    const dataCiudad = this.state.dataCiudad
+    const dataSede = this.state.dataSedes;
+    const dataEmpresa = this.state.dataEmpresa;
+    const dataConglomerado = this.state.dataConglomerado;
+    const dataPais = this.state.dataPais;
+    const dataDepartamento = this.state.dataDepartamento;
+    const dataCiudad = this.state.dataCiudad;
 
     const CargoInfo = () => {
-      const data = this.state.dataCargo
+      const data = this.state.dataCargo;
       let status;
       if (data === null)
-      status = <b className="text-danger">No hay cargos asociados.</b>;
+        status = <b className="text-danger">No hay cargos asociados.</b>;
       else if (data !== null) {
         status = <div>{data.name}</div>;
       }
       return status;
-    }
+    };
 
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver sede </ModalHeader>
+          <ModalHeader> Ver Sede {this.state.dataSedes.name} </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -101,7 +100,7 @@ class ModalViewSedes extends Component {
                   </h5>{" "}
                 </div>
                 <div className="row">
-                <div className="col-md-6">
+                  <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
                         <dt>Conglomerado </dt>
@@ -110,13 +109,13 @@ class ModalViewSedes extends Component {
                     </div>
                   </div>
                   <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>Empresa </dt>
-                      <dd>{dataEmpresa.name}</dd>
-                    </dl>
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Empresa </dt>
+                        <dd>{dataEmpresa.name}</dd>
+                      </dl>
+                    </div>
                   </div>
-                </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
@@ -144,21 +143,21 @@ class ModalViewSedes extends Component {
                   </div>
 
                   <div className="col-md-6">
-                  <div className="form-group">
-                    <dl className="param">
-                      <dt>Prefijo de radicación </dt>
-                      <dd> {dataSede.prefix}</dd>
-                    </dl>
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Prefijo de radicación </dt>
+                        <dd> {dataSede.prefix}</dd>
+                      </dl>
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-6">
-                <div className="form-group">
-                  <dl className="param">
-                    <dt>Secuencia de radicación </dt>
-                    <dd>{dataSede.sequence} </dd>
-                  </dl>
-                </div>
-              </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Secuencia de radicación </dt>
+                        <dd>{dataSede.sequence} </dd>
+                      </dl>
+                    </div>
+                  </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
@@ -222,13 +221,13 @@ class ModalViewSedes extends Component {
                           </div>
                         </div>
                         <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Teléfono </dt>
-                            <dd> {dataSede.phone}</dd>
-                          </dl>
+                          <div className="form-group">
+                            <dl className="param">
+                              <dt>Teléfono </dt>
+                              <dd> {dataSede.phone}</dd>
+                            </dl>
+                          </div>
                         </div>
-                      </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
@@ -238,22 +237,22 @@ class ModalViewSedes extends Component {
                           </div>
                         </div>
 
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt> Fecha de creación </dt>
-                            <dd>{dataSede.createdAt} </dd>
-                          </dl>
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <dl className="param">
+                              <dt> Fecha de creación </dt>
+                              <dd>{dataSede.createdAt} </dd>
+                            </dl>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Fecha de modificación </dt>
-                            <dd> {dataSede.updateAt}</dd>
-                          </dl>
+                        <div className="col-md-6">
+                          <div className="form-group">
+                            <dl className="param">
+                              <dt>Fecha de modificación </dt>
+                              <dd> {dataSede.updateAt}</dd>
+                            </dl>
+                          </div>
                         </div>
-                      </div>
                       </div>
                     </CardBody>
                   </Collapse>

@@ -198,9 +198,7 @@ class ModalEditCargo extends React.Component {
                       });
                     }, 2000);
                   }
-                }).catch(Error => {
-                    alert("Error", Error);
-                })
+                }).catch(Error => {alert("Error", Error)})
               }, 3000);
             }}
             
@@ -225,14 +223,14 @@ class ModalEditCargo extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      Error al actualizar la dependencia
+                      Error al actualizar el Cargo
                     </Alert>
                     <Alert
                       color="success"
                       isOpen={this.state.alertSuccess}
                       toggle={this.onDismiss}
                     >
-                      Se actualizo la dependencia
+                      Se actualizo el cargo exitosamente
                     </Alert>
                     <form className="form">
                     <Row>

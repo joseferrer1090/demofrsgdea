@@ -254,7 +254,7 @@ componentDidMount() {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar sede </ModalHeader>
+          <ModalHeader> Actualizar Sede {this.state.dataResult.headquarter_name}</ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}

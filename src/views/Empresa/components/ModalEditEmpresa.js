@@ -131,7 +131,10 @@ class ModalEditEmpresa extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar Empresa </ModalHeader>
+          <ModalHeader>
+            {" "}
+            Actualizar Empresa {this.state.dataCompany.name}{" "}
+          </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={companyById}

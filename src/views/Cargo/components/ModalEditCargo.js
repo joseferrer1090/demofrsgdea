@@ -1,37 +1,42 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import {
+  Row,
+  Col,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Row,
-  Col,
   Card,
   CardBody,
   CardHeader,
-  Table,
-  CustomInput
+  CardFooter,
+  CustomInput, 
+  Table
 } from "reactstrap";
-import IMGCARGO from "./../../../assets/img/employee.svg";
-import {
-  CARGO_EDIT
-} from "./../../../data/JSON-SERVER";
-import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
+import { Formik, withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import IMGCARGO from "./../../../assets/img/employee.svg";
 
 class ModalEditCargo extends React.Component {
   state = {
-      modal: this.props.modaledit,
-      id: this.props.id, 
-      dataCharge: {}, 
-      dataConglomerate: [], 
-      dataCompany: [], 
-      dataHeadquarter: [], 
-      dataDependence: []
-    };
+    modal: this.props.modaledit,
+    id: this.props.id,
+    dataCharge: {},
+    dataConglomerate: [],
+    dataCompany: [],
+    dataHeadquarter: [],
+    dataDependence: [], 
+    userName: "jferrer"
+  };
 
-   
+
+  componentDidMount(){
+    this.getCompany();
+    this.getConglomerate();
+    this.getDependence();
+    this.getHeadquarter();
+  }
 
   toggle = (id) => {
     this.setState({
@@ -39,10 +44,6 @@ class ModalEditCargo extends React.Component {
       id: id
     });
     this.getDataChargeById(id);
-    this.getConglomerate();
-    this.getCompany();
-    this.getHeadquarter();
-    this.getDependence();
   };
 
   getDataChargeById = (id) => {
@@ -117,103 +118,59 @@ class ModalEditCargo extends React.Component {
     }).catch(Error,  console.log("Error", Error));
   }
 
-  handleSubmit = (values, { props = this.props, setSubmitting }) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    return;
-  };
-
   render() {
-     console.log(this.state.id);
-    const data = this.state.dataCharge;
-    const dataPreview = {
-      code: data.code, 
-      name: data.name, 
-      description: data.description, 
-      status: data.status, 
-    }
-    console.log(this.state.dataCompany);
-    console.log(this.state.dataConglomerate);
-    console.log(this.state.dataHeadquarter);
-    console.log(this.state.dataDependence);
+    const datainit = this.state.dataCharge;
+    const conglomerateList = this.state.dataConglomerate.map((aux, id) => {
+      return(
+        <option key={id} value={aux.id}>{aux.name}</option>
+      )
+    });
+    const companyList = this.state.dataCompany.map((aux, id) => {
+      return(
+        <option key={id} value={aux.id}>{aux.name}</option>
+      )
+    });
+    const headquarterList = this.state.dataHeadquarter.map((aux, id) => {
+      return(
+        <option key={id} value={aux.id}>{aux.name}</option>
+      )
+    });
+    const dependenceList = this.state.dataDependence.map((aux, id) => {
+      return(
+        <option key={id} value={aux.id}  >{aux.name}</option>
+      )
+    })
     return (
       <Fragment>
-      <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader> Actualizar cargo </ModalHeader>
-        <Formik
-          enableReinitialize={true}
-          initialValues={dataPreview}
-          onSubmit={(values, {setSubmitting}) =>{
-            setTimeout(()=>{
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false)
-            },500)
-          }}
-          validationSchema={Yup.object().shape({
-            code: Yup.string().required(" Por favor introduzca un código."),
-            name: Yup.string().required(" Por favor introduzca un nombre."),
-            description: Yup.string()
-                .max(250, " Máximo 250 caracteres."),
-            conglomerado: Yup.string()
-                .ensure()
-                .required(" Por favor seleccione un conglomerado."),
-            empresa: Yup.string()
-                .ensure()
-                .required(" Por favor seleccione una empresa."),
-            sede: Yup.string()
-                .ensure()
-                .required(" Por favor seleccione una sede."),
-            dependencia: Yup.string()
-                .ensure()
-                .required(" Por favor seleccione una dependencia."),
-            status: Yup.bool()
-              .test(
-                "Activado",
-                "",
-                value=> value === true
-              ),
-              conglomerado_responsable: Yup.bool()
-              .test(
-                "Activado",
-                "",
-                value=> value === true
-              ),
-              empresa_responsable: Yup.bool()
-              .test(
-                "Activado",
-                "",
-                value=> value === true
-              ),
-              sede_responsable: Yup.bool()
-              .test(
-                "Activado",
-                "",
-                value=> value === true
-              ),
-              dependencia_responsable: Yup.bool()
-              .test(
-                "Activado",
-                "",
-                value=> value === true
-              )
-          })}
-        >
-        {props => {
-          const {
-            values,
-            touched,
-            errors,
-            dirty,
-            isSubmitting,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            handleReset
-          } = props;
-          return(
-            <Fragment>
-            <ModalBody>
-            <Row>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
+          <ModalHeader> Actualizar Empresa </ModalHeader>
+          <Formik
+            enableReinitialize={true}
+            initialValues={datainit}
+            onSubmit={(values, { isSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, "", 2));
+              }, 3000);
+            }}
+            
+          >
+            {props => {
+              const {
+                values,
+                touched,
+                errors,
+                dirty,
+                isSubmitting,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                handleReset
+              } = props;
+              return (
+                <Fragment>
+                  <ModalBody>
+                    <form className="form">
+                    <Row>
               <Col sm="3">
                 <img src={IMGCARGO} className="img-thumbnail" />
               </Col>
@@ -358,41 +315,38 @@ class ModalEditCargo extends React.Component {
                       <td>Conglomerado</td>
                       <td>
                         <select
-                        name={"conglomerado"}
+                        name={"conglomerate"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.conglomerado}
+                        value={values.conglomerate}
                         className={`form-control form-control-sm ${errors.conglomerado &&
                           touched.conglomerado &&
                           "is-invalid"}`}
                           >
                           {" "}
-                          <option>Seleccione</option>
-                          <option value={"1"}> Conglomerado 1 </option>
-                          <option value={"2"}> Conglomerado 2 </option>
-                          <option value={"3"}> Conglomerado 3 </option>
+                          {conglomerateList}
                           {" "}
                         </select>{" "}
                         <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.conglomerado && touched.conglomerado ?
+                          errors.conglomerado && touched.conglomerate ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                        <ErrorMessage name="conglomerado" />
+                        <ErrorMessage name="conglomerate" />
                         </div>
                       </td>
                       <td>
                       <Field
-                        name="conglomerado_responsable"
+                        name="conglomerate_status"
                         render={({field, form})=>{
                           return(
                             <CustomInput
                               {...field}
                               checked={field.value}
                               className={
-                                errors.conglomerado_responsable &&
-                                touched.conglomerado_responsable &&
+                                errors.conglomerate_status &&
+                                touched.conglomerate_status &&
                                 "invalid-feedback"
                               }
                               type="checkbox"
@@ -400,144 +354,135 @@ class ModalEditCargo extends React.Component {
                           );
                         }}
                       />
-                        <ErrorMessage name="conglomerado_responsable"/>
+                        <ErrorMessage name="conglomerate_status"/>
                       </td>
                     </tr>
                     <tr>
                       <td>Empresa</td>
                       <td>
                         <select
-                        name={"empresa"}
-                        value={values.empresa}
+                        name={"company"}
+                        value={values.company}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className={`form-control form-control-sm ${errors.empresa &&
-                          touched.empresa &&
+                        className={`form-control form-control-sm ${errors.company &&
+                          touched.company &&
                           "is-invalid"}`}
                         >
                           {" "}
-                          <option>Seleccione</option>
-                          <option value={"1"}> Empresa 1</option>
-                          <option value={"2"}> Empresa 1</option>
-                          <option value={"3"}> Empresa 1</option>
+                         {companyList}
                           {" "}
                         </select>{" "}
                         <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.empresa && touched.empresa ?
+                          errors.company && touched.company ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                        <ErrorMessage name={"empresa"} />
+                        <ErrorMessage name={"company"} />
                         </div>
                       </td>
                       <td>
                       <Field
-                      name="empresa_responsable"
+                      name="company_status"
                       render={({field, form})=>{
                         return(
                           <CustomInput
                           {...field}
                           checked={field.value}
                           className={
-                            errors.empresa_responsable &&
-                            touched.empresa_responsable &&
+                            errors.company_status &&
+                            touched.company_status &&
                             "invalid-feedback"
                           }
                           type="checkbox" id="ExampleCheckbox2" />
                         );
                       }}
                       />
-                        <ErrorMessage name="empresa_responsable"/>
+                        <ErrorMessage name="company_status"/>
                       </td>
                     </tr>
                     <tr>
                       <td>Sede</td>
                       <td>
                         <select
-                        name={"sede"}
+                        name={"headquarter"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.sede}
-                        className={`form-control form-control-sm ${errors.sede &&
-                          touched.sede &&
+                        value={values.headquarter}
+                        className={`form-control form-control-sm ${errors.headquarter &&
+                          touched.headquarter &&
                           "is-invalid"}`}
                         >
                           {" "}
-                          <option>Seleccione</option>
-                          <option value={"1"}> Sede 1</option>
-                          <option value={"2"}> Sede 2</option>
-                          <option value={"3"}> Sede 3</option>
+                         {headquarterList}
                           {" "}
                         </select>{" "}
                         <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.sede && touched.sede ?
+                          errors.headquarter && touched.headquarter ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                        <ErrorMessage name={"sede"} />
+                        <ErrorMessage name={"headquarter"} />
                         </div>
                       </td>
                       <td>
                       <Field
-                      name="sede_responsable"
+                      name="headquarter_status"
                       render={({field, form})=>{
                         return(
                           <CustomInput
                           {...field}
                           checked={field.value}
                           className={
-                            errors.sede_responsable &&
-                            touched.sede_responsable &&
+                            errors.headquarter_status &&
+                            touched.headquarter_status &&
                             "invalid-feedback"
                           }
                             type="checkbox" id="ExampleCheckbox3" />
                         );
                       }}
                       />
-                        <ErrorMessage name="sede_responsable"/>
+                        <ErrorMessage name="headquarter_status"/>
                       </td>
                     </tr>
                     <tr>
                       <td>Dependencia</td>
                       <td>
                         <select
-                        name={"dependencia"}
+                        name={"dependence"}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.dependencia}
-                        className={`form-control form-control-sm ${errors.dependencia &&
-                          touched.dependencia &&
+                        value={values.dependence}
+                        className={`form-control form-control-sm ${errors.dependence &&
+                          touched.dependence &&
                           "is-invalid"}`}
                         >
                           {" "}
-                          <option>Seleccione</option>
-                          <option value={"1"}> Dependencia 1</option>
-                          <option value={"2"}> Dependencia 2</option>
-                          <option value={"3"}> Dependencia 3</option>
+                          {dependenceList}
                           {" "}
                         </select>{" "}
                         <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.dependencia && touched.dependencia ?
+                          errors.dependence && touched.dependence ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                        <ErrorMessage name={"dependencia"} />
+                        <ErrorMessage name={"dependence"} />
                         </div>
                       </td>
                       <td>
                       <Field
-                      name="dependencia_responsable"
+                      name="dependence_status"
                       render={({field, form})=>{
                         return(
                           <CustomInput
                            {...field}
                            checked={field.value}
                            className={
-                             errors.dependencia_responsable &&
-                             touched.dependencia_responsable &&
+                             errors.dependence_status &&
+                             touched.dependence_status &&
                              "invalid-feedback"
                            }
                            type="checkbox"
@@ -546,45 +491,44 @@ class ModalEditCargo extends React.Component {
 
                       }}
                       />
-                        <ErrorMessage name="dependencia_responsable"/>
+                        <ErrorMessage name="dependence_status"/>
                       </td>
                     </tr>
                   </tbody>
                 </Table>
               </Col>
             </Row>
-          </ModalBody>
-          <ModalFooter>
-            <button
-            onClick={e=>{
-              e.preventDefault();
-              handleSubmit();
+                    </form>
+                  </ModalBody>
+                  <ModalFooter>
+                    <button
+                      type="button"
+                      className={"btn btn-outline-success btn-sm"}
+                      onClick={e => {
+                        e.preventDefault();
+                        handleSubmit();
+                      }}
+                    >
+                      <i className="fa fa-pencil" /> Actualizar Empesa
+                    </button>
+                    <button
+                      className={"btn btn-outline-secondary btn-sm"}
+                      type="button"
+                      onClick={() => {
+                        this.setState({ modal: false });
+                      }}
+                    >
+                      <i className="fa fa-times" /> Cerrar
+                    </button>
+                  </ModalFooter>
+                </Fragment>
+              );
             }}
-            className="btn btn-outline-success">
-              {" "}
-              <i className="fa fa-pencil" /> Actualizar{" "}
-            </button>
-            <button
-              className="btn btn-secondary"
-              onClick={() => {
-                this.setState({ modal: false });
-              }}
-            >
-              {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
-            </button>
-          </ModalFooter>
-            </Fragment>
-          );}}
-        </Formik>
-      </Modal>
+          </Formik>
+        </Modal>
       </Fragment>
     );
   }
 }
-
-ModalEditCargo.propTypes = {
-  modaledit: PropTypes.bool.isRequired
-};
 
 export default ModalEditCargo;

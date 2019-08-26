@@ -572,7 +572,7 @@ class ModalEditCargo extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" /> Actualizar Empesa
+                      <i className="fa fa-pencil" /> Actualizar Cargo
                     </button>
                     <button
                       className={"btn btn-outline-secondary btn-sm"}

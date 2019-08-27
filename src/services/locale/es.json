@@ -1,0 +1,12 @@
+{
+  "translations": {
+    "userLogged": "Administrador",
+    "account": "Cuenta",
+    "profile": "Perfil",
+    "homePage": "Principal",
+    "goOut": "Salir",
+    "developer_footer": "desarrollado por ",
+    "development_footer": "Desarrollo de ",
+    "home_breadcrumbs": "inicio"
+  }
+}

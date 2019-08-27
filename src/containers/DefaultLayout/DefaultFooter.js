@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { withNamespaces } from "react-i18next";
 
 const propTypes = {
   children: PropTypes.node
@@ -11,14 +12,14 @@ class DefaultFooter extends Component {
   render() {
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
-
+    const { t } = this.props;
     return (
       <React.Fragment>
         <span>
-          <a>LEXCO SA</a> &copy; 2018 Development Lexco.
+          <a>LEXCO SA</a> &copy; 2018 {t("development_footer")} Lexco.
         </span>
         <span className="ml-auto">
-          Desarrollador por <a>Lexco SA</a>
+          {t("developer_footer")} <a>Lexco SA</a>
         </span>
       </React.Fragment>
     );
@@ -28,4 +29,4 @@ class DefaultFooter extends Component {
 DefaultFooter.propTypes = propTypes;
 DefaultFooter.defaultProps = defaultProps;
 
-export default DefaultFooter;
+export default withNamespaces("translations")(DefaultFooter);

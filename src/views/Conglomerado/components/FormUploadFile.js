@@ -74,16 +74,6 @@ class FormUploadFile extends React.Component {
                 formData.append("file", file);
                 formData.append("separator", separador);
                 setTimeout(() => {
-                  alert(
-                    JSON.stringify(
-                      {
-                        "separador": values.separador_csv,
-                        "titulos": values.titulos,
-                      },
-                      null,
-                      1
-                    )
-                  );
                   axios
                     .post(
                       `http://192.168.10.180:7001/api/sgdea/conglomerate/import/?username=${
@@ -97,7 +87,7 @@ class FormUploadFile extends React.Component {
                       }
                     )
                     .then(response => {
-                      console.log(response);
+                      console.log("STATUS: " + response);
                       if (response.status === 200) {
                         toast.success(
                           "La importación de conglomerado se hizo satisfactoriamente.",
@@ -134,8 +124,7 @@ class FormUploadFile extends React.Component {
                   .max(1, " Máximo 1 carácter")
                   .min(1, " Por favor introduzca un separador."),
                 titulos: Yup.bool().test("Activo", "", value => value === true),
-                archivo: Yup.mixed()
-                  ,
+                // archivo: Yup.mixed(),
               })}
             >
               {props => {

@@ -46,57 +46,8 @@ class ModalExportCSV extends Component {
       .catch(error => console.log(" ", error));
   };
 
-  // createFileCSV = () => {
-  //   const data = this.state.dataExport;
-  //   const createCsvWriter = require("csv-writer").createObjectCsvWriter;
-  //   const csvWriter = createCsvWriter({
-  //     path: "/public/conglomerado.csv",
-  //     header: [
-  //       { id: "code", title: "code" },
-  //       { id: "name", title: "name" },
-  //       { id: "description", title: "description" },
-  //       { id: "status", title: "status" }
-  //     ]
-  //   });
-
-  //   const records = data.map(aux => {
-  //     return {
-  //       code: aux.code,
-  //       name: aux.name,
-  //       description: aux.description,
-  //       status: aux.status
-  //     };
-  //   });
-
-  //   csvWriter.writeRecords(records).then(() => {
-  //     console.log("...Done");
-  //   });
-
-  //   // console.log(csvStringifier.getHeaderString());
-  //   // => 'NAME,LANGUAGE\n'
-  //   // console.log(csvStringifier.stringifyRecords(records));
-  //   // => 'Bob,"French, English"\nMary,English\n'
-  //   console.log(data);
-  // };
-
   render() {
     const data = this.state.dataExport;
-    const headers = [
-      { label: "code", key: "code" },
-      { label: "name", key: "name" },
-      { label: "description", key: "description" },
-      { label: "status", key: "status" }
-    ];
-
-    const records = data.map(aux => {
-      return {
-        code: aux.code,
-        name: aux.name,
-        description: aux.description,
-        status: aux.status
-      };
-    });
-
     const fields = [
       {
         label: "code",
@@ -118,7 +69,7 @@ class ModalExportCSV extends Component {
 
     const json2csvParser = new Parser({ fields, quote: "" });
     const csv = json2csvParser.parse(data);
-    console.log(csv);
+    // console.log(csv);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>

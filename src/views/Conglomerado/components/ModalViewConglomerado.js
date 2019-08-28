@@ -52,9 +52,9 @@ class ModalViewConglomerado extends Component {
     const statusConglomerado = data => {
       let status;
       if (data === 1) {
-        status = <p className="text-success"> Activo </p>;
+        status = <b className="text-success"> Activo </b>;
       } else if (data === 0) {
-        status = <p className="text-danger"> Inactivo </p>;
+        status = <b className="text-danger"> Inactivo </b>;
       }
       return status;
     };

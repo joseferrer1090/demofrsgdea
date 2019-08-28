@@ -87,7 +87,6 @@ class FormUploadFile extends React.Component {
                       }
                     )
                     .then(response => {
-                      console.log("STATUS: " + response);
                       if (response.status === 200) {
                         toast.success(
                           "La importación de conglomerado se hizo satisfactoriamente.",

@@ -27,13 +27,13 @@ tr:hover th .table-actionMenuConglo {
 .tableConglo table > tbody > tr > th,
 .tableConglo table > tfoot > tr > td,
 .tableConglo table > tfoot > tr > th {
-  padding-bottom: 7px !important;
+  padding-bottom: 20px !important;
 }
 
 .tableConglo1 table > thead > tr > td,
 .tableConglo1 table > thead > tr > th {
   /* padding-bottom: 0px !important; */
-  padding-top: 7px !important;
+  padding-top: 20px !important;
 }
 
 .texto-Conglo {

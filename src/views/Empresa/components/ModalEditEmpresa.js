@@ -17,21 +17,22 @@ import {
 import { Formik, withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import IMGEMPRESA from "./../../../assets/img/company.svg";
+import { CONGLOMERATES, CHARGES } from "../../../services/EndPoints";
 
 class ModalEditEmpresa extends React.Component {
   state = {
     modal: this.props.modaleditempresa,
     dataCompany: {},
-    dataConglomerate: [],
-    dataCharge: [],
+    optionsConglomerate: [],
+    optionsCharges: [],
     id: this.props.id,
     alertSuccess: false,
     alertError: false
   };
 
   componentDidMount() {
-    this.getConglomerate();
-    this.getCharge();
+    this.getDataConglomerates();
+    this.getDataCharges();
   }
 
   toggle = id => {
@@ -42,8 +43,8 @@ class ModalEditEmpresa extends React.Component {
     this.getCompanyById(id);
   };
 
-  getConglomerate = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/`, {
+  getDataConglomerates = (data) => {
+    fetch(CONGLOMERATES, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -53,12 +54,27 @@ class ModalEditEmpresa extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataConglomerate: data
+          optionsConglomerate: data
         });
       })
-      .catch(Error => console.log(Error));
+      .catch(Error => console.log(" ", Error));
   };
-
+  getDataCharges = (data) => {
+    fetch(CHARGES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCharges:data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
   getCompanyById = id => {
     fetch(`http://192.168.10.180:7000/api/sgdea/company/${id}/jferrer`, {
       method: "GET",
@@ -71,13 +87,14 @@ class ModalEditEmpresa extends React.Component {
       .then(data => {
         this.setState({
           dataCompany: {
-            code: data.code,
-            nit: data.nit,
-            name: data.name,
-            description: data.description,
-            status: data.status,
-            conglomerate: data.conglomerate.id,
-            charge: data.charge
+            company_code: data.code,
+            company_nit: data.nit,
+            company_name: data.name,
+            company_description: data.description,
+            company_status: data.status,
+            company_conglomerate: data.conglomerate.id,
+            company_charge: data.charge !== null ?
+            {company_charge: data.charge.id}: ""
           }
         });
       })
@@ -101,43 +118,36 @@ class ModalEditEmpresa extends React.Component {
       .catch(Error => console.log("", Error));
   };
 
+  onDismiss = () =>{
+    this.setState({
+      alertSuccess: false,
+      alertError: false
+    })
+  };
+
   render() {
-    console.log(this.state.dataCharge);
-    console.log(this.state.dataCompany);
-    const companyById = this.state.dataCompany;
-    const conglomerateList = this.state.dataConglomerate.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.name}
-        </option>
+    const mapOptionsConglomerate =
+    this.state.optionsConglomerate.map((aux,idx)=>{
+      return(
+        <option key={aux.id} value={aux.id}>{aux.name}</option>
       );
     });
-
-    const chargeList = this.state.dataCharge.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
-
-    const selectCharge = companyById.charge;
-    let selection;
-    if (selectCharge === "") {
-      selection = <option value={" "}> Seleccione el cargo </option>;
-    } else {
-      selection = chargeList;
-    }
+    const mapOptionsCharges =
+    this.state.optionsCharges.map((aux,idx)=>{
+          return(
+            <option key={aux.id} value={aux.id}>{aux.name}</option>
+          );
+        });
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             {" "}
-            Actualizar Empresa {this.state.dataCompany.name}{" "}
+            Actualizar {this.state.dataCompany.company_name}{" "}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
-            initialValues={companyById}
+            initialValues={this.state.dataCompany}
             onSubmit={(values, { setSubmitting }) => {
               const tipoEstado = data => {
                 let tipo = null;
@@ -157,16 +167,17 @@ class ModalEditEmpresa extends React.Component {
                   },
                   body: JSON.stringify({
                     id: this.state.id,
-                    code: values.code,
-                    nit: values.nit,
-                    name: values.name,
-                    description: values.description,
-                    conglomerateId: values.conglomerate,
-                    chargeId: values.charge,
-                    status: tipoEstado(values.status),
+                    code: values.company_code,
+                    nit: values.company_nit,
+                    name: values.company_name,
+                    description: values.company_description,
+                    conglomerateId: values.company_conglomerate,
+                    chargeId: values.company_charge.id,
+                    status: tipoEstado(values.company_status),
                     userName: "jferrer"
                   })
                 }).then(response => {
+                  console.log(response);
                   if (response.status === 200) {
                     this.setState({
                       alertSuccess: true
@@ -176,7 +187,16 @@ class ModalEditEmpresa extends React.Component {
                         alertSuccess: false,
                         modal: false
                       });
-                    }, 2000);
+                    }, 3000);
+                  }else if (response.status === 400) {
+                    this.setState({
+                      alertError: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError: false,
+                      });
+                    }, 3000);
                   } else if (response.status === 500) {
                     this.setState({
                       alertError: true
@@ -186,29 +206,30 @@ class ModalEditEmpresa extends React.Component {
                         alertError: false,
                         modal: !this.state.modal
                       });
-                    }, 2000);
+                    }, 3000);
                   }
                 });
                 setSubmitting(false);
-              }, 2000);
+              }, 3000);
             }}
-            // onSubmit={(values, { isSubmitting }) => {
-            //   setTimeout(() => {
-            //     alert(JSON.stringify(values, "", 2));
-            //   }, 3000);
-            // }}
             validationSchema={Yup.object().shape({
-              conglomerate: Yup.string()
+              company_conglomerate: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione un conglomerado."),
-              code: Yup.string().required(" Por favor introduzca un código."),
-              name: Yup.string().required(" Por favor introduzca un nombre."),
-              nit: Yup.string().required(" Por favor introduzca un NIT."),
-              description: Yup.string().max(250, " Máximo 250 caracteres."),
-              charge: Yup.string()
-                .ensure()
-                .required(" Por favor seleccione un cargo responsable."),
-              status: Yup.bool().test("Activo", "", value => value === true)
+              company_code: Yup.string()
+              .required(" Por favor introduzca un código.")
+              .min(6, " Mínimo 6 caracteres.")
+              .max(6, " Máximo 6 caracteres."),
+              company_name: Yup.string()
+              .required(" Por favor introduzca un nombre.")
+              .max(100, " Máximo 100 caracteres."),
+              company_nit: Yup.number()
+              .required(" Por favor introduzca el Nit.")
+              .positive(" El número Nit debe ser positivo.")
+              .integer(" El número Nit no acepta puntos, ni caracteres especiales."),
+              company_description: Yup.string().max(250, " Máximo 250 caracteres."),
+              company_charge: Yup.string().ensure(),
+              company_status: Yup.bool().test("Activo", "", value => value === true)
             })}
           >
             {props => {
@@ -232,14 +253,14 @@ class ModalEditEmpresa extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        Error al actualizar el Cargo
+                        Error al actualizar la empresa.
                       </Alert>
                       <Alert
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        Se actualizo el cargo exitosamente
+                        Se actualizo la empresa con éxito.
                       </Alert>
                       <Row>
                         <Col sm="3">
@@ -265,30 +286,23 @@ class ModalEditEmpresa extends React.Component {
                                   <dd>
                                     {" "}
                                     <select
-                                      className={`form-control form-control-sm ${errors.conglomerate &&
-                                        touched.conglomerate &&
+                                      className={`form-control form-control-sm ${errors.company_conglomerate &&
+                                        touched.company_conglomerate &&
                                         "is-invalid"}`}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      name={"conglomerate"}
-                                      value={values.conglomerate}
+                                      name={"company_conglomerate"}
+                                      value={values.company_conglomerate}
                                     >
-                                      {conglomerateList}
+                                      {mapOptionsConglomerate}
                                     </select>
                                     <div style={{ color: "#D54B4B" }}>
-                                      {errors.conglomerate &&
-                                      touched.conglomerate ? (
+                                      {errors.company_conglomerate &&
+                                      touched.company_conglomerate ? (
                                         <i className="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name="conglomerate" />
+                                      <ErrorMessage name="company_conglomerate" />
                                     </div>
-                                    {/* <Select
-                            onChange={
-                              this.handleChangeSelectedOptionUpdateConglomerado
-                            }
-                            value={this.selectedOptionUpdateConglomerado}
-                            options={dataConglomeradoExample}
-                          /> */}
                                   </dd>
                                 </dl>
                               </div>
@@ -299,23 +313,23 @@ class ModalEditEmpresa extends React.Component {
                                   Código <span className="text-danger">*</span>{" "}
                                   <dd>
                                     <input
-                                      name={"code"}
+                                      name={"company_code"}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      value={values.code}
+                                      value={values.company_code}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.code &&
-                                        touched.code &&
+                                      className={`form-control form-control-sm ${errors.company_code &&
+                                        touched.company_code &&
                                         "is-invalid"}`}
                                     />
                                     <div
                                       className=""
                                       style={{ color: "#D54B4B" }}
                                     >
-                                      {errors.code && touched.code ? (
+                                      {errors.company_code && touched.company_code ? (
                                         <i class="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name="code" />
+                                      <ErrorMessage name="company_code" />
                                     </div>
                                   </dd>
                                 </dl>
@@ -329,22 +343,22 @@ class ModalEditEmpresa extends React.Component {
                                     {" "}
                                     <input
                                       type="text"
-                                      name={"nit"}
+                                      name={"company_nit"}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      value={values.nit}
-                                      className={`form-control form-control-sm ${errors.nit &&
-                                        touched.nit &&
+                                      value={values.company_nit}
+                                      className={`form-control form-control-sm ${errors.company_nit &&
+                                        touched.company_nit &&
                                         "is-invalid"}`}
                                     />{" "}
                                     <div
                                       className=""
                                       style={{ color: "#D54B4B" }}
                                     >
-                                      {errors.nit && touched.nit ? (
+                                      {errors.company_nit && touched.company_nit ? (
                                         <i class="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name="nit" />
+                                      <ErrorMessage name="company_nit" />
                                     </div>
                                   </dd>
                                 </dl>
@@ -357,23 +371,23 @@ class ModalEditEmpresa extends React.Component {
                                   <dd>
                                     {" "}
                                     <input
-                                      name={"name"}
+                                      name={"company_name"}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      value={values.name}
+                                      value={values.company_name}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.name &&
-                                        touched.name &&
+                                      className={`form-control form-control-sm ${errors.company_name &&
+                                        touched.company_name &&
                                         "is-invalid"}`}
                                     />{" "}
                                     <div
                                       className=""
                                       style={{ color: "#D54B4B" }}
                                     >
-                                      {errors.name && touched.name ? (
+                                      {errors.company_name && touched.company_name ? (
                                         <i class="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name="name" />
+                                      <ErrorMessage name="company_name" />
                                     </div>
                                   </dd>
                                 </dl>
@@ -393,40 +407,46 @@ class ModalEditEmpresa extends React.Component {
                                   <div className="form-group">
                                     <label> Descripción </label>
                                     <input
-                                      name="description"
-                                      value={values.description}
+                                      name="company_description"
+                                      value={values.company_description}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.description &&
-                                        touched.description &&
+                                      className={`form-control form-control-sm ${errors.company_description &&
+                                        touched.company_description &&
                                         "is-invalid"}`}
                                     />
-                                    <ErrorMessage name="description" />
+                                    <div
+                                      className=""
+                                      style={{ color: "#D54B4B" }}
+                                    >
+                                      {errors.company_description && touched.company_description ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="company_description" />
+                                    </div>
                                   </div>
                                 </div>
                                 <div className="col-md-6">
                                   <div className="form-group">
                                     <label> Cargo responsable </label>
                                     <select
-                                      name={"charge"}
+                                      name={"company_charge"}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      value={values.charge}
-                                      className={`form-control form-control-sm ${errors.charge &&
-                                        touched.charge &&
+                                      value={values.company_charge}
+                                      className={`form-control form-control-sm ${errors.company_charge &&
+                                        touched.company_charge &&
                                         "is-invalid"}`}
                                     >
-                                      <option value={" "}>
-                                        Seleccione cargo
-                                      </option>
-                                      {selection}
+                                    <option value={""} disabled>-- Seleccione --</option>
+                                      {mapOptionsCharges}
                                     </select>
                                     <div style={{ color: "#D54B4B" }}>
-                                      {errors.charge && touched.charge ? (
+                                      {errors.company_charge && touched.company_charge ? (
                                         <i className="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name="charge" />
+                                      <ErrorMessage name="company_charge" />
                                     </div>
                                   </div>
                                 </div>
@@ -442,7 +462,7 @@ class ModalEditEmpresa extends React.Component {
                                     </label>
                                     <div className="text-justify">
                                       <Field
-                                        name="status"
+                                        name="company_status"
                                         type=""
                                         render={({ field, form }) => {
                                           //console.log("field", field);
@@ -466,41 +486,15 @@ class ModalEditEmpresa extends React.Component {
                                               {...field}
                                               checked={field.value}
                                               className={
-                                                errors.status &&
-                                                touched.status &&
+                                                errors.company_status &&
+                                                touched.company_status &&
                                                 "invalid-feedback"
                                               }
                                             />
                                           );
                                         }}
                                       />
-                                      {/* <Field
-                                    name="estado"
-                                    type=""
-                                    render={({ field, form }) => {
-                                      //console.log("field", field);
-                                      return (
-                                        <input
-                                          type="checkbox"
-                                          checked={field.value}
-                                          {...field}
-                                        />
-                                      );
-                                    }}
-                                  /> */}
-                                      <ErrorMessage name="status" />
-                                      {/* <CustomInput
-                                      type="checkbox"
-                                      id="CheckEditEmpresa"
-                                      label="Si esta opción se encuentra activada,
-                          Representa que la empresa es visible en el
-                          sistema y se podrán realizar operaciones entre
-                          cada uno de los módulos correspondientes de la
-                          aplicación. En caso contrario la empresa no se
-                          elimina del sistema solo quedará inactiva e
-                          invisibles para cada uno de los módulos
-                          correspondiente del sistema."
-                                    /> */}
+                                      <ErrorMessage name="company_status" />
                                     </div>
                                   </div>
                                 </div>
@@ -520,7 +514,7 @@ class ModalEditEmpresa extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" /> Actualizar Empesa
+                      <i className="fa fa-pencil" /> Actualizar
                     </button>
                     <button
                       className={"btn btn-outline-secondary btn-sm"}

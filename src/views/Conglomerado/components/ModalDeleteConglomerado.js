@@ -55,6 +55,7 @@ class ModalDeleteConglomerado extends React.Component {
                   }
                 )
                   .then(response => {
+                    console.log(response);
                       if (response.status === 500) {
                         this.setState({
                           alertError: true
@@ -118,7 +119,7 @@ class ModalDeleteConglomerado extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        El conglomerado que va a eliminar, esta asociado a otras
+                        El conglomerado a eliminar, esta asociado a otras
                         entidades.
                       </Alert>
                       <Alert

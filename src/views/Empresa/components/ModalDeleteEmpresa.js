@@ -44,7 +44,7 @@ class ModalDeleteEmpresa extends React.Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar Empresa </ModalHeader>
+          <ModalHeader> Eliminar empresa </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -87,7 +87,7 @@ class ModalDeleteEmpresa extends React.Component {
               }, 1000);
             }}
             validationSchema={Yup.object().shape({
-              nombre: Yup.string().required("necesario nombre para eliminacion")
+              nombre: Yup.string().required(" Por favor introduzca el nombre de la empresa.")
             })}
           >
             {props => {
@@ -111,8 +111,8 @@ class ModalDeleteEmpresa extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      La Empresa a eliminar se encuentra relacionada con otras
-                      entidades
+                      La Empresa a eliminar, esta asociado a otras
+                      entidades.
                     </Alert>
                     <Alert
                       color="danger"
@@ -126,7 +126,7 @@ class ModalDeleteEmpresa extends React.Component {
                       isOpen={this.state.alertSuccess}
                       toggle={this.onDismiss}
                     >
-                      La empresa ha eliminada con exito.
+                      La empresa ha sido eliminada con éxito.
                     </Alert>
                     <form className="form">
                       <p className="text-center">
@@ -137,7 +137,7 @@ class ModalDeleteEmpresa extends React.Component {
 
                       <input
                         type="text"
-                        placeholder="nombre de la empresa a eliminar"
+                        placeholder=" Nombre de la empresa a eliminar"
                         style={{ textAlign: "center" }}
                         name="nombre"
                         onChange={handleChange}

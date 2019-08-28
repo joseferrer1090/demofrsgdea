@@ -9,6 +9,7 @@ import {
   CardBody
 } from "reactstrap";
 import PropTypes from "prop-types";
+import { withNamespaces } from "react-i18next";
 
 class ModalEditTheme extends Component {
   constructor(props) {
@@ -25,10 +26,11 @@ class ModalEditTheme extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Editar tema seleccionado </ModalHeader>
+          <ModalHeader>{t("user_profile_tab_4_modal_edit")} </ModalHeader>
           <ModalBody>
             <div className="row">
               <div className="col-md-12">
@@ -57,7 +59,8 @@ class ModalEditTheme extends Component {
             <div className="float-right">
               <button className="btn btn-secondary">
                 {" "}
-                <i className="fa fa-pencil" /> Editar tema{" "}
+                <i className="fa fa-pencil" />{" "}
+                {t("user_profile_tab_4_modal_edit_button")}{" "}
               </button>
               &nbsp;
               <button
@@ -67,7 +70,8 @@ class ModalEditTheme extends Component {
                 }}
               >
                 {" "}
-                <i className="fa fa-times" /> Cancelar{" "}
+                <i className="fa fa-times" />{" "}
+                {t("user_profile_tab_4_modal_cancel_button")}{" "}
               </button>
             </div>
           </ModalFooter>

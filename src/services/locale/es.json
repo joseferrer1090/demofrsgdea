@@ -38,6 +38,9 @@
     "user_prifile_tab_3_form_data_3_confirmar_password": "Confirmar nueva contraseña",
     "user_profile_tab_3_form_data_3_button": "Actualizar contraseña",
     "user_profile_tab_4": " Temas",
+    "user_profile_tab_4_modal_edit": "Editar tema seleccionado",
+    "user_profile_tab_4_modal_edit_button": "Editar tema",
+    "user_profile_tab_4_modal_cancel_button": "Cancelar",
     "user_profile_tab_5": " Personalizar tema",
 
     "title_home_1": "Gestión documental ",

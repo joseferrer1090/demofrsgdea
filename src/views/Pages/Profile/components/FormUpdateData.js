@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardBody, CardFooter, Row, Col } from "reactstrap";
-import { withNamespaces } from "react-i18next";
+import { withNamespaces, Translation } from "react-i18next";
 
 class FormUpdateData extends Component {
   constructor(props) {
@@ -17,18 +17,17 @@ class FormUpdateData extends Component {
               <Row>
                 <Col sm="6">
                   <div className="form-group">
-                    <label> Identificación </label>
+                    <label> {t("user_profile_tab_1_form_update_1_id")} </label>
                     <input
                       type="text"
                       className="form-control form-control-sm"
                       disabled
-                      placeholder="identificación"
                     />
                   </div>
                 </Col>
                 <Col sm="6">
                   <div className="form-group">
-                    <label> Nombre </label>
+                    <label>{t("user_profile_tab_1_form_update_1_name")} </label>
                     <input
                       type="text"
                       className="form-control form-control-sm"
@@ -39,7 +38,7 @@ class FormUpdateData extends Component {
               <Row>
                 <Col sm="6">
                   <div className="form-group">
-                    <label> Fecha de nacimiento </label>
+                    <p> {t("user_profile_tab_1_from_update_1_date")} </p>
                     <input
                       type="date"
                       className="form-control form-control-sm"
@@ -48,7 +47,7 @@ class FormUpdateData extends Component {
                 </Col>
                 <Col sm="6">
                   <div className="form-group">
-                    <label> Teléfono </label>
+                    <label> {t("user_profile_tab_1_from_update_1_tel")} </label>
                     <input
                       type="text"
                       className="form-control form-control-sm"
@@ -59,7 +58,7 @@ class FormUpdateData extends Component {
               <Row>
                 <Col sm="12">
                   <div className="form-group">
-                    <label> Direccion </label>
+                    <label> {t("user_profile_tab_1_from_update_1_dir")} </label>
                     <textarea className="form-control form-control-sm" />
                   </div>
                 </Col>
@@ -67,23 +66,27 @@ class FormUpdateData extends Component {
               <Row>
                 <Col sm="6">
                   <div className="form-group">
-                    <label> Email </label>
+                    <label>
+                      {" "}
+                      {t("user_profile_tab_1_from_update_1_email")}{" "}
+                    </label>
                     <input
                       type="text"
                       className="form-control form-control-sm"
                       disabled
-                      placeholder="email"
                     />
                   </div>
                 </Col>
                 <Col sm="6">
                   <div className="form-group">
-                    <label> Usuario </label>
+                    <label>
+                      {" "}
+                      {t("user_profile_tab_1_from_update_1_user")}{" "}
+                    </label>
                     <input
                       type="text"
                       className="form-control form-control-sm"
                       disabled
-                      placeholder="usuario"
                     />
                   </div>
                 </Col>
@@ -93,7 +96,8 @@ class FormUpdateData extends Component {
           <CardFooter>
             <div className="float-right">
               <button type="button" className="btn btn-secondary btn-sm">
-                <i className="fa fa-refresh" /> Actualizar perfil{" "}
+                <i className="fa fa-refresh" />{" "}
+                {t("user_profile_tab_1_from_update_1_update")}{" "}
               </button>
             </div>
           </CardFooter>

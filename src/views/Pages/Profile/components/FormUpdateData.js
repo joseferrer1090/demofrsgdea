@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardBody, CardFooter, Row, Col } from "reactstrap";
+import { withNamespaces } from "react-i18next";
 
 class FormUpdateData extends Component {
   constructor(props) {
@@ -7,6 +8,7 @@ class FormUpdateData extends Component {
     this.state = {};
   }
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Card>
@@ -101,4 +103,4 @@ class FormUpdateData extends Component {
   }
 }
 
-export default FormUpdateData;
+export default withNamespaces("translations")(FormUpdateData);

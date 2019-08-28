@@ -9,6 +9,16 @@
     "developer_footer": "developer by ",
     "development_footer": "Development of ",
 
+    "user_profile_rol_permission": "Roles and permissions",
+    "user_profile_rol_permission_list_1": "Manage users",
+    "user_profile_rol_permission_list_2": "manage type documentary filing",
+    "user_profile_rol_permission_list_3": "radication management ",
+    "user_profile_tab_1": "Personal information",
+    "user_profile_tab_2": "Additional data",
+    "user_profile_tab_3": "Password",
+    "user_profile_tab_4": "Themes",
+    "user_profile_tab_5": "Customize theme",
+
     "welcome_home": "Welcome to sevenet",
     "title_home_1": "Documentary management",
     "text_home_1_1": "Document management or document management, is the set of technical standards and practices used to manage documents of all types, received and created in an organization, facilitate the recovery of information from them, determine the time that documents should be saved, delete those that no longer serve and ensure the long-term preservation of the most valuable documents, applying principles of rationalization and economics.",

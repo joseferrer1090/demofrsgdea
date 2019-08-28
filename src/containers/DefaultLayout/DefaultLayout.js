@@ -1,6 +1,7 @@
 import React, { Component, Suspense } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { Container } from "reactstrap";
+import { withNamespaces } from "react-i18next";
 
 import {
   AppAside,
@@ -48,6 +49,7 @@ class DefaultLayout extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className="app">
         <AppHeader fixed>
@@ -102,4 +104,4 @@ class DefaultLayout extends Component {
   }
 }
 
-export default DefaultLayout;
+export default withNamespaces("translations")(DefaultLayout);

@@ -1,4 +1,5 @@
 import React from "react";
+import { withNamespaces } from "react-i18next";
 import DefaultLayout from "./containers/DefaultLayout";
 import gruposUsuarios from "./views/Grupos/gruposUsuarios";
 import Pais from "./views/Pais/Pais";

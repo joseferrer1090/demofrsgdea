@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { browserHistory } from "react-router";
-
+import Select from "react-select";
+import { options } from "./../../config/options";
+import { withNamespaces } from "react-i18next";
 import {
   Badge,
   DropdownItem,
@@ -23,6 +25,7 @@ import {
 
 import logo from "../../assets/img/sevenet_ori.svg";
 import sygnet from "../../assets/img/sevenet_ori.svg";
+import { useTranslation, Trans } from "react-i18next";
 
 const propTypes = {
   children: PropTypes.node
@@ -35,7 +38,8 @@ class DefaultHeader extends Component {
     super(props);
     this.state = {
       logoFull: logo,
-      logoMin: sygnet
+      logoMin: sygnet,
+      lang: options[1]
     };
   }
 
@@ -43,10 +47,20 @@ class DefaultHeader extends Component {
   //   browserHistory.push("/path");
   // };
 
+  changeLang = lang => {
+    const { i18n } = this.props;
+    const { value } = lang;
+    this.setState({
+      lang
+    });
+    i18n.changeLanguage(value);
+  };
+
   render() {
     // eslint-disable-next-line
     const { children, ...attributes } = this.props;
-
+    const { t } = this.props;
+    const { lang } = this.state.lang;
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -66,20 +80,31 @@ class DefaultHeader extends Component {
         />
         <AppSidebarToggler className="d-md-down-none" display="lg" />
 
-        {/* <Nav className="d-md-down-none" navbar>
-          <NavItem className="px-3">
+        <Nav className="d-md-down-none" navbar>
+          {/* <NavItem className="px-3">
             <NavLink href="/">Dashboard</NavLink>
+          </NavItem> */}
+          <NavItem className="px-4">
+            <Select
+              defaultValue={options[0]}
+              options={options}
+              value={lang}
+              onChange={this.changeLang}
+              className=""
+            />
           </NavItem>
-          <NavItem className="px-3">
-            <Link to="/users">Users</Link>
-          </NavItem>
-          <NavItem className="px-3">
+          {/* <NavItem className="px-3">
             <NavLink href="#">Settings</NavLink>
-          </NavItem>
-        </Nav> */}
+          </NavItem> */}
+        </Nav>
         <Nav className="ml-auto" navbar>
           {/* <NavItem className="d-md-down-none">
-            <NavLink href="#"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink>
+            <NavLink href="#">
+              <i className="icon-bell"></i>
+              <Badge pill color="danger">
+                5
+              </Badge>
+            </NavLink>
           </NavItem> */}
           {/* <NavItem className="d-md-down-none">
             <NavLink href="#"><i className="icon-list"></i></NavLink>
@@ -91,7 +116,7 @@ class DefaultHeader extends Component {
           </NavItem> */}
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav style={{ marginRight: "4px !important" }}>
-              Administrador
+              {t("userLogged")}
               <img
                 src={"../../assets/img/avatars/user2.jpg"}
                 className="img-avatar"
@@ -100,7 +125,7 @@ class DefaultHeader extends Component {
             </DropdownToggle>
             <DropdownMenu style={{ marginLeft: "-45px" }}>
               <DropdownItem header tag="div" className="text-center">
-                <strong>Cuenta</strong>
+                <strong>{t("account")}</strong>
               </DropdownItem>
               <DropdownItem>
                 <Link
@@ -112,7 +137,7 @@ class DefaultHeader extends Component {
                   to="/configuracion/perfil"
                 >
                   {" "}
-                  <i className="fa fa-user" /> Perfil{" "}
+                  <i className="fa fa-user" /> {t("account")}{" "}
                 </Link>
               </DropdownItem>
               <DropdownItem>
@@ -125,11 +150,11 @@ class DefaultHeader extends Component {
                   }}
                 >
                   {" "}
-                  <i className="fa fa-wrench" /> Principal{" "}
+                  <i className="fa fa-wrench" /> {t("homePage")}{" "}
                 </Link>
               </DropdownItem>
               <DropdownItem onClick={e => this.props.onLogout(e)}>
-                <i className="fa fa-lock" /> Salir
+                <i className="fa fa-lock" /> {t("goOut")}
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -144,4 +169,4 @@ class DefaultHeader extends Component {
 DefaultHeader.propTypes = propTypes;
 DefaultHeader.defaultProps = defaultProps;
 
-export default DefaultHeader;
+export default withNamespaces("translations")(DefaultHeader);

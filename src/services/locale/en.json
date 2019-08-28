@@ -5,8 +5,24 @@
     "profile": "Profile",
     "homePage": "Home page",
     "goOut": "go Out",
+
     "developer_footer": "developer by ",
     "development_footer": "Development of ",
-    "home_breadcrumbs": "home"
+
+    "welcome_home": "Welcome to sevenet",
+    "title_home_1": "Documentary management",
+    "text_home_1_1": "Document management or document management, is the set of technical standards and practices used to manage documents of all types, received and created in an organization, facilitate the recovery of information from them, determine the time that documents should be saved, delete those that no longer serve and ensure the long-term preservation of the most valuable documents, applying principles of rationalization and economics.",
+    "text_home_1_2": "It is an activity almost as old as writing, which was born due to the need to 'document' or set administrative acts and legal and commercial transactions in writing to attest to the facts. These types of documents were successively embodied in clay tablets, papyrus sheets, scrolls and paper, whose management became increasingly complex as the size of the documentary funds grew.",
+    "title_home_2": "¿What is an Electronic File Document Management System - SGDEA?",
+    "text_home_2_1": "Information and telecommunications technologies are introducing new practices and ways of managing documents and have become a fundamental tool for access, consultation, transparency, optimization and availability of information. However, it is necessary to establish clear policies regarding the production, distribution, consultation, retention, storage, preservation and final disposition, since each decision associated with the processing of said documents will have effects on the documentary heritage. The industry has evolved, technologies have matured and through this process of maturation new concepts and acronyms have been incorporated, each with different purposes and meanings.",
+    "title_home_1_2": "Correspondence module manual",
+    "text_home_1_2_1": "If you want to know how the correspondence module works and all its functionalities press the button",
+    "text_button_1_2_1": "Download",
+    "title_home_1_3": "Manual file module",
+    "text_home_1_3_1": "If you want to know how the file module works and all its functionalities press the button",
+    "text_button_1_3_1": "Download",
+    "title_home_1_4": "Workflow module manual",
+    "text_home_1_4_1": "If you want to know how the workflow module works and all its functionalities press the button",
+    "text_button_1_4_1": "Download"
   }
 }

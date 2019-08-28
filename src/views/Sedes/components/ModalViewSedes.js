@@ -271,7 +271,7 @@ class ModalViewSedes extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

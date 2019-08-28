@@ -26,10 +26,6 @@ const ConglomeradorForm = props => {
     handleSubmit,
     handleReset
   } = props;
-
-  //  console.log(errors);
-  //  console.log(touched);
-
   return (
     <div>
       <Card>
@@ -57,7 +53,7 @@ const ConglomeradorForm = props => {
                   />
                   <div className="" style={{ color: '#D54B4B' }}>
                     {errors.codigo && touched.codigo ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="codigo" />
                   </div>
@@ -82,7 +78,7 @@ const ConglomeradorForm = props => {
                   />
                   <div className="" style={{ color: '#D54B4B' }}>
                     {errors.nombre && touched.nombre ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="nombre" />
                   </div>{' '}
@@ -103,7 +99,7 @@ const ConglomeradorForm = props => {
                   />
                   <div className="" style={{ color: '#D54B4B' }}>
                     {errors.descripcion && touched.descripcion ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="descripcion" />
                   </div>
@@ -198,10 +194,10 @@ export default withFormik({
     estado: Yup.bool()
       .test(
         'Activo',
-        ' Es necesario activar el conglomerado',
+        ' Es necesario activar el conglomerado.',
         value => value === true
       )
-      .required(' Es importante activar el conglomerado')
+      .required(' Es necesario activar el conglomerado.')
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     const tipoEstado = data => {
@@ -232,7 +228,7 @@ export default withFormik({
         .then(response =>
           response.json().then(data => {
             if (response.status === 201) {
-              toast.success("Se creo el conglomerado con exito", {
+              toast.success("Se creo el conglomerado con éxito.", {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: "60px"
@@ -240,7 +236,7 @@ export default withFormik({
               });
               // alert("oki");
             } else if (response.status === 500) {
-              toast.error("Error, Conglomeraron ya existe", {
+              toast.error("El conglomerado ya existe.", {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: "60px"
@@ -251,7 +247,7 @@ export default withFormik({
           })
         )
         .catch(error => {
-          toast.error(`Error ${error}`, {
+          toast.error(`Error ${error}.`, {
             position: toast.POSITION.TOP_RIGHT,
             className: css({
               marginTop: "60px"

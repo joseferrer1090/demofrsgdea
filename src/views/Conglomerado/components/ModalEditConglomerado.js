@@ -8,7 +8,8 @@ import {
   CardHeader,
   CardFooter,
   CardBody,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
@@ -20,7 +21,9 @@ class ModalEditConglomerado extends React.Component {
   state = {
     modal: this.props.modaleditstate,
     idConglomerado: this.props.id,
-    dataResult: {}
+    dataResult: {},
+    alertError: false,
+    alertSuccess: false
   };
   toggle = id => {
     this.setState({
@@ -57,6 +60,14 @@ class ModalEditConglomerado extends React.Component {
     setSubmitting(false);
     return;
   };
+
+  onDismiss = () => {
+    this.setState({
+      alertError: false,
+      alertSuccess: false
+    });
+  };
+
   render() {
     const dataResult = this.state.dataResult;
     const auxID = this.state.idConglomerado;
@@ -95,15 +106,39 @@ class ModalEditConglomerado extends React.Component {
                     userName: "jferrer"
                   })
                 })
-                  .then(response =>
-                    response.json().then(data => {
-                      if (response.status === 200) {
-                        console.log("Se actualizo de manera exitosa");
-                      } else if (response.status !== 200) {
-                        console.log("ver la consola");
-                      }
-                    })
-                  )
+                  .then(response =>{
+                    console.log(response.status);
+                    if (response.status === 200) {
+                      this.setState({
+                        alertSuccess: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertSuccess: false,
+                          modal: false
+                        });
+                      }, 3000);
+                    } else if (response.status === 400) {
+                      this.setState({
+                        alertError: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError: false,
+                        });
+                      }, 3000);
+                    }else if (response.status === 500) {
+                      this.setState({
+                        alertError: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError: false,
+                          modal: !this.state.modal
+                        });
+                      }, 3000);
+                    }
+                  })
                   .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 1000);
@@ -113,8 +148,8 @@ class ModalEditConglomerado extends React.Component {
               conglomerate_name: Yup.string().required(
                 " Por favor introduzca un nombre."
               ),
-              description: Yup.string(),
-              status: Yup.bool().test("Activdado", "", value => value === true)
+              description: Yup.string().nullable().max(250, " Máximo 250 caracteres."),
+              status: Yup.bool().test("Activo", "", value => value === true)
             })}
           >
             {props => {
@@ -132,6 +167,20 @@ class ModalEditConglomerado extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
+                  <Alert
+                      color="danger"
+                      isOpen={this.state.alertError}
+                      toggle={this.onDismiss}
+                    >
+                      Error al actualizar el conglomerado.
+                    </Alert>
+                    <Alert
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                      toggle={this.onDismiss}
+                    >
+                      Se actualizo el conglomerado con éxito.
+                    </Alert>
                     <form className="form">
                       <div className="row">
                         <div className="col-md-3">
@@ -303,7 +352,7 @@ class ModalEditConglomerado extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" /> Actualizar conglomerado
+                      <i className="fa fa-pencil" /> Actualizar
                     </button>
                     <button
                       className={"btn btn-outline-secondary btn-sm"}

@@ -222,7 +222,7 @@ class ModalEditDependencia extends React.Component {
                 return tipo;
               };
               setTimeout(() => {
-                fetch(`http://192.168.10.180:7000/api/sgdea/dependence/`, {
+                fetch(`http://192.168.10.180:7000/api/sgdea/dependence`, {
                   method: "PUT",
                   headers: {
                     Authorization: "Basic " + window.btoa("sgdea:123456"),

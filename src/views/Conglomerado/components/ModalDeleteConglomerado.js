@@ -59,7 +59,14 @@ class ModalDeleteConglomerado extends React.Component {
                         this.setState({
                           alertError: true
                         });
+                        setTimeout(()=>{
+                          this.setState({
+                            modal:false,
+                            alertError: false
+                          })
+                        },3000)
                       }
+
                         else if (response.status === 204) {
                           this.setState({
                               alertSuccess: true
@@ -74,6 +81,11 @@ class ModalDeleteConglomerado extends React.Component {
                         this.setState({
                           alertName: true
                         });
+                        setTimeout(()=>{
+                          this.setState({
+                            alertName: false
+                          })
+                        },3000)
                       }
                   })
                   .catch(error => console.log(" ", error));
@@ -81,7 +93,7 @@ class ModalDeleteConglomerado extends React.Component {
               }, 500);
             }}
             validationSchema={Yup.object().shape({
-              nombre: Yup.string().required("necesario nombre para eliminacion")
+              nombre: Yup.string().required(" Por favor introduzca el nombre del conglomerado.")
             })}
           >
             {props => {
@@ -132,7 +144,7 @@ class ModalDeleteConglomerado extends React.Component {
 
                       <input
                         type="text"
-                        placeholder="nombre del conglomerado a eliminar"
+                        placeholder="Nombre del conglomerado a eliminar"
                         style={{ textAlign: "center" }}
                         name="nombre"
                         onChange={handleChange}

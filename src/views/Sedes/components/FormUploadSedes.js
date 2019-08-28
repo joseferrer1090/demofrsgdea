@@ -83,7 +83,7 @@ class FormUploadSedes extends React.Component{
                   .then(response => {
                     if (response.status === 200) {
                       toast.success(
-                        "Se importo y se creo la sede.",
+                        "Se importo y creo la sede con éxito.",
                         {
                           position: toast.POSITION.TOP_RIGHT,
                           className: css({

@@ -57,21 +57,19 @@ class ModalEditTheme extends Component {
           </ModalBody>
           <ModalFooter>
             <div className="float-right">
-              <button className="btn btn-secondary">
+              <button className="btn btn-secondary btn-sm">
                 {" "}
-                <i className="fa fa-pencil" />{" "}
-                {t("user_profile_tab_4_modal_edit_button")}{" "}
+                <i className="fa fa-pencil" /> Editar tema{" "}
               </button>
               &nbsp;
               <button
-                className="btn btn-secondary"
+                className="btn btn-secondary btn-sm"
                 onClick={() => {
                   this.setState({ modal: false });
                 }}
               >
                 {" "}
-                <i className="fa fa-times" />{" "}
-                {t("user_profile_tab_4_modal_cancel_button")}{" "}
+                <i className="fa fa-times" /> Cancelar{" "}
               </button>
             </div>
           </ModalFooter>

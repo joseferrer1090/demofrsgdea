@@ -30,7 +30,7 @@ class ModalEditTheme extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>{t("user_profile_tab_4_modal_edit")} </ModalHeader>
+          <ModalHeader>Modal editar Tema </ModalHeader>
           <ModalBody>
             <div className="row">
               <div className="col-md-12">

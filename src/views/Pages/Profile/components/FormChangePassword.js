@@ -1,7 +1,6 @@
 import React from "react";
 import { Card, CardBody, CardFooter, Col, Row } from "reactstrap";
 import Changepassword from "./Forms/ChangepasswordForm";
-import { withNamespaces } from "react-i18next";
 
 const dataPassword = {
   new_password: "",

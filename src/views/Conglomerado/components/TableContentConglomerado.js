@@ -88,12 +88,12 @@ class TableContentConglomerado extends Component {
     );
   }
 
-  estadoConglomeraro(cell, row) {
+  EstadoConglomerado(cell, row) {
     let status;
     if (row.status === 1) {
-      status = <p className="text-success">Activo</p>;
+      status = <b className="text-success">Activo</b>;
     } else if (row.status === 0) {
-      status = <p className="text-danger">Inactivo</p>;
+      status = <b className="text-danger">Inactivo</b>;
     }
     return status;
   }
@@ -214,7 +214,7 @@ class TableContentConglomerado extends Component {
                       dataSort={true}
                       dataAlign={"center"}
                       dataFormat={(cell, row) =>
-                        this.estadoConglomeraro(cell, row)
+                        this.EstadoConglomerado(cell, row)
                       }
                     >
                       Estado

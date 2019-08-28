@@ -82,10 +82,19 @@ class ModalViewSedes extends Component {
       return status;
     };
 
+    const statusHeadquarter = data => {
+      let status;
+      if (data === 1) {
+        status = <b className="text-success"> Activo </b>;
+      } else if (data === 0) {
+        status = <b className="text-danger"> Inactivo </b>;
+      }
+      return status;
+    };
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver Sede {this.state.dataSedes.name} </ModalHeader>
+          <ModalHeader> Sede {this.state.dataSedes.name} </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -162,7 +171,7 @@ class ModalViewSedes extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Estado </dt>
-                        <dd> {dataSede.status}</dd>
+                        <dd> {statusHeadquarter(dataSede.status)}</dd>
                       </dl>
                     </div>
                   </div>
@@ -262,7 +271,7 @@ class ModalViewSedes extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

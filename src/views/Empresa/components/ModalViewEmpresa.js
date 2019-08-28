@@ -23,7 +23,8 @@ class ModalViewEmpresa extends Component {
       collapase: false,
       id: this.props.id,
       dataComponey: {},
-      dataCompanyConglomerate: {}
+      dataCompanyConglomerate: {},
+      dataCargo: {},
     };
   }
 
@@ -41,9 +42,11 @@ class ModalViewEmpresa extends Component {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data.charge);
         this.setState({
           dataComponey: data,
-          dataCompanyConglomerate: data.conglomerate
+          dataCompanyConglomerate: data.conglomerate,
+          dataCargo: data.charge
         });
       })
       .catch(Error => console.log(Error));
@@ -63,21 +66,22 @@ class ModalViewEmpresa extends Component {
     const statusCompany = data => {
       let status;
       if (data === 1) {
-        status = <b className="text-success">Activada</b>;
+        status = <b className="text-success">Activo</b>;
       } else if (data === 0) {
-        status = <b className="text-danger">Inactiva</b>;
+        status = <b className="text-danger">Inactivo</b>;
       }
       return status;
     };
 
-    const chargeStatus = data => {
-      let charge;
-      if (data === null) {
-        charge = <b className="text-danger"> Cargo no asignado </b>;
-      } else if (data !== null) {
-        charge = <b>{data}</b>;
+    const CargoInfo = () => {
+      const data = this.state.dataCargo;
+      let status;
+      if (data === null)
+        status = <b className="text-danger">No hay cargos asociados.</b>;
+      else if (data !== null) {
+        status = <div>{data.name}</div>;
       }
-      return charge;
+      return status;
     };
 
     return (
@@ -173,7 +177,7 @@ class ModalViewEmpresa extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>Cargo responsable </dt>
-                              <dd> {chargeStatus(company.charge)}</dd>
+                              <dd> {CargoInfo()}</dd>
                             </dl>
                           </div>
                         </div>

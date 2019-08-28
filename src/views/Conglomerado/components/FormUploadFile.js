@@ -18,6 +18,12 @@ class FormUploadFile extends React.Component {
     this.setState({ file: e.target.files[0] });
   };
 
+  handleSubmit = (values, { props = this.props, setSubmitting }) => {
+    alert(JSON.stringify(values, null, 2));
+    setSubmitting(false);
+    return;
+  };
+
   render() {
     console.log(this.state.file);
     return (
@@ -64,7 +70,7 @@ class FormUploadFile extends React.Component {
               onSubmit={(values, { setSubmitting }) => {
                 const formData = new FormData();
                 const file = this.state.file;
-                const separador = values.separador;
+                const separador = values.separador_csv;
                 formData.append("file", file);
                 formData.append("separator", separador);
                 setTimeout(() => {
@@ -83,7 +89,7 @@ class FormUploadFile extends React.Component {
                     .then(response => {
                       if (response.status === 200) {
                         toast.success(
-                          "se importo el conglomerado y creo el conglomerado",
+                          "La importación de conglomerado se hizo satisfactoriamente.",
                           {
                             position: toast.POSITION.TOP_RIGHT,
                             className: css({
@@ -91,8 +97,8 @@ class FormUploadFile extends React.Component {
                             })
                           }
                         );
-                      } else if (response !== 200) {
-                        toast("Verificar el archivo csv", {
+                      } else if (response.status === 500) {
+                        toast("No se pudo realizar la importación, por favor verifique el archivo CSV.", {
                           position: toast.POSITION.TOP_RIGHT,
                           className: css({
                             marginTop: "60px"
@@ -101,15 +107,24 @@ class FormUploadFile extends React.Component {
                       }
                     })
                     .catch(error => {
-                      toast.error(`${error}`, {
+                      toast.error(`${error}.`, {
                         position: toast.POSITION.TOP_RIGHT,
                         className: css({
                           marginTop: "60px"
                         })
                       });
                     });
+                    setSubmitting(false);
                 }, 1000);
               }}
+              validationSchema={ Yup.object().shape({
+                separador_csv: Yup.string()
+                  .required(" Por favor introduzca un separador.")
+                  .max(1, " Máximo 1 carácter")
+                  .min(1, " Por favor introduzca un separador."),
+                titulos: Yup.bool().test("Activo", "", value => value === true),
+                // archivo: Yup.mixed(),
+              })}
             >
               {props => {
                 const {
@@ -121,7 +136,8 @@ class FormUploadFile extends React.Component {
                   handleChange,
                   handleBlur,
                   handleSubmit,
-                  handleReset
+                  handleReset,
+                  setFieldValue
                 } = props;
                 return (
                   <Fragment>
@@ -141,20 +157,20 @@ class FormUploadFile extends React.Component {
                                   </span>{" "}
                                 </label>
                                 <input
-                                  name={"separador"}
+                                  name={"separador_csv"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.separador}
+                                  value={values.separador_csv}
                                   type="text"
-                                  className={`form-control form-control-sm ${errors.separador &&
-                                    touched.separador &&
+                                  className={`form-control form-control-sm ${errors.separador_csv &&
+                                    touched.separador_csv &&
                                     "is-invalid"}`}
                                 />
                                 <div className="" style={{ color: "#D54B4B" }}>
-                                  {errors.separador && touched.separador ? (
-                                    <i class="fa fa-exclamation-triangle" />
+                                  {errors.separador_csv && touched.separador_csv ? (
+                                    <i className="fa fa-exclamation-triangle" />
                                   ) : null}
-                                  <ErrorMessage name="separador" />
+                                  <ErrorMessage name="separador_csv" />
                                 </div>
                               </div>
                             </div>
@@ -182,14 +198,24 @@ class FormUploadFile extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  Archivo a importar en extnsion <b>CSV</b>{" "}
+                                  Archivo a importar en extensión <b>CSV</b>{" "}
                                   <span className="text-danger"> * </span>
                                 </label>
                                 <input
+                                  name="archivo"
                                   type="file"
-                                  className={"form-control"}
                                   onChange={e => this.onChange(e)}
+                                  onBlur={handleBlur}
+                                  className={`form-control ${errors.archivo &&
+                                    touched.archivo &&
+                                    "is-invalid"}`}
                                 />
+                                <div className="" style={{ color: "#D54B4B" }}>
+                                  {errors.archivo && touched.archivo ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="archivo" />
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -205,7 +231,7 @@ class FormUploadFile extends React.Component {
                               handleSubmit();
                             }}
                           >
-                            <i className="fa fa-save" /> subir archivo
+                            <i className="fa fa-save" /> Importar archivo
                           </button>
                         </div>
                       </div>

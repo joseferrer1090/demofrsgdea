@@ -86,8 +86,8 @@ class TableContentEmpresa extends Component {
     let status;
     if (row.status === 1) {
       status = <b className="text-success">Activo</b>;
-    } else if (row.state === 0) {
-      status = <b className="text-danger">Desactivo</b>;
+    } else if (row.status === 0) {
+      status = <b className="text-danger">Inactivo</b>;
     }
     return status;
   }

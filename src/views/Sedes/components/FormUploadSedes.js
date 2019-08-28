@@ -83,7 +83,7 @@ class FormUploadSedes extends React.Component{
                   .then(response => {
                     if (response.status === 200) {
                       toast.success(
-                        "Se importo y creo la sede con éxito.",
+                        "La importación de conglomerado se hizo satisfactoriamente.",
                         {
                           position: toast.POSITION.TOP_RIGHT,
                           className: css({
@@ -91,8 +91,8 @@ class FormUploadSedes extends React.Component{
                           })
                         }
                       );
-                    } else if (response !== 200) {
-                      toast("Verificar el archivo CSV", {
+                    } else if (response === 500) {
+                      toast("No se pudo realizar la importación, por favor verifique el archivo CSV.", {
                         position: toast.POSITION.TOP_RIGHT,
                         className: css({
                           marginTop: "60px"
@@ -110,6 +110,14 @@ class FormUploadSedes extends React.Component{
                   });
               }, 1000);
             }}
+            validationSchema={ Yup.object().shape({
+              separador_csv: Yup.string()
+                .required(" Por favor introduzca un separador.")
+                .max(1, " Máximo 1 carácter")
+                .min(1, " Por favor introduzca un separador."),
+              titulos: Yup.bool().test("Activo", "", value => value === true),
+              // archivo: Yup.mixed(),
+            })}
           >
             {props => {
               const {
@@ -141,20 +149,20 @@ class FormUploadSedes extends React.Component{
                                 </span>{" "}
                               </label>
                               <input
-                                name={"separador"}
+                                name={"separador_csv"}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.separador}
+                                value={values.separador_csv}
                                 type="text"
-                                className={`form-control form-control-sm ${errors.separador &&
-                                  touched.separador &&
+                                className={`form-control form-control-sm ${errors.separador_csv &&
+                                  touched.separador_csv &&
                                   "is-invalid"}`}
                               />
                               <div className="" style={{ color: "#D54B4B" }}>
-                                {errors.separador && touched.separador ? (
+                                {errors.separador_csv && touched.separador_csv ? (
                                   <i class="fa fa-exclamation-triangle" />
                                 ) : null}
-                                <ErrorMessage name="separador" />
+                                <ErrorMessage name="separador_csv" />
                               </div>
                             </div>
                           </div>

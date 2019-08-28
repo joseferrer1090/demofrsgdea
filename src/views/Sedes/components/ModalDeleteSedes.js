@@ -62,6 +62,12 @@ class ModalDeleteSedes extends Component {
                       this.setState({
                         alertError: true
                       });
+                      setTimeout(()=>{
+                        this.setState({
+                          modal:false,
+                          alertError: false
+                        })
+                      },3000)
                     } else if (response.status === 204) {
                         this.setState({
                             alertSuccess: true
@@ -84,7 +90,7 @@ class ModalDeleteSedes extends Component {
             }}
             validationSchema={Yup.object().shape({
               nombre: Yup.string().required(
-                "Es requirido el nombre para la eliminacion"
+                " Por favor introduzca el nombre de la sede."
               )
             })}
           >
@@ -138,7 +144,7 @@ class ModalDeleteSedes extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder="nombre para eliminar la sede"
+                        placeholder="Nombre de la sede a eliminar"
                         style={{ textAlign: "center" }}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.nombre &&
                           touched.nombre &&

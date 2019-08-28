@@ -667,12 +667,12 @@ export default withFormik({
       .ensure(),
     code: Yup.string()
       .required(" Por favor introduzca un código.")
-      .max(6)
-      .min(6),
+      .max(6, " Máximo 6 caracteres.")
+      .min(6, " Mínimo 6 caracteres."),
     name: Yup.string()
       .required(" Por favor introduzca un nombre.")
-      .max(100),
-    description: Yup.string().max(250),
+      .max(100, " Máximo 100 caracteres"),
+    description: Yup.string().max(250, "Máximo 250 caracteres."),
     prefix: Yup.string()
       .required(" Por favor asigne un prefijo de radicación.")
       .min(2," Mínimo 2 caracteres.")
@@ -692,12 +692,12 @@ export default withFormik({
       .required(" Por favor seleccione una ciudad."),
     address: Yup.string().required(" Por favor introduzca una dirección."),
     phone: Yup.string()
-      .max(8)
-      .required(" Por favor introduzca un teléfono."),
+      .max(10, " Máximo 8 caracteres")
+      .required(" Por favor introduzca un número telefónico."),
     chargeId: Yup.string().ensure(),
     status: Yup.bool()
-      .test("Activo", "Es necesario activar la sede.", value => value === true)
-      .required("Necesario activar la sede.")
+      .test("Activo", " Es necesario activar la sede.", value => value === true)
+      .required(" Es necesario activar la sede.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     const tipoEstado = data => {

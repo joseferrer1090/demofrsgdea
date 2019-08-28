@@ -9,7 +9,7 @@ import {
   Col,
   Row,
   CardBody,
-  CardTitle,
+  Alert,
   CardHeader,
   Collapse
 } from "reactstrap";
@@ -31,6 +31,8 @@ class ModalEditSedes extends React.Component {
     optionsDepartment:[],
     optionsCitys:[],
     optionsCharges:[],
+    alertError: false,
+    alertSuccess: false
   };
 
 componentDidMount() {
@@ -41,6 +43,12 @@ componentDidMount() {
   this.getDataCitys();
   this.getDataCharges();
 }
+onDismiss = () => {
+  this.setState({
+    alertError: false,
+    alertSuccess: false
+  });
+};
 
   toggle = (id) => {
     this.setState({
@@ -254,7 +262,7 @@ componentDidMount() {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar Sede {this.state.dataResult.headquarter_name}</ModalHeader>
+          <ModalHeader> Actualizar {this.state.dataResult.headquarter_name}</ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}
@@ -267,12 +275,12 @@ componentDidMount() {
                 .ensure(),
               headquarter_code: Yup.string()
                 .required(" Por favor introduzca un código.")
-                .max(6)
-                .min(6),
+                .max(6, " Máximo 6 caracteres.")
+                .min(6, " Mínimo 6 caracteres."),
               headquarter_name: Yup.string()
                 .required(" Por favor introduzca un nombre.")
-                .max(100),
-              headquarter_description: Yup.string().max(250),
+                .max(100, " Máximo 100 caracteres"),
+              headquarter_description: Yup.string().max(250, " Máximo 250 caracteres"),
               headquarter_prefix: Yup.string()
                 .required(" Por favor asigne un prefijo de radicación.")
                 .min(2," Mínimo 2 caracteres.")
@@ -292,8 +300,8 @@ componentDidMount() {
                 .required(" Por favor seleccione una ciudad."),
               headquarter_address: Yup.string().required(" Por favor introduzca una dirección."),
               headquarter_phone: Yup.string()
-                .max(8)
-                .required(" Por favor introduzca un teléfono."),
+                .max(10, " Máximo 10 caracteres.")
+                .required(" Por favor introduzca un número telefónico."),
               headquarter_charge: Yup.string().ensure(),
               headquarter_status: Yup.bool().test("Activo", "", value => value === true)
             })}
@@ -330,15 +338,38 @@ componentDidMount() {
                     userName:"ccuartas"
                   })
                 })
-                  .then(response =>
-                    response.json().then(data => {
-                      if (response.status === 200) {
-                        console.log("Se actualizo de manera exitosa");
-                      } else if (response.status !== 200) {
-                        console.log("ver la consola");
-                      }
-                    })
-                  )
+                  .then(response =>{
+                    if (response.status === 200) {
+                      this.setState({
+                        alertSuccess: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertSuccess: false,
+                          modal: false
+                        });
+                      }, 3000);
+                    } else if (response.status === 400) {
+                      this.setState({
+                        alertError: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError: false,
+                        });
+                      }, 3000);
+                    }else if (response.status === 500) {
+                      this.setState({
+                        alertError: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError: false,
+                          modal: !this.state.modal
+                        });
+                      }, 3000);
+                    }
+                  })
                   .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 1000);
@@ -359,6 +390,20 @@ componentDidMount() {
               return (
                 <Fragment>
                   <ModalBody>
+                  <Alert
+                      color="danger"
+                      isOpen={this.state.alertError}
+                      toggle={this.onDismiss}
+                    >
+                      Error al actualizar la sede.
+                    </Alert>
+                    <Alert
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                      toggle={this.onDismiss}
+                    >
+                      Se actualizo la sede con éxito.
+                    </Alert>
                     <Row>
                       <Col sm="3">
                         <img src={IMGSEDE} className="img-thumbnail" />
@@ -797,7 +842,7 @@ componentDidMount() {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" /> Actualizar sede
+                      <i className="fa fa-pencil" /> Actualizar
                     </button>
                     <button
                       type="button"

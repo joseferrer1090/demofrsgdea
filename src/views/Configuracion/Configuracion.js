@@ -8,7 +8,7 @@ import {
   CardTitle,
   CardText
 } from "reactstrap";
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 import Img1 from "./../../assets/img/proceso-de-gestion-documental.svg";
 import "./../../css/custom_css.css";
 
@@ -155,4 +155,4 @@ class Configuracion extends Component {
   }
 }
 
-export default withNamespaces("translations")(Configuracion);
+export default withTranslation("translations")(Configuracion);

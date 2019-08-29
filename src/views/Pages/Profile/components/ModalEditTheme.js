@@ -9,7 +9,11 @@ import {
   CardBody
 } from "reactstrap";
 import PropTypes from "prop-types";
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
+
+function modalTitle({ t, i18n }) {
+  return <p> {t("user_profile_tab_4_modal_edit")}</p>;
+}
 
 class ModalEditTheme extends Component {
   constructor(props) {
@@ -30,7 +34,10 @@ class ModalEditTheme extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Modal editar Tema </ModalHeader>
+          <ModalHeader>
+            {" "}
+            <modalTitle t={t} />{" "}
+          </ModalHeader>
           <ModalBody>
             <div className="row">
               <div className="col-md-12">
@@ -83,4 +90,4 @@ ModalEditTheme.propTypes = {
   modaledittheme: PropTypes.bool.isRequired
 };
 
-export default ModalEditTheme;
+export default withTranslation()(ModalEditTheme);

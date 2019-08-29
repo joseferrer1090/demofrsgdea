@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, withFormik, ErrorMessage, yupToFormErrors } from "formik";
 import * as Yup from "yup";
 import { Card, CardBody, CardFooter, Col, Row } from "reactstrap";
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const ChangepasswordForm = props => {
   const {
@@ -114,7 +114,7 @@ const ChangepasswordForm = props => {
   );
 };
 
-export default withNamespaces("translations")(
+export default withTranslation("translations")(
   withFormik({
     mapPropsToValues: props => ({
       new_password: props.changepassword.new_password,

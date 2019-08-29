@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const propTypes = {
   children: PropTypes.node
@@ -29,4 +29,4 @@ class DefaultFooter extends Component {
 DefaultFooter.propTypes = propTypes;
 DefaultFooter.defaultProps = defaultProps;
 
-export default withNamespaces("translations")(DefaultFooter);
+export default withTranslation("translations")(DefaultFooter);

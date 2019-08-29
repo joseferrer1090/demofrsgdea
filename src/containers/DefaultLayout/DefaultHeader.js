@@ -3,7 +3,7 @@ import { Link, Redirect } from "react-router-dom";
 import { browserHistory } from "react-router";
 import Select from "react-select";
 import { options } from "./../../config/options";
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 import {
   Badge,
   DropdownItem,
@@ -169,4 +169,4 @@ class DefaultHeader extends Component {
 DefaultHeader.propTypes = propTypes;
 DefaultHeader.defaultProps = defaultProps;
 
-export default withNamespaces("translations")(DefaultHeader);
+export default withTranslation("translations")(DefaultHeader);

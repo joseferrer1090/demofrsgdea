@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Row, Col, Card, CardTitle } from "reactstrap";
 import PropTypes from "prop-types";
 import Tabinformaction from "./components/TabProfile";
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 const acceptedFileTypes =
   "image/x-png, image/png, image/jpg, image/jpeg, image/gif";
@@ -129,4 +129,4 @@ class Profle extends Component {
 
 Profle.propTypes = {};
 
-export default withNamespaces("translations")(Profle);
+export default withTranslation("translations")(Profle);

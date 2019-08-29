@@ -45,6 +45,12 @@
     "user_profile_tab_4_modal_edit_footer": "Footer",
     "user_profile_tab_4_modal_edit_otros": "Other components",
     "user_profile_tab_5": " Customize theme",
+    "user_profile_tab_5_header": "Header",
+    "user_profile_tab_5_body": "Body",
+    "user_profile_tab_5_footer": "Footer",
+    "user_profile_tab_5_otro": "Other components",
+    "user_profile_tab_5_button_new": "New theme",
+    "user_profile_tab_5_button_cancel": "Delete",
 
     "welcome_home": "Welcome to sevenet",
     "title_home_1": "Documentary management",

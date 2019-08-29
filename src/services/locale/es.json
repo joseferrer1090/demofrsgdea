@@ -41,6 +41,10 @@
     "user_profile_tab_4_modal_edit": "Editar tema seleccionado",
     "user_profile_tab_4_modal_edit_button": "Editar tema",
     "user_profile_tab_4_modal_cancel_button": "Cancelar",
+    "user_profile_tab_4_modal_edit_header": "Encabezado",
+    "user_profile_tab_4_modal_edit_body": "Cuerpo",
+    "user_profile_tab_4_modal_edit_footer": "Pie de pagina",
+    "user_profile_tab_4_modal_edit_otros": "Otro componentes",
     "user_profile_tab_5": " Personalizar tema",
 
     "title_home_1": "Gestión documental ",

@@ -9,17 +9,14 @@ import {
   CardBody
 } from "reactstrap";
 import PropTypes from "prop-types";
-import { withTranslation } from "react-i18next";
-
-function modalTitle({ t, i18n }) {
-  return <p> {t("user_profile_tab_4_modal_edit")}</p>;
-}
+import { withTranslation, Trans, useTranslation } from "react-i18next";
 
 class ModalEditTheme extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modaledittheme
+      modal: this.props.modaledittheme,
+      t: this.props.t
     };
   }
 
@@ -30,34 +27,52 @@ class ModalEditTheme extends Component {
   };
 
   render() {
-    const { t } = this.props;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {" "}
-            <modalTitle t={t} />{" "}
+            <Trans>{this.props.t("user_profile_tab_4_modal_edit")}</Trans>
           </ModalHeader>
           <ModalBody>
             <div className="row">
               <div className="col-md-12">
                 <Card>
-                  <CardHeader>Header</CardHeader>
+                  <CardHeader>
+                    {" "}
+                    <Trans>
+                      {this.props.t("user_profile_tab_4_modal_edit_header")}
+                    </Trans>{" "}
+                  </CardHeader>
                 </Card>
               </div>
               <div className="col-md-12">
                 <Card>
-                  <CardHeader>Body</CardHeader>
+                  <CardHeader>
+                    {" "}
+                    <Trans>
+                      {this.props.t("user_profile_tab_4_modal_edit_body")}
+                    </Trans>{" "}
+                  </CardHeader>
                 </Card>
               </div>
               <div className="col-md-12">
                 <Card>
-                  <CardHeader>Footer</CardHeader>
+                  <CardHeader>
+                    {" "}
+                    <Trans>
+                      {this.props.t("user_profile_tab_4_modal_edit_footer")}
+                    </Trans>{" "}
+                  </CardHeader>
                 </Card>
               </div>
               <div className="col-md-12">
                 <Card>
-                  <CardHeader>Otros componentes</CardHeader>
+                  <CardHeader>
+                    {" "}
+                    <Trans>
+                      {this.props.t("user_profile_tab_4_modal_edit_otros")}
+                    </Trans>{" "}
+                  </CardHeader>
                 </Card>
               </div>
             </div>
@@ -66,7 +81,10 @@ class ModalEditTheme extends Component {
             <div className="float-right">
               <button className="btn btn-secondary btn-sm">
                 {" "}
-                <i className="fa fa-pencil" /> Editar tema{" "}
+                <i className="fa fa-pencil" />{" "}
+                <Trans>
+                  {this.props.t("user_profile_tab_4_modal_edit_button")}
+                </Trans>{" "}
               </button>
               &nbsp;
               <button
@@ -76,7 +94,10 @@ class ModalEditTheme extends Component {
                 }}
               >
                 {" "}
-                <i className="fa fa-times" /> Cancelar{" "}
+                <i className="fa fa-times" />{" "}
+                <Trans>
+                  {this.props.t("user_profile_tab_4_modal_cancel_button")}
+                </Trans>{" "}
               </button>
             </div>
           </ModalFooter>
@@ -90,4 +111,4 @@ ModalEditTheme.propTypes = {
   modaledittheme: PropTypes.bool.isRequired
 };
 
-export default withTranslation()(ModalEditTheme);
+export default ModalEditTheme;

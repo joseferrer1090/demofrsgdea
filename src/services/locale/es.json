@@ -66,6 +66,31 @@
     "text_button_1_3_1": "Descargar",
     "title_home_1_4": "Manual módulo de workflow",
     "text_home_1_4_1": "Si deseas saber como funciona el módulo de workflow y todas sus funcionalidades presiona el boton",
-    "text_button_1_4_1": "Descargar"
+    "text_button_1_4_1": "Descargar",
+
+    "nav_app_home": "Inicio",
+    "nav_app_conglomerado": "Conglomerado",
+    "nav_app_empresa": "Empresa",
+    "nav_app_sedes": "Sedes",
+    "nav_app_dependencia": "Dependencia",
+    "nav_app_cargo": "Cargo",
+    "nav_app_mensajero": "Mensajero",
+    "nav_app_tipo_envio": "Tipo de envio / llegada",
+    "nav_app_tipo_tramite": "Tipo de tramite",
+    "nav_app_usuarios": "Usuarios",
+    "nav_app_tipo_terceros": "Tipo de terceros",
+    "nav_app_roles": "Roles",
+    "nav_app_grupo_usuarios": "Grupo de usuarios",
+    "nav_app_terceros": "Terceros",
+    "nav_app_tipo_radicacion": "Tipo documental radicación",
+    "nav_app_pais": "Pais",
+    "nav_app_departamento": "Departamento",
+    "nav_app_ciudad": "Ciudad",
+    "nav_app_auditoria": "Auditoria",
+    "nav_app_auditoria_consultar": "Consultar",
+    "nav_app_auditoria_mover": "Mover a historico",
+    "nav_app_plantilla": "Plantilla",
+    "nav_app_tema": "Tema",
+    "nav_app_tipo_llegada": "Tipo llegada"
   }
 }

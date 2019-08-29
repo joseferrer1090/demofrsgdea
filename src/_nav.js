@@ -1,5 +1,7 @@
-export default {
-  items: [
+import { withTranslation } from "react-i18next";
+
+export default withTranslation ("translations",{
+  [
     {
       name: "Incio",
       url: "/configuracion",
@@ -118,4 +120,5 @@ export default {
       url: "/configuracion/tema"
     }
   ]
-};
+}
+)

@@ -66,6 +66,30 @@
     "text_button_1_3_1": "Download",
     "title_home_1_4": "Workflow module manual",
     "text_home_1_4_1": "If you want to know how the workflow module works and all its functionalities press the button",
-    "text_button_1_4_1": "Download"
+    "text_button_1_4_1": "Download",
+
+    "nav_app_home": "Home",
+    "nav_app_conglomerado": "Conglomerate",
+    "nav_app_empresa": "Company",
+    "nav_app_sedes": "Headquarters",
+    "nav_app_dependencia": "Dependence",
+    "nav_app_cargo": "Charge",
+    "nav_app_mensajero": "Messenger",
+    "nav_app_tipo_envio": "Type of shipment / arrival",
+    "nav_app_tipo_tramite": "Type of procedure",
+    "nav_app_usuarios": "Users",
+    "nav_app_tipo_terceros": "Third-party type",
+    "nav_app_roles": "Roles",
+    "nav_app_grupo_usuarios": "User group",
+    "nav_app_terceros": "Third parties",
+    "nav_app_tipo_radicacion": "Documentary type of establishment",
+    "nav_app_pais": "Country",
+    "nav_app_departamento": "Department",
+    "nav_app_ciudad": "City",
+    "nav_app_auditoria": "Audit",
+    "nav_app_auditoria_consultar": "Consult",
+    "nav_app_auditoria_mover": "Move to historical",
+    "nav_app_plantilla": "Template",
+    "nav_app_tema": "Theme"
   }
 }

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -11,9 +11,9 @@ import {
   Collapse,
   CardBody,
   Table
-} from "reactstrap";
-import PropTypes from "prop-types";
-import IMGCARGO from "./../../../assets/img/employee.svg";
+} from 'reactstrap';
+import PropTypes from 'prop-types';
+import IMGCARGO from './../../../assets/img/employee.svg';
 
 class ModalViewCargo extends Component {
   constructor(props) {
@@ -21,7 +21,8 @@ class ModalViewCargo extends Component {
     this.state = {
       modal: this.props.modalviewcargo,
       id: this.props.id,
-      datCharge: {}
+      datCharge: {},
+      collapase: false
     };
   }
 
@@ -41,10 +42,10 @@ class ModalViewCargo extends Component {
 
   getDataCargoById = id => {
     fetch(`http://192.168.10.180:7000/api/sgdea/charge/${id}/jferrer`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -53,7 +54,7 @@ class ModalViewCargo extends Component {
           datCharge: data
         });
       })
-      .catch("Error", console.log("Error", Error));
+      .catch('Error', console.log('Error', Error));
   };
 
   render() {
@@ -78,11 +79,11 @@ class ModalViewCargo extends Component {
             </Col>
             <Col sm="9">
               <div className="">
-                {" "}
-                <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                  {" "}
-                  Datos{" "}
-                </h5>{" "}
+                {' '}
+                <h5 className="" style={{ borderBottom: '1px solid black' }}>
+                  {' '}
+                  Datos{' '}
+                </h5>{' '}
               </div>
               <div className="row">
                 <div className="col-md-6">
@@ -140,16 +141,16 @@ class ModalViewCargo extends Component {
             <Col sm="12">
               <Card>
                 <CardHeader>
-                  {" "}
+                  {' '}
                   <a
                     onClick={() => {
                       this.toggleCollapse();
                     }}
-                    style={{ cursor: "pointer" }}
+                    style={{ cursor: 'pointer' }}
                   >
-                    {" "}
-                    Más información{" "}
-                  </a>{" "}
+                    {' '}
+                    Más información{' '}
+                  </a>{' '}
                 </CardHeader>
                 <Collapse isOpen={this.state.collapase}>
                   <Row>
@@ -216,7 +217,7 @@ class ModalViewCargo extends Component {
               this.setState({ modal: false });
             }}
           >
-            <i className="fa fa-times" /> Cerrar{" "}
+            <i className="fa fa-times" /> Cerrar{' '}
           </button>
         </ModalFooter>
       </Modal>

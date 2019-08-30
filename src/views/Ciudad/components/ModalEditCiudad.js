@@ -142,15 +142,13 @@ class ModalEditCiudad extends React.Component {
                     userName:"ccuartas"
                   })
                 })
-                  .then(response =>
-                    response.json().then(data => {
+                  .then(response =>{
                       if (response.status === 200) {
                         console.log("Se actualizo de manera exitosa");
                       } else if (response.status !== 200) {
                         console.log("ver la consola");
                       }
                     })
-                  )
                   .catch(error => console.log("", error));
                 setSubmitting(false);
               },500)

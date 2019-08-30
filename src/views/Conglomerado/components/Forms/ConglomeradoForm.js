@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Formik, withFormik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -7,11 +7,16 @@ import {
   CardFooter,
   CardHeader,
   Card
-} from "reactstrap";
-import { CONGLOMERATES } from "./../../../../services/EndPoints";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { css } from "glamor";
+} from 'reactstrap';
+import {
+  CONGLOMERATES,
+  COUNTRIES,
+  DEPARTMENTS,
+  CITYS
+} from './../../../../services/EndPoints';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { css } from 'glamor';
 
 const ConglomeradorForm = props => {
   const {
@@ -26,6 +31,93 @@ const ConglomeradorForm = props => {
     handleSubmit,
     handleReset
   } = props;
+
+  const [optionsDepartment, setOptionsDepartment] = useState([]);
+  const [optionsCountries, setOptionsCountries] = useState([]);
+  const [optionsCitys, setOptionsCitys] = useState([]);
+
+  useEffect(() => {
+    getDataCountries();
+    getDataDepartments();
+    getDataCitys();
+  }, []);
+  const getDataCountries = data => {
+    fetch(COUNTRIES, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsCountries(data);
+        // this.setState({
+        //   dataConglomerates: data
+        // });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  const mapOptionsCountries = optionsCountries.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
+
+  const getDataDepartments = data => {
+    fetch(DEPARTMENTS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsDepartment(data);
+        // this.setState({
+        //   dataConglomerates: data
+        // });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  const mapOptionsDepartments = optionsDepartment.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
+
+  const getDataCitys = data => {
+    fetch(CITYS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsCitys(data);
+        // this.setState({
+        //   dataConglomerates: data
+        // });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  const mapOptionsCitys = optionsCitys.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
   return (
     <div>
       <Card>
@@ -86,6 +178,85 @@ const ConglomeradorForm = props => {
               </div>
             </div>
             <div className="row">
+              <div className="col-md-4">
+                <div className="form-group">
+                  <label>País</label>
+                  <select
+                    name={'countryId'}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.countryId}
+                    className={`form-control form-control-sm ${errors.countryId &&
+                      touched.countryId &&
+                      'is-invalid'}`}
+                  >
+                    <option value={''} disabled>
+                      -- Seleccione --
+                    </option>
+                    {mapOptionsCountries}
+                  </select>
+                  <div style={{ color: '#D54B4B' }}>
+                    {errors.countryId && touched.countryId ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="countryId" />
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="form-group">
+                  <label>Departamento</label>
+                  <select
+                    name={'departmentId'}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.departmentId}
+                    className={`form-control form-control-sm ${errors.departmentId &&
+                      touched.departmentId &&
+                      'is-invalid'}`}
+                  >
+                    <option value={''} disabled>
+                      -- Seleccione --
+                    </option>
+                    {mapOptionsDepartments}
+                  </select>
+                  <div style={{ color: '#D54B4B' }}>
+                    {errors.departmentId && touched.departmentId ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="departmentId" />
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="form-group">
+                  <label>
+                    Ciudad <span className="text-danger">*</span>
+                  </label>
+                  <select
+                    name={'cityId'}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.cityId}
+                    className={`form-control form-control-sm ${errors.cityId &&
+                      touched.cityId &&
+                      'is-invalid'}`}
+                  >
+                    <option value={''} disabled>
+                      -- Seleccione --
+                    </option>
+                    {mapOptionsCitys}
+                  </select>
+                  <div style={{ color: '#D54B4B' }}>
+                    {errors.cityId && touched.cityId ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="cityId" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
                   <label> Descripción</label>
@@ -106,6 +277,7 @@ const ConglomeradorForm = props => {
                 </div>
               </div>
             </div>
+
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
@@ -180,7 +352,10 @@ export default withFormik({
     codigo: props.conglomerado.codigo,
     nombre: props.conglomerado.nombre,
     descripcion: props.conglomerado.descripcion,
-    estado: props.conglomerado.estado
+    estado: props.conglomerado.estado,
+    countryId: props.conglomerado.countryId,
+    departmentId: props.conglomerado.departmentId,
+    cityId: props.conglomerado.cityId
   }),
   validationSchema: Yup.object().shape({
     codigo: Yup.string()
@@ -191,6 +366,15 @@ export default withFormik({
       .required(' Por favor introduzca un nombre.')
       .max(100),
     descripcion: Yup.string().max(250, ' Máximo 250 caracteres.'),
+    countryId: Yup.string()
+      .ensure()
+      .required(' Por favor seleccione un país.'),
+    departmentId: Yup.string()
+      .ensure()
+      .required(' Por favor seleccione un departamento.'),
+    cityId: Yup.string()
+      .ensure()
+      .required(' Por favor seleccione una ciudad.'),
     estado: Yup.bool()
       .test(
         'Activo',
@@ -212,34 +396,35 @@ export default withFormik({
 
     setTimeout(() => {
       fetch(CONGLOMERATES, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         },
         body: JSON.stringify({
           code: values.codigo,
           name: values.nombre,
           description: values.descripcion,
           status: tipoEstado(values.estado),
-          userName: "jferrer"
+          cityId: values.cityId,
+          userName: 'jferrer'
         })
       })
         .then(response =>
           response.json().then(data => {
             if (response.status === 201) {
-              toast.success("Se creo el conglomerado con éxito.", {
+              toast.success('Se creo el conglomerado con éxito.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
+                  marginTop: '60px'
                 })
               });
               // alert("oki");
             } else if (response.status === 500) {
-              toast.error("El conglomerado ya existe.", {
+              toast.error('El conglomerado ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
+                  marginTop: '60px'
                 })
               });
               //alert("Erro en el cuerpo");
@@ -250,7 +435,7 @@ export default withFormik({
           toast.error(`Error ${error}.`, {
             position: toast.POSITION.TOP_RIGHT,
             className: css({
-              marginTop: "60px"
+              marginTop: '60px'
             })
           });
         });

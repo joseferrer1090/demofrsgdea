@@ -222,7 +222,7 @@ class FormUploadDependencias extends React.Component {
                               handleSubmit();
                             }}
                           >
-                            <i className="fa fa-save" /> subir archivo
+                            <i className="fa fa-save" /> Importar archivo
                           </button>
                         </div>
                       </div>

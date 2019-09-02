@@ -2,6 +2,7 @@ import React, { Component, Suspense } from "react";
 import { Redirect, Route, Switch, Link } from "react-router-dom";
 import { Container } from "reactstrap";
 import { withTranslation } from "react-i18next";
+import AppSidebarNav from "./AppSidebarNav";
 
 import {
   AppAside,
@@ -12,8 +13,7 @@ import {
   AppSidebarFooter,
   AppSidebarForm,
   AppSidebarHeader,
-  AppSidebarMinimizer,
-  AppSidebarNav
+  AppSidebarMinimizer
 } from "@coreui/react";
 // sidebar nav config
 import navigation from "../../_nav";
@@ -62,7 +62,7 @@ class DefaultLayout extends Component {
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
-              <AppSidebarNav navConfig={navigation} {...this.props} />
+              <AppSidebarNav t={t} {...this.props} />
             </Suspense>
             <AppSidebarFooter />
             <AppSidebarMinimizer />

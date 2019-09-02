@@ -257,7 +257,7 @@ class TableContentConglomerado extends Component {
         <ModalView modalviewstate={this.state.modalView} ref="child" />
         <ModalDelete modaldeletestate={this.state.modalDelete} ref="child2" />
         <ModalEdit modaleditstate={this.state.modalEdit} ref="child3" />
-        {/* <ModalExport modalexport={this.state.modalexport} ref="child4" /> */}
+        <ModalExport modalexport={this.state.modalexport} ref="child4" />
       </div>
     );
   }

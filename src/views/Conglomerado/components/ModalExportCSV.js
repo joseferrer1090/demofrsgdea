@@ -38,6 +38,7 @@ class ModalExportCSV extends Component {
     )
       .then(response =>
         response.json().then(data => {
+          console.log(data);
           this.setState({
             dataExport: data
           });
@@ -50,20 +51,24 @@ class ModalExportCSV extends Component {
     const data = this.state.dataExport;
     const fields = [
       {
-        label: 'code',
+        label: 'Code',
         value: 'code'
       },
       {
-        label: 'name',
+        label: 'Name',
         value: 'name'
       },
       {
-        label: 'description',
+        label: 'Description',
         value: 'description'
       },
       {
-        label: 'createdAt',
-        value: 'createdAt'
+        label: 'CodeCharge',
+        value: 'codeCharge'
+      },
+      {
+        label: 'CodeCity',
+        value: 'codeCity'
       },
       {
         label: 'status',
@@ -85,6 +90,8 @@ class ModalExportCSV extends Component {
                   <th>Codigo</th>
                   <th>Nombre</th>
                   <th>Descripcion</th>
+                  <th>Código cargo</th>
+                  <th>Código ciudad</th>
                   <th>Estado</th>
                 </tr>
               </thead>
@@ -95,6 +102,8 @@ class ModalExportCSV extends Component {
                       <td>{aux.code}</td>
                       <td>{aux.name}</td>
                       <td>{aux.description}</td>
+                      <td>{aux.codeCharge}</td>
+                      <td>{aux.codeCity}</td>
                       <td>{aux.status}</td>
                     </tr>
                   ];

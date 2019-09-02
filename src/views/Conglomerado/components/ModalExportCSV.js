@@ -63,11 +63,11 @@ class ModalExportCSV extends Component {
         value: 'description'
       },
       {
-        label: 'CodeCharge',
+        label: 'Code_Charge',
         value: 'codeCharge'
       },
       {
-        label: 'CodeCity',
+        label: 'Code_City',
         value: 'codeCity'
       },
       {

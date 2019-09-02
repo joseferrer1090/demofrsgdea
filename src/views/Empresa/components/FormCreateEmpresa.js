@@ -8,7 +8,10 @@ const empresa = {
   name: '',
   description: '',
   chargeId: '',
-  status: ''
+  status: '',
+  cityId: '',
+  countryId: '',
+  departmentId: ''
 };
 
 const FormCreateEmpresa = props => {

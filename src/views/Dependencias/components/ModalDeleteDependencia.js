@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import {
   Row,
   Col,
@@ -9,18 +9,18 @@ import {
   ModalFooter,
   Button,
   Alert
-} from "reactstrap";
-import { Formik, ErrorMessage, Field } from "formik";
-import * as Yup from "yup";
+} from 'reactstrap';
+import { Formik, ErrorMessage, Field } from 'formik';
+import * as Yup from 'yup';
 
 class ModalDeleteDependencia extends Component {
   state = {
     modal: this.props.modalDel,
-    nombre: "",
+    nombre: '',
     id: this.props.id,
-    userLogged: "jferrer",
+    userLogged: 'jferrer',
     alertError: false,
-    alertName: false,
+    alertCode: false,
     alertSuccess: false
   };
 
@@ -34,14 +34,14 @@ class ModalDeleteDependencia extends Component {
   onDismiss = () => {
     this.setState({
       alertError: false,
-      alertName: false,
+      alertCode: false,
       alertSuccess: false
     });
   };
 
   render() {
     const dataInit = {
-      nombre: ""
+      nombre: ''
     };
     console.log(this.state.id);
     return (
@@ -53,13 +53,11 @@ class ModalDeleteDependencia extends Component {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/dependence/${
-                    this.state.id
-                  }?name=${values.nombre}&username=${this.state.userLogged}`,
+                  `http://192.168.10.180:7000/api/sgdea/dependence/${this.state.id}?code=${values.code}&username=${this.state.userLogged}`,
                   {
-                    method: "DELETE",
+                    method: 'DELETE',
                     headers: {
-                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                      Authorization: 'Basic ' + window.btoa('sgdea:123456')
                     }
                   }
                 )
@@ -86,23 +84,23 @@ class ModalDeleteDependencia extends Component {
                       }, 2000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertName: true
+                        alertCode: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertName: false,
+                          alertCode: false,
                           modal: false
                         });
                       }, 2000);
                     }
                   })
-                  .catch(Error => console.log("Error", Error));
+                  .catch(Error => console.log('Error', Error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
-              nombre: Yup.string().required(
-                "nombre necesario para eliminar la dependencia"
+              code: Yup.string().required(
+                ' Por favor introduzca el código de la dependencia.'
               )
             })}
           >
@@ -128,58 +126,58 @@ class ModalDeleteDependencia extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        La dependencia que va a eliminar, esta asociado a otras
+                        La dependencia a eliminar, esta asociado a otras
                         entidades.
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertName}
+                        isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un nombre valido.
+                        Por favor introduzca un código válido.
                       </Alert>
                       <Alert
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        Se elemino la dependencia
+                        La dependencia ha sido eliminada con éxito.
                       </Alert>
                       <p className="text-center">
-                        {" "}
-                        Confirmar el <code> Nombre </code> para eliminar la
-                        dependencia{" "}
+                        {' '}
+                        Confirmar el <code> código </code> para eliminar la
+                        dependencia{' '}
                       </p>
 
                       <input
-                        name="nombre"
+                        name="code"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.nombre}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.nombre &&
-                          touched.nombre &&
-                          "is-invalid"}`}
+                        value={values.code}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
+                          touched.code &&
+                          'is-invalid'}`}
                         type="text"
-                        placeholder="nombre de la dependencia a eliminar"
-                        style={{ textAlign: "center" }}
+                        placeholder="Código de la dependencia a eliminar"
+                        style={{ textAlign: 'center' }}
                       />
-                      <div className="text-center" style={{ color: "#D54B4B" }}>
-                        {errors.nombre && touched.nombre ? (
+                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                        {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
-                        <ErrorMessage name="nombre" />
+                        <ErrorMessage name="code" />
                       </div>
                       <br />
                       <p className="text-center text-danger">
-                        {" "}
-                        La dependencia quedará eliminada de manera permanente.{" "}
+                        {' '}
+                        La dependencia quedará eliminada de manera permanente.{' '}
                       </p>
                     </form>
                   </ModalBody>
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-danger btn-sm"}
+                      className={'btn btn-outline-danger btn-sm'}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
@@ -194,7 +192,7 @@ class ModalDeleteDependencia extends Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      <i className="fa fa-times" /> Cerrar{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

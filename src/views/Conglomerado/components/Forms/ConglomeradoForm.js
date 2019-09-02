@@ -467,7 +467,7 @@ export default withFormik({
               });
               // alert("oki");
             } else if (response.status === 500) {
-              toast.error('El conglomerado ya existe.', {
+              toast.error('Error, el conglomerado ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: '60px'

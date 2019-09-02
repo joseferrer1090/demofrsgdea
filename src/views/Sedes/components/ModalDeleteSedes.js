@@ -1,41 +1,48 @@
-import React, { Component, Fragment } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Alert } from "reactstrap";
-import PropTypes from "prop-types";
-import * as Yup from "yup";
-import { Formik, ErrorMessage, Field } from "formik";
+import React, { Component, Fragment } from 'react';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Alert
+} from 'reactstrap';
+import PropTypes from 'prop-types';
+import * as Yup from 'yup';
+import { Formik, ErrorMessage, Field } from 'formik';
 
 class ModalDeleteSedes extends Component {
   state = {
     modal: this.props.modaldel,
     idSede: this.props.id,
-    nombre:"",
-    useLogged:"",
+    nombre: '',
+    useLogged: '',
     alertError: false,
-    alertName: false,
-    alertSuccess: false,
+    alertCode: false,
+    alertSuccess: false
   };
 
-  toggle = (id) => {
+  toggle = id => {
     console.log(id);
     this.setState({
       modal: !this.state.modal,
-      nombre:"",
+      nombre: '',
       idSede: id,
-      useLogged:"ccuartas"
+      useLogged: 'ccuartas'
     });
   };
 
   onDismiss = () => {
     this.setState({
       alertError: false,
-      alertName: false,
-      alertSuccess: false,
+      alertCode: false,
+      alertSuccess: false
     });
   };
 
   render() {
     const dataPreview = {
-      nombre: ""
+      nombre: ''
     };
     return (
       <Fragment>
@@ -46,51 +53,49 @@ class ModalDeleteSedes extends Component {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/headquarter/${
-                    this.state.idSede
-                  }?name=${values.nombre}&username=${this.state.useLogged}`,
+                  `http://192.168.10.180:7000/api/sgdea/headquarter/${this.state.idSede}?code=${values.code}&username=${this.state.useLogged}`,
                   {
-                    method: "DELETE",
+                    method: 'DELETE',
                     headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                      'Content-Type': 'application/json',
+                      Authorization: 'BASIC ' + window.btoa('sgdea:123456')
                     }
                   }
                 )
-                .then(response => {
+                  .then(response => {
                     if (response.status === 500) {
                       this.setState({
                         alertError: true
                       });
-                      setTimeout(()=>{
+                      setTimeout(() => {
                         this.setState({
-                          modal:false,
+                          modal: false,
                           alertError: false
-                        })
-                      },3000)
+                        });
+                      }, 3000);
                     } else if (response.status === 204) {
-                        this.setState({
-                            alertSuccess: true
+                      this.setState({
+                        alertSuccess: true
                       });
-                      setTimeout(()=>{
+                      setTimeout(() => {
                         this.setState({
-                          modal:false,
+                          modal: false,
                           alertSuccess: false
-                        })
-                    },3000)
+                        });
+                      }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertName: true
+                        alertCode: true
                       });
                     }
                   })
-                .catch(error => console.log(" ", error));
+                  .catch(error => console.log(' ', error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
-              nombre: Yup.string().required(
-                " Por favor introduzca el nombre de la sede."
+              code: Yup.string().required(
+                ' Por favor introduzca el código de la sede.'
               )
             })}
           >
@@ -110,13 +115,13 @@ class ModalDeleteSedes extends Component {
                 <Fragment>
                   <ModalBody>
                     <form className="form">
-                    <Alert
+                      <Alert
                         className="text-center"
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        La sede ha sido eliminada con exito.
+                        La sede ha sido eliminada con éxito.
                       </Alert>
                       <Alert
                         className="text-center"
@@ -129,44 +134,45 @@ class ModalDeleteSedes extends Component {
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertName}
+                        isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un nombre valido.
+                        Por favor introduzca un código valido.
                       </Alert>
                       <p className="text-center">
-                        {" "}
-                        Confirmar el <code> Nombre </code> para eliminar el sede{" "}
+                        {' '}
+                        Confirmar el <code> código </code> para eliminar el
+                        sede.{' '}
                       </p>
 
                       <input
-                        name={"nombre"}
+                        name={'code'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder="Nombre de la sede a eliminar"
-                        style={{ textAlign: "center" }}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.nombre &&
-                          touched.nombre &&
-                          "is-invalid"}`}
+                        placeholder="Código de la sede a eliminar"
+                        style={{ textAlign: 'center' }}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
+                          touched.code &&
+                          'is-invalid'}`}
                       />
-                      <div className="text-center" style={{ color: "#D54B4B" }}>
-                        {errors.nombre && touched.nombre ? (
+                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                        {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
-                        <ErrorMessage name="nombre" />
+                        <ErrorMessage name="code" />
                       </div>
                       <br />
                       <p className="text-center text-danger">
-                        {" "}
-                        La sede quedará eliminada de manera permanente.{" "}
+                        {' '}
+                        La sede quedará eliminada de manera permanente.{' '}
                       </p>
                     </form>
                   </ModalBody>
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-danger btn-sm"}
+                      className={'btn btn-outline-danger btn-sm'}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
@@ -179,14 +185,14 @@ class ModalDeleteSedes extends Component {
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
                         this.setState({
-                            modal: false ,
-                            alertError: false,
-                            alertName: false,
-                            alertSuccess: false,
-                          });
+                          modal: false,
+                          alertError: false,
+                          alertCode: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      <i className="fa fa-times" /> Cerrar{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import {
   Modal,
   ModalHeader,
@@ -17,16 +17,16 @@ import {
   CardBody,
   CustomInput,
   Alert
-} from "reactstrap";
-import IMGDEPENDENCIA from "./../../../assets/img/settings-work-tool.svg";
-import { Formik, ErrorMessage, Field } from "formik";
-import * as Yup from "yup";
+} from 'reactstrap';
+import IMGDEPENDENCIA from './../../../assets/img/settings-work-tool.svg';
+import { Formik, ErrorMessage, Field } from 'formik';
+import * as Yup from 'yup';
 
 class ModalEditDependencia extends React.Component {
   state = {
     modal: this.props.modaledit,
     id: this.props.id,
-    userLogged: "jferrer",
+    userLogged: 'jferrer',
     dataDependence: {},
     dataCharge: {},
     dataDependenceConglomerate: {},
@@ -58,14 +58,12 @@ class ModalEditDependencia extends React.Component {
 
   getDataDependence = id => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/${id}/${
-        this.state.userLogged
-      }`,
+      `http://192.168.10.180:7000/api/sgdea/dependence/${id}/${this.state.userLogged}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -79,15 +77,15 @@ class ModalEditDependencia extends React.Component {
           dataDependenceSede: data.headquarter
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
   getDataConglomerate = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
-        "Content-Type": "application/json"
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
       }
     })
       .then(response => response.json())
@@ -97,16 +95,16 @@ class ModalEditDependencia extends React.Component {
         });
       })
       .catch(Error => {
-        console.log("", Error);
+        console.log('', Error);
       });
   };
 
   getDataCompany = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/company`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
-        "Content-Type": "application/json"
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
       }
     })
       .then(response => response.json())
@@ -115,15 +113,15 @@ class ModalEditDependencia extends React.Component {
           dataCompany: data
         });
       })
-      .catch(Error => console.log("Error", Error));
+      .catch(Error => console.log('Error', Error));
   };
 
   getDataCharge = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/charge`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
-        "Content-Type": "application/json"
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
       }
     })
       .then(response => response.json())
@@ -132,15 +130,15 @@ class ModalEditDependencia extends React.Component {
           dataChargeList: data
         });
       })
-      .catch(Error => console.log("Error", Error));
+      .catch(Error => console.log('Error', Error));
   };
 
   getDataHeadquarterList = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/headquarter`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
-        "Content-Type": "application/json"
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
       }
     })
       .then(response => response.json())
@@ -149,7 +147,7 @@ class ModalEditDependencia extends React.Component {
           dataHeadquarterList: data
         });
       })
-      .catch(Error => console.log("", Error));
+      .catch(Error => console.log('', Error));
   };
 
   render() {
@@ -205,9 +203,7 @@ class ModalEditDependencia extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>
-            Actualizar Dependencia {this.state.dataDependence.name}
-          </ModalHeader>
+          <ModalHeader>Actualizar {this.state.dataDependence.name}</ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={result}
@@ -223,10 +219,10 @@ class ModalEditDependencia extends React.Component {
               };
               setTimeout(() => {
                 fetch(`http://192.168.10.180:7000/api/sgdea/dependence`, {
-                  method: "PUT",
+                  method: 'PUT',
                   headers: {
-                    Authorization: "Basic " + window.btoa("sgdea:123456"),
-                    "Content-Type": "application/json"
+                    Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+                    'Content-Type': 'application/json'
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -262,26 +258,26 @@ class ModalEditDependencia extends React.Component {
                       }, 2000);
                     }
                   })
-                  .catch(Error => console.log("Error", Error));
+                  .catch(Error => console.log('Error', Error));
               }, 3000);
             }}
             validationSchema={Yup.object().shape({
               conglomerate: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione un conglomerado."),
+                .required(' Por favor seleccione un conglomerado.'),
               company: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione una empresa."),
+                .required(' Por favor seleccione una empresa.'),
               headquarter: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione una sede."),
-              code: Yup.string().required(" Por favor introduzca un código."),
-              name: Yup.string().required(" Por favor introduzca un código."),
-              description: Yup.string().max(250, "Máximo 250 caracteres."),
+                .required(' Por favor seleccione una sede.'),
+              code: Yup.string().required(' Por favor introduzca un código.'),
+              name: Yup.string().required(' Por favor introduzca un código.'),
+              description: Yup.string().max(250, 'Máximo 250 caracteres.'),
               charge: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione el cargo."),
-              status: Yup.bool().test("Activado", "", value => value === true)
+                .required(' Por favor seleccione el cargo.'),
+              status: Yup.bool().test('Activado', '', value => value === true)
             })}
           >
             {props => {
@@ -322,19 +318,19 @@ class ModalEditDependencia extends React.Component {
                           <div className="">
                             <h5
                               className=""
-                              style={{ borderBottom: "1px solid black" }}
+                              style={{ borderBottom: '1px solid black' }}
                             >
-                              {" "}
-                              Datos{" "}
-                            </h5>{" "}
+                              {' '}
+                              Datos{' '}
+                            </h5>{' '}
                           </div>
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {" "}
-                                  Conglomerado{" "}
-                                  <span className="text-danger">*</span>{" "}
+                                  {' '}
+                                  Conglomerado{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <select
                                   name="conglomerate"
@@ -346,7 +342,7 @@ class ModalEditDependencia extends React.Component {
                                   <option value="">Seleccione...</option>
                                   {conglomerateList}
                                 </select>
-                                <div style={{ color: "#D54B4B" }}>
+                                <div style={{ color: '#D54B4B' }}>
                                   {errors.conglomerate &&
                                   touched.conglomerate ? (
                                     <i className="fa fa-exclamation-triangle" />
@@ -358,10 +354,10 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {" "}
+                                  {' '}
                                   Empresa <span className="text-danger">
                                     *
-                                  </span>{" "}
+                                  </span>{' '}
                                 </label>
                                 <select
                                   name="company"
@@ -373,7 +369,7 @@ class ModalEditDependencia extends React.Component {
                                   <option value="">Seleccione...</option>
                                   {companyList}
                                 </select>
-                                <div style={{ color: "#D54B4B" }}>
+                                <div style={{ color: '#D54B4B' }}>
                                   {errors.company && touched.company ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -384,10 +380,10 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {" "}
+                                  {' '}
                                   Sede <span className="text-danger">
                                     *
-                                  </span>{" "}
+                                  </span>{' '}
                                 </label>
                                 <select
                                   name="headquarter"
@@ -396,10 +392,10 @@ class ModalEditDependencia extends React.Component {
                                   value={values.headquarter}
                                   className="form-control form-control-sm"
                                 >
-                                  <option value={" "}>Seleccione...</option>
+                                  <option value={' '}>Seleccione...</option>
                                   {headquarterList}
                                 </select>
-                                <div style={{ color: "#D54B4B" }}>
+                                <div style={{ color: '#D54B4B' }}>
                                   {errors.headquarter && touched.headquarter ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -410,20 +406,20 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {" "}
+                                  {' '}
                                   Código <span className="text-danger">
                                     *
-                                  </span>{" "}
+                                  </span>{' '}
                                 </label>
                                 <input
-                                  name={"code"}
+                                  name={'code'}
                                   type="text"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.code}
                                   className="form-control form-control-sm"
                                 />
-                                <div style={{ color: "#D54B4B" }}>
+                                <div style={{ color: '#D54B4B' }}>
                                   {errors.code && touched.code ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -436,22 +432,22 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {" "}
+                                  {' '}
                                   Nombre <span className="text-danger">
                                     *
-                                  </span>{" "}
+                                  </span>{' '}
                                 </label>
                                 <input
                                   type="text"
-                                  name={"name"}
+                                  name={'name'}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.name}
                                   className={`form-control form-control-sm ${errors.name &&
                                     touched.name &&
-                                    "is-invalid"}`}
+                                    'is-invalid'}`}
                                 />
-                                <div style={{ color: "#D54B4B" }}>
+                                <div style={{ color: '#D54B4B' }}>
                                   {errors.name && touched.name ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -462,12 +458,12 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {" "}
-                                  Cargo responsable{" "}
-                                  <span className="text-danger">*</span>{" "}
+                                  {' '}
+                                  Cargo responsable{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <select
-                                  name={"charge"}
+                                  name={'charge'}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.charge}
@@ -476,7 +472,7 @@ class ModalEditDependencia extends React.Component {
                                   <option value="">Seleccione...</option>
                                   {chargeList}
                                 </select>
-                                <div style={{ color: "#D54B4B" }}>
+                                <div style={{ color: '#D54B4B' }}>
                                   {errors.charge && touched.charge ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -488,13 +484,13 @@ class ModalEditDependencia extends React.Component {
                               <div className="form-group">
                                 <label> Descripción </label>
                                 <textarea
-                                  name={"description"}
+                                  name={'description'}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.description}
                                   className="form-control"
                                 />
-                                <div style={{ color: "#D54B4B" }}>
+                                <div style={{ color: '#D54B4B' }}>
                                   {errors.description && touched.description ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -534,7 +530,7 @@ class ModalEditDependencia extends React.Component {
                                           className={
                                             errors.status &&
                                             touched.status &&
-                                            "invalid-feedback"
+                                            'invalid-feedback'
                                           }
                                         />
                                       );
@@ -551,13 +547,13 @@ class ModalEditDependencia extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-success btn-sm"}
+                      className={'btn btn-outline-success btn-sm'}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" /> Actualizar dependencia
+                      <i className="fa fa-pencil" /> Actualizar
                     </button>
                     <button
                       type="button"
@@ -566,8 +562,8 @@ class ModalEditDependencia extends React.Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      {" "}
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      {' '}
+                      <i className="fa fa-times" /> Cerrar{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

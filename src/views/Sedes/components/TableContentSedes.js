@@ -217,7 +217,7 @@ class TableContentSedes extends Component {
         <ModalView modalview={this.state.modalView} ref="child" />
         <ModalEdit modaledit={this.state.modalEdit} ref="child2" />
         <ModalDelete modaldel={this.state.modalDel} ref="child3" />
-        {/*<ModalExport modalExport={this.state.modalExport} ref="child4"/>*/}
+        <ModalExport modalExport={this.state.modalExport} ref="child4" />
       </div>
     );
   }

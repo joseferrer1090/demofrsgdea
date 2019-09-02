@@ -543,7 +543,7 @@ export default withFormik({
         .then(response =>
           response.json().then(data => {
             if (response.status === 201) {
-              toast.success('Se creo la empresa con exito', {
+              toast.success('Se creo la empresa con éxito.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: '60px'
@@ -551,7 +551,7 @@ export default withFormik({
               });
               // alert("oki");
             } else if (response.status === 500) {
-              toast.error('Error, la empresa ya existe', {
+              toast.error('Error, la empresa ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: '60px'

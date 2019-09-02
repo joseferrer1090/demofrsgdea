@@ -19,7 +19,8 @@ import {
   CONGLOMERATES,
   DEPARTMENTS,
   CITYS,
-  COUNTRIES
+  COUNTRIES,
+  CHARGES
 } from './../../../services/EndPoints';
 
 class ModalEditConglomerado extends React.Component {
@@ -31,12 +32,14 @@ class ModalEditConglomerado extends React.Component {
     alertSuccess: false,
     optionsCountries: [],
     optionsDepartment: [],
-    optionsCitys: []
+    optionsCitys: [],
+    optionsCharges: []
   };
   componentDidMount() {
     this.getDataCountries();
     this.getDataDepartments();
     this.getDataCitys();
+    this.getDataCharges();
   }
 
   toggle = id => {
@@ -66,7 +69,11 @@ class ModalEditConglomerado extends React.Component {
             conglomerate_name: data.name,
             code: data.code,
             description: data.description,
-            status: data.status
+            status: data.status,
+            conglomerate_charge:
+              data.charge !== null
+                ? { conglomerate_charge: data.charge.id }
+                : ''
           }
         });
       })
@@ -134,6 +141,22 @@ class ModalEditConglomerado extends React.Component {
       })
       .catch(Error => console.log(' ', Error));
   };
+  getDataCharges = data => {
+    fetch(CHARGES, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCharges: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
 
   render() {
     const mapOptionsCountries = this.state.optionsCountries.map((aux, idx) => {
@@ -151,6 +174,14 @@ class ModalEditConglomerado extends React.Component {
     );
 
     const mapOptionsCitys = this.state.optionsCitys.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+
+    const mapOptionsCharges = this.state.optionsCharges.map((aux, idx) => {
       return (
         <option key={aux.id} value={aux.id}>
           {aux.name}
@@ -192,6 +223,7 @@ class ModalEditConglomerado extends React.Component {
                     description: values.description,
                     status: tipoEstado(values.status),
                     cityId: values.conglomerate_city,
+                    chargeId: values.conglomerate_charge,
                     userName: 'jferrer'
                   })
                 })
@@ -246,6 +278,7 @@ class ModalEditConglomerado extends React.Component {
               conglomerate_city: Yup.string()
                 .ensure()
                 .required(' Por favor seleccione una ciudad.'),
+              conglomerate_charge: Yup.string().ensure(),
               description: Yup.string()
                 .nullable()
                 .max(250, ' Máximo 250 caracteres.'),
@@ -442,6 +475,25 @@ class ModalEditConglomerado extends React.Component {
                                   ) : null}
                                   <ErrorMessage name="conglomerate_city" />
                                 </div>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label> Cargo responsable </label>
+                                <select
+                                  name="conglomerate_charge"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.conglomerate_charge}
+                                  className="form-control form-control-sm"
+                                >
+                                  {' '}
+                                  <option value={''} disabled>
+                                    {' '}
+                                    -- Seleccione --{' '}
+                                  </option>
+                                  {mapOptionsCharges}
+                                </select>
                               </div>
                             </div>
                             <div className="col-md-12">

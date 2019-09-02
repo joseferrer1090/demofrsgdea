@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
-import PropTypes from "prop-types";
-import * as Yup from "yup";
-import { Formik, withFormik, ErrorMessage, Field, From } from "formik";
+import React, { Component, Fragment } from 'react';
+import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from 'reactstrap';
+import PropTypes from 'prop-types';
+import * as Yup from 'yup';
+import { Formik, withFormik, ErrorMessage, Field, From } from 'formik';
 
 class ModalDeleteConglomerado extends React.Component {
   state = {
@@ -10,29 +10,29 @@ class ModalDeleteConglomerado extends React.Component {
     idConglomerado: this.props.id,
     alertSuccess: false,
     alertError: false,
-    alertName: false
+    alertCode: false
   };
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      nombre: "",
+      code: '',
       idConglomerado: id,
-      useLogged: "jferrer"
+      useLogged: 'jferrer'
     });
   };
 
   onDismiss = () => {
     this.setState({
       alertError: false,
-      alertName: false,
+      alertCode: false,
       alertSuccess: false
     });
   };
 
   render() {
     const dataInitial = {
-      nombre: ""
+      code: ''
     };
     return (
       <Fragment>
@@ -43,58 +43,56 @@ class ModalDeleteConglomerado extends React.Component {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/conglomerate/${
-                    this.state.idConglomerado
-                  }?name=${values.nombre}&username=${this.state.useLogged}`,
+                  `http://192.168.10.180:7000/api/sgdea/conglomerate/${this.state.idConglomerado}?code=${values.code}&username=${this.state.useLogged}`,
                   {
-                    method: "DELETE",
+                    method: 'DELETE',
                     headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                      'Content-Type': 'application/json',
+                      Authorization: 'BASIC ' + window.btoa('sgdea:123456')
                     }
                   }
                 )
                   .then(response => {
                     console.log(response);
-                      if (response.status === 500) {
+                    if (response.status === 500) {
+                      this.setState({
+                        alertError: true
+                      });
+                      setTimeout(() => {
                         this.setState({
-                          alertError: true
+                          modal: false,
+                          alertError: false
                         });
-                        setTimeout(()=>{
-                          this.setState({
-                            modal:false,
-                            alertError: false
-                          })
-                        },3000)
-                      }
-
-                        else if (response.status === 204) {
-                          this.setState({
-                              alertSuccess: true
-                        });
-                        setTimeout(()=>{
-                          this.setState({
-                            modal:false,
-                            alertSuccess: false
-                          })
-                        },3000)
-                      } else if (response.status === 400) {
+                      }, 3000);
+                    } else if (response.status === 204) {
+                      this.setState({
+                        alertSuccess: true
+                      });
+                      setTimeout(() => {
                         this.setState({
-                          alertName: true
+                          modal: false,
+                          alertSuccess: false
                         });
-                        setTimeout(()=>{
-                          this.setState({
-                            alertName: false
-                          })
-                        },3000)
-                      }
+                      }, 3000);
+                    } else if (response.status === 400) {
+                      this.setState({
+                        alertCode: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertCode: false
+                        });
+                      }, 3000);
+                    }
                   })
-                  .catch(error => console.log(" ", error));
+                  .catch(error => console.log(' ', error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
-              nombre: Yup.string().required(" Por favor introduzca el nombre del conglomerado.")
+              code: Yup.string().required(
+                ' Por favor introduzca el código del conglomerado.'
+              )
             })}
           >
             {props => {
@@ -124,10 +122,10 @@ class ModalDeleteConglomerado extends React.Component {
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertName}
+                        isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un nombre valido.
+                        Por favor introduzca un código válido.
                       </Alert>
                       <Alert
                         className="text-center"
@@ -135,46 +133,45 @@ class ModalDeleteConglomerado extends React.Component {
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        El conglomerado ha sido eliminado con exito.
+                        El conglomerado ha sido eliminado con éxito.
                       </Alert>
                       <p className="text-center">
-                        {" "}
-                        Confirmar el <code> Nombre </code> para eliminar el
-                        conglomerado{" "}
+                        {' '}
+                        Confirmar el <code> código </code> para eliminar el
+                        conglomerado.{' '}
                       </p>
-
                       <input
                         type="text"
-                        placeholder="Nombre del conglomerado a eliminar"
-                        style={{ textAlign: "center" }}
-                        name="nombre"
+                        placeholder="Código del conglomerado a eliminar"
+                        style={{ textAlign: 'center' }}
+                        name="code"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.nombre}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.nombre &&
-                          touched.nombre &&
-                          "is-invalid"}`}
+                        value={values.code}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
+                          touched.code &&
+                          'is-invalid'}`}
                       />
-                      <div className="text-center" style={{ color: "#D54B4B" }}>
-                        {errors.nombre && touched.nombre ? (
+                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                        {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
-                        <ErrorMessage name="nombre" />
+                        <ErrorMessage name="code" />
                       </div>
                       {/* <div className="text-center">
                         <ErrorMessage name={"nombre"} />
                       </div> */}
                       <br />
                       <p className="text-center text-danger">
-                        {" "}
-                        El conglomerado quedará elimanado de manera permanente{" "}
+                        {' '}
+                        El conglomerado quedará elimanado de manera permanente.{' '}
                       </p>
                     </form>
                   </ModalBody>
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-danger btn-sm"}
+                      className={'btn btn-outline-danger btn-sm'}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
@@ -189,12 +186,12 @@ class ModalDeleteConglomerado extends React.Component {
                         this.setState({
                           modal: false,
                           alertError: false,
-                          alertName: false,
+                          alertCode: false,
                           alertSuccess: false
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      <i className="fa fa-times" /> Cerrar{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

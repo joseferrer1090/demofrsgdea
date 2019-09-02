@@ -12,7 +12,8 @@ import {
   CONGLOMERATES,
   COUNTRIES,
   DEPARTMENTS,
-  CITYS
+  CITYS,
+  CHARGES
 } from './../../../../services/EndPoints';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -35,12 +36,15 @@ const ConglomeradorForm = props => {
   const [optionsDepartment, setOptionsDepartment] = useState([]);
   const [optionsCountries, setOptionsCountries] = useState([]);
   const [optionsCitys, setOptionsCitys] = useState([]);
+  const [optionsCharges, setOptionsCharges] = useState([]);
 
   useEffect(() => {
     getDataCountries();
     getDataDepartments();
     getDataCitys();
+    getDataCharges();
   }, []);
+
   const getDataCountries = data => {
     fetch(COUNTRIES, {
       method: 'GET',
@@ -78,9 +82,6 @@ const ConglomeradorForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsDepartment(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
@@ -112,6 +113,29 @@ const ConglomeradorForm = props => {
   };
 
   const mapOptionsCitys = optionsCitys.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
+
+  const getDataCharges = data => {
+    fetch(CHARGES, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsCharges(data);
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  const mapOptionsCharges = optionsCharges.map((aux, idx) => {
     return (
       <option key={aux.id} value={aux.id}>
         {aux.name}
@@ -255,6 +279,25 @@ const ConglomeradorForm = props => {
                   </div>
                 </div>
               </div>
+              <div className="col-md-12">
+                <div className="form-group">
+                  <label> Cargo responsable </label>
+                  <select
+                    name="chargeId"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.chargeId}
+                    className="form-control form-control-sm"
+                  >
+                    {' '}
+                    <option value={''} disabled>
+                      {' '}
+                      -- Seleccione --{' '}
+                    </option>
+                    {mapOptionsCharges}
+                  </select>
+                </div>
+              </div>
             </div>
             <div className="row">
               <div className="col-md-12">
@@ -355,7 +398,8 @@ export default withFormik({
     estado: props.conglomerado.estado,
     countryId: props.conglomerado.countryId,
     departmentId: props.conglomerado.departmentId,
-    cityId: props.conglomerado.cityId
+    cityId: props.conglomerado.cityId,
+    chargeId: props.conglomerado.chargeId
   }),
   validationSchema: Yup.object().shape({
     codigo: Yup.string()
@@ -375,6 +419,7 @@ export default withFormik({
     cityId: Yup.string()
       .ensure()
       .required(' Por favor seleccione una ciudad.'),
+    chargeId: Yup.string().ensure(),
     estado: Yup.bool()
       .test(
         'Activo',
@@ -407,6 +452,7 @@ export default withFormik({
           description: values.descripcion,
           status: tipoEstado(values.estado),
           cityId: values.cityId,
+          chargeId: values.chargeId,
           userName: 'jferrer'
         })
       })

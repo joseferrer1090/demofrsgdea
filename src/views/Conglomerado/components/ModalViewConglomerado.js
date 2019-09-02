@@ -28,7 +28,8 @@ class ModalViewConglomerado extends Component {
       dataPais: {},
       dataDepartamento: {},
       dataCiudad: {},
-      collapase: false
+      collapase: false,
+      dataCharge: {}
     };
   }
   toggleCollapse = () => {
@@ -50,11 +51,13 @@ class ModalViewConglomerado extends Component {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         this.setState({
           dataConglomerado: data,
           dataPais: data.city.department.country,
           dataDepartamento: data.city.department,
-          dataCiudad: data.city
+          dataCiudad: data.city,
+          dataCharge: data.charge
         });
       })
       .catch(Error => console.log(' ', Error));
@@ -71,6 +74,17 @@ class ModalViewConglomerado extends Component {
     // moment.locale(es);
     return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
   }
+
+  CargoInfo = () => {
+    const data = this.state.dataCharge;
+    let status;
+    if (data === null)
+      status = <b className="text-danger">No hay cargos asociados.</b>;
+    else if (data !== null) {
+      status = <div>{data.name}</div>;
+    }
+    return status;
+  };
 
   render() {
     // console.log(this.state.id);
@@ -190,7 +204,15 @@ class ModalViewConglomerado extends Component {
                             </dl>
                           </div>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <dl className="param">
+                              <dt> Cargo responsable </dt>
+                              <dd> {this.CargoInfo()} </dd>
+                            </dl>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
                               <dt> Fecha de creación </dt>
@@ -203,7 +225,7 @@ class ModalViewConglomerado extends Component {
                             </dl>
                           </div>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
                               <dt> Fecha de modificación </dt>

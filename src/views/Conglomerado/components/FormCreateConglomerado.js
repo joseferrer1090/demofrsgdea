@@ -8,7 +8,8 @@ const dataConglomerado = {
   estado: '',
   countryId: '',
   departmentId: '',
-  cityId: ''
+  cityId: '',
+  chargeId: ''
 };
 
 const FormCreateConglomerado = props => {

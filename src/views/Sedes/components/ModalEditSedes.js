@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment } from 'react';
 import {
   CustomInput,
   Modal,
@@ -12,45 +12,53 @@ import {
   Alert,
   CardHeader,
   Collapse
-} from "reactstrap";
-import PropTypes from "prop-types";
-import IMGSEDE from "./../../../assets/img/teamwork.svg";
-import {HEADQUARTERS, CONGLOMERATES, COMPANYS, COUNTRIES, DEPARTMENTS, CITYS, CHARGES} from './../../../services/EndPoints';
-import { Formik, ErrorMessage, Field } from "formik";
-import * as Yup from "yup";
+} from 'reactstrap';
+import PropTypes from 'prop-types';
+import IMGSEDE from './../../../assets/img/teamwork.svg';
+import {
+  HEADQUARTERS,
+  CONGLOMERATES,
+  COMPANYS,
+  COUNTRIES,
+  DEPARTMENTS,
+  CITYS,
+  CHARGES
+} from './../../../services/EndPoints';
+import { Formik, ErrorMessage, Field } from 'formik';
+import * as Yup from 'yup';
 
 class ModalEditSedes extends React.Component {
   state = {
     modal: this.props.modaledit,
     collapse: false,
-    idSedes:this.props.id,
-    dataResult:{},
-    optionsConglomerate:[],
-    optionsCompanys:[],
-    optionsCountries:[],
-    optionsDepartment:[],
-    optionsCitys:[],
-    optionsCharges:[],
+    idSedes: this.props.id,
+    dataResult: {},
+    optionsConglomerate: [],
+    optionsCompanys: [],
+    optionsCountries: [],
+    optionsDepartment: [],
+    optionsCitys: [],
+    optionsCharges: [],
     alertError: false,
     alertSuccess: false
   };
 
-componentDidMount() {
-  this.getDataConglomerates();
-  this.getDataCompanys();
-  this.getDataCountries();
-  this.getDataDepartments();
-  this.getDataCitys();
-  this.getDataCharges();
-}
-onDismiss = () => {
-  this.setState({
-    alertError: false,
-    alertSuccess: false
-  });
-};
+  componentDidMount() {
+    this.getDataConglomerates();
+    this.getDataCompanys();
+    this.getDataCountries();
+    this.getDataDepartments();
+    this.getDataCitys();
+    this.getDataCharges();
+  }
+  onDismiss = () => {
+    this.setState({
+      alertError: false,
+      alertSuccess: false
+    });
+  };
 
-  toggle = (id) => {
+  toggle = id => {
     this.setState({
       modal: !this.state.modal,
       idSedes: id
@@ -62,12 +70,12 @@ onDismiss = () => {
     this.setState({ collapse: !this.state.collapse });
   };
 
-  getDataConglomerates = (data) => {
+  getDataConglomerates = data => {
     fetch(CONGLOMERATES, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -76,48 +84,48 @@ onDismiss = () => {
           optionsConglomerate: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
-  getDataCompanys = (data) => {
+  getDataCompanys = data => {
     fetch(COMPANYS, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          optionsCompanys:data
+          optionsCompanys: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
-  getDataCountries = (data) => {
+  getDataCountries = data => {
     fetch(COUNTRIES, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          optionsCountries:data
+          optionsCountries: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
-  getDataDepartments = (data) => {
+  getDataDepartments = data => {
     fetch(DEPARTMENTS, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -126,49 +134,49 @@ onDismiss = () => {
           optionsDepartment: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
-  getDataCitys = (data) => {
+  getDataCitys = data => {
     fetch(CITYS, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          optionsCitys:data
+          optionsCitys: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
-  getDataCharges = (data) => {
+  getDataCharges = data => {
     fetch(CHARGES, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          optionsCharges:data
+          optionsCharges: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
   getHeadquarterByID = id => {
     fetch(`http://192.168.10.180:7000/api/sgdea/headquarter/${id}/jferrer`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -188,60 +196,64 @@ onDismiss = () => {
             headquarter_phone: data.phone,
             headquarter_conglomerate: data.company.conglomerate.id,
             headquarter_company: data.company.id,
-            headquarter_charge: data.charge !== null ?
-            {headquarter_charge: data.charge.id}: ""
-          },
+            headquarter_charge:
+              data.charge !== null ? { headquarter_charge: data.charge.id } : ''
+          }
         });
       })
       .catch(error => console.log(error));
   };
 
-
-
   render() {
-  const dataResult = this.state.dataResult
-  console.log(dataResult);
+    const dataResult = this.state.dataResult;
+    console.log(dataResult);
 
-   const mapOptionsConglomerate =
-    this.state.optionsConglomerate.map((aux,idx)=>{
-      return(
-        <option key={aux.id} value={aux.id}>{aux.name}</option>
-      );
-    });
-    const mapOptionsCompanys =
-    this.state.optionsCompanys.map((aux,idx)=>{
-      return(
-        <option key={aux.id} value={aux.id}>{aux.name}</option>
-      );
-    });
-
-    const mapOptionsCountries =
-    this.state.optionsCountries.map((aux,idx)=>{
-      return(
-        <option key={aux.id} value={aux.id}>{aux.name}</option>
-      );
-    });
-
-    const mapOptionsDepartments =
-      this.state.optionsDepartment.map((aux,idx)=>{
-      return(
-        <option value={aux.id}>{aux.name}</option>
-      );
-    });
-
-    const mapOptionsCitys =
-    this.state.optionsCitys.map((aux,idx)=>{
-        return(
-          <option key={aux.id} value={aux.id}>{aux.name}</option>
+    const mapOptionsConglomerate = this.state.optionsConglomerate.map(
+      (aux, idx) => {
+        return (
+          <option key={aux.id} value={aux.id}>
+            {aux.name}
+          </option>
         );
-      });
+      }
+    );
+    const mapOptionsCompanys = this.state.optionsCompanys.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
 
-      const mapOptionsCharges =
-    this.state.optionsCharges.map((aux,idx)=>{
-          return(
-            <option key={aux.id} value={aux.id}>{aux.name}</option>
-          );
-        });
+    const mapOptionsCountries = this.state.optionsCountries.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+
+    const mapOptionsDepartments = this.state.optionsDepartment.map(
+      (aux, idx) => {
+        return <option value={aux.id}>{aux.name}</option>;
+      }
+    );
+
+    const mapOptionsCitys = this.state.optionsCitys.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+
+    const mapOptionsCharges = this.state.optionsCharges.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
 
     // const optionToId = id => dataResult.headquarter_charge.id
     // const optionToName = name => dataResult.headquarter_charge.name
@@ -257,53 +269,64 @@ onDismiss = () => {
     //   );
     // });
 
-
     console.log(dataResult.headquarter_charge);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar {this.state.dataResult.headquarter_name}</ModalHeader>
+          <ModalHeader>
+            {' '}
+            Actualizar {this.state.dataResult.headquarter_name}
+          </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}
             validationSchema={Yup.object().shape({
               headquarter_conglomerate: Yup.string()
-                .required(" Por favor seleccione un conglomerado.")
+                .required(' Por favor seleccione un conglomerado.')
                 .ensure(),
               headquarter_company: Yup.string()
-                .required(" Por favor seleccione una empresa.")
+                .required(' Por favor seleccione una empresa.')
                 .ensure(),
               headquarter_code: Yup.string()
-                .required(" Por favor introduzca un código.")
-                .max(6, " Máximo 6 caracteres.")
-                .min(6, " Mínimo 6 caracteres."),
+                .required(' Por favor introduzca un código.')
+                .max(6, ' Máximo 6 caracteres.')
+                .min(6, ' Mínimo 6 caracteres.'),
               headquarter_name: Yup.string()
-                .required(" Por favor introduzca un nombre.")
-                .max(100, " Máximo 100 caracteres"),
-              headquarter_description: Yup.string().max(250, " Máximo 250 caracteres"),
+                .required(' Por favor introduzca un nombre.')
+                .max(100, ' Máximo 100 caracteres'),
+              headquarter_description: Yup.string().max(
+                250,
+                ' Máximo 250 caracteres'
+              ),
               headquarter_prefix: Yup.string()
-                .required(" Por favor asigne un prefijo de radicación.")
-                .min(2," Mínimo 2 caracteres.")
-                .max(6," Máximo 6 caracteres."),
+                .required(' Por favor asigne un prefijo de radicación.')
+                .min(2, ' Mínimo 2 caracteres.')
+                .max(6, ' Máximo 6 caracteres.'),
               headquarter_sequence: Yup.number()
-                .required(" Por favor asigne una secuencia de radicación.")
+                .required(' Por favor asigne una secuencia de radicación.')
                 .integer()
                 .positive(),
               headquarter_country: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione un país."),
+                .required(' Por favor seleccione un país.'),
               headquarter_department: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione un departamento."),
+                .required(' Por favor seleccione un departamento.'),
               headquarter_city: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione una ciudad."),
-              headquarter_address: Yup.string().required(" Por favor introduzca una dirección."),
+                .required(' Por favor seleccione una ciudad.'),
+              headquarter_address: Yup.string().required(
+                ' Por favor introduzca una dirección.'
+              ),
               headquarter_phone: Yup.string()
-                .max(10, " Máximo 10 caracteres.")
-                .required(" Por favor introduzca un número telefónico."),
+                .max(10, ' Máximo 10 caracteres.')
+                .required(' Por favor introduzca un número telefónico.'),
               headquarter_charge: Yup.string().ensure(),
-              headquarter_status: Yup.bool().test("Activo", "", value => value === true)
+              headquarter_status: Yup.bool().test(
+                'Activo',
+                '',
+                value => value === true
+              )
             })}
             onSubmit={(values, { setSubmitting }) => {
               const tipoEstado = data => {
@@ -317,28 +340,28 @@ onDismiss = () => {
               };
               setTimeout(() => {
                 fetch(HEADQUARTERS, {
-                  method: "PUT",
+                  method: 'PUT',
                   headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    'Content-Type': 'application/json',
+                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
                   },
                   body: JSON.stringify({
                     id: this.state.idSedes,
-                    code:values.headquarter_code,
-                    name:values.headquarter_name,
-                    prefix:values.headquarter_prefix,
-                    sequence:values.headquarter_sequence,
-                    address:values.headquarter_address,
-                    phone:values.headquarter_phone,
-                    companyId:values.headquarter_company,
-                    cityId:values.headquarter_city,
-                    chargeId:values.headquarter_charge.id,
-                    description:values.headquarter_description,
-                    status:tipoEstado(values.headquarter_status),
-                    userName:"ccuartas"
+                    code: values.headquarter_code,
+                    name: values.headquarter_name,
+                    prefix: values.headquarter_prefix,
+                    sequence: values.headquarter_sequence,
+                    address: values.headquarter_address,
+                    phone: values.headquarter_phone,
+                    companyId: values.headquarter_company,
+                    cityId: values.headquarter_city,
+                    chargeId: values.headquarter_charge.id,
+                    description: values.headquarter_description,
+                    status: tipoEstado(values.headquarter_status),
+                    userName: 'ccuartas'
                   })
                 })
-                  .then(response =>{
+                  .then(response => {
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true
@@ -355,10 +378,10 @@ onDismiss = () => {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError: false
                         });
                       }, 3000);
-                    }else if (response.status === 500) {
+                    } else if (response.status === 500) {
                       this.setState({
                         alertError: true
                       });
@@ -370,7 +393,7 @@ onDismiss = () => {
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch(error => console.log('', error));
                 setSubmitting(false);
               }, 1000);
             }}
@@ -390,7 +413,7 @@ onDismiss = () => {
               return (
                 <Fragment>
                   <ModalBody>
-                  <Alert
+                    <Alert
                       color="danger"
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
@@ -410,125 +433,125 @@ onDismiss = () => {
                       </Col>
                       <Col sm="9">
                         <div className="">
-                          {" "}
+                          {' '}
                           <h5
                             className=""
-                            style={{ borderBottom: "1px solid black" }}
+                            style={{ borderBottom: '1px solid black' }}
                           >
-                            {" "}
-                            Datos{" "}
-                          </h5>{" "}
+                            {' '}
+                            Datos{' '}
+                          </h5>{' '}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {" "}
-                                Conglomerado{" "}
-                                <span className="text-danger">*</span>{" "}
+                                {' '}
+                                Conglomerado{' '}
+                                <span className="text-danger">*</span>{' '}
                               </label>
                               <select
                                 name="headquarter_conglomerate"
                                 className={`form-control form-control-sm ${errors.headquarter_conglomerate &&
                                   touched.headquarter_conglomerate &&
-                                  "is-invalid"}`}
+                                  'is-invalid'}`}
                                 value={values.headquarter_conglomerate}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                               >
-                              <option value={""} disabled>-- Seleccione --</option>
-                                  {mapOptionsConglomerate}
+                                <option value={''} disabled>
+                                  -- Seleccione --
+                                </option>
+                                {mapOptionsConglomerate}
                               </select>
                               <div style={{ color: '#D54B4B' }}>
-                              {
-                                errors.headquarter_conglomerate && touched.headquarter_conglomerate ?
-                                <i class="fa fa-exclamation-triangle"/> :
-                                null
-                              }
-                              <ErrorMessage name="headquarter_conglomerate" />
+                                {errors.headquarter_conglomerate &&
+                                touched.headquarter_conglomerate ? (
+                                  <i class="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name="headquarter_conglomerate" />
                               </div>
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {" "}
+                                {' '}
                                 Empresa <span className="text-danger">
                                   *
-                                </span>{" "}
+                                </span>{' '}
                               </label>
                               <select
-                                name={"headquarter_company"}
+                                name={'headquarter_company'}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.headquarter_company}
                                 className={`form-control form-control-sm ${errors.headquarter_company &&
                                   touched.headquarter_company &&
-                                  "is-invalid"}`}
+                                  'is-invalid'}`}
                               >
-                              <option value={""} disabled>-- Seleccione --</option>
+                                <option value={''} disabled>
+                                  -- Seleccione --
+                                </option>
                                 {mapOptionsCompanys}
                               </select>
                               <div style={{ color: '#D54B4B' }}>
-                              {
-                                errors.headquarter_company && touched.headquarter_company ?
-                                <i class="fa fa-exclamation-triangle"/> :
-                                null
-                              }
-                              <ErrorMessage name="headquarter_company" />
+                                {errors.headquarter_company &&
+                                touched.headquarter_company ? (
+                                  <i class="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name="headquarter_company" />
                               </div>
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                Código <span className="text-danger">*</span>{" "}
+                                Código <span className="text-danger">*</span>{' '}
                               </label>
                               <input
-                                name={"headquarter_code"}
+                                name={'headquarter_code'}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.headquarter_code}
                                 type="text"
                                 className={`form-control form-control-sm ${errors.headquarter_code &&
                                   touched.headquarter_code &&
-                                  "is-invalid"}`}
+                                  'is-invalid'}`}
                               />
                               <div style={{ color: '#D54B4B' }}>
-                              {
-                                errors.headquarter_code && touched.headquarter_code ?
-                                <i class="fa fa-exclamation-triangle"/> :
-                                null
-                              }
-                              <ErrorMessage name="headquarter_code" />
+                                {errors.headquarter_code &&
+                                touched.headquarter_code ? (
+                                  <i class="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name="headquarter_code" />
                               </div>
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {" "}
+                                {' '}
                                 Nombre <span className="text-danger">
                                   *
-                                </span>{" "}
+                                </span>{' '}
                               </label>
                               <input
                                 type="text"
-                                name={"headquarter_name"}
+                                name={'headquarter_name'}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.headquarter_name}
                                 className={`form-control form-control-sm ${errors.headquarter_name &&
                                   touched.headquarter_name &&
-                                  "is-invalid"}`}
+                                  'is-invalid'}`}
                               />
                               <div style={{ color: '#D54B4B' }}>
-                              {
-                                errors.headquarter_name && touched.headquarter_name ?
-                                <i class="fa fa-exclamation-triangle"/> :
-                                null
-                              }
-                              <ErrorMessage name="headquarter_name" />
+                                {errors.headquarter_name &&
+                                touched.headquarter_name ? (
+                                  <i class="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name="headquarter_name" />
                               </div>
                             </div>
                           </div>
@@ -536,23 +559,23 @@ onDismiss = () => {
                             <div className="form-group">
                               <label> Descripción </label>
                               <textarea
-                                name={"headquarter_description"}
+                                name={'headquarter_description'}
                                 value={values.headquarter_description}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 className={`form-control form-control-sm ${errors.headquarter_description &&
                                   touched.headquarter_description &&
-                                  "is-invalid"}`}
+                                  'is-invalid'}`}
                               />
-                              <ErrorMessage name={"headquarter_description"} />
+                              <ErrorMessage name={'headquarter_description'} />
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {" "}
-                                Prefijo de radicación{" "}
-                                <span className="text-danger">*</span>{" "}
+                                {' '}
+                                Prefijo de radicación{' '}
+                                <span className="text-danger">*</span>{' '}
                               </label>
                               <input
                                 type="text"
@@ -560,28 +583,27 @@ onDismiss = () => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.headquarter_prefix}
-                                className={`form-control form-control-sm ${
-                                  errors.headquarter_prefix && touched.headquarter_prefix &&
-                                  "is-invalid"}`}
-                                maxLength={"6"}
+                                className={`form-control form-control-sm ${errors.headquarter_prefix &&
+                                  touched.headquarter_prefix &&
+                                  'is-invalid'}`}
+                                maxLength={'6'}
                                 placeholder=" "
                               />
                               <div style={{ color: '#D54B4B' }}>
-                              {
-                                errors.headquarter_prefix && touched.headquarter_prefix ?
-                                <i class="fa fa-exclamation-triangle"/> :
-                                null
-                              }
-                              <ErrorMessage name="headquarter_prefix" />
+                                {errors.headquarter_prefix &&
+                                touched.headquarter_prefix ? (
+                                  <i class="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name="headquarter_prefix" />
                               </div>
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {" "}
-                                Secuencia de radicación{" "}
-                                <span className="text-danger">*</span>{" "}
+                                {' '}
+                                Secuencia de radicación{' '}
+                                <span className="text-danger">*</span>{' '}
                               </label>
                               <input
                                 type="number"
@@ -593,12 +615,11 @@ onDismiss = () => {
                                 min={0}
                               />
                               <div style={{ color: '#D54B4B' }}>
-                              {
-                                errors.headquarter_sequence && touched.headquarter_sequence ?
-                                <i class="fa fa-exclamation-triangle"/> :
-                                null
-                              }
-                              <ErrorMessage name="headquarter_sequence" />
+                                {errors.headquarter_sequence &&
+                                touched.headquarter_sequence ? (
+                                  <i class="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name="headquarter_sequence" />
                               </div>
                             </div>
                           </div>
@@ -608,16 +629,16 @@ onDismiss = () => {
                       <Col sm="12">
                         <Card>
                           <CardHeader>
-                            {" "}
+                            {' '}
                             <a
                               onClick={() => {
                                 this.toggleCollapse();
                               }}
-                              style={{ cursor: "pointer" }}
+                              style={{ cursor: 'pointer' }}
                             >
-                              {" "}
-                              Más información{" "}
-                            </a>{" "}
+                              {' '}
+                              Más información{' '}
+                            </a>{' '}
                           </CardHeader>
                           <Collapse isOpen={this.state.collapse}>
                             <CardBody>
@@ -631,43 +652,45 @@ onDismiss = () => {
                                         name="headquarter_charge"
                                         className={`form-control form-control-sm ${errors.headquarter_charge &&
                                           touched.headquarter_charge &&
-                                          "is-invalid"}`}
+                                          'is-invalid'}`}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.headquarter_charge}
                                       >
-                                      <option value={""} disabled>-- Seleccione --</option>
-                                          {mapOptionsCharges}
+                                        <option value={''} disabled>
+                                          -- Seleccione --
+                                        </option>
+                                        {mapOptionsCharges}
                                       </select>
                                       <ErrorMessage name="headquarter_charge" />
                                     </div>
                                   </div>
+
                                   <div className="col-md-4">
                                     <div className="form-group">
                                       <label> País</label>
                                       <select
-                                      name={"headquarter_country"}
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={values.headquarter_country}
-                                      className={`form-control form-control-sm ${errors.headquarter_country &&
-                                        touched.headquarter_country &&
-                                        "is-invalid"}`}
+                                        name={'headquarter_country'}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.headquarter_country}
+                                        className={`form-control form-control-sm ${errors.headquarter_country &&
+                                          touched.headquarter_country &&
+                                          'is-invalid'}`}
                                       >
-                                      {" "}
-
-                                      <option value={""} disabled>-- Seleccione --</option>
-                                      {mapOptionsCountries}
-                                      {" "}
-                                    </select>{" "}
-                                    <div style={{ color: '#D54B4B' }}>
-                                      {
-                                        errors.headquarter_country && touched.headquarter_country ?
-                                        <i className="fa fa-exclamation-triangle"/> :
-                                        null
-                                      }
-                                    <ErrorMessage name="headquarter_country"/>
-                                    </div>
+                                        {' '}
+                                        <option value={''} disabled>
+                                          -- Seleccione --
+                                        </option>
+                                        {mapOptionsCountries}{' '}
+                                      </select>{' '}
+                                      <div style={{ color: '#D54B4B' }}>
+                                        {errors.headquarter_country &&
+                                        touched.headquarter_country ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name="headquarter_country" />
+                                      </div>
                                     </div>
                                   </div>
                                   <div className="col-md-4">
@@ -680,29 +703,30 @@ onDismiss = () => {
                                         onBlur={handleBlur}
                                         className={`form-control form-control-sm ${errors.headquarter_department &&
                                           touched.headquarter_department &&
-                                          "is-invalid"}`}
+                                          'is-invalid'}`}
                                       >
-                                      <option value={""} disabled>-- Seleccione --</option>
-                                      {mapOptionsDepartments}
+                                        <option value={''} disabled>
+                                          -- Seleccione --
+                                        </option>
+                                        {mapOptionsDepartments}
                                       </select>
                                       <div style={{ color: '#D54B4B' }}>
-                                      {
-                                        errors.headquarter_department && touched.headquarter_department ?
-                                        <i class="fa fa-exclamation-triangle"/> :
-                                        null
-                                      }
-                                      <ErrorMessage name="headquarter_department" />
+                                        {errors.headquarter_department &&
+                                        touched.headquarter_department ? (
+                                          <i class="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name="headquarter_department" />
                                       </div>
                                     </div>
                                   </div>
                                   <div className="col-md-4">
                                     <div className="form-group">
                                       <label>
-                                        {" "}
-                                        Ciudad{" "}
+                                        {' '}
+                                        Ciudad{' '}
                                         <span className="text-danger">
                                           *
-                                        </span>{" "}
+                                        </span>{' '}
                                       </label>
                                       <select
                                         name="headquarter_city"
@@ -711,18 +735,19 @@ onDismiss = () => {
                                         onBlur={handleBlur}
                                         className={`form-control form-control-sm ${errors.headquarter_city &&
                                           touched.headquarter_city &&
-                                          "is-invalid"}`}
+                                          'is-invalid'}`}
                                       >
-                                      <option value={""} disabled>-- Seleccione --</option>
-                                          {mapOptionsCitys}
+                                        <option value={''} disabled>
+                                          -- Seleccione --
+                                        </option>
+                                        {mapOptionsCitys}
                                       </select>
                                       <div style={{ color: '#D54B4B' }}>
-                                      {
-                                        errors.headquarter_city && touched.headquarter_city ?
-                                        <i class="fa fa-exclamation-triangle"/> :
-                                        null
-                                      }
-                                      <ErrorMessage name="headquarter_city" />
+                                        {errors.headquarter_city &&
+                                        touched.headquarter_city ? (
+                                          <i class="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name="headquarter_city" />
                                       </div>
                                     </div>
                                   </div>
@@ -730,40 +755,39 @@ onDismiss = () => {
                                   <div className="col-md-8">
                                     <div className="form-group">
                                       <label>
-                                        {" "}
-                                        Dirección{" "}
+                                        {' '}
+                                        Dirección{' '}
                                         <span className="text-danger">
                                           *
-                                        </span>{" "}
+                                        </span>{' '}
                                       </label>
                                       <input
-                                        name={"headquarter_address"}
+                                        name={'headquarter_address'}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         value={values.headquarter_address}
                                         type="text"
                                         className={`form-control form-control-sm ${errors.headquarter_address &&
                                           touched.headquarter_address &&
-                                          "is-invalid"}`}
+                                          'is-invalid'}`}
                                       />
                                       <div style={{ color: '#D54B4B' }}>
-                                      {
-                                        errors.headquarter_address && touched.headquarter_address ?
-                                        <i class="fa fa-exclamation-triangle"/> :
-                                        null
-                                      }
-                                      <ErrorMessage name="headquarter_address" />
+                                        {errors.headquarter_address &&
+                                        touched.headquarter_address ? (
+                                          <i class="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name="headquarter_address" />
                                       </div>
                                     </div>
                                   </div>
                                   <div className="col-md-4">
                                     <div className="from-group">
                                       <label>
-                                        {" "}
-                                        Teléfono{" "}
+                                        {' '}
+                                        Teléfono{' '}
                                         <span className="text-danger">
                                           *
-                                        </span>{" "}
+                                        </span>{' '}
                                       </label>
                                       <input
                                         type="text"
@@ -773,15 +797,14 @@ onDismiss = () => {
                                         value={values.headquarter_phone}
                                         className={`form-control form-control-sm ${errors.headquarter_phone &&
                                           touched.headquarter_phone &&
-                                          "is-invalid"}`}
+                                          'is-invalid'}`}
                                       />
                                       <div style={{ color: '#D54B4B' }}>
-                                      {
-                                        errors.headquarter_phone && touched.headquarter_phone ?
-                                        <i class="fa fa-exclamation-triangle"/> :
-                                        null
-                                      }
-                                      <ErrorMessage name="headquarter_phone" />
+                                        {errors.headquarter_phone &&
+                                        touched.headquarter_phone ? (
+                                          <i class="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name="headquarter_phone" />
                                       </div>
                                     </div>
                                   </div>
@@ -791,17 +814,15 @@ onDismiss = () => {
 
                                 <div className="form-group">
                                   <label>
-                                    {" "}
-                                    Estado{" "}
-                                    <span className="text-danger">*</span>{" "}
+                                    {' '}
+                                    Estado{' '}
+                                    <span className="text-danger">*</span>{' '}
                                   </label>
                                   <div className="text-justify">
                                     <Field
                                       name="headquarter_status"
                                       render={({ field, form }) => {
-
                                         return (
-
                                           <CustomInput
                                             type="checkbox"
                                             id="conglomeradoModalEdit"
@@ -818,7 +839,7 @@ onDismiss = () => {
                                             className={
                                               errors.headquarter_status &&
                                               touched.headquarter_status &&
-                                              "invalid-feedback"
+                                              'invalid-feedback'
                                             }
                                           />
                                         );
@@ -836,7 +857,7 @@ onDismiss = () => {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-success btn-sm"}
+                      className={'btn btn-outline-success btn-sm'}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
@@ -851,8 +872,8 @@ onDismiss = () => {
                         this.setState({ modal: false });
                       }}
                     >
-                      {" "}
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      {' '}
+                      <i className="fa fa-times" /> Cerrar{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -867,7 +888,7 @@ onDismiss = () => {
 
 ModalEditSedes.propTypes = {
   modaledit: PropTypes.bool.isRequired,
-  id: PropTypes.string,
+  id: PropTypes.string
 };
 
 export default ModalEditSedes;

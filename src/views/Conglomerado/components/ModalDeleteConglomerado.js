@@ -18,7 +18,7 @@ class ModalDeleteConglomerado extends React.Component {
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      nombre: "",
+      code: "",
       idConglomerado: id,
       useLogged: "jferrer"
     });
@@ -27,14 +27,14 @@ class ModalDeleteConglomerado extends React.Component {
   onDismiss = () => {
     this.setState({
       alertError: false,
-      alertName: false,
+      alertCode: false,
       alertSuccess: false
     });
   };
 
   render() {
     const dataInitial = {
-      nombre: ""
+      code: ""
     };
     return (
       <Fragment>
@@ -127,10 +127,10 @@ class ModalDeleteConglomerado extends React.Component {
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertName}
+                        isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un nombre valido.
+                        Por favor introduzca un código válido.
                       </Alert>
                       <Alert
                         className="text-center"
@@ -138,7 +138,7 @@ class ModalDeleteConglomerado extends React.Component {
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        El conglomerado ha sido eliminado con exito.
+                        El conglomerado ha sido eliminado con éxito.
                       </Alert>
 
                       <p className="text-center">
@@ -147,7 +147,6 @@ class ModalDeleteConglomerado extends React.Component {
                           "app_conglomerado_modal_eliminar_informacion"
                         )}
                       </p>
-
                       <input
                         type="text"
                         placeholder={this.props.t(
@@ -157,16 +156,16 @@ class ModalDeleteConglomerado extends React.Component {
                         name="nombre"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.nombre}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.nombre &&
-                          touched.nombre &&
+                        value={values.code}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
+                          touched.code &&
                           "is-invalid"}`}
                       />
                       <div className="text-center" style={{ color: "#D54B4B" }}>
-                        {errors.nombre && touched.nombre ? (
+                        {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
-                        <ErrorMessage name="nombre" />
+                        <ErrorMessage name="code" />
                       </div>
                       {/* <div className="text-center">
                         <ErrorMessage name={"nombre"} />
@@ -199,7 +198,7 @@ class ModalDeleteConglomerado extends React.Component {
                         this.setState({
                           modal: false,
                           alertError: false,
-                          alertName: false,
+                          alertCode: false,
                           alertSuccess: false
                         });
                       }}

@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import {
   Row,
   Col,
@@ -8,9 +8,9 @@ import {
   ModalBody,
   ModalFooter,
   Alert
-} from "reactstrap";
-import * as Yup from "yup";
-import { Formik, withFormik, ErrorMessage } from "formik";
+} from 'reactstrap';
+import * as Yup from 'yup';
+import { Formik, withFormik, ErrorMessage } from 'formik';
 
 class ModalDeleteEmpresa extends React.Component {
   state = {
@@ -18,8 +18,8 @@ class ModalDeleteEmpresa extends React.Component {
     idCompany: this.props.id,
     alertSuccess: false,
     alertError: false,
-    alertName: false,
-    username: "jferrer"
+    alertCode: false,
+    username: 'jferrer'
   };
 
   toggle = id => {
@@ -31,14 +31,14 @@ class ModalDeleteEmpresa extends React.Component {
   onDismiss = () => {
     this.setState({
       alertError: false,
-      alertName: false,
+      alertCode: false,
       alertSuccess: false
     });
   };
 
   render() {
     const dataInitial = {
-      nombre: ""
+      nombre: ''
     };
     console.log(this.state.idCompany);
     return (
@@ -50,14 +50,12 @@ class ModalDeleteEmpresa extends React.Component {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/company/${
-                    this.state.idCompany
-                  }?name=${values.nombre}&username=${this.state.username}`,
+                  `http://192.168.10.180:7000/api/sgdea/company/${this.state.idCompany}?code=${values.code}&username=${this.state.username}`,
                   {
-                    method: "DELETE",
+                    method: 'DELETE',
                     headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                      'Content-Type': 'application/json',
+                      Authorization: 'Basic ' + window.btoa('sgdea:123456')
                     }
                   }
                 )
@@ -78,16 +76,18 @@ class ModalDeleteEmpresa extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertName: true
+                        alertCode: true
                       });
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch(error => console.log('', error));
                 setSubmitting(false);
               }, 1000);
             }}
             validationSchema={Yup.object().shape({
-              nombre: Yup.string().required(" Por favor introduzca el nombre de la empresa.")
+              code: Yup.string().required(
+                ' Por favor introduzca el código de la empresa.'
+              )
             })}
           >
             {props => {
@@ -111,15 +111,14 @@ class ModalDeleteEmpresa extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      La Empresa a eliminar, esta asociado a otras
-                      entidades.
+                      La Empresa a eliminar, esta asociado a otras entidades.
                     </Alert>
                     <Alert
                       color="danger"
-                      isOpen={this.state.alertName}
+                      isOpen={this.state.alertCode}
                       toggle={this.onDismiss}
                     >
-                      Por favor introduzca un nombre valido.
+                      Por favor introduzca un código válido.
                     </Alert>
                     <Alert
                       color="success"
@@ -130,43 +129,43 @@ class ModalDeleteEmpresa extends React.Component {
                     </Alert>
                     <form className="form">
                       <p className="text-center">
-                        {" "}
-                        Confirmar el <code> Nombre </code> para eliminar la
-                        empresa{" "}
+                        {' '}
+                        Confirmar el <code> código </code> para eliminar la
+                        empresa{' '}
                       </p>
 
                       <input
                         type="text"
-                        placeholder=" Nombre de la empresa a eliminar"
-                        style={{ textAlign: "center" }}
-                        name="nombre"
+                        placeholder=" Código de la empresa a eliminar"
+                        style={{ textAlign: 'center' }}
+                        name="code"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.nombre}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.nombre &&
-                          touched.nombre &&
-                          "is-invalid"}`}
+                        value={values.code}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
+                          touched.code &&
+                          'is-invalid'}`}
                       />
-                      <div className="text-center" style={{ color: "#D54B4B" }}>
-                        {errors.nombre && touched.nombre ? (
+                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                        {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
-                        <ErrorMessage name="nombre" />
+                        <ErrorMessage name="code" />
                       </div>
                       {/* <div className="text-center">
-                        <ErrorMessage name={"nombre"} />
+                        <ErrorMessage name={"code"} />
                       </div> */}
                       <br />
                       <p className="text-center text-danger">
-                        {" "}
-                        La empresa quedará elimanado de manera permanente{" "}
+                        {' '}
+                        La empresa quedará elimanada de manera permanente{' '}
                       </p>
                     </form>
                   </ModalBody>
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-danger btn-sm"}
+                      className={'btn btn-outline-danger btn-sm'}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
@@ -181,11 +180,11 @@ class ModalDeleteEmpresa extends React.Component {
                         this.setState({
                           modal: false,
                           alertError: false,
-                          alertName: false
+                          alertCode: false
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      <i className="fa fa-times" /> Cerrar{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

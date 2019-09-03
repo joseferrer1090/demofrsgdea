@@ -1,14 +1,17 @@
-import React from "react";
-import EmpresaForm from "./Forms/EmpresaForm";
+import React from 'react';
+import EmpresaForm from './Forms/EmpresaForm';
 
 const empresa = {
-  conglomerateId: "",
-  code: "",
-  nit: "",
-  name: "",
-  description: "",
-  chargeId: "",
-  status: "",
+  conglomerateId: '',
+  code: '',
+  nit: '',
+  name: '',
+  description: '',
+  chargeId: '',
+  status: '',
+  cityId: '',
+  countryId: '',
+  departmentId: ''
 };
 
 const FormCreateEmpresa = props => {

@@ -1,5 +1,5 @@
-import React from "react";
-import { Formik, withFormik, ErrorMessage } from "formik";
+import React from 'react';
+import { Formik, withFormik, ErrorMessage } from 'formik';
 import {
   Card,
   CardHeader,
@@ -8,12 +8,12 @@ import {
   Row,
   Col,
   CustomInput
-} from "reactstrap";
-import { TYPESHIPMENTARRIVAL } from "./../../../../services/EndPoints";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { css } from "glamor";
-import * as Yup from "yup";
+} from 'reactstrap';
+import { TYPESHIPMENTARRIVAL } from './../../../../services/EndPoints';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { css } from 'glamor';
+import * as Yup from 'yup';
 
 const TipoLlegadaForm = props => {
   const {
@@ -30,7 +30,7 @@ const TipoLlegadaForm = props => {
       <Row>
         <Col sm={{ size: 8, offset: 2 }}>
           <Card>
-          <ToastContainer/>
+            <ToastContainer />
             <CardHeader> Registro de tipo de envío / llegada </CardHeader>
             <CardBody>
               <form className="form">
@@ -38,52 +38,48 @@ const TipoLlegadaForm = props => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {" "}
+                        {' '}
                         Código <span className="text-danger"> * </span>
                       </label>
                       <input
-                        name={"code"}
+                        name={'code'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.code}
                         type="text"
                         className={`form-control form-control-sm ${errors.code &&
                           touched.code &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
-                      {
-                        errors.code && touched.code ?
-                        <i className="fa fa-exclamation-triangle"/> :
-                        null
-                      }
-                      <ErrorMessage name={"code"} />
+                        {errors.code && touched.code ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name={'code'} />
                       </div>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Nombre <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Nombre <span className="text-danger">*</span>{' '}
                       </label>
                       <input
-                        name={"name"}
+                        name={'name'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.name}
                         type="text"
                         className={`form-control form-control-sm ${errors.name &&
                           touched.name &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
-                      {
-                        errors.name && touched.name ?
-                        <i className="fa fa-exclamation-triangle"/> :
-                        null
-                      }
-                      <ErrorMessage name="name" />
+                        {errors.name && touched.name ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="name" />
                       </div>
                     </div>
                   </div>
@@ -91,7 +87,7 @@ const TipoLlegadaForm = props => {
                     <div className="form-group">
                       <label> Descripción</label>
                       <textarea
-                        name={"description"}
+                        name={'description'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.description}
@@ -102,8 +98,8 @@ const TipoLlegadaForm = props => {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Estado <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Estado <span className="text-danger">*</span>{' '}
                       </label>
                       <div className="text-justify">
                         <CustomInput
@@ -116,14 +112,14 @@ const TipoLlegadaForm = props => {
                              la sede no se elimina del sistema solo quedará
                              inactiva e invisibles para cada uno de los módulos
                              correspondiente del sistema."
-                          name={"status"}
+                          name={'status'}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.status}
                           className={
                             errors.status &&
                             touched.status &&
-                            "invalid-feedback"
+                            'invalid-feedback'
                           }
                         />
                       </div>
@@ -179,14 +175,14 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     code: Yup.string()
-    .min(6, " Mínimo 6 caracteres.")
-    .max(6, " Máximo 6 caracteres.")
-    .required(" Por favor introduzca un código."),
-    name: Yup.string().required(" Por favor introduzca un nombre."),
+      .min(6, ' Mínimo 6 caracteres.')
+      .max(6, ' Máximo 6 caracteres.')
+      .required(' Por favor introduzca un código.'),
+    name: Yup.string().required(' Por favor introduzca un nombre.'),
     description: Yup.string(),
     status: Yup.bool().test(
-      "Activo",
-      " Es necesario activar el estado para el tipo de llegada",
+      'Activo',
+      ' Es necesario activar el estado para el tipo de llegada',
       value => value === true
     )
   }),
@@ -202,34 +198,34 @@ export default withFormik({
     };
     setTimeout(() => {
       fetch(TYPESHIPMENTARRIVAL, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         },
         body: JSON.stringify({
           code: values.code,
           name: values.name,
           description: values.description,
           status: tipoEstado(values.status),
-          userName: "jferrer"
+          userName: 'jferrer'
         })
       })
         .then(response =>
           response.json().then(data => {
             if (response.status === 201) {
-              toast.success("Se creo el tipo de envío / llegada con exito", {
+              toast.success('Se creo el tipo de envío / llegada con éxito.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
+                  marginTop: '60px'
                 })
               });
               // alert("oki");
             } else if (response.status === 500) {
-              toast.error("Error, tipo de envío / llegada ya existe", {
+              toast.error('Error, tipo de envío / llegada ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
+                  marginTop: '60px'
                 })
               });
               //alert("Erro en el cuerpo");
@@ -240,7 +236,7 @@ export default withFormik({
           toast.error(`Error ${error}`, {
             position: toast.POSITION.TOP_RIGHT,
             className: css({
-              marginTop: "60px"
+              marginTop: '60px'
             })
           });
         });

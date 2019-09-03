@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import * as Yup from "yup";
-import { Formik, withFormik, ErrorMessage, Field, From} from 'formik';
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap';
+import * as Yup from 'yup';
+import { Formik, withFormik, ErrorMessage, Field, From } from 'formik';
 
 class ModalDeleteTipoTercero extends Component {
   constructor(props) {
@@ -10,161 +10,185 @@ class ModalDeleteTipoTercero extends Component {
     this.state = {
       modal: this.props.modaldelete,
       idTipoTercero: this.props.id,
-      nombre:"",
-      useLogged:"",
+      nombre: '',
+      useLogged: '',
       alertSuccess: false,
       alertError: false,
-      alertName: false
+      alertCode: false
     };
   }
 
-  toggle = (id) => {
+  toggle = id => {
     this.setState(prevState => ({
       modal: !prevState.modal,
-      idTipoTercero:id,
-      nombre:"",
-      useLogged:"ccuartas"
+      idTipoTercero: id,
+      nombre: '',
+      useLogged: 'ccuartas'
     }));
   };
 
   onDismiss = () => {
     this.setState({
       alertError: false,
-      alertName: false,
+      alertCode: false,
       alertSuccess: false
     });
   };
 
   render() {
     const dataInitial = {
-      nombre: ""
+      nombre: ''
     };
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>Eliminar tipo de tercero </ModalHeader>
           <Formik
-          initialValues={dataInitial}
+            initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/typethirdparty/${
-                    this.state.idTipoTercero
-                  }?name=${values.nombre}&username=${this.state.useLogged}`,
+                  `http://192.168.10.180:7000/api/sgdea/typethirdparty/${this.state.idTipoTercero}?code=${values.code}&username=${this.state.useLogged}`,
                   {
-                    method: "DELETE",
+                    method: 'DELETE',
                     headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                      'Content-Type': 'application/json',
+                      Authorization: 'BASIC ' + window.btoa('sgdea:123456')
                     }
                   }
                 )
-                .then(response => {
-                  if (response.status === 500) {
-                    this.setState({
-                      alertError: true
-                    });
-                  }
-                    else if (response.status === 204) {
+                  .then(response => {
+                    console.log(response.status);
+                    if (response.status === 500) {
                       this.setState({
-                          alertSuccess: true
-                    });
-                    setTimeout(()=>{
+                        alertError: true
+                      });
+                    } else if (response.status === 204) {
                       this.setState({
-                        modal:false,
-                        alertSuccess: false
-                      })
-                    },3000)
-                  } else if (response.status === 400) {
-                    this.setState({
-                      alertName: true
-                    });
-                  }
-              })
-                  .catch(error => console.log(" ", error));
+                        alertSuccess: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false
+                        });
+                      }, 3000);
+                    } else if (response.status === 400) {
+                      this.setState({
+                        alertCode: true
+                      });
+                    }
+                  })
+                  .catch(error => console.log(' ', error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
-              nombre: Yup.string().required("Por favor introduzca un nombre.")
+              code: Yup.string().required(
+                ' Por favor introduzca el código del tipo de tecero.'
+              )
             })}
           >
-          {props => {
-            const {
-              values,
-              touched,
-              errors,
-              dirty,
-              isSubmitting,
-              handleChange,
-              handleBlur,
-              handleSubmit,
-              handleReset
-            } = props;
-            return (
-              <Fragment>
-          <ModalBody>
-            <form className="form">
-              <p className="text-center">
-                {" "}
-                Confirmar el <code> Nombre </code> para eliminar el tipo de
-                tercero{" "}
-              </p>
+            {props => {
+              const {
+                values,
+                touched,
+                errors,
+                dirty,
+                isSubmitting,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                handleReset
+              } = props;
+              return (
+                <Fragment>
+                  <ModalBody>
+                    <form className="form">
+                      <Alert
+                        className="text-center"
+                        color="danger"
+                        isOpen={this.state.alertError}
+                        toggle={this.onDismiss}
+                      >
+                        El tipo de tercero que va a eliminar, esta asociado a
+                        otras entidades.
+                      </Alert>
+                      <Alert
+                        color="danger"
+                        isOpen={this.state.alertCode}
+                        toggle={this.onDismiss}
+                      >
+                        Por favor introduzca un código válido.
+                      </Alert>
+                      <Alert
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                        toggle={this.onDismiss}
+                      >
+                        El tipo de tecero se ha eliminado con éxito.
+                      </Alert>
+                      <p className="text-center">
+                        {' '}
+                        Confirmar el <code> código </code> para eliminar el tipo
+                        de tercero.{' '}
+                      </p>
 
-              <input
-                input
-                name={"nombre"}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                type="text"
-                placeholder="nombre para eliminar la sede"
-                style={{ textAlign: "center" }}
-                className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.nombre &&
-                  touched.nombre &&
-                  "is-invalid"}`}
-              />
-              <div className="text-center" style={{ color: "#D54B4B" }}>
-                {errors.nombre && touched.nombre ? (
-                    <i class="fa fa-exclamation-triangle" />
-                  ) : null}
-                  <ErrorMessage name="nombre" />
-                </div>
-              <br />
-              <p className="text-center text-danger">
-                {" "}
-                El tipo de tercero quedará eliminado de manera permanente.{" "}
-              </p>
-            </form>
-          </ModalBody>
-          <ModalFooter>
-          <button
-              type="button"
-              className={"btn btn-outline-danger btn-sm"}
-              onClick={e => {
-                e.preventDefault();
-                handleSubmit();
-              }}
-            >
-              <i className="fa fa-trash" /> Eliminar
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm"
-              onClick={() => {
-                this.setState({
-                  modal: false,
-                  alertError: false,
-                  alertSuccess: false,
-                  alertName: false
-                 });
-              }}
-            >
-              <i className="fa fa-times" /> Cerrar{" "}
-            </button>
-          </ModalFooter>
-          </Fragment>
-            );
-          }}
+                      <input
+                        input
+                        name={'code'}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        type="text"
+                        placeholder="Código para eliminar el tipo de tercero"
+                        style={{ textAlign: 'center' }}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
+                          touched.code &&
+                          'is-invalid'}`}
+                      />
+                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                        {errors.code && touched.code ? (
+                          <i class="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="code" />
+                      </div>
+                      <br />
+                      <p className="text-center text-danger">
+                        {' '}
+                        El tipo de tercero quedará eliminado de manera
+                        permanente.{' '}
+                      </p>
+                    </form>
+                  </ModalBody>
+                  <ModalFooter>
+                    <button
+                      type="button"
+                      className={'btn btn-outline-danger btn-sm'}
+                      onClick={e => {
+                        e.preventDefault();
+                        handleSubmit();
+                      }}
+                    >
+                      <i className="fa fa-trash" /> Eliminar
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => {
+                        this.setState({
+                          modal: false,
+                          alertError: false,
+                          alertSuccess: false,
+                          alertCode: false
+                        });
+                      }}
+                    >
+                      <i className="fa fa-times" /> Cerrar{' '}
+                    </button>
+                  </ModalFooter>
+                </Fragment>
+              );
+            }}
           </Formik>
         </Modal>
       </Fragment>

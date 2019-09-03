@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -6,10 +6,10 @@ import {
   ModalBody,
   Row,
   Col
-} from "reactstrap";
-import ImgMensajero from "./../../../assets/img/courier.svg";
-import PropTypes from "prop-types";
-
+} from 'reactstrap';
+import ImgMensajero from './../../../assets/img/courier.svg';
+import PropTypes from 'prop-types';
+import moment from 'moment';
 
 class ModalViewMensajero extends Component {
   constructor(props) {
@@ -17,20 +17,20 @@ class ModalViewMensajero extends Component {
     this.state = {
       modal: this.props.modalview,
       id: this.props.id,
-      dataMessenger:{}
+      dataMessenger: {}
     };
   }
 
-  toggle = (id) => {
+  toggle = id => {
     this.setState(prevState => ({
       modal: !prevState.modal,
       id: id
-      }));
-      fetch(`http://192.168.10.180:7000/api/sgdea/messenger/${id}/ccuartas`, {
-      method: "GET",
+    }));
+    fetch(`http://192.168.10.180:7000/api/sgdea/messenger/${id}/ccuartas`, {
+      method: 'GET',
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
-        "Content-Type": "application/json"
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
       }
     })
       .then(response => response.json())
@@ -39,16 +39,28 @@ class ModalViewMensajero extends Component {
           dataMessenger: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
+
+  FechaCreacionMensajero(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
+  FechaModificacionMensajero(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    // moment.locale(es);
+    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
 
   render() {
     const statusMessenger = data => {
       let status;
       if (data === 1) {
-        status = <p className="text-success"> Activo </p>;
+        status = <b className="text-success"> Activo </b>;
       } else if (data === 0) {
-        status = <p className="text-danger"> Inactivo </p>;
+        status = <b className="text-danger"> Inactivo </b>;
       }
       return status;
     };
@@ -61,7 +73,7 @@ class ModalViewMensajero extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver Mensajero</ModalHeader>
+          <ModalHeader>Ver {name}</ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -69,11 +81,11 @@ class ModalViewMensajero extends Component {
               </Col>
               <Col sm="9">
                 <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Datos{" "}
-                  </h5>{" "}
+                  {' '}
+                  <h5 className="" style={{ borderBottom: '1px solid black' }}>
+                    {' '}
+                    Datos{' '}
+                  </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
@@ -112,7 +124,7 @@ class ModalViewMensajero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de creación </dt>
-                        <dd> {createdAt} </dd>
+                        <dd> {this.FechaCreacionMensajero(createdAt)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -120,7 +132,7 @@ class ModalViewMensajero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de modificación </dt>
-                        <dd> {updatedAt} </dd>
+                        <dd> {this.FechaModificacionMensajero(updatedAt)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -136,8 +148,8 @@ class ModalViewMensajero extends Component {
                 this.setState({ modal: false });
               }}
             >
-              {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
+              {' '}
+              <i className="fa fa-times" /> Cerrar{' '}
             </button>
           </ModalFooter>
         </Modal>

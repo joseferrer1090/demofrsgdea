@@ -1,6 +1,6 @@
-import React from "react";
-import { Formik, withFormik, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import React from 'react';
+import { Formik, withFormik, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import {
   Card,
   CardHeader,
@@ -9,11 +9,11 @@ import {
   Row,
   Col,
   CustomInput
-} from "reactstrap";
-import { MESSENGERS } from "./../../../../services/EndPoints";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { css } from "glamor";
+} from 'reactstrap';
+import { MESSENGERS } from './../../../../services/EndPoints';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { css } from 'glamor';
 const MensajeroForm = props => {
   const {
     values,
@@ -30,7 +30,7 @@ const MensajeroForm = props => {
       <Row>
         <Col sm={{ size: 8, offset: 2 }}>
           <Card>
-          <ToastContainer />
+            <ToastContainer />
             <CardHeader>Registro de mensajero</CardHeader>
             <CardBody>
               <form className="form">
@@ -38,54 +38,50 @@ const MensajeroForm = props => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {" "}
+                        {' '}
                         Identificación <span className="text-danger">
                           *
-                        </span>{" "}
+                        </span>{' '}
                       </label>
                       <input
-                        name={"identification"}
+                        name={'identification'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.identification}
                         type="text"
                         className={`form-control form-control-sm ${errors.identification &&
                           touched.identification &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
-                      {
-                        errors.identification && touched.identification ?
-                        <i className="fa fa-exclamation-triangle"/> :
-                        null
-                      }
-                      <ErrorMessage name="identification" />
+                        {errors.identification && touched.identification ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="identification" />
                       </div>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Nombre <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Nombre <span className="text-danger">*</span>{' '}
                       </label>
                       <input
-                        name={"name"}
+                        name={'name'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.name}
                         type="text"
                         className={`form-control form-control-sm ${errors.name &&
                           touched.name &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
-                      {
-                        errors.name && touched.name ?
-                        <i className="fa fa-exclamation-triangle"/> :
-                        null
-                      }
-                      <ErrorMessage name="name" />
+                        {errors.name && touched.name ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="name" />
                       </div>
                     </div>
                   </div>
@@ -93,7 +89,7 @@ const MensajeroForm = props => {
                     <div className="form-group">
                       <label> Descripción </label>
                       <textarea
-                        name={"description"}
+                        name={'description'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.description}
@@ -104,12 +100,12 @@ const MensajeroForm = props => {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Estado <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Estado <span className="text-danger">*</span>{' '}
                       </label>
                       <div className="text-justify">
                         <CustomInput
-                          name={"status"}
+                          name={'status'}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.status}
@@ -125,7 +121,7 @@ const MensajeroForm = props => {
                           className={
                             errors.status &&
                             touched.status &&
-                            "invalid-feedback"
+                            'invalid-feedback'
                           }
                         />
                         {/* <label
@@ -186,14 +182,13 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     identification: Yup.number()
-      .required(" Por favor introduzca una identificación.")
+      .required(' Por favor introduzca una identificación.')
       .integer(),
-      name: Yup.string()
-      .required(" Por favor introduzca un nombre."),
-      description: Yup.string(),
-      status: Yup.bool().test(
-      "Activado",
-      "Es necesario la activacion del mensajero",
+    name: Yup.string().required(' Por favor introduzca un nombre.'),
+    description: Yup.string(),
+    status: Yup.bool().test(
+      'Activado',
+      'Es necesario la activacion del mensajero',
       value => value === true
     )
   }),
@@ -210,34 +205,34 @@ export default withFormik({
 
     setTimeout(() => {
       fetch(MESSENGERS, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         },
         body: JSON.stringify({
           identification: values.identification,
           name: values.name,
           description: values.description,
           status: tipoEstado(values.status),
-          userName: "jferrer"
+          userName: 'jferrer'
         })
       })
         .then(response =>
           response.json().then(data => {
             if (response.status === 201) {
-              toast.success("Se creo el mensajero con exito", {
+              toast.success('Se creo el mensajero con éxito.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
+                  marginTop: '60px'
                 })
               });
               // alert("oki");
             } else if (response.status === 500) {
-              toast.error("Error, mensajero ya existe", {
+              toast.error('Error, el mensajero ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
+                  marginTop: '60px'
                 })
               });
               //alert("Erro en el cuerpo");
@@ -248,7 +243,7 @@ export default withFormik({
           toast.error(`Error ${error}`, {
             position: toast.POSITION.TOP_RIGHT,
             className: css({
-              marginTop: "60px"
+              marginTop: '60px'
             })
           });
         });

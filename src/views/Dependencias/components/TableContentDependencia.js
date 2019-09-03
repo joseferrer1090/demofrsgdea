@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col } from "reactstrap";
-import ModalView from "./ModalViewDependencia";
-import ModalEdit from "./ModalEditDependencia";
-import ModalDelete from "./ModalDeleteDependencia";
-import ModalExport from "./ModalExportCSV";
-import "./../../../css/styleTableDependencia.css";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { Row, Col } from 'reactstrap';
+import ModalView from './ModalViewDependencia';
+import ModalEdit from './ModalEditDependencia';
+import ModalDelete from './ModalDeleteDependencia';
+import ModalExport from './ModalExportCSV';
+import './../../../css/styleTableDependencia.css';
+import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 
 class TableContentDependencia extends Component {
   constructor(props) {
@@ -28,10 +28,10 @@ class TableContentDependencia extends Component {
 
   getDataDependence = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/dependence`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
-        "Content-Type": "application/json"
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
       }
     })
       .then(response => response.json())
@@ -40,12 +40,12 @@ class TableContentDependencia extends Component {
           dataDependence: data
         });
       })
-      .catch(Error => console.log("", Error));
+      .catch(Error => console.log('', Error));
   };
 
   accionesDependencias(cell, row) {
     return (
-      <div className="table-actionMenuDep" style={{ marginRight: "59px" }}>
+      <div className="table-actionMenuDep" style={{ marginRight: '59px' }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -53,8 +53,8 @@ class TableContentDependencia extends Component {
             this.openModalView(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-eye" />{" "}
+          {' '}
+          <i className="fa fa-eye" />{' '}
         </button>
         &nbsp;
         <button
@@ -74,8 +74,8 @@ class TableContentDependencia extends Component {
             this.openModalDelete(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-trash" />{" "}
+          {' '}
+          <i className="fa fa-trash" />{' '}
         </button>
       </div>
     );
@@ -84,9 +84,9 @@ class TableContentDependencia extends Component {
   StatusDependencia(cell, row) {
     let status;
     if (row.status === 1) {
-      status = <p className="text-success">ACTIVADA</p>;
+      status = <b className="text-success">Activo</b>;
     } else if (row.status === 0) {
-      status = <p className="text-danger">INACTIVADA</p>;
+      status = <b className="text-danger">Inactivo</b>;
     }
     return status;
   }
@@ -154,20 +154,20 @@ class TableContentDependencia extends Component {
             <TableHeaderColumn
               export={false}
               isKey
-              dataField={"id"}
+              dataField={'id'}
               hidden={this.state.hiddenColumnID}
             />
             <TableHeaderColumn
               dataSort={true}
-              dataField={"id"}
-              width={"30"}
+              dataField={'id'}
+              width={'30'}
               dataFormat={this.indexN}
               dataAlign="center"
             >
               #
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"140"}
+              width={'140'}
               dataField="headquarter"
               dataFormat={this.headquarter}
               dataAlign="center"
@@ -176,7 +176,7 @@ class TableContentDependencia extends Component {
               Sede
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"45"}
+              width={'45'}
               dataField="code"
               dataAlign="center"
               dataSort={true}
@@ -184,7 +184,7 @@ class TableContentDependencia extends Component {
               Código
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"120"}
+              width={'120'}
               dataField="name"
               dataSort={true}
               dataAlign="center"
@@ -192,7 +192,7 @@ class TableContentDependencia extends Component {
               Nombre
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"150"}
+              width={'150'}
               dataField="charge"
               dataFormat={this.charge}
               dataAlign="center"
@@ -202,17 +202,17 @@ class TableContentDependencia extends Component {
             </TableHeaderColumn>
 
             <TableHeaderColumn
-              width={"70"}
+              width={'70'}
               dataField="Estado"
               dataAlign="center"
               dataSort={true}
               dataFormat={(cell, row) => this.StatusDependencia(cell, row)}
             >
-              {" "}
-              Estado{" "}
+              {' '}
+              Estado{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"120"}
+              width={'120'}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesDependencias(cell, row)}
@@ -224,7 +224,7 @@ class TableContentDependencia extends Component {
         <ModalView modalView={this.state.modalviewstate} ref="child1" />
         <ModalEdit modalEdit={this.state.modaleditstate} ref="child2" />
         <ModalDelete modalDel={this.state.modaldelstate} ref="child3" />
-        <ModalExport modalExport={this.state.modalexport} ref={"child4"} />
+        <ModalExport modalExport={this.state.modalexport} ref={'child4'} />
       </div>
     );
   }

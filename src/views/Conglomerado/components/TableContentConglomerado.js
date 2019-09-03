@@ -103,6 +103,12 @@ class TableContentConglomerado extends Component {
     return status;
   }
 
+  FechaCreacionConglomerado(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("YYYY-MM-DD");
+  }
+
   openModalView(id) {
     this.refs.child.toggle(id);
   }
@@ -199,7 +205,7 @@ class TableContentConglomerado extends Component {
                       dataSort={true}
                       dataField={"code"}
                       dataAlign="center"
-                      width={"150"}
+                      width={"100"}
                     >
                       {" "}
                       {t("app_conglomerado_administrar_table_codigo")}{" "}
@@ -221,6 +227,17 @@ class TableContentConglomerado extends Component {
                       {t("app_conglomerado_administrar_table_descripcion")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
+                      dataSort={true}
+                      dataField={"createdAt"}
+                      dataFormat={(cell, row) =>
+                        this.FechaCreacionConglomerado(cell, row)
+                      }
+                      dataAlign="center"
+                      width={"150"}
+                    >
+                      Fecha de creación
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
                       width={""}
                       dataField={"status"}
                       dataSort={true}
@@ -232,7 +249,7 @@ class TableContentConglomerado extends Component {
                       {t("app_conglomerado_administrar_table_estado")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      width={"256"}
+                      width={"200"}
                       export={false}
                       dataAlign="center"
                       dataFormat={(cell, row) =>

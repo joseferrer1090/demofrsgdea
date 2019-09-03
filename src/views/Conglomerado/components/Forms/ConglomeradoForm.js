@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -8,7 +8,13 @@ import {
   CardHeader,
   Card
 } from "reactstrap";
-import { CONGLOMERATES } from "./../../../../services/EndPoints";
+import {
+  CONGLOMERATES,
+  COUNTRIES,
+  DEPARTMENTS,
+  CITYS,
+  CHARGES
+} from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
@@ -28,6 +34,116 @@ const ConglomeradorForm = props => {
     handleReset,
     t
   } = props;
+
+  const [optionsDepartment, setOptionsDepartment] = useState([]);
+  const [optionsCountries, setOptionsCountries] = useState([]);
+  const [optionsCitys, setOptionsCitys] = useState([]);
+  const [optionsCharges, setOptionsCharges] = useState([]);
+
+  useEffect(() => {
+    getDataCountries();
+    getDataDepartments();
+    getDataCitys();
+    getDataCharges();
+  }, []);
+
+  const getDataCountries = data => {
+    fetch(COUNTRIES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsCountries(data);
+        // this.setState({
+        //   dataConglomerates: data
+        // });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  const mapOptionsCountries = optionsCountries.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
+
+  const getDataDepartments = data => {
+    fetch(DEPARTMENTS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsDepartment(data);
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  const mapOptionsDepartments = optionsDepartment.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
+
+  const getDataCitys = data => {
+    fetch(CITYS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsCitys(data);
+        // this.setState({
+        //   dataConglomerates: data
+        // });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  const mapOptionsCitys = optionsCitys.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
+
+  const getDataCharges = data => {
+    fetch(CHARGES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsCharges(data);
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  const mapOptionsCharges = optionsCharges.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
   return (
     <div>
       <Card>
@@ -90,6 +206,104 @@ const ConglomeradorForm = props => {
               </div>
             </div>
             <div className="row">
+              <div className="col-md-4">
+                <div className="form-group">
+                  <label>País</label>
+                  <select
+                    name={"countryId"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.countryId}
+                    className={`form-control form-control-sm ${errors.countryId &&
+                      touched.countryId &&
+                      "is-invalid"}`}
+                  >
+                    <option value={""} disabled>
+                      -- Seleccione --
+                    </option>
+                    {mapOptionsCountries}
+                  </select>
+                  <div style={{ color: "#D54B4B" }}>
+                    {errors.countryId && touched.countryId ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="countryId" />
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="form-group">
+                  <label>Departamento</label>
+                  <select
+                    name={"departmentId"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.departmentId}
+                    className={`form-control form-control-sm ${errors.departmentId &&
+                      touched.departmentId &&
+                      "is-invalid"}`}
+                  >
+                    <option value={""} disabled>
+                      -- Seleccione --
+                    </option>
+                    {mapOptionsDepartments}
+                  </select>
+                  <div style={{ color: "#D54B4B" }}>
+                    {errors.departmentId && touched.departmentId ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="departmentId" />
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-4">
+                <div className="form-group">
+                  <label>
+                    Ciudad <span className="text-danger">*</span>
+                  </label>
+                  <select
+                    name={"cityId"}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.cityId}
+                    className={`form-control form-control-sm ${errors.cityId &&
+                      touched.cityId &&
+                      "is-invalid"}`}
+                  >
+                    <option value={""} disabled>
+                      -- Seleccione --
+                    </option>
+                    {mapOptionsCitys}
+                  </select>
+                  <div style={{ color: "#D54B4B" }}>
+                    {errors.cityId && touched.cityId ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="cityId" />
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="form-group">
+                  <label> Cargo responsable </label>
+                  <select
+                    name="chargeId"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.chargeId}
+                    className="form-control form-control-sm"
+                  >
+                    {" "}
+                    <option value={""} disabled>
+                      {" "}
+                      -- Seleccione --{" "}
+                    </option>
+                    {mapOptionsCharges}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
                   <label>
@@ -112,6 +326,7 @@ const ConglomeradorForm = props => {
                 </div>
               </div>
             </div>
+
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">

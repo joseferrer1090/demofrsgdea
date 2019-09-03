@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
 import {
   Row,
   Col,
@@ -8,9 +8,9 @@ import {
   ModalBody,
   ModalFooter,
   Alert
-} from "reactstrap";
-import * as Yup from "yup";
-import { Formik, withFormik, ErrorMessage } from "formik";
+} from 'reactstrap';
+import * as Yup from 'yup';
+import { Formik, withFormik, ErrorMessage } from 'formik';
 
 class ModalDeleteCargo extends React.Component {
   state = {
@@ -18,30 +18,30 @@ class ModalDeleteCargo extends React.Component {
     id: this.props.id,
     alertSuccess: false,
     alertError: false,
-    alertName: false,
-    useLogged: "jferrer"
+    alertCode: false,
+    useLogged: 'jferrer'
   };
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
       id: id,
-      useLogged: "jferrer"
+      useLogged: 'jferrer'
     });
   };
   onDismiss = () => {
     this.setState({
       alertError: false,
-      alertName: false,
+      alertCode: false,
       alertSuccess: false
     });
   };
 
   render() {
     const dataInitial = {
-      nombre: ""
+      nombre: ''
     };
-    console.log(this.state.id);
+
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
@@ -51,16 +51,12 @@ class ModalDeleteCargo extends React.Component {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/charge/${
-                    this.state.id
-                  }?name=${values.nombre.trim()}&username=${
-                    this.state.useLogged
-                  }`,
+                  `http://192.168.10.180:7000/api/sgdea/charge/${this.state.id}?code=${values.code}&username=${this.state.useLogged}`,
                   {
-                    method: "DELETE",
+                    method: 'DELETE',
                     headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                      'Content-Type': 'application/json',
+                      Authorization: 'Basic ' + window.btoa('sgdea:123456')
                     }
                   }
                 )
@@ -81,16 +77,18 @@ class ModalDeleteCargo extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertName: true
+                        alertCode: true
                       });
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch(error => console.log('', error));
                 setSubmitting(false);
               }, 1000);
             }}
             validationSchema={Yup.object().shape({
-              nombre: Yup.string().required("necesario nombre para eliminacion")
+              code: Yup.string().required(
+                ' Por favor introduzca el código del cargo.'
+              )
             })}
           >
             {props => {
@@ -115,61 +113,61 @@ class ModalDeleteCargo extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        El Cargo que va a eliminar, esta asociado a otras
+                        El cargo que va a eliminar, esta asociado a otras
                         entidades.
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertName}
+                        isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un nombre valido.
+                        Por favor introduzca un código válido.
                       </Alert>
                       <Alert
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        El cargo se ha eliminada con exito.
+                        El cargo se ha eliminado con éxito.
                       </Alert>
                       <p className="text-center">
-                        {" "}
-                        Confirmar el <code> Nombre </code> para eliminar el
-                        cargo{" "}
+                        {' '}
+                        Confirmar el <code> código </code> para eliminar el
+                        cargo{' '}
                       </p>
 
                       <input
                         type="text"
-                        placeholder="nombre de la empresa a eliminar"
-                        style={{ textAlign: "center" }}
-                        name="nombre"
+                        placeholder="Código de la empresa a eliminar"
+                        style={{ textAlign: 'center' }}
+                        name="code"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        value={values.nombre}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.nombre &&
-                          touched.nombre &&
-                          "is-invalid"}`}
+                        value={values.code}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
+                          touched.code &&
+                          'is-invalid'}`}
                       />
-                      <div className="text-center" style={{ color: "#D54B4B" }}>
-                        {errors.nombre && touched.nombre ? (
+                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                        {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
-                        <ErrorMessage name="nombre" />
+                        <ErrorMessage name="code" />
                       </div>
                       {/* <div className="text-center">
                         <ErrorMessage name={"nombre"} />
                       </div> */}
                       <br />
                       <p className="text-center text-danger">
-                        {" "}
-                        El cargo quedará elimanado de manera permanente{" "}
+                        {' '}
+                        El cargo quedará elimanado de manera permanente.{' '}
                       </p>
                     </form>
                   </ModalBody>
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-danger btn-sm"}
+                      className={'btn btn-outline-danger btn-sm'}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
@@ -184,11 +182,11 @@ class ModalDeleteCargo extends React.Component {
                         this.setState({
                           modal: false,
                           alertError: false,
-                          alertName: false
+                          alertCode: false
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      <i className="fa fa-times" /> Cerrar{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

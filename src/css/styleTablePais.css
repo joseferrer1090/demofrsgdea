@@ -1,6 +1,6 @@
 .tablePais table > tbody > tr > td,
 .tablePais table > tbody > tr > th {
-  padding-bottom: 5px !important;
+  padding-bottom: 15px !important;
 }
 .tablePais table > tfoot > tr > td,
 .tablePais table > tfoot > tr > th {

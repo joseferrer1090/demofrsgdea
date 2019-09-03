@@ -44,6 +44,7 @@ class ModalEditPais extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         this.setState({
           dataResult: {
             country_code: data.code,

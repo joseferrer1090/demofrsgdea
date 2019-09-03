@@ -22,7 +22,8 @@ class ModalEditDepartamento extends React.Component {
     dataResult: {},
     optionsCountries: [],
     alertError: false,
-    alertSuccess: false
+    alertSuccess: false,
+    alertError400: false
   };
 
   toggle = id => {
@@ -139,11 +140,11 @@ class ModalEditDepartamento extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError: true
+                        alertError400: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false
+                          alertError400: false
                         });
                       }, 3000);
                     } else if (response.status === 500) {
@@ -199,6 +200,9 @@ class ModalEditDepartamento extends React.Component {
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
                       Se actualizo el departamento con éxito.
+                    </Alert>
+                    <Alert color="danger" isOpen={this.state.alertError400}>
+                      Error, el departamento ya esta asignado.
                     </Alert>
                     <Row>
                       <Col sm="3">

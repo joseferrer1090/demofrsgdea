@@ -23,7 +23,8 @@ class ModalEditCiudad extends React.Component {
     optionsCountries: [],
     optionsDepartment: [],
     alertError: false,
-    alertSuccess: false
+    alertSuccess: false,
+    alertError400: false
   };
   onDismiss = () => {
     this.setState({
@@ -164,11 +165,11 @@ class ModalEditCiudad extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError: true
+                        alertError400: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false
+                          alertError400: false
                         });
                       }, 3000);
                     } else if (response.status === 500) {
@@ -230,12 +231,11 @@ class ModalEditCiudad extends React.Component {
                     >
                       Error al actualizar la ciudad.
                     </Alert>
-                    <Alert
-                      color="success"
-                      isOpen={this.state.alertSuccess}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
                       Se actualizo la ciudad con éxito.
+                    </Alert>
+                    <Alert color="danger" isOpen={this.state.alertError400}>
+                      Error, la ciudad ya esta asignada.
                     </Alert>
                     <Row>
                       <Col sm="3">

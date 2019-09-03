@@ -137,11 +137,7 @@ class ModalDeleteDepartamento extends Component {
                       >
                         Por favor introduzca un código válido.
                       </Alert>
-                      <Alert
-                        color="success"
-                        isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
-                      >
+                      <Alert color="success" isOpen={this.state.alertSuccess}>
                         El departamento se ha eliminado con éxito.
                       </Alert>
                       <p className="text-center">

@@ -41,7 +41,7 @@ class ModalDeleteCargo extends React.Component {
     const dataInitial = {
       nombre: ''
     };
-    console.log(this.state.id);
+
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>

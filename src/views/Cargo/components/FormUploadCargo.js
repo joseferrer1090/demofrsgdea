@@ -116,7 +116,6 @@ class FormUploadCargo extends React.Component {
                   .max(1, ' Máximo 1 carácter')
                   .min(1, ' Por favor introduzca un separador.'),
                 titulos: Yup.bool().test('Activo', '', value => value === true)
-                // archivo: Yup.mixed(),
               })}
             >
               {props => {

@@ -54,6 +54,12 @@ class ModalEditCargo extends React.Component {
       })
       .catch(Error, console.log('Error', Error));
   };
+  onDismiss = () => {
+    this.setState({
+      alertError: false,
+      alertSuccess: false
+    });
+  };
 
   render() {
     const datainit = this.state.dataCharge;

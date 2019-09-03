@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Modal,
   ModalFooter,
@@ -7,29 +7,29 @@ import {
   ModalHeader,
   Row,
   Col
-} from "reactstrap";
-import IMGPAIS from "./../../../assets/img/flag.svg";
-
+} from 'reactstrap';
+import IMGPAIS from './../../../assets/img/flag.svg';
+import moment from 'moment';
 class ModalViewPais extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: this.props.modalview,
-      dataPais:{},
+      dataPais: {},
       id: this.props.id
     };
   }
 
-  toggle = (id) => {
+  toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      id:id,
+      id: id
     });
     fetch(`http://192.168.10.180:7000/api/sgdea/country/${id}/ccuartas`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
-        "Content-Type": "application/json"
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
       }
     })
       .then(response => response.json())
@@ -38,16 +38,28 @@ class ModalViewPais extends Component {
           dataPais: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
+
+  FechaCreacionPais(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
+  FechaModificacionPais(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    // moment.locale(es);
+    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
 
   render() {
     const statusCountry = data => {
       let status;
       if (data === 1) {
-        status = <p className="text-success"> Activo </p>;
+        status = <b className="text-success"> Activo </b>;
       } else if (data === 0) {
-        status = <p className="text-danger"> Inactivo </p>;
+        status = <b className="text-danger"> Inactivo </b>;
       }
       return status;
     };
@@ -59,7 +71,7 @@ class ModalViewPais extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver país </ModalHeader>
+          <ModalHeader> Ver {name} </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -67,11 +79,11 @@ class ModalViewPais extends Component {
               </Col>
               <Col sm="9">
                 <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Datos{" "}
-                  </h5>{" "}
+                  {' '}
+                  <h5 className="" style={{ borderBottom: '1px solid black' }}>
+                    {' '}
+                    Datos{' '}
+                  </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
@@ -102,7 +114,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Fecha de creación </dt>
-                        <dd> {createdAt} </dd>
+                        <dd> {this.FechaCreacionPais(createdAt)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -110,7 +122,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Fecha de modificación </dt>
-                        <dd> {updatedAt} </dd>
+                        <dd> {this.FechaModificacionPais(updatedAt)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -125,8 +137,8 @@ class ModalViewPais extends Component {
                 this.setState({ modal: false });
               }}
             >
-              {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
+              {' '}
+              <i className="fa fa-times" /> Cerrar{' '}
             </button>
           </ModalFooter>
         </Modal>

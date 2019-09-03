@@ -16,6 +16,7 @@ import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 import { CONGLOMERATES } from "./../../../services/EndPoints";
+import { Trans } from "react-i18next";
 
 class ModalEditConglomerado extends React.Component {
   state = {
@@ -23,7 +24,8 @@ class ModalEditConglomerado extends React.Component {
     idConglomerado: this.props.id,
     dataResult: {},
     alertError: false,
-    alertSuccess: false
+    alertSuccess: false,
+    t: this.props.t
   };
   toggle = id => {
     this.setState({
@@ -75,7 +77,10 @@ class ModalEditConglomerado extends React.Component {
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            Actualizar&nbsp;{this.state.dataResult.conglomerate_name}
+            <Trans>
+              {this.props.t("app_conglomerado_modal_actualizar_titulo")}
+            </Trans>
+            &nbsp;{this.state.dataResult.conglomerate_name}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -106,7 +111,7 @@ class ModalEditConglomerado extends React.Component {
                     userName: "jferrer"
                   })
                 })
-                  .then(response =>{
+                  .then(response => {
                     console.log(response.status);
                     if (response.status === 200) {
                       this.setState({
@@ -124,10 +129,10 @@ class ModalEditConglomerado extends React.Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError: false
                         });
                       }, 3000);
-                    }else if (response.status === 500) {
+                    } else if (response.status === 500) {
                       this.setState({
                         alertError: true
                       });
@@ -148,7 +153,9 @@ class ModalEditConglomerado extends React.Component {
               conglomerate_name: Yup.string().required(
                 " Por favor introduzca un nombre."
               ),
-              description: Yup.string().nullable().max(250, " Máximo 250 caracteres."),
+              description: Yup.string()
+                .nullable()
+                .max(250, " Máximo 250 caracteres."),
               status: Yup.bool().test("Activo", "", value => value === true)
             })}
           >
@@ -167,7 +174,7 @@ class ModalEditConglomerado extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                  <Alert
+                    <Alert
                       color="danger"
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
@@ -197,7 +204,11 @@ class ModalEditConglomerado extends React.Component {
                               style={{ borderBottom: "1px solid black" }}
                             >
                               {" "}
-                              Datos{" "}
+                              <Trans>
+                                {this.props.t(
+                                  "app_conglomerado_modal_actualizar_titulo_2"
+                                )}
+                              </Trans>{" "}
                             </h5>{" "}
                           </div>
                           <div className="row">
@@ -205,9 +216,12 @@ class ModalEditConglomerado extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {" "}
-                                  Código <span className="text-danger">
-                                    *
-                                  </span>{" "}
+                                  <Trans>
+                                    {this.props.t(
+                                      "app_conglomerado_modal_actualizar_codigo"
+                                    )}
+                                  </Trans>{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <input
                                   type="text"
@@ -231,9 +245,12 @@ class ModalEditConglomerado extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {" "}
-                                  Nombre <span className="text-danger">
-                                    *
-                                  </span>{" "}
+                                  <Trans>
+                                    {this.props.t(
+                                      "app_conglomerado_modal_actualizar_nombre"
+                                    )}
+                                  </Trans>{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <input
                                   type="text"
@@ -262,7 +279,13 @@ class ModalEditConglomerado extends React.Component {
                             </div>
                             <div className="col-md-12">
                               <div className="form-group">
-                                <label> Descripción </label>
+                                <label>
+                                  <Trans>
+                                    {this.props.t(
+                                      "app_conglomerado_modal_actualizar_descripcion"
+                                    )}
+                                  </Trans>
+                                </label>
                                 <textarea
                                   name="description"
                                   onChange={handleChange}
@@ -282,9 +305,12 @@ class ModalEditConglomerado extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {" "}
-                                  Estado <span className="text-danger">
-                                    *
-                                  </span>{" "}
+                                  <Trans>
+                                    {this.props.t(
+                                      "app_conglomerado_modal_actualizar_estado"
+                                    )}
+                                  </Trans>{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <div className="text-justify ">
                                   <Field
@@ -301,14 +327,9 @@ class ModalEditConglomerado extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="conglomeradoModalEdit"
-                                          label="Si esta opción se encuentra activada, representa
-                                          que el conglomerado es visible en el sistema y se
-                                          podrán realizar operaciones entre cada uno de los
-                                          módulos correspondientes de la aplicación. En caso
-                                          contrario el conglomerado no se elimina del
-                                          sistema solo quedará inactivo e invisibles para
-                                          cada uno de los módulos correspondiente del
-                                          sistema."
+                                          label={this.props.t(
+                                            "app_conglomerado_modal_actualizar_estado_descripcion"
+                                          )}
                                           {...field}
                                           checked={field.value}
                                           className={
@@ -352,7 +373,10 @@ class ModalEditConglomerado extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" /> Actualizar
+                      <i className="fa fa-pencil" />{" "}
+                      {this.props.t(
+                        "app_conglomerado_modal_actualizar_botom_actualizar"
+                      )}
                     </button>
                     <button
                       className={"btn btn-outline-secondary btn-sm"}
@@ -361,7 +385,10 @@ class ModalEditConglomerado extends React.Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar
+                      <i className="fa fa-times" />{" "}
+                      {this.props.t(
+                        "app_conglomerado_modal_actualizar_botom_cerrar"
+                      )}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -376,7 +403,8 @@ class ModalEditConglomerado extends React.Component {
 
 ModalEditConglomerado.propTypes = {
   modaleditstate: PropTypes.bool.isRequired,
-  id: PropTypes.string
+  id: PropTypes.string,
+  t: PropTypes.any
 };
 
 export default ModalEditConglomerado;

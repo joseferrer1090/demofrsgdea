@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import {
+  BootstrapTable,
+  TableHeaderColumn,
+  SearchField
+} from "react-bootstrap-table";
 import { Row, Col, Button, ButtonGroup } from "reactstrap";
 import ModalView from "./ModalViewConglomerado";
 import ModalDelete from "./ModalDeleteConglomerado";
@@ -12,6 +16,7 @@ import {
   CONGLOMERATES,
   CONGLOMERATE_EXPORT
 } from "./../../../services/EndPoints";
+import { withTranslation } from "react-i18next";
 
 class TableContentConglomerado extends Component {
   constructor(props) {
@@ -140,15 +145,24 @@ class TableContentConglomerado extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar CSV
+        <i className="fa fa-download" />{" "}
+        {this.props.t("app_conglomerado_administrar_button_exportar")}
       </button>
     );
   };
 
   render() {
     const options = {
-      btnGroup: this.createCustomButtonGroup
+      btnGroup: this.createCustomButtonGroup,
+      pagination: true,
+      exportCSV: true
     };
+    const { t } = this.props;
+
+    const placeholder = t => {
+      return t("app_conglomrado_administrar_table_placeholder");
+    };
+
     return (
       <div className="animated fadeIn">
         <Row>
@@ -159,13 +173,11 @@ class TableContentConglomerado extends Component {
                   <BootstrapTable
                     options={options}
                     data={this.state.dataConglomerates}
-                    pagination
-                    search={true}
-                    exportCSV
+                    search
                     hover
                     striped
                     bordered={false}
-                    searchPlaceholder="Buscar"
+                    searchPlaceholder={placeholder(t)}
                     className="tableConglo tableConglo1 texto-Conglo actionMenuConglo"
                   >
                     <TableHeaderColumn
@@ -190,7 +202,7 @@ class TableContentConglomerado extends Component {
                       width={"150"}
                     >
                       {" "}
-                      Código{" "}
+                      {t("app_conglomerado_administrar_table_codigo")}{" "}
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       dataSort={true}
@@ -198,7 +210,7 @@ class TableContentConglomerado extends Component {
                       dataAlign="center"
                       width={"205"}
                     >
-                      Nombre
+                      {t("app_conglomerado_administrar_table_nombre")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       dataSort={true}
@@ -206,7 +218,7 @@ class TableContentConglomerado extends Component {
                       dataAlign="center"
                       width={"230"}
                     >
-                      Descripción
+                      {t("app_conglomerado_administrar_table_descripcion")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       width={""}
@@ -217,7 +229,7 @@ class TableContentConglomerado extends Component {
                         this.EstadoConglomerado(cell, row)
                       }
                     >
-                      Estado
+                      {t("app_conglomerado_administrar_table_estado")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       width={"256"}
@@ -228,7 +240,7 @@ class TableContentConglomerado extends Component {
                       }
                       style={{ border: "none" }}
                     >
-                      Acciones
+                      {t("app_conglomerado_administrar_table_acciones")}
                     </TableHeaderColumn>
                   </BootstrapTable>
                 </Col>
@@ -236,13 +248,17 @@ class TableContentConglomerado extends Component {
             </div>
           </Col>
         </Row>
-        <ModalView modalviewstate={this.state.modalView} ref="child" />
-        <ModalDelete modaldeletestate={this.state.modalDelete} ref="child2" />
-        <ModalEdit modaleditstate={this.state.modalEdit} ref="child3" />
-        <ModalExport modalexport={this.state.modalexport} ref="child4" />
+        <ModalView t={t} modalviewstate={this.state.modalView} ref="child" />
+        <ModalDelete
+          t={t}
+          modaldeletestate={this.state.modalDelete}
+          ref="child2"
+        />
+        <ModalEdit t={t} modaleditstate={this.state.modalEdit} ref="child3" />
+        <ModalExport t={t} modalexport={this.state.modalexport} ref="child4" />
       </div>
     );
   }
 }
 
-export default TableContentConglomerado;
+export default withTranslation("translations")(TableContentConglomerado);

@@ -73,7 +73,7 @@ class ModalViewDepartamento extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver {department.name} </ModalHeader>
+          <ModalHeader> Departamento {department.name} </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -138,7 +138,7 @@ class ModalViewDepartamento extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-secondary"
+              className="btn  btn-sm btn-secondary"
               onClick={() => {
                 this.setState({ modal: false });
               }}

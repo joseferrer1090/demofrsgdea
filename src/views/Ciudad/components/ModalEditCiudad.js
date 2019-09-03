@@ -120,7 +120,7 @@ class ModalEditCiudad extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar ciudad </ModalHeader>
+          <ModalHeader> Actualizar {dataResult.city_name} </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}

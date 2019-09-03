@@ -194,18 +194,10 @@ class ModalEditDepartamento extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertError}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="danger" isOpen={this.state.alertError}>
                       Error al actualizar el departamento.
                     </Alert>
-                    <Alert
-                      color="success"
-                      isOpen={this.state.alertSuccess}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
                       Se actualizo el departamento con éxito.
                     </Alert>
                     <Row>

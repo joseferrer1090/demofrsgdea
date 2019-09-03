@@ -10,11 +10,12 @@ class ModalDeletePais extends Component {
     this.state = {
       modal: this.props.modaldel,
       idPais: this.props.id,
-      nombre: '',
+      code: '',
       useLogged: '',
       alertSuccess: false,
       alertError: false,
-      alertCode: false
+      alertCode: false,
+      namePais: ''
     };
   }
 
@@ -25,6 +26,20 @@ class ModalDeletePais extends Component {
       idPais: id,
       useLogged: 'ccuartas'
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/country/${id}/ccuartas`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          namePais: data.name
+        });
+      })
+      .catch(Error => console.log(' ', Error));
   };
 
   onDismiss = () => {
@@ -37,12 +52,13 @@ class ModalDeletePais extends Component {
 
   render() {
     const dataInitial = {
-      nombre: ''
+      code: ''
     };
+    const namePais = this.state.namePais;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar país </ModalHeader>
+          <ModalHeader> Eliminar {namePais} </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -84,7 +100,7 @@ class ModalDeletePais extends Component {
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required(
-                'Por favor introduzca el código del país.'
+                ' Por favor introduzca el código del país.'
               )
             })}
           >
@@ -117,13 +133,9 @@ class ModalDeletePais extends Component {
                       isOpen={this.state.alertCode}
                       toggle={this.onDismiss}
                     >
-                      Por favor introduzca un país válido.
+                      Por favor introduzca un código válido.
                     </Alert>
-                    <Alert
-                      color="success"
-                      isOpen={this.state.alertSuccess}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
                       El país se ha eliminado con éxito.
                     </Alert>
                     <form className="form">

@@ -71,7 +71,7 @@ class ModalViewPais extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver {name} </ModalHeader>
+          <ModalHeader> País {name} </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -132,7 +132,7 @@ class ModalViewPais extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-secondary"
+              className="btn btn-sm btn-secondary"
               onClick={() => {
                 this.setState({ modal: false });
               }}

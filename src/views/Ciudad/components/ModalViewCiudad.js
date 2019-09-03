@@ -74,7 +74,7 @@ class ModalViewCiudad extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver {dataCity.name} </ModalHeader>
+          <ModalHeader> Ciudad {dataCity.name} </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">

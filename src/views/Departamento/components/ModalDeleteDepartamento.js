@@ -10,11 +10,12 @@ class ModalDeleteDepartamento extends Component {
     this.state = {
       modal: this.props.modaldel,
       idDepartment: this.props.id,
-      nombre: '',
+      code: '',
       useLogged: '',
       alertCode: false,
       alertError: false,
-      alertSuccess: false
+      alertSuccess: false,
+      nameDepartment: ''
     };
   }
 
@@ -25,6 +26,21 @@ class ModalDeleteDepartamento extends Component {
       nombre: '',
       useLogged: 'ccuartas'
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/department/${id}/ccuartas`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          nameDepartment: data.name
+        });
+      })
+      .catch(Error => console.log(' ', Error));
   };
 
   onDismiss = () => {
@@ -37,12 +53,13 @@ class ModalDeleteDepartamento extends Component {
 
   render() {
     const dataInitial = {
-      nombre: ''
+      code: ''
     };
+    const nameDepartment = this.state.nameDepartment;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar departamento </ModalHeader>
+          <ModalHeader> Eliminar {nameDepartment} </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {

@@ -14,7 +14,8 @@ class ModalDeleteCiudad extends Component {
       useLogged: '',
       alertCode: false,
       alertError: false,
-      alertSuccess: false
+      alertSuccess: false,
+      nameCity: ''
     };
   }
 
@@ -22,9 +23,23 @@ class ModalDeleteCiudad extends Component {
     this.setState({
       modal: !this.state.modal,
       idCity: id,
-      nombre: '',
+      code: '',
       useLogged: 'ccuartas'
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/city/${id}/ccuartas`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          nameCity: data.name
+        });
+      })
+      .catch(Error => console.log(' ', Error));
   };
   onDismiss = () => {
     this.setState({
@@ -36,12 +51,13 @@ class ModalDeleteCiudad extends Component {
 
   render() {
     const dataPreview = {
-      nombre: ''
+      code: ''
     };
+    const nameCity = this.state.nameCity;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar ciudad </ModalHeader>
+          <ModalHeader> Eliminar {nameCity} </ModalHeader>
           <Formik
             initialValues={dataPreview}
             onSubmit={(values, { setSubmitting }) => {
@@ -75,6 +91,11 @@ class ModalDeleteCiudad extends Component {
                       this.setState({
                         alertCode: true
                       });
+                      setTimeout(() => {
+                        this.setState({
+                          alertCode: false
+                        });
+                      }, 3000);
                     }
                   })
                   .catch(error => console.log(' ', error));
@@ -128,7 +149,7 @@ class ModalDeleteCiudad extends Component {
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        Confirmar el <code> código </code> para eliminar el
+                        Confirmar el <code> código </code> para eliminar la
                         ciudad.{' '}
                       </p>
 
@@ -139,6 +160,7 @@ class ModalDeleteCiudad extends Component {
                         type="text"
                         placeholder="Código para eliminar la ciudad"
                         style={{ textAlign: 'center' }}
+                        value={values.code}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
                           touched.code &&
                           'is-invalid'}`}
@@ -171,7 +193,12 @@ class ModalDeleteCiudad extends Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError: false,
+                          alertCode: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" /> Cerrar{' '}

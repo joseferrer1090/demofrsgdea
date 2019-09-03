@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col } from "reactstrap";
-import ModalViewMensajero from "./ModalViewMensajero";
-import ModalUpdate from "./ModalActualizarMensajero";
-import Modaldelete from "./ModalDeleteMensajero";
-import ModalExport from './ModalExportCSV'
-import "./../../../css/styleTableMensajero.css";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import {MESSENGERS} from './../../../services/EndPoints'
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { Row, Col } from 'reactstrap';
+import ModalViewMensajero from './ModalViewMensajero';
+import ModalUpdate from './ModalActualizarMensajero';
+import Modaldelete from './ModalDeleteMensajero';
+import ModalExport from './ModalExportCSV';
+import './../../../css/styleTableMensajero.css';
+import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
+import { MESSENGERS } from './../../../services/EndPoints';
 
 class TableContentMensajero extends Component {
   constructor(props) {
@@ -17,8 +17,8 @@ class TableContentMensajero extends Component {
       modalView: false,
       modalUpdate: false,
       modaldelte: false,
-      modalexport:false,
-      dataMessengers:[],
+      modalexport: false,
+      dataMessengers: [],
       hiddenColumnID: true
     };
   }
@@ -29,10 +29,10 @@ class TableContentMensajero extends Component {
 
   getDataMessenger = () => {
     fetch(MESSENGERS, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -41,15 +41,12 @@ class TableContentMensajero extends Component {
           dataMessengers: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
   accionesMensajero(cell, row) {
     return (
-      <div
-        className="table-actionMenuMensj"
-        style={{ marginRight: "60px" }}
-      >
+      <div className="table-actionMenuMensj" style={{ marginRight: '60px' }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -57,8 +54,8 @@ class TableContentMensajero extends Component {
             this.openModalView(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-eye" />{" "}
+          {' '}
+          <i className="fa fa-eye" />{' '}
         </button>
         &nbsp;
         <button
@@ -87,47 +84,47 @@ class TableContentMensajero extends Component {
   EstadoMensajero = (cell, row) => {
     let status;
     if (row.status === 1) {
-      status = <div className="text-success">Activo</div>;
+      status = <b className="text-success">Activo</b>;
     } else if (row.status === 0) {
-      status = <div className="text-danger"> Inactivo </div>;
+      status = <b className="text-danger"> Inactivo </b>;
     }
     return status;
   };
 
-  openModalView = (id) => {
+  openModalView = id => {
     this.refs.child.toggle(id);
   };
 
-  openModalUpdate = (id) => {
+  openModalUpdate = id => {
     this.refs.child2.toggle(id);
   };
 
-  openModalDelete = (id) => {
+  openModalDelete = id => {
     this.refs.child3.toggle(id);
   };
 
-  openModalExport = () =>{
+  openModalExport = () => {
     this.refs.child4.toggle();
-  }
+  };
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
-  createCustomButtonGroup = props =>{
-    return(
+  createCustomButtonGroup = props => {
+    return (
       <button
-      type="button"
-      className={`btn btn-secondary btn-sm`}
-      onClick={()=> this.openModalExport()}
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
       >
-      <i className="fa fa-download"/> Exportar CSV
+        <i className="fa fa-download" /> Exportar CSV
       </button>
     );
   };
 
   render() {
-    const options={
+    const options = {
       btnGroup: this.createCustomButtonGroup
     };
     console.log(this.state.dataMessengers);
@@ -150,14 +147,14 @@ class TableContentMensajero extends Component {
               <TableHeaderColumn
                 export={false}
                 isKey
-                dataField={"id"}
+                dataField={'id'}
                 hidden={this.state.hiddenColumnID}
               />
-                <TableHeaderColumn
+              <TableHeaderColumn
                 dataSort={true}
                 dataFormat={this.indexN}
-                width={"50"}
-                dataField={"id"}
+                width={'50'}
+                dataField={'id'}
                 dataAlign="center"
               >
                 #
@@ -165,49 +162,49 @@ class TableContentMensajero extends Component {
               <TableHeaderColumn
                 dataField="identification"
                 dataAlign="center"
-                width={"140"}
+                width={'140'}
               >
                 Identificación
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="name"
                 dataAlign="center"
-                width={"120"}
+                width={'120'}
               >
-                Nombre{" "}
+                Nombre{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="description"
                 dataAlign="center"
-                width={"200"}
+                width={'200'}
               >
-                Descripción{" "}
+                Descripción{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={"100"}
+                width={'100'}
                 dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.EstadoMensajero(cell, row)}
               >
-                {" "}
-                Estado{" "}
+                {' '}
+                Estado{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={"120"}
+                width={'120'}
                 export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesMensajero(cell, row)}
               >
-                {" "}
-                Acciones{" "}
+                {' '}
+                Acciones{' '}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>
-        <ModalViewMensajero modalview={this.state.modalView} ref={"child"} />
-        <ModalUpdate modalupdate={this.state.modalUpdate} ref={"child2"} />
-        <Modaldelete modaldelete={this.state.modaldelte} ref={"child3"} />
-        <ModalExport modalexport={this.state.modalexport} ref={"child4"} />
+        <ModalViewMensajero modalview={this.state.modalView} ref={'child'} />
+        <ModalUpdate modalupdate={this.state.modalUpdate} ref={'child2'} />
+        <Modaldelete modaldelete={this.state.modaldelte} ref={'child3'} />
+        <ModalExport modalexport={this.state.modalexport} ref={'child4'} />
       </div>
     );
   }

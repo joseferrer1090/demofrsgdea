@@ -116,7 +116,6 @@ class FormUploadCargo extends React.Component {
                   .max(1, ' Máximo 1 carácter')
                   .min(1, ' Por favor introduzca un separador.'),
                 titulos: Yup.bool().test('Activo', '', value => value === true)
-                // archivo: Yup.mixed(),
               })}
             >
               {props => {
@@ -191,7 +190,7 @@ class FormUploadCargo extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  Archivo a importar en extnsion <b>CSV</b>{' '}
+                                  Archivo a importar en extensión <b>CSV</b>{' '}
                                   <span className="text-danger"> * </span>
                                 </label>
                                 <input

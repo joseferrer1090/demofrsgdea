@@ -41,7 +41,7 @@ class ModalDeleteCargo extends React.Component {
     const dataInitial = {
       nombre: ''
     };
-    console.log(this.state.id);
+
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
@@ -121,14 +121,14 @@ class ModalDeleteCargo extends React.Component {
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un código valido.
+                        Por favor introduzca un código válido.
                       </Alert>
                       <Alert
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        El cargo se ha eliminada con éxito.
+                        El cargo se ha eliminado con éxito.
                       </Alert>
                       <p className="text-center">
                         {' '}

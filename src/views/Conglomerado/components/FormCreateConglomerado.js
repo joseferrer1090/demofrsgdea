@@ -1,11 +1,15 @@
-import React from "react";
-import ConglomeradoForm from "./Forms/ConglomeradoForm";
+import React from 'react';
+import ConglomeradoForm from './Forms/ConglomeradoForm';
 
 const dataConglomerado = {
-  codigo: "",
-  nombre: "",
-  descripcion: "",
-  estado: ""
+  codigo: '',
+  nombre: '',
+  descripcion: '',
+  estado: '',
+  countryId: '',
+  departmentId: '',
+  cityId: '',
+  chargeId: ''
 };
 
 const FormCreateConglomerado = props => {

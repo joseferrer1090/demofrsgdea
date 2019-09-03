@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Row, Col } from "reactstrap";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import ModalView from "./ViewCargoModal";
-import ModalEdit from "./ModalEditCargo";
-import ModalDel from "./ModalDeleteCargo";
-import ModalExport from "./ModalExportCSV";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/styleTableCargo.css";
+import React, { Component } from 'react';
+import { Row, Col } from 'reactstrap';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import ModalView from './ViewCargoModal';
+import ModalEdit from './ModalEditCargo';
+import ModalDel from './ModalDeleteCargo';
+import ModalExport from './ModalExportCSV';
+import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
+import './../../../css/styleTableCargo.css';
 
 class TableContentCargo extends Component {
   constructor(props) {
@@ -27,10 +27,10 @@ class TableContentCargo extends Component {
 
   getDataCharge = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/charge/`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
-        "Content-Type": "application/json"
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
       }
     })
       .then(response => response.json())
@@ -39,15 +39,15 @@ class TableContentCargo extends Component {
           dataCharge: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
   CargoStatus = (cell, row) => {
     let status;
     if (row.status === 1) {
-      status = <b className="text-success">ACTIVO</b>;
-    } else if (row.status === false) {
-      status = <b className="text-danger">INACTIVO</b>;
+      status = <b className="text-success">Activo</b>;
+    } else if (row.status === 0) {
+      status = <b className="text-danger">Inactivo</b>;
     }
     return status;
   };
@@ -56,7 +56,7 @@ class TableContentCargo extends Component {
     return (
       <div
         className="table-actionMenuCargo"
-        style={{ textAlign: "center", padding: "0", marginRight: "105px" }}
+        style={{ textAlign: 'center', padding: '0', marginRight: '105px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -65,8 +65,8 @@ class TableContentCargo extends Component {
             this.openModalView(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-eye" />{" "}
+          {' '}
+          <i className="fa fa-eye" />{' '}
         </button>
         &nbsp;
         <button
@@ -86,8 +86,8 @@ class TableContentCargo extends Component {
             this.openModalDelete(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-trash" />{" "}
+          {' '}
+          <i className="fa fa-trash" />{' '}
         </button>
       </div>
     );
@@ -148,7 +148,7 @@ class TableContentCargo extends Component {
           >
             <TableHeaderColumn
               dataAlign="center"
-              dataField={"id"}
+              dataField={'id'}
               isKey
               width={50}
               hidden={this.state.HiddenColumn}
@@ -157,20 +157,20 @@ class TableContentCargo extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
-              dataField={"id"}
+              dataField={'id'}
               dataFormat={this.indexN}
               width={50}
             >
               #
             </TableHeaderColumn>
             <TableHeaderColumn dataAlign="center" dataField="code" width={100}>
-              {" "}
-              Código{" "}
+              {' '}
+              Código{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
               dataField="name"
-              width={"100"}
+              width={'100'}
             >
               Nombre
             </TableHeaderColumn>
@@ -180,8 +180,8 @@ class TableContentCargo extends Component {
               dataField="description"
               width={200}
             >
-              {" "}
-              Descripción{" "}
+              {' '}
+              Descripción{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
@@ -189,17 +189,17 @@ class TableContentCargo extends Component {
               dataFormat={(cell, row) => this.CargoStatus(cell, row)}
               width="100"
             >
-              {" "}
-              Estado{" "}
+              {' '}
+              Estado{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"200"}
+              width={'200'}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesCargo(cell, row)}
             >
-              {" "}
-              Acciones{" "}
+              {' '}
+              Acciones{' '}
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>

@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import ModalView from "./ModalViewEmpresa";
-import ModalEdit from "./ModalEditEmpresa";
-import ModalDel from "./ModalDeleteEmpresa";
-import ModalExport from "./ModalExportCSV";
-import { Row, Col } from "reactstrap";
-import "./../../../css/styleTableEmpresa.css";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import { COMPANYS } from "./../../../services/EndPoints";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import ModalView from './ModalViewEmpresa';
+import ModalEdit from './ModalEditEmpresa';
+import ModalDel from './ModalDeleteEmpresa';
+import ModalExport from './ModalExportCSV';
+import { Row, Col } from 'reactstrap';
+import './../../../css/styleTableEmpresa.css';
+import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
+import { COMPANYS } from './../../../services/EndPoints';
 
 class TableContentEmpresa extends Component {
   constructor(props) {
@@ -29,24 +29,25 @@ class TableContentEmpresa extends Component {
 
   getDataCompany = () => {
     fetch(COMPANYS, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         this.setState({
           dataCompanys: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
   accionesEmpresa = (cel, row) => {
     return (
-      <div className="table-actionMenuEmpre" style={{ marginRight: "60px" }}>
+      <div className="table-actionMenuEmpre" style={{ marginRight: '60px' }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -54,8 +55,8 @@ class TableContentEmpresa extends Component {
             this.openModalView(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-eye" />{" "}
+          {' '}
+          <i className="fa fa-eye" />{' '}
         </button>
         &nbsp;
         <button
@@ -75,8 +76,8 @@ class TableContentEmpresa extends Component {
             this.openModalDelete(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-trash" />{" "}
+          {' '}
+          <i className="fa fa-trash" />{' '}
         </button>
       </div>
     );
@@ -100,7 +101,7 @@ class TableContentEmpresa extends Component {
     this.refs.child2.toggle(id);
   };
 
-  openModalDelete = (id) => {
+  openModalDelete = id => {
     this.refs.child3.toggle(id);
   };
 
@@ -150,23 +151,23 @@ class TableContentEmpresa extends Component {
             <TableHeaderColumn
               export={false}
               isKey
-              dataField={"id"}
+              dataField={'id'}
               hidden={this.state.hiddenColumnID}
             />
             <TableHeaderColumn
               dataSort={true}
               dataFormat={this.indexN}
-              dataField={"id"}
-              width={"50"}
+              dataField={'id'}
+              width={'50'}
               dataAlign="center"
             >
               #
             </TableHeaderColumn>
 
             <TableHeaderColumn
-              width={"200"}
+              width={'200'}
               dataSort={true}
-              dataField={"conglomerate"}
+              dataField={'conglomerate'}
               dataAlign="center"
               dataFormat={this.ConglomerateInfo}
             >
@@ -174,50 +175,50 @@ class TableContentEmpresa extends Component {
             </TableHeaderColumn>
 
             <TableHeaderColumn
-              width={"80"}
+              width={'80'}
               dataSort={true}
-              dataField={"code"}
+              dataField={'code'}
               dataAlign="center"
             >
               Código
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"200"}
+              width={'200'}
               dataSort={true}
-              dataField={"nit"}
+              dataField={'nit'}
               dataAlign="center"
             >
               Nit
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
-              dataField={"name"}
+              dataField={'name'}
               dataAlign="center"
             >
               Nombre
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
-              dataField={"status"}
+              dataField={'status'}
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoEmpresa(cell, row)}
             >
               Estado
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"190"}
+              width={'190'}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesEmpresa(cell, row)}
-              style={{ border: "none" }}
+              style={{ border: 'none' }}
             >
               Acciones
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
 
-        <ModalView modalviewempesa={this.state.modalview} ref={"child"} />
-        <ModalEdit modaleditempresa={this.state.modaledit} ref={"child2"} />
+        <ModalView modalviewempesa={this.state.modalview} ref={'child'} />
+        <ModalEdit modaleditempresa={this.state.modaledit} ref={'child2'} />
         <ModalDel modaldelempresa={this.state.modaldel} ref="child3" />
         <ModalExport modalexport={this.state.modalexport} ref="child4" />
       </div>

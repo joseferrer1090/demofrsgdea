@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -10,12 +10,18 @@ import {
   CardBody,
   CustomInput,
   Alert
-} from "reactstrap";
-import PropTypes from "prop-types";
-import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
-import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
-import * as Yup from "yup";
-import { CONGLOMERATES } from "./../../../services/EndPoints";
+} from 'reactstrap';
+import PropTypes from 'prop-types';
+import IMGCONGLOMERADO from './../../../assets/img/puzzle.svg';
+import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import {
+  CONGLOMERATES,
+  DEPARTMENTS,
+  CITYS,
+  COUNTRIES,
+  CHARGES
+} from './../../../services/EndPoints';
 
 class ModalEditConglomerado extends React.Component {
   state = {
@@ -23,8 +29,19 @@ class ModalEditConglomerado extends React.Component {
     idConglomerado: this.props.id,
     dataResult: {},
     alertError: false,
-    alertSuccess: false
+    alertSuccess: false,
+    optionsCountries: [],
+    optionsDepartment: [],
+    optionsCitys: [],
+    optionsCharges: []
   };
+  componentDidMount() {
+    this.getDataCountries();
+    this.getDataDepartments();
+    this.getDataCitys();
+    this.getDataCharges();
+  }
+
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
@@ -35,20 +52,28 @@ class ModalEditConglomerado extends React.Component {
 
   getConglomeradoByID = id => {
     fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/${id}/jferrer`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         this.setState({
           dataResult: {
+            conglomerate_country: data.city.department.country.id,
+            conglomerate_department: data.city.department.id,
+            conglomerate_city: data.city.id,
             conglomerate_name: data.name,
             code: data.code,
             description: data.description,
-            status: data.status
+            status: data.status,
+            conglomerate_charge:
+              data.charge !== null
+                ? { conglomerate_charge: data.charge.id }
+                : ''
           }
         });
       })
@@ -67,8 +92,102 @@ class ModalEditConglomerado extends React.Component {
       alertSuccess: false
     });
   };
+  getDataCountries = data => {
+    fetch(COUNTRIES, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCountries: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+  getDataDepartments = data => {
+    fetch(DEPARTMENTS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsDepartment: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  getDataCitys = data => {
+    fetch(CITYS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCitys: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+  getDataCharges = data => {
+    fetch(CHARGES, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCharges: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
 
   render() {
+    const mapOptionsCountries = this.state.optionsCountries.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+
+    const mapOptionsDepartments = this.state.optionsDepartment.map(
+      (aux, idx) => {
+        return <option value={aux.id}>{aux.name}</option>;
+      }
+    );
+
+    const mapOptionsCitys = this.state.optionsCitys.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+
+    const mapOptionsCharges = this.state.optionsCharges.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
     const dataResult = this.state.dataResult;
     const auxID = this.state.idConglomerado;
     return (
@@ -92,10 +211,10 @@ class ModalEditConglomerado extends React.Component {
               };
               setTimeout(() => {
                 fetch(CONGLOMERATES, {
-                  method: "PUT",
+                  method: 'PUT',
                   headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    'Content-Type': 'application/json',
+                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
                   },
                   body: JSON.stringify({
                     id: this.state.idConglomerado,
@@ -103,10 +222,12 @@ class ModalEditConglomerado extends React.Component {
                     name: values.conglomerate_name,
                     description: values.description,
                     status: tipoEstado(values.status),
-                    userName: "jferrer"
+                    cityId: values.conglomerate_city,
+                    chargeId: values.conglomerate_charge,
+                    userName: 'jferrer'
                   })
                 })
-                  .then(response =>{
+                  .then(response => {
                     console.log(response.status);
                     if (response.status === 200) {
                       this.setState({
@@ -124,10 +245,10 @@ class ModalEditConglomerado extends React.Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError: false
                         });
                       }, 3000);
-                    }else if (response.status === 500) {
+                    } else if (response.status === 500) {
                       this.setState({
                         alertError: true
                       });
@@ -139,17 +260,29 @@ class ModalEditConglomerado extends React.Component {
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch(error => console.log('', error));
                 setSubmitting(false);
               }, 1000);
             }}
             validationSchema={Yup.object().shape({
-              code: Yup.string().required(" Por favor introduzca un código."),
+              code: Yup.string().required(' Por favor introduzca un código.'),
               conglomerate_name: Yup.string().required(
-                " Por favor introduzca un nombre."
+                ' Por favor introduzca un nombre.'
               ),
-              description: Yup.string().nullable().max(250, " Máximo 250 caracteres."),
-              status: Yup.bool().test("Activo", "", value => value === true)
+              conglomerate_country: Yup.string()
+                .ensure()
+                .required(' Por favor seleccione un país.'),
+              conglomerate_department: Yup.string()
+                .ensure()
+                .required(' Por favor seleccione un departamento.'),
+              conglomerate_city: Yup.string()
+                .ensure()
+                .required(' Por favor seleccione una ciudad.'),
+              conglomerate_charge: Yup.string().ensure(),
+              description: Yup.string()
+                .nullable()
+                .max(250, ' Máximo 250 caracteres.'),
+              status: Yup.bool().test('Activo', '', value => value === true)
             })}
           >
             {props => {
@@ -167,7 +300,7 @@ class ModalEditConglomerado extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                  <Alert
+                    <Alert
                       color="danger"
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
@@ -191,49 +324,49 @@ class ModalEditConglomerado extends React.Component {
                         </div>
                         <div className="col-md-9">
                           <div className="">
-                            {" "}
+                            {' '}
                             <h5
                               className=""
-                              style={{ borderBottom: "1px solid black" }}
+                              style={{ borderBottom: '1px solid black' }}
                             >
-                              {" "}
-                              Datos{" "}
-                            </h5>{" "}
+                              {' '}
+                              Datos{' '}
+                            </h5>{' '}
                           </div>
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {" "}
+                                  {' '}
                                   Código <span className="text-danger">
                                     *
-                                  </span>{" "}
+                                  </span>{' '}
                                 </label>
                                 <input
                                   type="text"
-                                  name={"code"}
+                                  name={'code'}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.code}
                                   className={`form-control form-control-sm ${errors.code &&
                                     touched.code &&
-                                    "is-invalid"}`}
+                                    'is-invalid'}`}
                                 />
-                                <div style={{ color: "#D54B4B" }}>
+                                <div style={{ color: '#D54B4B' }}>
                                   {errors.code && touched.code ? (
                                     <i className="fa fa-exclamation-triangle" />
                                   ) : null}
-                                  <ErrorMessage name={"code"} />
+                                  <ErrorMessage name={'code'} />
                                 </div>
                               </div>
                             </div>
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {" "}
+                                  {' '}
                                   Nombre <span className="text-danger">
                                     *
-                                  </span>{" "}
+                                  </span>{' '}
                                 </label>
                                 <input
                                   type="text"
@@ -243,7 +376,7 @@ class ModalEditConglomerado extends React.Component {
                                   value={values.conglomerate_name}
                                   className={`form-control form-control-sm ${errors.conglomerate_name &&
                                     touched.conglomerate_name &&
-                                    "is-invalid"}`}
+                                    'is-invalid'}`}
                                 />
                                 {/* <Field
                                   type="text"
@@ -251,13 +384,116 @@ class ModalEditConglomerado extends React.Component {
                                   placeholder=""
                                   className={"form-control form-control-sm"}
                                 /> */}
-                                <div style={{ color: "#D54B4B" }}>
+                                <div style={{ color: '#D54B4B' }}>
                                   {errors.conglomerate_name &&
                                   touched.conglomerate_name ? (
                                     <i className="fa fa-exclamation-triangle" />
                                   ) : null}
-                                  <ErrorMessage name={"conglomerate_name"} />
+                                  <ErrorMessage name={'conglomerate_name'} />
                                 </div>
+                              </div>
+                            </div>
+                            <div className="col-md-4">
+                              <div className="form-group">
+                                <label> País</label>
+                                <select
+                                  name={'conglomerate_country'}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.conglomerate_country}
+                                  className={`form-control form-control-sm ${errors.conglomerate_country &&
+                                    touched.conglomerate_country &&
+                                    'is-invalid'}`}
+                                >
+                                  {' '}
+                                  <option value={''} disabled>
+                                    -- Seleccione --
+                                  </option>
+                                  {mapOptionsCountries}{' '}
+                                </select>{' '}
+                                <div style={{ color: '#D54B4B' }}>
+                                  {errors.conglomerate_country &&
+                                  touched.conglomerate_country ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="conglomerate_country" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-4">
+                              <div className="form-group">
+                                <label> Departamento</label>
+                                <select
+                                  name="conglomerate_department"
+                                  value={values.conglomerate_department}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  className={`form-control form-control-sm ${errors.conglomerate_department &&
+                                    touched.conglomerate_department &&
+                                    'is-invalid'}`}
+                                >
+                                  <option value={''} disabled>
+                                    -- Seleccione --
+                                  </option>
+                                  {mapOptionsDepartments}
+                                </select>
+                                <div style={{ color: '#D54B4B' }}>
+                                  {errors.conglomerate_department &&
+                                  touched.conglomerate_department ? (
+                                    <i class="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="conglomerate_department" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-4">
+                              <div className="form-group">
+                                <label>
+                                  {' '}
+                                  Ciudad <span className="text-danger">
+                                    *
+                                  </span>{' '}
+                                </label>
+                                <select
+                                  name="conglomerate_city"
+                                  value={values.conglomerate_city}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  className={`form-control form-control-sm ${errors.conglomerate_city &&
+                                    touched.conglomerate_city &&
+                                    'is-invalid'}`}
+                                >
+                                  <option value={''} disabled>
+                                    -- Seleccione --
+                                  </option>
+                                  {mapOptionsCitys}
+                                </select>
+                                <div style={{ color: '#D54B4B' }}>
+                                  {errors.conglomerate_city &&
+                                  touched.conglomerate_city ? (
+                                    <i class="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="conglomerate_city" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label> Cargo responsable </label>
+                                <select
+                                  name="conglomerate_charge"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.conglomerate_charge}
+                                  className="form-control form-control-sm"
+                                >
+                                  {' '}
+                                  <option value={''} disabled>
+                                    {' '}
+                                    -- Seleccione --{' '}
+                                  </option>
+                                  {mapOptionsCharges}
+                                </select>
                               </div>
                             </div>
                             <div className="col-md-12">
@@ -281,10 +517,10 @@ class ModalEditConglomerado extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {" "}
+                                  {' '}
                                   Estado <span className="text-danger">
                                     *
-                                  </span>{" "}
+                                  </span>{' '}
                                 </label>
                                 <div className="text-justify ">
                                   <Field
@@ -314,7 +550,7 @@ class ModalEditConglomerado extends React.Component {
                                           className={
                                             errors.status &&
                                             touched.status &&
-                                            "invalid-feedback"
+                                            'invalid-feedback'
                                           }
                                         />
                                       );
@@ -346,8 +582,9 @@ class ModalEditConglomerado extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={"btn btn-outline-success btn-sm"}
+                      className={'btn btn-outline-success btn-sm'}
                       onClick={e => {
+                        console.log('Hola');
                         e.preventDefault();
                         handleSubmit();
                       }}
@@ -355,7 +592,7 @@ class ModalEditConglomerado extends React.Component {
                       <i className="fa fa-pencil" /> Actualizar
                     </button>
                     <button
-                      className={"btn btn-outline-secondary btn-sm"}
+                      className={'btn btn-outline-secondary btn-sm'}
                       type="button"
                       onClick={() => {
                         this.setState({ modal: false });

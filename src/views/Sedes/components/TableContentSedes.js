@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col, Badge } from "reactstrap";
-import ModalEdit from "./ModalEditSedes";
-import ModalView from "./ModalViewSedes";
-import ModalDelete from "./ModalDeleteSedes";
-import ModalExport from "./ModalExportCSV";
-import "./../../../css/styleTableSedes.css";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import {HEADQUARTERS} from './../../../services/EndPoints';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { Row, Col, Badge } from 'reactstrap';
+import ModalEdit from './ModalEditSedes';
+import ModalView from './ModalViewSedes';
+import ModalDelete from './ModalDeleteSedes';
+import ModalExport from './ModalExportCSV';
+import './../../../css/styleTableSedes.css';
+import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
+import { HEADQUARTERS } from './../../../services/EndPoints';
 
 class TableContentSedes extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class TableContentSedes extends Component {
       modalEdit: false,
       modalDel: false,
       modalExport: false,
-      dataHeadquarters:[],
+      dataHeadquarters: [],
       hiddenColumnId: true
     };
   }
@@ -29,10 +29,10 @@ class TableContentSedes extends Component {
 
   getDataHeadquarters = () => {
     fetch(HEADQUARTERS, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -41,7 +41,7 @@ class TableContentSedes extends Component {
           dataHeadquarters: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
   SedesStatus = (cell, row) => {
@@ -51,11 +51,11 @@ class TableContentSedes extends Component {
       status = <b className="text-danger">Inactivo</b>;
     }
     return status;
-  }
+  };
 
   accionesSedes = (cell, row) => {
     return (
-      <div className="table-actionMenuSedes" style={{ marginRight: "150px" }}>
+      <div className="table-actionMenuSedes" style={{ marginRight: '150px' }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -63,8 +63,8 @@ class TableContentSedes extends Component {
             this.openModalView(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-eye" />{" "}
+          {' '}
+          <i className="fa fa-eye" />{' '}
         </button>
         &nbsp;
         <button
@@ -84,22 +84,22 @@ class TableContentSedes extends Component {
             this.openModalDelete(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-trash" />{" "}
+          {' '}
+          <i className="fa fa-trash" />{' '}
         </button>
       </div>
     );
   };
 
-  openModalView = (id) => {
+  openModalView = id => {
     this.refs.child.toggle(id);
   };
 
-  openModalEdit = (id) => {
+  openModalEdit = id => {
     this.refs.child2.toggle(id);
   };
 
-  openModalDelete = (id) => {
+  openModalDelete = id => {
     this.refs.child3.toggle(id);
   };
 
@@ -109,7 +109,7 @@ class TableContentSedes extends Component {
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
-  };
+  }
 
   createCustomButtonGroup = props => {
     return (
@@ -144,7 +144,7 @@ class TableContentSedes extends Component {
                 pagination
                 bordered={false}
                 striped
-                searchPlaceholder={"Buscar"}
+                searchPlaceholder={'Buscar'}
                 exportCSV
                 className="tableSedes tableSedes1 texto-Sedes"
                 // headerStyle={{ height: "55px" }}
@@ -152,13 +152,13 @@ class TableContentSedes extends Component {
                 <TableHeaderColumn
                   export={false}
                   isKey
-                  dataField={"id"}
+                  dataField={'id'}
                   hidden={this.state.hiddenColumnId}
                 />
                 <TableHeaderColumn
-                  dataField={"id"}
+                  dataField={'id'}
                   dataFormat={this.indexN}
-                  width={"50"}
+                  width={'50'}
                   dataAlign="center"
                   dataSort={true}
                 >
@@ -166,49 +166,49 @@ class TableContentSedes extends Component {
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
-                  dataField={"company"}
+                  dataField={'company'}
                   dataFormat={this.EmpresaInfo}
-                  dataAlign={"center"}
-                  width={"250"}
+                  dataAlign={'center'}
+                  width={'250'}
                   dataSort={true}
                 >
-                  {" "}
-                  Empresa{" "}
+                  {' '}
+                  Empresa{' '}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  dataField={"code"}
+                  dataField={'code'}
                   dataAlign="center"
-                  width={"100"}
+                  width={'100'}
                   dataSort={true}
                 >
                   Código
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  dataField={"name"}
+                  dataField={'name'}
                   dataAlign="center"
-                  width={"230"}
+                  width={'230'}
                   dataSort={true}
                 >
                   Nombre
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  dataField={"status"}
+                  dataField={'status'}
                   dataFormat={(cell, row) => this.SedesStatus(cell, row)}
-                  dataAlign={"center"}
-                  width={"200"}
+                  dataAlign={'center'}
+                  width={'200'}
                   dataSort={true}
                 >
-                  {" "}
-                  Estado{" "}
+                  {' '}
+                  Estado{' '}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   export={false}
                   dataAlign="center"
                   dataFormat={(cell, row) => this.accionesSedes(cell, row)}
-                  style={{ border: "none" }}
+                  style={{ border: 'none' }}
                 >
-                  {" "}
-                  Acciones{" "}
+                  {' '}
+                  Acciones{' '}
                 </TableHeaderColumn>
               </BootstrapTable>
             </div>
@@ -217,7 +217,7 @@ class TableContentSedes extends Component {
         <ModalView modalview={this.state.modalView} ref="child" />
         <ModalEdit modaledit={this.state.modalEdit} ref="child2" />
         <ModalDelete modaldel={this.state.modalDel} ref="child3" />
-        <ModalExport modalExport={this.state.modalExport} ref="child4"/>
+        <ModalExport modalExport={this.state.modalExport} ref="child4" />
       </div>
     );
   }

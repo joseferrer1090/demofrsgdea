@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Formik, withFormik, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import React, { useState, useEffect } from 'react';
+import { Formik, withFormik, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import {
   Card,
   CardBody,
@@ -10,11 +10,19 @@ import {
   Col,
   Row,
   Alert
-} from "reactstrap";
-import { CONGLOMERATES, COMPANYS, COUNTRIES, DEPARTMENTS, CITYS, HEADQUARTERS, CHARGES} from "./../../../../services/EndPoints";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { css } from "glamor";
+} from 'reactstrap';
+import {
+  CONGLOMERATES,
+  COMPANYS,
+  COUNTRIES,
+  DEPARTMENTS,
+  CITYS,
+  HEADQUARTERS,
+  CHARGES
+} from './../../../../services/EndPoints';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { css } from 'glamor';
 
 const SedesForm = props => {
   const {
@@ -38,7 +46,7 @@ const SedesForm = props => {
   const [visibleAlert, setVisibleAlert] = useState(true);
   const [optionsCharges, setOptionsCharges] = useState([]);
 
-  useEffect (() => {
+  useEffect(() => {
     getDataConglomerates();
     getDataCompanys();
     getDataCountries();
@@ -47,164 +55,170 @@ const SedesForm = props => {
     getDataCharges();
   }, []);
 
-  const getDataConglomerates = (data) => {
+  const getDataConglomerates = data => {
     fetch(CONGLOMERATES, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
-        setOptionsConglomerate(data)
+        setOptionsConglomerate(data);
         // this.setState({
         //   dataConglomerates: data
         // });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
-  const mapOptionsConglomerate =
-    optionsConglomerate.map((aux,idx)=>{
-      return(
-        <option key={aux.id} value={aux.id}>{aux.name}</option>
-      );
-    });
+  const mapOptionsConglomerate = optionsConglomerate.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
 
-    const getDataCompanys = (data) => {
-      fetch(COMPANYS, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+  const getDataCompanys = data => {
+    fetch(COMPANYS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsCompanys(data);
+        // this.setState({
+        //   dataConglomerates: data
+        // });
       })
-        .then(response => response.json())
-        .then(data => {
-          setOptionsCompanys(data)
-          // this.setState({
-          //   dataConglomerates: data
-          // });
-        })
-        .catch(Error => console.log(" ", Error));
-    };
+      .catch(Error => console.log(' ', Error));
+  };
 
-    const mapOptionsCompanys =
-      optionsCompanys.map((aux,idx)=>{
-        return(
-          <option key={aux.id} value={aux.id}>{aux.name}</option>
-        );
-      });
+  const mapOptionsCompanys = optionsCompanys.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
 
-  const getDataCountries = (data) => {
+  const getDataCountries = data => {
     fetch(COUNTRIES, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
-        setOptionsCountries(data)
+        setOptionsCountries(data);
         // this.setState({
         //   dataConglomerates: data
         // });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
-  const mapOptionsCountries =
-  optionsCountries.map((aux,idx)=>{
-      return(
-        <option key={aux.id} value={aux.id}>{aux.name}</option>
-      );
-    });
+  const mapOptionsCountries = optionsCountries.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
 
-    const getDataDepartments = (data) => {
-      fetch(DEPARTMENTS, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+  const getDataDepartments = data => {
+    fetch(DEPARTMENTS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsDepartment(data);
+        // this.setState({
+        //   dataConglomerates: data
+        // });
       })
-        .then(response => response.json())
-        .then(data => {
-          setOptionsDepartment(data)
-          // this.setState({
-          //   dataConglomerates: data
-          // });
-        })
-        .catch(Error => console.log(" ", Error));
-    };
+      .catch(Error => console.log(' ', Error));
+  };
 
-    const mapOptionsDepartments =
-    optionsDepartment.map((aux,idx)=>{
-        return(
-          <option key={aux.id} value={aux.id}>{aux.name}</option>
-        );
-      });
+  const mapOptionsDepartments = optionsDepartment.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
 
-      const getDataCitys = (data) => {
-        fetch(CITYS, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
-          }
-        })
-          .then(response => response.json())
-          .then(data => {
-            setOptionsCitys(data)
-            // this.setState({
-            //   dataConglomerates: data
-            // });
-          })
-          .catch(Error => console.log(" ", Error));
-      };
+  const getDataCitys = data => {
+    fetch(CITYS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsCitys(data);
+        // this.setState({
+        //   dataConglomerates: data
+        // });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
 
-      const mapOptionsCitys =
-      optionsCitys.map((aux,idx)=>{
-          return(
-            <option key={aux.id} value={aux.id}>{aux.name}</option>
-          );
-        });
+  const mapOptionsCitys = optionsCitys.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
 
-        const getDataCharges = (data) => {
-          fetch(CHARGES, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Basic " + window.btoa("sgdea:123456")
-            }
-          })
-            .then(response => response.json())
-            .then(data => {
-              setOptionsCharges(data)
-              // this.setState({
-              //   dataConglomerates: data
-              // });
-            })
-            .catch(Error => console.log(" ", Error));
-        };
+  const getDataCharges = data => {
+    fetch(CHARGES, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setOptionsCharges(data);
+        // this.setState({
+        //   dataConglomerates: data
+        // });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
 
-        const mapOptionsCharges =
-          optionsCharges.map((aux,idx)=>{
-            return(
-              <option key={aux.id} value={aux.id}>{aux.name}</option>
-            );
-          });
+  const mapOptionsCharges = optionsCharges.map((aux, idx) => {
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
 
-        const onDismiss = () => {
+  const onDismiss = () => {
     console.log(visibleAlert);
     setVisibleAlert(!visibleAlert);
   };
   return (
     <div>
       <Card>
-      <ToastContainer/>
+        <ToastContainer />
         <CardHeader>Registro de sede</CardHeader>
         <CardBody>
           <form className="form">
@@ -212,8 +226,8 @@ const SedesForm = props => {
               <Col sm="6">
                 <div className="form-group">
                   <label>
-                    {" "}
-                    Conglomerado <span className="text-danger">*</span>{" "}
+                    {' '}
+                    Conglomerado <span className="text-danger">*</span>{' '}
                   </label>
                   <select
                     name="conglomerateId"
@@ -222,27 +236,26 @@ const SedesForm = props => {
                     value={values.conglomerateId}
                     className={`form-control form-control-sm ${errors.conglomerateId &&
                       touched.conglomerateId &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                   >
-                    {" "}
-                    <option value={""} disabled>-- Seleccione --</option>
-                    {mapOptionsConglomerate}
-                    {" "}
+                    {' '}
+                    <option value={''} disabled>
+                      -- Seleccione --
+                    </option>
+                    {mapOptionsConglomerate}{' '}
                   </select>
                   <div style={{ color: '#D54B4B' }}>
-                  {
-                    errors.conglomerateId && touched.conglomerateId ?
-                    <i class="fa fa-exclamation-triangle"/> :
-                    null
-                  }
-                  <ErrorMessage name="conglomerateId" />
+                    {errors.conglomerateId && touched.conglomerateId ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="conglomerateId" />
                   </div>
                 </div>
               </Col>
               <Col sm="6">
                 <div className="form-group">
                   <label>
-                    {" "}
+                    {' '}
                     Empresa <span className="text-danger">*</span>
                   </label>
                   <br />
@@ -253,18 +266,18 @@ const SedesForm = props => {
                     value={values.companyId}
                     className={`form-control form-control-sm ${errors.companyId &&
                       touched.companyId &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                   >
-                    <option value={""} disabled >-- Seleccione --</option>
+                    <option value={''} disabled>
+                      -- Seleccione --
+                    </option>
                     {mapOptionsCompanys}
                   </select>
                   <div style={{ color: '#D54B4B' }}>
-                  {
-                    errors.companyId && touched.companyId ?
-                    <i class="fa fa-exclamation-triangle"/> :
-                    null
-                  }
-                  <ErrorMessage name="companyId" />
+                    {errors.companyId && touched.companyId ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="companyId" />
                   </div>
                   {/* <Select
                     className=""
@@ -277,8 +290,8 @@ const SedesForm = props => {
               <Col sm="6">
                 <div className="form-group">
                   <label>
-                    {" "}
-                    Código <span className="text-danger">*</span>{" "}
+                    {' '}
+                    Código <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name="code"
@@ -288,23 +301,21 @@ const SedesForm = props => {
                     type="text"
                     className={`form-control form-control-sm ${errors.code &&
                       touched.code &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                   />
                   <div style={{ color: '#D54B4B' }}>
-                  {
-                    errors.code && touched.code ?
-                    <i class="fa fa-exclamation-triangle"/> :
-                    null
-                  }
-                  <ErrorMessage name="code" />
+                    {errors.code && touched.code ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="code" />
                   </div>
                 </div>
               </Col>
               <Col sm="6">
                 <div className="form-group">
                   <label>
-                    {" "}
-                    Nombre <span className="text-danger">*</span>{" "}
+                    {' '}
+                    Nombre <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name="name"
@@ -314,15 +325,13 @@ const SedesForm = props => {
                     type="text"
                     className={`form-control form-control-sm ${errors.name &&
                       touched.name &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                   />
                   <div style={{ color: '#D54B4B' }}>
-                  {
-                    errors.name && touched.name ?
-                    <i class="fa fa-exclamation-triangle"/> :
-                    null
-                  }
-                  <ErrorMessage name="name" />
+                    {errors.name && touched.name ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="name" />
                   </div>
                 </div>
               </Col>
@@ -343,10 +352,10 @@ const SedesForm = props => {
               <Col sm="6">
                 <div className="form-group ">
                   <label>
-                    {" "}
+                    {' '}
                     Prefijo de radicación <span className="text-danger">
                       *
-                    </span>{" "}
+                    </span>{' '}
                   </label>
                   <input
                     name="prefix"
@@ -356,45 +365,41 @@ const SedesForm = props => {
                     type="text"
                     className={`form-control form-control-sm ${errors.prefix &&
                       touched.prefix &&
-                      "is-invalid"}`}
-                    maxLength={"6"}
+                      'is-invalid'}`}
+                    maxLength={'6'}
                     placeholder=" "
                   />
                   <div style={{ color: '#D54B4B' }}>
-                  {
-                    errors.prefix && touched.prefix ?
-                    <i class="fa fa-exclamation-triangle"/> :
-                    null
-                  }
-                  <ErrorMessage name="prefix" />
+                    {errors.prefix && touched.prefix ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="prefix" />
                   </div>
                 </div>
               </Col>
               <Col sm="6">
                 <div className="form-group">
                   <label>
-                    {" "}
-                    Secuencia de radicación{" "}
-                    <span className="text-danger">*</span>{" "}
+                    {' '}
+                    Secuencia de radicación{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <input
-                    name={"sequence"}
+                    name={'sequence'}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.sequence}
                     type="number"
                     className={`form-control form-control-sm ${errors.sequence &&
                       touched.sequence &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                     min={0}
                   />
                   <div style={{ color: '#D54B4B' }}>
-                  {
-                    errors.sequence && touched.sequence ?
-                    <i class="fa fa-exclamation-triangle"/> :
-                    null
-                  }
-                  <ErrorMessage name="sequence" />
+                    {errors.sequence && touched.sequence ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="sequence" />
                   </div>
                 </div>
               </Col>
@@ -407,7 +412,7 @@ const SedesForm = props => {
                 >
                   <h4 className="alert-heading">¡ Importante !</h4>
                   <p>
-                    Los campos de{" "}
+                    Los campos de{' '}
                     <b>Prefijo de radicación y Secuencia de radicación</b>, son
                     campos que se reflejaran en el formulario de radicación.
                   </p>
@@ -425,24 +430,24 @@ const SedesForm = props => {
                 <div className="form-group">
                   <label>País</label>
                   <select
-                    name={"countryId"}
+                    name={'countryId'}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.countryId}
                     className={`form-control form-control-sm ${errors.countryId &&
                       touched.countryId &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                   >
-                    <option value={""} disabled>-- Seleccione --</option>
+                    <option value={''} disabled>
+                      -- Seleccione --
+                    </option>
                     {mapOptionsCountries}
                   </select>
                   <div style={{ color: '#D54B4B' }}>
-                  {
-                    errors.countryId && touched.countryId ?
-                    <i class="fa fa-exclamation-triangle"/> :
-                    null
-                  }
-                  <ErrorMessage name="countryId" />
+                    {errors.countryId && touched.countryId ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="countryId" />
                   </div>
                 </div>
               </Col>
@@ -450,24 +455,24 @@ const SedesForm = props => {
                 <div className="form-group">
                   <label>Departamento</label>
                   <select
-                    name={"departmentId"}
+                    name={'departmentId'}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.departmentId}
                     className={`form-control form-control-sm ${errors.departmentId &&
                       touched.departmentId &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                   >
-                    <option value={""} disabled >-- Seleccione --</option>
+                    <option value={''} disabled>
+                      -- Seleccione --
+                    </option>
                     {mapOptionsDepartments}
                   </select>
                   <div style={{ color: '#D54B4B' }}>
-                  {
-                    errors.departmentId && touched.departmentId ?
-                    <i class="fa fa-exclamation-triangle"/> :
-                    null
-                  }
-                  <ErrorMessage name="departmentId" />
+                    {errors.departmentId && touched.departmentId ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="departmentId" />
                   </div>
                 </div>
               </Col>
@@ -477,76 +482,72 @@ const SedesForm = props => {
                     Ciudad <span className="text-danger">*</span>
                   </label>
                   <select
-                    name={"cityId"}
+                    name={'cityId'}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.cityId}
                     className={`form-control form-control-sm ${errors.cityId &&
                       touched.cityId &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                   >
-                    <option value={""} disabled>-- Seleccione --</option>
+                    <option value={''} disabled>
+                      -- Seleccione --
+                    </option>
                     {mapOptionsCitys}
                   </select>
                   <div style={{ color: '#D54B4B' }}>
-                  {
-                    errors.cityId && touched.cityId ?
-                    <i class="fa fa-exclamation-triangle"/> :
-                    null
-                  }
-                  <ErrorMessage name="cityId" />
+                    {errors.cityId && touched.cityId ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="cityId" />
                   </div>
                 </div>
               </Col>
               <Col sm="7">
                 <div className="form-group">
                   <label>
-                    {" "}
-                    Dirección <span className="text-danger">*</span>{" "}
+                    {' '}
+                    Dirección <span className="text-danger">*</span>{' '}
                   </label>
                   <input
-                    name={"address"}
+                    name={'address'}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.address}
                     type="text"
                     className={`form-control form-control-sm ${errors.address &&
                       touched.address &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                   />
                   <div style={{ color: '#D54B4B' }}>
-                  {
-                    errors.address && touched.address ?
-                    <i class="fa fa-exclamation-triangle"/> :
-                    null
-                  }
-                  <ErrorMessage name="address" />
+                    {errors.address && touched.address ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="address" />
                   </div>
                 </div>
               </Col>
               <Col sm="5">
                 <div className="form-group">
                   <label>
-                    {" "}
-                    Teléfono <span className="text-danger">*</span>{" "}
+                    {' '}
+                    Teléfono <span className="text-danger">*</span>{' '}
                   </label>
                   <input
-                    name={"phone"}
+                    name={'phone'}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.phone}
                     type="text"
                     className={`form-control form-control-sm ${errors.phone &&
                       touched.phone &&
-                      "is-invalid"}`}
+                      'is-invalid'}`}
                   />
                   <div style={{ color: '#D54B4B' }}>
-                  {
-                    errors.phone && touched.phone ?
-                    <i class="fa fa-exclamation-triangle"/> :
-                    null
-                  }
-                  <ErrorMessage name="phone" />
+                    {errors.phone && touched.phone ? (
+                      <i class="fa fa-exclamation-triangle" />
+                    ) : null}
+                    <ErrorMessage name="phone" />
                   </div>
                 </div>
               </Col>
@@ -562,27 +563,26 @@ const SedesForm = props => {
                     options={dataExampleRolResponsable}
                   /> */}
                   <select
-                    name={"chargeId"}
+                    name={'chargeId'}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.chargeId}
                     className="form-control form-control-sm"
                   >
-                    <option value={""} >-- Seleccione --</option>
+                    <option value={''}>-- Seleccione --</option>
                     {mapOptionsCharges}
-
                   </select>
                 </div>
               </Col>
               <Col sm="12">
                 <div className="form-group">
                   <label>
-                    {" "}
-                    Estado <span className="text-danger">*</span>{" "}
+                    {' '}
+                    Estado <span className="text-danger">*</span>{' '}
                   </label>
                   <div className="text-justify">
                     <CustomInput
-                      name={"status"}
+                      name={'status'}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.status}
@@ -596,7 +596,7 @@ const SedesForm = props => {
                              inactiva e invisibles para cada uno de los módulos
                              correspondiente del sistema."
                       className={
-                        errors.status && touched.status && "invalid-feedback"
+                        errors.status && touched.status && 'invalid-feedback'
                       }
                     />
                   </div>
@@ -660,44 +660,44 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     conglomerateId: Yup.string()
-      .required(" Por favor seleccione un conglomerado.")
+      .required(' Por favor seleccione un conglomerado.')
       .ensure(),
     companyId: Yup.string()
-      .required(" Por favor seleccione una empresa.")
+      .required(' Por favor seleccione una empresa.')
       .ensure(),
     code: Yup.string()
-      .required(" Por favor introduzca un código.")
-      .max(6, " Máximo 6 caracteres.")
-      .min(6, " Mínimo 6 caracteres."),
+      .required(' Por favor introduzca un código.')
+      .max(6, ' Máximo 6 caracteres.')
+      .min(6, ' Mínimo 6 caracteres.'),
     name: Yup.string()
-      .required(" Por favor introduzca un nombre.")
-      .max(100, " Máximo 100 caracteres"),
-    description: Yup.string().max(250, "Máximo 250 caracteres."),
+      .required(' Por favor introduzca un nombre.')
+      .max(100, ' Máximo 100 caracteres'),
+    description: Yup.string().max(250, 'Máximo 250 caracteres.'),
     prefix: Yup.string()
-      .required(" Por favor asigne un prefijo de radicación.")
-      .min(2," Mínimo 2 caracteres.")
-      .max(6," Máximo 6 caracteres."),
+      .required(' Por favor asigne un prefijo de radicación.')
+      .min(2, ' Mínimo 2 caracteres.')
+      .max(6, ' Máximo 6 caracteres.'),
     sequence: Yup.number()
-      .required(" Por favor asigne una secuencia de radicación.")
+      .required(' Por favor asigne una secuencia de radicación.')
       .integer()
       .positive(),
     countryId: Yup.string()
       .ensure()
-      .required(" Por favor seleccione un país."),
+      .required(' Por favor seleccione un país.'),
     departmentId: Yup.string()
       .ensure()
-      .required(" Por favor seleccione un departamento."),
+      .required(' Por favor seleccione un departamento.'),
     cityId: Yup.string()
       .ensure()
-      .required(" Por favor seleccione una ciudad."),
-    address: Yup.string().required(" Por favor introduzca una dirección."),
+      .required(' Por favor seleccione una ciudad.'),
+    address: Yup.string().required(' Por favor introduzca una dirección.'),
     phone: Yup.string()
-      .max(10, " Máximo 8 caracteres")
-      .required(" Por favor introduzca un número telefónico."),
+      .max(10, ' Máximo 8 caracteres')
+      .required(' Por favor introduzca un número telefónico.'),
     chargeId: Yup.string().ensure(),
     status: Yup.bool()
-      .test("Activo", " Es necesario activar la sede.", value => value === true)
-      .required(" Es necesario activar la sede.")
+      .test('Activo', ' Es necesario activar la sede.', value => value === true)
+      .required(' Es necesario activar la sede.')
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     const tipoEstado = data => {
@@ -711,10 +711,10 @@ export default withFormik({
     };
     setTimeout(() => {
       fetch(HEADQUARTERS, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         },
         body: JSON.stringify({
           description: values.description,
@@ -728,24 +728,24 @@ export default withFormik({
           cityId: values.cityId,
           chargeId: values.chargeId,
           status: tipoEstado(values.status),
-          userName: "jferrer"
+          userName: 'jferrer'
         })
       })
         .then(response =>
           response.json().then(data => {
             if (response.status === 201) {
-              toast.success("Se creo la sede con exito", {
+              toast.success('Se creo la sede con éxito.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
+                  marginTop: '60px'
                 })
               });
               // alert("oki");
             } else if (response.status === 500) {
-              toast.error("Error, la sede ya existe", {
+              toast.error('Error, la sede ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: "60px"
+                  marginTop: '60px'
                 })
               });
               //alert("Erro en el cuerpo");
@@ -756,7 +756,7 @@ export default withFormik({
           toast.error(`Error ${error}`, {
             position: toast.POSITION.TOP_RIGHT,
             className: css({
-              marginTop: "60px"
+              marginTop: '60px'
             })
           });
         });

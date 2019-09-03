@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -11,9 +11,10 @@ import {
   Collapse,
   CardBody,
   Table
-} from "reactstrap";
-import PropTypes from "prop-types";
-import IMGCARGO from "./../../../assets/img/employee.svg";
+} from 'reactstrap';
+import PropTypes from 'prop-types';
+import IMGCARGO from './../../../assets/img/employee.svg';
+import moment from 'moment';
 
 class ModalViewCargo extends Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class ModalViewCargo extends Component {
     this.state = {
       modal: this.props.modalviewcargo,
       id: this.props.id,
-      datCharge: {}
+      datCharge: {},
+      collapase: false
     };
   }
 
@@ -41,10 +43,10 @@ class ModalViewCargo extends Component {
 
   getDataCargoById = id => {
     fetch(`http://192.168.10.180:7000/api/sgdea/charge/${id}/jferrer`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -53,8 +55,19 @@ class ModalViewCargo extends Component {
           datCharge: data
         });
       })
-      .catch("Error", console.log("Error", Error));
+      .catch('Error', console.log('Error', Error));
   };
+  FechaCreacionCargo(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
+  FechaModificacionCargo(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    // moment.locale(es);
+    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
 
   render() {
     console.log(this.state.id);
@@ -62,15 +75,15 @@ class ModalViewCargo extends Component {
     const statusCharge = data => {
       let status;
       if (data === 1) {
-        status = <p className="text-success">ACTIVADO</p>;
+        status = <b className="text-success">Activo</b>;
       } else if (data === 0) {
-        status = <p className="text-danger"> INACTIVO </p>;
+        status = <b className="text-danger">Inactivo</b>;
       }
       return status;
     };
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader> Ver cargo {this.state.datCharge.name} </ModalHeader>
+        <ModalHeader> Ver {this.state.datCharge.name} </ModalHeader>
         <ModalBody>
           <Row>
             <Col sm="3">
@@ -78,11 +91,11 @@ class ModalViewCargo extends Component {
             </Col>
             <Col sm="9">
               <div className="">
-                {" "}
-                <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                  {" "}
-                  Datos{" "}
-                </h5>{" "}
+                {' '}
+                <h5 className="" style={{ borderBottom: '1px solid black' }}>
+                  {' '}
+                  Datos{' '}
+                </h5>{' '}
               </div>
               <div className="row">
                 <div className="col-md-6">
@@ -121,7 +134,11 @@ class ModalViewCargo extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Fecha de creación </dt>
-                      <dd>{this.state.datCharge.createdAt}</dd>
+                      <dd>
+                        {this.FechaCreacionCargo(
+                          this.state.datCharge.createdAt
+                        )}
+                      </dd>
                     </dl>
                   </div>
                 </div>
@@ -129,82 +146,15 @@ class ModalViewCargo extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Fecha de modificación </dt>
-                      <dd>{this.state.datCharge.updatedAt} </dd>
+                      <dd>
+                        {this.FechaModificacionCargo(
+                          this.state.datCharge.updatedAt
+                        )}{' '}
+                      </dd>
                     </dl>
                   </div>
                 </div>
               </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col sm="12">
-              <Card>
-                <CardHeader>
-                  {" "}
-                  <a
-                    onClick={() => {
-                      this.toggleCollapse();
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {" "}
-                    Más información{" "}
-                  </a>{" "}
-                </CardHeader>
-                <Collapse isOpen={this.state.collapase}>
-                  <Row>
-                    <Col sm="12">
-                      <Table size="sm" striped hover>
-                        <thead>
-                          <tr className="text-center">
-                            <th> Asignar responsabilidades</th>
-                            <th> </th>
-                            <th> Responsable </th>
-                          </tr>
-                        </thead>
-                        <tbody className="text-center">
-                          <tr>
-                            <td>Conglomerado</td>
-                            <td>
-                              <label> Nombre conglomerado </label>
-                            </td>
-                            <td>
-                              <label>Si / No</label>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Empresa</td>
-                            <td>
-                              <label> Nombre empresa </label>
-                            </td>
-                            <td>
-                              <label>Si / No</label>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Sede</td>
-                            <td>
-                              <label> Nombre sede </label>
-                            </td>
-                            <td>
-                              <label>Si / No</label>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Dependencia</td>
-                            <td>
-                              <label> Nombre dependencia </label>
-                            </td>
-                            <td>
-                              <label>Si / No</label>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </Col>
-                  </Row>
-                </Collapse>
-              </Card>
             </Col>
           </Row>
         </ModalBody>
@@ -216,7 +166,7 @@ class ModalViewCargo extends Component {
               this.setState({ modal: false });
             }}
           >
-            <i className="fa fa-times" /> Cerrar{" "}
+            <i className="fa fa-times" /> Cerrar{' '}
           </button>
         </ModalFooter>
       </Modal>

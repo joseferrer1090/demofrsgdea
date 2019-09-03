@@ -191,7 +191,7 @@ class FormUploadCargo extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  Archivo a importar en extnsion <b>CSV</b>{' '}
+                                  Archivo a importar en extensión <b>CSV</b>{' '}
                                   <span className="text-danger"> * </span>
                                 </label>
                                 <input

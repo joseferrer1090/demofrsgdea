@@ -140,11 +140,7 @@ class ModalDeleteCiudad extends Component {
                       >
                         Por favor introduzca un código válido.
                       </Alert>
-                      <Alert
-                        color="success"
-                        isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
-                      >
+                      <Alert color="success" isOpen={this.state.alertSuccess}>
                         La ciudad se ha eliminado con éxito.
                       </Alert>
                       <p className="text-center">

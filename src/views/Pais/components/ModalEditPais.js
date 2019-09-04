@@ -164,7 +164,8 @@ class ModalEditPais extends React.Component {
                       Se actualizo el país con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, el país ya esta asignado.
+                      Se actualizo el país con éxito.
+                      {/* Error, el país ya esta asignado. */}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -249,12 +250,12 @@ class ModalEditPais extends React.Component {
                                           type="checkbox"
                                           id="CheckboxEditCiudad"
                                           label=" Si esta opción se encuentra activada, representa que
-                              el departamento es visible en el sistema y se podrán
-                              realizar operaciones entre cada uno de los módulos
-                              correspondientes de la aplicación. En caso contrario
-                              el departamento no se elimina del sistema solo
-                              quedará inactivo e invisibles para cada uno de los
-                              módulos correspondiente del sistema."
+                                            el departamento es visible en el sistema y se podrán
+                                            realizar operaciones entre cada uno de los módulos
+                                            correspondientes de la aplicación. En caso contrario
+                                            el departamento no se elimina del sistema solo
+                                            quedará inactivo e invisibles para cada uno de los
+                                            módulos correspondiente del sistema."
                                           {...field}
                                           checked={field.value}
                                           className={

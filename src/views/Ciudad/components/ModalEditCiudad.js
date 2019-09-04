@@ -235,7 +235,8 @@ class ModalEditCiudad extends React.Component {
                       Se actualizo la ciudad con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, la ciudad ya esta asignada.
+                      {/* Error, la ciudad ya esta asignada. */}
+                      Error al actualizar la ciudad.
                     </Alert>
                     <Row>
                       <Col sm="3">

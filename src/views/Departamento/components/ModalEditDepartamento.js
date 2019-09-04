@@ -202,7 +202,8 @@ class ModalEditDepartamento extends React.Component {
                       Se actualizo el departamento con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, el departamento ya esta asignado.
+                      Error al actualizar el departamento.
+                      {/* Error, el departamento ya esta asignado. */}
                     </Alert>
                     <Row>
                       <Col sm="3">

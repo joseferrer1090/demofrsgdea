@@ -155,6 +155,8 @@
     "app_conglomerado_modal_export_tabla_nombre": "Name",
     "app_conglomerado_modal_export_tabla_descripcion": "Description",
     "app_conglomerado_modal_export_tabla_estado": "State",
+    "app_conglomerado_modal_export_tabla_ciudad": "City",
+    "app_conglomerado_modal_export_tabla_cargo": "Charge",
     "app_conglomerado_modal_export_boton": "Export CSV",
     "app_conglomerado_modal_export_cerrar": "Close",
 

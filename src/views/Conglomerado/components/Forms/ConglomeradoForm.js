@@ -219,7 +219,7 @@ const ConglomeradorForm = props => {
                       "is-invalid"}`}
                   >
                     <option value={""} disabled>
-                      -- Seleccione --
+                      -- {t("app_conglomerado_form_select_pais")} --
                     </option>
                     {mapOptionsCountries}
                   </select>
@@ -246,7 +246,7 @@ const ConglomeradorForm = props => {
                       "is-invalid"}`}
                   >
                     <option value={""} disabled>
-                      -- Seleccione --
+                      -- {t("app_conglomerado_form_select_departamento")} --
                     </option>
                     {mapOptionsDepartments}
                   </select>
@@ -274,7 +274,7 @@ const ConglomeradorForm = props => {
                       "is-invalid"}`}
                   >
                     <option value={""} disabled>
-                      -- Seleccione --
+                      -- {t("app_conglomerado_form_select_pais")} --
                     </option>
                     {mapOptionsCitys}
                   </select>
@@ -304,7 +304,10 @@ const ConglomeradorForm = props => {
                     {" "}
                     <option value={""} disabled>
                       {" "}
-                      -- Seleccione --{" "}
+                      -- {t(
+                        "app_conglomerado_form_select_cargo_responsable"
+                      )}{" "}
+                      --{" "}
                     </option>
                     {mapOptionsCharges}
                   </select>

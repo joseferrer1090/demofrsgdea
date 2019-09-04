@@ -512,7 +512,11 @@ class ModalEditConglomerado extends React.Component {
                                   {" "}
                                   <option value={""} disabled>
                                     {" "}
-                                    -- Seleccione --{" "}
+                                    --
+                                     {this.props.t(
+                                      "app_conglomerado_form_select_cargo_responsable"
+                                    )}{" "}
+                                    --{" "}
                                   </option>
                                   {mapOptionsCharges}
                                 </select>

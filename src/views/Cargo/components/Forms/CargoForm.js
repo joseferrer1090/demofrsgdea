@@ -185,8 +185,8 @@ export default withFormik({
   validationSchema: Yup.object().shape({
     code: Yup.string()
       .required(' Por favor introduzca un código.')
-      .min(6, 'Mínimo 6 caracteres.')
-      .max(6, 'Máximo 6 caracteres.'),
+      .min(6, ' Mínimo 6 caracteres.')
+      .max(6, ' Máximo 6 caracteres.'),
     name: Yup.string().required(' Por favor introduzca un nombre.'),
     description: Yup.string().max(250, ' Máximo 250 caracteres.'),
     status: Yup.bool()
@@ -227,15 +227,20 @@ export default withFormik({
                   marginTop: '60px'
                 })
               });
-              // alert("oki");
-            } else if (response.status === 500) {
+            } else if (response.status === 400) {
               toast.error('Error, el cargo ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: '60px'
                 })
               });
-              //alert("Erro en el cuerpo");
+            } else if (response.status === 500) {
+              toast.error('Error, no se pudo crear el cargo.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: '60px'
+                })
+              });
             }
           })
         )

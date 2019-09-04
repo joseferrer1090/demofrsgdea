@@ -70,8 +70,6 @@ class ModalViewCargo extends Component {
   }
 
   render() {
-    console.log(this.state.id);
-    console.log(this.state.datCharge);
     const statusCharge = data => {
       let status;
       if (data === 1) {
@@ -83,7 +81,7 @@ class ModalViewCargo extends Component {
     };
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader> Ver {this.state.datCharge.name} </ModalHeader>
+        <ModalHeader> Cargo {this.state.datCharge.name} </ModalHeader>
         <ModalBody>
           <Row>
             <Col sm="3">

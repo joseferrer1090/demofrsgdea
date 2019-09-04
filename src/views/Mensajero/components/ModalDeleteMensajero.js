@@ -20,7 +20,6 @@ class ModalDeleteMensajero extends Component {
   }
 
   toggle = id => {
-    console.log(id);
     this.setState({
       modal: !this.state.modal,
       nombre: '',

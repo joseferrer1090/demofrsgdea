@@ -173,7 +173,7 @@ class ModalEditTipoTercero extends React.Component {
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
                       {/* Error, la ciudad ya esta asignada. */}
-                      Error al actualizar la ciudad.
+                      Error al actualizar el tipo de tercero.
                     </Alert>
                     <Row>
                       <Col sm={3}>

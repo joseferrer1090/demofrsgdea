@@ -19,7 +19,9 @@ class ModalDeleteCargo extends React.Component {
     alertSuccess: false,
     alertError: false,
     alertCode: false,
-    useLogged: 'jferrer'
+    useLogged: 'jferrer',
+    nameCharge: '',
+    code: ''
   };
 
   toggle = id => {
@@ -28,7 +30,22 @@ class ModalDeleteCargo extends React.Component {
       id: id,
       useLogged: 'jferrer'
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/charge/${id}/jferrer`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          nameCharge: data.name
+        });
+      })
+      .catch('Error', console.log('Error', Error));
   };
+
   onDismiss = () => {
     this.setState({
       alertError: false,
@@ -39,13 +56,13 @@ class ModalDeleteCargo extends React.Component {
 
   render() {
     const dataInitial = {
-      nombre: ''
+      code: ''
     };
-
+    const nameCharge = this.state.nameCharge;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar Cargo </ModalHeader>
+          <ModalHeader> Eliminar {nameCharge} </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -123,11 +140,7 @@ class ModalDeleteCargo extends React.Component {
                       >
                         Por favor introduzca un código válido.
                       </Alert>
-                      <Alert
-                        color="success"
-                        isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
-                      >
+                      <Alert color="success" isOpen={this.state.alertSuccess}>
                         El cargo se ha eliminado con éxito.
                       </Alert>
                       <p className="text-center">
@@ -138,7 +151,7 @@ class ModalDeleteCargo extends React.Component {
 
                       <input
                         type="text"
-                        placeholder="Código de la empresa a eliminar"
+                        placeholder="Código del cargo a eliminar"
                         style={{ textAlign: 'center' }}
                         name="code"
                         onChange={handleChange}

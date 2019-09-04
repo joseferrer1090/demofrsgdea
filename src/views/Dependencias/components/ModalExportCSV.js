@@ -133,7 +133,7 @@ class ModalExportCSV extends Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Exportar tabla dependencia</ModalHeader>
+          <ModalHeader>Exportar tabla de dependencia</ModalHeader>
           <ModalBody>
             <table className="table table-responsive  table-hover table-striped fixed_header">
               <thead className="">

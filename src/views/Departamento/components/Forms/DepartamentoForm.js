@@ -276,6 +276,7 @@ export default withFormik({
       })
         .then(response =>
           response.json().then(data => {
+            console.log(response.status);
             if (response.status === 201) {
               toast.success('Se creo el departamento con éxito.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -283,7 +284,6 @@ export default withFormik({
                   marginTop: '60px'
                 })
               });
-              // alert("oki");
             } else if (response.status === 400) {
               toast.error('Error, el departamento ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -291,7 +291,6 @@ export default withFormik({
                   marginTop: '60px'
                 })
               });
-              //alert("Erro en el cuerpo");
             } else if (response.status === 500) {
               toast.error('Error, no se pudo crear el departamento.', {
                 position: toast.POSITION.TOP_RIGHT,

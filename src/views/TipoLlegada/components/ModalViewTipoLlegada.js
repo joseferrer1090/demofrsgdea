@@ -56,7 +56,6 @@ class ModalViewTipoLlegada extends Component {
     return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
   }
   render() {
-    console.log(this.state.dataTipoLlegada);
     const statusTipoLlegada = data => {
       let status;
       if (data === 1) {

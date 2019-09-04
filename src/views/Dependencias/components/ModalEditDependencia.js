@@ -38,7 +38,8 @@ class ModalEditDependencia extends React.Component {
     dataChargeList: [],
     dataHeadquarterList: [],
     alertError: false,
-    alertSuccess: false
+    alertSuccess: false,
+    alertError400: false
   };
 
   componentDidMount() {
@@ -245,7 +246,16 @@ class ModalEditDependencia extends React.Component {
                           alertSuccess: false,
                           modal: false
                         });
-                      }, 2000);
+                      }, 3000);
+                    } else if (response.status === 400) {
+                      this.setState({
+                        alertError400: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError400: false
+                        });
+                      }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
                         alertError: true
@@ -255,7 +265,7 @@ class ModalEditDependencia extends React.Component {
                           alertError: false,
                           modal: !this.state.modal
                         });
-                      }, 2000);
+                      }, 3000);
                     }
                   })
                   .catch(Error => console.log('Error', Error));
@@ -295,6 +305,10 @@ class ModalEditDependencia extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
+                    <Alert color="danger" isOpen={this.state.alertError400}>
+                      {/* Error, la dependencia ya esta asignada. */}
+                      Error al actualizar la dependencia.
+                    </Alert>
                     <Alert
                       color="danger"
                       isOpen={this.state.alertError}
@@ -307,7 +321,7 @@ class ModalEditDependencia extends React.Component {
                       isOpen={this.state.alertSuccess}
                       toggle={this.onDismiss}
                     >
-                      Se actualizo la dependencia
+                      Se actualizo la dependencia con éxito.
                     </Alert>
                     <form className="form">
                       <div className="row">

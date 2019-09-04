@@ -95,7 +95,10 @@ class ModalViewDependencia extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver {this.state.dataDependence.name} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            Dependencia {this.state.dataDependence.name}{' '}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">

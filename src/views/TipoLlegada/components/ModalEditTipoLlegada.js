@@ -46,7 +46,6 @@ class ModalEditTipoLlegada extends React.Component {
     )
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataResult: {
             typeshipmentarrival_code: data.code,
@@ -97,7 +96,6 @@ class ModalEditTipoLlegada extends React.Component {
                   })
                 })
                   .then(response => {
-                    console.log(response.status);
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true

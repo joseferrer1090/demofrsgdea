@@ -127,7 +127,6 @@ class TableContentMensajero extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup
     };
-    console.log(this.state.dataMessengers);
     return (
       <div className="animated fadeIn">
         <Row>

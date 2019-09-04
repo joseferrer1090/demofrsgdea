@@ -236,7 +236,7 @@ class TableContentConglomerado extends Component {
                       dataAlign="center"
                       width={"150"}
                     >
-                      Fecha de creación
+                      {t("app_conglomerado_administrar_table_fecha_creacion")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
                       width={""}

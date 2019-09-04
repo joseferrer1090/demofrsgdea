@@ -155,7 +155,7 @@ const DependenciaForm = props => {
   return (
     <div>
       <Row>
-        <Col sm="8" md={{ offset: 2 }}>
+        <Col sm={{ size: 8, offset: 2 }}>
           <Card>
             <ToastContainer />
             <CardHeader>Registro de dependencia</CardHeader>

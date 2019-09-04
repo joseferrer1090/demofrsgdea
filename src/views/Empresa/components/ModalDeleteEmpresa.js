@@ -129,7 +129,7 @@ class ModalDeleteEmpresa extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      La Empresa a eliminar, esta asociado a otras entidades.
+                      La empresa a eliminar, esta asociado a otras entidades.
                     </Alert>
                     <Alert
                       color="danger"

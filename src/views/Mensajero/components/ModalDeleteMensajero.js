@@ -10,11 +10,12 @@ class ModalDeleteMensajero extends Component {
     this.state = {
       modal: this.props.modaldelete,
       idMessenger: this.props.id,
-      nombre: '',
+      identification: '',
       useLogged: '',
       alertSuccess: false,
       alertError: false,
-      alertIdentification: false
+      alertIdentification: false,
+      nameMessenger: ''
     };
   }
 
@@ -26,6 +27,20 @@ class ModalDeleteMensajero extends Component {
       idMessenger: id,
       useLogged: 'jferrer'
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/messenger/${id}/ccuartas`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          nameMessenger: data.name
+        });
+      })
+      .catch(Error => console.log(' ', Error));
   };
 
   onDismiss = () => {
@@ -38,12 +53,13 @@ class ModalDeleteMensajero extends Component {
 
   render() {
     const dataInitial = {
-      nombre: ''
+      identification: ''
     };
+    const nameMessenger = this.state.nameMessenger;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader>Eliminar mensajero</ModalHeader>
+          <ModalHeader>Eliminar {nameMessenger} </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -125,7 +141,6 @@ class ModalDeleteMensajero extends Component {
                         className="text-center"
                         color="success"
                         isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
                       >
                         El mensajero ha sido eliminado con éxito.
                       </Alert>

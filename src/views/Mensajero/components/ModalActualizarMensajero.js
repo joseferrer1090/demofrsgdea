@@ -21,7 +21,8 @@ class ModalActualizarMensajero extends React.Component {
     idMensajero: this.props.id,
     dataResult: {},
     alertError: false,
-    alertSuccess: false
+    alertSuccess: false,
+    alertError400: false
   };
 
   toggle = id => {
@@ -124,11 +125,11 @@ class ModalActualizarMensajero extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError: true
+                        alertError400: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false
+                          alertError400: false
                         });
                       }, 3000);
                     } else if (response.status === 500) {
@@ -163,19 +164,15 @@ class ModalActualizarMensajero extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertError}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="danger" isOpen={this.state.alertError}>
                       Error al actualizar el mensajero.
                     </Alert>
-                    <Alert
-                      color="success"
-                      isOpen={this.state.alertSuccess}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
                       Se actualizo el mensajero con éxito.
+                    </Alert>
+                    <Alert color="danger" isOpen={this.state.alertError400}>
+                      {/* Error, el mensajero ya esta asignado. */}
+                      Error al actualizar el mensajero.
                     </Alert>
                     <Row>
                       <Col sm="3">

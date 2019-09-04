@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import {
   Modal,
   ModalHeader,
@@ -12,11 +12,12 @@ import {
   Row,
   Col,
   Collapse
-} from 'reactstrap';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import IMGCONGLOMERADO from './../../../assets/img/puzzle.svg';
-import { es } from 'date-fns/esm/locale';
+} from "reactstrap";
+import PropTypes from "prop-types";
+import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
+import { Trans } from "react-i18next";
+import moment from "moment";
+import { es } from "date-fns/esm/locale";
 
 class ModalViewConglomerado extends Component {
   constructor(props) {
@@ -29,7 +30,8 @@ class ModalViewConglomerado extends Component {
       dataDepartamento: {},
       dataCiudad: {},
       collapase: false,
-      dataCharge: {}
+      dataCharge: {},
+      t: this.props.t
     };
   }
   toggleCollapse = () => {
@@ -43,10 +45,10 @@ class ModalViewConglomerado extends Component {
       id: id
     });
     fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/${id}/ccuartas`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
       }
     })
       .then(response => response.json())
@@ -60,19 +62,19 @@ class ModalViewConglomerado extends Component {
           dataCharge: data.charge
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   FechaCreacionConglomerado(data) {
     let createdAt;
     createdAt = new Date(data);
-    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
+    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
   }
   FechaModificacionConglomerado(data) {
     let updatedAt;
     updatedAt = new Date(data);
     // moment.locale(es);
-    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
+    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
   }
 
   CargoInfo = () => {
@@ -87,8 +89,6 @@ class ModalViewConglomerado extends Component {
   };
 
   render() {
-    // console.log(this.state.id);
-    // console.log(this.state.dataConglomerado);
     const statusConglomerado = data => {
       let status;
       if (data === 1) {
@@ -105,7 +105,8 @@ class ModalViewConglomerado extends Component {
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            Conglomerado {this.state.dataConglomerado.name}{' '}
+            <Trans>{this.props.t("app_conglomerado_modal_ver_titulo")}</Trans>{" "}
+            {this.state.dataConglomerado.name}{" "}
           </ModalHeader>
           <ModalBody>
             <Row>
@@ -114,17 +115,24 @@ class ModalViewConglomerado extends Component {
               </Col>
               <Col sm="9">
                 <div className="">
-                  {' '}
-                  <h5 className="" style={{ borderBottom: '1px solid black' }}>
-                    {' '}
-                    Datos{' '}
-                  </h5>{' '}
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    <Trans>
+                      {this.props.t("app_conglomerado_modal_ver_titulo_2")}
+                    </Trans>{" "}
+                  </h5>{" "}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Código </dt>
+                        <dt>
+                          {" "}
+                          {this.props.t(
+                            "app_conglomerado_modal_ver_codigo"
+                          )}{" "}
+                        </dt>
                         <dd> {this.state.dataConglomerado.code} </dd>
                       </dl>
                     </div>
@@ -132,7 +140,12 @@ class ModalViewConglomerado extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Nombre </dt>
+                        <dt>
+                          {" "}
+                          {this.props.t(
+                            "app_conglomerado_modal_ver_nombre"
+                          )}{" "}
+                        </dt>
                         <dd> {this.state.dataConglomerado.name} </dd>
                       </dl>
                     </div>
@@ -140,7 +153,12 @@ class ModalViewConglomerado extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Descripción </dt>
+                        <dt>
+                          {" "}
+                          {this.props.t(
+                            "app_conglomerado_modal_ver_descripcion"
+                          )}{" "}
+                        </dt>
                         <dd> {this.state.dataConglomerado.description} </dd>
                       </dl>
                     </div>
@@ -148,13 +166,42 @@ class ModalViewConglomerado extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Estado </dt>
+                        <dt>
+                          {" "}
+                          {this.props.t(
+                            "app_conglomerado_modal_ver_estado"
+                          )}{" "}
+                        </dt>
                         <dd>
-                          {' '}
+                          {" "}
                           {statusConglomerado(
                             this.state.dataConglomerado.status
-                          )}{' '}
+                          )}{" "}
                         </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>
+                          {this.props.t(
+                            "app_conglomerado_modal_ver_fecha_creacion"
+                          )}{" "}
+                        </dt>
+                        <dd> {this.state.dataConglomerado.createdAt} </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>
+                          {this.props.t(
+                            "app_conglomerado_modal_ver_fecha_modificacion"
+                          )}{" "}
+                        </dt>
+                        <dd> {this.state.dataConglomerado.updatedAt} </dd>
                       </dl>
                     </div>
                   </div>
@@ -166,16 +213,16 @@ class ModalViewConglomerado extends Component {
               <Col sm="12">
                 <Card>
                   <CardHeader>
-                    {' '}
+                    {" "}
                     <a
                       onClick={() => {
                         this.toggleCollapse();
                       }}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: "pointer" }}
                     >
-                      {' '}
-                      Más información{' '}
-                    </a>{' '}
+                      {" "}
+                      Más información{" "}
+                    </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapase}>
                     <CardBody>
@@ -217,10 +264,10 @@ class ModalViewConglomerado extends Component {
                             <dl className="param">
                               <dt> Fecha de creación </dt>
                               <dd>
-                                {' '}
+                                {" "}
                                 {this.FechaCreacionConglomerado(
                                   this.state.dataConglomerado.createdAt
-                                )}{' '}
+                                )}{" "}
                               </dd>
                             </dl>
                           </div>
@@ -230,10 +277,10 @@ class ModalViewConglomerado extends Component {
                             <dl className="param">
                               <dt> Fecha de modificación </dt>
                               <dd>
-                                {' '}
+                                {" "}
                                 {this.FechaModificacionConglomerado(
                                   this.state.dataConglomerado.updatedAt
-                                )}{' '}
+                                )}{" "}
                               </dd>
                             </dl>
                           </div>
@@ -253,7 +300,8 @@ class ModalViewConglomerado extends Component {
                 this.setState({ modal: false });
               }}
             >
-              <i className="fa fa-times" /> Cerrar{' '}
+              <i className="fa fa-times" />{" "}
+              {this.props.t("app_conglomerado_modal_ver_botom")}{" "}
             </Button>
           </ModalFooter>
         </Modal>
@@ -263,7 +311,8 @@ class ModalViewConglomerado extends Component {
 }
 
 ModalViewConglomerado.propTypes = {
-  modalviewstate: PropTypes.bool.isRequired
+  modalviewstate: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalViewConglomerado;

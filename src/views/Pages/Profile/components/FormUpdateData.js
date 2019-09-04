@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardBody, CardFooter, Row, Col } from "reactstrap";
-import { withNamespaces, Translation } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 class FormUpdateData extends Component {
   constructor(props) {
@@ -107,4 +107,4 @@ class FormUpdateData extends Component {
   }
 }
 
-export default withNamespaces("translations")(FormUpdateData);
+export default withTranslation("translations")(FormUpdateData);

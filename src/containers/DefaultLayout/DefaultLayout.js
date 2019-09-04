@@ -1,7 +1,8 @@
 import React, { Component, Suspense } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, Link } from "react-router-dom";
 import { Container } from "reactstrap";
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
+import AppSidebarNav from "./AppSidebarNav";
 
 import {
   AppAside,
@@ -12,8 +13,7 @@ import {
   AppSidebarFooter,
   AppSidebarForm,
   AppSidebarHeader,
-  AppSidebarMinimizer,
-  AppSidebarNav
+  AppSidebarMinimizer
 } from "@coreui/react";
 // sidebar nav config
 import navigation from "../../_nav";
@@ -53,7 +53,7 @@ class DefaultLayout extends Component {
     return (
       <div className="app">
         <AppHeader fixed>
-          <Suspense fallback={this.loading()}>
+          <Suspense fallback>
             <DefaultHeader onLogout={e => this.signOut(e)} />
           </Suspense>
         </AppHeader>
@@ -62,7 +62,7 @@ class DefaultLayout extends Component {
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
-              <AppSidebarNav navConfig={navigation} {...this.props} />
+              <AppSidebarNav t={t} {...this.props} />
             </Suspense>
             <AppSidebarFooter />
             <AppSidebarMinimizer />
@@ -89,13 +89,13 @@ class DefaultLayout extends Component {
             </Container>
           </main>
           <AppAside fixed>
-            <Suspense fallback={this.loading()}>
+            <Suspense fallback>
               <DefaultAside />
             </Suspense>
           </AppAside>
         </div>
         <AppFooter>
-          <Suspense fallback={this.loading()}>
+          <Suspense fallback>
             <DefaultFooter />
           </Suspense>
         </AppFooter>
@@ -104,4 +104,4 @@ class DefaultLayout extends Component {
   }
 }
 
-export default withNamespaces("translations")(DefaultLayout);
+export default withTranslation("translations")(DefaultLayout);

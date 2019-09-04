@@ -13,6 +13,7 @@ import styled from "styled-components";
 import "./../../../../../node_modules/hover.css/css/hover.css";
 import themeSVG from "./../../../../assets/img/theme.svg";
 import "./custom.css";
+import { withTranslation } from "react-i18next";
 
 class ThemeSelector extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class ThemeSelector extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -227,10 +229,14 @@ class ThemeSelector extends Component {
             </Card>
           </Col>
         </Row>
-        <ModalEditTheme modaledittheme={this.state.modaledit} ref={"child"} />
+        <ModalEditTheme
+          modaledittheme={this.state.modaledit}
+          ref={"child"}
+          t={t}
+        />
       </div>
     );
   }
 }
 
-export default ThemeSelector;
+export default withTranslation("translations")(ThemeSelector);

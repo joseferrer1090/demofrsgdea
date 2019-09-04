@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { HashRouter, Route, Switch } from "react-router-dom";
 import Loadable from "react-loadable";
 import "./App.scss";
+import Conglomerado from "./views/Conglomerado/Conglomerado";
 
 const loading = () => (
   // <div className="animated fadeIn pt-3 text-center">Loading...</div>

@@ -18,7 +18,7 @@ import FormChange from "./FormChangePassword";
 import FormAdvance from "./FormChangeAdvanceData";
 import ThemeSelector from "./ThemeSelector";
 import NewEditTheme from "./NewEditTheme";
-import { withNamespaces } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 class TabProfile extends React.Component {
   constructor(props) {
@@ -136,4 +136,4 @@ class TabProfile extends React.Component {
   }
 }
 
-export default withNamespaces("translations")(TabProfile);
+export default withTranslation("translations")(TabProfile);

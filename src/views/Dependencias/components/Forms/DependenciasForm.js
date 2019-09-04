@@ -67,7 +67,11 @@ const DependenciaForm = props => {
   };
 
   const mapOptionsConglomerate = optionsConglomerate.map((aux, idx) => {
-    return <option value={aux.id}>{aux.name}</option>;
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
   });
 
   const getDataCompanys = data => {
@@ -89,7 +93,11 @@ const DependenciaForm = props => {
   };
 
   const mapOptionsCompanys = optionsCompanys.map((aux, idx) => {
-    return <option value={aux.id}>{aux.name}</option>;
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
   });
 
   const getDataHeadquarters = data => {
@@ -111,7 +119,11 @@ const DependenciaForm = props => {
   };
 
   const mapOptionsHeadquarters = optionsHeadquarters.map((aux, idx) => {
-    return <option value={aux.id}>{aux.name}</option>;
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
   });
 
   const getDataCharges = data => {
@@ -133,13 +145,17 @@ const DependenciaForm = props => {
   };
 
   const mapOptionsCharges = optionsCharges.map((aux, idx) => {
-    return <option value={aux.id}>{aux.name}</option>;
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
   });
 
   return (
     <div>
       <Row>
-        <Col sm="8" md={{ offset: 2 }}>
+        <Col sm={{ size: 8, offset: 2 }}>
           <Card>
             <ToastContainer />
             <CardHeader>Registro de dependencia</CardHeader>
@@ -166,7 +182,7 @@ const DependenciaForm = props => {
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                         {errors.conglomerateId && touched.conglomerateId ? (
-                          <i class="fa fa-exclamation-triangle" />
+                          <i className="fa fa-exclamation-triangle" />
                         ) : null}
                         <ErrorMessage name="conglomerateId" />
                       </div>
@@ -193,7 +209,7 @@ const DependenciaForm = props => {
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                         {errors.companyId && touched.companyId ? (
-                          <i class="fa fa-exclamation-triangle" />
+                          <i className="fa fa-exclamation-triangle" />
                         ) : null}
                         <ErrorMessage name="companyId" />
                       </div>
@@ -219,7 +235,7 @@ const DependenciaForm = props => {
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                         {errors.headquarterId && touched.headquarterId ? (
-                          <i class="fa fa-exclamation-triangle" />
+                          <i className="fa fa-exclamation-triangle" />
                         ) : null}
                         <ErrorMessage name="headquarterId" />
                       </div>
@@ -244,7 +260,7 @@ const DependenciaForm = props => {
                       />
                       <div style={{ color: '#D54B4B' }}>
                         {errors.code && touched.code ? (
-                          <i class="fa fa-exclamation-triangle" />
+                          <i className="fa fa-exclamation-triangle" />
                         ) : null}
                         <ErrorMessage name="code" />
                       </div>
@@ -269,7 +285,7 @@ const DependenciaForm = props => {
                       />
                       <div style={{ color: '#D54B4B' }}>
                         {errors.name && touched.name ? (
-                          <i class="fa fa-exclamation-triangle" />
+                          <i className="fa fa-exclamation-triangle" />
                         ) : null}
                         <ErrorMessage name="name" />
                       </div>
@@ -287,7 +303,7 @@ const DependenciaForm = props => {
                       />
                       <div style={{ color: '#D54B4B' }}>
                         {errors.description && touched.description ? (
-                          <i class="fa fa-exclamation-triangle" />
+                          <i className="fa fa-exclamation-triangle" />
                         ) : null}
                         <ErrorMessage name="description" />
                       </div>
@@ -319,7 +335,7 @@ const DependenciaForm = props => {
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                         {errors.chargeId && touched.chargeId ? (
-                          <i class="fa fa-exclamation-triangle" />
+                          <i className="fa fa-exclamation-triangle" />
                         ) : null}
                         <ErrorMessage name="chargeId" />
                       </div>
@@ -468,15 +484,20 @@ export default withFormik({
                   marginTop: '60px'
                 })
               });
-              // alert("oki");
-            } else if (response.status === 500) {
-              toast.error('Error, la dependencia ya existe.', {
+            } else if (response.status === 400) {
+              toast.error('Error, la dependencia  ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: '60px'
                 })
               });
-              //alert("Erro en el cuerpo");
+            } else if (response.status === 500) {
+              toast.error('Error, no se pudo crear la dependencia.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: '60px'
+                })
+              });
             }
           })
         )

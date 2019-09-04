@@ -54,14 +54,16 @@ const DepartamentoForm = props => {
   };
 
   const mapOptionsCountries = optionsCountries.map((aux, idx) => {
-    console.log('Id: ' + aux.id);
-    console.log('Name: ' + aux.name);
-    return <option value={aux.id}>{aux.name}</option>;
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
   });
 
   return (
     <Row>
-      <Col sm="8" md={{ offset: 2 }}>
+      <Col sm={{ size: 8, offset: 2 }}>
         <Card>
           <ToastContainer />
           <CardHeader> Registro de departamento </CardHeader>
@@ -274,6 +276,7 @@ export default withFormik({
       })
         .then(response =>
           response.json().then(data => {
+            console.log(response.status);
             if (response.status === 201) {
               toast.success('Se creo el departamento con éxito.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -281,7 +284,6 @@ export default withFormik({
                   marginTop: '60px'
                 })
               });
-              // alert("oki");
             } else if (response.status === 400) {
               toast.error('Error, el departamento ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
@@ -289,7 +291,6 @@ export default withFormik({
                   marginTop: '60px'
                 })
               });
-              //alert("Erro en el cuerpo");
             } else if (response.status === 500) {
               toast.error('Error, no se pudo crear el departamento.', {
                 position: toast.POSITION.TOP_RIGHT,

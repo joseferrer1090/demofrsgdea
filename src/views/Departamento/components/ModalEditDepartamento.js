@@ -69,7 +69,6 @@ class ModalEditDepartamento extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           optionsCountries: data
         });
@@ -92,7 +91,6 @@ class ModalEditDepartamento extends React.Component {
         </option>
       );
     });
-    console.log(this.state.dataResult);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -127,7 +125,6 @@ class ModalEditDepartamento extends React.Component {
                   })
                 })
                   .then(response => {
-                    console.log(response.status);
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true
@@ -202,7 +199,8 @@ class ModalEditDepartamento extends React.Component {
                       Se actualizo el departamento con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, el departamento ya esta asignado.
+                      Error al actualizar el departamento.
+                      {/* Error, el departamento ya esta asignado. */}
                     </Alert>
                     <Row>
                       <Col sm="3">

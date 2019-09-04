@@ -37,7 +37,6 @@ class TableContentEmpresa extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataCompanys: data
         });
@@ -132,7 +131,6 @@ class TableContentEmpresa extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup
     };
-    console.log(this.state.dataCompanys);
     return (
       <div className="animated fadeIn">
         <Col md="12">

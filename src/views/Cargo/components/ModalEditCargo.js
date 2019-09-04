@@ -27,7 +27,8 @@ class ModalEditCargo extends React.Component {
     dataCharge: {},
     userName: 'jferrer',
     alertError: false,
-    alertSuccess: false
+    alertSuccess: false,
+    alertError400: false
   };
 
   toggle = id => {
@@ -103,7 +104,6 @@ class ModalEditCargo extends React.Component {
                   })
                 })
                   .then(response => {
-                    console.log(response.status);
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true
@@ -116,11 +116,11 @@ class ModalEditCargo extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError: true
+                        alertError400: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false
+                          alertError400: false
                         });
                       }, 3000);
                     } else if (response.status === 500) {
@@ -155,18 +155,14 @@ class ModalEditCargo extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertError}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="danger" isOpen={this.state.alertError}>
                       Error al actualizar el cargo.
                     </Alert>
-                    <Alert
-                      color="success"
-                      isOpen={this.state.alertSuccess}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="danger" isOpen={this.state.alertError400}>
+                      {/*Error, el cargo ya esta asignado. */}
+                      Error al actualizar el cargo.
+                    </Alert>
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
                       Se actualizo el cargo con éxito.
                     </Alert>
                     <form className="form">
@@ -308,7 +304,6 @@ class ModalEditCargo extends React.Component {
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
-                        console.log('Hola');
                       }}
                     >
                       <i className="fa fa-pencil" /> Actualizar

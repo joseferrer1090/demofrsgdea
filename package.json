@@ -56,6 +56,7 @@
     "react-router-config": "^4.4.0-beta.6",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^4.0.8",
+    "react-scroll": "^1.7.14",
     "react-select": "^2.2.0",
     "react-switch": "^3.0.4",
     "react-table-container": "^2.0.1",

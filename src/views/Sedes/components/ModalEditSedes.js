@@ -26,6 +26,7 @@ import {
 } from './../../../services/EndPoints';
 import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
+import { animateScroll as scroll } from 'react-scroll';
 
 class ModalEditSedes extends React.Component {
   state = {
@@ -40,7 +41,8 @@ class ModalEditSedes extends React.Component {
     optionsCitys: [],
     optionsCharges: [],
     alertError: false,
-    alertSuccess: false
+    alertSuccess: false,
+    alertError400: false
   };
 
   componentDidMount() {
@@ -206,8 +208,6 @@ class ModalEditSedes extends React.Component {
 
   render() {
     const dataResult = this.state.dataResult;
-    console.log(dataResult);
-
     const mapOptionsConglomerate = this.state.optionsConglomerate.map(
       (aux, idx) => {
         return (
@@ -268,8 +268,6 @@ class ModalEditSedes extends React.Component {
     //     <option value={aux.id}>{aux.name}</option>
     //   );
     // });
-
-    console.log(dataResult.headquarter_charge);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -374,11 +372,11 @@ class ModalEditSedes extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError: true
+                        alertError400: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false
+                          alertError400: false
                         });
                       }, 3000);
                     } else if (response.status === 500) {
@@ -413,19 +411,15 @@ class ModalEditSedes extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertError}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="danger" isOpen={this.state.alertError}>
                       Error al actualizar la sede.
                     </Alert>
-                    <Alert
-                      color="success"
-                      isOpen={this.state.alertSuccess}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
                       Se actualizo la sede con éxito.
+                    </Alert>
+                    <Alert color="danger" isOpen={this.state.alertError400}>
+                      {/* Error, la ciudad ya esta asignada. */}
+                      Error al actualizar la sede.
                     </Alert>
                     <Row>
                       <Col sm="3">

@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { Row, Col } from "reactstrap";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import ModalView from "./ModalViewCiudad";
-import ModalEdit from "./ModalEditCiudad";
-import ModalDelete from "./ModalDeleteCiudad";
+import React, { Component } from 'react';
+import { Row, Col } from 'reactstrap';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import ModalView from './ModalViewCiudad';
+import ModalEdit from './ModalEditCiudad';
+import ModalDelete from './ModalDeleteCiudad';
 import ModalExport from './ModalExportCSV';
-import "./../../../css/styleTableCiudad.css";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import {CITYS} from './../../../services/EndPoints';
+import './../../../css/styleTableCiudad.css';
+import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
+import { CITYS } from './../../../services/EndPoints';
 
 class TableContentCiudad extends Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class TableContentCiudad extends Component {
       ModalEdit: false,
       ModalDel: false,
       modalExport: false,
-      dataCity:[],
+      dataCity: [],
       hiddenColumnId: true
     };
   }
@@ -28,10 +28,10 @@ class TableContentCiudad extends Component {
 
   getDataCity = () => {
     fetch(CITYS, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -40,14 +40,14 @@ class TableContentCiudad extends Component {
           dataCity: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
   accionesPais(cell, row) {
     return (
       <div
         className="table-actionMenuCiudad"
-        style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
+        style={{ textAlign: 'center', padding: '0', marginRight: '80px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -56,8 +56,8 @@ class TableContentCiudad extends Component {
             this.openModalView(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-eye" />{" "}
+          {' '}
+          <i className="fa fa-eye" />{' '}
         </button>
         &nbsp;
         <button
@@ -77,8 +77,8 @@ class TableContentCiudad extends Component {
             this.openModalDelete(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-trash" />{" "}
+          {' '}
+          <i className="fa fa-trash" />{' '}
         </button>
       </div>
     );
@@ -101,8 +101,7 @@ class TableContentCiudad extends Component {
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
-  };
-
+  }
 
   EstadoEmpresa(cell, row) {
     let status;
@@ -125,19 +124,17 @@ class TableContentCiudad extends Component {
     );
   };
 
-  DepartamentoInfo = (department) =>{
-    console.log(department);
+  DepartamentoInfo = department => {
     return !department ? null : `<div>${department.name}</div>`;
-  }
+  };
 
-  CountryInfo = (department) =>{
-    console.log(department.country);
+  CountryInfo = department => {
     return !department ? null : `<div>${department.country.name}</div>`;
-  }
+  };
   render() {
-    const options={
+    const options = {
       btnGroup: this.createCustomButtonGroup
-    }
+    };
     return (
       <div className="animated fadeIn">
         <div className="col-md-12">
@@ -157,65 +154,65 @@ class TableContentCiudad extends Component {
               isKey
               dataField="id"
               dataAlign="center"
-              width={"80"}
+              width={'80'}
               hidden={this.state.hiddenColumnId}
-              />
-              <TableHeaderColumn
-              dataField={"id"}
+            />
+            <TableHeaderColumn
+              dataField={'id'}
               dataFormat={this.indexN}
               width="50"
               dataAlign="center"
               dataSort={true}
-              >
+            >
               #
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="department"
               dataFormat={this.CountryInfo}
               dataAlign="center"
-              width={"120"}>
-              {" "}
-              País{" "}
+              width={'120'}
+            >
+              {' '}
+              País{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="department"
               dataFormat={this.DepartamentoInfo}
               dataAlign="center"
-              width={"150"}>
-              {" "}
-              Departamento{" "}
+              width={'150'}
+            >
+              {' '}
+              Departamento{' '}
             </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="code"
-              dataAlign="center"
-              width={"80"}>
-              {" "}
-              Código{" "}
+            <TableHeaderColumn dataField="code" dataAlign="center" width={'80'}>
+              {' '}
+              Código{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
               dataAlign="center"
-              width={"130"}>
-              {" "}
-              Nombre{" "}
+              width={'130'}
+            >
+              {' '}
+              Nombre{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"80"}
+              width={'80'}
               dataSort={true}
-              dataField={"status"}
+              dataField={'status'}
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoEmpresa(cell, row)}
             >
               Estado
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"180"}
+              width={'180'}
               export={false}
               dataAlign="center"
               dataFormat={(cel, row) => this.accionesPais(cel, row)}
             >
-              {" "}
-              Acciones{" "}
+              {' '}
+              Acciones{' '}
             </TableHeaderColumn>
           </BootstrapTable>
         </div>

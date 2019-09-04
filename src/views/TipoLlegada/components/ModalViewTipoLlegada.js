@@ -56,7 +56,6 @@ class ModalViewTipoLlegada extends Component {
     return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
   }
   render() {
-    console.log(this.state.dataTipoLlegada);
     const statusTipoLlegada = data => {
       let status;
       if (data === 1) {
@@ -76,7 +75,7 @@ class ModalViewTipoLlegada extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver {name}</ModalHeader>
+          <ModalHeader>Tipo de envío / llegada {name}</ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">

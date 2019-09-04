@@ -34,6 +34,7 @@ class ModalEditEmpresa extends React.Component {
     id: this.props.id,
     alertSuccess: false,
     alertError: false,
+    alertError400: '',
     optionsCountries: [],
     optionsCitys: [],
     optionsDepartment: []
@@ -266,7 +267,6 @@ class ModalEditEmpresa extends React.Component {
                     userName: 'jferrer'
                   })
                 }).then(response => {
-                  console.log(response);
                   if (response.status === 200) {
                     this.setState({
                       alertSuccess: true
@@ -279,11 +279,11 @@ class ModalEditEmpresa extends React.Component {
                     }, 3000);
                   } else if (response.status === 400) {
                     this.setState({
-                      alertError: true
+                      alertError400: true
                     });
                     setTimeout(() => {
                       this.setState({
-                        alertError: false
+                        alertError400: false
                       });
                     }, 3000);
                   } else if (response.status === 500) {
@@ -355,19 +355,15 @@ class ModalEditEmpresa extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <form className="form">
-                      <Alert
-                        color="danger"
-                        isOpen={this.state.alertError}
-                        toggle={this.onDismiss}
-                      >
+                      <Alert color="danger" isOpen={this.state.alertError}>
                         Error al actualizar la empresa.
                       </Alert>
-                      <Alert
-                        color="success"
-                        isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
-                      >
+                      <Alert color="success" isOpen={this.state.alertSuccess}>
                         Se actualizo la empresa con éxito.
+                      </Alert>
+                      <Alert color="danger" isOpen={this.state.alertError400}>
+                        {/* Error, la ciudad ya esta asignada. */}
+                        Error al actualizar la ciudad.
                       </Alert>
                       <Row>
                         <Col sm="3">

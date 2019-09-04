@@ -38,7 +38,6 @@ class ModalExportCSV extends Component {
     )
       .then(response =>
         response.json().then(data => {
-          console.log(data);
           this.setState({
             dataExport: data
           });
@@ -129,11 +128,10 @@ class ModalExportCSV extends Component {
 
     const json2csvParser = new Parser({ fields, quote: '' });
     const csv = json2csvParser.parse(data);
-    console.log(csv);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Exportar tabla dependencia</ModalHeader>
+          <ModalHeader>Exportar tabla de dependencia</ModalHeader>
           <ModalBody>
             <table className="table table-responsive  table-hover table-striped fixed_header">
               <thead className="">

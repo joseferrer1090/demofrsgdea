@@ -36,7 +36,6 @@ class ModalViewDepartamento extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataPais: data.country,
           dataDepartamento: data

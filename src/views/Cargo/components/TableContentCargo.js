@@ -126,7 +126,6 @@ class TableContentCargo extends Component {
   };
 
   render() {
-    console.log(this.state.dataCharge);
     const options = {
       btnGroup: this.createCustomButtonGroup
     };

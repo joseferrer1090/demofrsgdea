@@ -38,6 +38,7 @@ class ModalEditConglomerado extends React.Component {
     optionsCitys: [],
     optionsCharges: []
   };
+
   componentDidMount() {
     this.getDataCountries();
     this.getDataDepartments();
@@ -401,7 +402,11 @@ class ModalEditConglomerado extends React.Component {
                             </div>
                             <div className="col-md-4">
                               <div className="form-group">
-                                <label> País</label>
+                                <label>
+                                  {this.props.t(
+                                    "app_conglomerado_modal_actualizar_pais"
+                                  )}
+                                </label>
                                 <select
                                   name={"conglomerate_country"}
                                   onChange={handleChange}
@@ -428,7 +433,12 @@ class ModalEditConglomerado extends React.Component {
                             </div>
                             <div className="col-md-4">
                               <div className="form-group">
-                                <label> Departamento</label>
+                                <label>
+                                  {" "}
+                                  {this.props.t(
+                                    "app_conglomerado_modal_actualizar_departamento"
+                                  )}{" "}
+                                </label>
                                 <select
                                   name="conglomerate_department"
                                   value={values.conglomerate_department}
@@ -456,9 +466,10 @@ class ModalEditConglomerado extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {" "}
-                                  Ciudad <span className="text-danger">
-                                    *
-                                  </span>{" "}
+                                  {this.props.t(
+                                    "app_conglomerado_modal_actualizar_ciudad"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <select
                                   name="conglomerate_city"
@@ -485,7 +496,12 @@ class ModalEditConglomerado extends React.Component {
                             </div>
                             <div className="col-md-12">
                               <div className="form-group">
-                                <label> Cargo responsable </label>
+                                <label>
+                                  {" "}
+                                  {this.props.t(
+                                    "app_conglomerado_modal_actualizar_cargo_responsable"
+                                  )}{" "}
+                                </label>
                                 <select
                                   name="conglomerate_charge"
                                   onChange={handleChange}
@@ -594,7 +610,6 @@ class ModalEditConglomerado extends React.Component {
                       type="button"
                       className={"btn btn-outline-success btn-sm"}
                       onClick={e => {
-                        console.log("Hola");
                         e.preventDefault();
                         handleSubmit();
                       }}

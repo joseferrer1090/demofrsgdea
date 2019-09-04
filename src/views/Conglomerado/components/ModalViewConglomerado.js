@@ -221,7 +221,9 @@ class ModalViewConglomerado extends Component {
                       style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      Más información{" "}
+                      {this.props.t(
+                        "app_conglomerado_modal_ver_mas_informacion"
+                      )}{" "}
                     </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapase}>
@@ -230,7 +232,12 @@ class ModalViewConglomerado extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> País </dt>
+                              <dt>
+                                {" "}
+                                {this.props.t(
+                                  "app_conglomerado_modal_ver_pais"
+                                )}{" "}
+                              </dt>
                               <dd> {dataPais.name} </dd>
                             </dl>
                           </div>
@@ -238,7 +245,12 @@ class ModalViewConglomerado extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Departamento </dt>
+                              <dt>
+                                {" "}
+                                {this.props.t(
+                                  "app_conglomerado_modal_ver_departamento"
+                                )}{" "}
+                              </dt>
                               <dd> {dataDepartamento.name} </dd>
                             </dl>
                           </div>
@@ -246,7 +258,12 @@ class ModalViewConglomerado extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Ciudad </dt>
+                              <dt>
+                                {" "}
+                                {this.props.t(
+                                  "app_conglomerado_modal_ver_ciudad"
+                                )}{" "}
+                              </dt>
                               <dd> {dataCiudad.name} </dd>
                             </dl>
                           </div>
@@ -254,7 +271,11 @@ class ModalViewConglomerado extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Cargo responsable </dt>
+                              <dt>
+                                {this.props.t(
+                                  "app_conglomerado_modal_ver_cargo_responsable"
+                                )}{" "}
+                              </dt>
                               <dd> {this.CargoInfo()} </dd>
                             </dl>
                           </div>
@@ -262,7 +283,12 @@ class ModalViewConglomerado extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Fecha de creación </dt>
+                              <dt>
+                                {" "}
+                                {this.props.t(
+                                  "app_conglomerado_modal_ver_fecha_creacion"
+                                )}{" "}
+                              </dt>
                               <dd>
                                 {" "}
                                 {this.FechaCreacionConglomerado(
@@ -275,7 +301,12 @@ class ModalViewConglomerado extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Fecha de modificación </dt>
+                              <dt>
+                                {" "}
+                                {this.props.t(
+                                  "app_conglomerado_modal_ver_fecha_modificacion"
+                                )}{" "}
+                              </dt>
                               <dd>
                                 {" "}
                                 {this.FechaModificacionConglomerado(

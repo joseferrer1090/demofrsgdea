@@ -15,11 +15,12 @@ class ModalDeleteSedes extends Component {
   state = {
     modal: this.props.modaldel,
     idSede: this.props.id,
-    nombre: '',
+    code: '',
     useLogged: '',
     alertError: false,
     alertCode: false,
-    alertSuccess: false
+    alertSuccess: false,
+    nameSedes: ''
   };
 
   toggle = id => {
@@ -30,6 +31,20 @@ class ModalDeleteSedes extends Component {
       idSede: id,
       useLogged: 'ccuartas'
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/headquarter/${id}/ccuartas`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          nameSedes: data.name
+        });
+      })
+      .catch(Error => console.log(' ', Error));
   };
 
   onDismiss = () => {
@@ -42,12 +57,13 @@ class ModalDeleteSedes extends Component {
 
   render() {
     const dataPreview = {
-      nombre: ''
+      code: ''
     };
+    const nameSedes = this.state.nameSedes;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar sede </ModalHeader>
+          <ModalHeader> Eliminar {nameSedes} </ModalHeader>
           <Formik
             initialValues={dataPreview}
             onSubmit={(values, { setSubmitting }) => {
@@ -119,7 +135,6 @@ class ModalDeleteSedes extends Component {
                         className="text-center"
                         color="success"
                         isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
                       >
                         La sede ha sido eliminada con éxito.
                       </Alert>

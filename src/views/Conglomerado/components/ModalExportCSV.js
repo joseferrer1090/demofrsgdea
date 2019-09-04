@@ -87,9 +87,9 @@ class ModalExportCSV extends Component {
             {this.props.t("app_conglomerado_modal_export_titulo")}
           </ModalHeader>
           <ModalBody>
-            <table className="table table-responsive  table-hover table-striped fixed_header">
+            <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
               <thead className="">
-                <tr>
+                <tr className="">
                   <th>
                     {this.props.t("app_conglomerado_modal_export_tabla_codigo")}
                   </th>
@@ -102,11 +102,17 @@ class ModalExportCSV extends Component {
                     )}
                   </th>
                   <th>
+                    {this.props.t("app_conglomerado_modal_export_tabla_cargo")}
+                  </th>
+                  <th>
+                    {this.props.t("app_conglomerado_modal_export_tabla_ciudad")}
+                  </th>
+                  <th>
                     {this.props.t("app_conglomerado_modal_export_tabla_estado")}
                   </th>
                 </tr>
               </thead>
-              <tbody className="">
+              <tbody className="text-justify">
                 {data.map((aux, id) => {
                   return [
                     <tr key={id}>

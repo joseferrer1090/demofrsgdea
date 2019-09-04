@@ -76,7 +76,7 @@ class ModalViewTipoTercero extends Component {
     return (
       <div className="animated fadeIn">
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver {name}</ModalHeader>
+          <ModalHeader> Tipo de tercero {name}</ModalHeader>
           <ModalBody>
             <Row>
               <Col sm={3}>

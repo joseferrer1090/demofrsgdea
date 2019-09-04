@@ -6,6 +6,8 @@ import ModalDeleteTipoTercero from './ModalDeleteTipoTercero';
 import ModalUpdateTipoTercero from './ModalEditTipoTercero';
 import ModalExport from './ModalExportCSV';
 import { Row, Col } from 'reactstrap';
+import './../../../css/styleTableTTercero.css';
+import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { TYPETHIRDPARTYS } from './../../../services/EndPoints';
 
 class TableContentTipoTerceros extends Component {
@@ -55,7 +57,7 @@ class TableContentTipoTerceros extends Component {
   accionesTipoTercer = (cell, row) => {
     return (
       <div
-        className="table-actionMenuTLlegada"
+        className="table-actionMenuTTercero"
         style={{ textAlign: 'center', padding: '0', marginRight: '70px' }}
       >
         <button

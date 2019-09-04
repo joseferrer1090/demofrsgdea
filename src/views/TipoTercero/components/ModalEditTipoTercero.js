@@ -21,7 +21,8 @@ class ModalEditTipoTercero extends React.Component {
     idTipoTerceros: this.props.id,
     dataResult: {},
     alertError: false,
-    alertSuccess: false
+    alertSuccess: false,
+    alertError400: false
   };
 
   toggle = id => {
@@ -106,11 +107,11 @@ class ModalEditTipoTercero extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError: true
+                        alertError400: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false
+                          alertError400: false
                         });
                       }, 3000);
                     } else if (response.status === 500) {
@@ -169,12 +170,12 @@ class ModalEditTipoTercero extends React.Component {
                     >
                       Error al actualizar el tipo de tercero.
                     </Alert>
-                    <Alert
-                      color="success"
-                      isOpen={this.state.alertSuccess}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
                       Se actualizo el tipo de tercero con éxito.
+                    </Alert>
+                    <Alert color="danger" isOpen={this.state.alertError400}>
+                      {/* Error, la ciudad ya esta asignada. */}
+                      Error al actualizar la ciudad.
                     </Alert>
                     <Row>
                       <Col sm={3}>

@@ -267,7 +267,6 @@ class ModalEditEmpresa extends React.Component {
                     userName: 'jferrer'
                   })
                 }).then(response => {
-                  console.log(response);
                   if (response.status === 200) {
                     this.setState({
                       alertSuccess: true

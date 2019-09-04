@@ -38,7 +38,6 @@ class ModalDeleteEmpresa extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           nameCompany: data.name
         });
@@ -58,7 +57,6 @@ class ModalDeleteEmpresa extends React.Component {
       code: ''
     };
     const nameCompany = this.state.nameCompany;
-    console.log(this.state.idCompany);
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>

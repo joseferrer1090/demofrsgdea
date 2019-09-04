@@ -1,17 +1,17 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
-import { Formik, Field, ErrorMessage, withFormik } from "formik";
-import * as Yup from "yup";
-import { Row, Col, CustomInput } from "reactstrap";
-import axios from "axios";
-import { CsvToHtmlTable } from "react-csv-to-table";
-import { ToastContainer, toast } from "react-toastify";
-import { css } from "glamor";
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Formik, Field, ErrorMessage, withFormik } from 'formik';
+import * as Yup from 'yup';
+import { Row, Col, CustomInput } from 'reactstrap';
+import axios from 'axios';
+import { CsvToHtmlTable } from 'react-csv-to-table';
+import { ToastContainer, toast } from 'react-toastify';
+import { css } from 'glamor';
 
 class FormUpload extends React.Component {
   state = {
     file: null,
-    username: "jferrer"
+    username: 'jferrer'
   };
 
   onChange = e => {
@@ -25,7 +25,6 @@ class FormUpload extends React.Component {
   };
 
   render() {
-    console.log(this.state.file);
     return (
       <Fragment>
         <ToastContainer />
@@ -36,7 +35,7 @@ class FormUpload extends React.Component {
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">1. Paso</h5>
                 </div>
-                <p className="mb-1" style={{ textAlign: "justify" }}>
+                <p className="mb-1" style={{ textAlign: 'justify' }}>
                   Descargue la plantilla de formato de importación de datos
                   (Link). Abre el archivo , proceda a rellenar los campos
                   indicados en el formato y guarde los cambios.
@@ -46,7 +45,7 @@ class FormUpload extends React.Component {
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">2. Paso</h5>
                 </div>
-                <p className="mb-1" style={{ textAlign: "justify" }}>
+                <p className="mb-1" style={{ textAlign: 'justify' }}>
                   Si desea importar un archivo plano debe indicar el separador
                   de los campos. Si el primer registro del archivo contiene los
                   títulos debe marcar el check “Títulos”.
@@ -56,7 +55,7 @@ class FormUpload extends React.Component {
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">3. Paso</h5>
                 </div>
-                <p className="mb-1" style={{ textAlign: "justify" }}>
+                <p className="mb-1" style={{ textAlign: 'justify' }}>
                   Haga clic en la opción “Seleccionar archivo” y seleccione el
                   archivo de formato de importación de los datos al cual le
                   agrego los campos requeridos. Haga clic en la opción “Cargar
@@ -71,53 +70,54 @@ class FormUpload extends React.Component {
                 const formData = new FormData();
                 const file = this.state.file;
                 const separador = values.separador_csv;
-                formData.append("file", file);
-                formData.append("separator", separador);
+                formData.append('file', file);
+                formData.append('separator', separador);
                 setTimeout(() => {
                   axios
                     .post(
-                      `http://192.168.10.180:7001/api/sgdea/company/import/?username=${
-                        this.state.username
-                      }`,
+                      `http://192.168.10.180:7001/api/sgdea/company/import/?username=${this.state.username}`,
                       formData,
-                      { headers: { "Content-Type": "multipart/form-data" } }
+                      { headers: { 'Content-Type': 'multipart/form-data' } }
                     )
                     .then(response => {
                       if (response.status === 200) {
                         toast.success(
-                          "La importación de la empresa se hizo satisfactoriamente.",
+                          'La importación de la empresa se hizo satisfactoriamente.',
                           {
                             position: toast.POSITION.TOP_RIGHT,
                             className: css({
-                              marginTop: "60px"
+                              marginTop: '60px'
                             })
                           }
                         );
                       } else if (response !== 200) {
-                        toast("No se pudo realizar la importación, por favor verifique el archivo CSV.", {
-                          position: toast.POSITION.TOP_RIGHT,
-                          className: css({
-                            marginTop: "60px"
-                          })
-                        });
+                        toast(
+                          'No se pudo realizar la importación, por favor verifique el archivo CSV.',
+                          {
+                            position: toast.POSITION.TOP_RIGHT,
+                            className: css({
+                              marginTop: '60px'
+                            })
+                          }
+                        );
                       }
                     })
                     .catch(error => {
                       toast.error(`${error}`, {
                         position: toast.POSITION.TOP_RIGHT,
                         className: css({
-                          marginTop: "60px"
+                          marginTop: '60px'
                         })
                       });
                     });
                 }, 1000);
               }}
-              validationSchema={ Yup.object().shape({
+              validationSchema={Yup.object().shape({
                 separador_csv: Yup.string()
-                  .required(" Por favor introduzca un separador.")
-                  .max(1, " Máximo 1 carácter")
-                  .min(1, " Por favor introduzca un separador."),
-                titulos: Yup.bool().test("Activo", "", value => value === true),
+                  .required(' Por favor introduzca un separador.')
+                  .max(1, ' Máximo 1 carácter')
+                  .min(1, ' Por favor introduzca un separador.'),
+                titulos: Yup.bool().test('Activo', '', value => value === true)
                 // archivo: Yup.mixed(),
               })}
             >
@@ -142,26 +142,27 @@ class FormUpload extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {" "}
-                                  Separador{" "}
+                                  {' '}
+                                  Separador{' '}
                                   <span>
-                                    {" "}
-                                    <b> (Para archivos planos) </b>{" "}
+                                    {' '}
+                                    <b> (Para archivos planos) </b>{' '}
                                     <span className="text-danger">*</span>
-                                  </span>{" "}
+                                  </span>{' '}
                                 </label>
                                 <input
-                                  name={"separador_csv"}
+                                  name={'separador_csv'}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.separador_csv}
                                   type="text"
                                   className={`form-control form-control-sm ${errors.separador_csv &&
                                     touched.separador_csv &&
-                                    "is-invalid"}`}
+                                    'is-invalid'}`}
                                 />
-                                <div className="" style={{ color: "#D54B4B" }}>
-                                  {errors.separador_csv && touched.separador_csv ? (
+                                <div className="" style={{ color: '#D54B4B' }}>
+                                  {errors.separador_csv &&
+                                  touched.separador_csv ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
                                   <ErrorMessage name="separador_csv" />
@@ -172,7 +173,7 @@ class FormUpload extends React.Component {
                               <div className="form-group">
                                 <label>Títulos</label>
                                 <CustomInput
-                                  name={"titulos"}
+                                  name={'titulos'}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.titulos}
@@ -182,9 +183,9 @@ class FormUpload extends React.Component {
                                   className={
                                     errors.titulos &&
                                     touched.titulos &&
-                                    "invalid-feedback"
+                                    'invalid-feedback'
                                   }
-                                />{" "}
+                                />{' '}
                               </div>
                             </div>
                           </div>
@@ -192,12 +193,12 @@ class FormUpload extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  Archivo a importar en extensión <b>CSV</b>{" "}
+                                  Archivo a importar en extensión <b>CSV</b>{' '}
                                   <span className="text-danger"> * </span>
                                 </label>
                                 <input
                                   type="file"
-                                  className={"form-control"}
+                                  className={'form-control'}
                                   onChange={e => this.onChange(e)}
                                 />
                               </div>
@@ -209,7 +210,7 @@ class FormUpload extends React.Component {
                         <div className="text-right">
                           <button
                             type="button"
-                            className={"btn btn-outline-secondary btn-sm"}
+                            className={'btn btn-outline-secondary btn-sm'}
                             onClick={e => {
                               e.preventDefault();
                               handleSubmit();
@@ -231,7 +232,7 @@ class FormUpload extends React.Component {
           <Col md={12}>
             <PreviewFile
               file={this.state.file}
-              estilos={"table table-striped table-hover table-bordered"}
+              estilos={'table table-striped table-hover table-bordered'}
             />
           </Col>
         </Row>
@@ -281,7 +282,7 @@ class PreviewFile extends React.Component {
     }
 
     // console.log(thumb.toString());
-    console.log(file.type);
+    // console.log(file.type);
 
     return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
   }

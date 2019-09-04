@@ -27,7 +27,6 @@ class FormUploadDependencias extends React.Component {
   };
 
   render() {
-    console.log(this.state.file);
     return (
       <Fragment>
         <Row>
@@ -288,7 +287,7 @@ class PreviewFile extends React.Component {
     }
 
     // console.log(thumb.toString());
-    console.log(file.type);
+    // console.log(file.type);
 
     return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
   }

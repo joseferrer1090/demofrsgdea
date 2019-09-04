@@ -152,7 +152,6 @@ class ModalEditDependencia extends React.Component {
   };
 
   render() {
-    console.log(this.state.id);
     const result = {
       conglomerate: this.state.dataDependenceConglomerate.id,
       company: this.state.dataDependenceCompany.id,
@@ -163,12 +162,6 @@ class ModalEditDependencia extends React.Component {
       description: this.state.dataDependence.description,
       status: this.state.dataDependence.status
     };
-
-    console.log(result);
-    console.log(this.state.dataConglomerate);
-    console.log(this.state.dataChargeList);
-    console.log(this.state.dataHeadquarterList);
-
     const conglomerateList = this.state.dataConglomerate.map((aux, id) => {
       return (
         <option key={id} value={aux.id}>

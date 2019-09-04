@@ -59,7 +59,7 @@ class ModalDeleteDependencia extends Component {
       code: ''
     };
     const nameDependence = this.state.nameDependence;
-    console.log(this.state.id);
+    // console.log(this.state.id);
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>

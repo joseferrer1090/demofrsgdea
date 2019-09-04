@@ -46,7 +46,6 @@ class ModalViewSedes extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataSedes: data,
           dataEmpresa: data.company,

@@ -76,12 +76,6 @@ class ModalViewDependencia extends Component {
     return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
   }
   render() {
-    console.log(this.state.dataDependence);
-    console.log(this.state.dataDependenceHeadquarter);
-    console.log(this.state.dataDependenceHeadquarterCompany);
-    console.log(this.state.dataDependenceHeadquarterCompanyConglomerate);
-    console.log(this.state.dataDependenceCharge);
-
     const statusDependence = data => {
       let status;
       if (data === 1) {

@@ -477,7 +477,6 @@ export default withFormik({
       })
         .then(response =>
           response.json().then(data => {
-            console.log(response.status);
             if (response.status === 201) {
               toast.success('Se creo la dependencia con éxito.', {
                 position: toast.POSITION.TOP_RIGHT,

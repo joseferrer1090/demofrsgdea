@@ -208,8 +208,6 @@ class ModalEditSedes extends React.Component {
 
   render() {
     const dataResult = this.state.dataResult;
-    console.log(dataResult);
-
     const mapOptionsConglomerate = this.state.optionsConglomerate.map(
       (aux, idx) => {
         return (
@@ -270,8 +268,6 @@ class ModalEditSedes extends React.Component {
     //     <option value={aux.id}>{aux.name}</option>
     //   );
     // });
-
-    console.log(dataResult.headquarter_charge);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>

@@ -216,7 +216,6 @@ const SedesForm = props => {
   });
 
   const onDismiss = () => {
-    console.log(visibleAlert);
     setVisibleAlert(!visibleAlert);
   };
   return (

@@ -220,15 +220,23 @@ export default withFormik({
                   marginTop: '60px'
                 })
               });
-              // alert("oki");
-            } else if (response.status === 500) {
-              toast.error('Error, tipo de envío / llegada ya existe.', {
+            } else if (response.status === 400) {
+              toast.error('Error, el tipo de envío / llegada ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: '60px'
                 })
               });
-              //alert("Erro en el cuerpo");
+            } else if (response.status === 500) {
+              toast.error(
+                'Error, no se pudo crear el tipo de envío / llegada.',
+                {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                }
+              );
             }
           })
         )

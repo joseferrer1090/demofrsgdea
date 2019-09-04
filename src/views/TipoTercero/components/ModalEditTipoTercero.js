@@ -59,7 +59,6 @@ class ModalEditTipoTercero extends React.Component {
   };
   render() {
     const dataResult = this.state.dataResult;
-    console.log(dataResult);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -94,7 +93,6 @@ class ModalEditTipoTercero extends React.Component {
                   })
                 })
                   .then(response => {
-                    console.log(response.status);
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true

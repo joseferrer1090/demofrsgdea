@@ -77,7 +77,6 @@ class ModalDeleteTipoTercero extends Component {
                   }
                 )
                   .then(response => {
-                    console.log(response.status);
                     if (response.status === 500) {
                       this.setState({
                         alertError: true

@@ -66,7 +66,6 @@ class ModalViewTipoTercero extends Component {
       }
       return status;
     };
-    console.log(this.state.dataTipoTercero);
     const code = this.state.dataTipoTercero.code;
     const name = this.state.dataTipoTercero.name;
     const description = this.state.dataTipoTercero.description;

@@ -20,7 +20,6 @@ class FormImportPais extends React.Component {
     });
   };
   render() {
-    console.log(this.state.file);
     return (
       <Fragment>
         <Row>
@@ -271,18 +270,12 @@ class PreviewFile extends React.Component {
     const { file } = this.props;
     const { loading } = this.state;
     const thumb = this.state.thumb;
-
     if (!file) {
       return null;
     }
-
     if (loading) {
       return <p>loading...</p>;
     }
-
-    // console.log(thumb.toString());
-    console.log(file.type);
-
     return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
   }
 }

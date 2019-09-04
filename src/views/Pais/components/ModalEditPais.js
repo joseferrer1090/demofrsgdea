@@ -44,7 +44,6 @@ class ModalEditPais extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataResult: {
             country_code: data.code,
@@ -58,7 +57,6 @@ class ModalEditPais extends React.Component {
 
   render() {
     const dataResult = this.state.dataResult;
-    console.log(dataResult);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -92,7 +90,6 @@ class ModalEditPais extends React.Component {
                   })
                 })
                   .then(response => {
-                    console.log(response.status);
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true

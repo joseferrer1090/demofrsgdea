@@ -55,7 +55,6 @@ class ModalEditCiudad extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataResult: {
             city_country: data.department.country.id,
@@ -152,7 +151,6 @@ class ModalEditCiudad extends React.Component {
                   })
                 })
                   .then(response => {
-                    console.log(response.status);
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true

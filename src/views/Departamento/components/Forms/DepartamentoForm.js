@@ -54,9 +54,11 @@ const DepartamentoForm = props => {
   };
 
   const mapOptionsCountries = optionsCountries.map((aux, idx) => {
-    console.log('Id: ' + aux.id);
-    console.log('Name: ' + aux.name);
-    return <option value={aux.id}>{aux.name}</option>;
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
   });
 
   return (

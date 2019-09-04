@@ -128,6 +128,7 @@
     "app_conglomerado_modal_ver_fecha_modificacion": "Fecha de modificación",
     "app_conglomerado_modal_ver_cargo_responsable": "Cargo responsable",
     "app_conglomerado_modal_ver_botom": "Cerrar",
+
     "app_conglomerado_modal_actualizar_titulo": "Actualizar",
     "app_conglomerado_modal_actualizar_titulo_2": "Datos",
     "app_conglomerado_modal_actualizar_codigo": "Código",
@@ -135,14 +136,20 @@
     "app_conglomerado_modal_actualizar_descripcion": "Descripción",
     "app_conglomerado_modal_actualizar_estado": "Estado",
     "app_conglomerado_modal_actualizar_estado_descripcion": "Si esta opción se encuentra activada, representa que el conglomerado es visible en el sistema y se podrán realizar operaciones entre cada uno de los  módulos correspondientes de la aplicación. En caso  contrario el conglomerado no se elimina del sistema solo quedará inactivo e invisibles para cada uno de los módulos correspondiente del sistema.",
+    "app_conglomerado_modal_actualizar_pais": "País",
+    "app_conglomerado_modal_actualizar_departamento": "Departamento",
+    "app_conglomerado_modal_actualizar_ciudad": "Ciudad",
+    "app_conglomerado_modal_actualizar_cargo_responsable": "Cargo responsbale",
     "app_conglomerado_modal_actualizar_botom_actualizar": "Actualizar",
     "app_conglomerado_modal_actualizar_botom_cerrar": "Cerrar",
+
     "app_conglomerado_modal_eliminar_titulo": "Eliminar conglomerado",
     "app_conglomerado_modal_eliminar_informacion": "Confirmar el Código para eliminar el conglomerado",
     "app_conglomerado_modal_eliminar_informacion_2": "El conglomerado quedará eliminado de manera permanente",
     "app_conglomerado_modal_eliminar_placeholder": "Código del conglomerado a eliminar",
     "app_conglomerado_modal_eliminar_boton": "Eliminar",
     "app_conglomerado_modal_eliminar_boton_2": "Cerrar",
+
     "app_conglomerado_modal_export_titulo": "Exportar tabla de conglomerado",
     "app_conglomerado_modal_export_tabla_codigo": "Código",
     "app_conglomerado_modal_export_tabla_nombre": "Nombre",
@@ -150,6 +157,7 @@
     "app_conglomerado_modal_export_tabla_estado": "Estado",
     "app_conglomerado_modal_export_boton": "Exportar CSV",
     "app_conglomerado_modal_export_cerrar": "Cerrar",
+
     "app_conglomerado_import_step_1": "1. Paso",
     "app_conglomerado_import_step_2": "2. Paso",
     "app_conglomerado_import_step_3": "3. Paso",

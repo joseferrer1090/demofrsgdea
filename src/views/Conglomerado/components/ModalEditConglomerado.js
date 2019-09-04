@@ -15,8 +15,15 @@ import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
-import { CONGLOMERATES } from "./../../../services/EndPoints";
+import {
+  CONGLOMERATES,
+  COUNTRIES,
+  DEPARTMENTS,
+  CITYS,
+  CHARGES
+} from "./../../../services/EndPoints";
 import { Trans } from "react-i18next";
+import moment from "moment";
 
 class ModalEditConglomerado extends React.Component {
   state = {
@@ -25,7 +32,11 @@ class ModalEditConglomerado extends React.Component {
     dataResult: {},
     alertError: false,
     alertSuccess: false,
-    t: this.props.t
+    t: this.props.t,
+    optionsCountries: [],
+    optionsDepartment: [],
+    optionsCitys: [],
+    optionsCharges: []
   };
   componentDidMount() {
     this.getDataCountries();

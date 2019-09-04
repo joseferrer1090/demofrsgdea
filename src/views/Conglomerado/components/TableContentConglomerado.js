@@ -17,6 +17,7 @@ import {
   CONGLOMERATE_EXPORT
 } from "./../../../services/EndPoints";
 import { withTranslation } from "react-i18next";
+import moment from "moment";
 
 class TableContentConglomerado extends Component {
   constructor(props) {

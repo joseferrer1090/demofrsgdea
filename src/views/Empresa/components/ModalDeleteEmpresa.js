@@ -19,7 +19,9 @@ class ModalDeleteEmpresa extends React.Component {
     alertSuccess: false,
     alertError: false,
     alertCode: false,
-    username: 'jferrer'
+    username: 'jferrer',
+    code: '',
+    nameCompany: ''
   };
 
   toggle = id => {
@@ -27,6 +29,21 @@ class ModalDeleteEmpresa extends React.Component {
       modal: !this.state.modal,
       idCompany: id
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/company/${id}/jferrer`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          nameCompany: data.name
+        });
+      })
+      .catch(Error => console.log(Error));
   };
   onDismiss = () => {
     this.setState({
@@ -38,13 +55,14 @@ class ModalDeleteEmpresa extends React.Component {
 
   render() {
     const dataInitial = {
-      nombre: ''
+      code: ''
     };
+    const nameCompany = this.state.nameCompany;
     console.log(this.state.idCompany);
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar empresa </ModalHeader>
+          <ModalHeader> Eliminar {nameCompany} </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -120,11 +138,7 @@ class ModalDeleteEmpresa extends React.Component {
                     >
                       Por favor introduzca un código válido.
                     </Alert>
-                    <Alert
-                      color="success"
-                      isOpen={this.state.alertSuccess}
-                      toggle={this.onDismiss}
-                    >
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
                       La empresa ha sido eliminada con éxito.
                     </Alert>
                     <form className="form">

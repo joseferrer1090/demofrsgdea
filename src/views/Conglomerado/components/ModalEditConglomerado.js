@@ -38,6 +38,7 @@ class ModalEditConglomerado extends React.Component {
     optionsCitys: [],
     optionsCharges: []
   };
+
   componentDidMount() {
     this.getDataCountries();
     this.getDataDepartments();
@@ -594,7 +595,6 @@ class ModalEditConglomerado extends React.Component {
                       type="button"
                       className={"btn btn-outline-success btn-sm"}
                       onClick={e => {
-                        console.log("Hola");
                         e.preventDefault();
                         handleSubmit();
                       }}

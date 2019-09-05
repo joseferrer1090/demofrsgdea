@@ -29,7 +29,7 @@ let routes = [
     exact: true,
     name: " Configuración / Empresa ",
     component: null
-  },
+  },  
   {
     path: "/configuracion/sedes",
     exact: true,

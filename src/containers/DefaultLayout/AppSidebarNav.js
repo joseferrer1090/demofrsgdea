@@ -38,12 +38,12 @@ class AppSidebarNav extends Component {
     this.state = {
       items: [
         {
-          name: `${props.t("nav_app_home")}`,
+          name: `Inicio`,
           url: "/configuracion",
           icon: "icon-home"
         },
         {
-          name: `${props.t("nav_app_conglomerado")}`,
+          name: `Conglomerado`,
           icon: "icon-settings",
           url: "/configuracion/conglomerado"
         },

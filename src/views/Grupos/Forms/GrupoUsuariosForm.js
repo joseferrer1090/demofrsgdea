@@ -37,7 +37,7 @@ return(
                           </label>
                           <input
                             name="codigo"
-                            onChange={handleChange}
+                            onChange={e => {setFieldValue("codigo", e.target.value.toUpperCase())}}
                             onBlur={handleBlur}
                             type="text"
                             className={`form-control form-control-sm ${errors.codigo &&
@@ -63,7 +63,7 @@ return(
                           </label>
                           <input
                             name="nombre"
-                            onChange={handleChange}
+                            onChange={e => {setFieldValue("nombre", e.target.value.toUpperCase())}}
                             onBlur={handleBlur}
                             type="text"
                             className={`form-control form-control-sm ${errors.nombre &&

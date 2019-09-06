@@ -46,7 +46,7 @@ const CargoForm = props => {
                       name={'code'}
                       type="text"
                       placeholder=""
-                      onChange={handleChange}
+                      onChange={e => {setFieldValue("code", e.target.value.toUpperCase())}}
                       onBlur={handleBlur}
                       value={values.code}
                       className={`form-control form-control-sm ${errors.code &&
@@ -71,7 +71,7 @@ const CargoForm = props => {
                       name={'name'}
                       type="text"
                       placeholder=""
-                      onChange={handleChange}
+                      onChange={e => {setFieldValue("name", e.target.value.toUpperCase())}}
                       onBlur={handleBlur}
                       value={values.name}
                       className={`form-control form-control-sm ${errors.name &&

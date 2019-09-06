@@ -220,7 +220,9 @@ const EmpresaForm = props => {
                   <input
                     name="code"
                     onBlur={handleBlur}
-                    onChange={handleChange}
+                    onChange={e => {
+                      setFieldValue("code", e.target.value.toUpperCase())
+                    }}
                     value={values.code}
                     type="text"
                     className={`form-control form-control-sm ${errors.code &&
@@ -267,7 +269,7 @@ const EmpresaForm = props => {
                   </label>
                   <input
                     name="name"
-                    onChange={handleChange}
+                    onChange={e => { setFieldValue("name", e.target.value.toUpperCase())}}
                     onBlur={handleBlur}
                     value={values.name}
                     type="text"

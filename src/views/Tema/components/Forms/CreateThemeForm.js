@@ -42,7 +42,7 @@ const CreateThemeForm = props => {
                     </label>
                     <input
                       name="codigo"
-                      onChange={handleChange}
+                      onChange={e => {setFieldValue("codigo", e.target.value.toUpperCase())}}
                       onBlur={handleBlur}
                       type="text"
                       className={`form-control form-control-sm ${errors.codigo &&

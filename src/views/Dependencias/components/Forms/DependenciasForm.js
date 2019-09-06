@@ -251,7 +251,7 @@ const DependenciaForm = props => {
                         name={'code'}
                         type="text"
                         placeholder=""
-                        onChange={handleChange}
+                        onChange={e => {setFieldValue("code", e.target.value.toUpperCase())}}
                         onBlur={handleBlur}
                         value={values.code}
                         className={`form-control form-control-sm ${errors.code &&
@@ -274,7 +274,7 @@ const DependenciaForm = props => {
                       </label>
                       <input
                         name={'name'}
-                        onChange={handleChange}
+                        onChange={e => {setFieldValue("name", e.target.value.toUpperCase())}}
                         onBlur={handleBlur}
                         value={values.name}
                         type="text"

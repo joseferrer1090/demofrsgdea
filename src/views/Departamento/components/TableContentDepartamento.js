@@ -9,6 +9,7 @@ import './../../../css/styleTableDepartamento.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { DEPARTMENTS } from './../../../services/EndPoints';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class TableContentDepartamento extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class TableContentDepartamento extends Component {
       ModalDel: false,
       modalexport: false,
       dataDepartment: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      t: this.props.t
     };
   }
   componentDidMount() {
@@ -120,7 +122,8 @@ class TableContentDepartamento extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar CSV
+        <i className="fa fa-download" />{' '}
+        {this.props.t('app_departamento_administrar_table_button_exportar')}
       </button>
     );
   };
@@ -137,6 +140,7 @@ class TableContentDepartamento extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup
     };
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <div className="col-md-12">
@@ -146,7 +150,9 @@ class TableContentDepartamento extends Component {
             pagination
             search
             striped
-            searchPlaceholder="Buscar"
+            searchPlaceholder={t(
+              'app_departamento_administrar_table_placeholder'
+            )}
             data={this.state.dataDepartment}
             hover
             bordered={false}
@@ -174,7 +180,7 @@ class TableContentDepartamento extends Component {
               width={'130'}
             >
               {' '}
-              País{' '}
+              {t('app_departamento_administrar_table_pais')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="code"
@@ -182,7 +188,7 @@ class TableContentDepartamento extends Component {
               width={'130'}
             >
               {' '}
-              Código{' '}
+              {t('app_departamento_administrar_table_codigo')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
@@ -190,7 +196,7 @@ class TableContentDepartamento extends Component {
               width={'250'}
             >
               {' '}
-              Nombre{' '}
+              {t('app_departamento_administrar_table_nombre')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
@@ -201,7 +207,7 @@ class TableContentDepartamento extends Component {
               dataAlign="center"
               width={'150'}
             >
-              Fecha de creación
+              {t('app_departamento_administrar_table_fecha_creacion')}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="status"
@@ -209,7 +215,7 @@ class TableContentDepartamento extends Component {
               dataFormat={(cell, row) => this.DepartamentoStatus(cell, row)}
             >
               {' '}
-              Estado{' '}
+              {t('app_departamento_administrar_table_estado')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'200'}
@@ -218,17 +224,33 @@ class TableContentDepartamento extends Component {
               dataFormat={(cel, row) => this.accionesPais(cel, row)}
             >
               {' '}
-              Acciones{' '}
+              {t('app_departamento_administrar_table_acciones')}{' '}
             </TableHeaderColumn>
           </BootstrapTable>
         </div>
-        <ModalView modalview={this.state.ModalViewPais} ref="child" />
-        <ModalEdit modaledit={this.state.ModalEdit} ref="child3" />
-        <ModalDelete modaldel={this.state.ModalDel} ref="child2" />
-        <ModalExport modalexport={this.state.ModalExport} ref="child4" />
+        <ModalView
+          t={this.props.t}
+          modalview={this.state.ModalViewPais}
+          ref="child"
+        />
+        <ModalEdit
+          t={this.props.t}
+          modaledit={this.state.ModalEdit}
+          ref="child3"
+        />
+        <ModalDelete
+          t={this.props.t}
+          modaldel={this.state.ModalDel}
+          ref="child2"
+        />
+        <ModalExport
+          t={this.props.t}
+          modalexport={this.state.ModalExport}
+          ref="child4"
+        />
       </div>
     );
   }
 }
 
-export default TableContentDepartamento;
+export default withTranslation('translations')(TableContentDepartamento);

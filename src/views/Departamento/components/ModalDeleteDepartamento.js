@@ -15,7 +15,8 @@ class ModalDeleteDepartamento extends Component {
       alertCode: false,
       alertError: false,
       alertSuccess: false,
-      nameDepartment: ''
+      nameDepartment: '',
+      t: this.props.t
     };
   }
 
@@ -58,7 +59,11 @@ class ModalDeleteDepartamento extends Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar {nameDepartment} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_departamento_modal_eliminar_titulo')}{' '}
+            {nameDepartment}{' '}
+          </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -141,8 +146,9 @@ class ModalDeleteDepartamento extends Component {
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        Confirmar el <code> código </code> para eliminar el
-                        departamento.{' '}
+                        {this.props.t(
+                          'app_departamento_modal_eliminar_titulo_2'
+                        )}
                       </p>
 
                       <input
@@ -151,7 +157,9 @@ class ModalDeleteDepartamento extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder="Código para eliminar el departamento."
+                        placeholder={this.props.t(
+                          'app_departamento_modal_eliminar_placeholder'
+                        )}
                         style={{ textAlign: 'center' }}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
                           touched.code &&
@@ -166,7 +174,9 @@ class ModalDeleteDepartamento extends Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        El departamento quedará eliminado de manera permanente.{' '}
+                        {this.props.t(
+                          'app_departamento_modal_eliminar_titulo_3'
+                        )}{' '}
                       </p>
                     </form>
                   </ModalBody>
@@ -179,7 +189,10 @@ class ModalDeleteDepartamento extends Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" /> Eliminar
+                      <i className="fa fa-trash" />{' '}
+                      {this.props.t(
+                        'app_departamento_modal_eliminar_button_eliminar'
+                      )}
                     </button>
                     <button
                       type="button"
@@ -188,7 +201,10 @@ class ModalDeleteDepartamento extends Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t(
+                        'app_departamento_modal_eliminar_button_cerrar'
+                      )}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

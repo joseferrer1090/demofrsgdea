@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Nav,
   NavItem,
@@ -8,17 +8,18 @@ import {
   TabPane,
   Row,
   Col
-} from "reactstrap";
-import classnames from "classnames";
-import FormCreate from "./components/FormCreateDepartamento";
-import TableContent from "./components/TableContentDepartamento";
-import FormImport from "./components/FormImportDepartamento";
+} from 'reactstrap';
+import classnames from 'classnames';
+import FormCreate from './components/FormCreateDepartamento';
+import TableContent from './components/TableContentDepartamento';
+import FormImport from './components/FormImportDepartamento';
+import { withTranslation } from 'react-i18next';
 
 class Departamento extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1"
+      activeTab: '1'
     };
   }
 
@@ -31,37 +32,38 @@ class Departamento extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "1" })}
+              className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
-                this.toggle("1");
+                this.toggle('1');
               }}
             >
-              <i className="fa fa-plus" /> Registrar
+              <i className="fa fa-plus" /> {t('app_departamento_tab')}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "2" })}
+              className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => {
-                this.toggle("2");
+                this.toggle('2');
               }}
             >
-              <i className="fa fa-gear" /> Administrar
+              <i className="fa fa-gear" /> {t('app_departamento_tab_2')}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "3" })}
+              className={classnames({ active: this.state.activeTab === '3' })}
               onClick={() => {
-                this.toggle("3");
+                this.toggle('3');
               }}
             >
-              <i className="fa fa-upload" /> Importar
+              <i className="fa fa-upload" /> {t('app_departamento_tab_3')}
             </NavLink>
           </NavItem>
         </Nav>
@@ -95,4 +97,4 @@ class Departamento extends Component {
 
 Departamento.propTypes = {};
 
-export default Departamento;
+export default withTranslation('translations')(Departamento);

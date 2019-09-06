@@ -190,7 +190,7 @@ const ConglomeradorForm = props => {
                   </label>
                   <input
                     name="nombre"
-                    onChange={handleChange}
+                    onChange={e => {setFieldValue("nombre", e.target.value.toUpperCase())}}
                     onBlur={handleBlur}
                     type="text"
                     className={`form-control form-control-sm ${errors.nombre &&
@@ -420,7 +420,10 @@ export default withTranslation("translations")(
       chargeId: props.conglomerado.chargeId
     }),
     validationSchema: Yup.object().shape({
-      codigo: Yup.string().required(" Por favor introduzca un codigo").matches(/^[a-zA-Z0-9\-_]{0,6}$/, "El codigo debe ser alfanumerico"),
+      codigo: Yup.string().required(" Por favor introduzca un codigo alfanumerico")
+      .matches(/^[0-9a-zA-Z]+$/, " No es un codigo alfanumerico")
+      .min(2, " minimo 2 caracteres para el codigo")
+      .max(15, " maximo 15 caracteres para el codigo"),
       nombre: Yup.string()
         .required(" Por favor introduzca un nombre.")
         .max(100),

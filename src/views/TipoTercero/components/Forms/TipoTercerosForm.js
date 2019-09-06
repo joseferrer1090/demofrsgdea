@@ -48,7 +48,7 @@ const TipoTercerosForm = props => {
                       </label>
                       <input
                         name={'code'}
-                        onChange={handleChange}
+                        onChange={e => {setFieldValue("code", e.target.value.toUpperCase())}}
                         onBlur={handleBlur}
                         value={values.code}
                         type="text"
@@ -73,7 +73,7 @@ const TipoTercerosForm = props => {
                       </label>
                       <input
                         name={'name'}
-                        onChange={handleChange}
+                        onChange={e => {setFieldValue("name", e.target.value.toUpperCase())}}
                         onBlur={handleBlur}
                         value={values.name}
                         type="text"

@@ -13,7 +13,8 @@ const TipoTramite = props => {
     handleChange,
     handleBlur,
     handleSubmit,
-    handleReset
+    handleReset, 
+    setFieldValue
   } = props;
   return (
     <div className="col-md-12">
@@ -65,7 +66,7 @@ const TipoTramite = props => {
                           </label>
                           <input
                             name={"codigo"}
-                            onChange={handleChange}
+                            onChange={e => {setFieldValue("codigo", e.target.value.toUpperCase())}}
                             onBlur={handleBlur}
                             value={values.codigo}
                             type="text"
@@ -90,7 +91,7 @@ const TipoTramite = props => {
                           </label>
                           <input
                             name={"nombre"}
-                            onChange={handleChange}
+                            onChange={e => {setFieldValue("nombre", e.target.value.toUpperCase())}}
                             onBlur={handleBlur}
                             value={values.nombre}
                             type="text"

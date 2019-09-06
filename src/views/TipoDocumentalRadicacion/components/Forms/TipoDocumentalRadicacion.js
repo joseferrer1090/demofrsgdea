@@ -11,7 +11,8 @@ const TipoDocumentalRadicacion = props => {
     handleChange,
     handleBlur,
     handleSubmit,
-    isSubmitting
+    isSubmitting, 
+    setFieldValue
   } = props;
   return (
     <div className="col-md-12">
@@ -63,7 +64,7 @@ const TipoDocumentalRadicacion = props => {
                           </label>
                           <input
                             name={"codigo"}
-                            onChange={handleChange}
+                            onChange={e => {setFieldValue("codigo", e.target.value.toUpperCase())}}
                             onBlur={handleBlur}
                             values={values.codigo}
                             type="text"
@@ -89,7 +90,7 @@ const TipoDocumentalRadicacion = props => {
                           <input
                             type="text"
                             name={"nombre"}
-                            onChange={handleChange}
+                            onChange={e => {setFieldValue("nombre", e.target.value.toUpperCase())}}
                             onBlur={handleBlur}
                             value={values.nombre}
                             className={`form-control form-control-sm ${errors.nombre &&

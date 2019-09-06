@@ -298,7 +298,9 @@ const SedesForm = props => {
                   </label>
                   <input
                     name="code"
-                    onChange={handleChange}
+                    onChange={e => {
+                      setFieldValue("code", e.target.value.toUpperCase())
+                    }}
                     onBlur={handleBlur}
                     value={values.code}
                     type="text"
@@ -322,7 +324,7 @@ const SedesForm = props => {
                   </label>
                   <input
                     name="name"
-                    onChange={handleChange}
+                    onChange={e => { setFieldValue("name", e.target.value.toUpperCase())}}
                     onBlur={handleBlur}
                     value={values.name}
                     type="text"
@@ -670,7 +672,7 @@ export default withFormik({
       .ensure(),
     code: Yup.string()
       .required(' Por favor introduzca un código.')
-      .matches(/^[\w]+$/, ' Código no válido.')
+      .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
       .max(15, ' Máximo 15 caracteres.')
       .min(2, ' Mínimo 2 caracteres.'),
     name: Yup.string()

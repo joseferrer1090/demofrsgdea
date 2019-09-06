@@ -166,8 +166,8 @@ const CiudadForm = props => {
                       Código <span className="text-danger">*</span>{' '}
                     </label>
                     <input
-                      name="code"
-                      onChange={handleChange}
+                      name="code"    
+                      onChange={e => {setFieldValue("code", e.target.value.toUpperCase())}}
                       onBlur={handleBlur}
                       type="text"
                       className={`form-control form-control-sm ${errors.code &&

@@ -162,7 +162,9 @@ const ConglomeradorForm = props => {
                   </label>
                   <input
                     name="codigo"
-                    onChange={handleChange}
+                    onChange={e => {
+                      setFieldValue("codigo", e.target.value.toUpperCase())
+                    }}
                     onBlur={handleBlur}
                     type="text"
                     className={`form-control form-control-sm ${errors.codigo &&
@@ -188,7 +190,7 @@ const ConglomeradorForm = props => {
                   </label>
                   <input
                     name="nombre"
-                    onChange={handleChange}
+                    onChange={e => {setFieldValue("nombre", e.target.value.toUpperCase())}}
                     onBlur={handleBlur}
                     type="text"
                     className={`form-control form-control-sm ${errors.nombre &&
@@ -418,12 +420,12 @@ export default withTranslation("translations")(
       chargeId: props.conglomerado.chargeId
     }),
     validationSchema: Yup.object().shape({
-      codigo: Yup.string()
-        .min(6, " Mínimo 6 caracteres.")
-        .max(6, " Máximo 6 caracteres.")
-        .required(" Por favor introduzca un código."),
+      codigo: Yup.string().required(" Por favor introduzca un codigo alfanumerico")
+      .matches(/^[0-9a-zA-Z]+$/, " No es un codigo alfanumerico")
+      .min(2, " minimo 2 caracteres para el codigo")
+      .max(15, " maximo 15 caracteres para el codigo"),
       nombre: Yup.string()
-        .required(" Por favor introduzca un nombre.").test(" "," nombre debe ir en MAYUSCULA",value => value === value.toUpperCase())
+        .required(" Por favor introduzca un nombre.")
         .max(100),
       descripcion: Yup.string().max(250, " Máximo 250 caracteres."),
       estado: Yup.bool()
@@ -456,49 +458,49 @@ export default withTranslation("translations")(
       };
       setTimeout(() => {
         alert(JSON.stringify(values, "",2));
-        // fetch(CONGLOMERATES, {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     Authorization: "Basic " + window.btoa("sgdea:123456")
-        //   },
-        //   body: JSON.stringify({
-        //     code: values.codigo,
-        //     name: values.nombre,
-        //     description: values.descripcion,
-        //     status: tipoEstado(values.estado),
-        //     chargeId: values.chargeId,
-        //     cityId: values.cityId,
-        //     userName: "jferrer"
-        //   })
-        // })
-        //   .then(response =>
-        //     response.json().then(data => {
-        //       if (response.status === 201) {
-        //         toast.success("Se creo el conglomerado con éxito.", {
-        //           position: toast.POSITION.TOP_RIGHT,
-        //           className: css({
-        //             marginTop: "60px"
-        //           })
-        //         });
-        //       } else if (response.status === 500) {
-        //         toast.error("El conglomerado ya existe.", {
-        //           position: toast.POSITION.TOP_RIGHT,
-        //           className: css({
-        //             marginTop: "60px"
-        //           })
-        //         });
-        //       }
-        //     })
-        //   )
-        //   .catch(error => {
-        //     toast.error(`Error ${error}.`, {
-        //       position: toast.POSITION.TOP_RIGHT,
-        //       className: css({
-        //         marginTop: "60px"
-        //       })
-        //     });
-        //   });
+        fetch(CONGLOMERATES, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa("sgdea:123456")
+          },
+          body: JSON.stringify({
+            code: values.codigo,
+            name: values.nombre,
+            description: values.descripcion,
+            status: tipoEstado(values.estado),
+            chargeId: values.chargeId,
+            cityId: values.cityId,
+            userName: "jferrer"
+          })
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (response.status === 201) {
+                toast.success("Se creo el conglomerado con éxito.", {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                });
+              } else if (response.status === 500) {
+                toast.error("El conglomerado ya existe.", {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                });
+              }
+            })
+          )
+          .catch(error => {
+            toast.error(`Error ${error}.`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
+            });
+          });
         setSubmitting(false);
         resetForm();
       }, 1000);

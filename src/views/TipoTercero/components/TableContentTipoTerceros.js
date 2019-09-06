@@ -65,7 +65,7 @@ class TableContentTipoTerceros extends Component {
     return (
       <div
         className="table-actionMenuTTercero"
-        style={{ textAlign: 'center', padding: '0', marginRight: '70px' }}
+        style={{ textAlign: 'center', padding: '0', marginRight: '50px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -162,15 +162,27 @@ class TableContentTipoTerceros extends Component {
               >
                 #
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'code'} dataAlign="center">
+              <TableHeaderColumn
+                dataField={'code'}
+                dataAlign="center"
+                width={'150'}
+              >
                 {' '}
                 Código{' '}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'name'} dataAlign="center">
+              <TableHeaderColumn
+                dataField={'name'}
+                dataAlign="center"
+                width={'250'}
+              >
                 {' '}
                 Nombre{' '}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'description'} dataAlign="center">
+              <TableHeaderColumn
+                dataField={'description'}
+                dataAlign="center"
+                width={'250'}
+              >
                 {' '}
                 Descripción{' '}
               </TableHeaderColumn>
@@ -181,13 +193,14 @@ class TableContentTipoTerceros extends Component {
                   this.FechaCreacionTipoTercero(cell, row)
                 }
                 dataAlign="center"
-                width={'150'}
+                width={'100'}
               >
                 Fecha de creación
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField={'status'}
                 dataAlign="center"
+                width={'120'}
                 dataFormat={(cell, row) => this.estadoTipoTercero(cell, row)}
               >
                 {' '}

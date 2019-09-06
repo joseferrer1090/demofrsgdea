@@ -55,7 +55,7 @@ class TableContentSedes extends Component {
 
   accionesSedes = (cell, row) => {
     return (
-      <div className="table-actionMenuSedes" style={{ marginRight: '150px' }}>
+      <div className="table-actionMenuSedes" style={{ marginRight: '60px' }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -175,7 +175,7 @@ class TableContentSedes extends Component {
                   dataField={'company'}
                   dataFormat={this.EmpresaInfo}
                   dataAlign={'center'}
-                  width={'250'}
+                  width={'200'}
                   dataSort={true}
                 >
                   {' '}
@@ -184,7 +184,7 @@ class TableContentSedes extends Component {
                 <TableHeaderColumn
                   dataField={'code'}
                   dataAlign="center"
-                  width={'100'}
+                  width={'150'}
                   dataSort={true}
                 >
                   Código
@@ -192,7 +192,7 @@ class TableContentSedes extends Component {
                 <TableHeaderColumn
                   dataField={'name'}
                   dataAlign="center"
-                  width={'230'}
+                  width={'250'}
                   dataSort={true}
                 >
                   Nombre
@@ -200,11 +200,9 @@ class TableContentSedes extends Component {
                 <TableHeaderColumn
                   dataSort={true}
                   dataField={'createdAt'}
-                  dataFormat={(cell, row) =>
-                    this.FechaCreacionConglomerado(cell, row)
-                  }
+                  dataFormat={(cell, row) => this.FechaCreacionSede(cell, row)}
                   dataAlign="center"
-                  width={'150'}
+                  width={'120'}
                 >
                   Fecha de creación
                 </TableHeaderColumn>
@@ -212,7 +210,7 @@ class TableContentSedes extends Component {
                   dataField={'status'}
                   dataFormat={(cell, row) => this.SedesStatus(cell, row)}
                   dataAlign={'center'}
-                  width={'200'}
+                  width={'120'}
                   dataSort={true}
                 >
                   {' '}

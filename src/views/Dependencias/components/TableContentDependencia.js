@@ -50,7 +50,7 @@ class TableContentDependencia extends Component {
   }
   accionesDependencias(cell, row) {
     return (
-      <div className="table-actionMenuDep" style={{ marginRight: '59px' }}>
+      <div className="table-actionMenuDep" style={{ marginRight: '49px' }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -172,7 +172,7 @@ class TableContentDependencia extends Component {
               #
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'140'}
+              width={'120'}
               dataField="headquarter"
               dataFormat={this.headquarter}
               dataAlign="center"
@@ -181,7 +181,7 @@ class TableContentDependencia extends Component {
               Sede
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'45'}
+              width={'100'}
               dataField="code"
               dataAlign="center"
               dataSort={true}
@@ -189,7 +189,7 @@ class TableContentDependencia extends Component {
               Código
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'120'}
+              width={'170'}
               dataField="name"
               dataSort={true}
               dataAlign="center"
@@ -197,7 +197,7 @@ class TableContentDependencia extends Component {
               Nombre
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'150'}
+              width={'120'}
               dataField="charge"
               dataFormat={this.charge}
               dataAlign="center"
@@ -212,7 +212,7 @@ class TableContentDependencia extends Component {
                 this.FechaCreacionDependencia(cell, row)
               }
               dataAlign="center"
-              width={'150'}
+              width={'100'}
             >
               Fecha de creación
             </TableHeaderColumn>

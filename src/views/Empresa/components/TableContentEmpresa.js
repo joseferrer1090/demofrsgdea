@@ -47,7 +47,7 @@ class TableContentEmpresa extends Component {
 
   accionesEmpresa = (cel, row) => {
     return (
-      <div className="table-actionMenuEmpre" style={{ marginRight: '60px' }}>
+      <div className="table-actionMenuEmpre" style={{ marginRight: '40px' }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -86,7 +86,7 @@ class TableContentEmpresa extends Component {
   FechaCreacionEmpresa(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format('YYYY-MM-DD');
   }
 
   EstadoEmpresa(cell, row) {
@@ -180,7 +180,7 @@ class TableContentEmpresa extends Component {
             </TableHeaderColumn>
 
             <TableHeaderColumn
-              width={'80'}
+              width={'150'}
               dataSort={true}
               dataField={'code'}
               dataAlign="center"
@@ -188,7 +188,7 @@ class TableContentEmpresa extends Component {
               Código
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'200'}
+              width={'100'}
               dataSort={true}
               dataField={'nit'}
               dataAlign="center"
@@ -196,6 +196,7 @@ class TableContentEmpresa extends Component {
               Nit
             </TableHeaderColumn>
             <TableHeaderColumn
+              width={'200'}
               dataSort={true}
               dataField={'name'}
               dataAlign="center"
@@ -204,13 +205,11 @@ class TableContentEmpresa extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
-              dataField={"createdAt"}
-              dataFormat={(cell, row) =>
-              this.FechaCreacionEmpresa(cell, row)
-              }
+              dataField={'createdAt'}
+              dataFormat={(cell, row) => this.FechaCreacionEmpresa(cell, row)}
               dataAlign="center"
-              width={"150"}
-              >
+              width={'120'}
+            >
               Fecha de creación
             </TableHeaderColumn>
             <TableHeaderColumn
@@ -222,7 +221,7 @@ class TableContentEmpresa extends Component {
               Estado
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'190'}
+              width={'150'}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesEmpresa(cell, row)}

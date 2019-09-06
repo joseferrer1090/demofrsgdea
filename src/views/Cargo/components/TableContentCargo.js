@@ -63,7 +63,7 @@ class TableContentCargo extends Component {
     return (
       <div
         className="table-actionMenuCargo"
-        style={{ textAlign: 'center', padding: '0', marginRight: '105px' }}
+        style={{ textAlign: 'center', padding: '0', marginRight: '60px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -169,14 +169,14 @@ class TableContentCargo extends Component {
             >
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataAlign="center" dataField="code" width={100}>
+            <TableHeaderColumn dataAlign="center" dataField="code" width={150}>
               {' '}
               Código{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
               dataField="name"
-              width={'100'}
+              width={'170'}
             >
               Nombre
             </TableHeaderColumn>
@@ -184,7 +184,7 @@ class TableContentCargo extends Component {
             <TableHeaderColumn
               dataAlign="center"
               dataField="description"
-              width={200}
+              width={'200'}
             >
               {' '}
               Descripción{' '}
@@ -194,7 +194,7 @@ class TableContentCargo extends Component {
               dataField={'createdAt'}
               dataFormat={(cell, row) => this.FechaCreacionCargo(cell, row)}
               dataAlign="center"
-              width={'150'}
+              width={'120'}
             >
               Fecha de creación
             </TableHeaderColumn>
@@ -208,7 +208,7 @@ class TableContentCargo extends Component {
               Estado{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'200'}
+              width={'150'}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesCargo(cell, row)}

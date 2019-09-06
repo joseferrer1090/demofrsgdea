@@ -54,7 +54,7 @@ class TableContentCiudad extends Component {
     return (
       <div
         className="table-actionMenuCiudad"
-        style={{ textAlign: 'center', padding: '0', marginRight: '80px' }}
+        style={{ textAlign: 'center', padding: '0', marginRight: '65px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -191,7 +191,11 @@ class TableContentCiudad extends Component {
               {' '}
               Departamento{' '}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="code" dataAlign="center" width={'80'}>
+            <TableHeaderColumn
+              dataField="code"
+              dataAlign="center"
+              width={'110'}
+            >
               {' '}
               Código{' '}
             </TableHeaderColumn>
@@ -208,7 +212,7 @@ class TableContentCiudad extends Component {
               dataField={'createdAt'}
               dataFormat={(cell, row) => this.FechaCreacionCiudad(cell, row)}
               dataAlign="center"
-              width={'150'}
+              width={'120'}
             >
               Fecha de creación
             </TableHeaderColumn>

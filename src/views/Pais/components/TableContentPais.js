@@ -64,7 +64,7 @@ class TableContentPais extends Component {
     return (
       <div
         className="table-actionMenuPais"
-        style={{ textAlign: 'center', padding: '0', marginRight: '95px' }}
+        style={{ textAlign: 'center', padding: '0', marginRight: '75px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -168,11 +168,7 @@ class TableContentPais extends Component {
             >
               #
             </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="code"
-              dataAlign="center"
-              width={'150'}
-            >
+            <TableHeaderColumn dataField="code" dataAlign="center" width={'80'}>
               {' '}
               Código{' '}
             </TableHeaderColumn>
@@ -189,11 +185,12 @@ class TableContentPais extends Component {
               dataField={'createdAt'}
               dataFormat={(cell, row) => this.FechaCreacionPais(cell, row)}
               dataAlign="center"
-              width={'150'}
+              width={'120'}
             >
               Fecha de creación
             </TableHeaderColumn>
             <TableHeaderColumn
+              width={'120'}
               dataField="status"
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoPais(cell, row)}
@@ -202,7 +199,7 @@ class TableContentPais extends Component {
               Estado{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'250'}
+              width={'170'}
               export={false}
               dataAlign="center"
               dataFormat={(cel, row) => this.accionesPais(cel, row)}

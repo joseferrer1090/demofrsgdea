@@ -68,6 +68,9 @@
     "text_home_1_4_1": "If you want to know how the workflow module works and all its functionalities press the button",
     "text_button_1_4_1": "Download",
 
+    "app_breadcrumb_incio": "home",
+    "app_breadcrumb_conglomerado": "Configurate / Conglomerate",
+
     "nav_app_home": "Home",
     "nav_app_conglomerado": "Conglomerate",
     "nav_app_empresa": "Company",

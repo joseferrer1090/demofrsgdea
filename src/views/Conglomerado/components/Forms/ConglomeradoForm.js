@@ -19,6 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
+import { isLabeledStatement } from "@babel/types";
 
 const ConglomeradorForm = props => {
   const {
@@ -422,7 +423,7 @@ export default withTranslation("translations")(
         .max(6, " Máximo 6 caracteres.")
         .required(" Por favor introduzca un código."),
       nombre: Yup.string()
-        .required(" Por favor introduzca un nombre.")
+        .required(" Por favor introduzca un nombre.").test(" "," nombre debe ir en MAYUSCULA",value => value === value.toUpperCase())
         .max(100),
       descripcion: Yup.string().max(250, " Máximo 250 caracteres."),
       estado: Yup.bool()
@@ -454,49 +455,50 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
-        fetch(CONGLOMERATES, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
-          },
-          body: JSON.stringify({
-            code: values.codigo,
-            name: values.nombre,
-            description: values.descripcion,
-            status: tipoEstado(values.estado),
-            chargeId: values.chargeId,
-            cityId: values.cityId,
-            userName: "jferrer"
-          })
-        })
-          .then(response =>
-            response.json().then(data => {
-              if (response.status === 201) {
-                toast.success("Se creo el conglomerado con éxito.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
-              } else if (response.status === 500) {
-                toast.error("El conglomerado ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
-              }
-            })
-          )
-          .catch(error => {
-            toast.error(`Error ${error}.`, {
-              position: toast.POSITION.TOP_RIGHT,
-              className: css({
-                marginTop: "60px"
-              })
-            });
-          });
+        alert(JSON.stringify(values, "",2));
+        // fetch(CONGLOMERATES, {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //     Authorization: "Basic " + window.btoa("sgdea:123456")
+        //   },
+        //   body: JSON.stringify({
+        //     code: values.codigo,
+        //     name: values.nombre,
+        //     description: values.descripcion,
+        //     status: tipoEstado(values.estado),
+        //     chargeId: values.chargeId,
+        //     cityId: values.cityId,
+        //     userName: "jferrer"
+        //   })
+        // })
+        //   .then(response =>
+        //     response.json().then(data => {
+        //       if (response.status === 201) {
+        //         toast.success("Se creo el conglomerado con éxito.", {
+        //           position: toast.POSITION.TOP_RIGHT,
+        //           className: css({
+        //             marginTop: "60px"
+        //           })
+        //         });
+        //       } else if (response.status === 500) {
+        //         toast.error("El conglomerado ya existe.", {
+        //           position: toast.POSITION.TOP_RIGHT,
+        //           className: css({
+        //             marginTop: "60px"
+        //           })
+        //         });
+        //       }
+        //     })
+        //   )
+        //   .catch(error => {
+        //     toast.error(`Error ${error}.`, {
+        //       position: toast.POSITION.TOP_RIGHT,
+        //       className: css({
+        //         marginTop: "60px"
+        //       })
+        //     });
+        //   });
         setSubmitting(false);
         resetForm();
       }, 1000);

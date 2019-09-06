@@ -3,10 +3,10 @@ import { Redirect, Route, Switch, Link } from "react-router-dom";
 import { Container } from "reactstrap";
 import { withTranslation } from "react-i18next";
 import AppSidebarNav from "./AppSidebarNav";
+import AppBreadcrumb from "./Breadcrumb";
 
 import {
   AppAside,
-  AppBreadcrumb,
   AppFooter,
   AppHeader,
   AppSidebar,
@@ -68,7 +68,7 @@ class DefaultLayout extends Component {
             <AppSidebarMinimizer />
           </AppSidebar>
           <main className="main">
-            <AppBreadcrumb appRoutes={routes} />
+            <AppBreadcrumb t={t} />
             <Container fluid>
               <Suspense fallback={this.loading()}>
                 <Switch>

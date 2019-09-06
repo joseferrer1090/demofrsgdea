@@ -59,9 +59,11 @@ const CiudadForm = props => {
   };
 
   const mapOptionsCountries = optionsCountries.map((aux, idx) => {
-    console.log('Id: ' + aux.id);
-    console.log('Name: ' + aux.name);
-    return <option value={aux.id}>{aux.name}</option>;
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
   });
 
   const getDataDepartments = data => {
@@ -83,14 +85,16 @@ const CiudadForm = props => {
   };
 
   const mapOptionsDepartments = optionsDepartment.map((aux, idx) => {
-    console.log('Id: ' + aux.id);
-    console.log('Name: ' + aux.name);
-    return <option value={aux.id}>{aux.name}</option>;
+    return (
+      <option key={aux.id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
   });
 
   return (
     <Row>
-      <Col sm="8" md={{ offset: 2 }}>
+      <Col sm={{ size: 8, offset: 2 }}>
         <Card>
           <ToastContainer />
           <CardHeader> Registro de ciudad </CardHeader>
@@ -289,8 +293,9 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     code: Yup.string()
+      .matches(/^[\w]+$/, ' Código no válido.')
       .min(2, ' Mínimo 2 caracteres.')
-      .max(6, ' Máximo 6 caracteres.')
+      .max(15, ' Máximo 15 caracteres.')
       .required(' Por favor introduzca un código.'),
     name: Yup.string()
       .required(' Por favor introduzca un nombre.')

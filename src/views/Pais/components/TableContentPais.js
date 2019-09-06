@@ -8,6 +8,7 @@ import ModalExport from './ModalExportCSV';
 import './../../../css/styleTablePais.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { COUNTRIES } from './../../../services/EndPoints';
+import moment from 'moment';
 
 class TableContentPais extends Component {
   constructor(props) {
@@ -53,11 +54,17 @@ class TableContentPais extends Component {
     return status;
   }
 
+  FechaCreacionPais(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
+
   accionesPais(cell, row) {
     return (
       <div
         className="table-actionMenuPais"
-        style={{ textAlign: 'center', padding: '0', marginRight: '95px' }}
+        style={{ textAlign: 'center', padding: '0', marginRight: '75px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -161,11 +168,7 @@ class TableContentPais extends Component {
             >
               #
             </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="code"
-              dataAlign="center"
-              width={'150'}
-            >
+            <TableHeaderColumn dataField="code" dataAlign="center" width={'80'}>
               {' '}
               Código{' '}
             </TableHeaderColumn>
@@ -178,6 +181,16 @@ class TableContentPais extends Component {
               Nombre{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
+              dataSort={true}
+              dataField={'createdAt'}
+              dataFormat={(cell, row) => this.FechaCreacionPais(cell, row)}
+              dataAlign="center"
+              width={'120'}
+            >
+              Fecha de creación
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              width={'120'}
               dataField="status"
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoPais(cell, row)}
@@ -186,7 +199,7 @@ class TableContentPais extends Component {
               Estado{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'250'}
+              width={'170'}
               export={false}
               dataAlign="center"
               dataFormat={(cel, row) => this.accionesPais(cel, row)}

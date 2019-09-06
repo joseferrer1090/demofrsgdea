@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Formik, withFormik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { animateScroll as scroll } from 'react-scroll';
 import {
   Card,
   CardBody,
@@ -73,6 +74,9 @@ const SedesForm = props => {
       .catch(Error => console.log(' ', Error));
   };
 
+  const onClickUp = () => {
+    scroll.scrollToTop();
+  };
   const mapOptionsConglomerate = optionsConglomerate.map((aux, idx) => {
     return (
       <option key={aux.id} value={aux.id}>
@@ -212,7 +216,6 @@ const SedesForm = props => {
   });
 
   const onDismiss = () => {
-    console.log(visibleAlert);
     setVisibleAlert(!visibleAlert);
   };
   return (
@@ -667,8 +670,9 @@ export default withFormik({
       .ensure(),
     code: Yup.string()
       .required(' Por favor introduzca un código.')
-      .max(6, ' Máximo 6 caracteres.')
-      .min(6, ' Mínimo 6 caracteres.'),
+      .matches(/^[\w]+$/, ' Código no válido.')
+      .max(15, ' Máximo 15 caracteres.')
+      .min(2, ' Mínimo 2 caracteres.'),
     name: Yup.string()
       .required(' Por favor introduzca un nombre.')
       .max(100, ' Máximo 100 caracteres'),
@@ -740,15 +744,20 @@ export default withFormik({
                   marginTop: '60px'
                 })
               });
-              // alert("oki");
-            } else if (response.status === 500) {
+            } else if (response.status === 400) {
               toast.error('Error, la sede ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: '60px'
                 })
               });
-              //alert("Erro en el cuerpo");
+            } else if (response.status === 500) {
+              toast.error('Error, no se pudo crear la sede.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: '60px'
+                })
+              });
             }
           })
         )

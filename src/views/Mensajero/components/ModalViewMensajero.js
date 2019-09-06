@@ -73,7 +73,7 @@ class ModalViewMensajero extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver {name}</ModalHeader>
+          <ModalHeader>Mensajero {name}</ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">

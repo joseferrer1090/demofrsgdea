@@ -1,0 +1,10 @@
+tr:hover td .table-actionMenuTTercero,
+tr:hover th .table-actionMenuTTercero {
+  display: inline;
+  /* float: right; */
+  position: absolute;
+  right: 0;
+}
+.table-actionMenuTTercero {
+  display: none;
+}

@@ -1,10 +1,10 @@
-import React, { Component, Fragment } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import PropTypes from "prop-types";
-import { Table } from "reactstrap";
-import "./styles/table_fixed.css";
-import { CSVLink, CSVDownload } from "react-csv";
-import { Parser } from "json2csv";
+import React, { Component, Fragment } from 'react';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import PropTypes from 'prop-types';
+import { Table } from 'reactstrap';
+import './styles/table_fixed.css';
+import { CSVLink, CSVDownload } from 'react-csv';
+import { Parser } from 'json2csv';
 
 class ModalExportCSV extends Component {
   constructor(props) {
@@ -26,16 +26,13 @@ class ModalExportCSV extends Component {
   }
 
   getDataExportCSV = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/country/export/data/ccuartas`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "BASIC " + window.btoa("sgdea:123456")
-        }
+    fetch(`http://192.168.10.180:7000/api/sgdea/country/export/data/ccuartas`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'BASIC ' + window.btoa('sgdea:123456')
       }
-    )
+    })
       .then(response =>
         response.json().then(data => {
           this.setState({
@@ -43,15 +40,15 @@ class ModalExportCSV extends Component {
           });
         })
       )
-      .catch(error => console.log(" ", error));
+      .catch(error => console.log(' ', error));
   };
   render() {
     const data = this.state.dataExport;
     const headers = [
-      { label: "code", key: "code" },
-      { label: "name", key: "name" },
-      { label: "description", key: "description" },
-      { label: "status", key: "status" }
+      { label: 'code', key: 'code' },
+      { label: 'name', key: 'name' },
+      { label: 'description', key: 'description' },
+      { label: 'status', key: 'status' }
     ];
 
     const records = data.map(aux => {
@@ -65,22 +62,21 @@ class ModalExportCSV extends Component {
 
     const fields = [
       {
-        label: "code",
-        value: "code"
+        label: 'code',
+        value: 'code'
       },
       {
-        label: "name",
-        value: "name"
+        label: 'name',
+        value: 'name'
       },
       {
-        label: "status",
-        value: "status"
+        label: 'status',
+        value: 'status'
       }
     ];
 
-    const json2csvParser = new Parser({ fields, quote: "" });
+    const json2csvParser = new Parser({ fields, quote: '' });
     const csv = json2csvParser.parse(data);
-    console.log(csv);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -114,8 +110,8 @@ class ModalExportCSV extends Component {
                 this.setState({ modal: false });
               }}
             >
-              {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
+              {' '}
+              <i className="fa fa-times" /> Cerrar{' '}
             </button>
 
             <CSVLink data={csv} className="btn btn-secondary btn-sm">

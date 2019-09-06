@@ -10,11 +10,12 @@ class ModalDeleteTipoTercero extends Component {
     this.state = {
       modal: this.props.modaldelete,
       idTipoTercero: this.props.id,
-      nombre: '',
+      code: '',
       useLogged: '',
       alertSuccess: false,
       alertError: false,
-      alertCode: false
+      alertCode: false,
+      nameTipoTercero: ''
     };
   }
 
@@ -25,6 +26,23 @@ class ModalDeleteTipoTercero extends Component {
       nombre: '',
       useLogged: 'ccuartas'
     }));
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}/ccuartas`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          nameTipoTercero: data.name
+        });
+      })
+      .catch(Error => console.log(' ', Error));
   };
 
   onDismiss = () => {
@@ -37,12 +55,13 @@ class ModalDeleteTipoTercero extends Component {
 
   render() {
     const dataInitial = {
-      nombre: ''
+      code: ''
     };
+    const nameTipoTercero = this.state.nameTipoTercero;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader>Eliminar tipo de tercero </ModalHeader>
+          <ModalHeader>Eliminar {nameTipoTercero} </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -58,7 +77,6 @@ class ModalDeleteTipoTercero extends Component {
                   }
                 )
                   .then(response => {
-                    console.log(response.status);
                     if (response.status === 500) {
                       this.setState({
                         alertError: true
@@ -121,11 +139,7 @@ class ModalDeleteTipoTercero extends Component {
                       >
                         Por favor introduzca un código válido.
                       </Alert>
-                      <Alert
-                        color="success"
-                        isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
-                      >
+                      <Alert color="success" isOpen={this.state.alertSuccess}>
                         El tipo de tecero se ha eliminado con éxito.
                       </Alert>
                       <p className="text-center">

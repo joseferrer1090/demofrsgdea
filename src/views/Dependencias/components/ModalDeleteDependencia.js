@@ -16,12 +16,13 @@ import * as Yup from 'yup';
 class ModalDeleteDependencia extends Component {
   state = {
     modal: this.props.modalDel,
-    nombre: '',
+    code: '',
     id: this.props.id,
     userLogged: 'jferrer',
     alertError: false,
     alertCode: false,
-    alertSuccess: false
+    alertSuccess: false,
+    nameDependence: ''
   };
 
   toggle = id => {
@@ -29,6 +30,20 @@ class ModalDeleteDependencia extends Component {
       modal: !this.state.modal,
       id: id
     });
+    fetch(`http://192.168.10.180:7000/api/sgdea/dependence/${id}/jferrer`, {
+      method: 'GET',
+      headers: {
+        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          nameDependence: data.name
+        });
+      })
+      .catch(Error => console.log(Error));
   };
 
   onDismiss = () => {
@@ -41,13 +56,14 @@ class ModalDeleteDependencia extends Component {
 
   render() {
     const dataInit = {
-      nombre: ''
+      code: ''
     };
-    console.log(this.state.id);
+    const nameDependence = this.state.nameDependence;
+    // console.log(this.state.id);
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar dependencia </ModalHeader>
+          <ModalHeader> Eliminar {nameDependence} </ModalHeader>
           <Formik
             initialValues={dataInit}
             onSubmit={(values, { setSubmitting }) => {
@@ -136,17 +152,13 @@ class ModalDeleteDependencia extends Component {
                       >
                         Por favor introduzca un código válido.
                       </Alert>
-                      <Alert
-                        color="success"
-                        isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
-                      >
+                      <Alert color="success" isOpen={this.state.alertSuccess}>
                         La dependencia ha sido eliminada con éxito.
                       </Alert>
                       <p className="text-center">
                         {' '}
                         Confirmar el <code> código </code> para eliminar la
-                        dependencia{' '}
+                        dependencia.{' '}
                       </p>
 
                       <input

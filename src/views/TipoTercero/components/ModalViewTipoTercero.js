@@ -66,7 +66,6 @@ class ModalViewTipoTercero extends Component {
       }
       return status;
     };
-    console.log(this.state.dataTipoTercero);
     const code = this.state.dataTipoTercero.code;
     const name = this.state.dataTipoTercero.name;
     const description = this.state.dataTipoTercero.description;
@@ -76,7 +75,7 @@ class ModalViewTipoTercero extends Component {
     return (
       <div className="animated fadeIn">
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver {name}</ModalHeader>
+          <ModalHeader> Tipo de tercero {name}</ModalHeader>
           <ModalBody>
             <Row>
               <Col sm={3}>

@@ -8,6 +8,7 @@ import ModalDelete from './ModalDeleteDependencia';
 import ModalExport from './ModalExportCSV';
 import './../../../css/styleTableDependencia.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
+import moment from 'moment';
 
 class TableContentDependencia extends Component {
   constructor(props) {
@@ -42,10 +43,14 @@ class TableContentDependencia extends Component {
       })
       .catch(Error => console.log('', Error));
   };
-
+  FechaCreacionDependencia(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
   accionesDependencias(cell, row) {
     return (
-      <div className="table-actionMenuDep" style={{ marginRight: '59px' }}>
+      <div className="table-actionMenuDep" style={{ marginRight: '49px' }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -167,7 +172,7 @@ class TableContentDependencia extends Component {
               #
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'140'}
+              width={'120'}
               dataField="headquarter"
               dataFormat={this.headquarter}
               dataAlign="center"
@@ -176,7 +181,7 @@ class TableContentDependencia extends Component {
               Sede
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'45'}
+              width={'100'}
               dataField="code"
               dataAlign="center"
               dataSort={true}
@@ -184,7 +189,7 @@ class TableContentDependencia extends Component {
               Código
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'120'}
+              width={'170'}
               dataField="name"
               dataSort={true}
               dataAlign="center"
@@ -192,7 +197,7 @@ class TableContentDependencia extends Component {
               Nombre
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'150'}
+              width={'120'}
               dataField="charge"
               dataFormat={this.charge}
               dataAlign="center"
@@ -200,7 +205,17 @@ class TableContentDependencia extends Component {
             >
               Cargo responsable
             </TableHeaderColumn>
-
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={'createdAt'}
+              dataFormat={(cell, row) =>
+                this.FechaCreacionDependencia(cell, row)
+              }
+              dataAlign="center"
+              width={'100'}
+            >
+              Fecha de creación
+            </TableHeaderColumn>
             <TableHeaderColumn
               width={'70'}
               dataField="Estado"

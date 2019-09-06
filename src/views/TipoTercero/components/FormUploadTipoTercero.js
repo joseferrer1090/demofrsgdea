@@ -192,7 +192,7 @@ class FormImportTipoLlegada extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  Archivo a importar en extension <b>CSV</b>{' '}
+                                  Archivo a importar en extensión <b>CSV</b>{' '}
                                   <span className="text-danger"> * </span>
                                 </label>
                                 <input
@@ -281,7 +281,7 @@ class PreviewFile extends React.Component {
     }
 
     // console.log(thumb.toString());
-    console.log(file.type);
+    // console.log(file.type);
 
     return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
   }

@@ -483,8 +483,9 @@ export default withFormik({
       .required(' Por favor seleccione un conglomerado.'),
     code: Yup.string()
       .required(' Por favor introduzca un código.')
-      .min(6, ' Mínimo 6 caracteres.')
-      .max(6, ' Máximo 6 caracteres.'),
+      .matches(/^[\w]+$/, ' Código no válido.')
+      .min(2, ' Mínimo 2 caracteres.')
+      .max(15, ' Máximo 15 caracteres.'),
     nit: Yup.number()
       .required(' Por favor introduzca el Nit.')
       .positive(' El número Nit debe ser positivo.')
@@ -549,15 +550,20 @@ export default withFormik({
                   marginTop: '60px'
                 })
               });
-              // alert("oki");
-            } else if (response.status === 500) {
+            } else if (response.status === 400) {
               toast.error('Error, la empresa ya existe.', {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: '60px'
                 })
               });
-              //alert("Erro en el cuerpo");
+            } else if (response.status === 500) {
+              toast.error('Error, no se pudo crear la empresa.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: '60px'
+                })
+              });
             }
           })
         )

@@ -1,8 +1,8 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Formik, ErrorMessage, withFormik } from "formik";
-import * as Yup from "yup";
-import { Col, Row, CustomInput } from "reactstrap";
-import { CsvToHtmlTable } from "react-csv-to-table";
+import React, { Fragment, useState, useEffect } from 'react';
+import { Formik, ErrorMessage, withFormik } from 'formik';
+import * as Yup from 'yup';
+import { Col, Row, CustomInput } from 'reactstrap';
+import { CsvToHtmlTable } from 'react-csv-to-table';
 
 const UploadForm = props => {
   const {
@@ -25,7 +25,7 @@ const UploadForm = props => {
               <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1">1. Paso</h5>
               </div>
-              <p className="mb-1" style={{ textAlign: "justify" }}>
+              <p className="mb-1" style={{ textAlign: 'justify' }}>
                 Descargue la plantilla de formato de importación de datos
                 (Link). Abre el archivo , proceda a rellenar los campos
                 indicados en el formato y guarde los cambios.
@@ -35,7 +35,7 @@ const UploadForm = props => {
               <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1">2. Paso</h5>
               </div>
-              <p className="mb-1" style={{ textAlign: "justify" }}>
+              <p className="mb-1" style={{ textAlign: 'justify' }}>
                 Si desea importar un archivo plano debe indicar el separador de
                 los campos. Si el primer registro del archivo contiene los
                 títulos debe marcar el check “Títulos”.
@@ -45,7 +45,7 @@ const UploadForm = props => {
               <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1">3. Paso</h5>
               </div>
-              <p className="mb-1" style={{ textAlign: "justify" }}>
+              <p className="mb-1" style={{ textAlign: 'justify' }}>
                 Haga clic en la opción “Seleccionar archivo” y seleccione el
                 archivo de formato de importación de los datos al cual le agrego
                 los campos requeridos. Haga clic en la opción “Cargar
@@ -62,32 +62,32 @@ const UploadForm = props => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Separador{" "}
+                        {' '}
+                        Separador{' '}
                         <span>
-                          {" "}
-                          <b> (Para archivos planos) </b>{" "}
+                          {' '}
+                          <b> (Para archivos planos) </b>{' '}
                           <span className="text-danger">*</span>
-                        </span>{" "}
+                        </span>{' '}
                       </label>
                       <input
-                        name={"separador"}
+                        name={'separador'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.separador}
                         type="text"
                         className={`form-control form-control-sm ${errors.separador &&
                           touched.separador &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
-                      <ErrorMessage name={"separador"} />
+                      <ErrorMessage name={'separador'} />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>Títulos</label>
                       <CustomInput
-                        name={"cabeza_titulos"}
+                        name={'cabeza_titulos'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.cabeza_titulos}
@@ -95,7 +95,7 @@ const UploadForm = props => {
                         id="ExampleInputCheckbox4"
                         label="(El primer registro contiene los títulos de las columnas)"
                         className={
-                          errors.estado && touched.estado && "invalid-feedback"
+                          errors.estado && touched.estado && 'invalid-feedback'
                         }
                       />
                     </div>
@@ -105,12 +105,12 @@ const UploadForm = props => {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Archivo a importar en extensión{" "}
+                        {' '}
+                        Archivo a importar en extensión{' '}
                         <span>
-                          {" "}
+                          {' '}
                           <b>CSV</b> <span className="text-danger"> * </span>
-                        </span>{" "}
+                        </span>{' '}
                       </label>
                       <br />
                       <input
@@ -125,7 +125,7 @@ const UploadForm = props => {
                         onBlur={handleBlur}
                         className={`form-control ${errors.archivo &&
                           touched.archivo &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
                     </div>
                   </div>
@@ -158,7 +158,7 @@ const UploadForm = props => {
         <Col md="12">
           <PreviewFile
             file={values.archivo}
-            estilos={"table table-striped table-hover table-bordered"}
+            estilos={'table table-striped table-hover table-bordered'}
           />
           {/* {data ? (
               <div className="card">
@@ -184,13 +184,13 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     separador: Yup.string()
-      .test("valor", "valor maximo 1 caracter", val => val.length === 1)
+      .test('valor', 'valor maximo 1 caracter', val => val.length === 1)
       .nullable(),
-    cabeza_titulos: Yup.bool().test("Activado", "", value => value === true),
+    cabeza_titulos: Yup.bool().test('Activado', '', value => value === true),
     archivo: Yup.mixed()
-      .test("file size", "archivo no puede ser vacio", value => value.size > 0)
-      .test("fileType", "extension no soportada", value =>
-        ["application/vnd.ms-excel", "text/csv"].includes(value.type)
+      .test('file size', 'archivo no puede ser vacio', value => value.size > 0)
+      .test('fileType', 'extension no soportada', value =>
+        ['application/vnd.ms-excel', 'text/csv'].includes(value.type)
       )
       .nullable()
     // Yup.addMethod(Yup.array, "archivo", file => {
@@ -263,7 +263,7 @@ class PreviewFile extends React.Component {
       return <p>loading...</p>;
     }
 
-    console.log(thumb.toString());
+    // console.log(thumb.toString());
 
     return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
   }

@@ -6,7 +6,10 @@ import ModalDeleteTipoTercero from './ModalDeleteTipoTercero';
 import ModalUpdateTipoTercero from './ModalEditTipoTercero';
 import ModalExport from './ModalExportCSV';
 import { Row, Col } from 'reactstrap';
+import './../../../css/styleTableTTercero.css';
+import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { TYPETHIRDPARTYS } from './../../../services/EndPoints';
+import moment from 'moment';
 
 class TableContentTipoTerceros extends Component {
   constructor(props) {
@@ -52,11 +55,17 @@ class TableContentTipoTerceros extends Component {
     return status;
   };
 
+  FechaCreacionTipoTercero(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
+
   accionesTipoTercer = (cell, row) => {
     return (
       <div
-        className="table-actionMenuTLlegada"
-        style={{ textAlign: 'center', padding: '0', marginRight: '70px' }}
+        className="table-actionMenuTTercero"
+        style={{ textAlign: 'center', padding: '0', marginRight: '50px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -153,21 +162,45 @@ class TableContentTipoTerceros extends Component {
               >
                 #
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'code'} dataAlign="center">
+              <TableHeaderColumn
+                dataField={'code'}
+                dataAlign="center"
+                width={'150'}
+              >
                 {' '}
                 Código{' '}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'name'} dataAlign="center">
+              <TableHeaderColumn
+                dataField={'name'}
+                dataAlign="center"
+                width={'250'}
+              >
                 {' '}
                 Nombre{' '}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'description'} dataAlign="center">
+              <TableHeaderColumn
+                dataField={'description'}
+                dataAlign="center"
+                width={'250'}
+              >
                 {' '}
                 Descripción{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
+                dataSort={true}
+                dataField={'createdAt'}
+                dataFormat={(cell, row) =>
+                  this.FechaCreacionTipoTercero(cell, row)
+                }
+                dataAlign="center"
+                width={'100'}
+              >
+                Fecha de creación
+              </TableHeaderColumn>
+              <TableHeaderColumn
                 dataField={'status'}
                 dataAlign="center"
+                width={'120'}
                 dataFormat={(cell, row) => this.estadoTipoTercero(cell, row)}
               >
                 {' '}

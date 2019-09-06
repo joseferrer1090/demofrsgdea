@@ -9,6 +9,7 @@ import './../../../css/styleTablePais.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { COUNTRIES } from './../../../services/EndPoints';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class TableContentPais extends Component {
   constructor(props) {
@@ -128,7 +129,8 @@ class TableContentPais extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar CSV
+        <i className="fa fa-download" />{' '}
+        {this.props.t('app_pais_administrar_table_button_exportar')}
       </button>
     );
   };
@@ -137,6 +139,7 @@ class TableContentPais extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup
     };
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <div className="col-md-12">
@@ -146,7 +149,7 @@ class TableContentPais extends Component {
             exportCSV
             pagination
             search
-            searchPlaceholder="Buscar"
+            searchPlaceholder={t('app_pais_administrar_table_placeholder')}
             data={this.state.dataPais}
             hover
             bordered={false}
@@ -170,7 +173,7 @@ class TableContentPais extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn dataField="code" dataAlign="center" width={'80'}>
               {' '}
-              Código{' '}
+              {t('app_pais_administrar_table_codigo')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
@@ -178,7 +181,7 @@ class TableContentPais extends Component {
               width={'300'}
             >
               {' '}
-              Nombre{' '}
+              {t('app_pais_administrar_table_nombre')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
@@ -187,7 +190,7 @@ class TableContentPais extends Component {
               dataAlign="center"
               width={'120'}
             >
-              Fecha de creación
+              {t('app_pais_administrar_table_fecha_creacion')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'120'}
@@ -196,7 +199,7 @@ class TableContentPais extends Component {
               dataFormat={(cell, row) => this.EstadoPais(cell, row)}
             >
               {' '}
-              Estado{' '}
+              {t('app_pais_administrar_table_estado')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'170'}
@@ -205,17 +208,33 @@ class TableContentPais extends Component {
               dataFormat={(cel, row) => this.accionesPais(cel, row)}
             >
               {' '}
-              Acciones{' '}
+              {t('app_pais_administrar_table_acciones')}{' '}
             </TableHeaderColumn>
           </BootstrapTable>
         </div>
-        <ModalView modalview={this.state.ModalViewPais} ref="child" />
-        <ModalEdit modaledit={this.state.ModalEdit} ref="child3" />
-        <ModalDelete modaldel={this.state.ModalDelete} ref="child2" />
-        <ModalExport modalexport={this.state.modalexport} ref="child4" />
+        <ModalView
+          t={this.props.t}
+          modalview={this.state.ModalViewPais}
+          ref="child"
+        />
+        <ModalEdit
+          t={this.props.t}
+          modaledit={this.state.ModalEdit}
+          ref="child3"
+        />
+        <ModalDelete
+          t={this.props.t}
+          modaldel={this.state.ModalDelete}
+          ref="child2"
+        />
+        <ModalExport
+          t={this.props.t}
+          modalexport={this.state.modalexport}
+          ref="child4"
+        />
       </div>
     );
   }
 }
 
-export default TableContentPais;
+export default withTranslation('translations')(TableContentPais);

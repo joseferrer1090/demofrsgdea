@@ -23,7 +23,8 @@ class ModalEditPais extends React.Component {
     dataResult: {},
     alertError: false,
     alertSuccess: false,
-    alertError400: false
+    alertError400: false,
+    t: this.props.t
   };
 
   toggle = id => {
@@ -60,7 +61,11 @@ class ModalEditPais extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar {dataResult.country_name} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_pais_modal_actualizar_titulo')}{' '}
+            {dataResult.country_name}{' '}
+          </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}
@@ -176,7 +181,9 @@ class ModalEditPais extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            Datos{' '}
+                            {this.props.t(
+                              'app_pais_modal_actualizar_titulo_2'
+                            )}{' '}
                           </h5>{' '}
                         </div>
                         <form className="form">
@@ -184,7 +191,10 @@ class ModalEditPais extends React.Component {
                             <div className="col-md-6">
                               <label>
                                 {' '}
-                                Código <span className="text-danger">*</span>
+                                {this.props.t(
+                                  'app_pais_modal_actualizar_codigo'
+                                )}{' '}
+                                <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
@@ -207,9 +217,10 @@ class ModalEditPais extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  Nombre <span className="text-danger">
-                                    *
-                                  </span>{' '}
+                                  {this.props.t(
+                                    'app_pais_modal_actualizar_nombre'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <input
                                   type="text"
@@ -234,9 +245,10 @@ class ModalEditPais extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  Estado <span className="text-danger">
-                                    *
-                                  </span>{' '}
+                                  {this.props.t(
+                                    'app_pais_modal_actualizar_estado'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <div className="text-justify">
                                   <Field
@@ -246,13 +258,9 @@ class ModalEditPais extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="CheckboxEditCiudad"
-                                          label=" Si esta opción se encuentra activada, representa que
-                                            el departamento es visible en el sistema y se podrán
-                                            realizar operaciones entre cada uno de los módulos
-                                            correspondientes de la aplicación. En caso contrario
-                                            el departamento no se elimina del sistema solo
-                                            quedará inactivo e invisibles para cada uno de los
-                                            módulos correspondiente del sistema."
+                                          label={this.props.t(
+                                            'app_pais_modal_actualizar_estado_descripcion'
+                                          )}
                                           {...field}
                                           checked={field.value}
                                           className={
@@ -283,7 +291,10 @@ class ModalEditPais extends React.Component {
                       }}
                     >
                       {' '}
-                      <i className="fa fa-pencil" /> Actualizar{' '}
+                      <i className="fa fa-pencil" />{' '}
+                      {this.props.t(
+                        'app_pais_modal_actualizar_button_actualizar'
+                      )}{' '}
                     </button>
                     <button
                       type="button"
@@ -293,7 +304,8 @@ class ModalEditPais extends React.Component {
                       }}
                     >
                       {' '}
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t('app_pais_modal_actualizar_button_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

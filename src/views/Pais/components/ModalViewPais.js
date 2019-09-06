@@ -16,7 +16,8 @@ class ModalViewPais extends Component {
     this.state = {
       modal: this.props.modalview,
       dataPais: {},
-      id: this.props.id
+      id: this.props.id,
+      t: this.props.t
     };
   }
 
@@ -71,7 +72,10 @@ class ModalViewPais extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> País {name} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_pais_modal_ver_titulo')} {name}{' '}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -82,14 +86,14 @@ class ModalViewPais extends Component {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    Datos{' '}
+                    {this.props.t('app_pais_modal_ver_titulo_2')}{' '}
                   </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Código </dt>
+                        <dt> {this.props.t('app_pais_modal_ver_codigo')} </dt>
                         <dd> {code} </dd>
                       </dl>
                     </div>
@@ -97,7 +101,7 @@ class ModalViewPais extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Nombre </dt>
+                        <dt> {this.props.t('app_pais_modal_ver_nombre')} </dt>
                         <dd> {name} </dd>
                       </dl>
                     </div>
@@ -105,7 +109,7 @@ class ModalViewPais extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Estado </dt>
+                        <dt> {this.props.t('app_pais_modal_ver_estado')} </dt>
                         <dd> {statusCountry(status)} </dd>
                       </dl>
                     </div>
@@ -113,7 +117,12 @@ class ModalViewPais extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Fecha de creación </dt>
+                        <dt>
+                          {' '}
+                          {this.props.t(
+                            'app_pais_modal_ver_fecha_creacion'
+                          )}{' '}
+                        </dt>
                         <dd> {this.FechaCreacionPais(createdAt)} </dd>
                       </dl>
                     </div>
@@ -121,7 +130,12 @@ class ModalViewPais extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Fecha de modificación </dt>
+                        <dt>
+                          {' '}
+                          {this.props.t(
+                            'app_pais_modal_ver_fecha_modificacion'
+                          )}{' '}
+                        </dt>
                         <dd> {this.FechaModificacionPais(updatedAt)} </dd>
                       </dl>
                     </div>
@@ -138,7 +152,8 @@ class ModalViewPais extends Component {
               }}
             >
               {' '}
-              <i className="fa fa-times" /> Cerrar{' '}
+              <i className="fa fa-times" />{' '}
+              {this.props.t('app_pais_modal_ver_button_cerrar')}{' '}
             </button>
           </ModalFooter>
         </Modal>
@@ -148,7 +163,8 @@ class ModalViewPais extends Component {
 }
 
 ModalViewPais.propTypes = {
-  modalview: PropTypes.bool.isRequired
+  modalview: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalViewPais;

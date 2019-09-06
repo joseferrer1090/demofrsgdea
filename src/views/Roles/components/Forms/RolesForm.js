@@ -328,7 +328,11 @@ export default withFormik({
     estado: props.roles.estado
   }),
   validationSchema: Yup.object().shape({
-    codigo: Yup.string().required(" Por favor introduzca un código."),
+    codigo: Yup.string()
+    .required(" Por favor introduzca un código.")
+    .matches(/^[0-9a-zA-Z]+$/, " Codigo no es alfanumerico")
+    .min(2, " minimo 2 caracteres para el codigo")
+    .max(15, " maximo 15 caracteres para el codigo"),
     nombre: Yup.string().required(" Por favor introduzca un nombre."),
     descripcion: Yup.string().required(" Por favor introduzca una descripción."),
     estado: Yup.bool()

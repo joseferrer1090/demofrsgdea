@@ -8,6 +8,7 @@ import ModalDelete from './ModalDeleteDependencia';
 import ModalExport from './ModalExportCSV';
 import './../../../css/styleTableDependencia.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
+import moment from 'moment';
 
 class TableContentDependencia extends Component {
   constructor(props) {
@@ -42,7 +43,11 @@ class TableContentDependencia extends Component {
       })
       .catch(Error => console.log('', Error));
   };
-
+  FechaCreacionDependencia(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
   accionesDependencias(cell, row) {
     return (
       <div className="table-actionMenuDep" style={{ marginRight: '59px' }}>
@@ -200,7 +205,17 @@ class TableContentDependencia extends Component {
             >
               Cargo responsable
             </TableHeaderColumn>
-
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={'createdAt'}
+              dataFormat={(cell, row) =>
+                this.FechaCreacionDependencia(cell, row)
+              }
+              dataAlign="center"
+              width={'150'}
+            >
+              Fecha de creación
+            </TableHeaderColumn>
             <TableHeaderColumn
               width={'70'}
               dataField="Estado"

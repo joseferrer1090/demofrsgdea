@@ -9,6 +9,7 @@ import { Row, Col } from 'reactstrap';
 import './../../../css/styleTableEmpresa.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { COMPANYS } from './../../../services/EndPoints';
+import moment from 'moment';
 
 class TableContentEmpresa extends Component {
   constructor(props) {
@@ -81,6 +82,12 @@ class TableContentEmpresa extends Component {
       </div>
     );
   };
+
+  FechaCreacionEmpresa(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("YYYY-MM-DD");
+  }
 
   EstadoEmpresa(cell, row) {
     let status;
@@ -194,6 +201,17 @@ class TableContentEmpresa extends Component {
               dataAlign="center"
             >
               Nombre
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={"createdAt"}
+              dataFormat={(cell, row) =>
+              this.FechaCreacionEmpresa(cell, row)
+              }
+              dataAlign="center"
+              width={"150"}
+              >
+              Fecha de creación
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}

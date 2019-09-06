@@ -9,6 +9,7 @@ import ModalExport from './ModalExportCSV';
 import './../../../css/styleTableMensajero.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { MESSENGERS } from './../../../services/EndPoints';
+import moment from 'moment';
 
 class TableContentMensajero extends Component {
   constructor(props) {
@@ -90,6 +91,12 @@ class TableContentMensajero extends Component {
     }
     return status;
   };
+
+  FechaCreacionMensajero(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
 
   openModalView = id => {
     this.refs.child.toggle(id);
@@ -178,6 +185,17 @@ class TableContentMensajero extends Component {
                 width={'200'}
               >
                 Descripción{' '}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataSort={true}
+                dataField={'createdAt'}
+                dataFormat={(cell, row) =>
+                  this.FechaCreacionMensajero(cell, row)
+                }
+                dataAlign="center"
+                width={'150'}
+              >
+                Fecha de creación
               </TableHeaderColumn>
               <TableHeaderColumn
                 width={'100'}

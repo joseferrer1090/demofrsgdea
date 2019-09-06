@@ -9,7 +9,7 @@ import ModalExport from './ModalExportCSV';
 import './../../../css/styleTableSedes.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { HEADQUARTERS } from './../../../services/EndPoints';
-
+import moment from 'moment';
 class TableContentSedes extends Component {
   constructor(props) {
     super(props);
@@ -111,6 +111,12 @@ class TableContentSedes extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
+  FechaCreacionSede(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
+
   createCustomButtonGroup = props => {
     return (
       <button
@@ -190,6 +196,17 @@ class TableContentSedes extends Component {
                   dataSort={true}
                 >
                   Nombre
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataSort={true}
+                  dataField={'createdAt'}
+                  dataFormat={(cell, row) =>
+                    this.FechaCreacionConglomerado(cell, row)
+                  }
+                  dataAlign="center"
+                  width={'150'}
+                >
+                  Fecha de creación
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataField={'status'}

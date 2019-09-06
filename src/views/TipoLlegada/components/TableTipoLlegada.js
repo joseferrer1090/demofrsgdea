@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import './../../../css/styleTableTipoLlegada.css';
 import { TYPESHIPMENTARRIVAL } from './../../../services/EndPoints';
+import moment from 'moment';
 
 class TableTipoLlegada extends Component {
   constructor(props) {
@@ -78,6 +79,12 @@ class TableTipoLlegada extends Component {
       </div>
     );
   };
+
+  FechaCreacionTipoLlegada(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
 
   estadoTipoLlegada = (cell, row) => {
     let status;
@@ -167,6 +174,17 @@ class TableTipoLlegada extends Component {
               <TableHeaderColumn dataField={'description'} dataAlign="center">
                 {' '}
                 Descripción{' '}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataSort={true}
+                dataField={'createdAt'}
+                dataFormat={(cell, row) =>
+                  this.FechaCreacionTipoLlegada(cell, row)
+                }
+                dataAlign="center"
+                width={'150'}
+              >
+                Fecha de creación
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField={'status'}

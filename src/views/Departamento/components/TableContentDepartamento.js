@@ -8,6 +8,8 @@ import ModalExport from './ModalExportCSV';
 import './../../../css/styleTableDepartamento.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { DEPARTMENTS } from './../../../services/EndPoints';
+import moment from 'moment';
+
 class TableContentDepartamento extends Component {
   constructor(props) {
     super(props);
@@ -122,6 +124,11 @@ class TableContentDepartamento extends Component {
       </button>
     );
   };
+  FechaCreacionDepartamento(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
 
   PaisInfo = country => {
     return !country ? null : `<div>${country.name}</div>`;
@@ -184,6 +191,17 @@ class TableContentDepartamento extends Component {
             >
               {' '}
               Nombre{' '}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={'createdAt'}
+              dataFormat={(cell, row) =>
+                this.FechaCreacionDepartamento(cell, row)
+              }
+              dataAlign="center"
+              width={'150'}
+            >
+              Fecha de creación
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="status"

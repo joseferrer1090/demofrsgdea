@@ -8,6 +8,7 @@ import ModalExport from './ModalExportCSV';
 import './../../../css/styleTablePais.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { COUNTRIES } from './../../../services/EndPoints';
+import moment from 'moment';
 
 class TableContentPais extends Component {
   constructor(props) {
@@ -51,6 +52,12 @@ class TableContentPais extends Component {
       status = <b className="text-danger">Inactivo</b>;
     }
     return status;
+  }
+
+  FechaCreacionPais(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
   }
 
   accionesPais(cell, row) {
@@ -176,6 +183,15 @@ class TableContentPais extends Component {
             >
               {' '}
               Nombre{' '}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={'createdAt'}
+              dataFormat={(cell, row) => this.FechaCreacionPais(cell, row)}
+              dataAlign="center"
+              width={'150'}
+            >
+              Fecha de creación
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="status"

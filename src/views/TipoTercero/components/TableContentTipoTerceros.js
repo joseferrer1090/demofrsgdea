@@ -9,6 +9,7 @@ import { Row, Col } from 'reactstrap';
 import './../../../css/styleTableTTercero.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { TYPETHIRDPARTYS } from './../../../services/EndPoints';
+import moment from 'moment';
 
 class TableContentTipoTerceros extends Component {
   constructor(props) {
@@ -53,6 +54,12 @@ class TableContentTipoTerceros extends Component {
     }
     return status;
   };
+
+  FechaCreacionTipoTercero(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
 
   accionesTipoTercer = (cell, row) => {
     return (
@@ -166,6 +173,17 @@ class TableContentTipoTerceros extends Component {
               <TableHeaderColumn dataField={'description'} dataAlign="center">
                 {' '}
                 Descripción{' '}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataSort={true}
+                dataField={'createdAt'}
+                dataFormat={(cell, row) =>
+                  this.FechaCreacionTipoTercero(cell, row)
+                }
+                dataAlign="center"
+                width={'150'}
+              >
+                Fecha de creación
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField={'status'}

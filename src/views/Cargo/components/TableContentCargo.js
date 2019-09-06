@@ -7,6 +7,7 @@ import ModalDel from './ModalDeleteCargo';
 import ModalExport from './ModalExportCSV';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import './../../../css/styleTableCargo.css';
+import moment from 'moment';
 
 class TableContentCargo extends Component {
   constructor(props) {
@@ -51,6 +52,12 @@ class TableContentCargo extends Component {
     }
     return status;
   };
+
+  FechaCreacionCargo(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
 
   accionesCargo(cell, row) {
     return (
@@ -181,6 +188,15 @@ class TableContentCargo extends Component {
             >
               {' '}
               Descripción{' '}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={'createdAt'}
+              dataFormat={(cell, row) => this.FechaCreacionCargo(cell, row)}
+              dataAlign="center"
+              width={'150'}
+            >
+              Fecha de creación
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"

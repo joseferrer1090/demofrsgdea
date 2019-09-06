@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import './../../../css/styleTableTipoLlegada.css';
 import { TYPESHIPMENTARRIVAL } from './../../../services/EndPoints';
+import moment from 'moment';
 
 class TableTipoLlegada extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ class TableTipoLlegada extends Component {
     return (
       <div
         className="table-actionMenuTLlegada"
-        style={{ textAlign: 'center', padding: '0', marginRight: '90px' }}
+        style={{ textAlign: 'center', padding: '0', marginRight: '40px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -78,6 +79,12 @@ class TableTipoLlegada extends Component {
       </div>
     );
   };
+
+  FechaCreacionTipoLlegada(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
 
   estadoTipoLlegada = (cell, row) => {
     let status;
@@ -156,27 +163,52 @@ class TableTipoLlegada extends Component {
               >
                 #
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'code'} dataAlign="center">
+              <TableHeaderColumn
+                dataField={'code'}
+                dataAlign="center"
+                width={'150'}
+              >
                 {' '}
                 Código{' '}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'name'} dataAlign="center">
+              <TableHeaderColumn
+                dataField={'name'}
+                dataAlign="center"
+                width={'250'}
+              >
                 {' '}
                 Nombre{' '}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'description'} dataAlign="center">
+              <TableHeaderColumn
+                dataField={'description'}
+                dataAlign="center"
+                width={'250'}
+              >
                 {' '}
                 Descripción{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
+                dataSort={true}
+                dataField={'createdAt'}
+                dataFormat={(cell, row) =>
+                  this.FechaCreacionTipoLlegada(cell, row)
+                }
+                dataAlign="center"
+                width={'100'}
+              >
+                Fecha de creación
+              </TableHeaderColumn>
+              <TableHeaderColumn
                 dataField={'status'}
                 dataAlign="center"
+                width={'120'}
                 dataFormat={(cell, row) => this.estadoTipoLlegada(cell, row)}
               >
                 {' '}
                 Estado{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
+                width={'150'}
                 export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesTipoLlegada(cell, row)}

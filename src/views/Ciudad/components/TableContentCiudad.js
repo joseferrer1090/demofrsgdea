@@ -8,6 +8,7 @@ import ModalExport from './ModalExportCSV';
 import './../../../css/styleTableCiudad.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { CITYS } from './../../../services/EndPoints';
+import moment from 'moment';
 
 class TableContentCiudad extends Component {
   constructor(props) {
@@ -43,11 +44,17 @@ class TableContentCiudad extends Component {
       .catch(Error => console.log(' ', Error));
   };
 
+  FechaCreacionCiudad(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
+
   accionesPais(cell, row) {
     return (
       <div
         className="table-actionMenuCiudad"
-        style={{ textAlign: 'center', padding: '0', marginRight: '80px' }}
+        style={{ textAlign: 'center', padding: '0', marginRight: '65px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -184,7 +191,11 @@ class TableContentCiudad extends Component {
               {' '}
               Departamento{' '}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="code" dataAlign="center" width={'80'}>
+            <TableHeaderColumn
+              dataField="code"
+              dataAlign="center"
+              width={'110'}
+            >
               {' '}
               Código{' '}
             </TableHeaderColumn>
@@ -195,6 +206,15 @@ class TableContentCiudad extends Component {
             >
               {' '}
               Nombre{' '}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={'createdAt'}
+              dataFormat={(cell, row) => this.FechaCreacionCiudad(cell, row)}
+              dataAlign="center"
+              width={'120'}
+            >
+              Fecha de creación
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'80'}

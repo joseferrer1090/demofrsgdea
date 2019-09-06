@@ -7,6 +7,7 @@ import ModalDel from './ModalDeleteCargo';
 import ModalExport from './ModalExportCSV';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import './../../../css/styleTableCargo.css';
+import moment from 'moment';
 
 class TableContentCargo extends Component {
   constructor(props) {
@@ -52,11 +53,17 @@ class TableContentCargo extends Component {
     return status;
   };
 
+  FechaCreacionCargo(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
+
   accionesCargo(cell, row) {
     return (
       <div
         className="table-actionMenuCargo"
-        style={{ textAlign: 'center', padding: '0', marginRight: '105px' }}
+        style={{ textAlign: 'center', padding: '0', marginRight: '60px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -162,14 +169,14 @@ class TableContentCargo extends Component {
             >
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataAlign="center" dataField="code" width={100}>
+            <TableHeaderColumn dataAlign="center" dataField="code" width={150}>
               {' '}
               Código{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
               dataField="name"
-              width={'100'}
+              width={'170'}
             >
               Nombre
             </TableHeaderColumn>
@@ -177,10 +184,19 @@ class TableContentCargo extends Component {
             <TableHeaderColumn
               dataAlign="center"
               dataField="description"
-              width={200}
+              width={'200'}
             >
               {' '}
               Descripción{' '}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={'createdAt'}
+              dataFormat={(cell, row) => this.FechaCreacionCargo(cell, row)}
+              dataAlign="center"
+              width={'120'}
+            >
+              Fecha de creación
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
@@ -192,7 +208,7 @@ class TableContentCargo extends Component {
               Estado{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'200'}
+              width={'150'}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesCargo(cell, row)}

@@ -670,8 +670,9 @@ export default withFormik({
       .ensure(),
     code: Yup.string()
       .required(' Por favor introduzca un código.')
-      .max(6, ' Máximo 6 caracteres.')
-      .min(6, ' Mínimo 6 caracteres.'),
+      .matches(/^[\w]+$/, ' Código no válido.')
+      .max(15, ' Máximo 15 caracteres.')
+      .min(2, ' Mínimo 2 caracteres.'),
     name: Yup.string()
       .required(' Por favor introduzca un nombre.')
       .max(100, ' Máximo 100 caracteres'),

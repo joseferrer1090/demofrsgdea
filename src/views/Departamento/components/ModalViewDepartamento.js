@@ -18,7 +18,8 @@ class ModalViewDepartamento extends Component {
       modal: this.props.modalview,
       id: this.props.id,
       dataDepartamento: {},
-      dataPais: {}
+      dataPais: {},
+      t: this.props.t
     };
   }
 
@@ -72,7 +73,11 @@ class ModalViewDepartamento extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Departamento {department.name} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_departamento_modal_ver_titulo')}{' '}
+            {department.name}{' '}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -83,37 +88,54 @@ class ModalViewDepartamento extends Component {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    Datos{' '}
+                    {this.props.t('app_departamento_modal_ver_titulo_2')}{' '}
                   </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt> País </dt>
+                      <dt>
+                        {' '}
+                        {this.props.t('app_departamento_modal_ver_pais')}{' '}
+                      </dt>
                       <dd> {country.name} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt> Código </dt>
+                      <dt>
+                        {' '}
+                        {this.props.t('app_departamento_modal_ver_codigo')}{' '}
+                      </dt>
                       <dd> {department.code} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt> Nombre </dt>
+                      <dt>
+                        {' '}
+                        {this.props.t('app_departamento_modal_ver_nombre')}{' '}
+                      </dt>
                       <dd> {department.name} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt> Estado </dt>
+                      <dt>
+                        {' '}
+                        {this.props.t('app_departamento_modal_ver_estado')}{' '}
+                      </dt>
                       <dd> {statusDepartamento(department.status)} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt> Fecha de creación </dt>
+                      <dt>
+                        {' '}
+                        {this.props.t(
+                          'app_departamento_modal_ver_fecha_creacion'
+                        )}
+                      </dt>
                       <dd>
                         {' '}
                         {this.FechaCreacionDeparment(department.createdAt)}{' '}
@@ -122,7 +144,12 @@ class ModalViewDepartamento extends Component {
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt> Fecha de modificacíon </dt>
+                      <dt>
+                        {' '}
+                        {this.props.t(
+                          'app_departamento_modal_ver_fecha_modificacion'
+                        )}{' '}
+                      </dt>
                       <dd>
                         {' '}
                         {this.FechaModificacionDeparment(
@@ -143,7 +170,8 @@ class ModalViewDepartamento extends Component {
               }}
             >
               {' '}
-              <i className="fa fa-times" /> Cerrar{' '}
+              <i className="fa fa-times" />{' '}
+              {this.props.t('app_departamento_modal_ver_cerrar')}{' '}
             </button>
           </ModalFooter>
         </Modal>
@@ -153,7 +181,8 @@ class ModalViewDepartamento extends Component {
 }
 
 ModalViewDepartamento.propTypes = {
-  modalview: PropTypes.bool.isRequired
+  modalview: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalViewDepartamento;

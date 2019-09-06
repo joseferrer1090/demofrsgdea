@@ -463,7 +463,10 @@ export default withFormik({
       .ensure()
       .required(" Por favor seleccione el tipo de correspondencia."),
     codigo: Yup.string()
-      .required(" Por favor introduzca un código."),
+      .required(" Por favor introduzca un código.")
+      .matches(/^[0-9a-zA-Z]+$/, " No es un codigo alfanumerico")
+      .min(2, " minimo 2 caracteres para el codigo")
+      .max(15, " maximo 15 caracteres para el codigo"),
     nombre: Yup.string()
       .required(" Por favor introduzca un nombre."),
     descripcion: Yup.string()

@@ -176,7 +176,7 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     code: Yup.string()
-      .matches(/^[\w]+$/, ' Código no válido.')
+      .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
       .min(2, ' Mínimo 2 caracteres.')
       .max(15, ' Máximo 15 caracteres.')
       .required(' Por favor introduzca un código.'),

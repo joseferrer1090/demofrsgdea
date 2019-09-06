@@ -180,6 +180,75 @@ const TipoTercerosForm = props => {
   );
 };
 
+<<<<<<< HEAD
+export default withFormik({
+  mapPropsToValues: props => ({
+    code: props.TipoTercerosForm.code,
+    name: props.TipoTercerosForm.name,
+    status: props.TipoTercerosForm.status,
+    description: props.TipoTercerosForm.description
+  }),
+  validationSchema: Yup.object().shape({
+    code: Yup.string()
+      .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
+      .min(2, ' Mínimo 2 caracteres')
+      .max(15, ' Máximo 15 caracteres')
+      .required(' Por favor introduzaca un código.'),
+    name: Yup.string()
+      .max(100)
+      .required(' Por favor introduzca un nombre.'),
+    description: Yup.string().max(250, ' Máximo 250 caracteres.'),
+    status: Yup.bool().test(
+      'Activo',
+      'Se requiere la activacion del tipo de tercero.',
+      value => value === true
+    )
+  }),
+  handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
+    setTimeout(() => {
+      fetch(TYPETHIRDPARTYS, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        },
+        body: JSON.stringify({
+          code: values.code,
+          name: values.name,
+          description: values.description,
+          status: tipoEstado(values.status),
+          userName: 'jferrer'
+        })
+      })
+        .then(response =>
+          response.json().then(data => {
+            if (response.status === 201) {
+              toast.success('Se creo el tipo de tercero con éxito.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: '60px'
+                })
+              });
+              // alert("oki");
+            } else if (response.status === 400) {
+              toast.error('Error, el tipo de tercero ya existe.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: '60px'
+                })
+              });
+              //alert("Erro en el cuerpo");
+            }
+=======
 export default withTranslation('translations')(
   withFormik({
     mapPropsToValues: props => ({
@@ -227,6 +296,7 @@ export default withTranslation('translations')(
             description: values.description,
             status: tipoEstado(values.status),
             userName: 'jferrer'
+>>>>>>> ffb513c471cbbba71c21634bb62079086d8f63a5
           })
         })
           .then(response =>

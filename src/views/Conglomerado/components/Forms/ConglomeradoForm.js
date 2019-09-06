@@ -458,49 +458,49 @@ export default withTranslation("translations")(
       };
       setTimeout(() => {
         alert(JSON.stringify(values, "",2));
-        // fetch(CONGLOMERATES, {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     Authorization: "Basic " + window.btoa("sgdea:123456")
-        //   },
-        //   body: JSON.stringify({
-        //     code: values.codigo,
-        //     name: values.nombre,
-        //     description: values.descripcion,
-        //     status: tipoEstado(values.estado),
-        //     chargeId: values.chargeId,
-        //     cityId: values.cityId,
-        //     userName: "jferrer"
-        //   })
-        // })
-        //   .then(response =>
-        //     response.json().then(data => {
-        //       if (response.status === 201) {
-        //         toast.success("Se creo el conglomerado con éxito.", {
-        //           position: toast.POSITION.TOP_RIGHT,
-        //           className: css({
-        //             marginTop: "60px"
-        //           })
-        //         });
-        //       } else if (response.status === 500) {
-        //         toast.error("El conglomerado ya existe.", {
-        //           position: toast.POSITION.TOP_RIGHT,
-        //           className: css({
-        //             marginTop: "60px"
-        //           })
-        //         });
-        //       }
-        //     })
-        //   )
-        //   .catch(error => {
-        //     toast.error(`Error ${error}.`, {
-        //       position: toast.POSITION.TOP_RIGHT,
-        //       className: css({
-        //         marginTop: "60px"
-        //       })
-        //     });
-        //   });
+        fetch(CONGLOMERATES, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa("sgdea:123456")
+          },
+          body: JSON.stringify({
+            code: values.codigo,
+            name: values.nombre,
+            description: values.descripcion,
+            status: tipoEstado(values.estado),
+            chargeId: values.chargeId,
+            cityId: values.cityId,
+            userName: "jferrer"
+          })
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (response.status === 201) {
+                toast.success("Se creo el conglomerado con éxito.", {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                });
+              } else if (response.status === 500) {
+                toast.error("El conglomerado ya existe.", {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                });
+              }
+            })
+          )
+          .catch(error => {
+            toast.error(`Error ${error}.`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
+            });
+          });
         setSubmitting(false);
         resetForm();
       }, 1000);

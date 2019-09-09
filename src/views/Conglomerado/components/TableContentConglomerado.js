@@ -36,6 +36,7 @@ class TableContentConglomerado extends Component {
     this.getDataConglomerates();
   }
 
+
   getDataConglomerates = () => {
     fetch(CONGLOMERATES, {
       method: "GET",
@@ -158,6 +159,11 @@ class TableContentConglomerado extends Component {
     );
   };
 
+  // tengo dudas sobre este ciclo de vida, porque siempre lo he utilizado cuando con el getDerivedStateFormProps 
+  componentDidUpdate(){  
+    this.getDataConglomerates();
+  }
+  // Fin 
   render() {
     const options = {
       btnGroup: this.createCustomButtonGroup,
@@ -178,6 +184,7 @@ class TableContentConglomerado extends Component {
               <Row>
                 <Col md="12">
                   <BootstrapTable
+                    remote={true} // dudas de como funciona este props para actualizar la data
                     options={options}
                     data={this.state.dataConglomerates}
                     search

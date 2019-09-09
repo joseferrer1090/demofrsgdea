@@ -510,7 +510,7 @@ class ModalEditConglomerado extends React.Component {
                                   className="form-control form-control-sm"
                                 >
                                   {" "}
-                                  <option value={""} disabled>
+                                  <option value={" "} >
                                     {" "}
                                     --
                                      {this.props.t(
@@ -518,6 +518,7 @@ class ModalEditConglomerado extends React.Component {
                                     )}{" "}
                                     --{" "}
                                   </option>
+                                  
                                   {mapOptionsCharges}
                                 </select>
                               </div>

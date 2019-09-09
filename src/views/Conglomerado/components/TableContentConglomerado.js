@@ -19,6 +19,7 @@ import {
 import { withTranslation } from "react-i18next";
 import moment from "moment";
 
+
 class TableContentConglomerado extends Component {
   constructor(props) {
     super(props);
@@ -160,10 +161,14 @@ class TableContentConglomerado extends Component {
   };
 
   // tengo dudas sobre este ciclo de vida, porque siempre lo he utilizado cuando con el getDerivedStateFormProps 
-  componentDidUpdate(){  
-    this.getDataConglomerates();
-  }
+  // componentDidUpdate(prevState){  
+  //  if(prevState !== this.state.dataConglomerates){
+    // this.getDataConglomerates();
+  //}
+  // }
   // Fin 
+
+
   render() {
     const options = {
       btnGroup: this.createCustomButtonGroup,
@@ -286,4 +291,5 @@ class TableContentConglomerado extends Component {
   }
 }
 
-export default withTranslation("translations")(TableContentConglomerado);
+
+export default  withTranslation ("translations")(TableContentConglomerado);

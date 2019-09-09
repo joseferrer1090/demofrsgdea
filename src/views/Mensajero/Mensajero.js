@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   TabContent,
   TabPane,
@@ -11,23 +11,24 @@ import {
   CardText,
   Row,
   Col
-} from "reactstrap";
-import classnames from "classnames";
-import PropType from "prop-types";
-import FormCreateMensajero from "./components/FormCreateMensajero";
-import TableContent from "./components/TableContentMensajero";
-import FormImportMensajero from "./components/FormImportMensajero";
+} from 'reactstrap';
+import classnames from 'classnames';
+import PropType from 'prop-types';
+import FormCreateMensajero from './components/FormCreateMensajero';
+import TableContent from './components/TableContentMensajero';
+import FormImportMensajero from './components/FormImportMensajero';
+import { withTranslation } from 'react-i18next';
 
 class Mensajero extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1"
+      activeTab: '1'
     };
   }
 
   toggle = tab => {
-    if (this.state.activeTab !== "tab") {
+    if (this.state.activeTab !== 'tab') {
       this.setState({
         activeTab: tab
       });
@@ -35,37 +36,38 @@ class Mensajero extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "1" })}
+              className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
-                this.toggle("1");
+                this.toggle('1');
               }}
             >
-              <i className="fa fa-plus " /> Registrar
+              <i className="fa fa-plus " /> {t('app_mensajero_tab')}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "2" })}
+              className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => {
-                this.toggle("2");
+                this.toggle('2');
               }}
             >
-              <i className={"fa fa-gear"} /> Administrar
+              <i className={'fa fa-gear'} /> {t('app_mensajero_tab_2')}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "3" })}
+              className={classnames({ active: this.state.activeTab === '3' })}
               onClick={() => {
-                this.toggle("3");
+                this.toggle('3');
               }}
             >
-              <i className={"fa fa-upload"} /> Importar
+              <i className={'fa fa-upload'} /> {t('app_mensajero_tab_3')}
             </NavLink>
           </NavItem>
         </Nav>
@@ -97,4 +99,4 @@ class Mensajero extends Component {
   }
 }
 
-export default Mensajero;
+export default withTranslation('translations')(Mensajero);

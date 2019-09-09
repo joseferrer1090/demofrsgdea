@@ -10,6 +10,7 @@ import './../../../css/styleTableMensajero.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { MESSENGERS } from './../../../services/EndPoints';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class TableContentMensajero extends Component {
   constructor(props) {
@@ -229,4 +230,4 @@ class TableContentMensajero extends Component {
 
 TableContentMensajero.propTypes = {};
 
-export default TableContentMensajero;
+export default withTranslation('translations')(TableContentMensajero);

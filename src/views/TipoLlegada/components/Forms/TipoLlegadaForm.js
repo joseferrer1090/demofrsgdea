@@ -176,7 +176,6 @@ const TipoLlegadaForm = props => {
   );
 };
 
-<<<<<<< HEAD
 export default withTranslation('translations')(
   withFormik({
     mapPropsToValues: props => ({
@@ -223,52 +222,6 @@ export default withTranslation('translations')(
             status: tipoEstado(values.status),
             userName: 'jferrer'
           })
-=======
-export default withFormik({
-  mapPropsToValues: props => ({
-    code: props.tipollegada.code,
-    name: props.tipollegada.name,
-    description: props.tipollegada.description,
-    status: props.tipollegada.status
-  }),
-  validationSchema: Yup.object().shape({
-    code: Yup.string()
-      .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
-      .min(2, ' Mínimo 2 caracteres.')
-      .max(15, ' Máximo 15 caracteres.')
-      .required(' Por favor introduzca un código.'),
-    name: Yup.string().required(' Por favor introduzca un nombre.'),
-    description: Yup.string(),
-    status: Yup.bool().test(
-      'Activo',
-      ' Es necesario activar el estado para el tipo de llegada',
-      value => value === true
-    )
-  }),
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    const tipoEstado = data => {
-      let tipo = null;
-      if (data === true) {
-        return (tipo = 1);
-      } else if (data === false) {
-        return (tipo = 0);
-      }
-      return null;
-    };
-    setTimeout(() => {
-      fetch(TYPESHIPMENTARRIVAL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        },
-        body: JSON.stringify({
-          code: values.code,
-          name: values.name,
-          description: values.description,
-          status: tipoEstado(values.status),
-          userName: 'jferrer'
->>>>>>> 3ad4c1bda64a3f90c7814950a0bfa8d79168e1a4
         })
           .then(response =>
             response.json().then(data => {

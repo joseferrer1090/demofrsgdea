@@ -22,7 +22,8 @@ class ModalEditTipoTercero extends React.Component {
     dataResult: {},
     alertError: false,
     alertSuccess: false,
-    alertError400: false
+    alertError400: false,
+    t: this.props
   };
 
   toggle = id => {
@@ -62,7 +63,10 @@ class ModalEditTipoTercero extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Actualizar {dataResult.typethirdparty_name}</ModalHeader>
+          <ModalHeader>
+            {this.props.t('app_tipoTerecero_modal_actualizar_titulo')}{' '}
+            {dataResult.typethirdparty_name}
+          </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}
@@ -187,14 +191,19 @@ class ModalEditTipoTercero extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            Datos{' '}
+                            {this.props.t(
+                              'app_tipoTerecero_modal_actualizar_titulo_2'
+                            )}{' '}
                           </h5>{' '}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                Código <span className="text-danger">*</span>
+                                {this.props.t(
+                                  'app_tipoTerecero_modal_actualizar_codigo'
+                                )}{' '}
+                                <span className="text-danger">*</span>
                               </label>{' '}
                               <input
                                 name={'typethirdparty_code'}
@@ -218,7 +227,10 @@ class ModalEditTipoTercero extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                Nombre <span className="text-danger">*</span>
+                                {this.props.t(
+                                  'app_tipoTerecero_modal_actualizar_nombre'
+                                )}{' '}
+                                <span className="text-danger">*</span>
                               </label>
                               <input
                                 name={'typethirdparty_name'}
@@ -243,7 +255,9 @@ class ModalEditTipoTercero extends React.Component {
                             <div className="form-group">
                               <label>
                                 {' '}
-                                Descripción{' '}
+                                {this.props.t(
+                                  'app_tipoTerecero_modal_actualizar_descripcion'
+                                )}{' '}
                                 <span className="text-danger">*</span>{' '}
                               </label>
                               <textarea
@@ -270,9 +284,10 @@ class ModalEditTipoTercero extends React.Component {
                             <div className="form-group">
                               <label>
                                 {' '}
-                                Estado <span className="text-danger">
-                                  *
-                                </span>{' '}
+                                {this.props.t(
+                                  'app_tipoTerecero_modal_actualizar_estado'
+                                )}{' '}
+                                <span className="text-danger">*</span>{' '}
                               </label>
                               <div className="text-justify">
                                 <Field
@@ -282,13 +297,9 @@ class ModalEditTipoTercero extends React.Component {
                                       <CustomInput
                                         type="checkbox"
                                         id="CheckBoxEditRoles"
-                                        label=" Si esta opción se encuentra activada, representa
-                          que el rol es visible en el sistema y se podrán
-                          realizar operaciones entre cada uno de los módulos
-                          correspondientes de la aplicación. En caso
-                          contrario el rol no se elimina del sistema solo
-                          quedará inactivo e invisibles para cada uno de los
-                          módulos correspondiente del sistema."
+                                        label={this.props.t(
+                                          'app_tipoTerecero_modal_actualizar_estado_descripcion'
+                                        )}
                                         {...field}
                                         checked={field.value}
                                         className={
@@ -318,7 +329,10 @@ class ModalEditTipoTercero extends React.Component {
                       className="btn btn-outline-success btn-sm"
                     >
                       {' '}
-                      <i className="fa fa-pencil" /> Actualizar{' '}
+                      <i className="fa fa-pencil" />{' '}
+                      {this.props.t(
+                        'app_tipoTerecero_modal_actualizar_button_actualizar'
+                      )}{' '}
                     </button>
                     <button
                       type="button"
@@ -328,7 +342,10 @@ class ModalEditTipoTercero extends React.Component {
                       }}
                     >
                       {' '}
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t(
+                        'app_tipoTerecero_modal_actualizar_button_cerrar'
+                      )}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -342,7 +359,8 @@ class ModalEditTipoTercero extends React.Component {
 }
 
 ModalEditTipoTercero.propTypes = {
-  modalupdate: PropTypes.bool.isRequired
+  modalupdate: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalEditTipoTercero;

@@ -15,7 +15,8 @@ class ModalDeleteTipoTercero extends Component {
       alertSuccess: false,
       alertError: false,
       alertCode: false,
-      nameTipoTercero: ''
+      nameTipoTercero: '',
+      t: this.props.t
     };
   }
 
@@ -61,7 +62,10 @@ class ModalDeleteTipoTercero extends Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader>Eliminar {nameTipoTercero} </ModalHeader>
+          <ModalHeader>
+            {this.props.t('app_tipoTercero_modal_eliminar_titulo')}{' '}
+            {nameTipoTercero}{' '}
+          </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -144,8 +148,9 @@ class ModalDeleteTipoTercero extends Component {
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        Confirmar el <code> código </code> para eliminar el tipo
-                        de tercero.{' '}
+                        {this.props.t(
+                          'app_tipoTercero_modal_eliminar_titulo_2'
+                        )}
                       </p>
 
                       <input
@@ -154,7 +159,9 @@ class ModalDeleteTipoTercero extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder="Código para eliminar el tipo de tercero"
+                        placeholder={this.props.t(
+                          'app_tipoTercero_modal_eliminar_placeholder'
+                        )}
                         style={{ textAlign: 'center' }}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
                           touched.code &&
@@ -169,8 +176,9 @@ class ModalDeleteTipoTercero extends Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        El tipo de tercero quedará eliminado de manera
-                        permanente.{' '}
+                        {this.props.t(
+                          'app_tipoTercero_modal_eliminar_titulo_3'
+                        )}
                       </p>
                     </form>
                   </ModalBody>
@@ -183,7 +191,10 @@ class ModalDeleteTipoTercero extends Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" /> Eliminar
+                      <i className="fa fa-trash" />{' '}
+                      {this.props.t(
+                        'app_tipoTercero_modal_eliminar_button_eliminar'
+                      )}
                     </button>
                     <button
                       type="button"
@@ -197,7 +208,10 @@ class ModalDeleteTipoTercero extends Component {
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t(
+                        'app_tipoTercero_modal_eliminar_button_cerrar'
+                      )}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

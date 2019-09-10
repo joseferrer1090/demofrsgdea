@@ -33,10 +33,10 @@ class ModalEditConglomerado extends React.Component {
     alertError: false,
     alertSuccess: false,
     t: this.props.t,
-    optionsCountries: [],
-    optionsDepartment: [],
-    optionsCitys: [],
-    optionsCharges: []
+    optionsCountries: [0],
+    optionsDepartment: [0],
+    optionsCitys: [0],
+    optionsCharges: [0]
   };
 
   componentDidMount() {
@@ -50,7 +50,7 @@ class ModalEditConglomerado extends React.Component {
     this.setState({
       modal: !this.state.modal,
       idConglomerado: id
-    });
+    }, ()=>{this.props.updateTable()});
     this.getConglomeradoByID(id);
   };
 
@@ -244,7 +244,7 @@ class ModalEditConglomerado extends React.Component {
                         this.setState({
                           alertSuccess: false,
                           modal: false
-                        });
+                        }, this.props.updateTable());
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({

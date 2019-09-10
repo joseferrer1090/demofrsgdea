@@ -42,7 +42,8 @@ class ModalEditSedes extends React.Component {
     optionsCharges: [],
     alertError: false,
     alertSuccess: false,
-    alertError400: false
+    alertError400: false,
+    t:this.props.t
   };
 
   componentDidMount() {
@@ -273,7 +274,7 @@ class ModalEditSedes extends React.Component {
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            Actualizar {this.state.dataResult.headquarter_name}
+            {this.props.t("app_sedes_modal_actualizar_titulo")} {this.state.dataResult.headquarter_name}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -433,7 +434,7 @@ class ModalEditSedes extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            Datos{' '}
+                            {this.props.t("app_sedes_modal_actualizar_titulo_2")}{' '}
                           </h5>{' '}
                         </div>
                         <div className="row">
@@ -441,7 +442,7 @@ class ModalEditSedes extends React.Component {
                             <div className="form-group">
                               <label>
                                 {' '}
-                                Conglomerado{' '}
+                                {this.props.t("app_sedes_form_actualizar_conglomerado")}{' '}
                                 <span className="text-danger">*</span>{' '}
                               </label>
                               <select
@@ -454,7 +455,7 @@ class ModalEditSedes extends React.Component {
                                 onBlur={handleBlur}
                               >
                                 <option value={''} disabled>
-                                  -- Seleccione --
+                                  -- {this.props.t("app_sedes_form_actualizar_select_conglomerado")} --
                                 </option>
                                 {mapOptionsConglomerate}
                               </select>
@@ -471,7 +472,7 @@ class ModalEditSedes extends React.Component {
                             <div className="form-group">
                               <label>
                                 {' '}
-                                Empresa <span className="text-danger">
+                                {this.props.t("app_sedes_form_actualizar_empresa")} <span className="text-danger">
                                   *
                                 </span>{' '}
                               </label>
@@ -485,7 +486,7 @@ class ModalEditSedes extends React.Component {
                                   'is-invalid'}`}
                               >
                                 <option value={''} disabled>
-                                  -- Seleccione --
+                                  -- {this.props.t("app_sedes_form_actualizar_select_empresa")} --
                                 </option>
                                 {mapOptionsCompanys}
                               </select>
@@ -501,7 +502,7 @@ class ModalEditSedes extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                Código <span className="text-danger">*</span>{' '}
+                                {this.props.t("app_sedes_form_actualizar_codigo")} <span className="text-danger">*</span>{' '}
                               </label>
                               <input
                                 name={'headquarter_code'}
@@ -526,7 +527,7 @@ class ModalEditSedes extends React.Component {
                             <div className="form-group">
                               <label>
                                 {' '}
-                                Nombre <span className="text-danger">
+                                {this.props.t("app_sedes_form_actualizar_nombre")} <span className="text-danger">
                                   *
                                 </span>{' '}
                               </label>
@@ -551,7 +552,7 @@ class ModalEditSedes extends React.Component {
                           </div>
                           <div className="col-md-12">
                             <div className="form-group">
-                              <label> Descripción </label>
+                              <label> {this.props.t("app_sedes_form_actualizar_descripcion")} </label>
                               <textarea
                                 name={'headquarter_description'}
                                 value={values.headquarter_description}
@@ -568,7 +569,7 @@ class ModalEditSedes extends React.Component {
                             <div className="form-group">
                               <label>
                                 {' '}
-                                Prefijo de radicación{' '}
+                                {this.props.t("app_sedes_form_actualizar_prefij_radicacion")}{' '}
                                 <span className="text-danger">*</span>{' '}
                               </label>
                               <input
@@ -596,7 +597,7 @@ class ModalEditSedes extends React.Component {
                             <div className="form-group">
                               <label>
                                 {' '}
-                                Secuencia de radicación{' '}
+                                {this.props.t("app_sedes_form_actualizar_sec_radicacion")}{' '}
                                 <span className="text-danger">*</span>{' '}
                               </label>
                               <input
@@ -631,7 +632,7 @@ class ModalEditSedes extends React.Component {
                               style={{ cursor: 'pointer' }}
                             >
                               {' '}
-                              Más información{' '}
+                              {this.props.t("app_sedes_form_actualizar_collapse")}{' '}
                             </a>{' '}
                           </CardHeader>
                           <Collapse isOpen={this.state.collapse}>
@@ -641,7 +642,7 @@ class ModalEditSedes extends React.Component {
                                 <div className="row">
                                   <div className="col-md-12">
                                     <div className="form-group">
-                                      <label> Cargo responsable </label>
+                                      <label> {this.props.t("app_sedes_form_actualizar_cargo_responsable")} </label>
                                       <select
                                         name="headquarter_charge"
                                         className={`form-control form-control-sm ${errors.headquarter_charge &&
@@ -652,7 +653,7 @@ class ModalEditSedes extends React.Component {
                                         value={values.headquarter_charge}
                                       >
                                         <option value={''} disabled>
-                                          -- Seleccione --
+                                          -- {this.props.t("app_sedes_form_actualizar_select_cargo_responsable")} --
                                         </option>
                                         {mapOptionsCharges}
                                       </select>
@@ -662,7 +663,7 @@ class ModalEditSedes extends React.Component {
 
                                   <div className="col-md-4">
                                     <div className="form-group">
-                                      <label> País</label>
+                                      <label> {this.props.t("app_sedes_form_actualizar_pais")}</label>
                                       <select
                                         name={'headquarter_country'}
                                         onChange={handleChange}
@@ -674,7 +675,7 @@ class ModalEditSedes extends React.Component {
                                       >
                                         {' '}
                                         <option value={''} disabled>
-                                          -- Seleccione --
+                                          -- {this.props.t("app_sedes_form_actualizar_select_pais")} --
                                         </option>
                                         {mapOptionsCountries}{' '}
                                       </select>{' '}
@@ -689,7 +690,7 @@ class ModalEditSedes extends React.Component {
                                   </div>
                                   <div className="col-md-4">
                                     <div className="form-group">
-                                      <label> Departamento</label>
+                                      <label> {this.props.t("app_sedes_form_actualizar_departamento")}</label>
                                       <select
                                         name="headquarter_department"
                                         value={values.headquarter_department}
@@ -700,7 +701,7 @@ class ModalEditSedes extends React.Component {
                                           'is-invalid'}`}
                                       >
                                         <option value={''} disabled>
-                                          -- Seleccione --
+                                          -- {this.props.t("app_sedes_form_actualizar_select_departamento")} --
                                         </option>
                                         {mapOptionsDepartments}
                                       </select>
@@ -717,7 +718,7 @@ class ModalEditSedes extends React.Component {
                                     <div className="form-group">
                                       <label>
                                         {' '}
-                                        Ciudad{' '}
+                                        {this.props.t("app_sedes_form_actualizar_ciudad")}{' '}
                                         <span className="text-danger">
                                           *
                                         </span>{' '}
@@ -732,7 +733,7 @@ class ModalEditSedes extends React.Component {
                                           'is-invalid'}`}
                                       >
                                         <option value={''} disabled>
-                                          -- Seleccione --
+                                          -- {this.props.t("app_sedes_form_actualizar_select_ciudad")} --
                                         </option>
                                         {mapOptionsCitys}
                                       </select>
@@ -750,7 +751,7 @@ class ModalEditSedes extends React.Component {
                                     <div className="form-group">
                                       <label>
                                         {' '}
-                                        Dirección{' '}
+                                        {this.props.t("app_sedes_form_actualizar_direccion")}{' '}
                                         <span className="text-danger">
                                           *
                                         </span>{' '}
@@ -778,7 +779,7 @@ class ModalEditSedes extends React.Component {
                                     <div className="from-group">
                                       <label>
                                         {' '}
-                                        Teléfono{' '}
+                                        {this.props.t("app_sedes_form_actualizar_telefono")}{' '}
                                         <span className="text-danger">
                                           *
                                         </span>{' '}
@@ -809,7 +810,7 @@ class ModalEditSedes extends React.Component {
                                 <div className="form-group">
                                   <label>
                                     {' '}
-                                    Estado{' '}
+                                    {this.props.t("app_sedes_form_actualizar_estado")}{' '}
                                     <span className="text-danger">*</span>{' '}
                                   </label>
                                   <div className="text-justify">
@@ -820,14 +821,7 @@ class ModalEditSedes extends React.Component {
                                           <CustomInput
                                             type="checkbox"
                                             id="conglomeradoModalEdit"
-                                            label="Si esta opción se encuentra activada, representa
-                                          que el conglomerado es visible en el sistema y se
-                                          podrán realizar operaciones entre cada uno de los
-                                          módulos correspondientes de la aplicación. En caso
-                                          contrario el conglomerado no se elimina del
-                                          sistema solo quedará inactivo e invisibles para
-                                          cada uno de los módulos correspondiente del
-                                          sistema."
+                                            label={this.props.t("app_sedes_form_actualizar_estado_descripcion")}
                                             {...field}
                                             checked={field.value}
                                             className={
@@ -857,7 +851,7 @@ class ModalEditSedes extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" /> Actualizar
+                      <i className="fa fa-pencil" /> {this.props.t("app_sedes_form_actualizar_boton_actualizar")}
                     </button>
                     <button
                       type="button"
@@ -867,7 +861,7 @@ class ModalEditSedes extends React.Component {
                       }}
                     >
                       {' '}
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" /> {this.props.t("app_sedes_form_actualizar_boton_cerrar")}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -882,7 +876,8 @@ class ModalEditSedes extends React.Component {
 
 ModalEditSedes.propTypes = {
   modaledit: PropTypes.bool.isRequired,
-  id: PropTypes.string
+  id: PropTypes.string,
+  t:PropTypes.any,
 };
 
 export default ModalEditSedes;

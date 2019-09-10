@@ -184,9 +184,9 @@
     "app_conglomerado_import_from_boton": "Import file",
     "app_conglomerado_import_form_file": "Select file in the required extension",
 
-    "app_sedes_tab": "Registrar",
-    "app_sedes_tab_2": "Administrar",
-    "app_sedes_tab_3": "Importar",
+    "app_sedes_tab": "Register",
+    "app_sedes_tab_2": "Manage",
+    "app_sedes_tab_3": "Import",
     "app_sedes_tab_title": "Headquarters registration",
 
     "app_sedes_form_registrar_conglomerado": "Conglomerate",
@@ -288,7 +288,7 @@
     "app_sedes_form_actualizar_boton_cerrar": "Close",
 
     "app_sedes_form_eliminar_titulo": "Delete",
-    "app_sedes_form_eliminar_titulo_2": "Confirm the code to delete the location.",
+    "app_sedes_form_eliminar_titulo_2": "Confirm the code to delete the headquarter.",
     "app_sedes_form_eliminar_titulo_3": "The headquarters will be permanently removed.",
     "app_sedes_form_eliminar_placeholder": "Headquarters code to be removed",
     "app_sedes_form_eliminar_boton_eliminar": "Delete",

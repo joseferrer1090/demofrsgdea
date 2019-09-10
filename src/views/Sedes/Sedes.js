@@ -20,6 +20,7 @@ import classnames from 'classnames';
 import FormCreateSedes from './components/FormCreateSedes';
 import TableContent from './components/TableContentSedes';
 import FormImport from './components/FormUploadSedes';
+import { withTranslation } from 'react-i18next';
 
 class Sedes extends Component {
   constructor(props) {
@@ -38,6 +39,7 @@ class Sedes extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -48,7 +50,7 @@ class Sedes extends Component {
                 this.toggle('1');
               }}
             >
-              <i className="fa fa-plus" /> Registrar
+              <i className="fa fa-plus" /> {t('app_sedes_tab')}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -58,7 +60,7 @@ class Sedes extends Component {
                 this.toggle('2');
               }}
             >
-              <i className="fa fa-gear" /> Administrar
+              <i className="fa fa-gear" /> {t('app_sedes_tab_2')}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -68,7 +70,7 @@ class Sedes extends Component {
                 this.toggle('3');
               }}
             >
-              <i className="fa fa-upload" /> Importar
+              <i className="fa fa-upload" /> {t('app_sedes_tab_3')}
             </NavLink>
           </NavItem>
         </Nav>
@@ -102,4 +104,4 @@ class Sedes extends Component {
 
 Sedes.propTypes = {};
 
-export default Sedes;
+export default withTranslation('translations')(Sedes);

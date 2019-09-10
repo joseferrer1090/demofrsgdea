@@ -74,10 +74,7 @@ class ModalEditConglomerado extends React.Component {
             code: data.code,
             description: data.description,
             status: data.status,
-            conglomerate_charge:
-              data.charge !== null
-                ? { conglomerate_charge: data.charge.id }
-                : ""
+            conglomerate_charge: data.charge
           }
         });
       })
@@ -163,6 +160,7 @@ class ModalEditConglomerado extends React.Component {
   };
 
   render() {
+    console.log(this.state.dataResult);
     const mapOptionsCountries = this.state.optionsCountries.map((aux, idx) => {
       return (
         <option key={aux.id} value={aux.id}>

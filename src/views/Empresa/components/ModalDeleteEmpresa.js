@@ -21,7 +21,8 @@ class ModalDeleteEmpresa extends React.Component {
     alertCode: false,
     username: 'jferrer',
     code: '',
-    nameCompany: ''
+    nameCompany: '',
+    t: this.props.t
   };
 
   toggle = id => {
@@ -60,7 +61,10 @@ class ModalDeleteEmpresa extends React.Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar {nameCompany} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_empresa_modal_eliminar_titulo')} {nameCompany}{' '}
+          </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -142,13 +146,14 @@ class ModalDeleteEmpresa extends React.Component {
                     <form className="form">
                       <p className="text-center">
                         {' '}
-                        Confirmar el <code> código </code> para eliminar la
-                        empresa{' '}
+                        {this.props.t('app_empresa_modal_eliminar_titulo_2')}
                       </p>
 
                       <input
                         type="text"
-                        placeholder=" Código de la empresa a eliminar"
+                        placeholder={this.props.t(
+                          'app_empresa_modal_eliminar_placeholder'
+                        )}
                         style={{ textAlign: 'center' }}
                         name="code"
                         onChange={handleChange}
@@ -170,7 +175,7 @@ class ModalDeleteEmpresa extends React.Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        La empresa quedará elimanada de manera permanente{' '}
+                        {this.props.t('app_empresa_modal_eliminar_titulo_3')}
                       </p>
                     </form>
                   </ModalBody>
@@ -183,7 +188,10 @@ class ModalDeleteEmpresa extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" /> Eliminar
+                      <i className="fa fa-trash" />{' '}
+                      {this.props.t(
+                        'app_empresa_modal_eliminar_boton_eliminar'
+                      )}
                     </button>
                     <button
                       type="button"
@@ -196,7 +204,8 @@ class ModalDeleteEmpresa extends React.Component {
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t('app_empresa_modal_eliminar_boton_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -210,6 +219,7 @@ class ModalDeleteEmpresa extends React.Component {
 }
 
 ModalDeleteEmpresa.propTypes = {
+  t: PropTypes.any,
   modaldelempresa: PropTypes.bool.isRequired
 };
 

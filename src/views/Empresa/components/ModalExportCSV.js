@@ -11,7 +11,8 @@ class ModalExportCSV extends Component {
     super(props);
     this.state = {
       modal: this.props.modalexport,
-      dataExport: []
+      dataExport: [],
+      t: this.props.t
     };
   }
 
@@ -134,19 +135,29 @@ class ModalExportCSV extends Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Exportar tabla de empresa</ModalHeader>
+          <ModalHeader>
+            {this.props.t('app_empresa_modal_exportar_titulo')}
+          </ModalHeader>
           <ModalBody>
             <table className="table table-responsive  table-hover table-striped fixed_header">
               <thead className="">
                 <tr>
-                  <th>Codigo</th>
-                  <th>Nit</th>
-                  <th>Nombre</th>
-                  <th>Descripción</th>
-                  <th>Estado</th>
-                  <th>Código conglomerado</th>
-                  <th>Código ciudad</th>
-                  <th>Cargo</th>
+                  <th>{this.props.t('app_empresa_modal_exportar_codigo')}</th>
+                  <th>{this.props.t('app_empresa_modal_exportar_nit')}</th>
+                  <th>{this.props.t('app_empresa_modal_exportar_nombre')}</th>
+                  <th>
+                    {this.props.t('app_empresa_modal_exportar_descripcion')}
+                  </th>
+                  <th>{this.props.t('app_empresa_modal_exportar_estado')}</th>
+                  <th>
+                    {this.props.t(
+                      'app_empresa_modal_exportar_codigo_conglomerado'
+                    )}
+                  </th>
+                  <th>
+                    {this.props.t('app_empresa_modal_exportar_codigo_ciudad')}
+                  </th>
+                  <th>{this.props.t('app_empresa_modal_exportar_cargo')}</th>
                 </tr>
               </thead>
               <tbody className="">
@@ -175,11 +186,13 @@ class ModalExportCSV extends Component {
               }}
             >
               {' '}
-              <i className="fa fa-times" /> Cerrar{' '}
+              <i className="fa fa-times" />{' '}
+              {this.props.t('app_empresa_modal_exportar_boton_cerrar')}{' '}
             </button>
 
             <CSVLink data={csv} className="btn btn-secondary btn-sm">
-              <i className="fa fa-download" /> Exportar CSV
+              <i className="fa fa-download" />{' '}
+              {this.props.t('app_empresa_modal_exportar_boton_exportar')}
             </CSVLink>
             {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
               {" "}

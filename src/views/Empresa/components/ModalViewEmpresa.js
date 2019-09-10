@@ -28,7 +28,8 @@ class ModalViewEmpresa extends Component {
       dataCargo: {},
       dataPais: {},
       dataDepartamento: {},
-      dataCiudad: {}
+      dataCiudad: {},
+      t: this.props.t
     };
   }
 
@@ -108,7 +109,9 @@ class ModalViewEmpresa extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Empresa {company.name} </ModalHeader>
+          <ModalHeader>
+            {this.props.t('app_empresa_modal_ver_titulo')} {company.name}{' '}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -119,14 +122,16 @@ class ModalViewEmpresa extends Component {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    Datos{' '}
+                    {this.props.t('app_empresa_modal_ver_titulo_2')}{' '}
                   </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Conglomerado </dt>
+                        <dt>
+                          {this.props.t('app_empresa_modal_ver_conglomerado')}{' '}
+                        </dt>
                         <dd>{companyconglomerate.name}</dd>
                       </dl>
                     </div>
@@ -134,7 +139,7 @@ class ModalViewEmpresa extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Código </dt>
+                        <dt>{this.props.t('app_empresa_modal_ver_codigo')} </dt>
                         <dd> {company.code} </dd>
                       </dl>
                     </div>
@@ -142,7 +147,7 @@ class ModalViewEmpresa extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nit </dt>
+                        <dt>{this.props.t('app_empresa_modal_ver_nit')} </dt>
                         <dd>{company.nit} </dd>
                       </dl>
                     </div>
@@ -150,7 +155,7 @@ class ModalViewEmpresa extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
+                        <dt>{this.props.t('app_empresa_modal_ver_nombre')} </dt>
                         <dd>{company.name}</dd>
                       </dl>
                     </div>
@@ -159,7 +164,9 @@ class ModalViewEmpresa extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Descripción </dt>
+                        <dt>
+                          {this.props.t('app_empresa_modal_ver_descripcion')}{' '}
+                        </dt>
                         <dd>{company.description}</dd>
                       </dl>
                     </div>
@@ -167,7 +174,7 @@ class ModalViewEmpresa extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Estado </dt>
+                        <dt>{this.props.t('app_empresa_modal_ver_estado')} </dt>
                         <dd>{statusCompany(company.status)}</dd>
                       </dl>
                     </div>
@@ -188,7 +195,7 @@ class ModalViewEmpresa extends Component {
                       style={{ cursor: 'pointer' }}
                     >
                       {' '}
-                      Más información{' '}
+                      {this.props.t('app_empresa_modal_ver_collapse')}{' '}
                     </a>{' '}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapase}>
@@ -197,7 +204,12 @@ class ModalViewEmpresa extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> País </dt>
+                              <dt>
+                                {' '}
+                                {this.props.t(
+                                  'app_empresa_modal_ver_pais'
+                                )}{' '}
+                              </dt>
                               <dd> {dataPais.name} </dd>
                             </dl>
                           </div>
@@ -205,7 +217,12 @@ class ModalViewEmpresa extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Departamento </dt>
+                              <dt>
+                                {' '}
+                                {this.props.t(
+                                  'app_empresa_modal_ver_departamento'
+                                )}{' '}
+                              </dt>
                               <dd> {dataDepartamento.name} </dd>
                             </dl>
                           </div>
@@ -213,7 +230,12 @@ class ModalViewEmpresa extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Ciudad </dt>
+                              <dt>
+                                {' '}
+                                {this.props.t(
+                                  'app_empresa_modal_ver_ciudad'
+                                )}{' '}
+                              </dt>
                               <dd> {dataCiudad.name} </dd>
                             </dl>
                           </div>
@@ -221,7 +243,11 @@ class ModalViewEmpresa extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Cargo responsable </dt>
+                              <dt>
+                                {this.props.t(
+                                  'app_empresa_modal_ver_cargo_responsable'
+                                )}{' '}
+                              </dt>
                               <dd> {CargoInfo()}</dd>
                             </dl>
                           </div>
@@ -229,7 +255,12 @@ class ModalViewEmpresa extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Fecha de creación </dt>
+                              <dt>
+                                {' '}
+                                {this.props.t(
+                                  'app_empresa_modal_ver_fecha_creacion'
+                                )}{' '}
+                              </dt>
                               <dd>
                                 {' '}
                                 {this.FechaCreacionCompany(
@@ -242,7 +273,12 @@ class ModalViewEmpresa extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Fecha de modificación </dt>
+                              <dt>
+                                {' '}
+                                {this.props.t(
+                                  'app_empresa_modal_ver_fecha_modificacion'
+                                )}{' '}
+                              </dt>
                               <dd>
                                 {' '}
                                 {this.FechaModificacionCompany(
@@ -267,7 +303,8 @@ class ModalViewEmpresa extends Component {
               }}
             >
               {' '}
-              <i className="fa fa-times" /> Cerrar{' '}
+              <i className="fa fa-times" />{' '}
+              {this.props.t('app_empresa_modal_ver_boton_cerrar')}{' '}
             </button>
           </ModalFooter>
         </Modal>
@@ -277,7 +314,8 @@ class ModalViewEmpresa extends Component {
 }
 
 ModalViewEmpresa.propTypes = {
-  modalviewempresa: PropTypes.bool.isRequired
+  modalviewempresa: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalViewEmpresa;

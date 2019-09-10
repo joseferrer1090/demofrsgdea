@@ -184,9 +184,9 @@
     "app_conglomerado_import_from_boton": "Import file",
     "app_conglomerado_import_form_file": "Select file in the required extension",
 
-    "app_cargo_tab": "Registrar",
-    "app_cargo_tab_2": "Administrar",
-    "app_cargo_tab_3": "Importar",
+    "app_cargo_tab": "Register",
+    "app_cargo_tab_2": "Manage",
+    "app_cargo_tab_3": "Import",
     "app_cargo_tab_title": "Register charge",
 
     "app_cargo_form_registrar_codigo": "Code",

@@ -48,7 +48,7 @@ class ModalDeleteConglomerado extends React.Component {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/conglomerate/${this.state.idConglomerado}?name=${values.nombre}&username=${this.state.useLogged}`,
+                  `http://192.168.10.180:7000/api/sgdea/conglomerate/${this.state.idConglomerado}?code=${values.code}&username=${this.state.useLogged}`,
                   {
                     method: "DELETE",
                     headers: {
@@ -153,7 +153,7 @@ class ModalDeleteConglomerado extends React.Component {
                           "app_conglomerado_modal_eliminar_placeholder"
                         )}
                         style={{ textAlign: "center" }}
-                        name="nombre"
+                        name="code"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.code}

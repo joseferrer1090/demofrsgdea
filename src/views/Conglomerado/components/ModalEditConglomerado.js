@@ -36,7 +36,8 @@ class ModalEditConglomerado extends React.Component {
     optionsCountries: [0],
     optionsDepartment: [0],
     optionsCitys: [0],
-    optionsCharges: [0]
+    optionsCharges: [0], 
+    status: 0
   };
 
   componentDidMount() {
@@ -74,7 +75,7 @@ class ModalEditConglomerado extends React.Component {
             code: data.code,
             description: data.description,
             status: data.status,
-            conglomerate_charge: data.charge
+            conglomerate_charge: data.charge === null ? " ": data.charge.id
           }
         });
       })
@@ -206,13 +207,13 @@ class ModalEditConglomerado extends React.Component {
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
               const tipoEstado = data => {
-                let tipo = null;
-                if (data === true) {
+                let tipo;
+                if (data === true || data === 1) {
                   return (tipo = 1);
-                } else if (data === false) {
+                } else if (data === false || data === 0) {
                   return (tipo = 0);
                 }
-                return null;
+                return 0;
               };
               setTimeout(() => {
                 fetch(CONGLOMERATES, {

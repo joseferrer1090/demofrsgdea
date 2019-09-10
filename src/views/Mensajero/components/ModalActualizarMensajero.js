@@ -22,7 +22,8 @@ class ModalActualizarMensajero extends React.Component {
     dataResult: {},
     alertError: false,
     alertSuccess: false,
-    alertError400: false
+    alertError400: false,
+    t: this.props.t
   };
 
   toggle = id => {
@@ -67,7 +68,10 @@ class ModalActualizarMensajero extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Actualizar {dataResult.messenger_name}</ModalHeader>
+          <ModalHeader>
+            {this.props.t('app_mensajero_modal_actualizar_titulo')}{' '}
+            {dataResult.messenger_name}
+          </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}
@@ -185,14 +189,18 @@ class ModalActualizarMensajero extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            Datos{' '}
+                            {this.props.t(
+                              'app_mensajero_modal_actualizar_titulo_2'
+                            )}{' '}
                           </h5>{' '}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Identificación{' '}
+                                {this.props.t(
+                                  'app_mensajero_modal_actualizar_identificacion'
+                                )}{' '}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   <input
@@ -219,7 +227,10 @@ class ModalActualizarMensajero extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Nombre <span className="text-danger">*</span>{' '}
+                                {this.props.t(
+                                  'app_mensajero_modal_actualizar_nombre'
+                                )}{' '}
+                                <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
                                   <input
@@ -246,7 +257,9 @@ class ModalActualizarMensajero extends React.Component {
                           <div className="col-md-12">
                             <div className="form-group">
                               <dl className="param">
-                                Descripción
+                                {this.props.t(
+                                  'app_mensajero_modal_actualizar_descripción'
+                                )}
                                 <dd>
                                   {' '}
                                   <textarea
@@ -265,9 +278,10 @@ class ModalActualizarMensajero extends React.Component {
                               <dl className="param">
                                 <label>
                                   {' '}
-                                  Estado <span className="text-danger">
-                                    *
-                                  </span>{' '}
+                                  {this.props.t(
+                                    'app_mensajero_modal_actualizar_estado'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <div className="text-justify">
                                   <Field
@@ -277,13 +291,9 @@ class ModalActualizarMensajero extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="CheckBoxEditRoles"
-                                          label=" Si esta opción se encuentra activada, representa
-                        que el rol es visible en el sistema y se podrán
-                        realizar operaciones entre cada uno de los módulos
-                        correspondientes de la aplicación. En caso
-                        contrario el rol no se elimina del sistema solo
-                        quedará inactivo e invisibles para cada uno de los
-                        módulos correspondiente del sistema."
+                                          label={this.props.t(
+                                            'app_mensajero_modal_actualizar_estado_descripcion'
+                                          )}
                                           {...field}
                                           checked={field.value}
                                           className={
@@ -313,7 +323,10 @@ class ModalActualizarMensajero extends React.Component {
                       type="button"
                       className="btn btn-sm btn-outline-success"
                     >
-                      <i className="fa fa-pencil" /> Actualizar
+                      <i className="fa fa-pencil" />{' '}
+                      {this.props.t(
+                        'app_mensajero_modal_actualizar_boton_actualizar'
+                      )}
                     </button>
                     <button
                       className="btn btn-sm btn-secondary "
@@ -322,7 +335,10 @@ class ModalActualizarMensajero extends React.Component {
                       }}
                     >
                       {' '}
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t(
+                        'app_mensajero_modal_actualizar_boton_cerrar'
+                      )}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -337,7 +353,8 @@ class ModalActualizarMensajero extends React.Component {
 
 ModalActualizarMensajero.propTypes = {
   modalupdate: PropTypes.bool.isRequired,
-  id: PropTypes.string
+  id: PropTypes.string,
+  t: PropTypes.any
 };
 
 export default ModalActualizarMensajero;

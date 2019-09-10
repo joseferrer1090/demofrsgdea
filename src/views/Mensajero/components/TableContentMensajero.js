@@ -126,7 +126,8 @@ class TableContentMensajero extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar CSV
+        <i className="fa fa-download" />{' '}
+        {this.props.t('app_mensajero_administrar_table_boton_exportar')}
       </button>
     );
   };
@@ -135,6 +136,7 @@ class TableContentMensajero extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup
     };
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -148,7 +150,9 @@ class TableContentMensajero extends Component {
               pagination
               search={true}
               exportCSV
-              searchPlaceholder="Buscar"
+              searchPlaceholder={t(
+                'app_mensajero_administrar_table_placeholder'
+              )}
               className="tableMensj texto-Mensj"
             >
               <TableHeaderColumn
@@ -171,21 +175,21 @@ class TableContentMensajero extends Component {
                 dataAlign="center"
                 width={'140'}
               >
-                Identificación
+                {t('app_mensajero_administrar_table_identificacion')}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="name"
                 dataAlign="center"
                 width={'120'}
               >
-                Nombre{' '}
+                {t('app_mensajero_administrar_table_nombre')}{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="description"
                 dataAlign="center"
                 width={'200'}
               >
-                Descripción{' '}
+                {t('app_mensajero_administrar_table_descripción')}{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataSort={true}
@@ -196,7 +200,7 @@ class TableContentMensajero extends Component {
                 dataAlign="center"
                 width={'150'}
               >
-                Fecha de creación
+                {t('app_mensajero_administrar_table_fecha_creacion')}
               </TableHeaderColumn>
               <TableHeaderColumn
                 width={'100'}
@@ -205,7 +209,7 @@ class TableContentMensajero extends Component {
                 dataFormat={(cell, row) => this.EstadoMensajero(cell, row)}
               >
                 {' '}
-                Estado{' '}
+                {t('app_mensajero_administrar_table_estado')}{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
                 width={'120'}
@@ -214,15 +218,31 @@ class TableContentMensajero extends Component {
                 dataFormat={(cell, row) => this.accionesMensajero(cell, row)}
               >
                 {' '}
-                Acciones{' '}
+                {t('app_mensajero_administrar_table_acciones')}{' '}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>
-        <ModalViewMensajero modalview={this.state.modalView} ref={'child'} />
-        <ModalUpdate modalupdate={this.state.modalUpdate} ref={'child2'} />
-        <Modaldelete modaldelete={this.state.modaldelte} ref={'child3'} />
-        <ModalExport modalexport={this.state.modalexport} ref={'child4'} />
+        <ModalViewMensajero
+          t={this.props.t}
+          modalview={this.state.modalView}
+          ref={'child'}
+        />
+        <ModalUpdate
+          t={this.props.t}
+          modalupdate={this.state.modalUpdate}
+          ref={'child2'}
+        />
+        <Modaldelete
+          t={this.props.t}
+          modaldelete={this.state.modaldelte}
+          ref={'child3'}
+        />
+        <ModalExport
+          t={this.props.t}
+          modalexport={this.state.modalexport}
+          ref={'child4'}
+        />
       </div>
     );
   }

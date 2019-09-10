@@ -21,7 +21,7 @@ class ModalDeleteConglomerado extends React.Component {
       code: "",
       idConglomerado: id,
       useLogged: "jferrer"
-    });
+    }, () => this.props.updateTable());
   };
 
   onDismiss = () => {

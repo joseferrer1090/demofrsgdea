@@ -173,7 +173,7 @@ class TableContentConglomerado extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup,
       pagination: true,
-      exportCSV: true
+      exportCSV: true  
     };
     const { t } = this.props;
 
@@ -206,7 +206,6 @@ class TableContentConglomerado extends Component {
                       hidden={this.state.hiddenColumnID}
                     />
                     <TableHeaderColumn
-                      dataSort={true}
                       dataFormat={this.indexN}
                       width={"50"}
                       dataField={"id"}
@@ -215,7 +214,6 @@ class TableContentConglomerado extends Component {
                       #
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataSort={true}
                       dataField={"code"}
                       dataAlign="center"
                       width={"100"}
@@ -224,7 +222,6 @@ class TableContentConglomerado extends Component {
                       {t("app_conglomerado_administrar_table_codigo")}{" "}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataSort={true}
                       dataField={"name"}
                       dataAlign="center"
                       width={"205"}
@@ -232,7 +229,6 @@ class TableContentConglomerado extends Component {
                       {t("app_conglomerado_administrar_table_nombre")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataSort={true}
                       dataField={"description"}
                       dataAlign="center"
                       width={"230"}
@@ -240,7 +236,6 @@ class TableContentConglomerado extends Component {
                       {t("app_conglomerado_administrar_table_descripcion")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataSort={true}
                       dataField={"createdAt"}
                       dataFormat={(cell, row) =>
                         this.FechaCreacionConglomerado(cell, row)
@@ -253,7 +248,6 @@ class TableContentConglomerado extends Component {
                     <TableHeaderColumn
                       width={""}
                       dataField={"status"}
-                      dataSort={true}
                       dataAlign={"center"}
                       dataFormat={(cell, row) =>
                         this.EstadoConglomerado(cell, row)
@@ -282,6 +276,7 @@ class TableContentConglomerado extends Component {
         <ModalDelete
           t={t}
           modaldeletestate={this.state.modalDelete}
+          updateTable={this.getDataConglomerates}
           ref="child2"
         />
         <ModalEdit t={t} modaleditstate={this.state.modalEdit} ref="child3" updateTable={this.getDataConglomerates} />

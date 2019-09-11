@@ -57,10 +57,10 @@ class ModalDeleteConglomerado extends React.Component {
                   this.setState({
                     alertError: true
                   })
-                 } else if(response.status === 204){
+                 } else if(response.status === 200){
                    setTimeout(() => {
                      this.setState({
-                       alertSuccess: true, 
+                      alertSuccess: true, 
                        modal: false
                      }, () => this.props.updateTable())
                    }, 3000);

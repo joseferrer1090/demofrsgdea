@@ -24,7 +24,8 @@ class ModalEditCiudad extends React.Component {
     optionsDepartment: [],
     alertError: false,
     alertSuccess: false,
-    alertError400: false
+    alertError400: false,
+    t: this.props.t
   };
   onDismiss = () => {
     this.setState({
@@ -120,7 +121,11 @@ class ModalEditCiudad extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar {dataResult.city_name} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_ciudad_modal_actualizar_titulo')}{' '}
+            {dataResult.city_name}{' '}
+          </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}
@@ -248,14 +253,19 @@ class ModalEditCiudad extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            Datos{' '}
+                            {this.props.t(
+                              'app_ciudad_modal_actualizar_titulo_2'
+                            )}{' '}
                           </h5>{' '}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                País <span className="text-danger">*</span>{' '}
+                                {this.props.t(
+                                  'app_ciudad_modal_actualizar_pais'
+                                )}{' '}
+                                <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
                                   <select
@@ -269,7 +279,11 @@ class ModalEditCiudad extends React.Component {
                                   >
                                     {' '}
                                     <option value={''} disabled>
-                                      -- Seleccione --
+                                      --{' '}
+                                      {this.props.t(
+                                        'app_ciudad_modal_actualizar_select_pais'
+                                      )}{' '}
+                                      --
                                     </option>
                                     {mapOptionsCountries}{' '}
                                   </select>{' '}
@@ -287,7 +301,9 @@ class ModalEditCiudad extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Departamento{' '}
+                                {this.props.t(
+                                  'app_ciudad_modal_actualizar_select_departamento'
+                                )}{' '}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -302,7 +318,11 @@ class ModalEditCiudad extends React.Component {
                                   >
                                     {' '}
                                     <option value={''} disabled>
-                                      -- Seleccione --
+                                      --{' '}
+                                      {this.props.t(
+                                        'app_ciudad_modal_actualizar_departamento'
+                                      )}{' '}
+                                      --
                                     </option>
                                     {mapOptionsDepartments}{' '}
                                   </select>{' '}
@@ -320,7 +340,10 @@ class ModalEditCiudad extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Código <span className="text-danger">*</span>{' '}
+                                {this.props.t(
+                                  'app_ciudad_modal_actualizar_codigo'
+                                )}{' '}
+                                <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
                                   <input
@@ -347,7 +370,10 @@ class ModalEditCiudad extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Nombre <span className="text-danger">*</span>{' '}
+                                {this.props.t(
+                                  'app_ciudad_modal_actualizar_nombre'
+                                )}{' '}
+                                <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
                                   <input
@@ -375,9 +401,10 @@ class ModalEditCiudad extends React.Component {
                               <dl className="param">
                                 <label>
                                   {' '}
-                                  Estado <span className="text-danger">
-                                    *
-                                  </span>{' '}
+                                  {this.props.t(
+                                    'app_ciudad_modal_actualizar_estado'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <div className="text-justify">
                                   <Field
@@ -387,13 +414,9 @@ class ModalEditCiudad extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="CheckboxEditCiudad"
-                                          label=" Si esta opción se encuentra activada, representa que
-                              el departamento es visible en el sistema y se podrán
-                              realizar operaciones entre cada uno de los módulos
-                              correspondientes de la aplicación. En caso contrario
-                              el departamento no se elimina del sistema solo
-                              quedará inactivo e invisibles para cada uno de los
-                              módulos correspondiente del sistema."
+                                          label={this.props.t(
+                                            'app_ciudad_modal_actualizar_estado_descripcion'
+                                          )}
                                           {...field}
                                           checked={field.value}
                                           className={
@@ -424,7 +447,10 @@ class ModalEditCiudad extends React.Component {
                       }}
                     >
                       {' '}
-                      <i className="fa fa-pencil" /> Actualizar{' '}
+                      <i className="fa fa-pencil" />{' '}
+                      {this.props.t(
+                        'app_ciudad_modal_actualizar_button_actualizar'
+                      )}{' '}
                     </button>
                     <button
                       type="button"
@@ -434,7 +460,10 @@ class ModalEditCiudad extends React.Component {
                       }}
                     >
                       {' '}
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t(
+                        'app_ciudad_modal_actualizar_button_cerrar'
+                      )}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -448,7 +477,8 @@ class ModalEditCiudad extends React.Component {
 }
 
 ModalEditCiudad.propTypes = {
-  modaledit: PropTypes.bool.isRequired
+  modaledit: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalEditCiudad;

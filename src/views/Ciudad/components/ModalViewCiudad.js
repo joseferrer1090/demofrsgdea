@@ -20,7 +20,8 @@ class ModalViewCiudad extends Component {
       idCity: this.props.id,
       dataCity: {},
       dataDepartment: {},
-      dataCountry: {}
+      dataCountry: {},
+      t: this.props.t
     };
   }
 
@@ -74,7 +75,10 @@ class ModalViewCiudad extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ciudad {dataCity.name} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_ciudad_modal_ver_titulo')} {dataCity.name}{' '}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -85,14 +89,14 @@ class ModalViewCiudad extends Component {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    Datos{' '}
+                    {this.props.t('app_ciudad_modal_ver_titulo_2')}{' '}
                   </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>País </dt>
+                        <dt>{this.props.t('app_ciudad_modal_ver_pais')} </dt>
                         <dd> {dataCountry.name} </dd>
                       </dl>
                     </div>
@@ -100,7 +104,9 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Departamento </dt>
+                        <dt>
+                          {this.props.t('app_ciudad_modal_ver_departamento')}{' '}
+                        </dt>
                         <dd> {dataDepartment.name} </dd>
                       </dl>
                     </div>
@@ -108,7 +114,7 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Código </dt>
+                        <dt> {this.props.t('app_ciudad_modal_ver_codigo')} </dt>
                         <dd> {dataCity.code} </dd>
                       </dl>
                     </div>
@@ -116,7 +122,7 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Nombre </dt>
+                        <dt> {this.props.t('app_ciudad_modal_ver_nombre')} </dt>
                         <dd> {dataCity.name} </dd>
                       </dl>
                     </div>
@@ -124,7 +130,7 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Estado </dt>
+                        <dt> {this.props.t('app_ciudad_modal_ver_estado')} </dt>
                         <dd> {statusCity(dataCity.status)} </dd>
                       </dl>
                     </div>
@@ -132,7 +138,12 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Fecha de creación </dt>
+                        <dt>
+                          {' '}
+                          {this.props.t(
+                            'app_ciudad_modal_ver_fecha_creacion'
+                          )}{' '}
+                        </dt>
                         <dd>
                           {' '}
                           {this.FechaCreacionCiudad(dataCity.createdAt)}{' '}
@@ -143,7 +154,12 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Fecha de modificación </dt>
+                        <dt>
+                          {' '}
+                          {this.props.t(
+                            'app_ciudad_modal_ver_fecha_modificacion'
+                          )}{' '}
+                        </dt>
                         <dd>
                           {' '}
                           {this.FechaModificacionCiudad(
@@ -165,7 +181,8 @@ class ModalViewCiudad extends Component {
               }}
             >
               {' '}
-              <i className="fa fa-times" /> Cerrar{' '}
+              <i className="fa fa-times" />{' '}
+              {this.props.t('app_ciudad_modal_ver_cerrar')}{' '}
             </button>
           </ModalFooter>
         </Modal>

@@ -96,6 +96,11 @@
     "nav_app_tema": "Theme",
     "nav_app_tipo_llegada": "Arrival type",
 
+    "app_tablas_estado_activo": "Active",
+    "app_tablas_estado_inactivo": "Inactive",
+
+    "app_modals_sin_cargo": "There are no associated charges.",
+
     "app_conglomerado_tab": "Register",
     "app_conglomerado_tab_2": "Manage",
     "app_conglomerado_tab_3": "Import",

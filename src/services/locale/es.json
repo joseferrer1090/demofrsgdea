@@ -96,6 +96,11 @@
     "nav_app_tema": "Tema",
     "nav_app_tipo_llegada": "Tipo llegada",
 
+    "app_tablas_estado_activo": "Activo",
+    "app_tablas_estado_inactivo": "Inactivo",
+
+    "app_modals_sin_cargo": "No hay cargos asociados.",
+
     "app_conglomerado_tab": "Registrar",
     "app_conglomerado_tab_2": "Administrar",
     "app_conglomerado_tab_3": "Importar",

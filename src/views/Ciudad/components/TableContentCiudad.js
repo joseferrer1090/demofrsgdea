@@ -114,9 +114,17 @@ class TableContentCiudad extends Component {
   EstadoEmpresa(cell, row) {
     let status;
     if (row.status === 1) {
-      status = <b className="text-success">Activo</b>;
+      status = (
+        <b className="text-success">
+          {this.props.t('app_tablas_estado_activo')}
+        </b>
+      );
     } else if (row.status === 0) {
-      status = <b className="text-danger">Inactivo</b>;
+      status = (
+        <b className="text-danger">
+          {this.props.t('app_tablas_estado_inactivo')}
+        </b>
+      );
     }
     return status;
   }
@@ -164,7 +172,7 @@ class TableContentCiudad extends Component {
               isKey
               dataField="id"
               dataAlign="center"
-              width={'80'}
+              width={'10'}
               hidden={this.state.hiddenColumnId}
             />
             <TableHeaderColumn
@@ -197,7 +205,7 @@ class TableContentCiudad extends Component {
             <TableHeaderColumn
               dataField="code"
               dataAlign="center"
-              width={'110'}
+              width={'100'}
             >
               {' '}
               {t('app_ciudad_administrar_table_codigo')}{' '}
@@ -205,7 +213,7 @@ class TableContentCiudad extends Component {
             <TableHeaderColumn
               dataField="name"
               dataAlign="center"
-              width={'130'}
+              width={'125'}
             >
               {' '}
               {t('app_ciudad_administrar_table_nombre')}{' '}
@@ -215,7 +223,7 @@ class TableContentCiudad extends Component {
               dataField={'createdAt'}
               dataFormat={(cell, row) => this.FechaCreacionCiudad(cell, row)}
               dataAlign="center"
-              width={'120'}
+              width={'135'}
             >
               {t('app_ciudad_administrar_table_fecha_creacion')}
             </TableHeaderColumn>

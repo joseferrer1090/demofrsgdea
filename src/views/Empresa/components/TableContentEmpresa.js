@@ -183,7 +183,7 @@ class TableContentEmpresa extends Component {
             </TableHeaderColumn>
 
             <TableHeaderColumn
-              width={'150'}
+              width={'120'}
               dataSort={true}
               dataField={'code'}
               dataAlign="center"
@@ -211,7 +211,7 @@ class TableContentEmpresa extends Component {
               dataField={'createdAt'}
               dataFormat={(cell, row) => this.FechaCreacionEmpresa(cell, row)}
               dataAlign="center"
-              width={'120'}
+              width={'140'}
             >
               {t('app_empresa_administrar_table_fecha_creacion')}
             </TableHeaderColumn>

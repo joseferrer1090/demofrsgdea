@@ -219,7 +219,7 @@ class FormUpload extends React.Component {
                               handleSubmit();
                             }}
                           >
-                            <i className="fa fa-save" /> I
+                            <i className="fa fa-save" />{' '}
                             {t('app_empresa_import_from_boton')}
                           </button>
                         </div>

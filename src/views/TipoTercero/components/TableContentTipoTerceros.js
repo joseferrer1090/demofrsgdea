@@ -230,11 +230,13 @@ class TableContentTipoTerceros extends Component {
         <ModalUpdateTipoTercero
           t={this.props.t}
           modalupdate={this.state.modaluptate}
+          updateTable={this.getDataTipoTercero}
           ref={'child2'}
         />
         <ModalDeleteTipoTercero
           t={this.props.t}
           modaldelete={this.state.modaldelete}
+          updateTable={this.getDataTipoTercero}
           ref={'child3'}
         />
         <ModalExport

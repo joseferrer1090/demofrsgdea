@@ -33,10 +33,11 @@ class ModalEditConglomerado extends React.Component {
     alertError: false,
     alertSuccess: false,
     t: this.props.t,
-    optionsCountries: [],
-    optionsDepartment: [],
-    optionsCitys: [],
-    optionsCharges: []
+    optionsCountries: [0],
+    optionsDepartment: [0],
+    optionsCitys: [0],
+    optionsCharges: [0], 
+    status: 0
   };
 
   componentDidMount() {
@@ -50,7 +51,7 @@ class ModalEditConglomerado extends React.Component {
     this.setState({
       modal: !this.state.modal,
       idConglomerado: id
-    });
+    }, ()=>{this.props.updateTable()});
     this.getConglomeradoByID(id);
   };
 
@@ -74,10 +75,7 @@ class ModalEditConglomerado extends React.Component {
             code: data.code,
             description: data.description,
             status: data.status,
-            conglomerate_charge:
-              data.charge !== null
-                ? { conglomerate_charge: data.charge.id }
-                : ""
+            conglomerate_charge: data.charge === null ? " ": data.charge.id
           }
         });
       })
@@ -163,6 +161,7 @@ class ModalEditConglomerado extends React.Component {
   };
 
   render() {
+    console.log(this.state.dataResult);
     const mapOptionsCountries = this.state.optionsCountries.map((aux, idx) => {
       return (
         <option key={aux.id} value={aux.id}>
@@ -208,13 +207,13 @@ class ModalEditConglomerado extends React.Component {
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
               const tipoEstado = data => {
-                let tipo = null;
-                if (data === true) {
+                let tipo;
+                if (data === true || data === 1) {
                   return (tipo = 1);
-                } else if (data === false) {
+                } else if (data === false || data === 0) {
                   return (tipo = 0);
                 }
-                return null;
+                return 0;
               };
               setTimeout(() => {
                 fetch(CONGLOMERATES, {
@@ -244,7 +243,7 @@ class ModalEditConglomerado extends React.Component {
                         this.setState({
                           alertSuccess: false,
                           modal: false
-                        });
+                        }, this.props.updateTable());
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
@@ -510,7 +509,7 @@ class ModalEditConglomerado extends React.Component {
                                   className="form-control form-control-sm"
                                 >
                                   {" "}
-                                  <option value={""} disabled>
+                                  <option value={" "} >
                                     {" "}
                                     --
                                      {this.props.t(
@@ -518,6 +517,7 @@ class ModalEditConglomerado extends React.Component {
                                     )}{" "}
                                     --{" "}
                                   </option>
+                                  
                                   {mapOptionsCharges}
                                 </select>
                               </div>

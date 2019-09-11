@@ -12,16 +12,16 @@ class ModalDeleteConglomerado extends React.Component {
     alertSuccess: false,
     alertError: false,
     alertName: false,
-    t: this.props.t
+    t: this.props.t, 
+    code: ""
   };
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      code: "",
       idConglomerado: id,
       useLogged: "jferrer"
-    });
+    }, () => this.props.updateTable());
   };
 
   onDismiss = () => {
@@ -43,105 +43,59 @@ class ModalDeleteConglomerado extends React.Component {
             {" "}
             {this.props.t("app_conglomerado_modal_eliminar_titulo")}
           </ModalHeader>
-          <Formik
-            initialValues={dataInitial}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                fetch(
-                  `http://192.168.10.180:7000/api/sgdea/conglomerate/${this.state.idConglomerado}?name=${values.nombre}&username=${this.state.useLogged}`,
-                  {
-                    method: "DELETE",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
-                    }
-                  }
-                )
-                  .then(response => {
-                    console.log(response);
-                    if (response.status === 500) {
-                      this.setState({
-                        alertError: true
-                      });
-                      setTimeout(() => {
-                        this.setState({
-                          modal: false,
-                          alertError: false
-                        });
-                      }, 3000);
-                    } else if (response.status === 204) {
-                      this.setState({
-                        alertSuccess: true
-                      });
-                      setTimeout(() => {
-                        this.setState({
-                          modal: false,
-                          alertSuccess: false
-                        });
-                      }, 3000);
-                    } else if (response.status === 400) {
-                      this.setState({
-                        alertName: true
-                      });
-                      setTimeout(() => {
-                        this.setState({
-                          alertName: false
-                        });
-                      }, 3000);
-                    }
+          <Formik initialValues={dataInitial} onSubmit={(values, setSubmitting) => {
+            setTimeout(() => {
+              fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/${this.state.idConglomerado}?code=${values.code}&username=${this.state.useLogged}`,{
+                method: "DELETE", 
+                headers:{
+                  "Content-Type": "application/json", 
+                  Authorization: "BASIC " + window.btoa("sgdea:123456")
+                }
+              }).then(response => {
+                console.log(response);
+                if (response === 500) {
+                  this.setState({
+                    alertError: true
                   })
-                  .catch(error => console.log(" ", error));
-                setSubmitting(false);
-              }, 500);
-            }}
-            validationSchema={Yup.object().shape({
-              nombre: Yup.string().required(
-                " Por favor introduzca el nombre del conglomerado."
-              )
-            })}
-          >
-            {props => {
-              const {
-                values,
-                touched,
-                errors,
-                dirty,
-                isSubmitting,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                handleReset
-              } = props;
-              return (
-                <Fragment>
-                  <ModalBody>
+                  setTimeout(() => {
+                      this.setState({
+                        modal: false,
+                        alertError: false
+                      }, () => {this.props.updateTable()});
+                    }, 3000);
+                } else if(response === 204) {
+                  console.log(response);
+                  this.setState({
+                    alertSuccess: true, 
+                  }, () => this.props.updateTable())
+                 
+                }
+              }).catch(Error => console.log("", Error));
+              // alert(JSON.stringify(values, "", 2))
+            }, 3000);
+          }} validationSchema={Yup.object().shape({
+            code: Yup.string().required(
+              " Por favor introduzca el codigo del conglomerado."
+            )
+          })}>
+            {
+              props => {
+                const {
+                  values,
+                  touched,
+                  errors,
+                  dirty,
+                  isSubmitting,
+                  handleChange,
+                  handleBlur,
+                  handleSubmit,
+                  handleReset
+                } = props;
+                return(
+                  <Fragment>
                     <form className="form">
-                      <Alert
-                        className="text-center"
-                        color="danger"
-                        isOpen={this.state.alertError}
-                        toggle={this.onDismiss}
-                      >
-                        El conglomerado a eliminar, esta asociado a otras
-                        entidades.
-                      </Alert>
-                      <Alert
-                        color="danger"
-                        isOpen={this.state.alertCode}
-                        toggle={this.onDismiss}
-                      >
-                        Por favor introduzca un código válido.
-                      </Alert>
-                      <Alert
-                        className="text-center"
-                        color="success"
-                        isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
-                      >
-                        El conglomerado ha sido eliminado con éxito.
-                      </Alert>
-
-                      <p className="text-center">
+                    <ModalBody>
+                    <p className="text-center">
                         {" "}
                         {this.props.t(
                           "app_conglomerado_modal_eliminar_informacion"
@@ -153,7 +107,7 @@ class ModalDeleteConglomerado extends React.Component {
                           "app_conglomerado_modal_eliminar_placeholder"
                         )}
                         style={{ textAlign: "center" }}
-                        name="nombre"
+                        name="code"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.code}
@@ -161,15 +115,12 @@ class ModalDeleteConglomerado extends React.Component {
                           touched.code &&
                           "is-invalid"}`}
                       />
-                      <div className="text-center" style={{ color: "#D54B4B" }}>
+                       <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
                         <ErrorMessage name="code" />
                       </div>
-                      {/* <div className="text-center">
-                        <ErrorMessage name={"nombre"} />
-                      </div> */}
                       <br />
                       <p className="text-center text-danger">
                         {" "}
@@ -177,21 +128,16 @@ class ModalDeleteConglomerado extends React.Component {
                           "app_conglomerado_modal_eliminar_informacion_2"
                         )}{" "}
                       </p>
-                    </form>
                   </ModalBody>
                   <ModalFooter>
-                    <button
-                      type="button"
-                      className={"btn btn-outline-danger btn-sm"}
-                      onClick={e => {
-                        e.preventDefault();
-                        handleSubmit();
-                      }}
-                    >
-                      <i className="fa fa-trash" />{" "}
-                      {this.props.t("app_conglomerado_modal_eliminar_boton")}
-                    </button>
-                    <button
+                    <button type="submit" 
+                    className="btn btn-outline-danger" 
+                    onClick={(e) => {
+                      e.preventDefault(); 
+                      handleSubmit();
+                      }}> Eliminar  
+                      </button>
+                  <button
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
@@ -207,9 +153,11 @@ class ModalDeleteConglomerado extends React.Component {
                       {this.props.t("app_conglomerado_modal_eliminar_boton_2")}{" "}
                     </button>
                   </ModalFooter>
-                </Fragment>
-              );
-            }}
+                  </form>
+                  </Fragment>
+                );
+              }
+            }
           </Formik>
         </Modal>
       </Fragment>

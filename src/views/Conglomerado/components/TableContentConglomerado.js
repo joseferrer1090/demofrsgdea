@@ -19,6 +19,7 @@ import {
 import { withTranslation } from "react-i18next";
 import moment from "moment";
 
+
 class TableContentConglomerado extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +36,7 @@ class TableContentConglomerado extends Component {
   componentDidMount() {
     this.getDataConglomerates();
   }
+
 
   getDataConglomerates = () => {
     fetch(CONGLOMERATES, {
@@ -158,11 +160,20 @@ class TableContentConglomerado extends Component {
     );
   };
 
+  // tengo dudas sobre este ciclo de vida, porque siempre lo he utilizado cuando con el getDerivedStateFormProps 
+  // componentDidUpdate(prevState){  
+  //  if(prevState !== this.state.dataConglomerates){
+    // this.getDataConglomerates();
+  //}
+  // }
+  // Fin 
+
+
   render() {
     const options = {
       btnGroup: this.createCustomButtonGroup,
       pagination: true,
-      exportCSV: true
+      exportCSV: true  
     };
     const { t } = this.props;
 
@@ -178,6 +189,7 @@ class TableContentConglomerado extends Component {
               <Row>
                 <Col md="12">
                   <BootstrapTable
+                    remote={true} // dudas de como funciona este props para actualizar la data
                     options={options}
                     data={this.state.dataConglomerates}
                     search
@@ -194,7 +206,6 @@ class TableContentConglomerado extends Component {
                       hidden={this.state.hiddenColumnID}
                     />
                     <TableHeaderColumn
-                      dataSort={true}
                       dataFormat={this.indexN}
                       width={"50"}
                       dataField={"id"}
@@ -203,7 +214,6 @@ class TableContentConglomerado extends Component {
                       #
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataSort={true}
                       dataField={"code"}
                       dataAlign="center"
                       width={"100"}
@@ -212,7 +222,6 @@ class TableContentConglomerado extends Component {
                       {t("app_conglomerado_administrar_table_codigo")}{" "}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataSort={true}
                       dataField={"name"}
                       dataAlign="center"
                       width={"205"}
@@ -220,7 +229,6 @@ class TableContentConglomerado extends Component {
                       {t("app_conglomerado_administrar_table_nombre")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataSort={true}
                       dataField={"description"}
                       dataAlign="center"
                       width={"230"}
@@ -228,7 +236,6 @@ class TableContentConglomerado extends Component {
                       {t("app_conglomerado_administrar_table_descripcion")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataSort={true}
                       dataField={"createdAt"}
                       dataFormat={(cell, row) =>
                         this.FechaCreacionConglomerado(cell, row)
@@ -241,7 +248,6 @@ class TableContentConglomerado extends Component {
                     <TableHeaderColumn
                       width={""}
                       dataField={"status"}
-                      dataSort={true}
                       dataAlign={"center"}
                       dataFormat={(cell, row) =>
                         this.EstadoConglomerado(cell, row)
@@ -270,13 +276,15 @@ class TableContentConglomerado extends Component {
         <ModalDelete
           t={t}
           modaldeletestate={this.state.modalDelete}
+          updateTable={this.getDataConglomerates}
           ref="child2"
         />
-        <ModalEdit t={t} modaleditstate={this.state.modalEdit} ref="child3" />
+        <ModalEdit t={t} modaleditstate={this.state.modalEdit} ref="child3" updateTable={this.getDataConglomerates} />
         <ModalExport t={t} modalexport={this.state.modalexport} ref="child4" />
       </div>
     );
   }
 }
 
-export default withTranslation("translations")(TableContentConglomerado);
+
+export default  withTranslation ("translations")(TableContentConglomerado);

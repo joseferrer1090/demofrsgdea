@@ -240,11 +240,13 @@ class TableContentSedes extends Component {
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.modalEdit}
+          updateTable={this.getDataHeadquarters}
           ref="child2"
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.modalDel}
+          updateTable={this.getDataHeadquarters}
           ref="child3"
         />
         <ModalExport

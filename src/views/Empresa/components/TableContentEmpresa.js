@@ -10,6 +10,7 @@ import './../../../css/styleTableEmpresa.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { COMPANYS } from './../../../services/EndPoints';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class TableContentEmpresa extends Component {
   constructor(props) {
@@ -126,7 +127,8 @@ class TableContentEmpresa extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar CSV
+        <i className="fa fa-download" />{' '}
+        {this.props.t('app_empresa_administrar_table_boton_exportar')}
       </button>
     );
   };
@@ -138,6 +140,7 @@ class TableContentEmpresa extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup
     };
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Col md="12">
@@ -150,7 +153,7 @@ class TableContentEmpresa extends Component {
             hover
             striped
             bordered={false}
-            searchPlaceholder="Buscar"
+            searchPlaceholder={t('app_empresa_administrar_table_placeholder')}
             className="tableEmpre tableEmpre1 texto-Empre"
           >
             <TableHeaderColumn
@@ -176,16 +179,16 @@ class TableContentEmpresa extends Component {
               dataAlign="center"
               dataFormat={this.ConglomerateInfo}
             >
-              Conglomerado
+              {t('app_empresa_administrar_table_conglomerado')}
             </TableHeaderColumn>
 
             <TableHeaderColumn
-              width={'150'}
+              width={'120'}
               dataSort={true}
               dataField={'code'}
               dataAlign="center"
             >
-              Código
+              {t('app_empresa_administrar_table_codigo')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'100'}
@@ -193,7 +196,7 @@ class TableContentEmpresa extends Component {
               dataField={'nit'}
               dataAlign="center"
             >
-              Nit
+              {t('app_empresa_administrar_table_nit')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'200'}
@@ -201,16 +204,16 @@ class TableContentEmpresa extends Component {
               dataField={'name'}
               dataAlign="center"
             >
-              Nombre
+              {t('app_empresa_administrar_table_nombre')}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
               dataField={'createdAt'}
               dataFormat={(cell, row) => this.FechaCreacionEmpresa(cell, row)}
               dataAlign="center"
-              width={'120'}
+              width={'140'}
             >
-              Fecha de creación
+              {t('app_empresa_administrar_table_fecha_creacion')}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
@@ -218,7 +221,7 @@ class TableContentEmpresa extends Component {
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoEmpresa(cell, row)}
             >
-              Estado
+              {t('app_empresa_administrar_table_estado')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'150'}
@@ -227,15 +230,31 @@ class TableContentEmpresa extends Component {
               dataFormat={(cell, row) => this.accionesEmpresa(cell, row)}
               style={{ border: 'none' }}
             >
-              Acciones
+              {t('app_empresa_administrar_table_acciones')}
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
 
-        <ModalView modalviewempesa={this.state.modalview} ref={'child'} />
-        <ModalEdit modaleditempresa={this.state.modaledit} ref={'child2'} />
-        <ModalDel modaldelempresa={this.state.modaldel} ref="child3" />
-        <ModalExport modalexport={this.state.modalexport} ref="child4" />
+        <ModalView
+          t={this.props.t}
+          modalviewempesa={this.state.modalview}
+          ref={'child'}
+        />
+        <ModalEdit
+          t={this.props.t}
+          modaleditempresa={this.state.modaledit}
+          ref={'child2'}
+        />
+        <ModalDel
+          t={this.props.t}
+          modaldelempresa={this.state.modaldel}
+          ref="child3"
+        />
+        <ModalExport
+          t={this.props.t}
+          modalexport={this.state.modalexport}
+          ref="child4"
+        />
       </div>
     );
   }
@@ -243,4 +262,4 @@ class TableContentEmpresa extends Component {
 
 TableContentEmpresa.propTypes = {};
 
-export default TableContentEmpresa;
+export default withTranslation('translations')(TableContentEmpresa);

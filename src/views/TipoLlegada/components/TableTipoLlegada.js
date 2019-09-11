@@ -10,6 +10,7 @@ import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-tab
 import './../../../css/styleTableTipoLlegada.css';
 import { TYPESHIPMENTARRIVAL } from './../../../services/EndPoints';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class TableTipoLlegada extends Component {
   constructor(props) {
@@ -123,7 +124,8 @@ class TableTipoLlegada extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar CSV
+        <i className="fa fa-download" />{' '}
+        {this.props.t('app_tipoLlegada_administrar_table_button_exportar')}
       </button>
     );
   };
@@ -132,6 +134,7 @@ class TableTipoLlegada extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup
     };
+    const { t } = this.props;
     return (
       <div>
         <Row>
@@ -144,7 +147,9 @@ class TableTipoLlegada extends Component {
               pagination
               search={true}
               striped
-              searchPlaceholder="Buscar"
+              searchPlaceholder={t(
+                'app_tipoLlegada_administrar_table_placeholder'
+              )}
               exportCSV
               className="texto-TLlegada"
             >
@@ -169,23 +174,23 @@ class TableTipoLlegada extends Component {
                 width={'150'}
               >
                 {' '}
-                Código{' '}
+                {t('app_tipoLlegada_administrar_table_codigo')}{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField={'name'}
                 dataAlign="center"
-                width={'250'}
+                width={'230'}
               >
                 {' '}
-                Nombre{' '}
+                {t('app_tipoLlegada_administrar_table_nombre')}{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField={'description'}
                 dataAlign="center"
-                width={'250'}
+                width={'220'}
               >
                 {' '}
-                Descripción{' '}
+                {t('app_tipoLlegada_administrar_table_descripcion')}{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataSort={true}
@@ -194,9 +199,9 @@ class TableTipoLlegada extends Component {
                   this.FechaCreacionTipoLlegada(cell, row)
                 }
                 dataAlign="center"
-                width={'100'}
+                width={'150'}
               >
-                Fecha de creación
+                {t('app_tipoLlegada_administrar_table_fecha_creacion')}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField={'status'}
@@ -205,7 +210,7 @@ class TableTipoLlegada extends Component {
                 dataFormat={(cell, row) => this.estadoTipoLlegada(cell, row)}
               >
                 {' '}
-                Estado{' '}
+                {t('app_tipoLlegada_administrar_table_estado')}{' '}
               </TableHeaderColumn>
               <TableHeaderColumn
                 width={'150'}
@@ -214,18 +219,31 @@ class TableTipoLlegada extends Component {
                 dataFormat={(cell, row) => this.accionesTipoLlegada(cell, row)}
               >
                 {' '}
-                Acciones{' '}
+                {t('app_tipoLlegada_administrar_table_acciones')}{' '}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>
-        <ModalView modalview={this.state.modalviewtipollegada} ref={'child'} />
-        <ModalEdit modaledit={this.state.modaledittipollegada} ref={'child2'} />
+        <ModalView
+          t={this.props.t}
+          modalview={this.state.modalviewtipollegada}
+          ref={'child'}
+        />
+        <ModalEdit
+          t={this.props.t}
+          modaledit={this.state.modaledittipollegada}
+          ref={'child2'}
+        />
         <ModalDelete
+          t={this.props.t}
           modaldelete={this.state.modaldeletetipollegada}
           ref={'child3'}
         />
-        <ModalExport modalexport={this.state.modalexport} ref="child4" />
+        <ModalExport
+          t={this.props.t}
+          modalexport={this.state.modalexport}
+          ref="child4"
+        />
       </div>
     );
   }
@@ -233,4 +251,4 @@ class TableTipoLlegada extends Component {
 
 TableTipoLlegada.propTypes = {};
 
-export default TableTipoLlegada;
+export default withTranslation('translations')(TableTipoLlegada);

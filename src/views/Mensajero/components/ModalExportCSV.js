@@ -11,7 +11,8 @@ class ModalExportCSV extends Component {
     super(props);
     this.state = {
       modal: this.props.modalexport,
-      dataExport: []
+      dataExport: [],
+      t: this.props.t
     };
   }
 
@@ -88,15 +89,29 @@ class ModalExportCSV extends Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Exportar tabla de mensajeros</ModalHeader>
+          <ModalHeader>
+            {this.props.t('app_mensajero_modal_export_titulo')}
+          </ModalHeader>
           <ModalBody>
             <table className="table table-responsive  table-hover table-striped fixed_header">
               <thead className="">
                 <tr>
-                  <th>Identificación</th>
-                  <th>Nombre</th>
-                  <th>Descripcion</th>
-                  <th>Estado</th>
+                  <th>
+                    {this.props.t(
+                      'app_mensajero_modal_export_table_identificacion'
+                    )}
+                  </th>
+                  <th>
+                    {this.props.t('app_mensajero_modal_export_table_nombre')}
+                  </th>
+                  <th>
+                    {this.props.t(
+                      'app_mensajero_modal_export_table_descripcion'
+                    )}
+                  </th>
+                  <th>
+                    {this.props.t('app_mensajero_modal_export_table_estado')}
+                  </th>
                 </tr>
               </thead>
               <tbody className="">
@@ -121,11 +136,13 @@ class ModalExportCSV extends Component {
               }}
             >
               {' '}
-              <i className="fa fa-times" /> Cerrar{' '}
+              <i className="fa fa-times" />{' '}
+              {this.props.t('app_mensajero_modal_export_table_boton_cerrar')}{' '}
             </button>
 
             <CSVLink data={csv} className="btn btn-secondary btn-sm">
-              <i className="fa fa-download" /> Exportar CSV
+              <i className="fa fa-download" />{' '}
+              {this.props.t('app_mensajero_modal_export_table_boton_exportar')}
             </CSVLink>
             {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
               {" "}

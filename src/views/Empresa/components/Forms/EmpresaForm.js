@@ -19,6 +19,7 @@ import {
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
+import { withTranslation } from 'react-i18next';
 
 const EmpresaForm = props => {
   const {
@@ -31,7 +32,8 @@ const EmpresaForm = props => {
     setFieldValue,
     handleBlur,
     handleSubmit,
-    handleReset
+    handleReset,
+    t
   } = props;
 
   // console.log(`Errors: ${errors}`);
@@ -179,7 +181,7 @@ const EmpresaForm = props => {
     <div>
       <Card>
         <ToastContainer />
-        <CardHeader> Registro de empresa </CardHeader>
+        <CardHeader> {t('app_empresa_tab_title')} </CardHeader>
         <CardBody>
           <form className="form">
             <div className="row">
@@ -187,7 +189,8 @@ const EmpresaForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Conglomerado <span className="text-danger">*</span>{' '}
+                    {t('app_empresa_form_registrar_conglomerado')}{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <select
                     name="conglomerateId"
@@ -199,7 +202,8 @@ const EmpresaForm = props => {
                     value={values.conglomerateId}
                   >
                     <option value={''} disabled>
-                      --Seleccione--
+                      -- {t('app_empresa_form_registrar_select_conglomerado')}{' '}
+                      --
                     </option>
                     {mapOptionsConglomerate}
                   </select>
@@ -215,13 +219,14 @@ const EmpresaForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Código <span className="text-danger">*</span>{' '}
+                    {t('app_empresa_form_registrar_codigo')}{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name="code"
                     onBlur={handleBlur}
                     onChange={e => {
-                      setFieldValue("code", e.target.value.toUpperCase())
+                      setFieldValue('code', e.target.value.toUpperCase());
                     }}
                     value={values.code}
                     type="text"
@@ -241,7 +246,8 @@ const EmpresaForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Nit <span className="text-danger">*</span>{' '}
+                    {t('app_empresa_form_registrar_nit')}{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name="nit"
@@ -265,11 +271,14 @@ const EmpresaForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Nombre <span className="text-danger">*</span>{' '}
+                    {t('app_empresa_form_registrar_nombre')}{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name="name"
-                    onChange={e => { setFieldValue("name", e.target.value.toUpperCase())}}
+                    onChange={e => {
+                      setFieldValue('name', e.target.value.toUpperCase());
+                    }}
                     onBlur={handleBlur}
                     value={values.name}
                     type="text"
@@ -290,7 +299,7 @@ const EmpresaForm = props => {
             <div className="row">
               <div className="col-md-12">
                 <div className="form-group">
-                  <label> Descripción </label>
+                  <label> {t('app_empresa_form_registrar_descripcion')} </label>
                   <textarea
                     name="description"
                     onChange={handleChange}
@@ -308,7 +317,7 @@ const EmpresaForm = props => {
               </div>
               <div className="col-md-4">
                 <div className="form-group">
-                  <label>País</label>
+                  <label>{t('app_empresa_form_registrar_pais')}</label>
                   <select
                     name={'countryId'}
                     onChange={handleChange}
@@ -319,7 +328,7 @@ const EmpresaForm = props => {
                       'is-invalid'}`}
                   >
                     <option value={''} disabled>
-                      -- Seleccione --
+                      -- {t('app_empresa_form_registrar_select_pais')} --
                     </option>
                     {mapOptionsCountries}
                   </select>
@@ -333,7 +342,7 @@ const EmpresaForm = props => {
               </div>
               <div className="col-md-4">
                 <div className="form-group">
-                  <label>Departamento</label>
+                  <label>{t('app_empresa_form_registrar_departamento')}</label>
                   <select
                     name={'departmentId'}
                     onChange={handleChange}
@@ -344,7 +353,8 @@ const EmpresaForm = props => {
                       'is-invalid'}`}
                   >
                     <option value={''} disabled>
-                      -- Seleccione --
+                      -- {t('app_empresa_form_registrar_select_departamento')}{' '}
+                      --
                     </option>
                     {mapOptionsDepartments}
                   </select>
@@ -359,7 +369,8 @@ const EmpresaForm = props => {
               <div className="col-md-4">
                 <div className="form-group">
                   <label>
-                    Ciudad <span className="text-danger">*</span>
+                    {t('app_empresa_form_registrar_ciudad')}{' '}
+                    <span className="text-danger">*</span>
                   </label>
                   <select
                     name={'cityId'}
@@ -371,7 +382,7 @@ const EmpresaForm = props => {
                       'is-invalid'}`}
                   >
                     <option value={''} disabled>
-                      -- Seleccione --
+                      -- {t('app_empresa_form_registrar_select_ciudad')} --
                     </option>
                     {mapOptionsCitys}
                   </select>
@@ -385,7 +396,10 @@ const EmpresaForm = props => {
               </div>
               <div className="col-md-12">
                 <div className="form-group">
-                  <label> Cargo responsable </label>
+                  <label>
+                    {' '}
+                    {t('app_empresa_form_registrar_cargo_responsable')}
+                  </label>
                   <select
                     name="chargeId"
                     onChange={handleChange}
@@ -396,7 +410,11 @@ const EmpresaForm = props => {
                     {' '}
                     <option value={''} disabled>
                       {' '}
-                      -- Seleccione --{' '}
+                      --{' '}
+                      {t(
+                        'app_empresa_form_registrar_select_cargo_responsable'
+                      )}{' '}
+                      --{' '}
                     </option>
                     {mapOptionsCharges}
                   </select>
@@ -411,7 +429,8 @@ const EmpresaForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Estado <span className="text-danger">*</span>{' '}
+                        {t('app_empresa_form_registrar_estado')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <div className="text-justify">
                         <CustomInput
@@ -420,14 +439,9 @@ const EmpresaForm = props => {
                           onBlur={handleBlur}
                           type="checkbox"
                           id="exampleCheck1"
-                          label="Si esta opción se encuentra activada,
-                                  Representa que la empresa es visible en el
-                                  sistema y se podrán realizar operaciones entre
-                                  cada uno de los módulos correspondientes de la
-                                  aplicación. En caso contrario la empresa no se
-                                  elimina del sistema solo quedará inactiva e
-                                  invisibles para cada uno de los módulos
-                                  correspondiente del sistema."
+                          label={t(
+                            'app_empresa_form_registrar_estado_descripcion'
+                          )}
                           className={
                             errors.status &&
                             touched.status &&
@@ -455,7 +469,8 @@ const EmpresaForm = props => {
                 <i className=" fa fa-spinner fa-spin" />
               ) : (
                 <div>
-                  <i className="fa fa-save" /> Guardar
+                  <i className="fa fa-save" />{' '}
+                  {t('app_empresa_form_registrar_boton_guardar')}
                 </div>
               )}
             </button>
@@ -466,119 +481,121 @@ const EmpresaForm = props => {
   );
 };
 
-export default withFormik({
-  mapPropsToValues: props => ({
-    conglomerateId: props.empresa.conglomerateId,
-    code: props.empresa.code,
-    nit: props.empresa.nit,
-    name: props.empresa.name,
-    description: props.empresa.description,
-    chargeId: props.empresa.chargeId,
-    status: props.empresa.status,
-    cityId: props.empresa.cityId,
-    departmentId: props.empresa.departmentId,
-    countryId: props.empresa.countryId
-  }),
-  validationSchema: Yup.object().shape({
-    conglomerateId: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione un conglomerado.'),
-    code: Yup.string()
-      .required(' Por favor introduzca un código.')
-      .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
-      .min(2, ' Mínimo 2 caracteres.')
-      .max(15, ' Máximo 15 caracteres.'),
-    nit: Yup.number()
-      .required(' Por favor introduzca el Nit.')
-      .positive(' El número Nit debe ser positivo.')
-      .integer(' El número Nit no acepta puntos, ni caracteres especiales.'),
-    name: Yup.string()
-      .required(' Por favor introduzca un nombre.')
-      .max(100, 'Máximo 100 caracteres.'),
-    description: Yup.string().max(250, ' Máximo 250 caracteres.'),
-    countryId: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione un país.'),
-    departmentId: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione un departamento.'),
-    cityId: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione una ciudad.'),
-    chargeId: Yup.string().ensure(),
-    status: Yup.bool()
-      .test(
-        'Activo',
-        'Es necesario activar el conglomerado',
-        value => value === true
-      )
-      .required('Se debe aceptar la activacion de la empresa.')
-  }),
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    const tipoEstado = data => {
-      let tipo = null;
-      if (data === true) {
-        return (tipo = 1);
-      } else if (data === false) {
-        return (tipo = 0);
-      }
-      return null;
-    };
-    setTimeout(() => {
-      fetch(COMPANYS, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        },
-        body: JSON.stringify({
-          conglomerateId: values.conglomerateId,
-          cityId: values.cityId,
-          code: values.code,
-          nit: values.nit,
-          name: values.name,
-          description: values.description,
-          chargeId: values.chargeId,
-          status: tipoEstado(values.status),
-          userName: 'jferrer'
-        })
-      })
-        .then(response =>
-          response.json().then(data => {
-            if (response.status === 201) {
-              toast.success('Se creo la empresa con éxito.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 400) {
-              toast.error('Error, la empresa ya existe.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 500) {
-              toast.error('Error, no se pudo crear la empresa.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            }
-          })
+export default withTranslation('translations')(
+  withFormik({
+    mapPropsToValues: props => ({
+      conglomerateId: props.empresa.conglomerateId,
+      code: props.empresa.code,
+      nit: props.empresa.nit,
+      name: props.empresa.name,
+      description: props.empresa.description,
+      chargeId: props.empresa.chargeId,
+      status: props.empresa.status,
+      cityId: props.empresa.cityId,
+      departmentId: props.empresa.departmentId,
+      countryId: props.empresa.countryId
+    }),
+    validationSchema: Yup.object().shape({
+      conglomerateId: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione un conglomerado.'),
+      code: Yup.string()
+        .required(' Por favor introduzca un código.')
+        .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
+        .min(2, ' Mínimo 2 caracteres.')
+        .max(15, ' Máximo 15 caracteres.'),
+      nit: Yup.number()
+        .required(' Por favor introduzca el Nit.')
+        .positive(' El número Nit debe ser positivo.')
+        .integer(' El número Nit no acepta puntos, ni caracteres especiales.'),
+      name: Yup.string()
+        .required(' Por favor introduzca un nombre.')
+        .max(100, 'Máximo 100 caracteres.'),
+      description: Yup.string().max(250, ' Máximo 250 caracteres.'),
+      countryId: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione un país.'),
+      departmentId: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione un departamento.'),
+      cityId: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione una ciudad.'),
+      chargeId: Yup.string().ensure(),
+      status: Yup.bool()
+        .test(
+          'Activo',
+          'Es necesario activar el conglomerado',
+          value => value === true
         )
-        .catch(error => {
-          toast.error(`Error ${error}`, {
-            position: toast.POSITION.TOP_RIGHT,
-            className: css({
-              marginTop: '60px'
+        .required('Se debe aceptar la activacion de la empresa.')
+    }),
+    handleSubmit: (values, { setSubmitting, resetForm }) => {
+      const tipoEstado = data => {
+        let tipo = null;
+        if (data === true) {
+          return (tipo = 1);
+        } else if (data === false) {
+          return (tipo = 0);
+        }
+        return null;
+      };
+      setTimeout(() => {
+        fetch(COMPANYS, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          },
+          body: JSON.stringify({
+            conglomerateId: values.conglomerateId,
+            cityId: values.cityId,
+            code: values.code,
+            nit: values.nit,
+            name: values.name,
+            description: values.description,
+            chargeId: values.chargeId,
+            status: tipoEstado(values.status),
+            userName: 'jferrer'
+          })
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (response.status === 201) {
+                toast.success('Se creo la empresa con éxito.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 400) {
+                toast.error('Error, la empresa ya existe.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 500) {
+                toast.error('Error, no se pudo crear la empresa.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              }
             })
+          )
+          .catch(error => {
+            toast.error(`Error ${error}`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: '60px'
+              })
+            });
           });
-        });
-      setSubmitting(false);
-      resetForm();
-    }, 1000);
-  }
-})(EmpresaForm);
+        setSubmitting(false);
+        resetForm();
+      }, 1000);
+    }
+  })(EmpresaForm)
+);

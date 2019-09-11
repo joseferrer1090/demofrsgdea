@@ -39,7 +39,8 @@ class ModalEditDependencia extends React.Component {
     dataHeadquarterList: [],
     alertError: false,
     alertSuccess: false,
-    alertError400: false
+    alertError400: false,
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -197,7 +198,10 @@ class ModalEditDependencia extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Actualizar {this.state.dataDependence.name}</ModalHeader>
+          <ModalHeader>
+            {this.props.t('app_dependencia_modal_actualizar_titulo')}{' '}
+            {this.state.dataDependence.name}
+          </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={result}
@@ -328,7 +332,9 @@ class ModalEditDependencia extends React.Component {
                               style={{ borderBottom: '1px solid black' }}
                             >
                               {' '}
-                              Datos{' '}
+                              {this.props.t(
+                                'app_dependencia_modal_actualizar_titulo_2'
+                              )}{' '}
                             </h5>{' '}
                           </div>
                           <div className="row">
@@ -336,7 +342,9 @@ class ModalEditDependencia extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  Conglomerado{' '}
+                                  {this.state.t(
+                                    'app_dependencia_form_actualizar_conglomerado'
+                                  )}{' '}
                                   <span className="text-danger">*</span>{' '}
                                 </label>
                                 <select
@@ -346,7 +354,13 @@ class ModalEditDependencia extends React.Component {
                                   value={values.conglomerate}
                                   className="form-control form-control-sm"
                                 >
-                                  <option value="">Seleccione...</option>
+                                  <option value="">
+                                    --
+                                    {this.props.t(
+                                      'app_dependencia_form_actualizar_select_conglomerado'
+                                    )}{' '}
+                                    --
+                                  </option>
                                   {conglomerateList}
                                 </select>
                                 <div style={{ color: '#D54B4B' }}>
@@ -362,9 +376,10 @@ class ModalEditDependencia extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  Empresa <span className="text-danger">
-                                    *
-                                  </span>{' '}
+                                  {this.props.t(
+                                    'app_dependencia_form_actualizar_empresa'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <select
                                   name="company"
@@ -373,7 +388,13 @@ class ModalEditDependencia extends React.Component {
                                   value={values.company}
                                   className="form-control form-control-sm"
                                 >
-                                  <option value="">Seleccione...</option>
+                                  <option value="">
+                                    --{' '}
+                                    {this.props.t(
+                                      'app_dependencia_form_actualizar_select_empresa'
+                                    )}{' '}
+                                    --
+                                  </option>
                                   {companyList}
                                 </select>
                                 <div style={{ color: '#D54B4B' }}>
@@ -388,9 +409,10 @@ class ModalEditDependencia extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  Sede <span className="text-danger">
-                                    *
-                                  </span>{' '}
+                                  {this.props.t(
+                                    'app_dependencia_form_actualizar_sede'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <select
                                   name="headquarter"
@@ -399,7 +421,13 @@ class ModalEditDependencia extends React.Component {
                                   value={values.headquarter}
                                   className="form-control form-control-sm"
                                 >
-                                  <option value={' '}>Seleccione...</option>
+                                  <option value={' '}>
+                                    --{' '}
+                                    {this.props.t(
+                                      'app_dependencia_form_actualizar_select_sede'
+                                    )}{' '}
+                                    --
+                                  </option>
                                   {headquarterList}
                                 </select>
                                 <div style={{ color: '#D54B4B' }}>
@@ -414,9 +442,10 @@ class ModalEditDependencia extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  Código <span className="text-danger">
-                                    *
-                                  </span>{' '}
+                                  {this.props.t(
+                                    'app_dependencia_form_actualizar_codigo'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <input
                                   name={'code'}
@@ -440,9 +469,10 @@ class ModalEditDependencia extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  Nombre <span className="text-danger">
-                                    *
-                                  </span>{' '}
+                                  {this.props.t(
+                                    'app_dependencia_form_actualizar_nombre'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <input
                                   type="text"
@@ -466,7 +496,9 @@ class ModalEditDependencia extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  Cargo responsable{' '}
+                                  {this.props.t(
+                                    'app_dependencia_form_actualizar_cargo_responsable'
+                                  )}{' '}
                                   <span className="text-danger">*</span>{' '}
                                 </label>
                                 <select
@@ -476,7 +508,13 @@ class ModalEditDependencia extends React.Component {
                                   value={values.charge}
                                   className="form-control form-control-sm"
                                 >
-                                  <option value="">Seleccione...</option>
+                                  <option value="">
+                                    --{' '}
+                                    {this.props.t(
+                                      'app_dependencia_form_actualizar_select_cargo_responsable'
+                                    )}{' '}
+                                    --
+                                  </option>
                                   {chargeList}
                                 </select>
                                 <div style={{ color: '#D54B4B' }}>
@@ -489,7 +527,12 @@ class ModalEditDependencia extends React.Component {
                             </div>
                             <div className="col-md-12">
                               <div className="form-group">
-                                <label> Descripción </label>
+                                <label>
+                                  {' '}
+                                  {this.props.t(
+                                    'app_dependencia_form_actualizar_descripcion'
+                                  )}{' '}
+                                </label>
                                 <textarea
                                   name={'description'}
                                   onChange={handleChange}
@@ -508,7 +551,10 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  Estado <span className="text-danger">*</span>
+                                  {this.props.t(
+                                    'app_dependencia_form_actualizar_estado'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>
                                 </label>
                                 <div className="text-justify">
                                   <Field
@@ -524,14 +570,9 @@ class ModalEditDependencia extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="dependenciaModalEdit"
-                                          label="Si esta opción se encuentra activada, representa
-                                          que el conglomerado es visible en el sistema y se
-                                          podrán realizar operaciones entre cada uno de los
-                                          módulos correspondientes de la aplicación. En caso
-                                          contrario el conglomerado no se elimina del
-                                          sistema solo quedará inactivo e invisibles para
-                                          cada uno de los módulos correspondiente del
-                                          sistema."
+                                          label={this.props.t(
+                                            'app_dependencia_form_actualizar_estado_descripcion'
+                                          )}
                                           {...field}
                                           checked={field.value}
                                           className={
@@ -560,7 +601,10 @@ class ModalEditDependencia extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" /> Actualizar
+                      <i className="fa fa-pencil" />{' '}
+                      {this.props.t(
+                        'app_dependencia_form_actualizar_boton_actualizar'
+                      )}
                     </button>
                     <button
                       type="button"
@@ -570,7 +614,10 @@ class ModalEditDependencia extends React.Component {
                       }}
                     >
                       {' '}
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t(
+                        'app_dependencia_form_actualizar_boton_cerrar'
+                      )}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -584,7 +631,8 @@ class ModalEditDependencia extends React.Component {
 }
 
 ModalEditDependencia.propTypes = {
-  modalEdit: PropTypes.bool.isRequired
+  modalEdit: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalEditDependencia;

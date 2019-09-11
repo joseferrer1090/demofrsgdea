@@ -24,6 +24,7 @@ import {
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
+import { withTranslation } from 'react-i18next';
 
 const SedesForm = props => {
   const {
@@ -36,7 +37,8 @@ const SedesForm = props => {
     setFieldValue,
     handleBlur,
     handleSubmit,
-    handleReset
+    handleReset,
+    t
   } = props;
 
   const [optionsConglomerate, setOptionsConglomerate] = useState([]);
@@ -222,7 +224,7 @@ const SedesForm = props => {
     <div>
       <Card>
         <ToastContainer />
-        <CardHeader>Registro de sede</CardHeader>
+        <CardHeader>{t('app_sedes_tab_title')}</CardHeader>
         <CardBody>
           <form className="form">
             <Row>
@@ -230,7 +232,8 @@ const SedesForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Conglomerado <span className="text-danger">*</span>{' '}
+                    {t('app_sedes_form_registrar_conglomerado')}{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <select
                     name="conglomerateId"
@@ -243,7 +246,7 @@ const SedesForm = props => {
                   >
                     {' '}
                     <option value={''} disabled>
-                      -- Seleccione --
+                      -- {t('app_sedes_form_registrar_select_conglomerado')} --
                     </option>
                     {mapOptionsConglomerate}{' '}
                   </select>
@@ -259,7 +262,8 @@ const SedesForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Empresa <span className="text-danger">*</span>
+                    {t('app_sedes_form_registrar_empresa')}{' '}
+                    <span className="text-danger">*</span>
                   </label>
                   <br />
                   <select
@@ -272,7 +276,7 @@ const SedesForm = props => {
                       'is-invalid'}`}
                   >
                     <option value={''} disabled>
-                      -- Seleccione --
+                      -- {t('app_sedes_form_registrar_select_empresa')} --
                     </option>
                     {mapOptionsCompanys}
                   </select>
@@ -294,12 +298,13 @@ const SedesForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Código <span className="text-danger">*</span>{' '}
+                    {t('app_sedes_form_registrar_codigo')}{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name="code"
                     onChange={e => {
-                      setFieldValue("code", e.target.value.toUpperCase())
+                      setFieldValue('code', e.target.value.toUpperCase());
                     }}
                     onBlur={handleBlur}
                     value={values.code}
@@ -320,11 +325,14 @@ const SedesForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Nombre <span className="text-danger">*</span>{' '}
+                    {t('app_sedes_form_registrar_nombre')}{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name="name"
-                    onChange={e => { setFieldValue("name", e.target.value.toUpperCase())}}
+                    onChange={e => {
+                      setFieldValue('name', e.target.value.toUpperCase());
+                    }}
                     onBlur={handleBlur}
                     value={values.name}
                     type="text"
@@ -342,7 +350,7 @@ const SedesForm = props => {
               </Col>
               <Col sm="12">
                 <div className="form-group">
-                  <label> Descripción </label>
+                  <label> {t('app_sedes_form_registrar_descripcion')} </label>
                   <textarea
                     name="description"
                     onChange={handleChange}
@@ -358,9 +366,8 @@ const SedesForm = props => {
                 <div className="form-group ">
                   <label>
                     {' '}
-                    Prefijo de radicación <span className="text-danger">
-                      *
-                    </span>{' '}
+                    {t('app_sedes_form_registrar_prefij_radicacion')}{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name="prefix"
@@ -386,7 +393,7 @@ const SedesForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Secuencia de radicación{' '}
+                    {t('app_sedes_form_registrar_sec_radicacion')}{' '}
                     <span className="text-danger">*</span>{' '}
                   </label>
                   <input
@@ -415,16 +422,13 @@ const SedesForm = props => {
                   toggle={onDismiss}
                   fade={true}
                 >
-                  <h4 className="alert-heading">¡ Importante !</h4>
-                  <p>
-                    Los campos de{' '}
-                    <b>Prefijo de radicación y Secuencia de radicación</b>, son
-                    campos que se reflejaran en el formulario de radicación.
-                  </p>
+                  <h4 className="alert-heading">
+                    {t('app_sedes_form_registrar_alert_title')}
+                  </h4>
+                  <p>{t('app_sedes_form_registrar_alert_title_2')}</p>
                   <hr />
                   <p className="mb-0">
-                    Es recomendable que el campo <b>Prefijo de radicación</b>,
-                    se describa acorde al proceso de radicación.
+                    {t('app_sedes_form_registrar_alert_title_3')}
                   </p>
                 </Alert>
               </Col>
@@ -433,7 +437,7 @@ const SedesForm = props => {
             <Row>
               <Col sm="4">
                 <div className="form-group">
-                  <label>País</label>
+                  <label>{t('app_sedes_form_registrar_pais')}</label>
                   <select
                     name={'countryId'}
                     onChange={handleChange}
@@ -444,7 +448,7 @@ const SedesForm = props => {
                       'is-invalid'}`}
                   >
                     <option value={''} disabled>
-                      -- Seleccione --
+                      -- {t('app_sedes_form_select_pais')} --
                     </option>
                     {mapOptionsCountries}
                   </select>
@@ -458,7 +462,7 @@ const SedesForm = props => {
               </Col>
               <Col sm="4">
                 <div className="form-group">
-                  <label>Departamento</label>
+                  <label>{t('app_sedes_form_registrar_departamento')}</label>
                   <select
                     name={'departmentId'}
                     onChange={handleChange}
@@ -469,7 +473,7 @@ const SedesForm = props => {
                       'is-invalid'}`}
                   >
                     <option value={''} disabled>
-                      -- Seleccione --
+                      -- {t('app_sedes_form_select_departamento')} --
                     </option>
                     {mapOptionsDepartments}
                   </select>
@@ -484,7 +488,8 @@ const SedesForm = props => {
               <Col sm="4">
                 <div className="form-group">
                   <label>
-                    Ciudad <span className="text-danger">*</span>
+                    {t('app_sedes_form_registrar_ciudad')}{' '}
+                    <span className="text-danger">*</span>
                   </label>
                   <select
                     name={'cityId'}
@@ -496,7 +501,7 @@ const SedesForm = props => {
                       'is-invalid'}`}
                   >
                     <option value={''} disabled>
-                      -- Seleccione --
+                      -- {t('app_sedes_form_select_ciudad')} --
                     </option>
                     {mapOptionsCitys}
                   </select>
@@ -512,7 +517,8 @@ const SedesForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Dirección <span className="text-danger">*</span>{' '}
+                    {t('app_sedes_form_registrar_direccion')}{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name={'address'}
@@ -536,7 +542,8 @@ const SedesForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Teléfono <span className="text-danger">*</span>{' '}
+                    {t('app_sedes_form_registrar_telefono')}{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <input
                     name={'phone'}
@@ -561,7 +568,10 @@ const SedesForm = props => {
             <Row>
               <Col sm="12">
                 <div className="form-group">
-                  <label> Cargo responsable </label>
+                  <label>
+                    {' '}
+                    {t('app_sedes_form_registrar_cargo_responsable')}{' '}
+                  </label>
                   {/* <Select
                     value={selectedOptionOptionRolResponsable}
                     onChange={this.handleChangeOptionRolResponsable}
@@ -574,7 +584,11 @@ const SedesForm = props => {
                     value={values.chargeId}
                     className="form-control form-control-sm"
                   >
-                    <option value={''}>-- Seleccione --</option>
+                    <option value={''}>
+                      --{' '}
+                      {t('app_sedes_form_registrar_select_cargo_responsable')}{' '}
+                      --
+                    </option>
                     {mapOptionsCharges}
                   </select>
                 </div>
@@ -583,7 +597,8 @@ const SedesForm = props => {
                 <div className="form-group">
                   <label>
                     {' '}
-                    Estado <span className="text-danger">*</span>{' '}
+                    {t('app_sedes_form_registrar_estado')}{' '}
+                    <span className="text-danger">*</span>{' '}
                   </label>
                   <div className="text-justify">
                     <CustomInput
@@ -593,13 +608,7 @@ const SedesForm = props => {
                       value={values.status}
                       type="checkbox"
                       id="ExampleInputCheckbox"
-                      label="Si esta opción se encuentra activada, Representa que
-                             la sede es visible en el sistema y se podrán
-                             realizar operaciones entre cada uno de los módulos
-                             correspondientes de la aplicación. En caso contrario
-                             la sede no se elimina del sistema solo quedará
-                             inactiva e invisibles para cada uno de los módulos
-                             correspondiente del sistema."
+                      label={t('app_sedes_form_registrar_estado_descripcion')}
                       className={
                         errors.status && touched.status && 'invalid-feedback'
                       }
@@ -635,7 +644,8 @@ const SedesForm = props => {
                 <i className=" fa fa-spinner fa-spin" />
               ) : (
                 <div>
-                  <i className="fa fa-save" /> Guardar
+                  <i className="fa fa-save" />{' '}
+                  {t('app_sedes_form_registrar_boton_guardar')}
                 </div>
               )}
             </button>
@@ -646,133 +656,139 @@ const SedesForm = props => {
   );
 };
 
-export default withFormik({
-  mapPropsToValues: props => ({
-    conglomerateId: props.sede.conglomerateId,
-    companyId: props.sede.companyId,
-    code: props.sede.code,
-    name: props.sede.name,
-    description: props.sede.description,
-    prefix: props.sede.prefix,
-    sequence: props.sede.sequence,
-    countryId: props.sede.countryId,
-    departmentId: props.sede.departmentId,
-    cityId: props.sede.cityId,
-    address: props.sede.address,
-    phone: props.sede.phone,
-    chargeId: props.sede.chargeId,
-    status: props.sede.status
-  }),
-  validationSchema: Yup.object().shape({
-    conglomerateId: Yup.string()
-      .required(' Por favor seleccione un conglomerado.')
-      .ensure(),
-    companyId: Yup.string()
-      .required(' Por favor seleccione una empresa.')
-      .ensure(),
-    code: Yup.string()
-      .required(' Por favor introduzca un código.')
-      .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
-      .max(15, ' Máximo 15 caracteres.')
-      .min(2, ' Mínimo 2 caracteres.'),
-    name: Yup.string()
-      .required(' Por favor introduzca un nombre.')
-      .max(100, ' Máximo 100 caracteres'),
-    description: Yup.string().max(250, 'Máximo 250 caracteres.'),
-    prefix: Yup.string()
-      .required(' Por favor asigne un prefijo de radicación.')
-      .min(2, ' Mínimo 2 caracteres.')
-      .max(6, ' Máximo 6 caracteres.'),
-    sequence: Yup.number()
-      .required(' Por favor asigne una secuencia de radicación.')
-      .integer()
-      .positive(),
-    countryId: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione un país.'),
-    departmentId: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione un departamento.'),
-    cityId: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione una ciudad.'),
-    address: Yup.string().required(' Por favor introduzca una dirección.'),
-    phone: Yup.string()
-      .max(10, ' Máximo 8 caracteres')
-      .required(' Por favor introduzca un número telefónico.'),
-    chargeId: Yup.string().ensure(),
-    status: Yup.bool()
-      .test('Activo', ' Es necesario activar la sede.', value => value === true)
-      .required(' Es necesario activar la sede.')
-  }),
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    const tipoEstado = data => {
-      let tipo = null;
-      if (data === true) {
-        return (tipo = 1);
-      } else if (data === false) {
-        return (tipo = 0);
-      }
-      return null;
-    };
-    setTimeout(() => {
-      fetch(HEADQUARTERS, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        },
-        body: JSON.stringify({
-          description: values.description,
-          code: values.code,
-          name: values.name,
-          prefix: values.prefix,
-          sequence: values.sequence,
-          address: values.address,
-          phone: values.phone,
-          companyId: values.companyId,
-          cityId: values.cityId,
-          chargeId: values.chargeId,
-          status: tipoEstado(values.status),
-          userName: 'jferrer'
-        })
-      })
-        .then(response =>
-          response.json().then(data => {
-            if (response.status === 201) {
-              toast.success('Se creo la sede con éxito.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 400) {
-              toast.error('Error, la sede ya existe.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 500) {
-              toast.error('Error, no se pudo crear la sede.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            }
-          })
+export default withTranslation('translations')(
+  withFormik({
+    mapPropsToValues: props => ({
+      conglomerateId: props.sede.conglomerateId,
+      companyId: props.sede.companyId,
+      code: props.sede.code,
+      name: props.sede.name,
+      description: props.sede.description,
+      prefix: props.sede.prefix,
+      sequence: props.sede.sequence,
+      countryId: props.sede.countryId,
+      departmentId: props.sede.departmentId,
+      cityId: props.sede.cityId,
+      address: props.sede.address,
+      phone: props.sede.phone,
+      chargeId: props.sede.chargeId,
+      status: props.sede.status
+    }),
+    validationSchema: Yup.object().shape({
+      conglomerateId: Yup.string()
+        .required(' Por favor seleccione un conglomerado.')
+        .ensure(),
+      companyId: Yup.string()
+        .required(' Por favor seleccione una empresa.')
+        .ensure(),
+      code: Yup.string()
+        .required(' Por favor introduzca un código.')
+        .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
+        .max(15, ' Máximo 15 caracteres.')
+        .min(2, ' Mínimo 2 caracteres.'),
+      name: Yup.string()
+        .required(' Por favor introduzca un nombre.')
+        .max(100, ' Máximo 100 caracteres'),
+      description: Yup.string().max(250, 'Máximo 250 caracteres.'),
+      prefix: Yup.string()
+        .required(' Por favor asigne un prefijo de radicación.')
+        .min(2, ' Mínimo 2 caracteres.')
+        .max(6, ' Máximo 6 caracteres.'),
+      sequence: Yup.number()
+        .required(' Por favor asigne una secuencia de radicación.')
+        .integer()
+        .positive(),
+      countryId: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione un país.'),
+      departmentId: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione un departamento.'),
+      cityId: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione una ciudad.'),
+      address: Yup.string().required(' Por favor introduzca una dirección.'),
+      phone: Yup.string()
+        .max(10, ' Máximo 8 caracteres')
+        .required(' Por favor introduzca un número telefónico.'),
+      chargeId: Yup.string().ensure(),
+      status: Yup.bool()
+        .test(
+          'Activo',
+          ' Es necesario activar la sede.',
+          value => value === true
         )
-        .catch(error => {
-          toast.error(`Error ${error}`, {
-            position: toast.POSITION.TOP_RIGHT,
-            className: css({
-              marginTop: '60px'
+        .required(' Es necesario activar la sede.')
+    }),
+    handleSubmit: (values, { setSubmitting, resetForm }) => {
+      const tipoEstado = data => {
+        let tipo = null;
+        if (data === true) {
+          return (tipo = 1);
+        } else if (data === false) {
+          return (tipo = 0);
+        }
+        return null;
+      };
+      setTimeout(() => {
+        fetch(HEADQUARTERS, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          },
+          body: JSON.stringify({
+            description: values.description,
+            code: values.code,
+            name: values.name,
+            prefix: values.prefix,
+            sequence: values.sequence,
+            address: values.address,
+            phone: values.phone,
+            companyId: values.companyId,
+            cityId: values.cityId,
+            chargeId: values.chargeId,
+            status: tipoEstado(values.status),
+            userName: 'jferrer'
+          })
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (response.status === 201) {
+                toast.success('Se creo la sede con éxito.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 400) {
+                toast.error('Error, la sede ya existe.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 500) {
+                toast.error('Error, no se pudo crear la sede.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              }
             })
+          )
+          .catch(error => {
+            toast.error(`Error ${error}`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: '60px'
+              })
+            });
           });
-        });
-      setSubmitting(false);
-      resetForm();
-    }, 1000);
-  }
-})(SedesForm);
+        setSubmitting(false);
+        resetForm();
+      }, 1000);
+    }
+  })(SedesForm)
+);

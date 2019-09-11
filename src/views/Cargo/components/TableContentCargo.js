@@ -8,6 +8,7 @@ import ModalExport from './ModalExportCSV';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import './../../../css/styleTableCargo.css';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class TableContentCargo extends Component {
   constructor(props) {
@@ -127,7 +128,8 @@ class TableContentCargo extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar CSV
+        <i className="fa fa-download" />{' '}
+        {this.props.t('app_cargo_administrar_table_button_exportar')}
       </button>
     );
   };
@@ -136,6 +138,7 @@ class TableContentCargo extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup
     };
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Col md="12">
@@ -144,7 +147,7 @@ class TableContentCargo extends Component {
             striped
             hover
             search
-            searchPlaceholder="Buscar"
+            searchPlaceholder={t('app_cargo_administrar_table_placeholder')}
             data={this.state.dataCharge}
             exportCSV
             pagination
@@ -169,16 +172,16 @@ class TableContentCargo extends Component {
             >
               #
             </TableHeaderColumn>
-            <TableHeaderColumn dataAlign="center" dataField="code" width={150}>
+            <TableHeaderColumn dataAlign="center" dataField="code" width={120}>
               {' '}
-              Código{' '}
+              {t('app_cargo_administrar_table_codigo')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
               dataField="name"
               width={'170'}
             >
-              Nombre
+              {t('app_cargo_administrar_table_nombre')}
             </TableHeaderColumn>
 
             <TableHeaderColumn
@@ -187,16 +190,16 @@ class TableContentCargo extends Component {
               width={'200'}
             >
               {' '}
-              Descripción{' '}
+              {t('app_cargo_administrar_table_descripcion')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
               dataField={'createdAt'}
               dataFormat={(cell, row) => this.FechaCreacionCargo(cell, row)}
               dataAlign="center"
-              width={'120'}
+              width={'140'}
             >
-              Fecha de creación
+              {t('app_cargo_administrar_table_fecha_creacion')}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
@@ -205,7 +208,7 @@ class TableContentCargo extends Component {
               width="100"
             >
               {' '}
-              Estado{' '}
+              {t('app_cargo_administrar_table_estado')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'150'}
@@ -214,17 +217,33 @@ class TableContentCargo extends Component {
               dataFormat={(cell, row) => this.accionesCargo(cell, row)}
             >
               {' '}
-              Acciones{' '}
+              {t('app_cargo_administrar_table_acciones')}{' '}
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
-        <ModalView modalviewcargo={this.state.modalview} ref="child1" />
-        <ModalEdit modaleditcargo={this.state.modaledit} ref="child2" />
-        <ModalDel modaldelete={this.state.modaldelete} ref="child3" />
-        <ModalExport modalexport={this.state.modalexport} ref="child4" />
+        <ModalView
+          t={this.props.t}
+          modalviewcargo={this.state.modalview}
+          ref="child1"
+        />
+        <ModalEdit
+          t={this.props.t}
+          modaleditcargo={this.state.modaledit}
+          ref="child2"
+        />
+        <ModalDel
+          t={this.props.t}
+          modaldelete={this.state.modaldelete}
+          ref="child3"
+        />
+        <ModalExport
+          t={this.props.t}
+          modalexport={this.state.modalexport}
+          ref="child4"
+        />
       </div>
     );
   }
 }
 
-export default TableContentCargo;
+export default withTranslation('translations')(TableContentCargo);

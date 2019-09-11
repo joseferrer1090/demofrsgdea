@@ -9,6 +9,7 @@ import ModalExport from './ModalExportCSV';
 import './../../../css/styleTableDependencia.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class TableContentDependencia extends Component {
   constructor(props) {
@@ -131,7 +132,8 @@ class TableContentDependencia extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar CSV
+        <i className="fa fa-download" />{' '}
+        {this.props.t('app_dependencia_administrar_table_button_exportar')}
       </button>
     );
   };
@@ -141,6 +143,7 @@ class TableContentDependencia extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup
     };
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Col md="12">
@@ -149,7 +152,9 @@ class TableContentDependencia extends Component {
             data={dataDependence}
             pagination
             search
-            searchPlaceholder="Buscar"
+            searchPlaceholder={this.props.t(
+              'app_dependencia_administrar_table_placeholder'
+            )}
             exportCSV
             bordered={false}
             hover
@@ -178,7 +183,7 @@ class TableContentDependencia extends Component {
               dataAlign="center"
               dataSort={true}
             >
-              Sede
+              {t('app_dependencia_administrar_table_sede')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'100'}
@@ -186,7 +191,7 @@ class TableContentDependencia extends Component {
               dataAlign="center"
               dataSort={true}
             >
-              Código
+              {t('app_dependencia_administrar_table_codigo')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'170'}
@@ -194,7 +199,7 @@ class TableContentDependencia extends Component {
               dataSort={true}
               dataAlign="center"
             >
-              Nombre
+              {t('app_dependencia_administrar_table_nombre')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'120'}
@@ -203,7 +208,7 @@ class TableContentDependencia extends Component {
               dataAlign="center"
               dataSort={true}
             >
-              Cargo responsable
+              {t('app_dependencia_administrar_table_cargo_responsable')}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
@@ -212,9 +217,9 @@ class TableContentDependencia extends Component {
                 this.FechaCreacionDependencia(cell, row)
               }
               dataAlign="center"
-              width={'100'}
+              width={'140'}
             >
-              Fecha de creación
+              {t('app_dependencia_administrar_table_fecha_creacion')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'70'}
@@ -224,7 +229,7 @@ class TableContentDependencia extends Component {
               dataFormat={(cell, row) => this.StatusDependencia(cell, row)}
             >
               {' '}
-              Estado{' '}
+              {t('app_dependencia_administrar_table_estado')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'120'}
@@ -232,14 +237,30 @@ class TableContentDependencia extends Component {
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesDependencias(cell, row)}
             >
-              Acciones
+              {t('app_dependencia_administrar_table_acciones')}
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
-        <ModalView modalView={this.state.modalviewstate} ref="child1" />
-        <ModalEdit modalEdit={this.state.modaleditstate} ref="child2" />
-        <ModalDelete modalDel={this.state.modaldelstate} ref="child3" />
-        <ModalExport modalExport={this.state.modalexport} ref={'child4'} />
+        <ModalView
+          t={this.props.t}
+          modalView={this.state.modalviewstate}
+          ref="child1"
+        />
+        <ModalEdit
+          t={this.props.t}
+          modalEdit={this.state.modaleditstate}
+          ref="child2"
+        />
+        <ModalDelete
+          t={this.props.t}
+          modalDel={this.state.modaldelstate}
+          ref="child3"
+        />
+        <ModalExport
+          t={this.props.t}
+          modalExport={this.state.modalexport}
+          ref={'child4'}
+        />
       </div>
     );
   }
@@ -247,4 +268,4 @@ class TableContentDependencia extends Component {
 
 TableContentDependencia.propTypes = {};
 
-export default TableContentDependencia;
+export default withTranslation('translations')(TableContentDependencia);

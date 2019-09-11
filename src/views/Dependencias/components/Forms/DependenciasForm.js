@@ -22,6 +22,8 @@ import {
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
+import { withTranslation } from 'react-i18next';
+
 const DependenciaForm = props => {
   const {
     values,
@@ -33,7 +35,8 @@ const DependenciaForm = props => {
     setFieldValue,
     handleBlur,
     handleSubmit,
-    handleReset
+    handleReset,
+    t
   } = props;
 
   const [optionsConglomerate, setOptionsConglomerate] = useState([]);
@@ -158,7 +161,7 @@ const DependenciaForm = props => {
         <Col sm={{ size: 8, offset: 2 }}>
           <Card>
             <ToastContainer />
-            <CardHeader>Registro de dependencia</CardHeader>
+            <CardHeader>{t('app_dependencia_tab_title')}</CardHeader>
             <CardBody>
               <form className="form" role="form">
                 <div className="row">
@@ -166,7 +169,8 @@ const DependenciaForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Conglomerado <span className="text-danger">*</span>{' '}
+                        {t('app_dependencia_form_registrar_conglomerado')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <select
                         name="conglomerateId"
@@ -177,7 +181,13 @@ const DependenciaForm = props => {
                           touched.conglomerateId &&
                           'is-invalid'}`}
                       >
-                        <option value={''}>-- Seleccione --</option>
+                        <option value={''}>
+                          --{' '}
+                          {t(
+                            'app_dependencia_form_registrar_select_conglomerado'
+                          )}{' '}
+                          --
+                        </option>
                         {mapOptionsConglomerate}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
@@ -192,7 +202,8 @@ const DependenciaForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Empresa <span className="text-danger">*</span>{' '}
+                        {t('app_dependencia_form_registrar_empresa')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <select
                         name={'companyId'}
@@ -204,7 +215,14 @@ const DependenciaForm = props => {
                           'is-invalid'}`}
                       >
                         {' '}
-                        <option value={''}> -- Seleccione --</option>
+                        <option value={''}>
+                          {' '}
+                          --{' '}
+                          {t(
+                            'app_dependencia_form_registrar_select_empresa'
+                          )}{' '}
+                          --
+                        </option>
                         {mapOptionsCompanys}{' '}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
@@ -219,7 +237,8 @@ const DependenciaForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Sede <span className="text-danger">*</span>{' '}
+                        {t('app_dependencia_form_registrar_sede')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <select
                         name={'headquarterId'}
@@ -230,7 +249,10 @@ const DependenciaForm = props => {
                           touched.headquarterId &&
                           'is-invalid'}`}
                       >
-                        <option value={''}>-- Seleccione --</option>
+                        <option value={''}>
+                          -- {t('app_dependencia_form_registrar_select_sede')}{' '}
+                          --
+                        </option>
                         {mapOptionsHeadquarters}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
@@ -245,13 +267,16 @@ const DependenciaForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Código <span className="text-danger">*</span>{' '}
+                        {t('app_dependencia_form_registrar_codigo')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'code'}
                         type="text"
                         placeholder=""
-                        onChange={e => {setFieldValue("code", e.target.value.toUpperCase())}}
+                        onChange={e => {
+                          setFieldValue('code', e.target.value.toUpperCase());
+                        }}
                         onBlur={handleBlur}
                         value={values.code}
                         className={`form-control form-control-sm ${errors.code &&
@@ -270,11 +295,14 @@ const DependenciaForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Nombre <span className="text-danger">*</span>{' '}
+                        {t('app_dependencia_form_registrar_nombre')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'name'}
-                        onChange={e => {setFieldValue("name", e.target.value.toUpperCase())}}
+                        onChange={e => {
+                          setFieldValue('name', e.target.value.toUpperCase());
+                        }}
                         onBlur={handleBlur}
                         value={values.name}
                         type="text"
@@ -293,7 +321,10 @@ const DependenciaForm = props => {
                   </div>
                   <div className="col-md-12">
                     <div className="form-group">
-                      <label> Descripción </label>
+                      <label>
+                        {' '}
+                        {t('app_dependencia_form_registrar_descripcion')}{' '}
+                      </label>
                       <textarea
                         name={'description'}
                         onChange={handleChange}
@@ -316,9 +347,10 @@ const DependenciaForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Cargo responsable <span className="text-danger">
-                          *
-                        </span>{' '}
+                        {t(
+                          'app_dependencia_form_registrar_cargo_responsable'
+                        )}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <select
                         name={'chargeId'}
@@ -330,7 +362,13 @@ const DependenciaForm = props => {
                           'is-invalid'}`}
                       >
                         {' '}
-                        <option value={''}>-- Seleccione --</option>
+                        <option value={''}>
+                          --{' '}
+                          {t(
+                            'app_dependencia_form_registrar_select_cargo_responsable'
+                          )}{' '}
+                          --
+                        </option>
                         {mapOptionsCharges}{' '}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
@@ -345,7 +383,8 @@ const DependenciaForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Estado <span className="text-danger">*</span>{' '}
+                        {t('app_dependencia_form_registrar_estado')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <div className="text-justify">
                         <CustomInput
@@ -355,13 +394,9 @@ const DependenciaForm = props => {
                           value={values.status}
                           type="checkbox"
                           id="CheckboxEditDependencia"
-                          label=" Si esta opción se encuentra activada, representa
-                              que la dependencia es visible en el sistema y se
-                              podrán realizar operaciones entre cada uno de los
-                              módulos correspondientes de la aplicación. En caso
-                              contrario la dependencia no se elimina del sistema
-                              solo quedará inactivo e invisibles para cada uno
-                              de los módulos correspondiente del sistema."
+                          label={t(
+                            'app_dependencia_form_registrar_estado_descripcion'
+                          )}
                           className={
                             errors.status &&
                             touched.status &&
@@ -398,7 +433,8 @@ const DependenciaForm = props => {
                     <i className=" fa fa-spinner fa-spin" />
                   ) : (
                     <div>
-                      <i className="fa fa-save" /> Guardar
+                      <i className="fa fa-save" />{' '}
+                      {t('app_dependencia_form_registrar_boton_guardar')}
                     </div>
                   )}
                 </button>
@@ -411,107 +447,109 @@ const DependenciaForm = props => {
   );
 };
 
-export default withFormik({
-  mapPropsToValues: props => ({
-    conglomerateId: props.dependencia.conglomerateId,
-    companyId: props.dependencia.companyId,
-    headquarterId: props.dependencia.headquarterId,
-    code: props.dependencia.code,
-    name: props.dependencia.name,
-    description: props.dependencia.description,
-    chargeId: props.dependencia.chargeId,
-    status: props.dependencia.status
-  }),
-  validationSchema: Yup.object().shape({
-    conglomerateId: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione un conglomerado.'),
-    companyId: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione una empresa.'),
-    headquarterId: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione una sede.'),
-    code: Yup.string()
-      .required(' Por favor introduzca un código.')
-      .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
-      .min(2, ' Mínimo 2 caracteres.')
-      .max(15, ' Máximo 15 caracteres.'),
-    name: Yup.string().required(' Por favor introduzca un nombre.'),
-    description: Yup.string(),
-    chargeId: Yup.string()
-      .required(' Por favor seleccione un cargo.')
-      .ensure()
-      .required(' Por favor seleccione el cargo.'),
-    status: Yup.bool().test(
-      'Activo',
-      'Es necesario activar el conglomerado.',
-      value => value === true
-    )
-  }),
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    const tipoEstado = data => {
-      let tipo = null;
-      if (data === true) {
-        return (tipo = 1);
-      } else if (data === false) {
-        return (tipo = 0);
-      }
-      return null;
-    };
-    setTimeout(() => {
-      fetch(DEPENDENCIES, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        },
-        body: JSON.stringify({
-          description: values.description,
-          code: values.code,
-          name: values.name,
-          headquarterId: values.headquarterId,
-          chargeId: values.chargeId,
-          status: tipoEstado(values.status),
-          userName: 'jferrer'
-        })
-      })
-        .then(response =>
-          response.json().then(data => {
-            if (response.status === 201) {
-              toast.success('Se creo la dependencia con éxito.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 400) {
-              toast.error('Error, la dependencia  ya existe.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 500) {
-              toast.error('Error, no se pudo crear la dependencia.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            }
+export default withTranslation('translations')(
+  withFormik({
+    mapPropsToValues: props => ({
+      conglomerateId: props.dependencia.conglomerateId,
+      companyId: props.dependencia.companyId,
+      headquarterId: props.dependencia.headquarterId,
+      code: props.dependencia.code,
+      name: props.dependencia.name,
+      description: props.dependencia.description,
+      chargeId: props.dependencia.chargeId,
+      status: props.dependencia.status
+    }),
+    validationSchema: Yup.object().shape({
+      conglomerateId: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione un conglomerado.'),
+      companyId: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione una empresa.'),
+      headquarterId: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione una sede.'),
+      code: Yup.string()
+        .required(' Por favor introduzca un código.')
+        .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
+        .min(2, ' Mínimo 2 caracteres.')
+        .max(15, ' Máximo 15 caracteres.'),
+      name: Yup.string().required(' Por favor introduzca un nombre.'),
+      description: Yup.string(),
+      chargeId: Yup.string()
+        .required(' Por favor seleccione un cargo.')
+        .ensure()
+        .required(' Por favor seleccione el cargo.'),
+      status: Yup.bool().test(
+        'Activo',
+        'Es necesario activar el conglomerado.',
+        value => value === true
+      )
+    }),
+    handleSubmit: (values, { setSubmitting, resetForm }) => {
+      const tipoEstado = data => {
+        let tipo = null;
+        if (data === true) {
+          return (tipo = 1);
+        } else if (data === false) {
+          return (tipo = 0);
+        }
+        return null;
+      };
+      setTimeout(() => {
+        fetch(DEPENDENCIES, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          },
+          body: JSON.stringify({
+            description: values.description,
+            code: values.code,
+            name: values.name,
+            headquarterId: values.headquarterId,
+            chargeId: values.chargeId,
+            status: tipoEstado(values.status),
+            userName: 'jferrer'
           })
-        )
-        .catch(error => {
-          toast.error(`Error ${error}`, {
-            position: toast.POSITION.TOP_RIGHT,
-            className: css({
-              marginTop: '60px'
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (response.status === 201) {
+                toast.success('Se creo la dependencia con éxito.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 400) {
+                toast.error('Error, la dependencia  ya existe.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 500) {
+                toast.error('Error, no se pudo crear la dependencia.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              }
             })
+          )
+          .catch(error => {
+            toast.error(`Error ${error}`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: '60px'
+              })
+            });
           });
-        });
-      setSubmitting(false);
-      resetForm();
-    }, 1000);
-  }
-})(DependenciaForm);
+        setSubmitting(false);
+        resetForm();
+      }, 1000);
+    }
+  })(DependenciaForm)
+);

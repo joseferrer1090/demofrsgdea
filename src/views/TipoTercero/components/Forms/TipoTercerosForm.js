@@ -15,6 +15,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
+
 const TipoTercerosForm = props => {
   const {
     values,
@@ -28,7 +29,6 @@ const TipoTercerosForm = props => {
     setFieldValue,
     t
   } = props;
-
   return (
     <div className="animated fadeIn">
       <Row>
@@ -48,7 +48,9 @@ const TipoTercerosForm = props => {
                       </label>
                       <input
                         name={'code'}
-                        onChange={e => {setFieldValue("code", e.target.value.toUpperCase())}}
+                        onChange={e => {
+                          setFieldValue('code', e.target.value.toUpperCase());
+                        }}
                         onBlur={handleBlur}
                         value={values.code}
                         type="text"
@@ -73,7 +75,9 @@ const TipoTercerosForm = props => {
                       </label>
                       <input
                         name={'name'}
-                        onChange={e => {setFieldValue("name", e.target.value.toUpperCase())}}
+                        onChange={e => {
+                          setFieldValue('name', e.target.value.toUpperCase());
+                        }}
                         onBlur={handleBlur}
                         value={values.name}
                         type="text"

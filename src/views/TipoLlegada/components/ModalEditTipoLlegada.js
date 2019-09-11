@@ -22,7 +22,8 @@ class ModalEditTipoLlegada extends React.Component {
     dataResult: {},
     alertError: false,
     alertSuccess: false,
-    alertError400: false
+    alertError400: false,
+    t: this.props.t
   };
 
   toggle = id => {
@@ -64,7 +65,8 @@ class ModalEditTipoLlegada extends React.Component {
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            Actualizar {dataResult.typeshipmentarrival_name}
+            {this.props.t('app_tipoLlegada_modal_actualizar_titulo')}{' '}
+            {dataResult.typeshipmentarrival_name}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -193,14 +195,19 @@ class ModalEditTipoLlegada extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            Datos{' '}
+                            {this.props.t(
+                              'app_tipoLlegada_modal_actualizar_titulo_2'
+                            )}{' '}
                           </h5>{' '}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Código <span className="text-danger">*</span>{' '}
+                                {this.props.t(
+                                  'app_tipoLlegada_modal_actualizar_codigo'
+                                )}{' '}
+                                <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
                                   <input
@@ -229,7 +236,10 @@ class ModalEditTipoLlegada extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Nombre <span className="text-danger">*</span>{' '}
+                                {this.props.t(
+                                  'app_tipoLlegada_modal_actualizar_nombre'
+                                )}{' '}
+                                <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
                                   <input
@@ -258,7 +268,9 @@ class ModalEditTipoLlegada extends React.Component {
                           <div className="col-md-12">
                             <div className="form-group">
                               <dl className="param">
-                                Descripción
+                                {this.props.t(
+                                  'app_tipoLlegada_modal_actualizar_descripcion'
+                                )}
                                 <dd>
                                   {' '}
                                   <textarea
@@ -290,9 +302,10 @@ class ModalEditTipoLlegada extends React.Component {
                               <dl className="param">
                                 <label>
                                   {' '}
-                                  Estado <span className="text-danger">
-                                    *
-                                  </span>{' '}
+                                  {this.props.t(
+                                    'app_tipoLlegada_modal_actualizar_estado'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <div className="text-justify">
                                   <Field
@@ -302,13 +315,9 @@ class ModalEditTipoLlegada extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="CheckBoxEditRoles"
-                                          label=" Si esta opción se encuentra activada, representa
-                            que el rol es visible en el sistema y se podrán
-                            realizar operaciones entre cada uno de los módulos
-                            correspondientes de la aplicación. En caso
-                            contrario el rol no se elimina del sistema solo
-                            quedará inactivo e invisibles para cada uno de los
-                            módulos correspondiente del sistema."
+                                          label={this.props.t(
+                                            'app_tipoLlegada_modal_actualizar_estado_descripcion'
+                                          )}
                                           {...field}
                                           checked={field.value}
                                           className={
@@ -338,7 +347,10 @@ class ModalEditTipoLlegada extends React.Component {
                         }}
                         className="btn btn-sm btn-outline-success"
                       >
-                        <i className="fa fa-pencil" /> Actualizar
+                        <i className="fa fa-pencil" />{' '}
+                        {this.props.t(
+                          'app_tipoLlegada_modal_actualizar_button_actualizar'
+                        )}
                       </button>
                       &nbsp;
                       <button
@@ -347,7 +359,10 @@ class ModalEditTipoLlegada extends React.Component {
                           this.setState({ modal: false });
                         }}
                       >
-                        <i className="fa fa-times" /> Cerrar
+                        <i className="fa fa-times" />{' '}
+                        {this.props.t(
+                          'app_tipoLlegada_modal_actualizar_button_cerrar'
+                        )}
                       </button>
                     </div>
                   </ModalFooter>

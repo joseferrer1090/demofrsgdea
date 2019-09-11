@@ -17,7 +17,8 @@ class ModalViewTipoLlegada extends Component {
     this.state = {
       modal: this.props.modalview,
       id: this.props.id,
-      dataTipoLlegada: {}
+      dataTipoLlegada: {},
+      t: this.props.t
     };
   }
 
@@ -75,7 +76,9 @@ class ModalViewTipoLlegada extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Tipo de envío / llegada {name}</ModalHeader>
+          <ModalHeader>
+            {this.props.t('app_tipoLlegada_modal_ver_titulo')} {name}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -86,14 +89,16 @@ class ModalViewTipoLlegada extends Component {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    Datos{' '}
+                    {this.props.t('app_tipoLlegada_modal_ver_titulo_2')}{' '}
                   </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Código </dt>
+                        <dt>
+                          {this.props.t('app_tipoLlegada_modal_ver_codigo')}{' '}
+                        </dt>
                         <dd> {code} </dd>
                       </dl>
                     </div>
@@ -101,7 +106,9 @@ class ModalViewTipoLlegada extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
+                        <dt>
+                          {this.props.t('app_tipoLlegada_modal_ver_nombre')}{' '}
+                        </dt>
                         <dd> {name} </dd>
                       </dl>
                     </div>
@@ -109,7 +116,11 @@ class ModalViewTipoLlegada extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Descripción </dt>
+                        <dt>
+                          {this.props.t(
+                            'app_tipoLlegada_modal_ver_descripcion'
+                          )}{' '}
+                        </dt>
                         <dd> {description} </dd>
                       </dl>
                     </div>
@@ -117,7 +128,9 @@ class ModalViewTipoLlegada extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Estado </dt>
+                        <dt>
+                          {this.props.t('app_tipoLlegada_modal_ver_estado')}{' '}
+                        </dt>
                         <dd> {statusTipoLlegada(status)} </dd>
                       </dl>
                     </div>
@@ -125,7 +138,11 @@ class ModalViewTipoLlegada extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de creación </dt>
+                        <dt>
+                          {this.props.t(
+                            'app_tipoLlegada_modal_ver_fecha_creacion'
+                          )}{' '}
+                        </dt>
                         <dd>{this.FechaCreacionTipoLlegada(createdAt)}</dd>
                       </dl>
                     </div>
@@ -133,7 +150,11 @@ class ModalViewTipoLlegada extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de modificación </dt>
+                        <dt>
+                          {this.props.t(
+                            'app_tipoLlegada_modal_ver_fecha_modificacion'
+                          )}{' '}
+                        </dt>
                         <dd>
                           {' '}
                           {this.FechaModificacionTipoLlegada(updatedAt)}{' '}
@@ -153,7 +174,8 @@ class ModalViewTipoLlegada extends Component {
               }}
             >
               {' '}
-              <i className="fa fa-times" /> Cerrar{' '}
+              <i className="fa fa-times" />{' '}
+              {this.props.t('app_tipoLlegada_modal_ver_button_cerrar')}{' '}
             </button>
           </ModalFooter>
         </Modal>

@@ -7,6 +7,7 @@ import axios from 'axios';
 import { CsvToHtmlTable } from 'react-csv-to-table';
 import { ToastContainer, toast } from 'react-toastify';
 import { css } from 'glamor';
+import { withTranslation } from 'react-i18next';
 
 class FormImportMensajero extends React.Component {
   state = {
@@ -21,6 +22,7 @@ class FormImportMensajero extends React.Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <Fragment>
         <Row>
@@ -29,33 +31,26 @@ class FormImportMensajero extends React.Component {
             <div className="list-group">
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">1. Paso</h5>
+                  <h5 className="mb-1">{t('app_mensajero_import_step_1')}</h5>
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  Descargue la plantilla de formato de importación de datos
-                  (Link). Abre el archivo , proceda a rellenar los campos
-                  indicados en el formato y guarde los cambios.
+                  {t('app_mensajero_import_step_1_descripcion')}
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">2. Paso</h5>
+                  <h5 className="mb-1">{t('app_mensajero_import_step_2')}</h5>
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  Si desea importar un archivo plano debe indicar el separador
-                  de los campos. Si el primer registro del archivo contiene los
-                  títulos debe marcar el check “Títulos”.
+                  {t('app_mensajero_import_step_2_descripcion')}
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">3. Paso</h5>
+                  <h5 className="mb-1">{t('app_mensajero_import_step_3')}</h5>
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  Haga clic en la opción “Seleccionar archivo” y seleccione el
-                  archivo de formato de importación de los datos al cual le
-                  agrego los campos requeridos. Haga clic en la opción “Cargar
-                  información”.
+                  {t('app_mensajero_import_step_3_descripcion')}
                 </p>
               </a>
             </div>
@@ -142,12 +137,10 @@ class FormImportMensajero extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  Separador{' '}
-                                  <span>
-                                    {' '}
-                                    <b> (Para archivos planos) </b>{' '}
-                                    <span className="text-danger">*</span>
-                                  </span>{' '}
+                                  {this.props.t(
+                                    'app_mensajero_import_form_separador'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>
                                 </label>
                                 <input
                                   name={'separador_csv'}
@@ -170,7 +163,11 @@ class FormImportMensajero extends React.Component {
                             </div>
                             <div className="col-md-6">
                               <div className="form-group">
-                                <label>Títulos</label>
+                                <label>
+                                  {this.props.t(
+                                    'app_mensajero_import_form_titulos'
+                                  )}
+                                </label>
                                 <CustomInput
                                   name={'titulos'}
                                   onChange={handleChange}
@@ -178,7 +175,9 @@ class FormImportMensajero extends React.Component {
                                   value={values.titulos}
                                   type="checkbox"
                                   id="ExampleInputCheckbox3"
-                                  label="(El primer registro contiene los títulos de las columnas)"
+                                  label={this.props.t(
+                                    'app_mensajero_import_form_titulos_label'
+                                  )}
                                   className={
                                     errors.titulos &&
                                     touched.titulos &&
@@ -192,13 +191,23 @@ class FormImportMensajero extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  Archivo a importar en extensión <b>CSV</b>{' '}
+                                  {this.props.t(
+                                    'app_mensajero_import_form_archivo'
+                                  )}{' '}
+                                  <b>CSV</b>{' '}
                                   <span className="text-danger"> * </span>
                                 </label>
-                                <input
+                                <CustomInput
                                   type="file"
-                                  className={'form-control'}
+                                  name={'archivo'}
+                                  onBlur={handleBlur}
                                   onChange={e => this.onChange(e)}
+                                  label={this.props.t(
+                                    'app_mensajero_import_form_file'
+                                  )}
+                                  className={`form-control ${errors.archivo &&
+                                    touched.archivo &&
+                                    'is-invalid'}`}
                                 />
                               </div>
                             </div>
@@ -215,7 +224,8 @@ class FormImportMensajero extends React.Component {
                               handleSubmit();
                             }}
                           >
-                            <i className="fa fa-save" /> Importar archivo
+                            <i className="fa fa-save" />{' '}
+                            {this.props.t('app_mensajero_import_from_boton')}
                           </button>
                         </div>
                       </div>
@@ -240,7 +250,7 @@ class FormImportMensajero extends React.Component {
   }
 }
 
-export default FormImportMensajero;
+export default withTranslation('translations')(FormImportMensajero);
 
 class PreviewFile extends React.Component {
   state = {

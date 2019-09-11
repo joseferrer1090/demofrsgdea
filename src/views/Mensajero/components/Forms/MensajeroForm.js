@@ -14,6 +14,7 @@ import { MESSENGERS } from './../../../../services/EndPoints';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
+import { withTranslation } from 'react-i18next';
 const MensajeroForm = props => {
   const {
     values,
@@ -23,7 +24,8 @@ const MensajeroForm = props => {
     handleBlur,
     handleSubmit,
     handleReset,
-    isSubmitting
+    isSubmitting,
+    t
   } = props;
   return (
     <div>
@@ -31,7 +33,7 @@ const MensajeroForm = props => {
         <Col sm={{ size: 8, offset: 2 }}>
           <Card>
             <ToastContainer />
-            <CardHeader>Registro de mensajero</CardHeader>
+            <CardHeader>{t('app_mensajero_tab_title')}</CardHeader>
             <CardBody>
               <form className="form">
                 <div className="row">
@@ -39,9 +41,8 @@ const MensajeroForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Identificación <span className="text-danger">
-                          *
-                        </span>{' '}
+                        {t('app_mensajero_form_registrar_identificacion')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'identification'}
@@ -65,7 +66,8 @@ const MensajeroForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Nombre <span className="text-danger">*</span>{' '}
+                        {t('app_mensajero_form_registrar_nombre')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'name'}
@@ -87,7 +89,10 @@ const MensajeroForm = props => {
                   </div>
                   <div className="col-md-12">
                     <div className="form-group">
-                      <label> Descripción </label>
+                      <label>
+                        {' '}
+                        {t('app_mensajero_form_registrar_descripción')}{' '}
+                      </label>
                       <textarea
                         name={'description'}
                         onChange={handleChange}
@@ -101,7 +106,8 @@ const MensajeroForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Estado <span className="text-danger">*</span>{' '}
+                        {t('app_mensajero_form_registrar_estado')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <div className="text-justify">
                         <CustomInput
@@ -111,13 +117,9 @@ const MensajeroForm = props => {
                           value={values.status}
                           type="checkbox"
                           id="ExampleCheckboxInput"
-                          label=" Si esta opción se encuentra activada, representa
-                              que el cargo es visible en el sistema y se podrán
-                              realizar operaciones entre cada uno de los módulos
-                              correspondientes de la aplicación. En caso
-                              contrario el cargo no se elimina del sistema solo
-                              quedará inactivo e invisibles para cada uno de los
-                              módulos correspondiente del sistema."
+                          label={t(
+                            'app_mensajero_form_registrar_estado_descripcion'
+                          )}
                           className={
                             errors.status &&
                             touched.status &&
@@ -160,7 +162,8 @@ const MensajeroForm = props => {
                     <i className=" fa fa-spinner fa-spin" />
                   ) : (
                     <div>
-                      <i className="fa fa-save" /> Guardar
+                      <i className="fa fa-save" />{' '}
+                      {t('app_mensajero_form_registrar_boton_guardar')}
                     </div>
                   )}
                 </button>
@@ -173,87 +176,89 @@ const MensajeroForm = props => {
   );
 };
 
-export default withFormik({
-  mapPropsToValues: props => ({
-    identification: props.mensajero.identification,
-    name: props.mensajero.name,
-    description: props.mensajero.description,
-    status: props.mensajero.status
-  }),
-  validationSchema: Yup.object().shape({
-    identification: Yup.number()
-      .required(' Por favor introduzca una identificación.')
-      .integer(),
-    name: Yup.string().required(' Por favor introduzca un nombre.'),
-    description: Yup.string(),
-    status: Yup.bool().test(
-      'Activado',
-      'Es necesario la activacion del mensajero',
-      value => value === true
-    )
-  }),
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    const tipoEstado = data => {
-      let tipo = null;
-      if (data === true) {
-        return (tipo = 1);
-      } else if (data === false) {
-        return (tipo = 0);
-      }
-      return null;
-    };
+export default withTranslation('translations')(
+  withFormik({
+    mapPropsToValues: props => ({
+      identification: props.mensajero.identification,
+      name: props.mensajero.name,
+      description: props.mensajero.description,
+      status: props.mensajero.status
+    }),
+    validationSchema: Yup.object().shape({
+      identification: Yup.number()
+        .required(' Por favor introduzca una identificación.')
+        .integer(),
+      name: Yup.string().required(' Por favor introduzca un nombre.'),
+      description: Yup.string(),
+      status: Yup.bool().test(
+        'Activado',
+        'Es necesario la activacion del mensajero',
+        value => value === true
+      )
+    }),
+    handleSubmit: (values, { setSubmitting, resetForm }) => {
+      const tipoEstado = data => {
+        let tipo = null;
+        if (data === true) {
+          return (tipo = 1);
+        } else if (data === false) {
+          return (tipo = 0);
+        }
+        return null;
+      };
 
-    setTimeout(() => {
-      fetch(MESSENGERS, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        },
-        body: JSON.stringify({
-          identification: values.identification,
-          name: values.name,
-          description: values.description,
-          status: tipoEstado(values.status),
-          userName: 'jferrer'
-        })
-      })
-        .then(response =>
-          response.json().then(data => {
-            if (response.status === 201) {
-              toast.success('Se creo el mensajero con éxito.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 400) {
-              toast.error('Error, el mensajero ya existe.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 500) {
-              toast.error('Error, no se pudo crear el mensajero.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            }
+      setTimeout(() => {
+        fetch(MESSENGERS, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          },
+          body: JSON.stringify({
+            identification: values.identification,
+            name: values.name,
+            description: values.description,
+            status: tipoEstado(values.status),
+            userName: 'jferrer'
           })
-        )
-        .catch(error => {
-          toast.error(`Error ${error}`, {
-            position: toast.POSITION.TOP_RIGHT,
-            className: css({
-              marginTop: '60px'
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (response.status === 201) {
+                toast.success('Se creo el mensajero con éxito.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 400) {
+                toast.error('Error, el mensajero ya existe.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 500) {
+                toast.error('Error, no se pudo crear el mensajero.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              }
             })
+          )
+          .catch(error => {
+            toast.error(`Error ${error}`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: '60px'
+              })
+            });
           });
-        });
-      setSubmitting(false);
-      resetForm();
-    }, 1000);
-  }
-})(MensajeroForm);
+        setSubmitting(false);
+        resetForm();
+      }, 1000);
+    }
+  })(MensajeroForm)
+);

@@ -21,7 +21,8 @@ class ModalDeleteCargo extends React.Component {
     alertCode: false,
     useLogged: 'jferrer',
     nameCharge: '',
-    code: ''
+    code: '',
+    t: this.props.t
   };
 
   toggle = id => {
@@ -62,7 +63,10 @@ class ModalDeleteCargo extends React.Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar {nameCharge} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_cargo_modal_eliminar_titulo')} {nameCharge}{' '}
+          </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -145,13 +149,14 @@ class ModalDeleteCargo extends React.Component {
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        Confirmar el <code> código </code> para eliminar el
-                        cargo{' '}
+                        {this.props.t('app_cargo_modal_eliminar_titulo_2')}
                       </p>
 
                       <input
                         type="text"
-                        placeholder="Código del cargo a eliminar"
+                        placeholder={this.props.t(
+                          'app_cargo_modal_eliminar_placeholder'
+                        )}
                         style={{ textAlign: 'center' }}
                         name="code"
                         onChange={handleChange}
@@ -173,7 +178,7 @@ class ModalDeleteCargo extends React.Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        El cargo quedará elimanado de manera permanente.{' '}
+                        {this.props.t('app_cargo_modal_eliminar_titulo_3')}
                       </p>
                     </form>
                   </ModalBody>
@@ -186,7 +191,8 @@ class ModalDeleteCargo extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" /> Eliminar
+                      <i className="fa fa-trash" />{' '}
+                      {this.props.t('app_cargo_modal_eliminar_button_eliminar')}
                     </button>
                     <button
                       type="button"
@@ -199,7 +205,8 @@ class ModalDeleteCargo extends React.Component {
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t('app_cargo_modal_eliminar_button_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -213,7 +220,8 @@ class ModalDeleteCargo extends React.Component {
 }
 
 ModalDeleteCargo.propTypes = {
-  modaldelcargo: PropTypes.bool.isRequired
+  modaldelcargo: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalDeleteCargo;

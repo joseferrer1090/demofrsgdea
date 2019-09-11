@@ -249,11 +249,13 @@ class TableContentDependencia extends Component {
         <ModalEdit
           t={this.props.t}
           modalEdit={this.state.modaleditstate}
+          updateTable={this.getDataDependence}
           ref="child2"
         />
         <ModalDelete
           t={this.props.t}
           modalDel={this.state.modaldelstate}
+          updateTable={this.getDataDependence}
           ref="child3"
         />
         <ModalExport

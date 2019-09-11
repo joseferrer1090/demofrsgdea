@@ -33,10 +33,10 @@ class ModalEditDependencia extends React.Component {
     dataDependenceCompany: {},
     dataDependenceSede: {},
     dataResult: {},
-    dataConglomerate: [],
-    dataCompany: [],
-    dataChargeList: [],
-    dataHeadquarterList: [],
+    dataConglomerate: [0],
+    dataCompany: [0],
+    dataChargeList: [0],
+    dataHeadquarterList: [0],
     alertError: false,
     alertSuccess: false,
     alertError400: false,
@@ -242,7 +242,7 @@ class ModalEditDependencia extends React.Component {
                         this.setState({
                           alertSuccess: false,
                           modal: false
-                        });
+                        }, () => this.props.updateTable());
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({

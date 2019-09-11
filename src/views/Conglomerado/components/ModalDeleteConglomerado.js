@@ -143,7 +143,7 @@ class ModalDeleteConglomerado extends React.Component {
                     onClick={(e) => {
                       e.preventDefault(); 
                       handleSubmit();
-                      }}> Eliminar  
+                      }}> <i className="fa fa-trash"/>  Eliminar  
                       </button>
                   <button
                       type="button"

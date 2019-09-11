@@ -29,16 +29,17 @@ class ModalEditEmpresa extends React.Component {
   state = {
     modal: this.props.modaleditempresa,
     dataCompany: {},
-    optionsConglomerate: [],
-    optionsCharges: [],
+    optionsConglomerate: [0],
+    optionsCharges: [0],
     id: this.props.id,
     alertSuccess: false,
     alertError: false,
     alertError400: '',
-    optionsCountries: [],
-    optionsCitys: [],
-    optionsDepartment: [],
-    t:this.props.t
+    optionsCountries: [0],
+    optionsCitys: [0],
+    optionsDepartment: [0],
+    t:this.props.t, 
+    status: 0
   };
 
   componentDidMount() {
@@ -53,7 +54,7 @@ class ModalEditEmpresa extends React.Component {
     this.setState({
       modal: !this.state.modal,
       id: id
-    });
+    }, () => this.props.updateTable());
     this.getCompanyById(id);
   };
 
@@ -272,7 +273,7 @@ class ModalEditEmpresa extends React.Component {
                   if (response.status === 200) {
                     this.setState({
                       alertSuccess: true
-                    });
+                    }, () => this.props.updateTable());
                     setTimeout(() => {
                       this.setState({
                         alertSuccess: false,

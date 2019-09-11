@@ -229,11 +229,13 @@ class TableContentCargo extends Component {
         <ModalEdit
           t={this.props.t}
           modaleditcargo={this.state.modaledit}
+          updateTable={this.getDataCharge}
           ref="child2"
         />
         <ModalDel
           t={this.props.t}
           modaldelete={this.state.modaldelete}
+          updateTable={this.getDataCharge}
           ref="child3"
         />
         <ModalExport

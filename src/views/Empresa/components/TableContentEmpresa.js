@@ -249,6 +249,7 @@ class TableContentEmpresa extends Component {
         <ModalDel
           t={this.props.t}
           modaldelempresa={this.state.modaldel}
+          updateTable={this.getDataCompany}
           ref="child3"
         />
         <ModalExport

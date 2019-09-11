@@ -11,7 +11,7 @@ class ModalDeleteConglomerado extends React.Component {
     idConglomerado: this.props.id,
     alertSuccess: false,
     alertError: false,
-    alertName: false,
+    alertCode: false,
     t: this.props.t, 
     code: ""
   };
@@ -43,6 +43,7 @@ class ModalDeleteConglomerado extends React.Component {
             {" "}
             {this.props.t("app_conglomerado_modal_eliminar_titulo")}
           </ModalHeader>
+          
           <Formik initialValues={dataInitial} onSubmit={(values, setSubmitting) => {
             setTimeout(() => {
               fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/${this.state.idConglomerado}?code=${values.code}&username=${this.state.useLogged}`,{
@@ -52,24 +53,22 @@ class ModalDeleteConglomerado extends React.Component {
                   Authorization: "BASIC " + window.btoa("sgdea:123456")
                 }
               }).then(response => {
-                console.log(response);
-                if (response === 500) {
+                 if(response.status === 500){
                   this.setState({
                     alertError: true
                   })
-                  setTimeout(() => {
-                      this.setState({
-                        modal: false,
-                        alertError: false
-                      }, () => {this.props.updateTable()});
-                    }, 3000);
-                } else if(response === 204) {
-                  console.log(response);
-                  this.setState({
-                    alertSuccess: true, 
-                  }, () => this.props.updateTable())
-                 
-                }
+                 } else if(response.status === 200){
+                   setTimeout(() => {
+                     this.setState({
+                      alertSuccess: true, 
+                       modal: false
+                     }, () => this.props.updateTable())
+                   }, 3000);
+                 }else if ( response.status === 400){
+                   this.setState({
+                     alertCode: true
+                   })
+                 }
               }).catch(Error => console.log("", Error));
               // alert(JSON.stringify(values, "", 2))
             }, 3000);
@@ -95,6 +94,15 @@ class ModalDeleteConglomerado extends React.Component {
                   <Fragment>
                     <form className="form">
                     <ModalBody>
+                    <Alert color="danger" isOpen={this.state.alertError} toggle={this.onDismiss}>
+                      Error, al eliminar el conglomerado {values.code}
+                    </Alert>
+                    <Alert color="success" isOpen={this.state.alertSuccess} toggle={this.onDismiss}>
+                      Se elimino de manera satisfactoria el conglomerado
+                    </Alert>
+                    <Alert color="danger" isOpen={this.state.alertCode} toggle={this.onDismiss}>
+                      El codigo para eliminar no corresponde 
+                    </Alert>
                     <p className="text-center">
                         {" "}
                         {this.props.t(

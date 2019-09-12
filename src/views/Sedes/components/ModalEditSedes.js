@@ -287,9 +287,10 @@ class ModalEditSedes extends React.Component {
                 .required(' Por favor seleccione una empresa.')
                 .ensure(),
               headquarter_code: Yup.string()
-                .required(' Por favor introduzca un código.')
-                .max(6, ' Máximo 6 caracteres.')
-                .min(6, ' Mínimo 6 caracteres.'),
+              .required(' Por favor introduzca un código alfanumérico.')
+              .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+              .min(2, ' Mínimo 2 caracteres.')
+              .max(15, ' Máximo 15 caracteres.'),
               headquarter_name: Yup.string()
                 .required(' Por favor introduzca un nombre.')
                 .max(100, ' Máximo 100 caracteres'),
@@ -419,8 +420,8 @@ class ModalEditSedes extends React.Component {
                       Se actualizo la sede con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {/* Error, la ciudad ya esta asignada. */}
-                      Error al actualizar la sede.
+                      Error, la sede ya esta asignada.
+                   
                     </Alert>
                     <Row>
                       <Col sm="3">

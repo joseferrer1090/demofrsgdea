@@ -134,12 +134,14 @@ class ModalEditPais extends React.Component {
               }, 500);
             }}
             validationSchema={Yup.object().shape({
-              country_code: Yup.string().required(
-                ' Por favor introduzca un código.'
-              ),
-              country_name: Yup.string().required(
-                ' Por favor introduzca un nombre.'
-              ),
+              country_code: Yup.string()
+                .required(' Por favor introduzca un código alfanumérico.')
+                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+                .min(2, ' Mínimo 2 caracteres.')
+                .max(15, ' Máximo 15 caracteres.'),
+              country_name: Yup.string()
+                .required(' Por favor introduzca un nombre.')
+                .max(100, 'Máximo 100 caracteres.'),
               country_status: Yup.bool().test(
                 'Activado',
                 '',
@@ -169,8 +171,7 @@ class ModalEditPais extends React.Component {
                       Se actualizo el país con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error al actualizar el país.
-                      {/* Error, el país ya esta asignado. */}
+                      Error, el país ya esta asignado.
                     </Alert>
                     <Row>
                       <Col sm="3">

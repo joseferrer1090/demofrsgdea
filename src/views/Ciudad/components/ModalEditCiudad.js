@@ -199,12 +199,14 @@ class ModalEditCiudad extends React.Component {
                 .ensure()
                 .required(' Por favor seleccione un departamento.'),
 
-              city_code: Yup.string().required(
-                ' Por favor introduzca un código.'
-              ),
-              city_name: Yup.string().required(
-                ' Por favor introduzca un nombre.'
-              ),
+              city_code: Yup.string()
+                .required(' Por favor introduzca un código alfanumérico.')
+                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+                .min(2, ' Mínimo 2 caracteres.')
+                .max(15, ' Máximo 15 caracteres.'),
+              city_name: Yup.string()
+                .required(' Por favor introduzca un nombre.')
+                .max(100, 'Máximo 100 caracteres.'),
               city_status: Yup.bool().test(
                 'Activado',
                 '',
@@ -238,8 +240,7 @@ class ModalEditCiudad extends React.Component {
                       Se actualizo la ciudad con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {/* Error, la ciudad ya esta asignada. */}
-                      Error al actualizar la ciudad.
+                      Error, la ciudad ya esta asignada.
                     </Alert>
                     <Row>
                       <Col sm="3">

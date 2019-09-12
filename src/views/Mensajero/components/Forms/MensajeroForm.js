@@ -185,13 +185,16 @@ export default withTranslation('translations')(
       status: props.mensajero.status
     }),
     validationSchema: Yup.object().shape({
-      identification: Yup.number()
-        .required(' Por favor introduzca una identificación.')
-        .integer(),
+      identification: Yup.string()
+        .matches(
+          /^[0-9]+$/,
+          '  El número de identificación no acepta puntos, letras, ni caracteres especiales.'
+        )
+        .required(' Por favor introduzca una identificación.'),
       name: Yup.string().required(' Por favor introduzca un nombre.'),
       description: Yup.string(),
       status: Yup.bool().test(
-        'Activado',
+        'Activo',
         'Es necesario la activacion del mensajero',
         value => value === true
       )

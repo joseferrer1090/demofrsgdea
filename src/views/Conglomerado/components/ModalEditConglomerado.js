@@ -327,7 +327,7 @@ class ModalEditConglomerado extends React.Component {
                       Error al actualizar el conglomerado.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error al actualizar el conglomerado.
+                      Error, el conglomerado ya esta asignado.
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
                       Se actualizo el conglomerado con éxito.

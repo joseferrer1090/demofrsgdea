@@ -169,12 +169,14 @@ class ModalEditDepartamento extends React.Component {
               department_country: Yup.string()
                 .ensure()
                 .required(' Por favor seleccione un país.'),
-              department_code: Yup.string().required(
-                ' Por favor introduzca un código.'
-              ),
-              department_name: Yup.string().required(
-                ' Por favor introduzca un nombre.'
-              ),
+              department_code: Yup.string()
+                .required(' Por favor introduzca un código alfanumérico.')
+                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+                .min(2, ' Mínimo 2 caracteres.')
+                .max(15, ' Máximo 15 caracteres.'),
+              department_name: Yup.string()
+                .required(' Por favor introduzca un nombre.')
+                .max(100, 'Máximo 100 caracteres.'),
               department_status: Yup.bool().test(
                 'Activado',
                 '',
@@ -204,8 +206,7 @@ class ModalEditDepartamento extends React.Component {
                       Se actualizo el departamento con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error al actualizar el departamento.
-                      {/* Error, el departamento ya esta asignado. */}
+                      Error, el departamento ya esta asignado.
                     </Alert>
                     <Row>
                       <Col sm="3">

@@ -682,10 +682,10 @@ export default withTranslation('translations')(
         .required(' Por favor seleccione una empresa.')
         .ensure(),
       code: Yup.string()
-        .required(' Por favor introduzca un código.')
-        .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
-        .max(15, ' Máximo 15 caracteres.')
-        .min(2, ' Mínimo 2 caracteres.'),
+        .required(' Por favor introduzca un código alfanumérico.')
+        .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+        .min(2, ' Mínimo 2 caracteres.')
+        .max(15, ' Máximo 15 caracteres.'),
       name: Yup.string()
         .required(' Por favor introduzca un nombre.')
         .max(100, ' Máximo 100 caracteres'),

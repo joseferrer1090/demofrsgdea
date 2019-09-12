@@ -76,7 +76,11 @@ class ModalEditCargo extends React.Component {
             enableReinitialize={true}
             initialValues={datainit}
             validationSchema={Yup.object().shape({
-              code: Yup.string().required(' Por favor introduzca un código.'),
+              code: Yup.string()
+                .required(' Por favor introduzca un código alfanumérico.')
+                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+                .min(2, ' Mínimo 2 caracteres.')
+                .max(15, ' Máximo 15 caracteres.'),
               name: Yup.string().required(' Por favor introduzca un nombre.'),
               description: Yup.string().max(250, ' Máximo 250 caracteres.'),
               status: Yup.bool().test('Activado', '', value => value === true)
@@ -109,9 +113,12 @@ class ModalEditCargo extends React.Component {
                 })
                   .then(response => {
                     if (response.status === 200) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
@@ -163,8 +170,7 @@ class ModalEditCargo extends React.Component {
                       Error al actualizar el cargo.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {/*Error, el cargo ya esta asignado. */}
-                      Error al actualizar el cargo.
+                      Error, el cargo ya esta asignado.
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
                       Se actualizo el cargo con éxito.

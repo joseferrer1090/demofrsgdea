@@ -38,7 +38,7 @@ class ModalEditEmpresa extends React.Component {
     optionsCountries: [0],
     optionsCitys: [0],
     optionsDepartment: [0],
-    t:this.props.t, 
+    t: this.props.t,
     status: 0
   };
 
@@ -51,10 +51,13 @@ class ModalEditEmpresa extends React.Component {
   }
 
   toggle = id => {
-    this.setState({
-      modal: !this.state.modal,
-      id: id
-    }, () => this.props.updateTable());
+    this.setState(
+      {
+        modal: !this.state.modal,
+        id: id
+      },
+      () => this.props.updateTable()
+    );
     this.getCompanyById(id);
   };
 
@@ -234,8 +237,8 @@ class ModalEditEmpresa extends React.Component {
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            
-            {this.props.t("app_empresa_modal_actualizar_titulo")} {this.state.dataCompany.company_name}{' '}
+            {this.props.t('app_empresa_modal_actualizar_titulo')}{' '}
+            {this.state.dataCompany.company_name}{' '}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -271,9 +274,12 @@ class ModalEditEmpresa extends React.Component {
                   })
                 }).then(response => {
                   if (response.status === 200) {
-                    this.setState({
-                      alertSuccess: true
-                    }, () => this.props.updateTable());
+                    this.setState(
+                      {
+                        alertSuccess: true
+                      },
+                      () => this.props.updateTable()
+                    );
                     setTimeout(() => {
                       this.setState({
                         alertSuccess: false,
@@ -309,19 +315,21 @@ class ModalEditEmpresa extends React.Component {
                 .ensure()
                 .required(' Por favor seleccione un conglomerado.'),
               company_code: Yup.string()
-              .required(' Por favor introduzca un código alfanumérico.')
-              .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
-              .min(2, ' Mínimo 2 caracteres.')
-              .max(15, ' Máximo 15 caracteres.'),
+                .required(' Por favor introduzca un código alfanumérico.')
+                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+                .min(2, ' Mínimo 2 caracteres.')
+                .max(15, ' Máximo 15 caracteres.'),
               company_name: Yup.string()
                 .required(' Por favor introduzca un nombre.')
                 .max(100, ' Máximo 100 caracteres.'),
-              company_nit: Yup.number()
-                .required(' Por favor introduzca el Nit.')
-                .positive(' El número Nit debe ser positivo.')
-                .integer(
-                  ' El número Nit no acepta puntos, ni caracteres especiales.'
-                ),
+              company_nit: Yup.string()
+                .matches(
+                  /^[0-9]+$/,
+                  '  El número Nit no acepta puntos, letras, ni caracteres especiales.'
+                )
+                .min(8, ' Mínimo 8 caracteres.')
+                .max(15, ' Máximo 15 caracteres.')
+                .required(' Por favor introduzca el Nit.'),
               company_description: Yup.string().max(
                 250,
                 ' Máximo 250 caracteres.'
@@ -366,8 +374,7 @@ class ModalEditEmpresa extends React.Component {
                         Se actualizo la empresa con éxito.
                       </Alert>
                       <Alert color="danger" isOpen={this.state.alertError400}>
-                        {/* Error, la ciudad ya esta asignada. */}
-                        Error al actualizar la ciudad.
+                        Error, la empresa ya esta asignada.
                       </Alert>
                       <Row>
                         <Col sm="3">
@@ -381,14 +388,18 @@ class ModalEditEmpresa extends React.Component {
                               style={{ borderBottom: '1px solid black' }}
                             >
                               {' '}
-                              {this.props.t("app_empresa_modal_actualizar_titulo_2")}{' '}
+                              {this.props.t(
+                                'app_empresa_modal_actualizar_titulo_2'
+                              )}{' '}
                             </h5>{' '}
                           </div>
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  {this.props.t("app_empresa_modal_actualizar_conglomerado")}{' '}
+                                  {this.props.t(
+                                    'app_empresa_modal_actualizar_conglomerado'
+                                  )}{' '}
                                   <span className="text-danger">*</span>{' '}
                                   <dd>
                                     {' '}
@@ -402,7 +413,11 @@ class ModalEditEmpresa extends React.Component {
                                       value={values.company_conglomerate}
                                     >
                                       <option value={''} disabled>
-                                        -- {this.props.t("app_empresa_modal_actualizar_select_conglomerado")} --
+                                        --{' '}
+                                        {this.props.t(
+                                          'app_empresa_modal_actualizar_select_conglomerado'
+                                        )}{' '}
+                                        --
                                       </option>
                                       {mapOptionsConglomerate}
                                     </select>
@@ -420,7 +435,10 @@ class ModalEditEmpresa extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  {this.props.t("app_empresa_modal_actualizar_codigo")} <span className="text-danger">*</span>{' '}
+                                  {this.props.t(
+                                    'app_empresa_modal_actualizar_codigo'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                   <dd>
                                     <input
                                       name={'company_code'}
@@ -449,7 +467,10 @@ class ModalEditEmpresa extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  {this.props.t("app_empresa_modal_actualizar_nit")} <span className="text-danger">*</span>{' '}
+                                  {this.props.t(
+                                    'app_empresa_modal_actualizar_nit'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                   <dd>
                                     {' '}
                                     <input
@@ -479,7 +500,10 @@ class ModalEditEmpresa extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  {this.props.t("app_empresa_modal_actualizar_nombre")}<span className="text-danger">*</span>{' '}
+                                  {this.props.t(
+                                    'app_empresa_modal_actualizar_nombre'
+                                  )}
+                                  <span className="text-danger">*</span>{' '}
                                   <dd>
                                     {' '}
                                     <input
@@ -513,12 +537,22 @@ class ModalEditEmpresa extends React.Component {
                       <Row>
                         <Col sm="12">
                           <Card>
-                            <CardHeader> {this.props.t("app_empresa_modal_actualizar_collapse")} </CardHeader>
+                            <CardHeader>
+                              {' '}
+                              {this.props.t(
+                                'app_empresa_modal_actualizar_collapse'
+                              )}{' '}
+                            </CardHeader>
                             <CardBody>
                               <div className="row">
                                 <div className="col-md-4">
                                   <div className="form-group">
-                                    <label> {this.props.t("app_empresa_modal_actualizar_pais")}</label>
+                                    <label>
+                                      {' '}
+                                      {this.props.t(
+                                        'app_empresa_modal_actualizar_pais'
+                                      )}
+                                    </label>
                                     <select
                                       name={'company_country'}
                                       onChange={handleChange}
@@ -530,7 +564,11 @@ class ModalEditEmpresa extends React.Component {
                                     >
                                       {' '}
                                       <option value={''} disabled>
-                                        -- {this.props.t("app_empresa_modal_actualizar_select_pais")} --
+                                        --{' '}
+                                        {this.props.t(
+                                          'app_empresa_modal_actualizar_select_pais'
+                                        )}{' '}
+                                        --
                                       </option>
                                       {mapOptionsCountries}{' '}
                                     </select>{' '}
@@ -545,7 +583,12 @@ class ModalEditEmpresa extends React.Component {
                                 </div>
                                 <div className="col-md-4">
                                   <div className="form-group">
-                                    <label> {this.props.t("app_empresa_modal_actualizar_departamento")}</label>
+                                    <label>
+                                      {' '}
+                                      {this.props.t(
+                                        'app_empresa_modal_actualizar_departamento'
+                                      )}
+                                    </label>
                                     <select
                                       name="company_department"
                                       value={values.company_department}
@@ -556,7 +599,11 @@ class ModalEditEmpresa extends React.Component {
                                         'is-invalid'}`}
                                     >
                                       <option value={''} disabled>
-                                        -- {this.props.t("app_empresa_modal_actualizar_select_departamento")} --
+                                        --{' '}
+                                        {this.props.t(
+                                          'app_empresa_modal_actualizar_select_departamento'
+                                        )}{' '}
+                                        --
                                       </option>
                                       {mapOptionsDepartments}
                                     </select>
@@ -573,10 +620,10 @@ class ModalEditEmpresa extends React.Component {
                                   <div className="form-group">
                                     <label>
                                       {' '}
-                                      {this.props.t("app_empresa_modal_actualizar_ciudad")}{' '}
-                                      <span className="text-danger">
-                                        *
-                                      </span>{' '}
+                                      {this.props.t(
+                                        'app_empresa_modal_actualizar_ciudad'
+                                      )}{' '}
+                                      <span className="text-danger">*</span>{' '}
                                     </label>
                                     <select
                                       name="company_city"
@@ -588,7 +635,11 @@ class ModalEditEmpresa extends React.Component {
                                         'is-invalid'}`}
                                     >
                                       <option value={''} disabled>
-                                        -- {this.props.t("app_empresa_modal_actualizar_select_ciudad")} --
+                                        --{' '}
+                                        {this.props.t(
+                                          'app_empresa_modal_actualizar_select_ciudad'
+                                        )}{' '}
+                                        --
                                       </option>
                                       {mapOptionsCitys}
                                     </select>
@@ -603,7 +654,12 @@ class ModalEditEmpresa extends React.Component {
                                 </div>
                                 <div className="col-md-6">
                                   <div className="form-group">
-                                    <label> {this.props.t("app_empresa_modal_actualizar_descripcion")} </label>
+                                    <label>
+                                      {' '}
+                                      {this.props.t(
+                                        'app_empresa_modal_actualizar_descripcion'
+                                      )}{' '}
+                                    </label>
                                     <input
                                       name="company_description"
                                       value={values.company_description}
@@ -628,7 +684,12 @@ class ModalEditEmpresa extends React.Component {
                                 </div>
                                 <div className="col-md-6">
                                   <div className="form-group">
-                                    <label> {this.props.t("app_empresa_modal_actualizar_cargo_responsable")} </label>
+                                    <label>
+                                      {' '}
+                                      {this.props.t(
+                                        'app_empresa_modal_actualizar_cargo_responsable'
+                                      )}{' '}
+                                    </label>
                                     <select
                                       name={'company_charge'}
                                       onChange={handleChange}
@@ -639,7 +700,11 @@ class ModalEditEmpresa extends React.Component {
                                         'is-invalid'}`}
                                     >
                                       <option value={''} disabled>
-                                        -- {this.props.t("app_empresa_modal_actualizar_select_cargo_responsable")} --
+                                        --{' '}
+                                        {this.props.t(
+                                          'app_empresa_modal_actualizar_select_cargo_responsable'
+                                        )}{' '}
+                                        --
                                       </option>
                                       {mapOptionsCharges}
                                     </select>
@@ -657,10 +722,10 @@ class ModalEditEmpresa extends React.Component {
                                   <div className="form-group">
                                     <label>
                                       {' '}
-                                      {this.props.t("app_empresa_modal_actualizar_estado")}{' '}
-                                      <span className="text-danger">
-                                        *
-                                      </span>{' '}
+                                      {this.props.t(
+                                        'app_empresa_modal_actualizar_estado'
+                                      )}{' '}
+                                      <span className="text-danger">*</span>{' '}
                                     </label>
                                     <div className="text-justify">
                                       <Field
@@ -677,7 +742,9 @@ class ModalEditEmpresa extends React.Component {
                                             <CustomInput
                                               type="checkbox"
                                               id="conglomeradoModalEdit"
-                                              label={this.props.t("app_empresa_modal_actualizar_estado_descripcion")}
+                                              label={this.props.t(
+                                                'app_empresa_modal_actualizar_estado_descripcion'
+                                              )}
                                               {...field}
                                               checked={field.value}
                                               className={
@@ -709,7 +776,10 @@ class ModalEditEmpresa extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" /> {this.props.t("app_empresa_modal_actualizar_boton_actualizar")}
+                      <i className="fa fa-pencil" />{' '}
+                      {this.props.t(
+                        'app_empresa_modal_actualizar_boton_actualizar'
+                      )}
                     </button>
                     <button
                       className={'btn btn-outline-secondary btn-sm'}
@@ -718,7 +788,10 @@ class ModalEditEmpresa extends React.Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      <i className="fa fa-times" /> {this.props.t("app_empresa_modal_actualizar_boton_cerrar")}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t(
+                        'app_empresa_modal_actualizar_boton_cerrar'
+                      )}
                     </button>
                   </ModalFooter>
                 </Fragment>

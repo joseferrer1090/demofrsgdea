@@ -256,11 +256,13 @@ class TableContentCiudad extends Component {
           t={this.props.t}
           modaledit={this.state.ModalEdit}
           ref="child3"
+          updateTable={this.getDataCity}
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.ModalDelete}
           ref="child2"
+          updateTable={this.getDataCity}
         />
         <ModalExport
           t={this.props.t}

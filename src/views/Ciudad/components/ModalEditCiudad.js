@@ -20,8 +20,8 @@ class ModalEditCiudad extends React.Component {
     modal: this.props.modaledit,
     idCity: this.props.id,
     dataResult: {},
-    optionsCountries: [],
-    optionsDepartment: [],
+    optionsCountries: [0],
+    optionsDepartment: [0],
     alertError: false,
     alertSuccess: false,
     alertError400: false,
@@ -157,9 +157,12 @@ class ModalEditCiudad extends React.Component {
                 })
                   .then(response => {
                     if (response.status === 200) {
-                      this.setState({
-                        alertSuccess: true
-                      });
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
@@ -479,6 +482,7 @@ class ModalEditCiudad extends React.Component {
 
 ModalEditCiudad.propTypes = {
   modaledit: PropTypes.bool.isRequired,
+  updateTable: PropTypes.func.isRequired,
   t: PropTypes.any
 };
 

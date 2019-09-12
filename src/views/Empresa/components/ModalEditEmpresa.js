@@ -309,9 +309,10 @@ class ModalEditEmpresa extends React.Component {
                 .ensure()
                 .required(' Por favor seleccione un conglomerado.'),
               company_code: Yup.string()
-                .required(' Por favor introduzca un código.')
-                .min(6, ' Mínimo 6 caracteres.')
-                .max(6, ' Máximo 6 caracteres.'),
+              .required(' Por favor introduzca un código alfanumérico.')
+              .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+              .min(2, ' Mínimo 2 caracteres.')
+              .max(15, ' Máximo 15 caracteres.'),
               company_name: Yup.string()
                 .required(' Por favor introduzca un nombre.')
                 .max(100, ' Máximo 100 caracteres.'),

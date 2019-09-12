@@ -96,9 +96,12 @@ class ModalEditPais extends React.Component {
                 })
                   .then(response => {
                     if (response.status === 200) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
@@ -166,7 +169,7 @@ class ModalEditPais extends React.Component {
                       Se actualizo el país con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Se actualizo el país con éxito.
+                      Error al actualizar el país.
                       {/* Error, el país ya esta asignado. */}
                     </Alert>
                     <Row>

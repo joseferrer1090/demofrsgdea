@@ -88,7 +88,9 @@ class ModalViewSedes extends Component {
       const data = this.state.dataCargo;
       let status;
       if (data === null)
-        status = <b className="text-danger">No hay cargos asociados.</b>;
+        status = (
+          <b className="text-danger">{this.props.t('app_modals_sin_cargo')}</b>
+        );
       else if (data !== null) {
         status = <div>{data.name}</div>;
       }
@@ -98,9 +100,19 @@ class ModalViewSedes extends Component {
     const statusHeadquarter = data => {
       let status;
       if (data === 1) {
-        status = <b className="text-success"> Activo </b>;
+        status = (
+          <b className="text-success">
+            {' '}
+            {this.props.t('app_tablas_estado_activo')}{' '}
+          </b>
+        );
       } else if (data === 0) {
-        status = <b className="text-danger"> Inactivo </b>;
+        status = (
+          <b className="text-danger">
+            {' '}
+            {this.props.t('app_tablas_estado_inactivo')}{' '}
+          </b>
+        );
       }
       return status;
     };

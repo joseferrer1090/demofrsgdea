@@ -90,9 +90,19 @@ class TableTipoLlegada extends Component {
   estadoTipoLlegada = (cell, row) => {
     let status;
     if (row.status === 1) {
-      status = <b className="text-success"> Activo </b>;
+      status = (
+        <b className="text-success">
+          {' '}
+          {this.props.t('app_tablas_estado_activo')}{' '}
+        </b>
+      );
     } else if (row.status === 0) {
-      status = <b className="text-danger"> Inactivo </b>;
+      status = (
+        <b className="text-danger">
+          {' '}
+          {this.props.t('app_tablas_estado_inactivo')}{' '}
+        </b>
+      );
     }
     return status;
   };

@@ -99,9 +99,12 @@ class ModalEditTipoLlegada extends React.Component {
                 })
                   .then(response => {
                     if (response.status === 200) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
@@ -134,15 +137,17 @@ class ModalEditTipoLlegada extends React.Component {
               }, 1000);
             }}
             validationSchema={Yup.object().shape({
-              typeshipmentarrival_code: Yup.string().required(
-                ' Por favor introduzca un código.'
-              ),
+              typeshipmentarrival_code: Yup.string()
+                .required(' Por favor introduzca un código alfanumérico.')
+                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+                .min(2, ' Mínimo 2 caracteres.')
+                .max(15, ' Máximo 15 caracteres.'),
               typeshipmentarrival_name: Yup.string().required(
                 ' Por favor introduzca un nombre.'
               ),
-              typeshipmentarrival_description: Yup.string().required(
-                ' Por favor introduzca una descripción.'
-              ),
+              typeshipmentarrival_description: Yup.string()
+                .required(' Por favor introduzca una descripción.')
+                .max(250, 'Máximo 250 caracteres.'),
               typeshipmentarrival_status: Yup.bool().test(
                 'Activado',
                 '',
@@ -180,8 +185,7 @@ class ModalEditTipoLlegada extends React.Component {
                       Se actualizo el tipo de envío / llegada con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {/* Error, la ciudad ya esta asignada. */}
-                      Error al actualizar el tipo de envío / llegada.
+                      Error, el tipo de envío / llegada ya esta asignado.
                     </Alert>
                     <Row>
                       <Col sm="3">

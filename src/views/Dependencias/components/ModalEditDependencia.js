@@ -239,10 +239,13 @@ class ModalEditDependencia extends React.Component {
                         alertSuccess: true
                       });
                       setTimeout(() => {
-                        this.setState({
-                          alertSuccess: false,
-                          modal: false
-                        }, () => this.props.updateTable());
+                        this.setState(
+                          {
+                            alertSuccess: false,
+                            modal: false
+                          },
+                          () => this.props.updateTable()
+                        );
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
@@ -278,7 +281,11 @@ class ModalEditDependencia extends React.Component {
               headquarter: Yup.string()
                 .ensure()
                 .required(' Por favor seleccione una sede.'),
-              code: Yup.string().required(' Por favor introduzca un código.'),
+              code: Yup.string()
+                .required(' Por favor introduzca un código alfanumérico.')
+                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+                .min(2, ' Mínimo 2 caracteres.')
+                .max(15, ' Máximo 15 caracteres.'),
               name: Yup.string().required(' Por favor introduzca un código.'),
               description: Yup.string().max(250, 'Máximo 250 caracteres.'),
               charge: Yup.string()
@@ -303,8 +310,7 @@ class ModalEditDependencia extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {/* Error, la dependencia ya esta asignada. */}
-                      Error al actualizar la dependencia.
+                      Error, la dependencia ya esta asignada.
                     </Alert>
                     <Alert
                       color="danger"

@@ -20,11 +20,12 @@ class ModalExportCSV extends Component {
     this.setState({
       modal: !this.state.modal
     });
+    this.getDataExportCSV();
   };
 
-  componentDidMount() {
-    this.getDataExportCSV();
-  }
+  // componentDidMount() {
+  //   this.getDataExportCSV();
+  // }
 
   getDataExportCSV = () => {
     fetch(

@@ -20,11 +20,12 @@ class ModalExportCSV extends Component {
     this.setState({
       modal: !this.state.modal
     });
+    this.getDataExportCSV();
   };
 
-  componentDidMount() {
-    this.getDataExportCSV();
-  }
+  // componentDidMount() {
+  //   this.getDataExportCSV();
+  // }
 
   getDataExportCSV = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/company/export/data/ccuartas`, {

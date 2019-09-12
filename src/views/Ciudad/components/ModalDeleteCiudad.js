@@ -15,7 +15,8 @@ class ModalDeleteCiudad extends Component {
       alertCode: false,
       alertError: false,
       alertSuccess: false,
-      nameCity: ''
+      nameCity: '',
+      t: this.props.t
     };
   }
 
@@ -57,7 +58,10 @@ class ModalDeleteCiudad extends Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar {nameCity} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_ciudad_modal_eliminar_titulo')} {nameCity}{' '}
+          </ModalHeader>
           <Formik
             initialValues={dataPreview}
             onSubmit={(values, { setSubmitting }) => {
@@ -78,9 +82,12 @@ class ModalDeleteCiudad extends Component {
                         alertError: true
                       });
                     } else if (response.status === 204) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           modal: false,
@@ -145,8 +152,7 @@ class ModalDeleteCiudad extends Component {
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        Confirmar el <code> código </code> para eliminar la
-                        ciudad.{' '}
+                        {this.props.t('app_ciudad_modal_eliminar_titulo_2')}
                       </p>
 
                       <input
@@ -154,7 +160,9 @@ class ModalDeleteCiudad extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder="Código para eliminar la ciudad"
+                        placeholder={this.props.t(
+                          'app_ciudad_modal_eliminar_placeholder'
+                        )}
                         style={{ textAlign: 'center' }}
                         value={values.code}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
@@ -170,7 +178,9 @@ class ModalDeleteCiudad extends Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        La ciudad quedará eliminada de manera permanente.{' '}
+                        {this.props.t(
+                          'app_ciudad_modal_eliminar_titulo_3'
+                        )}{' '}
                       </p>
                     </form>
                   </ModalBody>
@@ -183,7 +193,10 @@ class ModalDeleteCiudad extends Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" /> Eliminar
+                      <i className="fa fa-trash" />{' '}
+                      {this.props.t(
+                        'app_ciudad_modal_eliminar_button_eliminar'
+                      )}
                     </button>
                     <button
                       type="button"
@@ -197,7 +210,8 @@ class ModalDeleteCiudad extends Component {
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t('app_ciudad_modal_eliminar_button_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -211,8 +225,9 @@ class ModalDeleteCiudad extends Component {
 }
 
 ModalDeleteCiudad.propTypes = {
-  modaldel: PropTypes.bool.isRequired, 
-  updateTable: PropTypes.func.isRequired
+  modaldel: PropTypes.bool.isRequired,
+  updateTable: PropTypes.func.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalDeleteCiudad;

@@ -80,9 +80,19 @@ class ModalViewDependencia extends Component {
     const statusDependence = data => {
       let status;
       if (data === 1) {
-        return (status = <b className="text-success"> Activo</b>);
+        return (status = (
+          <b className="text-success">
+            {' '}
+            {this.props.t('app_tablas_estado_activo')}
+          </b>
+        ));
       } else if (data === 0) {
-        return (status = <b className="text-danger"> Inactivo </b>);
+        return (status = (
+          <b className="text-danger">
+            {' '}
+            {this.orops.t('app_tablas_estado_inactivo')}{' '}
+          </b>
+        ));
       }
       return status;
     };

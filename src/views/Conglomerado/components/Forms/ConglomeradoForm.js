@@ -423,10 +423,10 @@ export default withTranslation('translations')(
     }),
     validationSchema: Yup.object().shape({
       codigo: Yup.string()
-        .required(' Por favor introduzca un codigo alfanumerico')
-        .matches(/^[0-9a-zA-Z]+$/, ' No es un codigo alfanumerico')
-        .min(2, ' minimo 2 caracteres para el codigo')
-        .max(15, ' maximo 15 caracteres para el codigo'),
+        .required(' Por favor introduzca un código alfanumérico.')
+        .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+        .min(2, ' Mínimo 2 caracteres.')
+        .max(15, ' Máximo 15 caracteres.'),
       nombre: Yup.string()
         .required(' Por favor introduzca un nombre.')
         .max(100),

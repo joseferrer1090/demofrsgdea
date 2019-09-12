@@ -500,14 +500,20 @@ export default withTranslation('translations')(
         .ensure()
         .required(' Por favor seleccione un conglomerado.'),
       code: Yup.string()
-        .required(' Por favor introduzca un código.')
-        .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
+        .required(' Por favor introduzca un código alfanumérico.')
+        .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
         .min(2, ' Mínimo 2 caracteres.')
         .max(15, ' Máximo 15 caracteres.'),
-      nit: Yup.number()
-        .required(' Por favor introduzca el Nit.')
-        .positive(' El número Nit debe ser positivo.')
-        .integer(' El número Nit no acepta puntos, ni caracteres especiales.'),
+      nit: Yup.string()
+        .matches(
+          /^[0-9]+$/,
+          '  El número Nit no acepta puntos, letras, ni caracteres especiales.'
+        )
+        .min(8, ' Mínimo 8 caracteres.')
+        .max(15, ' Máximo 15 caracteres.')
+        .required(' Por favor introduzca el Nit.'),
+      // .positive(' El número Nit debe ser positivo.')
+      // .integer(' El número Nit no acepta puntos, ni caracteres especiales.'),
       name: Yup.string()
         .required(' Por favor introduzca un nombre.')
         .max(100, 'Máximo 100 caracteres.'),

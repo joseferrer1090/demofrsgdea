@@ -470,16 +470,15 @@ export default withTranslation('translations')(
         .ensure()
         .required(' Por favor seleccione una sede.'),
       code: Yup.string()
-        .required(' Por favor introduzca un código.')
-        .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
+        .required(' Por favor introduzca un código alfanumérico.')
+        .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
         .min(2, ' Mínimo 2 caracteres.')
         .max(15, ' Máximo 15 caracteres.'),
       name: Yup.string().required(' Por favor introduzca un nombre.'),
       description: Yup.string(),
       chargeId: Yup.string()
         .required(' Por favor seleccione un cargo.')
-        .ensure()
-        .required(' Por favor seleccione el cargo.'),
+        .ensure(),
       status: Yup.bool().test(
         'Activo',
         'Es necesario activar el conglomerado.',

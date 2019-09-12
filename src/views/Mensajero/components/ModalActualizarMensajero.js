@@ -76,15 +76,21 @@ class ModalActualizarMensajero extends React.Component {
             enableReinitialize={true}
             initialValues={dataResult}
             validationSchema={Yup.object().shape({
-              messenger_identification: Yup.number()
-                .required(' Por favor introduzca una identificación.')
-                .integer(),
+              messenger_identification: Yup.string()
+                .matches(
+                  /^[0-9]+$/,
+                  '  El número de identificación no acepta puntos, letras, ni caracteres especiales.'
+                )
+                .required(' Por favor introduzca una identificación.'),
               messenger_name: Yup.string()
                 .required(' Por favor introduzca un nombre.')
                 .max(100),
-              messenger_description: Yup.string().max(250),
+              messenger_description: Yup.string().max(
+                250,
+                'Máximo 250 caracteres.'
+              ),
               messenger_status: Yup.bool().test(
-                'Activado',
+                'Activo',
                 '',
                 value => value === true
               )
@@ -117,9 +123,12 @@ class ModalActualizarMensajero extends React.Component {
                 })
                   .then(response => {
                     if (response.status === 200) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
@@ -174,8 +183,7 @@ class ModalActualizarMensajero extends React.Component {
                       Se actualizo el mensajero con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {/* Error, el mensajero ya esta asignado. */}
-                      Error al actualizar el mensajero.
+                      Error, el mensajero ya esta asignado.
                     </Alert>
                     <Row>
                       <Col sm="3">

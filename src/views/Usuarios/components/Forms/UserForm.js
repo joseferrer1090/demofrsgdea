@@ -124,11 +124,45 @@ const UserForm = props => {
       .catch(Error => console.log(" " + Error));
   };
 
-  console.log(conglomerateOptions);
-  console.log(companyOptions);
-  console.log(sedeOptions);
-  console.log(dependenciaOptions);
-  console.log(cargoOptions);
+  const selectConglomerate = conglomerateOptions.map((aux, id) => {
+    return (
+      <option key={id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
+
+  const selectCompany = companyOptions.map((aux, id) => {
+    return (
+      <option key={id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
+
+  const selectSede = sedeOptions.map((aux, id) => {
+    return (
+      <option key={id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
+
+  const selectDependencia = dependenciaOptions.map((aux, id) => {
+    return (
+      <option key={id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
+
+  const selectCargo = cargoOptions.map((aux, id) => {
+    return (
+      <option key={id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
 
   return (
     <Fragment>
@@ -338,9 +372,7 @@ const UserForm = props => {
                             {" "}
                             -- Seleccione --{" "}
                           </option>{" "}
-                          <option value={"1"}> Conglomerado 1 </option>
-                          <option value={"2"}> Conglomerado 2 </option>
-                          <option value={"3"}> Conglomerado 3 </option>
+                          {selectConglomerate}
                         </select>
                         <div style={{ color: "#D54B4B" }}>
                           {errors.conglomeradoID && touched.conglomeradoID ? (
@@ -366,13 +398,8 @@ const UserForm = props => {
                             "is-invalid"}`}
                         >
                           {" "}
-                          <option disabled value={""}>
-                            {" "}
-                            -- Seleccione --{" "}
-                          </option>{" "}
-                          <option value={"1"}> Empresa 1 </option>
-                          <option value={"2"}> Empresa 2 </option>
-                          <option value={"3"}> Empresa 3 </option>
+                          <option value={""}> -- Seleccione -- </option>{" "}
+                          {selectCompany}
                         </select>
                         <div style={{ color: "#D54B4B" }}>
                           {errors.empresaID && touched.empresaID ? (
@@ -398,13 +425,8 @@ const UserForm = props => {
                             "is-invalid"}`}
                         >
                           {" "}
-                          <option disabled value={""}>
-                            {" "}
-                            -- Seleccione --{" "}
-                          </option>{" "}
-                          <option value={"1"}> Sede 1 </option>
-                          <option value={"2"}> Sede 2 </option>
-                          <option value={"3"}> Sede 3 </option>
+                          <option value={""}> -- Seleccione -- </option>{" "}
+                          {selectSede}
                         </select>
                         <div style={{ color: "#D54B4B" }}>
                           {errors.sedeID && touched.sedeID ? (
@@ -431,13 +453,8 @@ const UserForm = props => {
                             touched.dependenciaID &&
                             "is-invalid"}`}
                         >
-                          <option disabled value={""}>
-                            {" "}
-                            -- Seleccione --{" "}
-                          </option>
-                          <option value={"1"}> Dependencia 1 </option>
-                          <option value={"2"}> Dependencia 2 </option>
-                          <option value={"3"}> Dependencia 3 </option>
+                          <option value={""}> -- Seleccione -- </option>
+                          {selectDependencia}
                         </select>
                         <div style={{ color: "#D54B4B" }}>
                           {errors.dependenciaID && touched.dependenciaID ? (
@@ -462,13 +479,8 @@ const UserForm = props => {
                             touched.cargoID &&
                             "is-invalid"}`}
                         >
-                          <option disabled value={""}>
-                            {" "}
-                            -- Seleccione --{" "}
-                          </option>
-                          <option value={"1"}> Cargo 1 </option>
-                          <option value={"2"}> Cargo 2 </option>
-                          <option value={"3"}> Cargo 3 </option>
+                          <option value={""}> -- Seleccione -- </option>
+                          {selectCargo}
                         </select>
                         <div style={{ color: "#D54B4B" }}>
                           {errors.cargoID && touched.cargoID ? (

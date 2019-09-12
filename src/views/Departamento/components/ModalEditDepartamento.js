@@ -133,7 +133,7 @@ class ModalEditDepartamento extends React.Component {
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true
-                      });
+                      }, () => this.props.updateTable());
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
@@ -398,7 +398,8 @@ class ModalEditDepartamento extends React.Component {
 }
 
 ModalEditDepartamento.propTypes = {
-  modaledit: PropTypes.bool.isRequired
+  modaledit: PropTypes.bool.isRequired,
+  updateTable: PropTypes.func.isRequired
 };
 
 export default ModalEditDepartamento;

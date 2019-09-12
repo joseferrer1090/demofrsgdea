@@ -237,8 +237,8 @@ class TableContentCiudad extends Component {
           </BootstrapTable>
         </div>
         <ModalView modalview={this.state.ModalViewPais} ref="child" />
-        <ModalEdit modaledit={this.state.ModalEdit} ref="child3" />
-        <ModalDelete modaldel={this.state.ModalDelete} ref="child2" />
+        <ModalEdit modaledit={this.state.ModalEdit} ref="child3"  updateTable={this.getDataCity}/>
+        <ModalDelete modaldel={this.state.ModalDelete} ref="child2" updateTable={this.getDataCity} />
         <ModalExport modalexport={this.state.modalExport} ref="child4" />
       </div>
     );

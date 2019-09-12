@@ -236,11 +236,13 @@ class TableContentDepartamento extends Component {
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.ModalEdit}
+          updateTable={this.getDataDepartment}
           ref="child3"
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.ModalDel}
+          updateTable={this.getDataDepartment}
           ref="child2"
         />
         <ModalExport

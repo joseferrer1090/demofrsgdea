@@ -80,7 +80,7 @@ class ModalDeleteCiudad extends Component {
                     } else if (response.status === 204) {
                       this.setState({
                         alertSuccess: true
-                      });
+                      }, () => this.props.updateTable());
                       setTimeout(() => {
                         this.setState({
                           modal: false,
@@ -211,7 +211,8 @@ class ModalDeleteCiudad extends Component {
 }
 
 ModalDeleteCiudad.propTypes = {
-  modaldel: PropTypes.bool.isRequired
+  modaldel: PropTypes.bool.isRequired, 
+  updateTable: PropTypes.func.isRequired
 };
 
 export default ModalDeleteCiudad;

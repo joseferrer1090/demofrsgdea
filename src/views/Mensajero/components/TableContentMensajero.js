@@ -240,11 +240,13 @@ class TableContentMensajero extends Component {
         <ModalUpdate
           t={this.props.t}
           modalupdate={this.state.modalUpdate}
+          updateTable={this.getDataMessenger}
           ref={'child2'}
         />
         <Modaldelete
           t={this.props.t}
           modaldelete={this.state.modaldelte}
+          updateTable={this.getDataMessenger}
           ref={'child3'}
         />
         <ModalExport

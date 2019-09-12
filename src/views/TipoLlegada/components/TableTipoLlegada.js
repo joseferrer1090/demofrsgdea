@@ -242,11 +242,13 @@ class TableTipoLlegada extends Component {
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.modaledittipollegada}
+          updateTable={this.getDataTipoLlegada}
           ref={'child2'}
         />
         <ModalDelete
           t={this.props.t}
           modaldelete={this.state.modaldeletetipollegada}
+          updateTable={this.getDataTipoLlegada}
           ref={'child3'}
         />
         <ModalExport

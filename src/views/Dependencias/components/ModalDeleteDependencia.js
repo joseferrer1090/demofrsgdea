@@ -101,7 +101,7 @@ class ModalDeleteDependencia extends Component {
                         this.setState({
                           alertSuccess: false,
                           modal: false
-                        });
+                        }, () => this.props.updateTable());
                       }, 2000);
                     } else if (response.status === 400) {
                       this.setState({

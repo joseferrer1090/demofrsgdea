@@ -88,7 +88,7 @@ class ModalDeleteTipoLlegada extends Component {
                     } else if (response.status === 204) {
                       this.setState({
                         alertSuccess: true
-                      });
+                      }, () => this.props.updateTable());
                       setTimeout(() => {
                         this.setState({
                           modal: false,

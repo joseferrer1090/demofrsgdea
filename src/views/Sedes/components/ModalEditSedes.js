@@ -34,12 +34,12 @@ class ModalEditSedes extends React.Component {
     collapse: false,
     idSedes: this.props.id,
     dataResult: {},
-    optionsConglomerate: [],
-    optionsCompanys: [],
-    optionsCountries: [],
-    optionsDepartment: [],
-    optionsCitys: [],
-    optionsCharges: [],
+    optionsConglomerate: [0],
+    optionsCompanys: [0],
+    optionsCountries: [0],
+    optionsDepartment: [0],
+    optionsCitys: [0],
+    optionsCharges: [0],
     alertError: false,
     alertSuccess: false,
     alertError400: false,
@@ -65,7 +65,7 @@ class ModalEditSedes extends React.Component {
     this.setState({
       modal: !this.state.modal,
       idSedes: id
-    });
+    }, () => {this.props.updateTable()});
     this.getHeadquarterByID(id);
   };
 
@@ -369,7 +369,7 @@ class ModalEditSedes extends React.Component {
                         this.setState({
                           alertSuccess: false,
                           modal: false
-                        });
+                        }, () => this.props.updateTable());
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({

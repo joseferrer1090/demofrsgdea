@@ -228,11 +228,13 @@ class TableContentPais extends Component {
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.ModalEdit}
+          updateTable={this.getDataPais}
           ref="child3"
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.ModalDelete}
+          updateTable={this.getDataPais}
           ref="child2"
         />
         <ModalExport

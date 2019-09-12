@@ -100,7 +100,7 @@ class ModalEditTipoTercero extends React.Component {
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true
-                      });
+                      }, () => this.props.updateTable());
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
@@ -360,7 +360,8 @@ class ModalEditTipoTercero extends React.Component {
 
 ModalEditTipoTercero.propTypes = {
   modalupdate: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any, 
+  updateTable: PropTypes.func.isRequired
 };
 
 export default ModalEditTipoTercero;

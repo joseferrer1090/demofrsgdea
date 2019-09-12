@@ -100,7 +100,7 @@ class ModalDeleteSedes extends Component {
                         this.setState({
                           modal: false,
                           alertSuccess: false
-                        });
+                        }, () => this.props.updateTable());
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({

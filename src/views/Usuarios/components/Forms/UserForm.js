@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, Component } from "react";
 import { Formik, withFormik, ErrorMessage, Field } from "formik";
 import {
   CONGLOMERATES,
@@ -19,6 +19,7 @@ import {
   CustomInput,
   CardFooter
 } from "reactstrap";
+import Select from "react-select";
 
 const UserForm = props => {
   const {
@@ -32,7 +33,7 @@ const UserForm = props => {
     handleBlur,
     handleSubmit,
     handleReset,
-    t
+    setFieldTouched
   } = props;
 
   const [conglomerateOptions, setConglomerateOptions] = useState([]);
@@ -581,15 +582,15 @@ const UserForm = props => {
                           {" "}
                           Roles <span className="text-danger">*</span>{" "}
                         </label>
-                        {/* <MySelect
-                          name={"roles"}
-                          value={values.roles}
+                        <MySelect
+                          name={"rolesID"}
+                          value={values.rolesID}
                           onChange={setFieldValue}
                           onBlur={setFieldTouched}
-                          error={errors.roles}
-                          touched={touched.roles}
-                        /> */}
-                        {/* {touched ? (
+                          error={errors.rolesID}
+                          touched={touched.rolesID}
+                        />{" "}
+                        {touched ? (
                           <div style={{ color: "red" }}>
                             {" "}
                             <div style={{ color: "#D54B4B" }}>
@@ -599,7 +600,7 @@ const UserForm = props => {
                               <ErrorMessage name={"roles"} />
                             </div>
                           </div>
-                        ) : null} */}
+                        ) : null}
                         {/* <select
                         name={"roles"}
                         onChange={handleChange}
@@ -761,8 +762,7 @@ export default withFormik({
       .max(200),
     rolesID: Yup.array().of(
       Yup.object().shape({
-        label: Yup.string().required(),
-        value: Yup.string().required()
+        id: Yup.string().required()
       })
     ),
     estado: Yup.bool().test(
@@ -779,3 +779,69 @@ export default withFormik({
     resetForm();
   }
 })(UserForm);
+
+const MySelect = props => {
+  // handleChange = value => {
+  //   props.onChange("rolID", value);
+  // };
+
+  // handleBlur = value => {
+  //   props.onBlur("roleID", true);
+  // };
+
+  const [roleOptions, setRoleOptions] = useState([]);
+  useEffect(async () => {
+    const result = await axios.get(
+      "http://192.168.10.180:7000/api/sgdea/role/status/1",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    );
+    setRoleOptions(result.data);
+  }, []);
+
+  console.log(roleOptions);
+
+  return (
+    <div style={{ margin: "0" }}>
+      <Select
+        name={props.name}
+        options={roleOptions}
+        isMulti
+        onChange={props.handleChange}
+        onBlur={props.handleBlur}
+        value={props.value}
+        placeholder={"-- seleccione rol --"}
+      />
+    </div>
+  );
+};
+
+// class MySelect extends Component {
+//   handleChange = value => {
+//     this.props.onChange("roles", value);
+//   };
+
+//   handleBlur = () => {
+//     this.props.onBlur("roles", true);
+//   };
+
+//   render() {
+//     return (
+//       <div style={{ margin: "0" }}>
+//         <Select
+//           name={this.props.name}
+//           options={this.props.roledata}
+//           isMulti
+//           onChange={this.handleChange}
+//           onBlur={this.handleBlur}
+//           value={this.props.value}
+//           placeholder={"-- seleccione rol --"}
+//         />
+//       </div>
+//     );
+//   }
+// }

@@ -40,7 +40,8 @@ class ModalUpdateRemitente extends React.Component {
       optionsTipoTercero:[],
       optionsCountries:[],
       optionsDepartments:[],
-      optionsCities:[]
+      optionsCities:[],
+      t:this.props.t
     };
 
 
@@ -201,7 +202,7 @@ class ModalUpdateRemitente extends React.Component {
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
-      <ModalHeader> Actualizar {this.state.dataResult.tercero_nombre} </ModalHeader>
+      <ModalHeader> {this.props.t("app_tercero_modal_actualizar_titulo")} {this.state.dataResult.tercero_nombre} </ModalHeader>
       <Formik
       enableReinitialize={true}
         initialValues={dataResult}
@@ -226,6 +227,7 @@ class ModalUpdateRemitente extends React.Component {
                 address: values.tercero_direccion,
                 cellPhone: values.tercero_telCel,
                 communicationElement: values.tercero_elementoComunicacion,
+                cityId: values.tercero_ciudad,
                 email: values.tercero_email,
                 id: this.state.id,
                 identification: values.tercero_identificacion,
@@ -367,7 +369,7 @@ class ModalUpdateRemitente extends React.Component {
                 {" "}
                 <h5 className="" style={{ borderBottom: "1px solid black" }}>
                   {" "}
-                  Datos{" "}
+                  {this.props.t("app_tercero_modal_actualizar_titulo_2")}{" "}
                 </h5>{" "}
               </div>
               <div className="row">
@@ -375,7 +377,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Tipo de tercero{" "}
+                          {this.props.t("app_tercero_modal_actualizar_tipoTercero")}{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <select
@@ -388,7 +390,7 @@ class ModalUpdateRemitente extends React.Component {
                               "is-invalid"}`}
                         >
                           <option value={''} disabled>
-                                  -- Seleccione --
+                                  -- {this.props.t("app_tercero_modal_actualizar_select_tipoTercero")} --
                                 </option>
                         {mapOptionsTipoTercero}
                         </select>
@@ -406,7 +408,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Elemento de comunicación{" "}
+                          {this.props.t("app_tercero_modal_actualizar_ElementoComunicacion")}{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <select
@@ -419,7 +421,7 @@ class ModalUpdateRemitente extends React.Component {
                             "is-invalid"}`}
                         >
                          <option disabled value={''}>
-                            -- Selecione --
+                            -- {this.props.t("app_tercero_modal_actualizar_select_ElementoComunicacion")} --
                           </option>
                           <option value={1}>Remitente</option>
                           <option value={2}>Destinatario </option>
@@ -437,7 +439,7 @@ class ModalUpdateRemitente extends React.Component {
                       </div>
                 <div className="col-md-6">
                   <div className="form-group ">
-                    <label> Identificación <span className="text-danger">*</span>{" "} </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_identificacion")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
                       name={"tercero_identificacion"}
@@ -460,7 +462,7 @@ class ModalUpdateRemitente extends React.Component {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label> Nombre <span className="text-danger">*</span>{" "} </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_nombre")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
                       name={"tercero_nombre"}
@@ -483,7 +485,7 @@ class ModalUpdateRemitente extends React.Component {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label> E-mail <span className="text-danger">*</span>{" "}  </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_email")} <span className="text-danger">*</span>{" "}  </label>
                     <input
                       type="text"
                       name={"tercero_email"}
@@ -517,7 +519,7 @@ class ModalUpdateRemitente extends React.Component {
                       this.toggleTab("1");
                     }}
                   >
-                    Otra información
+                    {this.props.t("app_tercero_modal_actualizar_collapse")}
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -526,7 +528,7 @@ class ModalUpdateRemitente extends React.Component {
                   <Row>
                   <Col sm="6">
                   <div className="form-group">
-                    <label> Teléfono fijo </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_telFijo")} </label>
                     <input
                       type="text"
                       name={"tercero_telFijo"}
@@ -549,7 +551,7 @@ class ModalUpdateRemitente extends React.Component {
                 </Col>
                 <Col sm="6">
                   <div className="form-group">
-                    <label> Teléfono celular <span className="text-danger">*</span>{" "} </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_telCelular")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
                       name={"tercero_telCel"}
@@ -572,7 +574,7 @@ class ModalUpdateRemitente extends React.Component {
                 </Col>
                 <Col sm="12">
                   <div className="form-group">
-                    <label> Dirección <span className="text-danger">*</span>{" "} </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_direccion")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
                       name={"tercero_direccion"}
@@ -595,7 +597,7 @@ class ModalUpdateRemitente extends React.Component {
                 </Col>
                     <Col sm="4">
                       <div className="form-group">
-                        <label> Pais <span className="text-danger">*</span>{" "} </label>
+                        <label> {this.props.t("app_tercero_modal_actualizar_pais")} <span className="text-danger">*</span>{" "} </label>
                         <select
                           name={"tercero_pais"}
                           onChange={handleChange}
@@ -607,7 +609,7 @@ class ModalUpdateRemitente extends React.Component {
                         >
                           <option disabled value={''}>
                             {' '}
-                            -- Seleccione --
+                            -- {this.props.t("app_tercero_modal_actualizar_select_pais")} --
                           </option>
                           {mapOptionsCountries}
                         </select>
@@ -623,7 +625,7 @@ class ModalUpdateRemitente extends React.Component {
                     </Col>
                     <Col sm="4">
                       <div className="form-group">
-                        <label> Departamento <span className="text-danger">*</span>{" "} </label>
+                        <label> {this.props.t("app_tercero_modal_actualizar_departamento")} <span className="text-danger">*</span>{" "} </label>
                         <select
                            name={"tercero_departamento"}
                           onChange={handleChange}
@@ -636,7 +638,7 @@ class ModalUpdateRemitente extends React.Component {
                           {" "}
                           <option disabled value={''}>
                             {' '}
-                            -- Seleccione --
+                            -- {this.props.t("app_tercero_modal_actualizar_select_departamento")} --
                           </option>
                           {mapOptionsDepartments}
                           {" "}
@@ -653,7 +655,7 @@ class ModalUpdateRemitente extends React.Component {
                     </Col>
                     <Col sm="4">
                     <div className="form-group">
-                      <label> Ciudad <span className="text-danger">*</span>{" "} </label>
+                      <label> {this.props.t("app_tercero_modal_actualizar_ciudad")} <span className="text-danger">*</span>{" "} </label>
                       <select
                       name={"tercero_ciudad"}
                       onChange={handleChange}
@@ -665,7 +667,7 @@ class ModalUpdateRemitente extends React.Component {
                         >
                           <option disabled value={''}>
                             {' '}
-                            -- Seleccione --
+                            -- {this.props.t("app_tercero_modal_actualizar_select_ciudad")} --
                           </option>
                           
                         {mapOptionsCities}
@@ -682,7 +684,7 @@ class ModalUpdateRemitente extends React.Component {
                   </Col>
                     <Col sm="6">
                       <div className="form-group">
-                        <label> Referencia </label>
+                        <label> {this.props.t("app_tercero_modal_actualizar_referencia")} </label>
                         <textarea
                           type="text"
                           name={"tercero_referencia"}
@@ -705,7 +707,7 @@ class ModalUpdateRemitente extends React.Component {
                     </Col>
                     <Col sm="6">
                       <div className="form-group">
-                        <label> Observacion </label>
+                        <label> {this.props.t("app_tercero_modal_actualizar_observacion")} </label>
                         <textarea
                           type="text"
                           name={"tercero_observacion"}
@@ -730,7 +732,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Estado <span className="text-danger">*</span>{" "}
+                          {this.props.t("app_tercero_modal_actualizar_estado")} <span className="text-danger">*</span>{" "}
                         </label>
                         <div className="text-justify">
                         <Field
@@ -740,13 +742,7 @@ class ModalUpdateRemitente extends React.Component {
                             <CustomInput
                             type="checkbox"
                             id="CheckboxEditTerceros"
-                            label="Si esta opción se encuentra activada, representa
-                            que el remitente es visible en el sistema y se
-                            podrán realizar operaciones entre cada uno de los
-                            módulos correspondientes de la aplicación. En caso
-                            contrario el remitente no se elimina del sistema
-                            solo quedará inactivo e invisibles para cada uno
-                            de los módulos correspondiente del sistema."
+                            label={this.props.t("app_tercero_modal_actualizar_estado_descripcion")}
                             {...field}
                               checked={field.value}
                               className={
@@ -776,7 +772,7 @@ class ModalUpdateRemitente extends React.Component {
           }}
           className="btn btn-outline-success btn-sm">
             {" "}
-            <i className="fa fa-pencil" /> Actualizar{" "}
+            <i className="fa fa-pencil" /> {this.props.t("app_tercero_modal_actualizar_boton_actualizar")}{" "}
           </button>
           <Button
             className="btn btn-secodary btn-sm"
@@ -785,7 +781,7 @@ class ModalUpdateRemitente extends React.Component {
             }}
           >
             {" "}
-            <i className="fa fa-times" /> Cerrar{" "}
+            <i className="fa fa-times" /> {this.props.t("app_tercero_modal_actualizar_boton_cerrar")}{" "}
           </Button>
         </ModalFooter>
         </Fragment>

@@ -33,7 +33,8 @@ const RemitenteForm = props => {
     handleSubmit,
     isSubmitting,
     setFieldTouched,
-    setFieldValue
+    setFieldValue,
+    t
   } = props;
 
   const [optionsTipoTecero, setOptionsTipoTercero] = useState([]);
@@ -147,7 +148,7 @@ const RemitenteForm = props => {
           <Col sm="8" md={{ offset: 2 }}>
             <Card>
               <ToastContainer />
-              <CardHeader> Registro de tercero </CardHeader>
+              <CardHeader> {t('app_tercero_tab_title')} </CardHeader>
               <CardBody>
                 <form className="form">
                   <div className="row">
@@ -155,9 +156,8 @@ const RemitenteForm = props => {
                       <div className="form-group">
                         <label>
                           {' '}
-                          Tipo de tercero <span className="text-danger">
-                            *
-                          </span>{' '}
+                          {t('app_tercero_form_registrar_TipoTercero')}{' '}
+                          <span className="text-danger">*</span>{' '}
                         </label>
                         <select
                           name={'tipoTercero'}
@@ -169,7 +169,9 @@ const RemitenteForm = props => {
                             'is-invalid'}`}
                         >
                           <option disabled value={''}>
-                            -- Selecione --
+                            --{' '}
+                            {t('app_tercero_form_registrar_select_TipoTercero')}{' '}
+                            --
                           </option>
                           {mapOptionsTipoTerceros}
                         </select>
@@ -185,7 +187,9 @@ const RemitenteForm = props => {
                       <div className="form-group">
                         <label>
                           {' '}
-                          Elemento de comunicación{' '}
+                          {t(
+                            'app_tercero_form_registrar_ElementoComunicacion'
+                          )}{' '}
                           <span className="text-danger">*</span>{' '}
                         </label>
                         <select
@@ -198,11 +202,16 @@ const RemitenteForm = props => {
                             'is-invalid'}`}
                         >
                           <option disabled value={''}>
-                            -- Selecione --
+                            --{' '}
+                            {t(
+                              'app_tercero_form_registrar_select_ElementoComunicacion'
+                            )}{' '}
+                            --
                           </option>
                           <option value={1}>Remitente</option>
                           <option value={2}>Destinatario </option>
                           <option value={3}>Mixto </option>
+                          <option value={8}>Mixto 2 </option>
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                           {errors.elementoComunicacion &&
@@ -217,9 +226,8 @@ const RemitenteForm = props => {
                       <div className="form-group">
                         <label>
                           {' '}
-                          Identificación <span className="text-danger">
-                            *
-                          </span>{' '}
+                          {t('app_tercero_form_registrar_identificacion')}{' '}
+                          <span className="text-danger">*</span>{' '}
                         </label>
                         <input
                           name={'identificacion'}
@@ -243,7 +251,8 @@ const RemitenteForm = props => {
                       <div className="form-group">
                         <label>
                           {' '}
-                          Nombre <span className="text-danger">*</span>{' '}
+                          {t('app_tercero_form_registrar_nombre')}{' '}
+                          <span className="text-danger">*</span>{' '}
                         </label>
                         <input
                           name={'nombre'}
@@ -269,7 +278,8 @@ const RemitenteForm = props => {
                       <div className="form-group">
                         <label>
                           {' '}
-                          Email <span className="text-danger">*</span>{' '}
+                          {t('app_tercero_form_registrar_email')}{' '}
+                          <span className="text-danger">*</span>{' '}
                         </label>
                         <input
                           name={'email'}
@@ -291,7 +301,10 @@ const RemitenteForm = props => {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label> Teléfono fijo </label>
+                        <label>
+                          {' '}
+                          {t('app_tercero_form_registrar_telFijo')}{' '}
+                        </label>
                         <input
                           name={'telefonoFijo'}
                           onChange={handleChange}
@@ -312,7 +325,10 @@ const RemitenteForm = props => {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label> Teléfono celular </label>
+                        <label>
+                          {' '}
+                          {t('app_tercero_form_registrar_telCelular')}{' '}
+                        </label>
                         <input
                           name={'telefonoCelular'}
                           onChange={handleChange}
@@ -333,7 +349,10 @@ const RemitenteForm = props => {
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label> Dirección </label>
+                        <label>
+                          {' '}
+                          {t('app_tercero_form_registrar_direccion')}{' '}
+                        </label>
                         <input
                           name={'direccion'}
                           onChange={handleChange}
@@ -358,7 +377,8 @@ const RemitenteForm = props => {
                       <div className="form-group">
                         <label>
                           {' '}
-                          País <span className="text-danger"> * </span>{' '}
+                          {t('app_tercero_form_registrar_pais')}{' '}
+                          <span className="text-danger"> * </span>{' '}
                         </label>
                         <select
                           name={'pais'}
@@ -371,7 +391,7 @@ const RemitenteForm = props => {
                         >
                           <option disabled value={''}>
                             {' '}
-                            -- Seleccione --
+                            -- {t('app_tercero_form_select_registrar_pais')} --
                           </option>
                           {mapOptionsCountries}
                         </select>
@@ -387,10 +407,8 @@ const RemitenteForm = props => {
                       <div className="form-group">
                         <label>
                           {' '}
-                          Departamento <span className="text-danger">
-                            {' '}
-                            *{' '}
-                          </span>{' '}
+                          {t('app_tercero_form_registrar_departamento')}{' '}
+                          <span className="text-danger"> * </span>{' '}
                         </label>
                         <select
                           name={'departamento'}
@@ -402,7 +420,11 @@ const RemitenteForm = props => {
                             'is-invalid'}`}
                         >
                           <option disabled value={''}>
-                            -- Seleccione --
+                            --{' '}
+                            {t(
+                              'app_tercero_form_registrar_select_departamento'
+                            )}{' '}
+                            --
                           </option>
                           {mapOptionsDepartments}
                         </select>
@@ -418,7 +440,8 @@ const RemitenteForm = props => {
                       <div className="form-group">
                         <label>
                           {' '}
-                          Ciudad <span className="text-danger"> * </span>{' '}
+                          {t('app_tercero_form_registrar_ciudad')}{' '}
+                          <span className="text-danger"> * </span>{' '}
                         </label>
                         <select
                           name={'ciudad'}
@@ -430,7 +453,8 @@ const RemitenteForm = props => {
                             'is-invalid'}`}
                         >
                           <option value={''} disabled>
-                            -- Seleccione --
+                            -- {t('app_tercero_form_registrar_select_ciudad')}{' '}
+                            --
                           </option>
                           {mapOptionsCitys}
                         </select>
@@ -446,7 +470,10 @@ const RemitenteForm = props => {
                   <div className="row">
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label> Referencia </label>
+                        <label>
+                          {' '}
+                          {t('app_tercero_form_registrar_referencia')}{' '}
+                        </label>
                         <textarea
                           name={'referencia'}
                           onChange={handleChange}
@@ -462,7 +489,10 @@ const RemitenteForm = props => {
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label> Observación </label>
+                        <label>
+                          {' '}
+                          {t('app_tercero_form_registrar_observacion')}{' '}
+                        </label>
                         <textarea
                           name={'observacion'}
                           onChange={handleChange}
@@ -482,19 +512,16 @@ const RemitenteForm = props => {
                       <div className="form-group">
                         <label>
                           {' '}
-                          Estado <span className="text-danger">*</span>{' '}
+                          {t('app_tercero_form_registrar_estado')}{' '}
+                          <span className="text-danger">*</span>{' '}
                         </label>
                         <div className="text-justify">
                           <CustomInput
                             type="checkbox"
                             id="ExampleInputCheckbox"
-                            label="Si esta opción se encuentra activada, representa
-                              que el remitente es visible en el sistema y se
-                              podrán realizar operaciones entre cada uno de los
-                              módulos correspondientes de la aplicación. En caso
-                              contrario el remitente no se elimina del sistema
-                              solo quedará inactivo e invisibles para cada uno
-                              de los módulos correspondiente del sistema."
+                            label={t(
+                              'app_tercero_form_registrar_estado_descripcion'
+                            )}
                             name={'estado'}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -541,7 +568,8 @@ const RemitenteForm = props => {
                       <i className=" fa fa-spinner fa-spin" />
                     ) : (
                       <div>
-                        <i className="fa fa-save" /> Guardar
+                        <i className="fa fa-save" />{' '}
+                        {t('app_tercero_form_registrar_boton_guardar')}
                       </div>
                     )}
                   </button>
@@ -554,144 +582,145 @@ const RemitenteForm = props => {
     </div>
   );
 };
-export default withFormik({
-  mapPropsToValues: props => ({
-    tipoTercero: props.remitenteForm.tipoTercero,
-    elementoComunicacion: props.remitenteForm.elementoComunicacion,
-    pais: props.remitenteForm.pais,
-    departamento: props.remitenteForm.departamento,
-    ciudad: props.remitenteForm.ciudad,
-    identificacion: props.remitenteForm.identificacion,
-    nombre: props.remitenteForm.nombre,
-    email: props.remitenteForm.email,
-    direccion: props.remitenteForm.direccion,
-    telefonoFijo: props.remitenteForm.telefonoFijo,
-    telefonoCelular: props.remitenteForm.telefonoCelular,
-    referencia: props.remitenteForm.referencia,
-    observacion: props.remitenteForm.observacion,
-    estado: props.remitenteForm.estado
-  }),
-  validationSchema: Yup.object().shape({
-    tipoTercero: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione el tipo de tercero.'),
-    elementoComunicacion: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione un elemento de comunicación.'),
-    pais: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione un país.'),
-    departamento: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione un departamento.'),
-    ciudad: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione una ciudad.'),
-    identificacion: Yup.string()
-      .matches(
-        /^[0-9]+$/,
-        '  El número de identificación no acepta puntos, letras, ni caracteres especiales.'
-      )
-      .required(' Por favor introduzca una identificación.'),
-    nombre: Yup.string()
-      .max(45, 'Máximo 45 caracteres.')
-      .required(' Por favor introduzca un nombre.'),
-    email: Yup.string()
-      .email(' Por favor introduzca un email valido.')
-      .required(' Por favor introduzca un email.'),
-    telefonoFijo: Yup.string()
-      .matches(
-        /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
-        ' Número no valido.'
-      )
-      .required(' Por favor introduzca un teléfono fijo.'),
-    telefonoCelular: Yup.string()
-      .matches(
-        /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
-        ' Número no valido.'
-      )
-      .required(' Por favor introduzca un teléfono celular.'),
-    direccion: Yup.string()
-      .max(45, 'Máximo 45 caracteres')
-      .required('Por favor introduzca una dirección.'),
-    referencia: Yup.string()
-    .max(50, 'Máximo 50 caracteres.'),
-    observacion: Yup.string()
-    .max(250, 'Máximo 250 caracteres.'),
-    estado: Yup.bool().test(
-      'Activo',
-      'se requiere la activacion el usuario',
-      value => value === true
-    )
-  }),
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    const tipoEstado = data => {
-      let tipo = null;
-      if (data === true) {
-        return (tipo = 1);
-      } else if (data === false) {
-        return (tipo = 0);
-      }
-      return null;
-    };
-    setTimeout(() => {
-      fetch(THIRDPARTYS, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        },
-        body: JSON.stringify({
-          address: values.direccion,
-          cellPhone: values.telefonoCelular,
-          communicationElement: values.elementoComunicacion,
-          email: values.email,
-          identification: values.identificacion,
-          landline: values.telefonoFijo,
-          name: values.nombre,
-          observation: values.observacion,
-          reference: values.referencia,
-          status: tipoEstado(values.estado),
-          typeThirdPartyId: values.tipoTercero,
-          userName: 'ccuartas'
-        })
-      })
-        .then(response =>
-          response.json().then(data => {
-            if (response.status === 201) {
-              toast.success('Se creo el tercero con éxito.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 400) {
-              toast.error('Error, el tercero ya existe.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 500) {
-              toast.error('Error, no se pudo crear el tercero.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            }
-          })
+export default withTranslation('translations')(
+  withFormik({
+    mapPropsToValues: props => ({
+      tipoTercero: props.remitenteForm.tipoTercero,
+      elementoComunicacion: props.remitenteForm.elementoComunicacion,
+      pais: props.remitenteForm.pais,
+      departamento: props.remitenteForm.departamento,
+      ciudad: props.remitenteForm.ciudad,
+      identificacion: props.remitenteForm.identificacion,
+      nombre: props.remitenteForm.nombre,
+      email: props.remitenteForm.email,
+      direccion: props.remitenteForm.direccion,
+      telefonoFijo: props.remitenteForm.telefonoFijo,
+      telefonoCelular: props.remitenteForm.telefonoCelular,
+      referencia: props.remitenteForm.referencia,
+      observacion: props.remitenteForm.observacion,
+      estado: props.remitenteForm.estado
+    }),
+    validationSchema: Yup.object().shape({
+      tipoTercero: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione el tipo de tercero.'),
+      elementoComunicacion: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione un elemento de comunicación.'),
+      pais: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione un país.'),
+      departamento: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione un departamento.'),
+      ciudad: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione una ciudad.'),
+      identificacion: Yup.string()
+        .matches(
+          /^[0-9]+$/,
+          '  El número de identificación no acepta puntos, letras, ni caracteres especiales.'
         )
-        .catch(error => {
-          toast.error(`Error ${error}`, {
-            position: toast.POSITION.TOP_RIGHT,
-            className: css({
-              marginTop: '60px'
+        .required(' Por favor introduzca una identificación.'),
+      nombre: Yup.string()
+        .max(45, 'Máximo 45 caracteres.')
+        .required(' Por favor introduzca un nombre.'),
+      email: Yup.string()
+        .email(' Por favor introduzca un email valido.')
+        .required(' Por favor introduzca un email.'),
+      telefonoFijo: Yup.string()
+        .matches(
+          /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
+          ' Número no valido.'
+        )
+        .required(' Por favor introduzca un teléfono fijo.'),
+      telefonoCelular: Yup.string()
+        .matches(
+          /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
+          ' Número no valido.'
+        )
+        .required(' Por favor introduzca un teléfono celular.'),
+      direccion: Yup.string()
+        .max(45, 'Máximo 45 caracteres')
+        .required('Por favor introduzca una dirección.'),
+      referencia: Yup.string().max(50, 'Máximo 50 caracteres.'),
+      observacion: Yup.string().max(250, 'Máximo 250 caracteres.'),
+      estado: Yup.bool().test(
+        'Activo',
+        'se requiere la activacion el usuario',
+        value => value === true
+      )
+    }),
+    handleSubmit: (values, { setSubmitting, resetForm }) => {
+      const tipoEstado = data => {
+        let tipo = null;
+        if (data === true) {
+          return (tipo = 1);
+        } else if (data === false) {
+          return (tipo = 0);
+        }
+        return null;
+      };
+      setTimeout(() => {
+        fetch(THIRDPARTYS, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          },
+          body: JSON.stringify({
+            address: values.direccion,
+            cellPhone: values.telefonoCelular,
+            communicationElement: values.elementoComunicacion,
+            email: values.email,
+            identification: values.identificacion,
+            landline: values.telefonoFijo,
+            name: values.nombre,
+            observation: values.observacion,
+            reference: values.referencia,
+            status: tipoEstado(values.estado),
+            typeThirdPartyId: values.tipoTercero,
+            cityId: values.ciudad,
+            userName: 'ccuartas'
+          })
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (response.status === 201) {
+                toast.success('Se creo el tercero con éxito.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 400) {
+                toast.error('Error, el tercero ya existe.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 500) {
+                toast.error('Error, no se pudo crear el tercero.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              }
             })
+          )
+          .catch(error => {
+            toast.error(`Error ${error}`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: '60px'
+              })
+            });
           });
-        });
-      setSubmitting(false);
-      resetForm();
-    }, 1000);
-  }
-})(RemitenteForm);
+        setSubmitting(false);
+        resetForm();
+      }, 1000);
+    }
+  })(RemitenteForm)
+);

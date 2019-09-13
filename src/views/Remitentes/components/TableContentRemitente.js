@@ -9,6 +9,7 @@ import ModalExport from './ModalExportCSV';
 import './../../../css/styleTableRemitente.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 class TableContentRemitente extends Component {
   constructor(props) {
     super(props);
@@ -88,9 +89,19 @@ class TableContentRemitente extends Component {
   EstadoRemitente(cell, row) {
     let status;
     if (row.status === 1) {
-      status = <b className="text-success"> Activo </b>;
+      status = (
+        <b className="text-success">
+          {' '}
+          {this.props.t('app_tablas_estado_activo')}{' '}
+        </b>
+      );
     } else if (row.status === 0) {
-      status = <b className="text-danger"> Inactivo </b>;
+      status = (
+        <b className="text-danger">
+          {' '}
+          {this.props.t('app_tablas_estado_inactivo')}{' '}
+        </b>
+      );
     }
     return status;
   }
@@ -124,7 +135,8 @@ class TableContentRemitente extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar
+        <i className="fa fa-download" />{' '}
+        {this.props.t('app_tercero_administrar_tabla_boton_exportar')}
       </button>
     );
   };
@@ -135,6 +147,7 @@ class TableContentRemitente extends Component {
     };
     const dataTerceros = this.state.dataTercero;
     const tipoTercero = this.state.tipoTercero;
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Col sm="12">
@@ -143,7 +156,7 @@ class TableContentRemitente extends Component {
             data={dataTerceros}
             pagination
             search
-            searchPlaceholder="Buscar"
+            searchPlaceholder={t('app_tercero_adminstrar_tabla_placeholder')}
             hover
             striped
             bordered={false}
@@ -173,7 +186,7 @@ class TableContentRemitente extends Component {
               width={'170'}
             >
               {' '}
-              Tipo de tercero{' '}
+              {t('app_tercero_adminstrar_tabla_TipoTercero')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField={'identification'}
@@ -181,7 +194,7 @@ class TableContentRemitente extends Component {
               width={'120'}
             >
               {' '}
-              Identificación{' '}
+              {t('app_tercero_adminstrar_tabla_identificacion')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField={'name'}
@@ -189,7 +202,7 @@ class TableContentRemitente extends Component {
               width={'150'}
             >
               {' '}
-              Nombre{' '}
+              {t('app_tercero_adminstrar_tabla_nombre')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField={'email'}
@@ -197,7 +210,7 @@ class TableContentRemitente extends Component {
               width={'200'}
             >
               {' '}
-              Email{' '}
+              {t('app_tercero_adminstrar_tabla_email')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
@@ -206,7 +219,7 @@ class TableContentRemitente extends Component {
               dataAlign="center"
               width={'150'}
             >
-              Fecha de creación
+              {t('app_tercero_adminstrar_tabla_fecha_creacion')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'80'}
@@ -215,7 +228,7 @@ class TableContentRemitente extends Component {
               dataFormat={(cell, row) => this.EstadoRemitente(cell, row)}
             >
               {' '}
-              Estado{' '}
+              {t('app_tercero_adminstrar_tabla_estado')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'120'}
@@ -225,14 +238,23 @@ class TableContentRemitente extends Component {
               style={{ border: 'none' }}
             >
               {' '}
-              Acciones{' '}
+              {t('app_tercero_adminstrar_tabla_acciones')}{' '}
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
 
-        <ModalView modalview={this.state.modalViewRemitente} ref="child" />
-        <ModalDel modaldel={this.state.modalDeleteRemitente} ref="child2" />
+        <ModalView
+          t={this.props.t}
+          modalview={this.state.modalViewRemitente}
+          ref="child"
+        />
+        <ModalDel
+          t={this.props.t}
+          modaldel={this.state.modalDeleteRemitente}
+          ref="child2"
+        />
         <ModalUpdate
+          t={this.props.t}
           modalupdate={this.state.modalUpdateRemitente}
           ref="child3"
         />
@@ -248,4 +270,4 @@ class TableContentRemitente extends Component {
 
 TableContentRemitente.propTypes = {};
 
-export default TableContentRemitente;
+export default withTranslation('translations')(TableContentRemitente);

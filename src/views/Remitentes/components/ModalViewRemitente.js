@@ -25,7 +25,9 @@ class ModalViewRemitente extends Component {
       id: this.props.id,
       userLogged: 'ccuartas',
       dataTercero: {},
-      datTipoTecero: {}
+      datTipoTecero: {},
+      dataCiudad: {},
+      t: this.props.t
     };
   }
 
@@ -46,7 +48,8 @@ class ModalViewRemitente extends Component {
         console.log(data);
         this.setState({
           dataTercero: data,
-          datTipoTecero: data.typeThirdParty
+          datTipoTecero: data.typeThirdParty,
+          dataCiudad: data.city
         });
       })
       .catch(Error => console.log(Error));
@@ -72,9 +75,19 @@ class ModalViewRemitente extends Component {
     const statusTercero = data => {
       let status;
       if (data === 1) {
-        return (status = <b className="text-success"> Activo</b>);
+        return (status = (
+          <b className="text-success">
+            {' '}
+            {this.props.t('app_tablas_estado_activo')}
+          </b>
+        ));
       } else if (data === 0) {
-        return (status = <b className="text-danger"> Inactivo </b>);
+        return (status = (
+          <b className="text-danger">
+            {' '}
+            {this.props.t('app_tablas_estado_inactivo')}{' '}
+          </b>
+        ));
       }
       return status;
     };
@@ -92,7 +105,10 @@ class ModalViewRemitente extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Tercero {this.state.dataTercero.name}</ModalHeader>
+          <ModalHeader>
+            {this.props.t('app_tercero_modal_ver_titulo')}{' '}
+            {this.state.dataTercero.name}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -103,14 +119,16 @@ class ModalViewRemitente extends Component {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    Datos{' '}
+                    {this.props.t('app_tercero_modal_ver_titulo_2')}{' '}
                   </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Tipo de tercero </dt>
+                        <dt>
+                          {this.props.t('app_tercero_modal_ver_tipoTercero')}{' '}
+                        </dt>
                         <dd> {this.state.datTipoTecero.name} </dd>
                       </dl>
                     </div>
@@ -118,7 +136,11 @@ class ModalViewRemitente extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Elemento de comunicación </dt>
+                        <dt>
+                          {this.props.t(
+                            'app_tercero_modal_ver_ElementoComunicacion'
+                          )}{' '}
+                        </dt>
                         <dd>
                           {' '}
                           {elementoComunicacion(
@@ -131,7 +153,9 @@ class ModalViewRemitente extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Identificación </dt>
+                        <dt>
+                          {this.props.t('app_tercero_modal_ver_identificacion')}{' '}
+                        </dt>
                         <dd> {this.state.dataTercero.identification} </dd>
                       </dl>
                     </div>
@@ -139,7 +163,7 @@ class ModalViewRemitente extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
+                        <dt>{this.props.t('app_tercero_modal_ver_nombre')} </dt>
                         <dd> {this.state.dataTercero.name}</dd>
                       </dl>
                     </div>
@@ -147,7 +171,7 @@ class ModalViewRemitente extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>E-mail </dt>
+                        <dt>{this.props.t('app_tercero_modal_ver_email')} </dt>
                         <dd> {this.state.dataTercero.email} </dd>
                       </dl>
                     </div>
@@ -155,7 +179,10 @@ class ModalViewRemitente extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Estado </dt>
+                        <dt>
+                          {' '}
+                          {this.props.t('app_tercero_modal_ver_estado')}{' '}
+                        </dt>
                         <dd>
                           {' '}
                           {statusTercero(this.state.dataTercero.status)}{' '}
@@ -174,7 +201,7 @@ class ModalViewRemitente extends Component {
                       style={{ cursor: 'pointer' }}
                     >
                       {' '}
-                      Más información{' '}
+                      {this.props.t('app_tercero_modal_ver_collapse')}{' '}
                     </a>{' '}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapse}>
@@ -183,7 +210,9 @@ class ModalViewRemitente extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Teléfono fijo </dt>
+                              <dt>
+                                {this.props.t('app_tercero_modal_ver_telFijo')}{' '}
+                              </dt>
                               <dd> {this.state.dataTercero.landline} </dd>
                             </dl>
                           </div>
@@ -191,7 +220,11 @@ class ModalViewRemitente extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Teléfono celular </dt>
+                              <dt>
+                                {this.props.t(
+                                  'app_tercero_modal_ver_telCelular'
+                                )}{' '}
+                              </dt>
                               <dd> {this.state.dataTercero.cellPhone} </dd>
                             </dl>
                           </div>
@@ -199,7 +232,11 @@ class ModalViewRemitente extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Dirección </dt>
+                              <dt>
+                                {this.props.t(
+                                  'app_tercero_modal_ver_direccion'
+                                )}{' '}
+                              </dt>
                               <dd> {this.state.dataTercero.address}</dd>
                             </dl>
                           </div>
@@ -207,15 +244,21 @@ class ModalViewRemitente extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Ciudad </dt>
-                              <dd> </dd>
+                              <dt>
+                                {this.props.t('app_tercero_modal_ver_ciudad')}{' '}
+                              </dt>
+                              <dd>{this.state.dataCiudad.name}</dd>
                             </dl>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Referencia </dt>
+                              <dt>
+                                {this.props.t(
+                                  'app_tercero_modal_ver_referencia'
+                                )}{' '}
+                              </dt>
                               <dd> {this.state.dataTercero.reference} </dd>
                             </dl>
                           </div>
@@ -223,7 +266,11 @@ class ModalViewRemitente extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Observación </dt>
+                              <dt>
+                                {this.props.t(
+                                  'app_tercero_modal_ver_observacion'
+                                )}{' '}
+                              </dt>
                               <dd> {this.state.dataTercero.observation} </dd>
                             </dl>
                           </div>
@@ -231,7 +278,11 @@ class ModalViewRemitente extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Fecha de creación </dt>
+                              <dt>
+                                {this.props.t(
+                                  'app_tercero_modal_ver_fecha_creacion'
+                                )}{' '}
+                              </dt>
                               <dd>
                                 {' '}
                                 {this.FechaCreacionTerceros(
@@ -244,7 +295,11 @@ class ModalViewRemitente extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Fecha de modificación </dt>
+                              <dt>
+                                {this.props.t(
+                                  'app_tercero_modal_ver_fecha_modificacion'
+                                )}{' '}
+                              </dt>
                               <dd>
                                 {' '}
                                 {this.FechaModificacionTerceros(
@@ -269,7 +324,8 @@ class ModalViewRemitente extends Component {
                 this.setState({ modal: false });
               }}
             >
-              <i className="fa fa-times" /> Cerrar
+              <i className="fa fa-times" />{' '}
+              {this.props.t('app_tercero_modal_ver_boton_cerrar')}
             </button>
           </ModalFooter>
         </Modal>

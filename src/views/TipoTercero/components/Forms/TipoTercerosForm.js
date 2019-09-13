@@ -194,12 +194,12 @@ export default withTranslation('translations')(
     }),
     validationSchema: Yup.object().shape({
       code: Yup.string()
-        .matches(/^[\w]+$/, ' Código no válido.')
-        .min(2, ' Mínimo 2 caracteres')
-        .max(15, ' Máximo 15 caracteres')
-        .required(' Por favor introduzaca un código.'),
+        .required(' Por favor introduzca un código alfanumérico.')
+        .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+        .min(2, ' Mínimo 2 caracteres.')
+        .max(15, ' Máximo 15 caracteres.'),
       name: Yup.string()
-        .max(100)
+        .max(100, ' Máximo 100 caracteres.')
         .required(' Por favor introduzca un nombre.'),
       description: Yup.string().max(250, ' Máximo 250 caracteres.'),
       status: Yup.bool().test(

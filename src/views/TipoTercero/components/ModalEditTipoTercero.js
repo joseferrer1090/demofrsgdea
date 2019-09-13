@@ -98,9 +98,12 @@ class ModalEditTipoTercero extends React.Component {
                 })
                   .then(response => {
                     if (response.status === 200) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
@@ -134,12 +137,13 @@ class ModalEditTipoTercero extends React.Component {
             }}
             validationSchema={Yup.object().shape({
               typethirdparty_code: Yup.string()
-                .min(6, ' Mínimo 6 caracteres.')
-                .max(6, ' Máximo 6 caracteres.')
-                .required(' Por favor introduzca un código.'),
-              typethirdparty_name: Yup.string().required(
-                ' Por favor introduzca un nombre.'
-              ),
+                .required(' Por favor introduzca un código alfanumérico.')
+                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+                .min(2, ' Mínimo 2 caracteres.')
+                .max(15, ' Máximo 15 caracteres.'),
+              typethirdparty_name: Yup.string()
+                .required(' Por favor introduzca un nombre.')
+                .max(100, ' Máximo 100 caracteres.'),
               typethirdparty_description: Yup.string().required(
                 ' Por favor introduzca una descripción.'
               ),
@@ -176,8 +180,7 @@ class ModalEditTipoTercero extends React.Component {
                       Se actualizo el tipo de tercero con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {/* Error, la ciudad ya esta asignada. */}
-                      Error al actualizar el tipo de tercero.
+                      Error,el tipo de tercero ya esta asignado.
                     </Alert>
                     <Row>
                       <Col sm={3}>
@@ -360,7 +363,7 @@ class ModalEditTipoTercero extends React.Component {
 
 ModalEditTipoTercero.propTypes = {
   modalupdate: PropTypes.bool.isRequired,
-  t: PropTypes.any, 
+  t: PropTypes.any,
   updateTable: PropTypes.func.isRequired
 };
 

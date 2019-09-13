@@ -19,55 +19,79 @@ import {
   CardTitle,
   CardText,
   NavLink,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
-
 import IMGPROFILE from "./../../../assets/img/profile.svg";
-import {
-  TERCEROS_EDIT,
-  TIPO_TERCERO_SELECTED,
-  ELEMENTO_COMUNICACION_SELECTED,
-  PAIS_SELECTED,
-  DEPARTAMENTO_SELECTED,
-  CIUDAD_SELECTED
-} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
-
+import { TYPETHIRDPARTYS, COUNTRIES, DEPARTMENTS, CITYS, THIRDPARTYS } from './../../../services/EndPoints';
 
 class ModalUpdateRemitente extends React.Component {
   state = {
       modal: this.props.modalupdate,
-      activeTab: "1",
-      tipo_tercero: "",
-      tipo_tercero_selected:[],
-      elemento_comunicacion: "",
-      elemento_comunicacion_selected:[],
-      identificacion: 1007647968,
-      nombre: "Cristian Cuartas",
-      email: "cristianhz1109@gmail.com",
-      telefono_fijo: 6088257,
-      telefono_celular: 313118257,
-      direccion: "Calle 27a Sur # 22-05",
-      pais: "",
-      pais_selected:[],
-      departamento: "",
-      departamento_selected:[],
-      ciudad: "",
-      ciudad_selected:[],
-      referencia: "Referencia",
-      descripcion: "Descripción",
-      estado: true
+      id: this.props.id,
+      dataResult:{},
+      alertSuccess: false,
+      alertError:false,
+      alertError400: false,
+      activeTab:"1",
+      optionsTipoTercero:[],
+      optionsCountries:[],
+      optionsDepartments:[],
+      optionsCities:[],
+      t:this.props.t
     };
 
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id:id
     });
+    this.getTerceroByID(id)
+  };
+  getTerceroByID = id => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/thirdparty/${id}/ccuartas`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        this.setState({
+          dataResult: {
+            tercero_tipoTercero: data.typeThirdParty.id,
+            tercero_elementoComunicacion: data.communicationElement,
+            tercero_identificacion: data.identification,
+            tercero_nombre: data.name,
+            tercero_email: data.email,
+            tercero_telFijo: data.landline,
+            tercero_telCel: data.cellPhone,
+            tercero_direccion: data.address,
+            tercero_referencia: data.reference,
+            tercero_observacion: data.observation,
+            tercero_estado: data.status,
+            tercero_pais:'',
+            tercero_departamento:'',
+            tercero_ciudad:''
+          }
+        });
+      })
+      .catch(error => console.log(error));
   };
 
+  componentDidMount() {
+    this.getDataTipoTercero();
+    this.getDataCountries();
+    this.getDataDepartments();
+    this.getDataCities();
+  }
+  
   toggleTab = tab => {
     if (this.state.activeTab !== tab) {
       this.setState({ activeTab: tab });
@@ -80,206 +104,231 @@ class ModalUpdateRemitente extends React.Component {
     return;
   };
 
-  componentDidMount() {
-    this.getCityInformation();
-    this.getTipoTerceroData();
-    this.getElementoComunicacionData();
-    this.getPaisData();
-    this.getDepartamentoData();
-    this.getCiudadData();
-  }
-
-  getCityInformation() {
-    fetch(TERCEROS_EDIT)
+  getDataTipoTercero = data => {
+    fetch(TYPETHIRDPARTYS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
       .then(response => response.json())
       .then(data => {
-
-        console.log(data);
         this.setState({
-          tipo_tercero: data.tipo_tercero,
-          elemento_comunicacion: data.tipo_tercero,
-          identificacion: data.identificacion,
-          nombre: data.nombre,
-          email: data.email,
-          telefono_fijo: data.telefono_fijo,
-          telefono_celular: data.telefono_celular,
-          direccion: data.direccion,
-          pais: data.pais,
-          departamento: data.departamento,
-          ciudad: data.ciudad,
-          referencia: data.referencia,
-          descripcion: data.descripcion,
-          estado: data.estado
+          optionsTipoTercero: data
         });
-        console.log(this.state);
       })
-    };
-    getTipoTerceroData = () => {
-      fetch(TIPO_TERCERO_SELECTED)
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            tipo_tercero_selected: data
-          });
-        })
-        .catch(error => console.log(error));
-    };
-    getElementoComunicacionData = () => {
-      fetch(ELEMENTO_COMUNICACION_SELECTED)
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            elemento_comunicacion_selected: data
-          });
-        })
-        .catch(error => console.log(error));
-    };
-    getPaisData = () => {
-      fetch(PAIS_SELECTED)
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            pais_selected: data
-          });
-        })
-        .catch(error => console.log(error));
-    };
-    getDepartamentoData = () => {
-      fetch(DEPARTAMENTO_SELECTED)
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            departamento_selected: data
-          });
-        })
-        .catch(error => console.log(error));
-    };
-    getCiudadData = () => {
-      fetch(CIUDAD_SELECTED)
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            ciudad_selected: data
-          });
-        })
-        .catch(error => console.log(error));
-    };
+      .catch(Error => console.log(' ', Error));
+  };
+  getDataCountries = data => {
+    fetch(COUNTRIES, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCountries: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+  getDataDepartments = data => {
+    fetch(DEPARTMENTS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsDepartments: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+  getDataCities = data => {
+    fetch(CITYS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCities: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
 
   render() {
-    const dataPreview = {
-          tipo_tercero: this.state.tipo_tercero,
-          elemento_comunicacion: this.state.elemento_comunicacion,
-          identificacion: this.state.identificacion,
-          nombre: this.state.nombre,
-          email: this.state.email,
-          telefono_fijo: this.state.telefono_fijo,
-          telefono_celular: this.state.telefono_celular,
-          direccion: this.state.direccion,
-          pais: this.state.pais,
-          departamento: this.state.departamento,
-          ciudad: this.state.ciudad,
-          referencia: this.state.referencia,
-          descripcion: this.state.descripcion,
-          estado: this.state.estado
-    };
-    const auxSelectedTipoTercero = this.state.tipo_tercero_selected.map((aux, id) => {
+    const dataResult = this.state.dataResult;
+    const mapOptionsTipoTercero = this.state.optionsTipoTercero.map((aux, idx) => {
       return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
         </option>
       );
     });
-    const auxSelectedElementoComunicacion = this.state.elemento_comunicacion_selected.map((aux, id) => {
+    const mapOptionsCountries= this.state.optionsCountries.map((aux, idx) => {
       return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
         </option>
       );
     });
-    const auxSelectedPais = this.state.pais_selected.map((aux, id) => {
+    const mapOptionsDepartments = this.state.optionsDepartments.map((aux, idx) => {
       return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
         </option>
       );
     });
-    const auxSelectedDepartamento = this.state.departamento_selected.map((aux, id) => {
+    const mapOptionsCities = this.state.optionsCities.map((aux, idx) => {
       return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
         </option>
       );
     });
-    const auxSelectedCiudad = this.state.ciudad_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
-
-
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
-      <ModalHeader> Actualizar tercero</ModalHeader>
+      <ModalHeader> {this.props.t("app_tercero_modal_actualizar_titulo")} {this.state.dataResult.tercero_nombre} </ModalHeader>
       <Formik
-        initialValues={dataPreview}
+      enableReinitialize={true}
+        initialValues={dataResult}
         onSubmit={(values, {setSubmitting}) =>{
+          const tipoEstado = data => {
+            let tipo = null;
+            if (data === true) {
+              return (tipo = 1);
+            } else if (data === false) {
+              return (tipo = 0);
+            }
+            return null;
+          };
           setTimeout(()=>{
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false)
+            fetch(THIRDPARTYS, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Basic ' + window.btoa('sgdea:123456')
+              },
+              body: JSON.stringify({
+                address: values.tercero_direccion,
+                cellPhone: values.tercero_telCel,
+                communicationElement: values.tercero_elementoComunicacion,
+                cityId: values.tercero_ciudad,
+                email: values.tercero_email,
+                id: this.state.id,
+                identification: values.tercero_identificacion,
+                landline: values.tercero_telFijo,
+                name: values.tercero_nombre,
+                observation: values.tercero_observacion,
+                reference: values.tercero_referencia,
+                status: tipoEstado(values.tercero_estado),
+                typeThirdPartyId: values.tercero_tipoTercero,
+                userName: "ccuartas"
+              })
+            })
+              .then(response => {
+                if (response.status === 200) {
+                  this.setState(
+                    {
+                      alertSuccess: true
+                    },
+                    // () => this.props.updateTable()
+                  );
+                  setTimeout(() => {
+                    this.setState({
+                      alertSuccess: false,
+                      modal: false
+                    });
+                  }, 3000);
+                } else if (response.status === 400) {
+                  this.setState({
+                    alertError400: true
+                  });
+                  setTimeout(() => {
+                    this.setState({
+                      alertError400: false
+                    });
+                  }, 3000);
+                } else if (response.status === 500) {
+                  this.setState({
+                    alertError: true
+                  });
+                  setTimeout(() => {
+                    this.setState({
+                      alertError: false,
+                      modal: !this.state.modal
+                    });
+                  }, 3000);
+                }
+              })
+              .catch(error => console.log('', error));
+            setSubmitting(false);
           },500)
         }}
         validationSchema={Yup.object().shape({
-          tipo_tercero: Yup.string()
+          tercero_tipoTercero: Yup.string()
           .ensure()
           .required(" Por favor seleccione el tipo de tercero."),
-          elemento_comunicacion: Yup.string()
+          tercero_elementoComunicacion: Yup.string()
           .ensure()
           .required(" Por favor seleccione un elemento de comunicación."),
-          pais: Yup.string()
+          tercero_pais: Yup.string()
           .ensure()
           .required(" Por favor seleccione un país."),
-          departamento: Yup.string()
+          tercero_departamento: Yup.string()
           .ensure()
           .required(" Por favor seleccione un departamento."),
-          ciudad: Yup.string()
+          tercero_ciudad: Yup.string()
           .ensure()
           .required(" Por favor seleccione una ciudad."),
-          identificacion: Yup.string()
-          .max(20, "Máximo 20 caracteres")
-          .required(" Por favor introduzca una identificación."),
-          nombre: Yup.string()
+          tercero_identificacion: Yup.string()
+          .matches(
+            /^[0-9]+$/,
+            '  El número de identificación no acepta puntos, letras, ni caracteres especiales.'
+          )
+          .required(' Por favor introduzca una identificación.'),
+          tercero_nombre: Yup.string()
           .max(45, "Máximo 45 caracteres.")
           .required(" Por favor introduzca un nombre."),
-          email: Yup.string()
+          tercero_email: Yup.string()
           .email(" Por favor introduzca un email valido.")
           .required(" Por favor introduzca un email."),
-          telefono_fijo: Yup.string()
+          tercero_telFijo: Yup.string()
           .matches(
             /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
             " Número no valido."
-          )
-          .length(7, " Por favor introduzca un número de 7 dígitos")
+          )          
           .required(" Por favor introduzca un teléfono fijo."),
-          telefono_celular: Yup.string()
+          tercero_telCel: Yup.string()
           .matches(
             /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
             " Número no valido."
-          )
-          .length(10, " Por favor introduzca un número de 10 dígitos")
+          )          
           .required(" Por favor introduzca un teléfono celular."),
-          direccion: Yup.string()
+          tercero_direccion: Yup.string()
           .max(45, "Máximo 45 caracteres")
           .required("Por favor introduzca una dirección."),
-          referencia: Yup.string()
-          .notRequired()
-          .max(50, "Máximo 50 caracteres."),
-          observacion: Yup.string()
-          .notRequired()
-          .max(250, "Máximo 250 caracteres."),
-          estado: Yup.bool()
+          tercero_referencia: Yup.string()   
+          .nullable()     
+          .max(50, 'Máximo 50 caracteres.'),
+          tercero_observacion: Yup.string()     
+          .nullable()
+          .max(250, 'Máximo 250 caracteres.'),
+          tercero_estado: Yup.bool()
             .test(
               "Activado",
               "",
@@ -302,6 +351,15 @@ class ModalUpdateRemitente extends React.Component {
         return(
           <Fragment>
           <ModalBody>
+          <Alert color="danger" isOpen={this.state.alertError}>
+             Error al actualizar el tercero.
+          </Alert>
+          <Alert color="success" isOpen={this.state.alertSuccess}>
+              Se actualizo el tercero con éxito.
+           </Alert>
+           <Alert color="danger" isOpen={this.state.alertError400}>
+              Error, el tercero ya esta asignado.
+            </Alert>
           <Row>
             <Col sm="3">
               <img src={IMGPROFILE} className="img-thumbnail" />
@@ -311,7 +369,7 @@ class ModalUpdateRemitente extends React.Component {
                 {" "}
                 <h5 className="" style={{ borderBottom: "1px solid black" }}>
                   {" "}
-                  Datos{" "}
+                  {this.props.t("app_tercero_modal_actualizar_titulo_2")}{" "}
                 </h5>{" "}
               </div>
               <div className="row">
@@ -319,27 +377,30 @@ class ModalUpdateRemitente extends React.Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Tipo de tercero{" "}
+                          {this.props.t("app_tercero_modal_actualizar_tipoTercero")}{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <select
-                            name={"tipo_tercero"}
+                            name={"tercero_tipoTercero"}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.tipo_tercero}
-                            className={`form-control form-control-sm ${errors.tipo_tercero &&
-                              touched.tipo_tercero &&
+                            value={values.tercero_tipoTercero}
+                            className={`form-control form-control-sm ${errors.tercero_tipoTercero &&
+                              touched.tercero_tipoTercero &&
                               "is-invalid"}`}
                         >
-                        {auxSelectedTipoTercero}
+                          <option value={''} disabled>
+                                  -- {this.props.t("app_tercero_modal_actualizar_select_tipoTercero")} --
+                                </option>
+                        {mapOptionsTipoTercero}
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.tipo_tercero && touched.tipo_tercero ?
+                          errors.tercero_tipoTercero && touched.tercero_tipoTercero ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                        <ErrorMessage name="tipo_tercero"/>
+                        <ErrorMessage name="tercero_tipoTercero"/>
                         </div>
                       </div>
                       </div>
@@ -347,96 +408,101 @@ class ModalUpdateRemitente extends React.Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Elemento de comunicación{" "}
+                          {this.props.t("app_tercero_modal_actualizar_ElementoComunicacion")}{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <select
-                          name={"elemento_comunicacion"}
+                          name={"tercero_elementoComunicacion"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.elemento_comunicacion}
-                          className={`form-control form-control-sm ${errors.elemento_comunicacion &&
-                            touched.elemento_comunicacion &&
+                          value={values.tercero_elementoComunicacion}
+                          className={`form-control form-control-sm ${errors.tercero_elementoComunicacion &&
+                            touched.tercero_elementoComunicacion &&
                             "is-invalid"}`}
                         >
-                        {auxSelectedElementoComunicacion}
+                         <option disabled value={''}>
+                            -- {this.props.t("app_tercero_modal_actualizar_select_ElementoComunicacion")} --
+                          </option>
+                          <option value={1}>{this.props.t("app_tercero_form_registrar_option_remitente")}</option>
+                          <option value={2}>{this.props.t("app_tercero_form_registrar_option_destinatario")} </option>
+                          <option value={3}>{this.props.t("app_tercero_form_registrar_option_mixto")} </option>
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.elemento_comunicacion && touched.elemento_comunicacion ?
+                          errors.tercero_elementoComunicacion && touched.tercero_elementoComunicacion ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                        <ErrorMessage name="elemento_comunicacion"/>
+                        <ErrorMessage name="tercero_elementoComunicacion"/>
                         </div>
                       </div>
                       </div>
                 <div className="col-md-6">
                   <div className="form-group ">
-                    <label> Identificación <span className="text-danger">*</span>{" "} </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_identificacion")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
-                      name={"identificacion"}
+                      name={"tercero_identificacion"}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.identificacion}
-                      className={`form-control form-control-sm ${errors.identificacion &&
-                        touched.identificacion &&
+                      value={values.tercero_identificacion}
+                      className={`form-control form-control-sm ${errors.tercero_identificacion &&
+                        touched.tercero_identificacion &&
                         "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.identificacion && touched.identificacion ?
+                          errors.tercero_identificacion && touched.tercero_identificacion ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                      <ErrorMessage name="identificacion"/>
+                      <ErrorMessage name="tercero_identificacion"/>
                       </div>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label> Nombre <span className="text-danger">*</span>{" "} </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_nombre")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
-                      name={"nombre"}
+                      name={"tercero_nombre"}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.nombre}
-                      className={`form-control form-control-sm ${errors.nombre &&
-                        touched.nombre &&
+                      value={values.tercero_nombre}
+                      className={`form-control form-control-sm ${errors.tercero_nombre &&
+                        touched.tercero_nombre &&
                         "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.nombre && touched.nombre ?
+                          errors.tercero_nombre && touched.tercero_nombre ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                      <ErrorMessage name="nombre"/>
+                      <ErrorMessage name="tercero_nombre"/>
                       </div>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label> E-mail <span className="text-danger">*</span>{" "}  </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_email")} <span className="text-danger">*</span>{" "}  </label>
                     <input
                       type="text"
-                      name={"email"}
+                      name={"tercero_email"}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.email}
-                      className={`form-control form-control-sm ${errors.email &&
-                        touched.email &&
+                      value={values.tercero_email}
+                      className={`form-control form-control-sm ${errors.tercero_email &&
+                        touched.tercero_email &&
                         "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.email && touched.email ?
+                          errors.tercero_email && touched.tercero_email ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                      <ErrorMessage name="email"/>
+                      <ErrorMessage name="tercero_email"/>
                       </div>
                   </div>
                 </div>
@@ -453,7 +519,7 @@ class ModalUpdateRemitente extends React.Component {
                       this.toggleTab("1");
                     }}
                   >
-                    Otra información
+                    {this.props.t("app_tercero_modal_actualizar_collapse")}
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -462,190 +528,203 @@ class ModalUpdateRemitente extends React.Component {
                   <Row>
                   <Col sm="6">
                   <div className="form-group">
-                    <label> Teléfono fijo </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_telFijo")} </label>
                     <input
                       type="text"
-                      name={"telefono_fijo"}
+                      name={"tercero_telFijo"}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.telefono_fijo}
-                      className={`form-control form-control-sm ${errors.telefono_fijo &&
-                        touched.telefono_fijo &&
+                      value={values.tercero_telFijo}
+                      className={`form-control form-control-sm ${errors.tercero_telFijo &&
+                        touched.tercero_telFijo &&
                         "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.telefono_fijo && touched.telefono_fijo ?
+                          errors.tercero_telFijo && touched.tercero_telFijo ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                      <ErrorMessage name="telefono_fijo"/>
+                      <ErrorMessage name="tercero_telFijo"/>
                       </div>
                   </div>
                 </Col>
                 <Col sm="6">
                   <div className="form-group">
-                    <label> Teléfono celular <span className="text-danger">*</span>{" "} </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_telCelular")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
-                      name={"telefono_celular"}
+                      name={"tercero_telCel"}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.telefono_celular}
-                      className={`form-control form-control-sm ${errors.telefono_celular &&
-                        touched.telefono_celular &&
+                      value={values.tercero_telCel}
+                      className={`form-control form-control-sm ${errors.tercero_telCel &&
+                        touched.tercero_telCel &&
                         "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.telefono_celular && touched.telefono_celular ?
+                          errors.tercero_telCel && touched.tercero_telCel ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                      <ErrorMessage name="telefono_celular"/>
+                      <ErrorMessage name="tercero_telCel"/>
                       </div>
                   </div>
                 </Col>
                 <Col sm="12">
                   <div className="form-group">
-                    <label> Dirección <span className="text-danger">*</span>{" "} </label>
+                    <label> {this.props.t("app_tercero_modal_actualizar_direccion")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
-                      name={"direccion"}
+                      name={"tercero_direccion"}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.direccion}
-                      className={`form-control form-control-sm ${errors.direccion &&
-                        touched.direccion &&
+                      value={values.tercero_direccion}
+                      className={`form-control form-control-sm ${errors.tercero_direccion &&
+                        touched.tercero_direccion &&
                         "is-invalid"}`}
                       />
                       <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.direccion && touched.direccion ?
+                          errors.tercero_direccion && touched.tercero_direccion ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                      <ErrorMessage name="direccion"/>
+                      <ErrorMessage name="tercero_direccion"/>
                       </div>
                   </div>
                 </Col>
                     <Col sm="4">
                       <div className="form-group">
-                        <label> Pais <span className="text-danger">*</span>{" "} </label>
+                        <label> {this.props.t("app_tercero_modal_actualizar_pais")} <span className="text-danger">*</span>{" "} </label>
                         <select
-                          name={"pais"}
+                          name={"tercero_pais"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.pais}
-                          className={`form-control form-control-sm ${errors.pais &&
-                            touched.pais &&
+                          value={values.tercero_pais}
+                          className={`form-control form-control-sm ${errors.tercero_pais &&
+                            touched.tercero_pais &&
                             "is-invalid"}`}
                         >
-                          {auxSelectedPais}
+                          <option disabled value={''}>
+                            {' '}
+                            -- {this.props.t("app_tercero_modal_actualizar_select_pais")} --
+                          </option>
+                          {mapOptionsCountries}
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.pais && touched.pais ?
+                          errors.tercero_pais && touched.tercero_pais ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                      <ErrorMessage name="pais"/>
+                      <ErrorMessage name="tercero_pais"/>
                       </div>
                       </div>
                     </Col>
                     <Col sm="4">
                       <div className="form-group">
-                        <label> Departamento <span className="text-danger">*</span>{" "} </label>
+                        <label> {this.props.t("app_tercero_modal_actualizar_departamento")} <span className="text-danger">*</span>{" "} </label>
                         <select
-                           name={"departamento"}
+                           name={"tercero_departamento"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.departamento}
-                          className={`form-control form-control-sm ${errors.departamento &&
-                            touched.departamento &&
+                          value={values.tercero_departamento}
+                          className={`form-control form-control-sm ${errors.tercero_departamento &&
+                            touched.tercero_departamento &&
                             "is-invalid"}`}
                         >
                           {" "}
-                          {auxSelectedDepartamento}
+                          <option disabled value={''}>
+                            {' '}
+                            -- {this.props.t("app_tercero_modal_actualizar_select_departamento")} --
+                          </option>
+                          {mapOptionsDepartments}
                           {" "}
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.departamento && touched.departamento ?
+                          errors.tercero_departamento && touched.tercero_departamento ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                      <ErrorMessage name="departamento"/>
+                      <ErrorMessage name="tercero_departamento"/>
                       </div>
                       </div>
                     </Col>
                     <Col sm="4">
                     <div className="form-group">
-                      <label> Ciudad <span className="text-danger">*</span>{" "} </label>
+                      <label> {this.props.t("app_tercero_modal_actualizar_ciudad")} <span className="text-danger">*</span>{" "} </label>
                       <select
-                      name={"ciudad"}
+                      name={"tercero_ciudad"}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      value={values.ciudad}
-                      className={`form-control form-control-sm ${errors.ciudad &&
-                        touched.ciudad &&
+                      value={values.tercero_ciudad}
+                      className={`form-control form-control-sm ${errors.tercero_ciudad &&
+                        touched.tercero_ciudad &&
                         "is-invalid"}`}
                         >
-                        {auxSelectedCiudad}
+                          <option disabled value={''}>
+                            {' '}
+                            -- {this.props.t("app_tercero_modal_actualizar_select_ciudad")} --
+                          </option>
+                          
+                        {mapOptionsCities}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
                         {
-                          errors.ciudad && touched.ciudad ?
+                          errors.tercero_ciudad && touched.tercero_ciudad ?
                           <i className="fa fa-exclamation-triangle"/> :
                           null
                         }
-                      <ErrorMessage name="ciudad"/>
+                      <ErrorMessage name="tercero_ciudad"/>
                       </div>
                     </div>
                   </Col>
                     <Col sm="6">
                       <div className="form-group">
-                        <label> Referencia </label>
+                        <label> {this.props.t("app_tercero_modal_actualizar_referencia")} </label>
                         <textarea
                           type="text"
-                          name={"referencia"}
+                          name={"tercero_referencia"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.referencia}
-                          className={`form-control form-control-sm ${errors.referencia &&
-                            touched.referencia &&
+                          value={values.tercero_referencia}
+                          className={`form-control form-control-sm ${errors.tercero_referencia &&
+                            touched.tercero_referencia &&
                             "is-invalid"}`}
                             />
                             <div style={{ color: '#D54B4B' }}>
                             {
-                              errors.referencia && touched.referencia ?
+                              errors.tercero_referencia && touched.tercero_referencia ?
                               <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
-                          <ErrorMessage name="referencia"/>
+                          <ErrorMessage name="tercero_referencia"/>
                           </div>
                       </div>
                     </Col>
                     <Col sm="6">
                       <div className="form-group">
-                        <label> Observacion </label>
+                        <label> {this.props.t("app_tercero_modal_actualizar_observacion")} </label>
                         <textarea
                           type="text"
-                          name={"descripcion"}
+                          name={"tercero_observacion"}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          value={values.descripcion}
-                          className={`form-control form-control-sm ${errors.descripcion &&
-                            touched.descripcion &&
+                          value={values.tercero_observacion}
+                          className={`form-control form-control-sm ${errors.tercero_observacion &&
+                            touched.tercero_observacion &&
                             "is-invalid"}`}
                             />
                             <div style={{ color: '#D54B4B' }}>
                             {
-                              errors.descripcion && touched.descripcion ?
+                              errors.tercero_observacion && touched.tercero_observacion ?
                               <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
-                          <ErrorMessage name="descripcion"/>
+                          <ErrorMessage name="tercero_observacion"/>
                           </div>
                       </div>
                     </Col>
@@ -653,35 +732,29 @@ class ModalUpdateRemitente extends React.Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          Estado <span className="text-danger">*</span>{" "}
+                          {this.props.t("app_tercero_modal_actualizar_estado")} <span className="text-danger">*</span>{" "}
                         </label>
                         <div className="text-justify">
                         <Field
-                        name="estado"
+                        name="tercero_estado"
                         render={({field, form})=>{
                           return(
                             <CustomInput
                             type="checkbox"
                             id="CheckboxEditTerceros"
-                            label="Si esta opción se encuentra activada, representa
-                            que el remitente es visible en el sistema y se
-                            podrán realizar operaciones entre cada uno de los
-                            módulos correspondientes de la aplicación. En caso
-                            contrario el remitente no se elimina del sistema
-                            solo quedará inactivo e invisibles para cada uno
-                            de los módulos correspondiente del sistema."
+                            label={this.props.t("app_tercero_modal_actualizar_estado_descripcion")}
                             {...field}
                               checked={field.value}
                               className={
-                                errors.estado &&
-                                touched.estado &&
+                                errors.tercero_estado &&
+                                touched.tercero_estado &&
                                 "invalid-feedback"
                               }
                           />
                           );
                         }}
                         />
-                        <ErrorMessage name="estado"/>
+                        <ErrorMessage name="tercero_estado"/>
                           </div>
                           </div>
                           </Col>
@@ -697,18 +770,18 @@ class ModalUpdateRemitente extends React.Component {
             e.preventDefault();
             handleSubmit();
           }}
-          className="btn btn-outline-success">
+          className="btn btn-outline-success btn-sm">
             {" "}
-            <i className="fa fa-pencil" /> Actualizar{" "}
+            <i className="fa fa-pencil" /> {this.props.t("app_tercero_modal_actualizar_boton_actualizar")}{" "}
           </button>
           <Button
-            className="btn btn-secodary"
+            className="btn btn-secodary btn-sm"
             onClick={() => {
               this.setState({ modal: false });
             }}
           >
             {" "}
-            <i className="fa fa-times" /> Cerrar{" "}
+            <i className="fa fa-times" /> {this.props.t("app_tercero_modal_actualizar_boton_cerrar")}{" "}
           </Button>
         </ModalFooter>
         </Fragment>

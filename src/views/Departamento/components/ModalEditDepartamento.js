@@ -76,10 +76,12 @@ class ModalEditDepartamento extends React.Component {
       })
       .catch(Error => console.log(' ', Error));
   };
+
   onDismiss = () => {
     this.setState({
       alertError: false,
-      alertSuccess: false
+      alertSuccess: false,
+      alertError400: false
     });
   };
 
@@ -131,9 +133,12 @@ class ModalEditDepartamento extends React.Component {
                 })
                   .then(response => {
                     if (response.status === 200) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,

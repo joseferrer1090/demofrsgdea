@@ -27,7 +27,7 @@ class ModalDeleteSedes extends Component {
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      nombre: '',
+      code: '',
       idSede: id,
       useLogged: 'ccuartas'
     });
@@ -97,10 +97,13 @@ class ModalDeleteSedes extends Component {
                         alertSuccess: true
                       });
                       setTimeout(() => {
-                        this.setState({
-                          modal: false,
-                          alertSuccess: false
-                        }, () => this.props.updateTable());
+                        this.setState(
+                          {
+                            modal: false,
+                            alertSuccess: false
+                          },
+                          () => this.props.updateTable()
+                        );
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
@@ -147,7 +150,7 @@ class ModalDeleteSedes extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        El conglomerado que va a eliminar, esta asociado a otras
+                        La sede que va a eliminar, esta asociado a otras
                         entidades.
                       </Alert>
                       <Alert

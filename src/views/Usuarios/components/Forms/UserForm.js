@@ -762,7 +762,8 @@ export default withFormik({
       .max(200),
     rolesID: Yup.array().of(
       Yup.object().shape({
-        id: Yup.string().required()
+        id: Yup.string().required(),
+        label: Yup.string().required()
       })
     ),
     estado: Yup.bool().test(
@@ -804,6 +805,14 @@ const MySelect = props => {
   }, []);
 
   console.log(roleOptions);
+
+  const options = roleOptions.map((aux, id) => {
+    return (
+      <option key={id} value={aux.id}>
+        {aux.name}
+      </option>
+    );
+  });
 
   return (
     <div style={{ margin: "0" }}>

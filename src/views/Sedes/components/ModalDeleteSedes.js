@@ -20,7 +20,8 @@ class ModalDeleteSedes extends Component {
     alertError: false,
     alertCode: false,
     alertSuccess: false,
-    nameSedes: ''
+    nameSedes: '',
+    t: this.props.t
   };
 
   toggle = id => {
@@ -62,7 +63,10 @@ class ModalDeleteSedes extends Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar {nameSedes} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_sedes_form_eliminar_titulo')} {nameSedes}{' '}
+          </ModalHeader>
           <Formik
             initialValues={dataPreview}
             onSubmit={(values, { setSubmitting }) => {
@@ -96,7 +100,7 @@ class ModalDeleteSedes extends Component {
                         this.setState({
                           modal: false,
                           alertSuccess: false
-                        });
+                        }, () => this.props.updateTable());
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
@@ -155,8 +159,7 @@ class ModalDeleteSedes extends Component {
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        Confirmar el <code> código </code> para eliminar el
-                        sede.{' '}
+                        {this.props.t('app_sedes_form_eliminar_titulo_2')}
                       </p>
 
                       <input
@@ -164,7 +167,9 @@ class ModalDeleteSedes extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder="Código de la sede a eliminar"
+                        placeholder={this.props.t(
+                          'app_sedes_form_eliminar_placeholder'
+                        )}
                         style={{ textAlign: 'center' }}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
                           touched.code &&
@@ -179,7 +184,7 @@ class ModalDeleteSedes extends Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        La sede quedará eliminada de manera permanente.{' '}
+                        {this.props.t('app_sedes_form_eliminar_titulo_3')}{' '}
                       </p>
                     </form>
                   </ModalBody>
@@ -192,7 +197,8 @@ class ModalDeleteSedes extends Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" /> Eliminar
+                      <i className="fa fa-trash" />{' '}
+                      {this.props.t('app_sedes_form_eliminar_boton_eliminar')}
                     </button>
                     <button
                       type="button"
@@ -206,7 +212,8 @@ class ModalDeleteSedes extends Component {
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t('app_sedes_form_eliminar_boton_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -220,7 +227,8 @@ class ModalDeleteSedes extends Component {
 }
 
 ModalDeleteSedes.propTypes = {
-  modaldel: PropTypes.bool.isRequired
+  modaldel: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalDeleteSedes;

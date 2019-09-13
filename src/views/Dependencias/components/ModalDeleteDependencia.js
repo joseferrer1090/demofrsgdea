@@ -22,7 +22,8 @@ class ModalDeleteDependencia extends Component {
     alertError: false,
     alertCode: false,
     alertSuccess: false,
-    nameDependence: ''
+    nameDependence: '',
+    t: this.props.t
   };
 
   toggle = id => {
@@ -63,7 +64,11 @@ class ModalDeleteDependencia extends Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader> Eliminar {nameDependence} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_dependencia_form_eliminar_titulo')}{' '}
+            {nameDependence}{' '}
+          </ModalHeader>
           <Formik
             initialValues={dataInit}
             onSubmit={(values, { setSubmitting }) => {
@@ -96,7 +101,7 @@ class ModalDeleteDependencia extends Component {
                         this.setState({
                           alertSuccess: false,
                           modal: false
-                        });
+                        }, () => this.props.updateTable());
                       }, 2000);
                     } else if (response.status === 400) {
                       this.setState({
@@ -157,8 +162,7 @@ class ModalDeleteDependencia extends Component {
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        Confirmar el <code> código </code> para eliminar la
-                        dependencia.{' '}
+                        {this.props.t('app_dependencia_form_eliminar_titulo_2')}
                       </p>
 
                       <input
@@ -170,7 +174,9 @@ class ModalDeleteDependencia extends Component {
                           touched.code &&
                           'is-invalid'}`}
                         type="text"
-                        placeholder="Código de la dependencia a eliminar"
+                        placeholder={this.props.t(
+                          'app_dependencia_form_eliminar_placeholder'
+                        )}
                         style={{ textAlign: 'center' }}
                       />
                       <div className="text-center" style={{ color: '#D54B4B' }}>
@@ -182,7 +188,9 @@ class ModalDeleteDependencia extends Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        La dependencia quedará eliminada de manera permanente.{' '}
+                        {this.props.t(
+                          'app_dependencia_form_eliminar_titulo_3'
+                        )}{' '}
                       </p>
                     </form>
                   </ModalBody>
@@ -195,7 +203,10 @@ class ModalDeleteDependencia extends Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" /> Eliminar
+                      <i className="fa fa-trash" />{' '}
+                      {this.props.t(
+                        'app_dependencia_form_eliminar_boton_eliminar'
+                      )}
                     </button>
                     <button
                       type="button"
@@ -204,7 +215,10 @@ class ModalDeleteDependencia extends Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t(
+                        'app_dependencia_form_eliminar_boton_cerrar'
+                      )}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -218,7 +232,8 @@ class ModalDeleteDependencia extends Component {
 }
 
 ModalDeleteDependencia.propTypes = {
-  modalDel: PropTypes.bool.isRequired
+  modalDel: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalDeleteDependencia;

@@ -108,9 +108,18 @@ class TableContentDepartamento extends Component {
 
   DepartamentoStatus(cell, row) {
     let status;
-    if (row.status === 1) status = <b className="text-success">Activo</b>;
+    if (row.status === 1)
+      status = (
+        <b className="text-success">
+          {this.props.t('app_tablas_estado_activo')}
+        </b>
+      );
     else if (row.status === 0) {
-      status = <b className="text-danger">Inactivo</b>;
+      status = (
+        <b className="text-danger">
+          {this.props.t('app_tablas_estado_inactivo')}
+        </b>
+      );
     }
     return status;
   }
@@ -236,11 +245,13 @@ class TableContentDepartamento extends Component {
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.ModalEdit}
+          updateTable={this.getDataDepartment}
           ref="child3"
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.ModalDel}
+          updateTable={this.getDataDepartment}
           ref="child2"
         />
         <ModalExport

@@ -23,7 +23,8 @@ class ModalViewCargo extends Component {
       modal: this.props.modalviewcargo,
       id: this.props.id,
       datCharge: {},
-      collapase: false
+      collapase: false,
+      t: this.props.t
     };
   }
 
@@ -73,15 +74,27 @@ class ModalViewCargo extends Component {
     const statusCharge = data => {
       let status;
       if (data === 1) {
-        status = <b className="text-success">Activo</b>;
+        status = (
+          <b className="text-success">
+            {this.props.t('app_tablas_estado_activo')}
+          </b>
+        );
       } else if (data === 0) {
-        status = <b className="text-danger">Inactivo</b>;
+        status = (
+          <b className="text-danger">
+            {this.props.t('app_tablas_estado_inactivo')}
+          </b>
+        );
       }
       return status;
     };
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader> Cargo {this.state.datCharge.name} </ModalHeader>
+        <ModalHeader>
+          {' '}
+          {this.props.t('app_cargo_modal_ver_titulo')}{' '}
+          {this.state.datCharge.name}{' '}
+        </ModalHeader>
         <ModalBody>
           <Row>
             <Col sm="3">
@@ -92,14 +105,14 @@ class ModalViewCargo extends Component {
                 {' '}
                 <h5 className="" style={{ borderBottom: '1px solid black' }}>
                   {' '}
-                  Datos{' '}
+                  {this.props.t('app_cargo_modal_ver_titulo_2')}{' '}
                 </h5>{' '}
               </div>
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Código </dt>
+                      <dt> {this.props.t('app_cargo_modal_ver_codigo')} </dt>
                       <dd> {this.state.datCharge.code} </dd>
                     </dl>
                   </div>
@@ -107,7 +120,7 @@ class ModalViewCargo extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Nombre </dt>
+                      <dt> {this.props.t('app_cargo_modal_ver_nombre')} </dt>
                       <dd> {this.state.datCharge.name} </dd>
                     </dl>
                   </div>
@@ -115,7 +128,10 @@ class ModalViewCargo extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Descripción </dt>
+                      <dt>
+                        {' '}
+                        {this.props.t('app_cargo_modal_ver_descripcion')}{' '}
+                      </dt>
                       <dd> {this.state.datCharge.description} </dd>
                     </dl>
                   </div>
@@ -123,7 +139,7 @@ class ModalViewCargo extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Estado </dt>
+                      <dt> {this.props.t('app_cargo_modal_ver_estado')} </dt>
                       <dd> {statusCharge(this.state.datCharge.status)} </dd>
                     </dl>
                   </div>
@@ -131,7 +147,12 @@ class ModalViewCargo extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Fecha de creación </dt>
+                      <dt>
+                        {' '}
+                        {this.props.t(
+                          'app_cargo_modal_ver_fecha_creacion'
+                        )}{' '}
+                      </dt>
                       <dd>
                         {this.FechaCreacionCargo(
                           this.state.datCharge.createdAt
@@ -143,7 +164,12 @@ class ModalViewCargo extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Fecha de modificación </dt>
+                      <dt>
+                        {' '}
+                        {this.props.t(
+                          'app_cargo_modal_ver_fecha_modificacion'
+                        )}{' '}
+                      </dt>
                       <dd>
                         {this.FechaModificacionCargo(
                           this.state.datCharge.updatedAt
@@ -164,7 +190,8 @@ class ModalViewCargo extends Component {
               this.setState({ modal: false });
             }}
           >
-            <i className="fa fa-times" /> Cerrar{' '}
+            <i className="fa fa-times" />{' '}
+            {this.props.t('app_cargo_modal_ver_button_cerrar')}{' '}
           </button>
         </ModalFooter>
       </Modal>
@@ -173,7 +200,8 @@ class ModalViewCargo extends Component {
 }
 
 ModalViewCargo.propTypes = {
-  modalviewcargo: PropTypes.bool.isRequired
+  modalviewcargo: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalViewCargo;

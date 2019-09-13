@@ -9,6 +9,7 @@ import './../../../css/styleTableCiudad.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import { CITYS } from './../../../services/EndPoints';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class TableContentCiudad extends Component {
   constructor(props) {
@@ -113,9 +114,17 @@ class TableContentCiudad extends Component {
   EstadoEmpresa(cell, row) {
     let status;
     if (row.status === 1) {
-      status = <b className="text-success">Activo</b>;
+      status = (
+        <b className="text-success">
+          {this.props.t('app_tablas_estado_activo')}
+        </b>
+      );
     } else if (row.status === 0) {
-      status = <b className="text-danger">Inactivo</b>;
+      status = (
+        <b className="text-danger">
+          {this.props.t('app_tablas_estado_inactivo')}
+        </b>
+      );
     }
     return status;
   }
@@ -126,7 +135,8 @@ class TableContentCiudad extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar CSV
+        <i className="fa fa-download" />{' '}
+        {this.props.t('app_ciudad_administrar_table_button_exportar')}
       </button>
     );
   };
@@ -142,6 +152,7 @@ class TableContentCiudad extends Component {
     const options = {
       btnGroup: this.createCustomButtonGroup
     };
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <div className="col-md-12">
@@ -151,7 +162,7 @@ class TableContentCiudad extends Component {
             exportCSV
             pagination
             search
-            searchPlaceholder="Buscar"
+            searchPlaceholder={t('app_ciudad_administrar_table_placeholder')}
             data={this.state.dataCity}
             hover
             bordered={false}
@@ -161,7 +172,7 @@ class TableContentCiudad extends Component {
               isKey
               dataField="id"
               dataAlign="center"
-              width={'80'}
+              width={'10'}
               hidden={this.state.hiddenColumnId}
             />
             <TableHeaderColumn
@@ -180,7 +191,7 @@ class TableContentCiudad extends Component {
               width={'120'}
             >
               {' '}
-              País{' '}
+              {t('app_ciudad_administrar_table_pais')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="department"
@@ -189,32 +200,32 @@ class TableContentCiudad extends Component {
               width={'150'}
             >
               {' '}
-              Departamento{' '}
+              {t('app_ciudad_administrar_table_departamento')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="code"
               dataAlign="center"
-              width={'110'}
+              width={'100'}
             >
               {' '}
-              Código{' '}
+              {t('app_ciudad_administrar_table_codigo')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
               dataAlign="center"
-              width={'130'}
+              width={'125'}
             >
               {' '}
-              Nombre{' '}
+              {t('app_ciudad_administrar_table_nombre')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
               dataField={'createdAt'}
               dataFormat={(cell, row) => this.FechaCreacionCiudad(cell, row)}
               dataAlign="center"
-              width={'120'}
+              width={'135'}
             >
-              Fecha de creación
+              {t('app_ciudad_administrar_table_fecha_creacion')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'80'}
@@ -223,7 +234,7 @@ class TableContentCiudad extends Component {
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoEmpresa(cell, row)}
             >
-              Estado
+              {t('app_ciudad_administrar_table_estado')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'180'}
@@ -232,17 +243,35 @@ class TableContentCiudad extends Component {
               dataFormat={(cel, row) => this.accionesPais(cel, row)}
             >
               {' '}
-              Acciones{' '}
+              {t('app_ciudad_administrar_table_acciones')}{' '}
             </TableHeaderColumn>
           </BootstrapTable>
         </div>
-        <ModalView modalview={this.state.ModalViewPais} ref="child" />
-        <ModalEdit modaledit={this.state.ModalEdit} ref="child3" />
-        <ModalDelete modaldel={this.state.ModalDelete} ref="child2" />
-        <ModalExport modalexport={this.state.modalExport} ref="child4" />
+        <ModalView
+          t={this.props.t}
+          modalview={this.state.ModalViewPais}
+          ref="child"
+        />
+        <ModalEdit
+          t={this.props.t}
+          modaledit={this.state.ModalEdit}
+          ref="child3"
+          updateTable={this.getDataCity}
+        />
+        <ModalDelete
+          t={this.props.t}
+          modaldel={this.state.ModalDelete}
+          ref="child2"
+          updateTable={this.getDataCity}
+        />
+        <ModalExport
+          t={this.props.t}
+          modalexport={this.state.modalExport}
+          ref="child4"
+        />
       </div>
     );
   }
 }
 
-export default TableContentCiudad;
+export default withTranslation('translations')(TableContentCiudad);

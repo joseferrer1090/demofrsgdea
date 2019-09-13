@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Nav,
   NavItem,
@@ -8,18 +8,19 @@ import {
   Row,
   Col,
   Input
-} from "reactstrap";
-import classnames from "classnames";
-import FormCreate from "./components/FormCreateCargo";
-import TableContent from "./components/TableContentCargo";
-import FormUpload from "./components/FormUploadCargo";
-import data from "./../../data/data";
+} from 'reactstrap';
+import classnames from 'classnames';
+import FormCreate from './components/FormCreateCargo';
+import TableContent from './components/TableContentCargo';
+import FormUpload from './components/FormUploadCargo';
+import data from './../../data/data';
+import { withTranslation } from 'react-i18next';
 
 class Cargo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1",
+      activeTab: '1',
       dataTextArea: data
     };
   }
@@ -33,37 +34,38 @@ class Cargo extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "1" })}
+              className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
-                this.toggle("1");
+                this.toggle('1');
               }}
             >
-              <i className="fa fa-plus" /> Registrar
+              <i className="fa fa-plus" /> {t('app_cargo_tab')}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "2" })}
+              className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => {
-                this.toggle("2");
+                this.toggle('2');
               }}
             >
-              <i className="fa fa-gear" /> Administrar
+              <i className="fa fa-gear" /> {t('app_cargo_tab_2')}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "3" })}
+              className={classnames({ active: this.state.activeTab === '3' })}
               onClick={() => {
-                this.toggle("3");
+                this.toggle('3');
               }}
             >
-              <i className="fa fa-upload" /> Importar
+              <i className="fa fa-upload" /> {t('app_cargo_tab_3')}
             </NavLink>
           </NavItem>
         </Nav>
@@ -95,4 +97,4 @@ class Cargo extends Component {
   }
 }
 
-export default Cargo;
+export default withTranslation('translations')(Cargo);

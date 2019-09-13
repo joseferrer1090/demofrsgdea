@@ -15,7 +15,8 @@ class ModalDeleteMensajero extends Component {
       alertSuccess: false,
       alertError: false,
       alertIdentification: false,
-      nameMessenger: ''
+      nameMessenger: '',
+      t: this.props.t
     };
   }
 
@@ -58,7 +59,10 @@ class ModalDeleteMensajero extends Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader>Eliminar {nameMessenger} </ModalHeader>
+          <ModalHeader>
+            {this.props.t('app_mensajero_modal_eliminar_titulo')}{' '}
+            {nameMessenger}{' '}
+          </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -81,7 +85,7 @@ class ModalDeleteMensajero extends Component {
                     } else if (response.status === 204) {
                       this.setState({
                         alertSuccess: true
-                      });
+                      }, () => this.props.updateTable());
                       setTimeout(() => {
                         this.setState({
                           modal: false,
@@ -145,8 +149,7 @@ class ModalDeleteMensajero extends Component {
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        Confirmar el número de<code> identificación </code> para
-                        eliminar el mensajero.{' '}
+                        {this.props.t('app_mensajero_modal_eliminar_titulo_2')}
                       </p>
 
                       <input
@@ -155,7 +158,9 @@ class ModalDeleteMensajero extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder="Número de identificación para eliminar el mensajero"
+                        placeholder={this.props.t(
+                          'app_mensajero_modal_eliminar_placeholder'
+                        )}
                         style={{ textAlign: 'center' }}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.identification &&
                           touched.identification &&
@@ -170,7 +175,7 @@ class ModalDeleteMensajero extends Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        El mensajero quedará eliminada de manera permanente.{' '}
+                        {this.props.t('app_mensajero_modal_eliminar_titulo_3')}
                       </p>
                     </form>
                   </ModalBody>
@@ -183,7 +188,10 @@ class ModalDeleteMensajero extends Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" /> Eliminar
+                      <i className="fa fa-trash" />{' '}
+                      {this.props.t(
+                        'app_mensajero_modal_eliminar_boton_eliminar'
+                      )}
                     </button>
                     <button
                       type="button"
@@ -197,7 +205,10 @@ class ModalDeleteMensajero extends Component {
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t(
+                        'app_mensajero_modal_eliminar_boton_cerrar'
+                      )}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -211,7 +222,8 @@ class ModalDeleteMensajero extends Component {
 }
 
 ModalDeleteMensajero.propTypes = {
-  modaldelete: PropTypes.bool.isRequired
+  modaldelete: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalDeleteMensajero;

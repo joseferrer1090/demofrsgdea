@@ -29,7 +29,8 @@ class ModalViewDependencia extends Component {
       dataDependenceHeadquarter: {},
       dataDependenceHeadquarterCompany: {},
       dataDependenceHeadquarterCompanyConglomerate: {},
-      dataDependenceCharge: {}
+      dataDependenceCharge: {},
+      t: this.props.t
     };
   }
 
@@ -79,9 +80,19 @@ class ModalViewDependencia extends Component {
     const statusDependence = data => {
       let status;
       if (data === 1) {
-        return (status = <b className="text-success"> Activo</b>);
+        return (status = (
+          <b className="text-success">
+            {' '}
+            {this.props.t('app_tablas_estado_activo')}
+          </b>
+        ));
       } else if (data === 0) {
-        return (status = <b className="text-danger"> Inactivo </b>);
+        return (status = (
+          <b className="text-danger">
+            {' '}
+            {this.orops.t('app_tablas_estado_inactivo')}{' '}
+          </b>
+        ));
       }
       return status;
     };
@@ -91,7 +102,8 @@ class ModalViewDependencia extends Component {
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            Dependencia {this.state.dataDependence.name}{' '}
+            {this.props.t('app_dependencia_modal_ver_titulo')}{' '}
+            {this.state.dataDependence.name}{' '}
           </ModalHeader>
           <ModalBody>
             <Row>
@@ -103,7 +115,7 @@ class ModalViewDependencia extends Component {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    Datos{' '}
+                    {this.props.t('app_dependencia_modal_ver_titulo_2')}{' '}
                   </h5>{' '}
                 </div>
 
@@ -111,7 +123,11 @@ class ModalViewDependencia extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Conglomerado </dt>
+                        <dt>
+                          {this.props.t(
+                            'app_dependencia_modal_ver_conglomerado'
+                          )}{' '}
+                        </dt>
                         <dd>
                           {
                             this.state
@@ -124,7 +140,9 @@ class ModalViewDependencia extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Empresa </dt>
+                        <dt>
+                          {this.props.t('app_dependencia_modal_ver_empresa')}{' '}
+                        </dt>
                         <dd>
                           {this.state.dataDependenceHeadquarterCompany.name}
                         </dd>
@@ -134,7 +152,9 @@ class ModalViewDependencia extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Sede </dt>
+                        <dt>
+                          {this.props.t('app_dependencia_modal_ver_sede')}{' '}
+                        </dt>
                         <dd>{this.state.dataDependenceHeadquarter.name}</dd>
                       </dl>
                     </div>
@@ -142,7 +162,9 @@ class ModalViewDependencia extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Codigo </dt>
+                        <dt>
+                          {this.props.t('app_dependencia_modal_ver_codigo')}{' '}
+                        </dt>
                         <dd>{this.state.dataDependence.code} </dd>
                       </dl>
                     </div>
@@ -150,7 +172,9 @@ class ModalViewDependencia extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
+                        <dt>
+                          {this.props.t('app_dependencia_modal_ver_nombre')}{' '}
+                        </dt>
                         <dd>{this.state.dataDependence.name}</dd>
                       </dl>
                     </div>
@@ -158,7 +182,11 @@ class ModalViewDependencia extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Descripción </dt>
+                        <dt>
+                          {this.props.t(
+                            'app_dependencia_modal_ver_descripcion'
+                          )}{' '}
+                        </dt>
                         <dd>{this.state.dataDependence.description} </dd>
                       </dl>
                     </div>
@@ -176,7 +204,7 @@ class ModalViewDependencia extends Component {
                       style={{ cursor: 'pointer' }}
                     >
                       {' '}
-                      Más información{' '}
+                      {this.props.t('app_dependencia_modal_ver_collapse')}{' '}
                     </a>{' '}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapse}>
@@ -185,7 +213,11 @@ class ModalViewDependencia extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Cargo responsable </dt>
+                              <dt>
+                                {this.props.t(
+                                  'app_dependencia_modal_ver_cargo_responsable'
+                                )}{' '}
+                              </dt>
                               <dd> {this.state.dataDependenceCharge.name} </dd>
                             </dl>
                           </div>
@@ -193,7 +225,11 @@ class ModalViewDependencia extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Estado </dt>
+                              <dt>
+                                {this.props.t(
+                                  'app_dependencia_modal_ver_estado'
+                                )}{' '}
+                              </dt>
                               <dd>
                                 {statusDependence(
                                   this.state.dataDependence.status
@@ -205,7 +241,11 @@ class ModalViewDependencia extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Fecha de creación </dt>
+                              <dt>
+                                {this.props.t(
+                                  'app_dependencia_modal_ver_fecha_creacion'
+                                )}{' '}
+                              </dt>
                               <dd>
                                 {this.FechaCreacionDependencia(
                                   this.state.dataDependence.createdAt
@@ -217,7 +257,11 @@ class ModalViewDependencia extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Fecha de modificación </dt>
+                              <dt>
+                                {this.props.t(
+                                  'app_dependencia_modal_ver_fecha_modificacion'
+                                )}{' '}
+                              </dt>
                               <dd>
                                 {this.FechaModificacionDependencia(
                                   this.state.dataDependence.updatedAt
@@ -242,7 +286,8 @@ class ModalViewDependencia extends Component {
                 });
               }}
             >
-              <i className="fa fa-times" /> Cerrar{' '}
+              <i className="fa fa-times" />{' '}
+              {this.props.t('app_dependencia_modal_ver_boton_cerrar')}{' '}
             </Button>
           </ModalFooter>
         </Modal>

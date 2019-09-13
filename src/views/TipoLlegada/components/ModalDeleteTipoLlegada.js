@@ -15,7 +15,8 @@ class ModalDeleteTipoLlegada extends Component {
       alertSuccess: false,
       alertError: false,
       alertCode: false,
-      nameTipoLlegada: ''
+      nameTipoLlegada: '',
+      t: this.props.t
     };
   }
 
@@ -61,7 +62,10 @@ class ModalDeleteTipoLlegada extends Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader>Eliminar {nameTipoLlegada}</ModalHeader>
+          <ModalHeader>
+            {this.props.t('app_tipoLlegada_modal_eliminar_titulo')}{' '}
+            {nameTipoLlegada}
+          </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -84,7 +88,7 @@ class ModalDeleteTipoLlegada extends Component {
                     } else if (response.status === 204) {
                       this.setState({
                         alertSuccess: true
-                      });
+                      }, () => this.props.updateTable());
                       setTimeout(() => {
                         this.setState({
                           modal: false,
@@ -148,8 +152,9 @@ class ModalDeleteTipoLlegada extends Component {
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        Confirmar el <code> código </code> para eliminar el tipo
-                        de envío / llegada{' '}
+                        {this.props.t(
+                          'app_tipoLlegada_modal_eliminar_titulo_2'
+                        )}
                       </p>
 
                       <input
@@ -158,7 +163,9 @@ class ModalDeleteTipoLlegada extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder="Código para eliminar el tipo envío / llegada"
+                        placeholder={this.props.t(
+                          'app_tipoLlegada_modal_eliminar_placeholder'
+                        )}
                         style={{ textAlign: 'center' }}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
                           touched.code &&
@@ -173,8 +180,9 @@ class ModalDeleteTipoLlegada extends Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        El tipo de envío / llegada quedará eliminado de manera
-                        permanente.{' '}
+                        {this.props.t(
+                          'app_tipoLlegada_modal_eliminar_titulo_3'
+                        )}
                       </p>
                     </form>
                   </ModalBody>
@@ -187,7 +195,10 @@ class ModalDeleteTipoLlegada extends Component {
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" /> Eliminar
+                      <i className="fa fa-trash" />{' '}
+                      {this.props.t(
+                        'app_tipoLlegada_modal_eliminar_button_eliminar'
+                      )}
                     </button>
                     <button
                       type="button"
@@ -201,7 +212,10 @@ class ModalDeleteTipoLlegada extends Component {
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t(
+                        'app_tipoLlegada_modal_eliminar_button_cerrar'
+                      )}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -215,7 +229,8 @@ class ModalDeleteTipoLlegada extends Component {
 }
 
 ModalDeleteTipoLlegada.propTypes = {
-  modaldelete: PropTypes.bool.isRequired
+  modaldelete: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalDeleteTipoLlegada;

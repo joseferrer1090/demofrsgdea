@@ -14,6 +14,7 @@ import { CHARGES } from './../../../../services/EndPoints';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
+import { withTranslation } from 'react-i18next';
 const CargoForm = props => {
   const {
     values,
@@ -25,14 +26,15 @@ const CargoForm = props => {
     setFieldValue,
     handleBlur,
     handleSubmit,
-    handleReset
+    handleReset,
+    t
   } = props;
   return (
     <Row>
       <Col sm={{ size: 8, offset: 2 }}>
         <Card>
           <ToastContainer />
-          <CardHeader> Registro de cargo </CardHeader>
+          <CardHeader> {t('app_cargo_tab_title')} </CardHeader>
           <CardBody>
             <form className="form" noValidate>
               <div className="row">
@@ -40,13 +42,16 @@ const CargoForm = props => {
                   <div className="form-group">
                     <label>
                       {' '}
-                      Código <span className="text-danger">*</span>{' '}
+                      {t('app_cargo_form_registrar_codigo')}{' '}
+                      <span className="text-danger">*</span>{' '}
                     </label>
                     <input
                       name={'code'}
                       type="text"
                       placeholder=""
-                      onChange={e => {setFieldValue("code", e.target.value.toUpperCase())}}
+                      onChange={e => {
+                        setFieldValue('code', e.target.value.toUpperCase());
+                      }}
                       onBlur={handleBlur}
                       value={values.code}
                       className={`form-control form-control-sm ${errors.code &&
@@ -65,13 +70,16 @@ const CargoForm = props => {
                   <div className="form-group">
                     <label>
                       {' '}
-                      Nombre <span className="text-danger">*</span>{' '}
+                      {t('app_cargo_form_registrar_nombre')}{' '}
+                      <span className="text-danger">*</span>{' '}
                     </label>
                     <input
                       name={'name'}
                       type="text"
                       placeholder=""
-                      onChange={e => {setFieldValue("name", e.target.value.toUpperCase())}}
+                      onChange={e => {
+                        setFieldValue('name', e.target.value.toUpperCase());
+                      }}
                       onBlur={handleBlur}
                       value={values.name}
                       className={`form-control form-control-sm ${errors.name &&
@@ -90,7 +98,7 @@ const CargoForm = props => {
               <div className="row">
                 <div className="col-md-12">
                   <div className="form-group">
-                    <label> Descripción</label>
+                    <label> {t('app_cargo_form_registrar_descripcion')}</label>
                     <textarea
                       name={'description'}
                       className="form-control form-control-sm"
@@ -107,20 +115,15 @@ const CargoForm = props => {
                   <div className="form-group">
                     <label>
                       {' '}
-                      Estado <span className="text-danger">*</span>{' '}
+                      {t('app_cargo_form_registrar_estado')}{' '}
+                      <span className="text-danger">*</span>{' '}
                     </label>
                     <div className="text-justify">
                       <CustomInput
                         name={'status'}
                         type="checkbox"
                         id="ExampleCheckboxInput"
-                        label=" Si esta opción se encuentra activada, representa
-                        que el cargo es visible en el sistema y se podrán
-                        realizar operaciones entre cada uno de los módulos
-                        correspondientes de la aplicación. En caso
-                        contrario el cargo no se elimina del sistema solo
-                        quedará inactivo e invisibles para cada uno de los
-                        módulos correspondiente del sistema."
+                        label={t('app_cargo_form_registrar_estado_descripcion')}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         className={
@@ -163,7 +166,8 @@ const CargoForm = props => {
                   <i className=" fa fa-spinner fa-spin" />
                 ) : (
                   <div>
-                    <i className="fa fa-save" /> Guardar
+                    <i className="fa fa-save" />{' '}
+                    {t('app_cargo_form_registrar_button_guardar')}
                   </div>
                 )}
               </button>
@@ -175,86 +179,92 @@ const CargoForm = props => {
   );
 };
 
-export default withFormik({
-  mapPropsToValues: props => ({
-    code: props.cargo.code,
-    name: props.cargo.name,
-    description: props.cargo.description,
-    status: props.cargo.status
-  }),
-  validationSchema: Yup.object().shape({
-    code: Yup.string()
-      .required(' Por favor introduzca un código.')
-      .matches(/^[0-9a-zA-Z]+$/, ' Código no válido.')
-      .min(2, ' Mínimo 2 caracteres.')
-      .max(15, ' Máximo 15 caracteres.'),
-    name: Yup.string().required(' Por favor introduzca un nombre.'),
-    description: Yup.string().max(250, ' Máximo 250 caracteres.'),
-    status: Yup.bool()
-      .test('Activo', ' Necesario activar el cargo. ', value => value === true)
-      .required(' Se debe activar el cargo.')
-  }),
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    const tipoEstado = data => {
-      let tipo = null;
-      if (data === true) {
-        return (tipo = 1);
-      } else if (data === false) {
-        return (tipo = 0);
-      }
-      return null;
-    };
-    setTimeout(() => {
-      fetch(CHARGES, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        },
-        body: JSON.stringify({
-          description: values.description,
-          code: values.code,
-          name: values.name,
-          status: tipoEstado(values.status),
-          userName: 'jferrer'
-        })
-      })
-        .then(response =>
-          response.json().then(data => {
-            if (response.status === 201) {
-              toast.success('Se creo el cargo con éxito.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 400) {
-              toast.error('Error, el cargo ya existe.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            } else if (response.status === 500) {
-              toast.error('Error, no se pudo crear el cargo.', {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: '60px'
-                })
-              });
-            }
-          })
+export default withTranslation('translations')(
+  withFormik({
+    mapPropsToValues: props => ({
+      code: props.cargo.code,
+      name: props.cargo.name,
+      description: props.cargo.description,
+      status: props.cargo.status
+    }),
+    validationSchema: Yup.object().shape({
+      code: Yup.string()
+        .required(' Por favor introduzca un código alfanumérico.')
+        .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+        .min(2, ' Mínimo 2 caracteres.')
+        .max(15, ' Máximo 15 caracteres.'),
+      name: Yup.string().required(' Por favor introduzca un nombre.'),
+      description: Yup.string().max(250, ' Máximo 250 caracteres.'),
+      status: Yup.bool()
+        .test(
+          'Activo',
+          ' Necesario activar el cargo. ',
+          value => value === true
         )
-        .catch(error => {
-          toast.error(`Error ${error}`, {
-            position: toast.POSITION.TOP_RIGHT,
-            className: css({
-              marginTop: '60px'
+        .required(' Se debe activar el cargo.')
+    }),
+    handleSubmit: (values, { setSubmitting, resetForm }) => {
+      const tipoEstado = data => {
+        let tipo = null;
+        if (data === true) {
+          return (tipo = 1);
+        } else if (data === false) {
+          return (tipo = 0);
+        }
+        return null;
+      };
+      setTimeout(() => {
+        fetch(CHARGES, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          },
+          body: JSON.stringify({
+            description: values.description,
+            code: values.code,
+            name: values.name,
+            status: tipoEstado(values.status),
+            userName: 'jferrer'
+          })
+        })
+          .then(response =>
+            response.json().then(data => {
+              if (response.status === 201) {
+                toast.success('Se creo el cargo con éxito.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 400) {
+                toast.error('Error, el cargo ya existe.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              } else if (response.status === 500) {
+                toast.error('Error, no se pudo crear el cargo.', {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: '60px'
+                  })
+                });
+              }
             })
+          )
+          .catch(error => {
+            toast.error(`Error ${error}`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: '60px'
+              })
+            });
           });
-        });
-      setSubmitting(false);
-      resetForm();
-    }, 1000);
-  }
-})(CargoForm);
+        setSubmitting(false);
+        resetForm();
+      }, 1000);
+    }
+  })(CargoForm)
+);

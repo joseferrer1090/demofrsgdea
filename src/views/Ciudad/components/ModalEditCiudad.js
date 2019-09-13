@@ -20,11 +20,12 @@ class ModalEditCiudad extends React.Component {
     modal: this.props.modaledit,
     idCity: this.props.id,
     dataResult: {},
-    optionsCountries: [],
-    optionsDepartment: [],
+    optionsCountries: [0],
+    optionsDepartment: [0],
     alertError: false,
     alertSuccess: false,
-    alertError400: false
+    alertError400: false,
+    t: this.props.t
   };
   onDismiss = () => {
     this.setState({
@@ -120,7 +121,11 @@ class ModalEditCiudad extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar {dataResult.city_name} </ModalHeader>
+          <ModalHeader>
+            {' '}
+            {this.props.t('app_ciudad_modal_actualizar_titulo')}{' '}
+            {dataResult.city_name}{' '}
+          </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}
@@ -152,9 +157,12 @@ class ModalEditCiudad extends React.Component {
                 })
                   .then(response => {
                     if (response.status === 200) {
-                      this.setState({
-                        alertSuccess: true
-                      });
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           alertSuccess: false,
@@ -194,12 +202,14 @@ class ModalEditCiudad extends React.Component {
                 .ensure()
                 .required(' Por favor seleccione un departamento.'),
 
-              city_code: Yup.string().required(
-                ' Por favor introduzca un código.'
-              ),
-              city_name: Yup.string().required(
-                ' Por favor introduzca un nombre.'
-              ),
+              city_code: Yup.string()
+                .required(' Por favor introduzca un código alfanumérico.')
+                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
+                .min(2, ' Mínimo 2 caracteres.')
+                .max(15, ' Máximo 15 caracteres.'),
+              city_name: Yup.string()
+                .required(' Por favor introduzca un nombre.')
+                .max(100, 'Máximo 100 caracteres.'),
               city_status: Yup.bool().test(
                 'Activado',
                 '',
@@ -233,8 +243,7 @@ class ModalEditCiudad extends React.Component {
                       Se actualizo la ciudad con éxito.
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {/* Error, la ciudad ya esta asignada. */}
-                      Error al actualizar la ciudad.
+                      Error, la ciudad ya esta asignada.
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -248,14 +257,19 @@ class ModalEditCiudad extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            Datos{' '}
+                            {this.props.t(
+                              'app_ciudad_modal_actualizar_titulo_2'
+                            )}{' '}
                           </h5>{' '}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                País <span className="text-danger">*</span>{' '}
+                                {this.props.t(
+                                  'app_ciudad_modal_actualizar_pais'
+                                )}{' '}
+                                <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
                                   <select
@@ -269,7 +283,11 @@ class ModalEditCiudad extends React.Component {
                                   >
                                     {' '}
                                     <option value={''} disabled>
-                                      -- Seleccione --
+                                      --{' '}
+                                      {this.props.t(
+                                        'app_ciudad_modal_actualizar_select_pais'
+                                      )}{' '}
+                                      --
                                     </option>
                                     {mapOptionsCountries}{' '}
                                   </select>{' '}
@@ -287,7 +305,9 @@ class ModalEditCiudad extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Departamento{' '}
+                                {this.props.t(
+                                  'app_ciudad_modal_actualizar_select_departamento'
+                                )}{' '}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -302,7 +322,11 @@ class ModalEditCiudad extends React.Component {
                                   >
                                     {' '}
                                     <option value={''} disabled>
-                                      -- Seleccione --
+                                      --{' '}
+                                      {this.props.t(
+                                        'app_ciudad_modal_actualizar_departamento'
+                                      )}{' '}
+                                      --
                                     </option>
                                     {mapOptionsDepartments}{' '}
                                   </select>{' '}
@@ -320,7 +344,10 @@ class ModalEditCiudad extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Código <span className="text-danger">*</span>{' '}
+                                {this.props.t(
+                                  'app_ciudad_modal_actualizar_codigo'
+                                )}{' '}
+                                <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
                                   <input
@@ -347,7 +374,10 @@ class ModalEditCiudad extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Nombre <span className="text-danger">*</span>{' '}
+                                {this.props.t(
+                                  'app_ciudad_modal_actualizar_nombre'
+                                )}{' '}
+                                <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
                                   <input
@@ -375,9 +405,10 @@ class ModalEditCiudad extends React.Component {
                               <dl className="param">
                                 <label>
                                   {' '}
-                                  Estado <span className="text-danger">
-                                    *
-                                  </span>{' '}
+                                  {this.props.t(
+                                    'app_ciudad_modal_actualizar_estado'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <div className="text-justify">
                                   <Field
@@ -387,13 +418,9 @@ class ModalEditCiudad extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="CheckboxEditCiudad"
-                                          label=" Si esta opción se encuentra activada, representa que
-                              el departamento es visible en el sistema y se podrán
-                              realizar operaciones entre cada uno de los módulos
-                              correspondientes de la aplicación. En caso contrario
-                              el departamento no se elimina del sistema solo
-                              quedará inactivo e invisibles para cada uno de los
-                              módulos correspondiente del sistema."
+                                          label={this.props.t(
+                                            'app_ciudad_modal_actualizar_estado_descripcion'
+                                          )}
                                           {...field}
                                           checked={field.value}
                                           className={
@@ -424,7 +451,10 @@ class ModalEditCiudad extends React.Component {
                       }}
                     >
                       {' '}
-                      <i className="fa fa-pencil" /> Actualizar{' '}
+                      <i className="fa fa-pencil" />{' '}
+                      {this.props.t(
+                        'app_ciudad_modal_actualizar_button_actualizar'
+                      )}{' '}
                     </button>
                     <button
                       type="button"
@@ -434,7 +464,10 @@ class ModalEditCiudad extends React.Component {
                       }}
                     >
                       {' '}
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {this.props.t(
+                        'app_ciudad_modal_actualizar_button_cerrar'
+                      )}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -448,7 +481,9 @@ class ModalEditCiudad extends React.Component {
 }
 
 ModalEditCiudad.propTypes = {
-  modaledit: PropTypes.bool.isRequired
+  modaledit: PropTypes.bool.isRequired,
+  updateTable: PropTypes.func.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalEditCiudad;

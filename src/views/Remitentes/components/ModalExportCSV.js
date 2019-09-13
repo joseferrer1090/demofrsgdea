@@ -29,7 +29,7 @@ class ModalExportCSV extends Component {
 
   getDataExportCSV = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/export/data/jferrer`,
+      `http://192.168.10.180:7000/api/sgdea/thirdparty/export/data/ccuartas`,
       {
         method: 'GET',
         headers: {
@@ -103,8 +103,8 @@ class ModalExportCSV extends Component {
 
     const fields = [
       {
-        label: 'code',
-        value: 'code'
+        label: 'identification',
+        value: 'identification'
       },
       {
         label: 'name',
@@ -119,12 +119,40 @@ class ModalExportCSV extends Component {
         value: 'status'
       },
       {
-        label: 'code_headquarter',
-        value: 'codeHeadquarter'
+        label: 'email',
+        value: 'email'
       },
       {
-        label: 'code_charge',
-        value: 'codeCharge'
+        label: 'landline',
+        value: 'landline'
+      },
+      {
+        label: 'cellPhone',
+        value: 'cellPhone'
+      },
+      {
+        label: 'address',
+        value: 'address'
+      },
+      {
+        label: 'reference',
+        value: 'reference'
+      },
+      {
+        label: 'observation',
+        value: 'observation'
+      },
+      {
+        label: 'status',
+        value: 'status'
+      },
+      {
+        label: 'communicationElement',
+        value: 'communicationElement'
+      },
+      {
+        label: 'codeTypeThirdParty',
+        value: 'codeTypeThirdParty'
       }
     ];
 
@@ -133,33 +161,39 @@ class ModalExportCSV extends Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>
-            {this.props.t('app_dependencia_modal_export_titulo')}
-          </ModalHeader>
+          <ModalHeader>Exportar tabla de terceros</ModalHeader>
           <ModalBody>
             <table className="table table-responsive  table-hover table-striped fixed_header">
               <thead className="">
                 <tr>
-                  <th>{this.props.t('app_dependencia_modal_export_codigo')}</th>
-                  <th>{this.props.t('app_dependencia_modal_export_nombre')}</th>
-                  <th>
-                    {this.props.t('app_dependencia_modal_export_descripcion')}
-                  </th>
-                  <th>{this.props.t('app_dependencia_modal_export_estado')}</th>
-                  <th>{this.props.t('app_dependencia_modal_export_sede')}</th>
-                  <th>{this.props.t('app_dependencia_modal_export_cargo')}</th>
+                  <th>Identificación</th>
+                  <th>Nombre</th>
+                  <th>Email</th>
+                  <th>Tel. Fijo</th>
+                  <th>Tel. Celular</th>
+                  <th>Dirección</th>
+                  <th>Referencia</th>
+                  <th>Observación</th>
+                  <th>Estado</th>
+                  <th>Elemt. Comunicación</th>
+                  <th>Código tipo de tercero</th>
                 </tr>
               </thead>
               <tbody className="">
                 {data.map((aux, id) => {
                   return [
                     <tr key={id}>
-                      <td>{aux.code}</td>
+                      <td>{aux.identification}</td>
                       <td>{aux.name}</td>
-                      <td>{aux.description}</td>
+                      <td>{aux.email}</td>
+                      <td>{aux.landline}</td>
+                      <td>{aux.cellPhone}</td>
+                      <td>{aux.address}</td>
+                      <td>{aux.reference}</td>
+                      <td>{aux.observation}</td>
                       <td>{aux.status}</td>
-                      <td>{aux.codeHeadquarter}</td>
-                      <td>{aux.codeCharge}</td>
+                      <td>{aux.communicationElement}</td>
+                      <td>{aux.codeTypeThirdParty}</td>
                     </tr>
                   ];
                 })}
@@ -174,13 +208,11 @@ class ModalExportCSV extends Component {
               }}
             >
               {' '}
-              <i className="fa fa-times" />{' '}
-              {this.props.t('app_dependencia_modal_export_boton_cerrar')}{' '}
+              <i className="fa fa-times" /> Cerra{' '}
             </button>
 
             <CSVLink data={csv} className="btn btn-secondary btn-sm">
-              <i className="fa fa-download" />{' '}
-              {this.props.t('app_dependencia_modal_export_boton_exportar')}
+              <i className="fa fa-download" /> Exportar
             </CSVLink>
             {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
               {" "}

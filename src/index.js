@@ -10,6 +10,9 @@ import * as serviceWorker from "./serviceWorker";
 import store from "./store/store";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./config/i18n";
+// import {loadConglomerados} from "./actions/actionsCreators";
+
+// store.dispatch(loadConglomerados());
 
 ReactDOM.render(
   <Provider store={store}>

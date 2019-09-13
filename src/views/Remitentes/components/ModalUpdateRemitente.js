@@ -423,9 +423,9 @@ class ModalUpdateRemitente extends React.Component {
                          <option disabled value={''}>
                             -- {this.props.t("app_tercero_modal_actualizar_select_ElementoComunicacion")} --
                           </option>
-                          <option value={1}>Remitente</option>
-                          <option value={2}>Destinatario </option>
-                          <option value={3}>Mixto </option>
+                          <option value={1}>{this.props.t("app_tercero_form_registrar_option_remitente")}</option>
+                          <option value={2}>{this.props.t("app_tercero_form_registrar_option_destinatario")} </option>
+                          <option value={3}>{this.props.t("app_tercero_form_registrar_option_mixto")} </option>
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {

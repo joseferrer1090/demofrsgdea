@@ -208,10 +208,17 @@ const RemitenteForm = props => {
                             )}{' '}
                             --
                           </option>
-                          <option value={1}>Remitente</option>
-                          <option value={2}>Destinatario </option>
-                          <option value={3}>Mixto </option>
-                          <option value={8}>Mixto 2 </option>
+                          <option value={1}>
+                            {t('app_tercero_form_registrar_option_remitente')}
+                          </option>
+                          <option value={2}>
+                            {t(
+                              'app_tercero_form_registrar_option_destinatario'
+                            )}{' '}
+                          </option>
+                          <option value={3}>
+                            {t('app_tercero_form_registrar_option_mixto')}{' '}
+                          </option>
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                           {errors.elementoComunicacion &&

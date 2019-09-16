@@ -21,6 +21,7 @@ import FormCreate from './components/FormCreateEmpresa';
 import TableContent from './components/TableContentEmpresa';
 import FormImport from './components/FormUpload';
 import { withTranslation } from 'react-i18next';
+import { COMPANYS } from '../../services/EndPoints';
 
 class Empresa extends Component {
   constructor(props) {

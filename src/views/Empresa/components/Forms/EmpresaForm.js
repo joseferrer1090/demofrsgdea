@@ -209,7 +209,7 @@ const EmpresaForm = props => {
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                     {errors.conglomerateId && touched.conglomerateId ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="conglomerateId" />
                   </div>
@@ -236,7 +236,7 @@ const EmpresaForm = props => {
                   />
                   <div style={{ color: '#D54B4B' }}>
                     {errors.code && touched.code ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="code" />
                   </div>
@@ -261,7 +261,7 @@ const EmpresaForm = props => {
                   />
                   <div style={{ color: '#D54B4B' }}>
                     {errors.nit && touched.nit ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="nit" />
                   </div>
@@ -288,7 +288,7 @@ const EmpresaForm = props => {
                   />
                   <div style={{ color: '#D54B4B' }}>
                     {errors.name && touched.name ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="name" />
                   </div>
@@ -309,7 +309,7 @@ const EmpresaForm = props => {
                   />
                   <div style={{ color: '#D54B4B' }}>
                     {errors.description && touched.description ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="description" />
                   </div>
@@ -334,7 +334,7 @@ const EmpresaForm = props => {
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                     {errors.countryId && touched.countryId ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="countryId" />
                   </div>
@@ -360,7 +360,7 @@ const EmpresaForm = props => {
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                     {errors.departmentId && touched.departmentId ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="departmentId" />
                   </div>
@@ -388,7 +388,7 @@ const EmpresaForm = props => {
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                     {errors.cityId && touched.cityId ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="cityId" />
                   </div>

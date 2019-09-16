@@ -191,7 +191,7 @@ class TableContentRemitente extends Component {
             <TableHeaderColumn
               dataField={'identification'}
               dataAlign="center"
-              width={'120'}
+              width={'110'}
             >
               {' '}
               {t('app_tercero_adminstrar_tabla_identificacion')}{' '}

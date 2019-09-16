@@ -62,7 +62,7 @@ class ModalUpdateRemitente extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
+        console.log(data);
         this.setState({
           dataResult: {
             tercero_tipoTercero: data.typeThirdParty.id,
@@ -76,9 +76,9 @@ class ModalUpdateRemitente extends React.Component {
             tercero_referencia: data.reference,
             tercero_observacion: data.observation,
             tercero_estado: data.status,
-            tercero_pais:'',
-            tercero_departamento:'',
-            tercero_ciudad:''
+            tercero_pais:data.city.department.country.id,
+            tercero_departamento:data.city.department.id,
+            tercero_ciudad:data.city.id
           }
         });
       })

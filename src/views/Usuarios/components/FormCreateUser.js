@@ -30,8 +30,8 @@ const user = {
   password: "",
   confirm_password: "",
   rolesID: [],
-  estado: "",
-  foto: null
+  estado: false,
+  foto: undefined
 };
 
 const FormCreateUser = () => {

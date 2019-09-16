@@ -21,6 +21,9 @@ import {
 } from "reactstrap";
 import Select from "react-select";
 import CustonImageInput from "./CustonImageInput";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
 const UserForm = props => {
   const {
@@ -199,6 +202,7 @@ const UserForm = props => {
   return (
     <Fragment>
       <Card>
+        <ToastContainer />
         <CardHeader>Registro de usuarios </CardHeader>
         <CardBody>
           <form encType={"multipart/form-data"}>
@@ -838,13 +842,30 @@ export default withFormik({
           }
         })
         .then(response => {
-          if (response.status === 200) {
-            console.log("se registro");
-          } else if (response.status === 400) {
-            console.log("Ver consola");
+          if (response.status === 201) {
+            toast.success("Se creo el usuario con éxito.", {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
+            });
+          } else if (response.status === 500) {
+            toast.error("El usuario ya existe.", {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
+            });
           }
         })
-        .catch(Error => console.log("", Error));
+        .catch(error => {
+          toast.error(`Error ${error}.`, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: css({
+              marginTop: "60px"
+            })
+          });
+        });
       // fetch("http://192.168.10.180:7000/api/sgdea/user", {
       //   method: "POST",
       //   headers: {

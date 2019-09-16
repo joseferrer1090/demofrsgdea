@@ -841,25 +841,23 @@ export default withFormik({
             Authorization: "Basic " + window.btoa("sgdea:123456")
           }
         })
-        .then(response =>
-          response.json().then(data => {
-            if (response.status === 201) {
-              toast.success("Se creo el usuario con éxito.", {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: "60px"
-                })
-              });
-            } else if (response.status === 500) {
-              toast.error("El usuario ya existe", {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: "60px"
-                })
-              });
-            }
-          })
-        )
+        .then(response => {
+          if (response.status === 201) {
+            toast.success("Se creo el usuario con éxito.", {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
+            });
+          } else if (response.status === 500) {
+            toast.error("El usuario ya existe.", {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
+            });
+          }
+        })
         .catch(error => {
           toast.error(`${error}.`, {
             position: toast.POSITION.TOP_RIGHT,

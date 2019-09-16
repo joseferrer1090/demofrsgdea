@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment, Component } from "react";
-import { Formik, withFormik, ErrorMessage, Field } from "formik";
+import { Formik, withFormik, ErrorMessage, Field, Form } from "formik";
 import {
   CONGLOMERATES,
   COUNTRIES,
@@ -20,6 +20,7 @@ import {
   CardFooter
 } from "reactstrap";
 import Select from "react-select";
+import CustonImageInput from "./CustonImageInput";
 
 const UserForm = props => {
   const {
@@ -41,6 +42,7 @@ const UserForm = props => {
   const [sedeOptions, setSedeOptions] = useState([]);
   const [dependenciaOptions, setDependenciaOptions] = useState([]);
   const [cargoOptions, setCargoOptions] = useState([]);
+  const [roleOptions, setRoleOptions] = useState([]);
 
   useEffect(() => {
     dataConglomerate();
@@ -48,7 +50,36 @@ const UserForm = props => {
     dataSedes();
     dataDependencia();
     dataCharge();
+    deteRoles();
   }, []);
+
+  // useEffect(async () => {
+  //   const result = await axios.get(
+  //     "http://192.168.10.180:7000/api/sgdea/role/status/1",
+  //     {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Basic " + window.btoa("sgdea:123456")
+  //       }
+  //     }
+  //   );
+  //   setRoleOptions(result.data);
+  // }, []);
+
+  const deteRoles = data => {
+    fetch("http://192.168.10.180:7000/api/sgdea/role/status/1", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setRoleOptions(data);
+      })
+      .catch(Error => console.log("Error", Error));
+  };
 
   const dataConglomerate = data => {
     fetch(CONGLOMERATES, {
@@ -180,20 +211,23 @@ const UserForm = props => {
                 /> */}
                   <br />
                   <br />
-                  {/* <Field
-                    name={"file"}
+                  <Field
+                    name={"foto"}
                     component={CustonImageInput}
                     setFieldValue={setFieldValue}
-                  /> */}
+                    // onChange={event => {
+                    //   setFieldValue("foto", event.currentTarget.files[0]);
+                    // }}
+                  />
 
                   {/* <input
-                  type="file"
-                  style={{ display: "none" }}
-                  // ref={this.inputOpenFileRef}
-                  value={values.imageUser}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                /> */}
+                    type="file"
+                    style={{ display: "none" }}
+                    // ref={this.inputOpenFileRef}
+                    value={values.imageUser}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  /> */}
                   {/* <button
                   type="button"
                   className="btn btn-secondary btn-sm "
@@ -215,393 +249,388 @@ const UserForm = props => {
                   </h5>{" "}
                 </div>
                 <br />
-                <form className="from">
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Identificación <span className="text-danger">
-                            *
-                          </span>{" "}
-                        </label>
-                        <input
-                          name={"identificacion"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.identificacion}
-                          type="text"
-                          className={`form-control form-control-sm ${errors.identificacion &&
-                            touched.identificacion &&
-                            "is-invalid"}`}
-                        />
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.identificacion && touched.identificacion ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name="identificacion" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Nombre <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          name={"nombre"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.nombre}
-                          type="text"
-                          className={`form-control form-control-sm ${errors.nombre &&
-                            touched.nombre &&
-                            "is-invalid"}`}
-                        />
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.nombre && touched.nombre ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name="nombre" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Email <span className="text-danger">*</span>
-                        </label>
-                        <input
-                          name={"email"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.email}
-                          type="text"
-                          className={`form-control form-control-sm ${errors.email &&
-                            touched.email &&
-                            "is-invalid"}`}
-                        />
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.email && touched.email ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name="email" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Teléfono <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          name={"telefono"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.telefono}
-                          type="text"
-                          className={`form-control form-control-sm ${errors.telefono &&
-                            touched.telefono &&
-                            "is-invalid"}`}
-                        />
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.telefono && touched.telefono ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name="telefono" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label> Dirección </label>
-                        <input
-                          name={"direccion"}
-                          type="text"
-                          className="form-control form-control-sm"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.direccion}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>Fecha de nacimiento </label>
-                        <input
-                          name={"f_d_nacimiento"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.f_d_nacimiento}
-                          type="date"
-                          className="form-control form-control-sm"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Datos laborales{" "}
-                  </h5>{" "}
-                  <br />
-                  <div className="row">
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Conglomerado <span className="text-danger">
-                            *
-                          </span>{" "}
-                        </label>
-                        <select
-                          name={"conglomeradoID"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.conglomeradoID}
-                          className={`form-control form-control-sm ${errors.conglomeradoID &&
-                            touched.conglomeradoID &&
-                            "is-invalid"}`}
-                        >
-                          {" "}
-                          <option disabled value={""}>
-                            {" "}
-                            -- Seleccione --{" "}
-                          </option>{" "}
-                          {selectConglomerate}
-                        </select>
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.conglomeradoID && touched.conglomeradoID ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name="conglomeradoID" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Empresa <span className="text-danger">*</span>{" "}
-                        </label>
-                        <select
-                          name={"empresaID"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.empresaID}
-                          className={`form-control form-control-sm ${errors.empresaID &&
-                            touched.empresaID &&
-                            "is-invalid"}`}
-                        >
-                          {" "}
-                          <option value={""}> -- Seleccione -- </option>{" "}
-                          {selectCompany}
-                        </select>
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.empresaID && touched.empresaID ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name="empresaID" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Sede <span className="text-danger">*</span>{" "}
-                        </label>
-                        <select
-                          name={"sedeID"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.sedeID}
-                          className={`form-control form-control-sm ${errors.sedeID &&
-                            touched.sedeID &&
-                            "is-invalid"}`}
-                        >
-                          {" "}
-                          <option value={""}> -- Seleccione -- </option>{" "}
-                          {selectSede}
-                        </select>
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.sedeID && touched.sedeID ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name={"sedeID"} />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Dependencia <span className="text-danger">
-                            *
-                          </span>{" "}
-                        </label>
-                        <select
-                          name={"dependenciaID"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.dependenciaID}
-                          className={`form-control form-control-sm ${errors.dependenciaID &&
-                            touched.dependenciaID &&
-                            "is-invalid"}`}
-                        >
-                          <option value={""}> -- Seleccione -- </option>
-                          {selectDependencia}
-                        </select>
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.dependenciaID && touched.dependenciaID ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name="dependenciaID" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Cargo <span className="text-danger">*</span>{" "}
-                        </label>
-                        <select
-                          name={"cargoID"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.cargoID}
-                          className={`form-control form-control-sm ${errors.cargoID &&
-                            touched.cargoID &&
-                            "is-invalid"}`}
-                        >
-                          <option value={""}> -- Seleccione -- </option>
-                          {selectCargo}
-                        </select>
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.cargoID && touched.cargoID ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name="cargoID" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Datos de seguridad{" "}
-                  </h5>{" "}
-                  <br />
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Nombre de usuario{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          name={"username"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.username}
-                          className={`form-control form-control-sm ${errors.username &&
-                            touched.username &&
-                            "is-invalid"}`}
-                          type="text"
-                        />
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.username && touched.username ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name="username" />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Contraseña <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          name={"password"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.password}
-                          className={`form-control form-control-sm ${errors.password &&
-                            touched.password &&
-                            "is-invalid"}`}
-                          type="password"
-                        />
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.password && touched.password ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name="password" />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Confirmar contraseña{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </label>
-                        <input
-                          name={"confirm_password"}
-                          type="password"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.confirm_password}
-                          className={`form-control form-control-sm ${errors.confirm_password &&
-                            touched.confirm_password &&
-                            "is-invalid"}`}
-                        />
-                        <div style={{ color: "#D54B4B" }}>
-                          {errors.confirm_password &&
-                          touched.confirm_password ? (
-                            <i className="fa fa-exclamation-triangle" />
-                          ) : null}
-                          <ErrorMessage name="confirm_password" />
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Roles <span className="text-danger">*</span>{" "}
-                        </label>
-                        <MySelect
-                          name={"rolesID"}
-                          value={values.rolesID}
-                          onChange={setFieldValue}
-                          onBlur={setFieldTouched}
-                          error={errors.rolesID}
-                          touched={touched.rolesID}
-                        />{" "}
-                        {touched ? (
-                          <div style={{ color: "red" }}>
-                            {" "}
-                            <div style={{ color: "#D54B4B" }}>
-                              {errors.roles && touched.roles ? (
-                                <i className="fa fa-exclamation-triangle" />
-                              ) : null}
-                              <ErrorMessage name={"roles"} />
-                            </div>
-                          </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Identificación <span className="text-danger">
+                          *
+                        </span>{" "}
+                      </label>
+                      <input
+                        name={"identificacion"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.identificacion}
+                        type="text"
+                        className={`form-control form-control-sm ${errors.identificacion &&
+                          touched.identificacion &&
+                          "is-invalid"}`}
+                      />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.identificacion && touched.identificacion ? (
+                          <i className="fa fa-exclamation-triangle" />
                         ) : null}
-                        {/* <select
+                        <ErrorMessage name="identificacion" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Nombre <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        name={"nombre"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.nombre}
+                        type="text"
+                        className={`form-control form-control-sm ${errors.nombre &&
+                          touched.nombre &&
+                          "is-invalid"}`}
+                      />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.nombre && touched.nombre ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="nombre" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Email <span className="text-danger">*</span>
+                      </label>
+                      <input
+                        name={"email"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.email}
+                        type="text"
+                        className={`form-control form-control-sm ${errors.email &&
+                          touched.email &&
+                          "is-invalid"}`}
+                      />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.email && touched.email ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="email" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Teléfono <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        name={"telefono"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.telefono}
+                        type="text"
+                        className={`form-control form-control-sm ${errors.telefono &&
+                          touched.telefono &&
+                          "is-invalid"}`}
+                      />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.telefono && touched.telefono ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="telefono" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label> Dirección </label>
+                      <input
+                        name={"direccion"}
+                        type="text"
+                        className="form-control form-control-sm"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.direccion}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>Fecha de nacimiento </label>
+                      <input
+                        name={"f_d_nacimiento"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.f_d_nacimiento}
+                        type="date"
+                        className="form-control form-control-sm"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                  {" "}
+                  Datos laborales{" "}
+                </h5>{" "}
+                <br />
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Conglomerado <span className="text-danger">*</span>{" "}
+                      </label>
+                      <select
+                        name={"conglomeradoID"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.conglomeradoID}
+                        className={`form-control form-control-sm ${errors.conglomeradoID &&
+                          touched.conglomeradoID &&
+                          "is-invalid"}`}
+                      >
+                        {" "}
+                        <option disabled value={""}>
+                          {" "}
+                          -- Seleccione --{" "}
+                        </option>{" "}
+                        {selectConglomerate}
+                      </select>
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.conglomeradoID && touched.conglomeradoID ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="conglomeradoID" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Empresa <span className="text-danger">*</span>{" "}
+                      </label>
+                      <select
+                        name={"empresaID"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.empresaID}
+                        className={`form-control form-control-sm ${errors.empresaID &&
+                          touched.empresaID &&
+                          "is-invalid"}`}
+                      >
+                        {" "}
+                        <option value={""}> -- Seleccione -- </option>{" "}
+                        {selectCompany}
+                      </select>
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.empresaID && touched.empresaID ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="empresaID" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Sede <span className="text-danger">*</span>{" "}
+                      </label>
+                      <select
+                        name={"sedeID"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.sedeID}
+                        className={`form-control form-control-sm ${errors.sedeID &&
+                          touched.sedeID &&
+                          "is-invalid"}`}
+                      >
+                        {" "}
+                        <option value={""}> -- Seleccione -- </option>{" "}
+                        {selectSede}
+                      </select>
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.sedeID && touched.sedeID ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name={"sedeID"} />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Dependencia <span className="text-danger">*</span>{" "}
+                      </label>
+                      <select
+                        name={"dependenciaID"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.dependenciaID}
+                        className={`form-control form-control-sm ${errors.dependenciaID &&
+                          touched.dependenciaID &&
+                          "is-invalid"}`}
+                      >
+                        <option value={""}> -- Seleccione -- </option>
+                        {selectDependencia}
+                      </select>
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.dependenciaID && touched.dependenciaID ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="dependenciaID" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Cargo <span className="text-danger">*</span>{" "}
+                      </label>
+                      <select
+                        name={"cargoID"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.cargoID}
+                        className={`form-control form-control-sm ${errors.cargoID &&
+                          touched.cargoID &&
+                          "is-invalid"}`}
+                      >
+                        <option value={""}> -- Seleccione -- </option>
+                        {selectCargo}
+                      </select>
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.cargoID && touched.cargoID ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="cargoID" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                  {" "}
+                  Datos de seguridad{" "}
+                </h5>{" "}
+                <br />
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Nombre de usuario <span className="text-danger">
+                          *
+                        </span>{" "}
+                      </label>
+                      <input
+                        name={"username"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.username}
+                        className={`form-control form-control-sm ${errors.username &&
+                          touched.username &&
+                          "is-invalid"}`}
+                        type="text"
+                      />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.username && touched.username ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="username" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Contraseña <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        name={"password"}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.password}
+                        className={`form-control form-control-sm ${errors.password &&
+                          touched.password &&
+                          "is-invalid"}`}
+                        type="password"
+                      />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.password && touched.password ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="password" />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Confirmar contraseña{" "}
+                        <span className="text-danger">*</span>{" "}
+                      </label>
+                      <input
+                        name={"confirm_password"}
+                        type="password"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.confirm_password}
+                        className={`form-control form-control-sm ${errors.confirm_password &&
+                          touched.confirm_password &&
+                          "is-invalid"}`}
+                      />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.confirm_password && touched.confirm_password ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="confirm_password" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Roles <span className="text-danger">*</span>{" "}
+                      </label>
+                      <MySelect
+                        name={"rolesID"}
+                        value={values.rolesID}
+                        onChange={setFieldValue}
+                        onBlur={setFieldTouched}
+                        error={errors.rolesID}
+                        touched={touched.rolesID}
+                      />{" "}
+                      {touched ? (
+                        <div style={{ color: "red" }}>
+                          {" "}
+                          <div style={{ color: "#D54B4B" }}>
+                            {errors.rolesID && touched.rolesID ? (
+                              <i className="fa fa-exclamation-triangle" />
+                            ) : null}
+                            <ErrorMessage name={"roles"} />
+                          </div>
+                        </div>
+                      ) : null}
+                      {/* <select
                         name={"roles"}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -612,19 +641,19 @@ const UserForm = props => {
                       >
                         <option>--Seleccione--</option>
                       </select> */}
-                      </div>
                     </div>
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Estado <span className="text-danger">*</span>{" "}
-                        </label>
-                        <div className="text-justify">
-                          <CustomInput
-                            type="checkbox"
-                            id="ExampleCheckBoxInput"
-                            label="Si esta opción se encuentra activada,
+                  </div>
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <label>
+                        {" "}
+                        Estado <span className="text-danger">*</span>{" "}
+                      </label>
+                      <div className="text-justify">
+                        <CustomInput
+                          type="checkbox"
+                          id="ExampleCheckBoxInput"
+                          label="Si esta opción se encuentra activada,
                                 representa que el usuario es visible en el
                                 sistema y se podrán realizar operaciones entre
                                 cada uno de los módulos correspondientes de la
@@ -632,23 +661,23 @@ const UserForm = props => {
                                 elimina del sistema solo quedará inactivo e
                                 invisibles para cada uno de los módulos
                                 correspondiente del sistema."
-                            name={"estado"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.estado}
-                            className={
-                              errors.estado &&
-                              touched.estado &&
-                              "invalid-feedback"
-                            }
-                          />
-                          {/* <label
+                          name={"estado"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.estado}
+                          className={
+                            errors.estado &&
+                            touched.estado &&
+                            "invalid-feedback"
+                          }
+                        />
+                        {/* <label
                                   className="form-check-label"
                                   htmlFor="exampleCheck1"
                                 >
                                   Activar
                                 </label> */}
-                          {/* <p
+                        {/* <p
                                   className="text-muted"
                                   style={{ textAlign: "justify" }}
                                 >
@@ -661,11 +690,10 @@ const UserForm = props => {
                                   invisibles para cada uno de los módulos
                                   correspondiente del sistema.
                                 </p> */}
-                        </div>
                       </div>
                     </div>
                   </div>
-                </form>
+                </div>
               </Col>
             </Row>
           </form>
@@ -710,7 +738,8 @@ export default withFormik({
     password: props.user.password,
     confirm_password: props.user.confirm_password,
     rolesID: props.user.rolesID,
-    estado: props.user.estado
+    estado: props.user.estado,
+    foto: props.user.foto
   }),
   validationSchema: Yup.object().shape({
     identificacion: Yup.string().required(
@@ -762,95 +791,162 @@ export default withFormik({
       .max(200),
     rolesID: Yup.array().of(
       Yup.object().shape({
-        id: Yup.string().required(),
-        label: Yup.string().required()
+        label: Yup.string().required(),
+        value: Yup.string().required()
       })
     ),
     estado: Yup.bool().test(
       "Activo",
       "Se requiere la activacion del usuario",
       value => value === true
-    )
+    ),
+    foto: Yup.mixed()
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const formData = new FormData();
+    formData.append("photo", values.foto);
+    formData.append(
+      "user",
+      new Blob(
+        [
+          JSON.stringify({
+            identification: values.identificacion,
+            name: values.nombre,
+            email: values.email,
+            phone: values.telefono,
+            address: values.direccion,
+            birthDate: values.f_d_nacimiento,
+            username: values.username,
+            password: values.password,
+            dependenceId: values.dependenciaID,
+            chargeId: values.cargoID,
+            userRoleRequests: values.rolesID,
+            enabled: values.estado,
+            userNameAuthenticate: "ccuartas"
+          })
+        ],
+        {
+          type: "application/json"
+        }
+      )
+    );
     setTimeout(() => {
-      alert(JSON.stringify(values, "", 2));
+      axios
+        .post("http://192.168.10.180:7000/api/sgdea/user", formData, {
+          headers: {
+            Authorization: "Basic " + window.btoa("sgdea:123456")
+          }
+        })
+        .then(response => {
+          if (response.status === 200) {
+            console.log("se registro");
+          } else if (response.status === 400) {
+            console.log("Ver consola");
+          }
+        })
+        .catch(Error => console.log("", Error));
+      // fetch("http://192.168.10.180:7000/api/sgdea/user", {
+      //   method: "POST",
+      //   headers: {
+      //     Authorization: "Basic " + window.btoa("sgdea:123456")
+      //   },
+      //   body: formData
+      // })
+      //   .then(response => {
+      //     if (response.status === 200) {
+      //       alert("Se creo el usuario");
+      //     } else if (response.status === 400) {
+      //       alert("Error revisar la consola");
+      //     }
+      //   })
+      //   .catch(Error => console.log("Error", Error));
+      // alert(
+      //   JSON.stringify(
+      //     {
+      //       identificacion: values.identificacion,
+      //       nombre: values.nombre,
+      //       email: values.email,
+      //       telefono: values.telefono,
+      //       direccion: values.direccion,
+      //       f_d_nacimiento: values.f_d_nacimiento,
+      //       conglomeradoID: values.conglomeradoID,
+      //       empresaID: values.empresaID,
+      //       sedeID: values.sedeID,
+      //       dependenciaID: values.dependenciaID,
+      //       cargoID: values.cargoID,
+      //       username: values.username,
+      //       password: values.password,
+      //       confirm_password: values.confirm_password,
+      //       rolesID: values.rolesID,
+      //       estado: values.estado,
+      //       foto: {
+      //         fileName: values.foto.name,
+      //         size: `${values.foto.size} bytes`
+      //       }
+      //     },
+      //     " ",
+      //     2
+      //   )
+      // );
+      console.log(formData);
     }, 1000);
     setSubmitting(false);
     resetForm();
   }
 })(UserForm);
 
-const MySelect = props => {
-  // handleChange = value => {
-  //   props.onChange("rolID", value);
-  // };
+class MySelect extends React.Component {
+  state = {
+    dataRoles: []
+  };
 
-  // handleBlur = value => {
-  //   props.onBlur("roleID", true);
-  // };
+  componentDidMount() {
+    this.getData();
+  }
 
-  const [roleOptions, setRoleOptions] = useState([]);
-  useEffect(async () => {
-    const result = await axios.get(
-      "http://192.168.10.180:7000/api/sgdea/role/status/1",
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+  handleChange = value => {
+    this.props.onChange("rolesID", value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur("rolesID", true);
+  };
+
+  getData = async () => {
+    let url = "http://192.168.10.180:7000/api/sgdea/role/status/1";
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
-    );
-    setRoleOptions(result.data);
-  }, []);
+    });
+    const data = await response.json();
+    this.setState({
+      dataRoles: data
+    });
+  };
 
-  console.log(roleOptions);
+  render() {
+    //console.log(this.state.dataRoles);
+    const aux = this.state.dataRoles.map((aux, id) => {
+      return {
+        label: aux.name,
+        value: aux.id
+      };
+    });
 
-  const options = roleOptions.map((aux, id) => {
     return (
-      <option key={id} value={aux.id}>
-        {aux.name}
-      </option>
+      <div style={{ margin: "0" }}>
+        <Select
+          name={this.props.name}
+          options={aux}
+          isMulti
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          value={this.props.value}
+          placeholder={"-- seleccione rol --"}
+        />
+      </div>
     );
-  });
-
-  return (
-    <div style={{ margin: "0" }}>
-      <Select
-        name={props.name}
-        options={roleOptions}
-        isMulti
-        onChange={props.handleChange}
-        onBlur={props.handleBlur}
-        value={props.value}
-        placeholder={"-- seleccione rol --"}
-      />
-    </div>
-  );
-};
-
-// class MySelect extends Component {
-//   handleChange = value => {
-//     this.props.onChange("roles", value);
-//   };
-
-//   handleBlur = () => {
-//     this.props.onBlur("roles", true);
-//   };
-
-//   render() {
-//     return (
-//       <div style={{ margin: "0" }}>
-//         <Select
-//           name={this.props.name}
-//           options={this.props.roledata}
-//           isMulti
-//           onChange={this.handleChange}
-//           onBlur={this.handleBlur}
-//           value={this.props.value}
-//           placeholder={"-- seleccione rol --"}
-//         />
-//       </div>
-//     );
-//   }
-// }
+  }
+}

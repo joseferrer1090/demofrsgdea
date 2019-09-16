@@ -23,14 +23,15 @@ const user = {
   f_d_nacimiento: "",
   conglomeradoID: "",
   empresaID: "",
-  sede: "",
-  dependencia: "",
+  sedeID: "",
+  dependenciaID: "",
   cargoID: "",
   username: "",
   password: "",
   confirm_password: "",
-  rolesID: "",
-  estado: ""
+  rolesID: [],
+  estado: "",
+  foto: null
 };
 
 const FormCreateUser = () => {

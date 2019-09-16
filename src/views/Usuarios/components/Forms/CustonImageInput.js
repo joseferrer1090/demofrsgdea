@@ -100,6 +100,7 @@ class CustomImageInput extends Component {
         />
 
         <button
+          type="button"
           onClick={this.showFileUpload}
           className={"btn btn-secondary btn-sm"}
         >

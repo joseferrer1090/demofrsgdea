@@ -29,7 +29,8 @@ class ModalEditCargo extends React.Component {
     alertError: false,
     alertSuccess: false,
     alertError400: false,
-    t: this.props.t
+    t: this.props.t,
+    status: 0
   };
 
   toggle = id => {
@@ -88,14 +89,15 @@ class ModalEditCargo extends React.Component {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 const tipoEstado = data => {
-                  let tipo = null;
-                  if (data === true) {
+                  let tipo;
+                  if (data === true || data === 1) {
                     return (tipo = 1);
-                  } else if (data === false) {
+                  } else if (data === false || data === 0) {
                     return (tipo = 0);
                   }
-                  return tipo;
+                  return 0;
                 };
+
                 fetch(CHARGES, {
                   method: 'PUT',
                   headers: {
@@ -143,7 +145,7 @@ class ModalEditCargo extends React.Component {
                           alertError: false,
                           modal: !this.state.modal
                         });
-                      }, 3000);
+                      }, 500);
                     }
                   })
                   .catch(error => console.log('', error));

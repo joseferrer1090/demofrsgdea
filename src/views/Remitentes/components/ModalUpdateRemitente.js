@@ -41,7 +41,8 @@ class ModalUpdateRemitente extends React.Component {
       optionsCountries:[],
       optionsDepartments:[],
       optionsCities:[],
-      t:this.props.t
+      t:this.props.t,
+      tercero_estado:0
     };
 
 
@@ -208,13 +209,13 @@ class ModalUpdateRemitente extends React.Component {
         initialValues={dataResult}
         onSubmit={(values, {setSubmitting}) =>{
           const tipoEstado = data => {
-            let tipo = null;
-            if (data === true) {
+            let tipo;
+            if (data === true || data === 1) {
               return (tipo = 1);
-            } else if (data === false) {
+            } else if (data === false || data === 0) {
               return (tipo = 0);
             }
-            return null;
+            return 0;
           };
           setTimeout(()=>{
             fetch(THIRDPARTYS, {
@@ -246,7 +247,7 @@ class ModalUpdateRemitente extends React.Component {
                     {
                       alertSuccess: true
                     },
-                    // () => this.props.updateTable()
+                    () => this.props.updateTable()
                   );
                   setTimeout(() => {
                     this.setState({
@@ -272,7 +273,7 @@ class ModalUpdateRemitente extends React.Component {
                       alertError: false,
                       modal: !this.state.modal
                     });
-                  }, 3000);
+                  }, 500);
                 }
               })
               .catch(error => console.log('', error));
@@ -796,7 +797,8 @@ class ModalUpdateRemitente extends React.Component {
 }
 
 ModalUpdateRemitente.propTypes = {
-  modalupdate: PropTypes.bool.isRequired
+  modalupdate: PropTypes.bool.isRequired,
+  updateTable: PropTypes.func.isRequired,
 };
 
 export default ModalUpdateRemitente;

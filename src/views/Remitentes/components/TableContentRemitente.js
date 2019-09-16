@@ -249,11 +249,13 @@ class TableContentRemitente extends Component {
           ref="child"
         />
         <ModalDel
+          updateTable={this.getDataTerceros}
           t={this.props.t}
           modaldel={this.state.modalDeleteRemitente}
           ref="child2"
         />
         <ModalUpdate
+          updateTable={this.getDataTerceros}
           t={this.props.t}
           modalupdate={this.state.modalUpdateRemitente}
           ref="child3"

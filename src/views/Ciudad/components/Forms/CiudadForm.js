@@ -200,7 +200,9 @@ const CiudadForm = props => {
                     </label>
                     <input
                       name="name"
-                      onChange={handleChange}
+                      onChange={e => {
+                        setFieldValue('name', e.target.value.toUpperCase());
+                      }}
                       onBlur={handleBlur}
                       type="text"
                       className={`form-control form-control-sm ${errors.name &&

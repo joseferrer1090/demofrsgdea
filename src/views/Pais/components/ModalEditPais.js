@@ -24,7 +24,8 @@ class ModalEditPais extends React.Component {
     alertError: false,
     alertSuccess: false,
     alertError400: false,
-    t: this.props.t
+    t: this.props.t,
+    country_status: 0
   };
 
   toggle = id => {
@@ -71,13 +72,13 @@ class ModalEditPais extends React.Component {
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
               const tipoEstado = data => {
-                let tipo = null;
-                if (data === true) {
+                let tipo;
+                if (data === true || data === 1) {
                   return (tipo = 1);
-                } else if (data === false) {
+                } else if (data === false || data === 0) {
                   return (tipo = 0);
                 }
-                return null;
+                return 0;
               };
               setTimeout(() => {
                 fetch(COUNTRIES, {
@@ -261,7 +262,7 @@ class ModalEditPais extends React.Component {
                                       return (
                                         <CustomInput
                                           type="checkbox"
-                                          id="CheckboxEditCiudad"
+                                          id="CheckboxEditPais"
                                           label={this.props.t(
                                             'app_pais_modal_actualizar_estado_descripcion'
                                           )}

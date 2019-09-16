@@ -39,7 +39,7 @@ class ModalEditEmpresa extends React.Component {
     optionsCitys: [0],
     optionsDepartment: [0],
     t: this.props.t,
-    status: 0
+    company_status: 0
   };
 
   componentDidMount() {
@@ -114,8 +114,8 @@ class ModalEditEmpresa extends React.Component {
             company_description: data.description,
             company_status: data.status,
             company_conglomerate: data.conglomerate.id,
-            company_charge:
-              data.charge !== null ? { company_charge: data.charge.id } : ''
+            company_charge: data.charge === null ? ' ' : data.charge.id
+            // data.charge !== null ? { company_charge: data.charge.id } : ''
           }
         });
       })
@@ -245,14 +245,15 @@ class ModalEditEmpresa extends React.Component {
             initialValues={this.state.dataCompany}
             onSubmit={(values, { setSubmitting }) => {
               const tipoEstado = data => {
-                let tipo = null;
-                if (data === true) {
+                let tipo;
+                if (data === true || data === 1) {
                   return (tipo = 1);
-                } else if (data === false) {
+                } else if (data === false || data === 0) {
                   return (tipo = 0);
                 }
-                return null;
+                return 0;
               };
+
               setTimeout(() => {
                 fetch(`http://192.168.10.180:7000/api/sgdea/company`, {
                   method: 'PUT',
@@ -267,7 +268,7 @@ class ModalEditEmpresa extends React.Component {
                     name: values.company_name,
                     description: values.company_description,
                     conglomerateId: values.company_conglomerate,
-                    chargeId: values.company_charge.id,
+                    chargeId: values.company_charge,
                     cityId: values.company_city,
                     status: tipoEstado(values.company_status),
                     userName: 'jferrer'
@@ -308,7 +309,7 @@ class ModalEditEmpresa extends React.Component {
                   }
                 });
                 setSubmitting(false);
-              }, 3000);
+              }, 500);
             }}
             validationSchema={Yup.object().shape({
               company_conglomerate: Yup.string()
@@ -699,7 +700,7 @@ class ModalEditEmpresa extends React.Component {
                                         touched.company_charge &&
                                         'is-invalid'}`}
                                     >
-                                      <option value={''} disabled>
+                                      <option value={''}>
                                         --{' '}
                                         {this.props.t(
                                           'app_empresa_modal_actualizar_select_cargo_responsable'

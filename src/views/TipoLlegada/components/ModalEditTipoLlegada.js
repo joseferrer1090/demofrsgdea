@@ -23,7 +23,8 @@ class ModalEditTipoLlegada extends React.Component {
     alertError: false,
     alertSuccess: false,
     alertError400: false,
-    t: this.props.t
+    t: this.props.t,
+    typeshipmentarrival_status: 0
   };
 
   toggle = id => {
@@ -73,14 +74,15 @@ class ModalEditTipoLlegada extends React.Component {
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
               const tipoEstado = data => {
-                let tipo = null;
-                if (data === true) {
+                let tipo;
+                if (data === true || data === 1) {
                   return (tipo = 1);
-                } else if (data === false) {
+                } else if (data === false || data === 0) {
                   return (tipo = 0);
                 }
-                return null;
+                return 0;
               };
+
               setTimeout(() => {
                 fetch(TYPESHIPMENTARRIVAL, {
                   method: 'PUT',
@@ -134,7 +136,7 @@ class ModalEditTipoLlegada extends React.Component {
                   })
                   .catch(error => console.log('', error));
                 setSubmitting(false);
-              }, 1000);
+              }, 500);
             }}
             validationSchema={Yup.object().shape({
               typeshipmentarrival_code: Yup.string()

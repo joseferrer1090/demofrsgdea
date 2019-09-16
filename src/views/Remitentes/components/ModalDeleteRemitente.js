@@ -89,9 +89,12 @@ class ModalDeleteRemitente extends Component {
                         });
                       }, 3000);
                     } else if (response.status === 204) {
-                      this.setState({
-                        alertSuccess: true
-                      });
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           modal: false,
@@ -227,7 +230,8 @@ class ModalDeleteRemitente extends Component {
 }
 
 ModalDeleteRemitente.propTypes = {
-  modaldel: PropTypes.bool.isRequired
+  modaldel: PropTypes.bool.isRequired,
+  updateTable: PropTypes.func.isRequired
 };
 
 export default ModalDeleteRemitente;

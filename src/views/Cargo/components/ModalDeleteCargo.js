@@ -22,7 +22,8 @@ class ModalDeleteCargo extends React.Component {
     useLogged: 'jferrer',
     nameCharge: '',
     code: '',
-    t: this.props.t
+    t: this.props.t,
+    username: 'ccuartas'
   };
 
   toggle = id => {
@@ -31,13 +32,16 @@ class ModalDeleteCargo extends React.Component {
       id: id,
       useLogged: 'jferrer'
     });
-    fetch(`http://192.168.10.180:7000/api/sgdea/charge/${id}/jferrer`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/charge/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -87,9 +91,12 @@ class ModalDeleteCargo extends React.Component {
                         alertError: true
                       });
                     } else if (response.status === 204) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           modal: false,

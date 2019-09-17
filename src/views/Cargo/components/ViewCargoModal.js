@@ -24,7 +24,8 @@ class ModalViewCargo extends Component {
       id: this.props.id,
       datCharge: {},
       collapase: false,
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
 
@@ -32,6 +33,7 @@ class ModalViewCargo extends Component {
     this.setState({
       modal: !this.state.modal,
       id: id
+      // username: 'ccuartas'
     });
     this.getDataCargoById(id);
   };
@@ -43,13 +45,16 @@ class ModalViewCargo extends Component {
   };
 
   getDataCargoById = id => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/charge/${id}/jferrer`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/charge/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({

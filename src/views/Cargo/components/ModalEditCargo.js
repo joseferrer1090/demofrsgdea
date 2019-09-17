@@ -30,7 +30,8 @@ class ModalEditCargo extends React.Component {
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
-    status: 0
+    status: 0,
+    username: 'ccuartas'
   };
 
   toggle = id => {
@@ -42,13 +43,16 @@ class ModalEditCargo extends React.Component {
   };
 
   getDataChargeById = id => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/charge/${id}/jferrer`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/charge/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({

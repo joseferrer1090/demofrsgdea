@@ -913,9 +913,7 @@ class TableContentUser extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataUsers: data,
-          dataUsersCharge: data.charge,
-          dataUsersDependence: data.dependence
+          dataUsers: data
         });
       })
       .catch(Error => console.log(" ", Error));
@@ -1001,6 +999,14 @@ class TableContentUser extends Component {
       return <div>{index + 1}</div>;
     }
 
+    const dependenceFormatter = data => {
+      return !data ? null : `<div>${data.name}</div>`;
+    };
+
+    const chargeFormatter = data => {
+      return !data ? null : `<div>${data.name}</div>`;
+    };
+
     console.log(this.state.dataUsers);
 
     return (
@@ -1045,6 +1051,7 @@ class TableContentUser extends Component {
               dataField={"dependence"}
               dataAlign="center"
               width={"70"}
+              dataFormat={dependenceFormatter}
             >
               {" "}
               Dependencia{" "}
@@ -1053,6 +1060,7 @@ class TableContentUser extends Component {
               dataField={"charge"}
               dataAlign="center"
               width={"70"}
+              dataFormat={chargeFormatter}
             >
               Cargo
             </TableHeaderColumn>

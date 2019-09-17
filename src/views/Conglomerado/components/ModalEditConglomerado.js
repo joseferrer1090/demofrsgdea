@@ -17,10 +17,10 @@ import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import {
   CONGLOMERATES,
-  COUNTRIES,
-  DEPARTMENTS,
-  CITYS,
-  CHARGES
+  CONTRIES_STATUS,
+  DEPARTMENTS_STATUS,
+  CITIES_STATUS,
+  CHARGES_STATUS
 } from './../../../services/EndPoints';
 import { Trans } from 'react-i18next';
 import moment from 'moment';
@@ -38,7 +38,8 @@ class ModalEditConglomerado extends React.Component {
     optionsDepartment: [0],
     optionsCitys: [0],
     optionsCharges: [0],
-    status: 0
+    status: 0,
+    username: 'ccuartas'
   };
 
   componentDidMount() {
@@ -62,13 +63,16 @@ class ModalEditConglomerado extends React.Component {
   };
 
   getConglomeradoByID = id => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/${id}/jferrer`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/conglomerate/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -101,7 +105,7 @@ class ModalEditConglomerado extends React.Component {
     });
   };
   getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -117,7 +121,7 @@ class ModalEditConglomerado extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataDepartments = data => {
-    fetch(DEPARTMENTS, {
+    fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -134,7 +138,7 @@ class ModalEditConglomerado extends React.Component {
   };
 
   getDataCitys = data => {
-    fetch(CITYS, {
+    fetch(CITIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -150,7 +154,7 @@ class ModalEditConglomerado extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataCharges = data => {
-    fetch(CHARGES, {
+    fetch(CHARGES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -277,7 +281,7 @@ class ModalEditConglomerado extends React.Component {
                   })
                   .catch(error => console.log('', error));
                 setSubmitting(false);
-              }, 1000);
+              }, 500);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string()

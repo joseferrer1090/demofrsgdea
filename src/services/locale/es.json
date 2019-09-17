@@ -158,7 +158,7 @@
     "app_conglomerado_modal_actualizar_botom_actualizar": "Actualizar",
     "app_conglomerado_modal_actualizar_botom_cerrar": "Cerrar",
 
-    "app_conglomerado_modal_eliminar_titulo": "Eliminar conglomerado",
+    "app_conglomerado_modal_eliminar_titulo": "Eliminar",
     "app_conglomerado_modal_eliminar_informacion": "Confirmar el Código para eliminar el conglomerado",
     "app_conglomerado_modal_eliminar_informacion_2": "El conglomerado quedará eliminado de manera permanente",
     "app_conglomerado_modal_eliminar_placeholder": "Código del conglomerado a eliminar",

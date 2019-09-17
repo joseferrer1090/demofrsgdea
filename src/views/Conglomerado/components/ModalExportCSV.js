@@ -13,7 +13,8 @@ class ModalExportCSV extends Component {
     this.state = {
       modal: this.props.modalexport,
       dataExport: [],
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
 
@@ -21,7 +22,7 @@ class ModalExportCSV extends Component {
     this.setState({
       modal: !this.state.modal
     });
-    this.getDataExportCSV()
+    this.getDataExportCSV();
   };
 
   // componentDidMount() {
@@ -30,7 +31,7 @@ class ModalExportCSV extends Component {
 
   getDataExportCSV = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/conglomerate/export/data/jferrer`,
+      `http://192.168.10.180:7000/api/sgdea/conglomerate/export/data?username=${this.state.username}`,
       {
         method: 'GET',
         headers: {

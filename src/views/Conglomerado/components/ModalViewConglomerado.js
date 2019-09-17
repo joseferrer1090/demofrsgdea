@@ -31,7 +31,8 @@ class ModalViewConglomerado extends Component {
       dataCiudad: {},
       collapase: false,
       dataCharge: {},
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
   toggleCollapse = () => {
@@ -44,13 +45,16 @@ class ModalViewConglomerado extends Component {
       modal: !this.state.modal,
       id: id
     });
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/${id}/ccuartas`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/conglomerate/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         console.log(data);

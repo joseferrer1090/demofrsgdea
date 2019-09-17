@@ -30,13 +30,16 @@ class ModalDeleteEmpresa extends React.Component {
       modal: !this.state.modal,
       idCompany: id
     });
-    fetch(`http://192.168.10.180:7000/api/sgdea/company/${id}/jferrer`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/company/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -85,9 +88,12 @@ class ModalDeleteEmpresa extends React.Component {
                         alertError: true
                       });
                     } else if (response.status === 204) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           modal: false,

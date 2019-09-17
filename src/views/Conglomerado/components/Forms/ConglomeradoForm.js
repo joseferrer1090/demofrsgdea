@@ -10,10 +10,10 @@ import {
 } from 'reactstrap';
 import {
   CONGLOMERATES,
-  COUNTRIES,
-  DEPARTMENTS,
-  CITYS,
-  CHARGES
+  CITIES_STATUS,
+  CHARGES_STATUS,
+  DEPARTMENTS_STATUS,
+  CONTRIES_STATUS
 } from './../../../../services/EndPoints';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -49,7 +49,7 @@ const ConglomeradorForm = props => {
   }, []);
 
   const getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -59,9 +59,6 @@ const ConglomeradorForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsCountries(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
@@ -75,7 +72,7 @@ const ConglomeradorForm = props => {
   });
 
   const getDataDepartments = data => {
-    fetch(DEPARTMENTS, {
+    fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -98,7 +95,7 @@ const ConglomeradorForm = props => {
   });
 
   const getDataCitys = data => {
-    fetch(CITYS, {
+    fetch(CITIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -108,9 +105,6 @@ const ConglomeradorForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsCitys(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
@@ -124,7 +118,7 @@ const ConglomeradorForm = props => {
   });
 
   const getDataCharges = data => {
-    fetch(CHARGES, {
+    fetch(CHARGES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

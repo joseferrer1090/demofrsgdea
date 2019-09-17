@@ -14,7 +14,11 @@ import {
   DEPARTMENTS,
   CITYS,
   TYPETHIRDPARTYS,
-  THIRDPARTYS
+  THIRDPARTYS,
+  TYPETHIRDPARTYS_STATUS,
+  CONTRIES_STATUS,
+  DEPARTMENTS_STATUS,
+  CITIES_STATUS
 } from './../../../../services/EndPoints';
 import Select from 'react-select';
 import { Formik, withFormik, ErrorMessage } from 'formik';
@@ -50,7 +54,7 @@ const RemitenteForm = props => {
   }, []);
 
   const getDataTipoTeceros = data => {
-    fetch(TYPETHIRDPARTYS, {
+    fetch(TYPETHIRDPARTYS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -73,7 +77,7 @@ const RemitenteForm = props => {
   });
 
   const getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -96,7 +100,7 @@ const RemitenteForm = props => {
   });
 
   const getDataDepartments = data => {
-    fetch(DEPARTMENTS, {
+    fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -119,7 +123,7 @@ const RemitenteForm = props => {
   });
 
   const getDataCitys = data => {
-    fetch(CITYS, {
+    fetch(CITIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

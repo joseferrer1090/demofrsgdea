@@ -58,7 +58,7 @@ export const HEADQUARTER =
 
 /* GET */
 export const HEADQUARTERS_STATUS =
-  'http://192.168.10.180:7000/api/sgdea/headquarter/status/1';
+  'http://192.168.10.180:7000/api/sgdea/headquarter/active';
 
 /* GET */
 export const HEADQUARTER_EXPORT =
@@ -229,7 +229,7 @@ export const TYPETHIRDPARTY =
 
 /* GET */
 export const TYPETHIRDPARTYS_STATUS =
-  'http://192.168.10.180:7000/api/sgdea/typethirdparty/status/1';
+  'http://192.168.10.180:7000/api/sgdea/typethirdparty/active';
 
 /* GET */
 export const TYPETHIRDPARTYS_EXPORT =

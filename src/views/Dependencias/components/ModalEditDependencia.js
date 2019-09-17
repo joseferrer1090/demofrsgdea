@@ -18,6 +18,12 @@ import {
   CustomInput,
   Alert
 } from 'reactstrap';
+import {
+  CONGLOMERATES_STATUS,
+  COMPANYS_STATUS,
+  HEADQUARTERS_STATUS,
+  CHARGES_STATUS
+} from './../../../services/EndPoints';
 import IMGDEPENDENCIA from './../../../assets/img/settings-work-tool.svg';
 import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
@@ -41,7 +47,8 @@ class ModalEditDependencia extends React.Component {
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
-    status: 0
+    status: 0,
+    username: 'ccuartas'
   };
 
   componentDidMount() {
@@ -61,7 +68,7 @@ class ModalEditDependencia extends React.Component {
 
   getDataDependence = id => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/${id}/${this.state.userLogged}`,
+      `http://192.168.10.180:7000/api/sgdea/dependence/${id}?username=${this.state.username}`,
       {
         method: 'GET',
         headers: {
@@ -84,7 +91,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataConglomerate = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/`, {
+    fetch(CONGLOMERATES_STATUS, {
       method: 'GET',
       headers: {
         Authorization: 'Basic ' + window.btoa('sgdea:123456'),
@@ -103,7 +110,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataCompany = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/company`, {
+    fetch(COMPANYS_STATUS, {
       method: 'GET',
       headers: {
         Authorization: 'Basic ' + window.btoa('sgdea:123456'),
@@ -120,7 +127,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataCharge = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/charge`, {
+    fetch(CHARGES_STATUS, {
       method: 'GET',
       headers: {
         Authorization: 'Basic ' + window.btoa('sgdea:123456'),
@@ -137,7 +144,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataHeadquarterList = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/headquarter`, {
+    fetch(HEADQUARTERS_STATUS, {
       method: 'GET',
       headers: {
         Authorization: 'Basic ' + window.btoa('sgdea:123456'),

@@ -16,7 +16,8 @@ class ModalDeleteCiudad extends Component {
       alertError: false,
       alertSuccess: false,
       nameCity: '',
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
 
@@ -27,13 +28,16 @@ class ModalDeleteCiudad extends Component {
       code: '',
       useLogged: 'ccuartas'
     });
-    fetch(`http://192.168.10.180:7000/api/sgdea/city/${id}/ccuartas`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/city/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({

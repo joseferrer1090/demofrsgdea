@@ -11,7 +11,7 @@ import {
   Alert
 } from 'reactstrap';
 import IMGDEPARTAMENTO from './../../../assets/img/map-marker.svg';
-import { COUNTRIES, DEPARTMENTS } from './../../../services/EndPoints';
+import { DEPARTMENTS, CONTRIES_STATUS } from './../../../services/EndPoints';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
@@ -25,7 +25,8 @@ class ModalEditDepartamento extends React.Component {
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
-    department_status: 0
+    department_status: 0,
+    username: 'ccuartas'
   };
 
   toggle = id => {
@@ -36,13 +37,16 @@ class ModalEditDepartamento extends React.Component {
     this.getDepartmentByID(id);
   };
   getDepartmentByID = id => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/department/${id}/jferrer`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/department/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -62,7 +66,7 @@ class ModalEditDepartamento extends React.Component {
   }
 
   getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

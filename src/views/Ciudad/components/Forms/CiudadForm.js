@@ -11,9 +11,9 @@ import {
   CustomInput
 } from 'reactstrap';
 import {
-  COUNTRIES,
-  DEPARTMENTS,
-  CITYS
+  CITYS,
+  CONTRIES_STATUS,
+  DEPARTMENTS_STATUS
 } from './../../../../services/EndPoints';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -43,7 +43,7 @@ const CiudadForm = props => {
   }, []);
 
   const getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ const CiudadForm = props => {
   });
 
   const getDataDepartments = data => {
-    fetch(DEPARTMENTS, {
+    fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

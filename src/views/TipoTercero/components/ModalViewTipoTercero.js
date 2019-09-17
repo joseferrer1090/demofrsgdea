@@ -18,7 +18,8 @@ class ModalViewTipoTercero extends Component {
       modal: this.props.modalview,
       id: this.props.id,
       dataTipoTercero: {},
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
 
@@ -28,7 +29,7 @@ class ModalViewTipoTercero extends Component {
       id: id
     }));
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}/ccuartas`,
+      `http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}?username=${this.state.username}`,
       {
         method: 'GET',
         headers: {

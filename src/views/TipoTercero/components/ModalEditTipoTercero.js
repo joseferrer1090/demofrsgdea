@@ -24,7 +24,8 @@ class ModalEditTipoTercero extends React.Component {
     alertSuccess: false,
     alertError400: false,
     t: this.props,
-    typethirdparty_status: 0
+    typethirdparty_status: 0,
+    username: 'ccuartas'
   };
 
   toggle = id => {
@@ -37,7 +38,7 @@ class ModalEditTipoTercero extends React.Component {
 
   getTipoTercerosByID = id => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}/ccuartas`,
+      `http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}?username=${this.state.username}`,
       {
         method: 'GET',
         headers: {

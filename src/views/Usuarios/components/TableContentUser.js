@@ -195,7 +195,7 @@ class TableContentUser extends Component {
             <TableHeaderColumn
               dataField={"charge"}
               dataAlign="center"
-              width={"70"}
+              width={"100"}
               dataFormat={chargeFormatter}
             >
               Cargo

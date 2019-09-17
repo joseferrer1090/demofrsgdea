@@ -17,12 +17,12 @@ import PropTypes from 'prop-types';
 import IMGSEDE from './../../../assets/img/teamwork.svg';
 import {
   HEADQUARTERS,
-  CONGLOMERATES,
-  COMPANYS,
-  COUNTRIES,
-  DEPARTMENTS,
-  CITYS,
-  CHARGES
+  CONGLOMERATES_STATUS,
+  COMPANYS_STATUS,
+  CONTRIES_STATUS,
+  DEPARTMENTS_STATUS,
+  CITIES_STATUS,
+  CHARGES_STATUS
 } from './../../../services/EndPoints';
 import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
@@ -44,7 +44,8 @@ class ModalEditSedes extends React.Component {
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
-    headquarter_status: 0
+    headquarter_status: 0,
+    username: 'ccuartas'
   };
 
   componentDidMount() {
@@ -80,7 +81,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataConglomerates = data => {
-    fetch(CONGLOMERATES, {
+    fetch(CONGLOMERATES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -97,7 +98,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataCompanys = data => {
-    fetch(COMPANYS, {
+    fetch(COMPANYS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -114,7 +115,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -130,7 +131,7 @@ class ModalEditSedes extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataDepartments = data => {
-    fetch(DEPARTMENTS, {
+    fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -147,7 +148,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataCitys = data => {
-    fetch(CITYS, {
+    fetch(CITIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -164,7 +165,7 @@ class ModalEditSedes extends React.Component {
   };
 
   getDataCharges = data => {
-    fetch(CHARGES, {
+    fetch(CHARGES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -181,13 +182,16 @@ class ModalEditSedes extends React.Component {
   };
 
   getHeadquarterByID = id => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/headquarter/${id}/jferrer`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/headquarter/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({

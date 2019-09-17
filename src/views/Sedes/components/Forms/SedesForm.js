@@ -13,18 +13,13 @@ import {
   Alert
 } from 'reactstrap';
 import {
-  CONGLOMERATES,
-  COMPANYS,
-  COUNTRIES,
-  DEPARTMENTS,
-  CITYS,
   HEADQUARTERS,
-  CHARGES,
   CITIES_STATUS,
   CHARGES_STATUS,
   CONGLOMERATES_STATUS,
   COMPANYS_STATUS,
-  DEPARTMENTS_STATUS
+  DEPARTMENTS_STATUS,
+  CONTRIES_STATUS
 } from './../../../../services/EndPoints';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -120,7 +115,7 @@ const SedesForm = props => {
   });
 
   const getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -18,11 +18,11 @@ import { Formik, withFormik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import IMGEMPRESA from './../../../assets/img/company.svg';
 import {
-  CONGLOMERATES,
-  CHARGES,
-  CITYS,
-  DEPARTMENTS,
-  COUNTRIES
+  CONGLOMERATES_STATUS,
+  CHARGES_STATUS,
+  CONTRIES_STATUS,
+  DEPARTMENTS_STATUS,
+  CITIES_STATUS
 } from '../../../services/EndPoints';
 
 class ModalEditEmpresa extends React.Component {
@@ -39,7 +39,8 @@ class ModalEditEmpresa extends React.Component {
     optionsCitys: [0],
     optionsDepartment: [0],
     t: this.props.t,
-    company_status: 0
+    company_status: 0,
+    username: 'ccuartas'
   };
 
   componentDidMount() {
@@ -62,7 +63,7 @@ class ModalEditEmpresa extends React.Component {
   };
 
   getDataConglomerates = data => {
-    fetch(CONGLOMERATES, {
+    fetch(CONGLOMERATES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +79,7 @@ class ModalEditEmpresa extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataCharges = data => {
-    fetch(CHARGES, {
+    fetch(CHARGES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -94,13 +95,16 @@ class ModalEditEmpresa extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getCompanyById = id => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/company/${id}/jferrer`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/company/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -146,7 +150,7 @@ class ModalEditEmpresa extends React.Component {
     });
   };
   getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -162,7 +166,7 @@ class ModalEditEmpresa extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataDepartments = data => {
-    fetch(DEPARTMENTS, {
+    fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -179,7 +183,7 @@ class ModalEditEmpresa extends React.Component {
   };
 
   getDataCitys = data => {
-    fetch(CITYS, {
+    fetch(CITIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -9,16 +9,12 @@ import {
   CustomInput
 } from 'reactstrap';
 import {
-  CONGLOMERATES,
   COMPANYS,
-  CHARGES,
-  COUNTRIES,
-  DEPARTMENTS,
-  CITYS,
   CONGLOMERATES_STATUS,
   CITIES_STATUS,
   CHARGES_STATUS,
-  DEPARTMENTS_STATUS
+  DEPARTMENTS_STATUS,
+  CONTRIES_STATUS
 } from './../../../../services/EndPoints';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -56,7 +52,7 @@ const EmpresaForm = props => {
     getDataCitys();
   }, []);
   const getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

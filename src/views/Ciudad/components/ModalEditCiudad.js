@@ -11,7 +11,11 @@ import {
   Alert
 } from 'reactstrap';
 import IMGCITY from './../../../assets/img/skyline.svg';
-import { COUNTRIES, DEPARTMENTS, CITYS } from './../../../services/EndPoints';
+import {
+  CITYS,
+  CONTRIES_STATUS,
+  DEPARTMENTS_STATUS
+} from './../../../services/EndPoints';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 
@@ -25,7 +29,9 @@ class ModalEditCiudad extends React.Component {
     alertError: false,
     alertSuccess: false,
     alertError400: false,
-    t: this.props.t
+    t: this.props.t,
+    city_status: 0,
+    username: 'ccuartas'
   };
   onDismiss = () => {
     this.setState({
@@ -47,13 +53,16 @@ class ModalEditCiudad extends React.Component {
   }
 
   getCityByID = id => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/city/${id}/jferrer`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/city/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -70,7 +79,7 @@ class ModalEditCiudad extends React.Component {
   };
 
   getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -86,7 +95,7 @@ class ModalEditCiudad extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataDepartments = data => {
-    fetch(DEPARTMENTS, {
+    fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -131,14 +140,15 @@ class ModalEditCiudad extends React.Component {
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
               const tipoEstado = data => {
-                let tipo = null;
-                if (data === true) {
+                let tipo;
+                if (data === true || data === 1) {
                   return (tipo = 1);
-                } else if (data === false) {
+                } else if (data === false || data === 0) {
                   return (tipo = 0);
                 }
-                return null;
+                return 0;
               };
+
               setTimeout(() => {
                 fetch(CITYS, {
                   method: 'PUT',

@@ -16,7 +16,8 @@ class ModalDeleteDepartamento extends Component {
       alertError: false,
       alertSuccess: false,
       nameDepartment: '',
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
 
@@ -27,13 +28,16 @@ class ModalDeleteDepartamento extends Component {
       nombre: '',
       useLogged: 'ccuartas'
     });
-    fetch(`http://192.168.10.180:7000/api/sgdea/department/${id}/ccuartas`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/department/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -84,9 +88,12 @@ class ModalDeleteDepartamento extends Component {
                         alertError: true
                       });
                     } else if (response.status === 204) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           modal: false,

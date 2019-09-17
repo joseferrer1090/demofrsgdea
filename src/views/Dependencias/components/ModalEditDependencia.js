@@ -18,6 +18,12 @@ import {
   CustomInput,
   Alert
 } from 'reactstrap';
+import {
+  CONGLOMERATES_STATUS,
+  COMPANYS_STATUS,
+  HEADQUARTERS_STATUS,
+  CHARGES_STATUS
+} from './../../../services/EndPoints';
 import IMGDEPENDENCIA from './../../../assets/img/settings-work-tool.svg';
 import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
@@ -40,7 +46,9 @@ class ModalEditDependencia extends React.Component {
     alertError: false,
     alertSuccess: false,
     alertError400: false,
-    t: this.props.t
+    t: this.props.t,
+    status: 0,
+    username: 'ccuartas'
   };
 
   componentDidMount() {
@@ -60,7 +68,7 @@ class ModalEditDependencia extends React.Component {
 
   getDataDependence = id => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/${id}/${this.state.userLogged}`,
+      `http://192.168.10.180:7000/api/sgdea/dependence/${id}?username=${this.state.username}`,
       {
         method: 'GET',
         headers: {
@@ -83,7 +91,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataConglomerate = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/`, {
+    fetch(CONGLOMERATES_STATUS, {
       method: 'GET',
       headers: {
         Authorization: 'Basic ' + window.btoa('sgdea:123456'),
@@ -102,7 +110,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataCompany = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/company`, {
+    fetch(COMPANYS_STATUS, {
       method: 'GET',
       headers: {
         Authorization: 'Basic ' + window.btoa('sgdea:123456'),
@@ -119,7 +127,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataCharge = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/charge`, {
+    fetch(CHARGES_STATUS, {
       method: 'GET',
       headers: {
         Authorization: 'Basic ' + window.btoa('sgdea:123456'),
@@ -136,7 +144,7 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataHeadquarterList = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/headquarter`, {
+    fetch(HEADQUARTERS_STATUS, {
       method: 'GET',
       headers: {
         Authorization: 'Basic ' + window.btoa('sgdea:123456'),
@@ -207,14 +215,15 @@ class ModalEditDependencia extends React.Component {
             initialValues={result}
             onSubmit={(values, { setSubmitting }) => {
               const tipoEstado = data => {
-                let tipo = null;
-                if (data === true) {
+                let tipo;
+                if (data === true || data === 1) {
                   return (tipo = 1);
-                } else if (data === false) {
+                } else if (data === false || data === 0) {
                   return (tipo = 0);
                 }
-                return tipo;
+                return 0;
               };
+
               setTimeout(() => {
                 fetch(`http://192.168.10.180:7000/api/sgdea/dependence`, {
                   method: 'PUT',
@@ -269,7 +278,7 @@ class ModalEditDependencia extends React.Component {
                     }
                   })
                   .catch(Error => console.log('Error', Error));
-              }, 3000);
+              }, 500);
             }}
             validationSchema={Yup.object().shape({
               conglomerate: Yup.string()

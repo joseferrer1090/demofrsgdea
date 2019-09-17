@@ -25,6 +25,7 @@ const MensajeroForm = props => {
     handleSubmit,
     handleReset,
     isSubmitting,
+    setFieldValue,
     t
   } = props;
   return (
@@ -71,7 +72,9 @@ const MensajeroForm = props => {
                       </label>
                       <input
                         name={'name'}
-                        onChange={handleChange}
+                        onChange={e => {
+                          setFieldValue('name', e.target.value.toUpperCase());
+                        }}
                         onBlur={handleBlur}
                         value={values.name}
                         type="text"

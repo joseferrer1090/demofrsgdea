@@ -191,7 +191,7 @@ class TableContentRemitente extends Component {
             <TableHeaderColumn
               dataField={'identification'}
               dataAlign="center"
-              width={'120'}
+              width={'110'}
             >
               {' '}
               {t('app_tercero_adminstrar_tabla_identificacion')}{' '}
@@ -249,11 +249,13 @@ class TableContentRemitente extends Component {
           ref="child"
         />
         <ModalDel
+          updateTable={this.getDataTerceros}
           t={this.props.t}
           modaldel={this.state.modalDeleteRemitente}
           ref="child2"
         />
         <ModalUpdate
+          updateTable={this.getDataTerceros}
           t={this.props.t}
           modalupdate={this.state.modalUpdateRemitente}
           ref="child3"

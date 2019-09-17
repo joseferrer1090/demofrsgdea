@@ -10,7 +10,7 @@ import {
   Col,
   CustomInput
 } from 'reactstrap';
-import { COUNTRIES, DEPARTMENTS } from './../../../../services/EndPoints';
+import { DEPARTMENTS, CONTRIES_STATUS } from './../../../../services/EndPoints';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
@@ -38,7 +38,7 @@ const DepartamentoForm = props => {
   }, []);
 
   const getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -137,7 +137,9 @@ const DepartamentoForm = props => {
                     </label>
                     <input
                       name="name"
-                      onChange={handleChange}
+                      onChange={e => {
+                        setFieldValue('name', e.target.value.toUpperCase());
+                      }}
                       onBlur={handleBlur}
                       type="text"
                       className={`form-control form-control-sm ${errors.name &&

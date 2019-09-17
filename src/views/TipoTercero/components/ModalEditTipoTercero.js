@@ -23,7 +23,9 @@ class ModalEditTipoTercero extends React.Component {
     alertError: false,
     alertSuccess: false,
     alertError400: false,
-    t: this.props
+    t: this.props,
+    typethirdparty_status: 0,
+    username: 'ccuartas'
   };
 
   toggle = id => {
@@ -36,7 +38,7 @@ class ModalEditTipoTercero extends React.Component {
 
   getTipoTercerosByID = id => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}/ccuartas`,
+      `http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}?username=${this.state.username}`,
       {
         method: 'GET',
         headers: {
@@ -72,14 +74,15 @@ class ModalEditTipoTercero extends React.Component {
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
               const tipoEstado = data => {
-                let tipo = null;
-                if (data === true) {
+                let tipo;
+                if (data === true || data === 1) {
                   return (tipo = 1);
-                } else if (data === false) {
+                } else if (data === false || data === 0) {
                   return (tipo = 0);
                 }
-                return null;
+                return 0;
               };
+
               setTimeout(() => {
                 fetch(TYPETHIRDPARTYS, {
                   method: 'PUT',

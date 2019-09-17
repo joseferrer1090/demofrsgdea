@@ -23,7 +23,8 @@ class ModalDeleteDependencia extends Component {
     alertCode: false,
     alertSuccess: false,
     nameDependence: '',
-    t: this.props.t
+    t: this.props.t,
+    username: 'ccuartas'
   };
 
   toggle = id => {
@@ -31,13 +32,16 @@ class ModalDeleteDependencia extends Component {
       modal: !this.state.modal,
       id: id
     });
-    fetch(`http://192.168.10.180:7000/api/sgdea/dependence/${id}/jferrer`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/dependence/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -98,10 +102,13 @@ class ModalDeleteDependencia extends Component {
                         alertSuccess: true
                       });
                       setTimeout(() => {
-                        this.setState({
-                          alertSuccess: false,
-                          modal: false
-                        }, () => this.props.updateTable());
+                        this.setState(
+                          {
+                            alertSuccess: false,
+                            modal: false
+                          },
+                          () => this.props.updateTable()
+                        );
                       }, 2000);
                     } else if (response.status === 400) {
                       this.setState({

@@ -12,7 +12,8 @@ class ModalExportCSV extends Component {
     this.state = {
       modal: this.props.modalexport,
       dataExport: [],
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
 
@@ -28,13 +29,16 @@ class ModalExportCSV extends Component {
   // }
 
   getDataExportCSV = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/company/export/data/ccuartas`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'BASIC ' + window.btoa('sgdea:123456')
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/company/export/data?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'BASIC ' + window.btoa('sgdea:123456')
+        }
       }
-    })
+    )
       .then(response =>
         response.json().then(data => {
           this.setState({
@@ -140,7 +144,7 @@ class ModalExportCSV extends Component {
             {this.props.t('app_empresa_modal_exportar_titulo')}
           </ModalHeader>
           <ModalBody>
-            <table className="table table-responsive  table-hover table-striped fixed_header">
+            <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
               <thead className="">
                 <tr>
                   <th>{this.props.t('app_empresa_modal_exportar_codigo')}</th>

@@ -13,13 +13,13 @@ import {
   Alert
 } from 'reactstrap';
 import {
-  CONGLOMERATES,
-  COMPANYS,
-  COUNTRIES,
-  DEPARTMENTS,
-  CITYS,
   HEADQUARTERS,
-  CHARGES
+  CITIES_STATUS,
+  CHARGES_STATUS,
+  CONGLOMERATES_STATUS,
+  COMPANYS_STATUS,
+  DEPARTMENTS_STATUS,
+  CONTRIES_STATUS
 } from './../../../../services/EndPoints';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -59,7 +59,7 @@ const SedesForm = props => {
   }, []);
 
   const getDataConglomerates = data => {
-    fetch(CONGLOMERATES, {
+    fetch(CONGLOMERATES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -79,6 +79,7 @@ const SedesForm = props => {
   const onClickUp = () => {
     scroll.scrollToTop();
   };
+
   const mapOptionsConglomerate = optionsConglomerate.map((aux, idx) => {
     return (
       <option key={aux.id} value={aux.id}>
@@ -88,7 +89,7 @@ const SedesForm = props => {
   });
 
   const getDataCompanys = data => {
-    fetch(COMPANYS, {
+    fetch(COMPANYS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -114,7 +115,7 @@ const SedesForm = props => {
   });
 
   const getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -140,7 +141,7 @@ const SedesForm = props => {
   });
 
   const getDataDepartments = data => {
-    fetch(DEPARTMENTS, {
+    fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -166,7 +167,7 @@ const SedesForm = props => {
   });
 
   const getDataCitys = data => {
-    fetch(CITYS, {
+    fetch(CITIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -192,7 +193,7 @@ const SedesForm = props => {
   });
 
   const getDataCharges = data => {
-    fetch(CHARGES, {
+    fetch(CHARGES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

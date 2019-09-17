@@ -16,7 +16,8 @@ class ModalDeleteRemitente extends Component {
       alertCode: false,
       alertSuccess: false,
       nameTercero: '',
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
 
@@ -27,13 +28,16 @@ class ModalDeleteRemitente extends Component {
       useLogged: 'ccuartas',
       identification: ''
     });
-    fetch(`http://192.168.10.180:7000/api/sgdea/thirdparty/${id}/ccuartas`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/thirdparty/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -89,9 +93,12 @@ class ModalDeleteRemitente extends Component {
                         });
                       }, 3000);
                     } else if (response.status === 204) {
-                      this.setState({
-                        alertSuccess: true
-                      });
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           modal: false,
@@ -227,7 +234,8 @@ class ModalDeleteRemitente extends Component {
 }
 
 ModalDeleteRemitente.propTypes = {
-  modaldel: PropTypes.bool.isRequired
+  modaldel: PropTypes.bool.isRequired,
+  updateTable: PropTypes.func.isRequired
 };
 
 export default ModalDeleteRemitente;

@@ -29,7 +29,8 @@ class ModalViewEmpresa extends Component {
       dataPais: {},
       dataDepartamento: {},
       dataCiudad: {},
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
 
@@ -38,13 +39,16 @@ class ModalViewEmpresa extends Component {
       modal: !this.state.modal,
       id: id
     });
-    fetch(`http://192.168.10.180:7000/api/sgdea/company/${id}/jferrer`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/company/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({

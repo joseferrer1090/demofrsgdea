@@ -1,14 +1,34 @@
-import React, { Component } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import PropTypes from "prop-types";
+import React, { Component, Fragment } from 'react';
+import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import PropTypes from 'prop-types';
+import {
+  MODULES,
+  ACTIONS,
+  ENTITIES,
+  CONGLOMERATES_STATUS,
+  COMPANYS_STATUS,
+  HEADQUARTERS_STATUS,
+  DEPENDENCIES_STATUS,
+  USERS_STATUS
+} from './../../../services/EndPoints';
+import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
 class ModalSearchAuditoria extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: this.props.modalSearch,
-      acciones: "",
-      usuarios: ""
+      acciones: '',
+      usuarios: '',
+      dataModules: [],
+      dataEntities: [],
+      dataActions: [],
+      dataConglomerado: [],
+      dataEmpresa: [],
+      dataSede: [],
+      dataDependencias: [],
+      dataUsers: []
     };
   }
 
@@ -16,6 +36,14 @@ class ModalSearchAuditoria extends Component {
     this.setState(prevState => ({
       modal: !prevState.modalSearch
     }));
+    this.getDataModule();
+    this.getDataEntity();
+    this.getDataActions();
+    this.getDataConglomerates();
+    this.getDataCompanys();
+    this.getDataHeadquarters();
+    this.getDataDependence();
+    this.getDataUsers();
   };
 
   handleChangeSelect = e => {
@@ -24,392 +52,444 @@ class ModalSearchAuditoria extends Component {
     });
   };
 
+  getDataModule = data => {
+    fetch(MODULES, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataModules: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  getDataEntity = data => {
+    fetch(ENTITIES, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataEntities: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  getDataActions = data => {
+    fetch(ACTIONS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataActions: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  getDataConglomerates = data => {
+    fetch(CONGLOMERATES_STATUS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataConglomerado: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  getDataCompanys = data => {
+    fetch(COMPANYS_STATUS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataEmpresa: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  getDataHeadquarters = data => {
+    fetch(HEADQUARTERS_STATUS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataSede: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  getDataDependence = data => {
+    fetch(DEPENDENCIES_STATUS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDependencias: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
+  getDataUsers = data => {
+    fetch(USERS_STATUS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataUsers: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
   render() {
+    const mapOptionsModules = this.state.dataModules.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+    const mapOptionsEntities = this.state.dataEntities.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+    const mapOptionsActions = this.state.dataActions.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+
+    const mapOptionsConglomerate = this.state.dataConglomerado.map(
+      (aux, idx) => {
+        return (
+          <option key={aux.id} value={aux.id}>
+            {aux.name}
+          </option>
+        );
+      }
+    );
+
+    const mapOptionsCompanys = this.state.dataEmpresa.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+
+    const mapOptionsHeadquarters = this.state.dataSede.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+
+    const mapOptionsDependence = this.state.dataDependencias.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+
+    const mapOptionsUsers = this.state.dataUsers.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
     return (
-      <div>
+      <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             <h5>Consultar auditoría</h5>
           </ModalHeader>
-          <ModalBody>
-            <form className="">
-              <div className="row">
-                <div className="col-sm-6  ">
-                  <label>Fecha desde</label>
-                  <input
-                    type="date"
-                    className="form-control form-control-sm"
-                    placeholder="Desde"
-                  />
-                </div>
-                <div className="col-sm-6">
-                  <label>Fecha hasta</label>
-                  <input
-                    type="date"
-                    className="form-control form-control-sm"
-                    placeholder="Hasta"
-                  />
-                </div>
-              </div>
-              <br />
-              <div className="row">
-              <div className="col-sm-6">
-                  <label>Módulo</label>
-                  <select
-                    id="modulo"
-                    name="modulo"
-                    className="form-control form-control-sm"
-                    onChange={e => this.handleChangeSelect(e)}
-                  >
-                  <option value="Módulo de configuración">Módulo de configuración</option>
-                  <option value="Módulo de correspondencia">Módulo de correspondencia</option>
-                  <option value="Módulo de archivo">Módulo de archivo</option>
-                  <option value="Módulo de workflow">Módulo de workflow</option>
-                  </select>
-                </div>
-                <div className="col-sm-6">
-                <label>Entidad</label>
-                <select
-                  className="form-control form-control-sm"
-                >
-                  <option>Entidad asociada al módulo</option>
-                </select>
-              </div>
-              </div>
-              <br/>
-              <div className="row">
-                <div className="col-sm-6">
-                  <label>Acciones</label>
-                  <select
-                    id="acciones"
-                    name="acciones"
-                    className="form-control form-control-sm"
-                    onChange={e => this.handleChangeSelect(e)}
-                  >
-                    <option value="grabar">Grabar</option>
-                    <option value="actualizar">Actualizar</option>
-                    <option value="eliminar">Eliminar</option>
-                  </select>
-                </div>
-                <div className="col-sm-6">
-                  <label>Operación</label>
-                  <select
-                    id="operación"
-                    name="operación"
-                    className="form-control form-control-sm"
-                    onChange={e => this.handleChangeSelect(e)}
-                  >
-                    <option value="insert">Insert</option>
-                    <option value="update">Update</option>
-                    <option value="delete">Delete</option>
-                    <option value="select">Select</option>
-                  </select>
-                </div>
-                </div>
-                <br/>
-                <div className="row">
-              <div className="col-sm-6">
-                  <label>Conglomerado</label>
-                  <select
-                    className="form-control form-control-sm">
-                  <option >Seleccione...</option>
-                  </select>
-                </div>
-                <div className="col-sm-6">
-                <label>Empresa</label>
-                <select
-                  className="form-control form-control-sm"
-                >
-                  <option>Seleccione</option>
-                </select>
-              </div>
-              </div>
-              <br/>
-              <div className="row">
-              <div className="col-sm-6">
-                  <label>Sede</label>
-                  <select
-                    className="form-control form-control-sm">
-                  <option >Seleccione...</option>
-                  </select>
-                </div>
-                <div className="col-sm-6">
-                <label>Dependencia</label>
-                <select
-                  className="form-control form-control-sm"
-                >
-                  <option>Seleccione</option>
-                </select>
-              </div>
-              </div>
-                <br />
-                <div className="row">
-                <div className="col-sm-6">
-                  <label>Usuarios</label>
-                  <select
-                    id="usuarios"
-                    name="usuarios"
-                    className="form-control form-control-sm"
-                    onChange={e => this.handleChangeSelect(e)}
-                  >
-                    <option value="T">&lt;&lt; Todos &gt;&gt;</option>
-                    <optgroup label="Administradores" title="Administradores">
-                      <option value="T1">
-                        &lt;&lt; Todos los administradores &gt;&gt;
-                      </option>
-                      <option value="admarchivo|admon">
-                        ADMINISTRADOR DE ARCHIVO
-                      </option>
-                      <option value="admworkflow|admon">
-                        ADMINISTRADOR DE WORKFLOW
-                      </option>
-                      <option value="admsistema|admon">
-                        ADMINISTRADOR DEL SISTEMA
-                      </option>
-                      <option value="admon|admon">
-                        Usuario Administrador General
-                      </option>
-                    </optgroup>
-                    <optgroup label="Usuarios " title="Usuarios">
-                      <option value="T2">
-                        &lt;&lt; Todos los usuarios &gt;&gt;
-                      </option>
-                      <option value="ALBCAM|usu">
-                        ALBA INES CAMACHO CASAS
-                      </option>
-                      <option value="ALEVIA|usu">
-                        ALEJANDRO VIAFARA GOMEZ
-                      </option>
-                      <option value="AMABEL|usu">
-                        AMANDA PATRICIA BELTRAN SUAREZ
-                      </option>
-                      <option value="ANAGAR|usu">ANA ISABEL GARCIA</option>
-                      <option value="ANDCAB|usu">ANDRES CABRERA RAMIREZ</option>
-                      <option value="ASEGURAMIENTO|usu">
-                        ASEGURAMIENTO Y CALIDAD
-                      </option>
-                      <option value="BIVZAP|usu">
-                        BIVIANA ANDREA ZAPATA GARZON
-                      </option>
-                      <option value="CARGAR|usu">
-                        CARLOS JOSE GARCIA BERNAL
-                      </option>
-                      <option value="CARCIF|usu">CARMEN ELENA CIFUENTES</option>
-                      <option value="CARROD|usu">
-                        CARMEN LILIANA RODRIGUEZ RODRIGUEZ
-                      </option>
-                      <option value="CARROM|usu">
-                        CAROLINA ROMERO CAICEDO
-                      </option>
-                      <option value="CESGON|usu">
-                        CESAR RAUL GONZALEZ JUAJIBIOY
-                      </option>
-                      <option value="DANCAS|usu">
-                        DANIEL FERNANDO CASTRO PARRA
-                      </option>
-                      <option value="DIAGAR|usu">DIANA GARCIA</option>
-                      <option value="DIAORT|usu">
-                        DIANA PATRICIA ORTEGA FISCO
-                      </option>
-                      <option value="DIAQUE|usu">
-                        DIANA PATRICIA QUEVEDO ROJAS
-                      </option>
-                      <option value="DIMDEARM|usu">
-                        DIMAS ENRIQUE DE ARMAS PACHECO
-                      </option>
-                      <option value="DORCAM|usu">DORA EUGENIA CAMARGO</option>
-                      <option value="DUNMAR|usu">
-                        DUNIA MARTINEZ DE SABOGAL
-                      </option>
-                      <option value="EDGCUE|usu">
-                        EDGAR ANDRES CUERVO ORTEGA
-                      </option>
-                      <option value="EDGCAR|usu">
-                        EDGAR MAURICIO CARDENAS ORTIZ
-                      </option>
-                      <option value="EDUCAL|usu">
-                        EDUIN ANTONIO CALDERA PRADO
-                      </option>
-                      <option value="FABSAN|usu">
-                        FABIAN SANCHEZ MARTINEZ
-                      </option>
-                      <option value="ANGPEN|usu">FLOR ANGELA PENA GALAN</option>
-                      <option value="FRAORT|usu">
-                        FRANCY ELENA ORTIZ MEDINA
-                      </option>
-                      <option value="GERROM|usu">GERMAN ROMERO</option>
-                      <option value="GILLOR|usu">GILBERTO LORDUY MORENO</option>
-                      <option value="GLOOVA|usu">
-                        GLORIA ALEJANDRA OVALLE
-                      </option>
-                      <option value="GUSGAI|usu">
-                        GUSTAVO ADOLFO GAITAN HERRERA
-                      </option>
-                      <option value="HECPEN|usu">
-                        HECTOR AUGUSTO PENA TOVAR
-                      </option>
-                      <option value="HILCAN|usu">
-                        HILDA LEONOR CANAS QUICENO
-                      </option>
-                      <option value="IVANDLR|usu">
-                        IVAN DE LA ROCHE MERINO
-                      </option>
-                      <option value="IVEMAR|usu">
-                        IVETH MARIA MARTINEZ TAPIAS
-                      </option>
-                      <option value="JAILAC|usu">
-                        JAIRO ENRIQUE LACHE JIMENEZ
-                      </option>
-                      <option value="JANVAL|usu">JANETH VALENCIA OTERO</option>
-                      <option value="JAVBEL|usu">JAVIER BELTRAN HURTADO</option>
-                      <option value="JAVISA|usu">JAVIER ISAZA RAMOS</option>
-                      <option value="YESMOR|usu">JESIKA MORENO FARA</option>
-                      <option value="JOHROM|usu">
-                        JOHN ALVARO ROMERO CAMARGO
-                      </option>
-                      <option value="JOHBAR|usu">
-                        JOHN FREDY BARRERA RINCON
-                      </option>
-                      <option value="JOSGAR|usu">
-                        JOSE FLAMINIO GARCIA SALDANA
-                      </option>
-                      <option value="JUAJIM|usu">JUAN CARLOS JIMENEZ</option>
-                      <option value="JUACHI|usu">
-                        JUAN MANUEL CHISCO PINILLA
-                      </option>
-                      <option value="JULSOL|usu">
-                        JULIO ANDRES SOLANO SANCHEZ
-                      </option>
-                      <option value="LADCAS|usu">
-                        LADY YANET CASTANO RESTREPO
-                      </option>
-                      <option value="LAUOSS|usu">LAURA MANUELA OSSA</option>
-                      <option value="LEIROA|usu">LEIDY YOHANNA ROA</option>
-                      <option value="LILCAR|usu">LILIANA CARDENAS</option>
-                      <option value="LINSAN|usu">LINA MARIA SANCHEZ</option>
-                      <option value="LUIPEN|usu">
-                        LUIS ALBERTO PENA MARIN
-                      </option>
-                      <option value="LUIRIC|usu">
-                        LUISA FERNANDA RICO REYES
-                      </option>
-                      <option value="LUZMAR|usu">LUZ DARY MARTINEZ</option>
-                      <option value="LUZRAM|usu">
-                        LUZ INGRID RAMIREZ GONZALEZ
-                      </option>
-                      <option value="MARMED|usu">MARCELA MEDINA ORTEGA</option>
-                      <option value="MARLOA|usu">
-                        MARCO ALFREDO LOAIZA MILLAN
-                      </option>
-                      <option value="MARRUB|usu">
-                        MARIA ALEJANDRA RUBIO JIMENEZ
-                      </option>
-                      <option value="MARFON|usu">
-                        MARIA CRISTINA FONTECHA
-                      </option>
-                      <option value="MARCIF|usu">
-                        MARIA FERNANDA CIFUENTES PUERTO
-                      </option>
-                      <option value="MARGAL|usu">MARIBEL GALEANO ARDILA</option>
-                      <option value="MARCOR|usu">MARICELA CORREDOR</option>
-                      <option value="MARMER|usu">
-                        MARIO ENRIQUE MERINO PACHECO
-                      </option>
-                      <option value="MARURR|usu">
-                        MARTHA CECILIA URREGO JIMENEZ
-                      </option>
-                      <option value="MAURAM|usu">MAURICIO ANTONIO RAMOS</option>
-                      <option value="MAUVAN|usu">
-                        MAURICIO VANEGAS MERINO
-                      </option>
-                      <option value="NANSUA|usu">NANCY SUA</option>
-                      <option value="NATTOB|usu">NATALIA TOBON PENA</option>
-                      <option value="NUBSUA|usu">NUBIA SUAREZ DIAZ</option>
-                      <option value="OLGCAS|usu">OLGA LUCÍA CASILIMAS</option>
-                      <option value="ORBHEN|usu">ORBEISON HENAO OQUENDO</option>
-                      <option value="ORLRAM|usu">ORLIRIAN RAMOS RAMIREZ</option>
-                      <option value="OSCVAL|usu">
-                        OSCAR ANDRES VALDERRAMA
-                      </option>
-                      <option value="PAOOVA|usu">PAOLA OVALLE GARCIA</option>
-                      <option value="PAUTRI|usu">PAULA TRIANA SAENZ</option>
-                      <option value="RAMPER|usu">RAMIRO PERDOMO</option>
-                      <option value="RAMLAS|usu">
-                        RAMON ENRIQUE LASPRIELLA
-                      </option>
-                      <option value="LEOPOR|usu">RAUL LEONARDO PORRAS</option>
-                      <option value="REVFIS|usu">REVISORIA FISCAL</option>
-                      <option value="RICLAT|usu">
-                        RICARDO ANDRES LATINO AORTIZ
-                      </option>
-                      <option value="ROBREY|usu">ROBERTO REYES CUEVAS</option>
-                      <option value="ROCSEG|usu">
-                        ROCIO DEL PILAR SEGURA BERNAL
-                      </option>
-                      <option value="RUBSIM|usu">
-                        RUBEN DARIO SIMBAQUEVA ROJAS
-                      </option>
-                      <option value="RUTMOR|usu">
-                        RUTH JENNY MORENO VILLARRAGA
-                      </option>
-                      <option value="SANDIA|usu">
-                        SANDRA MILENA DIAZ ARDILA
-                      </option>
-                      <option value="SST|usu">
-                        SEGURIDAD Y SALUD EN EL TRABAJO
-                      </option>
-                      <option value="SERMES|usu">SERGIO ALEJANDRO MESA</option>
-                      <option value="TANZUN|usu">
-                        TANIA GINETH ZUÑIGA CAMARGO
-                      </option>
-                      <option value="TERTOR|usu">
-                        TERESA TORRES SARMIENTO
-                      </option>
-                      <option value="TESORERIA|usu">TESORERIA</option>
-                      <option value="VICGUT|usu">
-                        VICTOR MANUEL GUTIERREZ DIAZ
-                      </option>
-                      <option value="WILGRA|usu">
-                        WILLIAM MAURICIO GRANADOS MELO
-                      </option>
-                      <option value="WILBAL|usu">
-                        WILSON ALEJANDRO BALLESTEROS
-                      </option>
-                      <option value="YENMAR|usu">
-                        YENNY MARCELA MARIN NARANJO
-                      </option>
-                      <option value="YENCOR|usu">
-                        YENNY PAOLA CORTES PINZON
-                      </option>
-                      <option value="YESRUI|usu">YESENIA RUIZ MEDINA</option>
-                      <option value="YULGOM|usu">
-                        YULIET PAOLA GOMEZ PESCADOR
-                      </option>
-                      <option value="YURURR|usu">YURANI URREGO AMARILES</option>
-                      <option value="ZULFIE|usu">ZULUAY FIERRO HERRERA</option>
-                    </optgroup>
-                  </select>
-                </div>
-                </div>
-            </form>
-          </ModalBody>
-          <ModalFooter>
-            <button className="btn btn-success btn-sm">
-              {" "}
-              <i className="fa fa-filter" /> Consultar{" "}
-            </button>
-            <button
-              className="btn btn-secondary btn-sm"
-              onClick={() => {
-                this.setState({ modal: !this.state.modal });
-              }}
-            >
-              {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
-            </button>
-          </ModalFooter>
+          <Formik
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, '', 2));
+                fetch(`http://192.168.10.180:7000/api/sgdea/audit/consult`, {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                  },
+                  body: JSON.stringify({
+                    actionId: values.audit_accciones,
+                    from: values.audit_fechaDesde,
+                    ip: '',
+                    page: 1,
+                    size: 50,
+                    to: values.audit_fechaHasta,
+                    username: 'ccuartas'
+                  })
+                })
+                  .then(response => response.json())
+                  .then(response => {
+                    console.log(response);
+                  })
+                  .catch(error => console.log('', error));
+                setSubmitting(false);
+              }, 500);
+            }}
+            validationSchema={Yup.object().shape({
+              audit_fechaDesde: Yup.string(),
+              audit_fechaHasta: Yup.string(),
+              audit_modulo: Yup.string().ensure(),
+              audit_entidad: Yup.string().ensure(),
+              audit_accciones: Yup.string().ensure(),
+              audit_conglomerado: Yup.string().ensure(),
+              audit_empresa: Yup.string().ensure(),
+              audit_sede: Yup.string().ensure(),
+              audit_dependencia: Yup.string().ensure(),
+              audit_usuarios: Yup.string().ensure()
+            })}
+          >
+            {props => {
+              const {
+                values,
+                touched,
+                errors,
+                dirty,
+                isSubmitting,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                handleReset
+              } = props;
+              return (
+                <Fragment>
+                  <ModalBody>
+                    <form className="">
+                      <div className="row">
+                        <div className="col-sm-6  ">
+                          <label>Fecha desde</label>
+                          <input
+                            type="date"
+                            className="form-control form-control-sm"
+                            placeholder="Desde"
+                            name="audit_fechaDesde"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.audit_fechaDesde}
+                          />
+                        </div>
+                        <div className="col-sm-6">
+                          <label>Fecha hasta</label>
+                          <input
+                            type="date"
+                            className="form-control form-control-sm"
+                            placeholder="Hasta"
+                            name="audit_fechaHasta"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.audit_fechaHasta}
+                          />
+                        </div>
+                      </div>
+                      <br />
+                      <div className="row">
+                        <div className="col-sm-6">
+                          <label>Módulo</label>
+                          <select
+                            name="audit_modulo"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.audit_modulo}
+                            className="form-control form-control-sm"
+                          >
+                            <option value={''}>-- Seleccione --</option>
+                            {mapOptionsModules}
+                          </select>
+                        </div>
+                        <div className="col-sm-6">
+                          <label>Entidad</label>
+                          <select
+                            name="audit_entidad"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.audit_entidad}
+                            className="form-control form-control-sm"
+                          >
+                            <option value={''}>-- Seleccione --</option>
+                            {mapOptionsEntities}
+                          </select>
+                        </div>
+                      </div>
+                      <br />
+                      <div className="row">
+                        <div className="col-sm-12">
+                          <label>Acciones</label>
+                          <select
+                            name="audit_accciones"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.audit_accciones}
+                            className="form-control form-control-sm"
+                          >
+                            <option value={''}>-- Seleccione --</option>
+                            {mapOptionsActions}
+                          </select>
+                        </div>
+                      </div>
+                      <br />
+                      <div className="row">
+                        <div className="col-sm-6">
+                          <label>Conglomerado</label>
+                          <select
+                            name="audit_conglomerado"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.audit_conglomerado}
+                            className="form-control form-control-sm"
+                          >
+                            <option value={''}>-- Seleccione --</option>
+                            {mapOptionsConglomerate}
+                          </select>
+                        </div>
+                        <div className="col-sm-6">
+                          <label>Empresa</label>
+                          <select
+                            name="audit_empresa"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.audit_empresa}
+                            className="form-control form-control-sm"
+                          >
+                            <option value={''}>-- Seleccione --</option>
+                            {mapOptionsCompanys}
+                          </select>
+                        </div>
+                      </div>
+                      <br />
+                      <div className="row">
+                        <div className="col-sm-6">
+                          <label>Sede</label>
+                          <select
+                            name="audit_sede"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.audit_sede}
+                            className="form-control form-control-sm"
+                          >
+                            <option value={''}>-- Seleccione --</option>
+                            {mapOptionsHeadquarters}
+                          </select>
+                        </div>
+                        <div className="col-sm-6">
+                          <label>Dependencia</label>
+                          <select
+                            name="audit_dependencia"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.audit_dependencia}
+                            className="form-control form-control-sm"
+                          >
+                            <option value={''}> -- Seleccione --</option>
+                            {mapOptionsDependence}
+                          </select>
+                        </div>
+                      </div>
+                      <br />
+                      <div className="row">
+                        <div className="col-sm-12">
+                          <label>Usuarios</label>
+                          <select
+                            name="audit_usuarios"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.audit_usuarios}
+                            className="form-control form-control-sm"
+                          >
+                            <option value={''}>-- Seleccione --</option>
+                            {mapOptionsUsers}
+                          </select>
+                        </div>
+                      </div>
+                    </form>
+                  </ModalBody>
+                  <ModalFooter>
+                    <button
+                      onClick={e => {
+                        e.preventDefault();
+                        handleSubmit();
+                      }}
+                      type="button"
+                      className="btn btn-success btn-sm"
+                    >
+                      {' '}
+                      <i className="fa fa-filter" /> Consultar{' '}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => {
+                        this.setState({ modal: !this.state.modal });
+                      }}
+                    >
+                      {' '}
+                      <i className="fa fa-times" /> Cerrar{' '}
+                    </button>
+                  </ModalFooter>
+                </Fragment>
+              );
+            }}
+          </Formik>
         </Modal>
-      </div>
+      </Fragment>
     );
   }
 }

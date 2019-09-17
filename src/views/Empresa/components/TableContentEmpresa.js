@@ -20,7 +20,7 @@ class TableContentEmpresa extends Component {
       modaledit: false,
       modaldel: false,
       modalexport: false,
-      dataCompanys: [],
+      dataCompanys: this.props.updateTable,
       hiddenColumnID: true
     };
   }
@@ -149,12 +149,13 @@ class TableContentEmpresa extends Component {
       btnGroup: this.createCustomButtonGroup
     };
     const { t } = this.props;
+    const data = this.state.dataCompanys;
     return (
       <div className="animated fadeIn">
         <Col md="12">
           <BootstrapTable
             options={options}
-            data={this.state.dataCompanys}
+            data={data}
             pagination
             search={true}
             exportCSV

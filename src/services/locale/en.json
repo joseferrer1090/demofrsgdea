@@ -159,7 +159,7 @@
     "app_conglomerado_modal_actualizar_botom_actualizar": "Upgrade",
     "app_conglomerado_modal_actualizar_botom_cerrar": "Close",
 
-    "app_conglomerado_modal_eliminar_titulo": "Remove conglomerate",
+    "app_conglomerado_modal_eliminar_titulo": "Remove",
     "app_conglomerado_modal_eliminar_informacion": "Confirm the code to remove the cluster",
     "app_conglomerado_modal_eliminar_informacion_2": "The conglomerate will be permanently removed",
     "app_conglomerado_modal_eliminar_placeholder": "Conglomerate code to remove",

@@ -13,11 +13,11 @@ import {
   CustomInput
 } from 'reactstrap';
 import {
-  CONGLOMERATES,
-  COMPANYS,
-  HEADQUARTERS,
   DEPENDENCIES,
-  CHARGES
+  CONGLOMERATES_STATUS,
+  COMPANYS_STATUS,
+  HEADQUARTERS_STATUS,
+  CHARGES_STATUS
 } from './../../../../services/EndPoints';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -52,7 +52,7 @@ const DependenciaForm = props => {
   }, []);
 
   const getDataConglomerates = data => {
-    fetch(CONGLOMERATES, {
+    fetch(CONGLOMERATES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -62,9 +62,6 @@ const DependenciaForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsConglomerate(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
@@ -78,7 +75,7 @@ const DependenciaForm = props => {
   });
 
   const getDataCompanys = data => {
-    fetch(COMPANYS, {
+    fetch(COMPANYS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -104,7 +101,7 @@ const DependenciaForm = props => {
   });
 
   const getDataHeadquarters = data => {
-    fetch(HEADQUARTERS, {
+    fetch(HEADQUARTERS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -130,7 +127,7 @@ const DependenciaForm = props => {
   });
 
   const getDataCharges = data => {
-    fetch(CHARGES, {
+    fetch(CHARGES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

@@ -26,7 +26,7 @@ import classnames from "classnames";
 import IMGPROFILE from "./../../../assets/img/profile.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
-import { TYPETHIRDPARTYS, COUNTRIES, DEPARTMENTS, CITYS, THIRDPARTYS } from './../../../services/EndPoints';
+import { THIRDPARTYS, TYPETHIRDPARTYS_STATUS, CONTRIES_STATUS, DEPARTMENTS_STATUS, CITIES_STATUS } from './../../../services/EndPoints';
 
 class ModalUpdateRemitente extends React.Component {
   state = {
@@ -41,7 +41,9 @@ class ModalUpdateRemitente extends React.Component {
       optionsCountries:[],
       optionsDepartments:[],
       optionsCities:[],
-      t:this.props.t
+      t:this.props.t,
+      tercero_estado:0,
+      username:'ccuartas'
     };
 
 
@@ -53,7 +55,7 @@ class ModalUpdateRemitente extends React.Component {
     this.getTerceroByID(id)
   };
   getTerceroByID = id => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/thirdparty/${id}/ccuartas`, {
+    fetch(`http://192.168.10.180:7000/api/sgdea/thirdparty/${id}?username=${this.state.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -62,7 +64,7 @@ class ModalUpdateRemitente extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
+        console.log(data);
         this.setState({
           dataResult: {
             tercero_tipoTercero: data.typeThirdParty.id,
@@ -76,9 +78,9 @@ class ModalUpdateRemitente extends React.Component {
             tercero_referencia: data.reference,
             tercero_observacion: data.observation,
             tercero_estado: data.status,
-            tercero_pais:'',
-            tercero_departamento:'',
-            tercero_ciudad:''
+            tercero_pais:data.city.department.country.id,
+            tercero_departamento:data.city.department.id,
+            tercero_ciudad:data.city.id
           }
         });
       })
@@ -105,7 +107,7 @@ class ModalUpdateRemitente extends React.Component {
   };
 
   getDataTipoTercero = data => {
-    fetch(TYPETHIRDPARTYS, {
+    fetch(TYPETHIRDPARTYS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -121,7 +123,7 @@ class ModalUpdateRemitente extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -137,7 +139,7 @@ class ModalUpdateRemitente extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataDepartments = data => {
-    fetch(DEPARTMENTS, {
+    fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -153,7 +155,7 @@ class ModalUpdateRemitente extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataCities = data => {
-    fetch(CITYS, {
+    fetch(CITIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -208,13 +210,13 @@ class ModalUpdateRemitente extends React.Component {
         initialValues={dataResult}
         onSubmit={(values, {setSubmitting}) =>{
           const tipoEstado = data => {
-            let tipo = null;
-            if (data === true) {
+            let tipo;
+            if (data === true || data === 1) {
               return (tipo = 1);
-            } else if (data === false) {
+            } else if (data === false || data === 0) {
               return (tipo = 0);
             }
-            return null;
+            return 0;
           };
           setTimeout(()=>{
             fetch(THIRDPARTYS, {
@@ -246,7 +248,7 @@ class ModalUpdateRemitente extends React.Component {
                     {
                       alertSuccess: true
                     },
-                    // () => this.props.updateTable()
+                    () => this.props.updateTable()
                   );
                   setTimeout(() => {
                     this.setState({
@@ -272,7 +274,7 @@ class ModalUpdateRemitente extends React.Component {
                       alertError: false,
                       modal: !this.state.modal
                     });
-                  }, 3000);
+                  }, 500);
                 }
               })
               .catch(error => console.log('', error));
@@ -796,7 +798,8 @@ class ModalUpdateRemitente extends React.Component {
 }
 
 ModalUpdateRemitente.propTypes = {
-  modalupdate: PropTypes.bool.isRequired
+  modalupdate: PropTypes.bool.isRequired,
+  updateTable: PropTypes.func.isRequired,
 };
 
 export default ModalUpdateRemitente;

@@ -29,7 +29,8 @@ class ModalViewSedes extends Component {
       dataDepartamento: {},
       dataCargo: {},
       t: this.props.t,
-      dataPais: {}
+      dataPais: {},
+      username: 'ccuartas'
     };
   }
 
@@ -38,13 +39,16 @@ class ModalViewSedes extends Component {
       modal: !this.state.modal,
       id: id
     });
-    fetch(`http://192.168.10.180:7000/api/sgdea/headquarter/${id}/ccuartas`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/headquarter/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({

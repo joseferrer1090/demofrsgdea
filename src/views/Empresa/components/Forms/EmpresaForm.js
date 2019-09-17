@@ -9,12 +9,12 @@ import {
   CustomInput
 } from 'reactstrap';
 import {
-  CONGLOMERATES,
   COMPANYS,
-  CHARGES,
-  COUNTRIES,
-  DEPARTMENTS,
-  CITYS
+  CONGLOMERATES_STATUS,
+  CITIES_STATUS,
+  CHARGES_STATUS,
+  DEPARTMENTS_STATUS,
+  CONTRIES_STATUS
 } from './../../../../services/EndPoints';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -52,7 +52,7 @@ const EmpresaForm = props => {
     getDataCitys();
   }, []);
   const getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ const EmpresaForm = props => {
   });
 
   const getDataDepartments = data => {
-    fetch(DEPARTMENTS, {
+    fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ const EmpresaForm = props => {
   });
 
   const getDataCitys = data => {
-    fetch(CITYS, {
+    fetch(CITIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -111,9 +111,6 @@ const EmpresaForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsCitys(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
@@ -127,7 +124,7 @@ const EmpresaForm = props => {
   });
 
   const getDataConglomerates = data => {
-    fetch(CONGLOMERATES, {
+    fetch(CONGLOMERATES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -153,7 +150,7 @@ const EmpresaForm = props => {
   });
 
   const getDataCharges = data => {
-    fetch(CHARGES, {
+    fetch(CHARGES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -209,7 +206,7 @@ const EmpresaForm = props => {
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                     {errors.conglomerateId && touched.conglomerateId ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="conglomerateId" />
                   </div>
@@ -236,7 +233,7 @@ const EmpresaForm = props => {
                   />
                   <div style={{ color: '#D54B4B' }}>
                     {errors.code && touched.code ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="code" />
                   </div>
@@ -261,7 +258,7 @@ const EmpresaForm = props => {
                   />
                   <div style={{ color: '#D54B4B' }}>
                     {errors.nit && touched.nit ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="nit" />
                   </div>
@@ -288,7 +285,7 @@ const EmpresaForm = props => {
                   />
                   <div style={{ color: '#D54B4B' }}>
                     {errors.name && touched.name ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="name" />
                   </div>
@@ -309,7 +306,7 @@ const EmpresaForm = props => {
                   />
                   <div style={{ color: '#D54B4B' }}>
                     {errors.description && touched.description ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="description" />
                   </div>
@@ -334,7 +331,7 @@ const EmpresaForm = props => {
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                     {errors.countryId && touched.countryId ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="countryId" />
                   </div>
@@ -360,7 +357,7 @@ const EmpresaForm = props => {
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                     {errors.departmentId && touched.departmentId ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="departmentId" />
                   </div>
@@ -388,7 +385,7 @@ const EmpresaForm = props => {
                   </select>
                   <div style={{ color: '#D54B4B' }}>
                     {errors.cityId && touched.cityId ? (
-                      <i class="fa fa-exclamation-triangle" />
+                      <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="cityId" />
                   </div>

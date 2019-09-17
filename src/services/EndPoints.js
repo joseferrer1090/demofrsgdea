@@ -82,7 +82,7 @@ export const DEPENDENCE =
 
 /* GET */
 export const DEPENDENCIES_STATUS =
-  'http://192.168.10.180:7000/api/sgdea/dependence/status/1';
+  'http://192.168.10.180:7000/api/sgdea/dependence/active';
 
 /* GET */
 export const DEPENDENCE_EXPORT =
@@ -203,8 +203,7 @@ export const USER =
   'http://192.168.10.180:7000/api/sgdea/user/689bfff8-4fa1-490f-96e0-c5092c7a8aad/ccuartas';
 
 /* GET */
-export const USERS_STATUS =
-  'http://192.168.10.180:7000/api/sgdea/user/status/1';
+export const USERS_STATUS = 'http://192.168.10.180:7000/api/sgdea/user/active';
 
 /* GET */
 export const USERS_EXPORT =

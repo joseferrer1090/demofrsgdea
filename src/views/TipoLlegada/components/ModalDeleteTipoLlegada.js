@@ -16,7 +16,8 @@ class ModalDeleteTipoLlegada extends Component {
       alertError: false,
       alertCode: false,
       nameTipoLlegada: '',
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
 
@@ -28,7 +29,7 @@ class ModalDeleteTipoLlegada extends Component {
       useLogged: 'ccuartas'
     }));
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/${id}/ccuartas`,
+      `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/${id}?username=${this.state.username}`,
       {
         method: 'GET',
         headers: {
@@ -86,9 +87,12 @@ class ModalDeleteTipoLlegada extends Component {
                         alertError: true
                       });
                     } else if (response.status === 204) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           modal: false,

@@ -24,7 +24,8 @@ class ModalEditTipoLlegada extends React.Component {
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
-    typeshipmentarrival_status: 0
+    typeshipmentarrival_status: 0,
+    username: 'ccuartas'
   };
 
   toggle = id => {
@@ -37,7 +38,7 @@ class ModalEditTipoLlegada extends React.Component {
 
   getTipoLlegadaByID = id => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/${id}/ccuartas`,
+      `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/${id}?username=${this.state.username}`,
       {
         method: 'GET',
         headers: {

@@ -70,7 +70,7 @@ const UserForm = props => {
   // }, []);
 
   const deteRoles = data => {
-    fetch("http://192.168.10.180:7000/api/sgdea/role/status/1", {
+    fetch("http://192.168.10.180:7000/api/sgdea/role/active", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

@@ -64,7 +64,7 @@ class TableContentUser extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -113,8 +113,8 @@ class TableContentUser extends Component {
     this.refs.child2.toggle();
   }
 
-  openModalEdit() {
-    this.refs.child3.toggle();
+  openModalEdit(id) {
+    this.refs.child3.toggle(id);
   }
 
   openModalPassword() {

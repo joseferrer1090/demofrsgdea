@@ -26,7 +26,7 @@ import classnames from "classnames";
 import IMGPROFILE from "./../../../assets/img/profile.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
-import { TYPETHIRDPARTYS, COUNTRIES, DEPARTMENTS, CITYS, THIRDPARTYS } from './../../../services/EndPoints';
+import { THIRDPARTYS, TYPETHIRDPARTYS_STATUS, CONTRIES_STATUS, DEPARTMENTS_STATUS, CITIES_STATUS } from './../../../services/EndPoints';
 
 class ModalUpdateRemitente extends React.Component {
   state = {
@@ -42,7 +42,8 @@ class ModalUpdateRemitente extends React.Component {
       optionsDepartments:[],
       optionsCities:[],
       t:this.props.t,
-      tercero_estado:0
+      tercero_estado:0,
+      username:'ccuartas'
     };
 
 
@@ -54,7 +55,7 @@ class ModalUpdateRemitente extends React.Component {
     this.getTerceroByID(id)
   };
   getTerceroByID = id => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/thirdparty/${id}/ccuartas`, {
+    fetch(`http://192.168.10.180:7000/api/sgdea/thirdparty/${id}?username=${this.state.username}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -106,7 +107,7 @@ class ModalUpdateRemitente extends React.Component {
   };
 
   getDataTipoTercero = data => {
-    fetch(TYPETHIRDPARTYS, {
+    fetch(TYPETHIRDPARTYS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -122,7 +123,7 @@ class ModalUpdateRemitente extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataCountries = data => {
-    fetch(COUNTRIES, {
+    fetch(CONTRIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -138,7 +139,7 @@ class ModalUpdateRemitente extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataDepartments = data => {
-    fetch(DEPARTMENTS, {
+    fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -154,7 +155,7 @@ class ModalUpdateRemitente extends React.Component {
       .catch(Error => console.log(' ', Error));
   };
   getDataCities = data => {
-    fetch(CITYS, {
+    fetch(CITIES_STATUS, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

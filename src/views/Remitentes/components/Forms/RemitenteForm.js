@@ -10,10 +10,6 @@ import {
   CustomInput
 } from 'reactstrap';
 import {
-  COUNTRIES,
-  DEPARTMENTS,
-  CITYS,
-  TYPETHIRDPARTYS,
   THIRDPARTYS,
   TYPETHIRDPARTYS_STATUS,
   CONTRIES_STATUS,

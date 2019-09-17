@@ -16,7 +16,8 @@ class ModalDeletePais extends Component {
       alertError: false,
       alertCode: false,
       namePais: '',
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
 
@@ -27,13 +28,16 @@ class ModalDeletePais extends Component {
       idPais: id,
       useLogged: 'ccuartas'
     });
-    fetch(`http://192.168.10.180:7000/api/sgdea/country/${id}/ccuartas`, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/country/${id}?username=${this.state.username}`,
+      {
+        method: 'GET',
+        headers: {
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -83,9 +87,12 @@ class ModalDeletePais extends Component {
                         alertError: true
                       });
                     } else if (response.status === 204) {
-                      this.setState({
-                        alertSuccess: true
-                      }, () => this.props.updateTable());
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
                         this.setState({
                           modal: false,
@@ -209,7 +216,7 @@ class ModalDeletePais extends Component {
 }
 
 ModalDeletePais.propTypes = {
-  modaldel: PropTypes.bool.isRequired, 
+  modaldel: PropTypes.bool.isRequired,
   updateTable: PropTypes.func.isRequired
 };
 

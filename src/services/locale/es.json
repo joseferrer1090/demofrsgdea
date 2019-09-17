@@ -916,7 +916,7 @@
     "app_pais_form_registrar_estado_descripcion": "Si esta opción se encuentra activada, representa que el país es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el país no se elimina del sistema solo quedará inactivo e invisibles para cada uno de los módulos correspondiente del sistema.",
     "app_pais_form_button_guardar": "Guardar",
 
-    "app_pais_administrar_table_button_exportar": "Exportar CSV",
+    "app_pais_administrar_table_button_exportar": "Exportar",
     "app_pais_administrar_table_placeholder": "Buscar",
     "app_pais_administrar_table_codigo": "Código",
     "app_pais_administrar_table_nombre": "Nombre",

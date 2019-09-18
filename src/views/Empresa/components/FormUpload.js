@@ -175,11 +175,9 @@ class FormUpload extends React.Component {
                                   label={t(
                                     'app_empresa_import_form_titulos_label'
                                   )}
-                                  className={
-                                    errors.titulos &&
+                                  className={`form-control form-control-sm ${errors.titulos &&
                                     touched.titulos &&
-                                    'invalid-feedback'
-                                  }
+                                    'is-invalid'}`}
                                 />{' '}
                               </div>
                             </div>

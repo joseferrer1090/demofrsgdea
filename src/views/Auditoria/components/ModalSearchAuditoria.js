@@ -1,5 +1,17 @@
 import React, { Component, Fragment } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Row,
+  Col,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane
+} from 'reactstrap';
 import PropTypes from 'prop-types';
 import {
   MODULES,
@@ -13,6 +25,7 @@ import {
 } from './../../../services/EndPoints';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import classnames from 'classnames';
 
 class ModalSearchAuditoria extends Component {
   constructor(props) {
@@ -28,7 +41,8 @@ class ModalSearchAuditoria extends Component {
       dataEmpresa: [],
       dataSede: [],
       dataDependencias: [],
-      dataUsers: []
+      dataUsers: [],
+      activeTab: '1'
     };
   }
 
@@ -44,6 +58,14 @@ class ModalSearchAuditoria extends Component {
     this.getDataHeadquarters();
     this.getDataDependence();
     this.getDataUsers();
+  };
+
+  toogleTab = tab => {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
   };
 
   handleChangeSelect = e => {
@@ -254,13 +276,10 @@ class ModalSearchAuditoria extends Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>
-            <h5>Consultar auditoría</h5>
-          </ModalHeader>
+          <ModalHeader>Consultar auditoría</ModalHeader>
           <Formik
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                alert(JSON.stringify(values, '', 2));
                 fetch(`http://192.168.10.180:7000/api/sgdea/audit/consult`, {
                   method: 'POST',
                   headers: {
@@ -271,23 +290,31 @@ class ModalSearchAuditoria extends Component {
                     actionId: values.audit_accciones,
                     from: values.audit_fechaDesde,
                     ip: '',
-                    page: 1,
+                    page: 0,
                     size: 50,
                     to: values.audit_fechaHasta,
                     username: 'ccuartas'
                   })
                 })
                   .then(response => response.json())
-                  .then(response => {
-                    console.log(response);
+                  .then(data => {
+                    this.setState({
+                      dataAuditoria: data.content
+                    });
+                    this.props.onDataFetch(data.content);
+                    console.log(data.content);
                   })
                   .catch(error => console.log('', error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
-              audit_fechaDesde: Yup.string(),
-              audit_fechaHasta: Yup.string(),
+              audit_fechaDesde: Yup.string().required(
+                ' Por favor introduzca la fecha desde.'
+              ),
+              audit_fechaHasta: Yup.string().required(
+                ' Por favor introduzca la fecha hasta.'
+              ),
               audit_modulo: Yup.string().ensure(),
               audit_entidad: Yup.string().ensure(),
               audit_accciones: Yup.string().ensure(),
@@ -313,153 +340,270 @@ class ModalSearchAuditoria extends Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <form className="">
-                      <div className="row">
-                        <div className="col-sm-6  ">
-                          <label>Fecha desde</label>
-                          <input
-                            type="date"
-                            className="form-control form-control-sm"
-                            placeholder="Desde"
-                            name="audit_fechaDesde"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.audit_fechaDesde}
-                          />
-                        </div>
-                        <div className="col-sm-6">
-                          <label>Fecha hasta</label>
-                          <input
-                            type="date"
-                            className="form-control form-control-sm"
-                            placeholder="Hasta"
-                            name="audit_fechaHasta"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.audit_fechaHasta}
-                          />
-                        </div>
-                      </div>
-                      <br />
-                      <div className="row">
-                        <div className="col-sm-6">
-                          <label>Módulo</label>
-                          <select
-                            name="audit_modulo"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.audit_modulo}
-                            className="form-control form-control-sm"
-                          >
-                            <option value={''}>-- Seleccione --</option>
-                            {mapOptionsModules}
-                          </select>
-                        </div>
-                        <div className="col-sm-6">
-                          <label>Entidad</label>
-                          <select
-                            name="audit_entidad"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.audit_entidad}
-                            className="form-control form-control-sm"
-                          >
-                            <option value={''}>-- Seleccione --</option>
-                            {mapOptionsEntities}
-                          </select>
-                        </div>
-                      </div>
-                      <br />
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <label>Acciones</label>
-                          <select
-                            name="audit_accciones"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.audit_accciones}
-                            className="form-control form-control-sm"
-                          >
-                            <option value={''}>-- Seleccione --</option>
-                            {mapOptionsActions}
-                          </select>
-                        </div>
-                      </div>
-                      <br />
-                      <div className="row">
-                        <div className="col-sm-6">
-                          <label>Conglomerado</label>
-                          <select
-                            name="audit_conglomerado"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.audit_conglomerado}
-                            className="form-control form-control-sm"
-                          >
-                            <option value={''}>-- Seleccione --</option>
-                            {mapOptionsConglomerate}
-                          </select>
-                        </div>
-                        <div className="col-sm-6">
-                          <label>Empresa</label>
-                          <select
-                            name="audit_empresa"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.audit_empresa}
-                            className="form-control form-control-sm"
-                          >
-                            <option value={''}>-- Seleccione --</option>
-                            {mapOptionsCompanys}
-                          </select>
-                        </div>
-                      </div>
-                      <br />
-                      <div className="row">
-                        <div className="col-sm-6">
-                          <label>Sede</label>
-                          <select
-                            name="audit_sede"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.audit_sede}
-                            className="form-control form-control-sm"
-                          >
-                            <option value={''}>-- Seleccione --</option>
-                            {mapOptionsHeadquarters}
-                          </select>
-                        </div>
-                        <div className="col-sm-6">
-                          <label>Dependencia</label>
-                          <select
-                            name="audit_dependencia"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.audit_dependencia}
-                            className="form-control form-control-sm"
-                          >
-                            <option value={''}> -- Seleccione --</option>
-                            {mapOptionsDependence}
-                          </select>
-                        </div>
-                      </div>
-                      <br />
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <label>Usuarios</label>
-                          <select
-                            name="audit_usuarios"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.audit_usuarios}
-                            className="form-control form-control-sm"
-                          >
-                            <option value={''}>-- Seleccione --</option>
-                            {mapOptionsUsers}
-                          </select>
-                        </div>
-                      </div>
-                    </form>
+                    <Row>
+                      <Col sm="12">
+                        <Nav tabs>
+                          <NavItem>
+                            <NavLink
+                              className={classnames({
+                                active: this.state.activeTab === '1'
+                              })}
+                              onClick={() => {
+                                this.toogleTab('1');
+                              }}
+                            >
+                              Consultar auditoría
+                            </NavLink>
+                          </NavItem>
+                          <NavItem>
+                            <NavLink
+                              className={classnames({
+                                active: this.state.activeTab === '2'
+                              })}
+                              onClick={() => {
+                                this.toogleTab('2');
+                              }}
+                            >
+                              Consulta detallada
+                            </NavLink>
+                          </NavItem>
+                        </Nav>
+                        <TabContent activeTab={this.state.activeTab}>
+                          <TabPane tabId="1">
+                            <div className="row">
+                              <div className="col-sm-6  ">
+                                <label>Fecha desde</label>
+                                <input
+                                  type="date"
+                                  placeholder="Desde"
+                                  name="audit_fechaDesde"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.audit_fechaDesde}
+                                  className={`form-control form-control-sm ${errors.audit_fechaDesde &&
+                                    touched.audit_fechaDesde &&
+                                    'is-invalid'}`}
+                                />
+                                <div style={{ color: '#D54B4B' }}>
+                                  {errors.audit_fechaDesde &&
+                                  touched.audit_fechaDesde ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="audit_fechaDesde" />
+                                </div>
+                              </div>
+                              <div className="col-sm-6">
+                                <label>Fecha hasta</label>
+                                <input
+                                  type="date"
+                                  className={`form-control form-control-sm ${errors.audit_fechaHasta &&
+                                    touched.audit_fechaHasta &&
+                                    'is-invalid'}`}
+                                  placeholder="Hasta"
+                                  name="audit_fechaHasta"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.audit_fechaHasta}
+                                />
+                                <div style={{ color: '#D54B4B' }}>
+                                  {errors.audit_fechaHasta &&
+                                  touched.audit_fechaHasta ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="audit_fechaHasta" />
+                                </div>
+                              </div>
+                            </div>
+                          </TabPane>
+                          <TabPane tabId="2">
+                            <form className="">
+                              <div className="row">
+                                <div className="col-sm-6  ">
+                                  <label>Fecha desde</label>
+                                  <input
+                                    type="date"
+                                    className={`form-control form-control-sm ${errors.audit_fechaDesde &&
+                                      touched.audit_fechaDesde &&
+                                      'is-invalid'}`}
+                                    placeholder="Desde"
+                                    name="audit_fechaDesde"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.audit_fechaDesde}
+                                  />
+                                  <div style={{ color: '#D54B4B' }}>
+                                    {errors.audit_fechaDesde &&
+                                    touched.audit_fechaDesde ? (
+                                      <i className="fa fa-exclamation-triangle" />
+                                    ) : null}
+                                    <ErrorMessage name="audit_fechaDesde" />
+                                  </div>
+                                </div>
+                                <div className="col-sm-6">
+                                  <label>Fecha hasta</label>
+                                  <input
+                                    type="date"
+                                    className={`form-control form-control-sm ${errors.audit_fechaHasta &&
+                                      touched.audit_fechaHasta &&
+                                      'is-invalid'}`}
+                                    placeholder="Hasta"
+                                    name="audit_fechaHasta"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.audit_fechaHasta}
+                                  />
+                                  <div style={{ color: '#D54B4B' }}>
+                                    {errors.audit_fechaHasta &&
+                                    touched.audit_fechaHasta ? (
+                                      <i className="fa fa-exclamation-triangle" />
+                                    ) : null}
+                                    <ErrorMessage name="audit_fechaHasta" />
+                                  </div>
+                                </div>
+                              </div>
+                              <br />
+                              <div className="row">
+                                <div className="col-sm-6">
+                                  <label>Módulo</label>
+                                  <select
+                                    name="audit_modulo"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.audit_modulo}
+                                    className={`form-control form-control-sm ${errors.audit_modulo &&
+                                      touched.audit_modulo &&
+                                      'is-invalid'}`}
+                                  >
+                                    <option value={''}>-- Seleccione --</option>
+                                    {mapOptionsModules}
+                                  </select>
+                                </div>
+                                <div className="col-sm-6">
+                                  <label>Entidad</label>
+                                  <select
+                                    name="audit_entidad"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.audit_entidad}
+                                    className={`form-control form-control-sm ${errors.audit_entidad &&
+                                      touched.audit_entidad &&
+                                      'is-invalid'}`}
+                                  >
+                                    <option value={''}>-- Seleccione --</option>
+                                    {mapOptionsEntities}
+                                  </select>
+                                </div>
+                              </div>
+                              <br />
+                              <div className="row">
+                                <div className="col-sm-12">
+                                  <label>Acciones</label>
+                                  <select
+                                    name="audit_accciones"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.audit_accciones}
+                                    className={`form-control form-control-sm ${errors.audit_accciones &&
+                                      touched.audit_accciones &&
+                                      'is-invalid'}`}
+                                  >
+                                    <option value={''}>-- Seleccione --</option>
+                                    {mapOptionsActions}
+                                  </select>
+                                </div>
+                              </div>
+                              <br />
+                              <div className="row">
+                                <div className="col-sm-6">
+                                  <label>Conglomerado</label>
+                                  <select
+                                    name="audit_conglomerado"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.audit_conglomerado}
+                                    className={`form-control form-control-sm ${errors.audit_conglomerado &&
+                                      touched.audit_conglomerado &&
+                                      'is-invalid'}`}
+                                  >
+                                    <option value={''}>-- Seleccione --</option>
+                                    {mapOptionsConglomerate}
+                                  </select>
+                                </div>
+                                <div className="col-sm-6">
+                                  <label>Empresa</label>
+                                  <select
+                                    name="audit_empresa"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.audit_empresa}
+                                    className={`form-control form-control-sm ${errors.audit_empresa &&
+                                      touched.audit_empresa &&
+                                      'is-invalid'}`}
+                                  >
+                                    <option value={''}>-- Seleccione --</option>
+                                    {mapOptionsCompanys}
+                                  </select>
+                                </div>
+                              </div>
+                              <br />
+                              <div className="row">
+                                <div className="col-sm-6">
+                                  <label>Sede</label>
+                                  <select
+                                    name="audit_sede"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.audit_sede}
+                                    className={`form-control form-control-sm ${errors.audit_sede &&
+                                      touched.audit_sede &&
+                                      'is-invalid'}`}
+                                  >
+                                    <option value={''}>-- Seleccione --</option>
+                                    {mapOptionsHeadquarters}
+                                  </select>
+                                </div>
+                                <div className="col-sm-6">
+                                  <label>Dependencia</label>
+                                  <select
+                                    name="audit_dependencia"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.audit_dependencia}
+                                    className={`form-control form-control-sm ${errors.audit_dependencia &&
+                                      touched.audit_dependencia &&
+                                      'is-invalid'}`}
+                                  >
+                                    <option value={''}>
+                                      {' '}
+                                      -- Seleccione --
+                                    </option>
+                                    {mapOptionsDependence}
+                                  </select>
+                                </div>
+                              </div>
+                              <br />
+                              <div className="row">
+                                <div className="col-sm-12">
+                                  <label>Usuarios</label>
+                                  <select
+                                    name="audit_usuarios"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.audit_usuarios}
+                                    className={`form-control form-control-sm ${errors.audit_usuarios &&
+                                      touched.audit_usuarios &&
+                                      'is-invalid'}`}
+                                  >
+                                    <option value={''}>-- Seleccione --</option>
+                                    {mapOptionsUsers}
+                                  </select>
+                                </div>
+                              </div>
+                            </form>
+                          </TabPane>
+                        </TabContent>
+                      </Col>
+                    </Row>
                   </ModalBody>
                   <ModalFooter>
                     <button

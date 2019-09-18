@@ -290,7 +290,7 @@ class ModalSearchAuditoria extends Component {
                     actionId: values.audit_accciones,
                     from: values.audit_fechaDesde,
                     ip: '',
-                    page: 1,
+                    page: 0,
                     size: 50,
                     to: values.audit_fechaHasta,
                     username: 'ccuartas'

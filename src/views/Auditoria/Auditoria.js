@@ -34,9 +34,7 @@ class Auditoria extends Component {
       modalSearch: false,
       visible: false,
       dataAuditoria: [],
-      dataModulo: [],
-      dataEntidad: [],
-      dataAccion: [],
+      dataProps: [],
       hiddenColumnId: true,
       page: '0',
       size: '10'
@@ -44,10 +42,10 @@ class Auditoria extends Component {
   }
 
   componentDidMount() {
-    this.getDataHAudit();
+    this.getDataAudit();
   }
 
-  getDataHAudit = () => {
+  getDataAudit = () => {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/audit/pagination?page=${this.state.page}&size=${this.state.size}`,
       {
@@ -60,7 +58,6 @@ class Auditoria extends Component {
     )
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataAuditoria: data.content
         });
@@ -136,10 +133,17 @@ class Auditoria extends Component {
     return !pageAction ? null : `<div>${pageAction.name}</div>`;
   };
 
+  onDataFetch = data => {
+    this.setState({
+      dataAuditoria: data
+    });
+  };
+
   render() {
     const options = {
       btnGroup: this.createButtonCustom
     };
+
     return (
       <div className="animated fadeIn">
         <div className="row">
@@ -227,7 +231,11 @@ class Auditoria extends Component {
           modalview={this.state.modalviewauditoria}
           ref={'child1'}
         />
-        <ModalSearch modalSearch={this.state.modalSearch} ref={'child2'} />
+        <ModalSearch
+          onDataFetch={this.onDataFetch}
+          modalSearch={this.state.modalSearch}
+          ref={'child2'}
+        />
       </div>
     );
   }

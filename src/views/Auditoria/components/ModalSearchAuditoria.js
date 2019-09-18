@@ -297,8 +297,12 @@ class ModalSearchAuditoria extends Component {
                   })
                 })
                   .then(response => response.json())
-                  .then(response => {
-                    console.log(response);
+                  .then(data => {
+                    this.setState({
+                      dataAuditoria: data.content
+                    });
+                    this.props.onDataFetch(data.content);
+                    console.log(data.content);
                   })
                   .catch(error => console.log('', error));
                 setSubmitting(false);

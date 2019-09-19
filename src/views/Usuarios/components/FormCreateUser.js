@@ -14,24 +14,24 @@ import {
 // import "./../../../css/custom_calendar.css";
 import UserForm from "./Forms/UserForm";
 
-const dataUser = {
+const user = {
   identificacion: "",
   nombre: "",
   email: "",
   telefono: "",
   direccion: "",
   f_d_nacimiento: "",
-  conglomerado: "",
-  empresa: "",
-  sede: "",
-  dependencia: "",
-  cargo: "",
+  conglomeradoID: "",
+  empresaID: "",
+  sedeID: "",
+  dependenciaID: "",
+  cargoID: "",
   username: "",
   password: "",
   confirm_password: "",
-  roles: [],
-  estado: "",
-  file: ""
+  rolesID: [],
+  estado: false,
+  foto: undefined
 };
 
 const FormCreateUser = () => {
@@ -40,7 +40,7 @@ const FormCreateUser = () => {
       <div className="git">
         <Row>
           <Col sm="10" md={{ offset: 1 }}>
-            <UserForm user={dataUser} />
+            <UserForm user={user} />
           </Col>
         </Row>
       </div>

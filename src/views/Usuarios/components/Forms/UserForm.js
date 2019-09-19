@@ -934,7 +934,7 @@ class MySelect extends React.Component {
   };
 
   getData = async () => {
-    let url = "http://192.168.10.180:7000/api/sgdea/role/status/1";
+    let url = "http://192.168.10.180:7000/api/sgdea/role/active";
     const response = await fetch(url, {
       method: "GET",
       headers: {

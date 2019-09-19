@@ -212,7 +212,10 @@ class ModalEditUser extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar usuario</ModalHeader>
+          <ModalHeader>
+            {" "}
+            Actualizar usuario {this.state.dataUser.name}{" "}
+          </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}

@@ -547,7 +547,22 @@ class ModalEditUser extends React.Component {
                                                 *
                                               </span>{" "}
                                             </label>
-                                            <SelectCompany />
+                                            <SelectCompany
+                                              conglomerate={
+                                                props.values.conglomerado
+                                              }
+                                              name="empresa"
+                                              value={values.empresa}
+                                              onChange={e =>
+                                                setFieldValue(
+                                                  "empresa",
+                                                  e.target.value
+                                                )
+                                              }
+                                              className={`form-control form-control-sm ${errors.empresa &&
+                                                touched.empresa &&
+                                                "is-invalid"}`}
+                                            ></SelectCompany>
                                             {/* <select
                                               name={"empresa"}
                                               onChange={handleChange}
@@ -577,7 +592,20 @@ class ModalEditUser extends React.Component {
                                                 *
                                               </span>{" "}
                                             </label>
-                                            <select
+                                            <SelectHeadquarter
+                                              company={props.values.empresa}
+                                              name={"sede"}
+                                              onChange={e =>
+                                                setFieldValue(
+                                                  "sede",
+                                                  e.target.value
+                                                )
+                                              }
+                                              className={`form-control form-control-sm ${errors.sede &&
+                                                touched.sede &&
+                                                "is-invalid"}`}
+                                            ></SelectHeadquarter>
+                                            {/* <select
                                               name={"sede"}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
@@ -587,7 +615,7 @@ class ModalEditUser extends React.Component {
                                                 "is-invalid"}`}
                                             >
                                               <option>Seleccione</option>
-                                            </select>
+                                            </select> */}
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.sede && touched.sede ? (
                                                 <i className="fa fa-exclamation-triangle" />
@@ -605,7 +633,21 @@ class ModalEditUser extends React.Component {
                                                 *
                                               </span>{" "}
                                             </label>
-                                            <select
+                                            <SelectDependence
+                                              headquarter={props.values.sede}
+                                              name={"dependence"}
+                                              value={values.dependence}
+                                              onChange={e =>
+                                                setFieldValue(
+                                                  "dependence",
+                                                  e.target.value
+                                                )
+                                              }
+                                              className={`form-control form-control-sm ${errors.dependence &&
+                                                touched.dependence &&
+                                                "is-invalid"}`}
+                                            ></SelectDependence>
+                                            {/* <select
                                               name={"dependencia"}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
@@ -615,7 +657,7 @@ class ModalEditUser extends React.Component {
                                                 "is-invalid"}`}
                                             >
                                               <option>Seleccione</option>
-                                            </select>
+                                            </select> */}
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.dependencia &&
                                               touched.dependencia ? (
@@ -920,13 +962,198 @@ class SelectConglomerado extends React.Component {
 
 class SelectCompany extends React.Component {
   state = {
-    dataCompany: []
+    dataCompany: [],
+    id: this.props.conglomerate
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.conglomerate !== state.id) {
+      return {
+        conglomerate: props.conglomerate
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.conglomerate !== prevProps.conglomerate) {
+      this.getDataCompany(this.props.conglomerate);
+    }
+  }
+
+  //edf39040-6f53-4f4e-b348-ef279819051a => no borrar
+
+  // componentDidMount() {
+  //   this.getDataCompany();
+  // }
+
+  getDataCompany = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.props.conglomerate}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCompany: data
+        });
+      })
+      .catch(err => console.log("Error", err));
   };
   render() {
+    console.log(this.props.conglomerate);
     return (
       <div>
-        <select className="form-control form-control-sm">
-          <option>Seleccione</option>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataCompany.map((aux, id) => {
+            return <option value={aux.id}>{aux.name}</option>;
+          })}
+        </select>
+        {/* <select
+          name={this.props.name}
+          value={this.props.value}
+          className="form-control form-control-sm"
+          onChange={this.props.onChange}
+        >
+          {this.dataCompany.map((aux, id) => {
+            return <option value={aux.id}>{aux.name}</option>;
+          })}
+        </select> */}
+      </div>
+    );
+  }
+}
+
+// ------------------------------------------------------------------------------------- //
+class SelectHeadquarter extends React.Component {
+  state = {
+    dataHeadquarter: [],
+    id: this.props.company
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.company !== state.id) {
+      return {
+        company: props.company
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.company !== prevProps.company) {
+      // metodo del fetch()
+      this.getDataHeadquarter();
+    }
+  }
+
+  getDataHeadquarter = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.company}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataHeadquarter: data
+        });
+      })
+      .catch(err => console.log("Error", err));
+  };
+
+  render() {
+    console.log(this.props.company);
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataHeadquarter.map((aux, id) => {
+            return <option value={aux.id}>{aux.name}</option>;
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+// -------------------------------------------------------------------------------------- //
+
+class SelectDependence extends React.Component {
+  state = {
+    dataDependence: [],
+    id: this.props.headquarter
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.headquarter !== state.id) {
+      return {
+        headquarter: props.headquarter
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.headquarter !== prevProps.headquarter) {
+      // metodo del fetch()
+      this.getDataDependence();
+    }
+  }
+
+  getDataDependence = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.headquarter}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDependence: data
+        });
+      })
+      .catch(err => console.log("Error", err));
+  };
+
+  render() {
+    console.log(this.props.headquarter);
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          className={this.props.className}
+        >
+          {this.state.dataDependence.map((aux, id) => {
+            return <option value={aux.id}>{aux.name}</option>;
+          })}
         </select>
       </div>
     );

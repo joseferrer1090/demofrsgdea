@@ -293,6 +293,7 @@ class ModalSearchAuditoria extends Component {
                     page: 0,
                     size: 50,
                     to: values.audit_fechaHasta,
+                    userNameAuthenticate: 'ccuartas',
                     username: 'ccuartas'
                   })
                 })

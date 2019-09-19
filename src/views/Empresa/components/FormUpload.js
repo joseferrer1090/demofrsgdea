@@ -26,6 +26,7 @@ class FormUpload extends React.Component {
   };
 
   render() {
+    console.log(this.state.file);
     const { t } = this.props;
     return (
       <Fragment>
@@ -62,15 +63,24 @@ class FormUpload extends React.Component {
           <Col md="8">
             <Formik
               onSubmit={(values, { setSubmitting }) => {
+                const separator = separador => {
+                  let separador_empty = '';
+                  if (separador === undefined) {
+                    separador = separador_empty;
+                    return separador_empty;
+                  } else {
+                    return separador;
+                  }
+                };
                 const formData = new FormData();
                 const file = this.state.file;
-                const separador = values.separador_csv;
+                // const separador = values.separador_csv;
                 formData.append('file', file);
-                formData.append('separator', separador);
+                formData.append('separator', separator(values.separador_csv));
                 setTimeout(() => {
                   axios
                     .post(
-                      `http://192.168.10.180:7001/api/sgdea/company/import/?username=${this.state.username}`,
+                      `http://192.168.10.180:7002/api/sgdea/company/import/?username=${this.state.username}`,
                       formData,
                       { headers: { 'Content-Type': 'multipart/form-data' } }
                     )
@@ -109,7 +119,7 @@ class FormUpload extends React.Component {
               }}
               validationSchema={Yup.object().shape({
                 separador_csv: Yup.string()
-                  .required(' Por favor introduzca un separador.')
+                  // .required(' Por favor introduzca un separador.')
                   .max(1, ' Máximo 1 carácter')
                   .min(1, ' Por favor introduzca un separador.'),
                 titulos: Yup.bool().test('Activo', '', value => value === true)
@@ -284,7 +294,7 @@ class PreviewFile extends React.Component {
     }
 
     // console.log(thumb.toString());
-    // console.log(file.type);
+    console.log(file.type);
 
     return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
   }

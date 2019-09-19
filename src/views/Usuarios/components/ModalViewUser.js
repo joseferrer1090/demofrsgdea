@@ -182,6 +182,7 @@ class ModalViewUser extends Component {
               </div>
             </Col>
           </Row>
+          <br />
           <Nav tabs>
             <NavItem>
               <NavLink

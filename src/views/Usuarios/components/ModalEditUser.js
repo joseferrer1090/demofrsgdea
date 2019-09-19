@@ -45,10 +45,10 @@ class ModalEditUser extends React.Component {
 
   componentDidMount() {
     this.getDataConglomerate();
-    this.getDataCompany();
-    this.getDataHeadquarter();
-    this.getDataDependence();
-    this.getDataCharge();
+    // this.getDataCompany();
+    // this.getDataHeadquarter();
+    // this.getDataDependence();
+    // this.getDataCharge();
   }
 
   toogleTab = tab => {
@@ -90,7 +90,9 @@ class ModalEditUser extends React.Component {
     )
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          dataUser: data
+        });
       })
       .catch(Error => console.log("Error", Error));
   };
@@ -113,106 +115,107 @@ class ModalEditUser extends React.Component {
       .catch(err => console.log("Error", err));
   };
 
-  getDataCompany = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/company/active`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          dataCompany: data
-        });
-      })
-      .catch(err => console.log("Error ", err));
-  };
+  // getDataCompany = () => {
+  //   fetch(`http://192.168.10.180:7000/api/sgdea/company/active`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Basic " + window.btoa("sgdea:123456")
+  //     }
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log(data);
+  //       this.setState({
+  //         dataCompany: data
+  //       });
+  //     })
+  //     .catch(err => console.log("Error ", err));
+  // };
 
-  getDataHeadquarter = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/headquarter/active`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          dataHeadquarter: data
-        });
-      })
-      .catch(err => console.log("Error", err));
-  };
+  // getDataHeadquarter = () => {
+  //   fetch(`http://192.168.10.180:7000/api/sgdea/headquarter/active`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Basic " + window.btoa("sgdea:123456")
+  //     }
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log(data);
+  //       this.setState({
+  //         dataHeadquarter: data
+  //       });
+  //     })
+  //     .catch(err => console.log("Error", err));
+  // };
 
-  getDataDependence = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/dependence/active`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          dataDependence: data
-        });
-      })
-      .catch(err => console.log("Error", err));
-  };
+  // getDataDependence = () => {
+  //   fetch(`http://192.168.10.180:7000/api/sgdea/dependence/active`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Basic " + window.btoa("sgdea:123456")
+  //     }
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log(data);
+  //       this.setState({
+  //         dataDependence: data
+  //       });
+  //     })
+  //     .catch(err => console.log("Error", err));
+  // };
 
-  getDataCharge = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/charge/active`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          dataCharge: data
-        });
-      })
-      .catch(err => console.log("Error", err));
-  };
+  // getDataCharge = () => {
+  //   fetch(`http://192.168.10.180:7000/api/sgdea/charge/active`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Basic " + window.btoa("sgdea:123456")
+  //     }
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log(data);
+  //       this.setState({
+  //         dataCharge: data
+  //       });
+  //     })
+  //     .catch(err => console.log("Error", err));
+  // };
 
   render() {
     console.log(this.state.id);
-
-    const mapOptionConglomerate = this.state.dataConglomerate.map((aux, id) => {
-      return <option value={aux.id}>{aux.name}</option>;
-    });
-
-    const mapOptionCompany = this.state.dataCompany.map((aux, id) => {
-      return <option value={aux.id}>{aux.name}</option>;
-    });
-
-    const mapOptionHeadquarter = this.state.dataHeadquarter.map((aux, id) => {
-      return <option value={aux.id}>{aux.name}</option>;
-    });
-
-    const mapOptionDependence = this.state.dataDependence.map((aux, id) => {
-      return <option value={aux.id}>{aux.name}</option>;
-    });
-
-    const mapOptionCharge = this.state.dataCharge.map((aux, id) => {
-      return <option value={aux.id}>{aux.name}</option>;
-    });
-
+    const dataResult = {
+      identificacion: this.state.dataUser.identification,
+      nombre: this.state.dataUser.name,
+      email: this.state.dataUser.email,
+      telefono: this.state.dataUser.phone,
+      direccion: this.state.dataUser.address,
+      f_d_nacimiento: this.state.dataUser.birthDate,
+      username: this.state.dataUser.username,
+      conglomerado: this.state.dataUser.conglomerateId,
+      empresa: this.state.dataUser.companyId,
+      sede: this.state.dataUser.headquarterId,
+      dependence: this.state.dataUser.dependenceId,
+      cargo: this.state.dataUser.chargeId
+    };
+    console.log(dataResult);
+    const selectOptionsConglomerate = this.state.dataConglomerate.map(
+      (aux, id) => {
+        return <option value={aux.id}>{aux.name}</option>;
+      }
+    );
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader> Actualizar usuario</ModalHeader>
           <Formik
+            enableReinitialize={true}
+            initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 alert(JSON.stringify(values, null, 2));
@@ -501,7 +504,21 @@ class ModalEditUser extends React.Component {
                                                 *
                                               </span>{" "}
                                             </label>
-                                            <select
+                                            <SelectConglomerado
+                                              name={"conglomerado"}
+                                              onChange={e =>
+                                                setFieldValue(
+                                                  "conglomerado",
+                                                  e.target.value
+                                                )
+                                              }
+                                              value={values.conglomerado}
+                                              className={`form-control form-control-sm ${errors.conglomerado &&
+                                                touched.conglomerado &&
+                                                "is-invalid"}`}
+                                            />
+
+                                            {/* <select
                                               name={"conglomerado"}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
@@ -511,14 +528,14 @@ class ModalEditUser extends React.Component {
                                                 "is-invalid"}`}
                                             >
                                               {mapOptionConglomerate}
-                                            </select>
-                                            <div style={{ color: "#D54B4B" }}>
+                                            </select> */}
+                                            {/* <div style={{ color: "#D54B4B" }}>
                                               {errors.conglomerado &&
                                               touched.conglomerado ? (
                                                 <i className="fa fa-exclamation-triangle" />
                                               ) : null}
                                               <ErrorMessage name="conglomerado" />
-                                            </div>
+                                            </div> */}
                                           </div>
                                         </div>
                                         <div className="col-md-6">
@@ -530,7 +547,8 @@ class ModalEditUser extends React.Component {
                                                 *
                                               </span>{" "}
                                             </label>
-                                            <select
+                                            <SelectCompany />
+                                            {/* <select
                                               name={"empresa"}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
@@ -539,8 +557,8 @@ class ModalEditUser extends React.Component {
                                                 touched.empresa &&
                                                 "is-invalid"}`}
                                             >
-                                              {mapOptionCompany}
-                                            </select>
+                                              <option>Seleccioen</option>
+                                            </select> */}
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.empresa &&
                                               touched.empresa ? (
@@ -568,7 +586,7 @@ class ModalEditUser extends React.Component {
                                                 touched.sede &&
                                                 "is-invalid"}`}
                                             >
-                                              {mapOptionHeadquarter}
+                                              <option>Seleccione</option>
                                             </select>
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.sede && touched.sede ? (
@@ -596,7 +614,7 @@ class ModalEditUser extends React.Component {
                                                 touched.dependencia &&
                                                 "is-invalid"}`}
                                             >
-                                              {mapOptionDependence}
+                                              <option>Seleccione</option>
                                             </select>
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.dependencia &&
@@ -625,7 +643,7 @@ class ModalEditUser extends React.Component {
                                                 touched.cargo &&
                                                 "is-invalid"}`}
                                             >
-                                              {mapOptionCharge}
+                                              <option>Seleccione</option>
                                             </select>
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.cargo && touched.cargo ? (
@@ -797,6 +815,8 @@ ModalEditUser.propTypes = {
 
 export default ModalEditUser;
 
+// -------------------------------------------------------------------------------------------------------- //
+
 const options = [
   { value: "Food", label: "Food" },
   { value: "Being Fabulous", label: "Being Fabulous" },
@@ -827,6 +847,87 @@ class MySelect extends React.Component {
           value={this.props.value}
           placeholder={"-- seleccione rol --"}
         />
+      </div>
+    );
+  }
+}
+
+// ------------------------------------------------------------------------------------------------------ //
+class SelectConglomerado extends React.Component {
+  state = {
+    dataConglomerate: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataConglomerate: data
+        });
+      });
+  };
+
+  handleChange = value => {
+    this.props.onChange("conglomerado", value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur("conglomerado", true);
+  };
+
+  render() {
+    // const selectOptionsConglomerate = this.state.dataConglomerate.map(
+    //   (aux, id) => {
+    //     return <option value={aux.id}>{aux.name}</option>;
+    //   }
+    // );
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          // onChange={e => setFieldValue("conglomerado", e)}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          {this.state.dataConglomerate.map((aux, id) => {
+            return <option value={aux.id}>{aux.name}</option>;
+          })}
+        </select>
+        {/* <div style={{ color: "#D54B4B" }}>
+          {errors.conglomerado && touched.conglomerado ? (
+            <i className="fa fa-exclamation-triangle" />
+          ) : null}
+          <ErrorMessage name="conglomerado" />
+        </div> */}
+      </div>
+    );
+  }
+}
+
+// ----------------------------------------------------------------------------------------------------//
+
+class SelectCompany extends React.Component {
+  state = {
+    dataCompany: []
+  };
+  render() {
+    return (
+      <div>
+        <select className="form-control form-control-sm">
+          <option>Seleccione</option>
+        </select>
       </div>
     );
   }

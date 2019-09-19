@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import { Formik, Field, ErrorMessage, withFormik } from 'formik';
 import * as Yup from 'yup';
 import { Row, Col, CustomInput } from 'reactstrap';
+import { CSVLink, CSVDownload } from 'react-csv';
 import axios from 'axios';
 import { CsvToHtmlTable } from 'react-csv-to-table';
 import { ToastContainer, toast } from 'react-toastify';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
+import fileConglomerate from './../../../assets/files/FilesImportCSV/conglomerate.csv';
 
 class FormUploadFile extends React.Component {
   state = {
@@ -42,6 +44,10 @@ class FormUploadFile extends React.Component {
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
                   {t('app_conglomerado_import_step_1_descripcion')}
+                  <br />
+                  <a href={fileConglomerate} download="conglomerate.csv">
+                    <b>Plantilla de formato de importación</b>
+                  </a>
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">

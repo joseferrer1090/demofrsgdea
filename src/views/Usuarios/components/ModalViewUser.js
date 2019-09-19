@@ -8,10 +8,19 @@ import {
   Col,
   Card,
   CardBody,
-  Collapse
+  Collapse,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  CardTitle,
+  CardText,
+  Button
 } from "reactstrap";
 import PropTypes from "prop-types";
 import Moment from "react-moment";
+import classnames from "classnames";
 
 class ModalViewUser extends Component {
   constructor(props) {
@@ -23,9 +32,18 @@ class ModalViewUser extends Component {
       id: this.props.id,
       data: [],
       dataRoles: [],
-      userlogged: "ccuartas"
+      userlogged: "ccuartas",
+      activeTab: "1"
     };
   }
+
+  toggleTab = tab => {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
+  };
 
   toggle = id => {
     this.setState({
@@ -165,163 +183,153 @@ class ModalViewUser extends Component {
             </Col>
           </Row>
           <br />
-          <Row>
-            <div className="col-md-12">
-              <div className="card card-secondary">
-                <div className="card-header">
-                  <a
-                    onClick={() => {
-                      this.toggleCollapse();
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {" "}
-                    Datos laborales{" "}
-                  </a>
-                </div>
-                <Collapse isOpen={this.state.collapse}>
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Conglomerado </dt>
-                            <dd>{this.state.data.conglomerate} </dd>
-                          </dl>
-                        </div>
+          <Nav tabs>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: this.state.activeTab === "1" })}
+                onClick={() => {
+                  this.toggleTab("1");
+                }}
+              >
+                Datos laborales
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                className={classnames({ active: this.state.activeTab === "2" })}
+                onClick={() => {
+                  this.toggleTab("2");
+                }}
+              >
+                Datos de seguridad
+              </NavLink>
+            </NavItem>
+          </Nav>
+          <TabContent activeTab={this.state.activeTab}>
+            <TabPane tabId="1">
+              <Row>
+                <div className="col-md-12">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>Conglomerado </dt>
+                          <dd>{this.state.data.conglomerateName} </dd>
+                        </dl>
                       </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Empresa </dt>
-                            <dd> {this.state.data.company} </dd>
-                          </dl>
-                        </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>Empresa </dt>
+                          <dd> {this.state.data.companyName} </dd>
+                        </dl>
                       </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Sede </dt>
-                            <dd> {this.state.data.headquarter} </dd>
-                          </dl>
-                        </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>Sede </dt>
+                          <dd> {this.state.data.headquarterName} </dd>
+                        </dl>
                       </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Dependencia </dt>
-                            <dd> {this.state.data.dependence} </dd>
-                          </dl>
-                        </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>Dependencia </dt>
+                          <dd> {this.state.data.dependenceName} </dd>
+                        </dl>
                       </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Cargo </dt>
-                            <dd>{this.state.data.charge} </dd>
-                          </dl>
-                        </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          <dt>Cargo </dt>
+                          <dd>{this.state.data.chargeName} </dd>
+                        </dl>
                       </div>
                     </div>
                   </div>
-                </Collapse>
-              </div>
-            </div>
-          </Row>
-          <Row>
-            <div className="col-md-12">
-              <div className="card card-secondary">
-                <div className="card-header">
-                  <a
-                    onClick={() => {
-                      this.toogleCollapse2();
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {" "}
-                    Datos de seguridad{" "}
-                  </a>
                 </div>
-                <Collapse isOpen={this.state.collapse2}>
-                  <div className="card-body">
-                    <div className="row">
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Usuario </dt>
-                            <dd>{this.state.data.username}</dd>
-                          </dl>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Roles </dt>
-                            <dd>
-                              {dataRoles}
-                              {/* {this.state.data.listRoleResponses !==null ? (
+              </Row>
+            </TabPane>
+            <TabPane tabId="2">
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Usuario </dt>
+                      <dd>{this.state.data.username}</dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Roles </dt>
+                      <dd>
+                        {dataRoles}
+                        {/* {this.state.data.listRoleResponses !==null ? (
                                 <p>no hay datos</p>
                               ) : (
                                 <p>hay datos</p>
                                 //dataRoles(this.state.data.listRoleResponses)
                               )} */}
-                            </dd>
-                          </dl>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Estado </dt>
-                            <dd>
-                              {this.state.data.enabled ? (
-                                <p className="text-success">Activo</p>
-                              ) : (
-                                <p className="text-danger">Inactivo</p>
-                              )}{" "}
-                            </dd>
-                          </dl>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Fecha de creación </dt>
-                            <dd>
-                              {
-                                <Moment format="YYYY/MM/DD">
-                                  {this.state.data.createdAt}
-                                </Moment>
-                              }{" "}
-                            </dd>
-                          </dl>
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <dl className="param">
-                            <dt>Fecha de modificación </dt>
-                            <dd>
-                              {
-                                <Moment format="YYYY/MM/DD">
-                                  {this.state.data.updatedAt}
-                                </Moment>
-                              }{" "}
-                            </dd>
-                          </dl>
-                        </div>
-                      </div>
-                    </div>
+                      </dd>
+                    </dl>
                   </div>
-                </Collapse>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Estado </dt>
+                      <dd>
+                        {this.state.data.enabled ? (
+                          <p className="text-success">Activo</p>
+                        ) : (
+                          <p className="text-danger">Inactivo</p>
+                        )}{" "}
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Fecha de creación </dt>
+                      <dd>
+                        {
+                          <Moment format="YYYY/MM/DD">
+                            {this.state.data.createdAt}
+                          </Moment>
+                        }{" "}
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <dl className="param">
+                      <dt>Fecha de modificación </dt>
+                      <dd>
+                        {
+                          <Moment format="YYYY/MM/DD">
+                            {this.state.data.updatedAt}
+                          </Moment>
+                        }{" "}
+                      </dd>
+                    </dl>
+                  </div>
+                </div>
               </div>
-            </div>
-          </Row>
+            </TabPane>
+          </TabContent>
         </ModalBody>
         <ModalFooter>
           <div>
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

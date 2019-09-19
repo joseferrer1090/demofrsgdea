@@ -44,11 +44,11 @@ class ModalEditUser extends React.Component {
   }
 
   componentDidMount() {
-    this.getDataConglomerate();
+    //this.getDataConglomerate();
     // this.getDataCompany();
     // this.getDataHeadquarter();
     // this.getDataDependence();
-    // this.getDataCharge();
+    this.getDataCharge();
   }
 
   toogleTab = tab => {
@@ -169,23 +169,23 @@ class ModalEditUser extends React.Component {
   //     .catch(err => console.log("Error", err));
   // };
 
-  // getDataCharge = () => {
-  //   fetch(`http://192.168.10.180:7000/api/sgdea/charge/active`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Basic " + window.btoa("sgdea:123456")
-  //     }
-  //   })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data);
-  //       this.setState({
-  //         dataCharge: data
-  //       });
-  //     })
-  //     .catch(err => console.log("Error", err));
-  // };
+  getDataCharge = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/charge/active`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          dataCharge: data
+        });
+      })
+      .catch(err => console.log("Error", err));
+  };
 
   render() {
     console.log(this.state.id);
@@ -201,18 +201,21 @@ class ModalEditUser extends React.Component {
       empresa: this.state.dataUser.companyId,
       sede: this.state.dataUser.headquarterId,
       dependence: this.state.dataUser.dependenceId,
-      cargo: this.state.dataUser.chargeId
+      cargo: this.state.dataUser.chargeId,
+      estado: this.state.dataUser.enabled
     };
     console.log(dataResult);
-    const selectOptionsConglomerate = this.state.dataConglomerate.map(
-      (aux, id) => {
-        return <option value={aux.id}>{aux.name}</option>;
-      }
-    );
+    const selectOptionsCharge = this.state.dataCharge.map((aux, id) => {
+      return <option value={aux.id}>{aux.name}</option>;
+    });
+
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar usuario</ModalHeader>
+          <ModalHeader>
+            {" "}
+            Actualizar usuario {this.state.dataUser.name}{" "}
+          </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}
@@ -287,7 +290,7 @@ class ModalEditUser extends React.Component {
                       <Row>
                         <Col sm="3">
                           <img
-                            src={"https://via.placeholder.com/150"}
+                            src={`http://192.168.10.180:7000/api/sgdea/user/photo/view/${this.state.id}`}
                             className="img-thumbnail"
                           />
                           <input
@@ -686,6 +689,7 @@ class ModalEditUser extends React.Component {
                                                 "is-invalid"}`}
                                             >
                                               <option>Seleccione</option>
+                                              {selectOptionsCharge}
                                             </select>
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.cargo && touched.cargo ? (
@@ -859,16 +863,38 @@ export default ModalEditUser;
 
 // -------------------------------------------------------------------------------------------------------- //
 
-const options = [
-  { value: "Food", label: "Food" },
-  { value: "Being Fabulous", label: "Being Fabulous" },
-  { value: "Ken Wheeler", label: "Ken Wheeler" },
-  { value: "ReasonML", label: "ReasonML" },
-  { value: "Unicorns", label: "Unicorns" },
-  { value: "Kittens", label: "Kittens" }
-];
+// const options = [
+//   { value: "Food", label: "Food" },
+//   { value: "Being Fabulous", label: "Being Fabulous" },
+//   { value: "Ken Wheeler", label: "Ken Wheeler" },
+//   { value: "ReasonML", label: "ReasonML" },
+//   { value: "Unicorns", label: "Unicorns" },
+//   { value: "Kittens", label: "Kittens" }
+// ];
 
 class MySelect extends React.Component {
+  state = {
+    dataRoles: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = async () => {
+    let url = "http://192.168.10.180:7000/api/sgdea/role/active";
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    });
+    const data = await response.json();
+    this.setState({
+      dataRoles: data
+    });
+  };
+
   handleChange = value => {
     this.props.onChange("roles", value);
   };
@@ -878,11 +904,17 @@ class MySelect extends React.Component {
   };
 
   render() {
+    const aux = this.state.dataRoles.map((aux, id) => {
+      return {
+        label: aux.name,
+        value: aux.id
+      };
+    });
     return (
       <div style={{ margin: "0" }}>
         <Select
           name={this.props.name}
-          options={options}
+          options={aux}
           isMulti
           onChange={this.handleChange}
           onBlur={this.handleBlur}
@@ -944,7 +976,11 @@ class SelectConglomerado extends React.Component {
           className={this.props.className}
         >
           {this.state.dataConglomerate.map((aux, id) => {
-            return <option value={aux.id}>{aux.name}</option>;
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
           })}
         </select>
         {/* <div style={{ color: "#D54B4B" }}>
@@ -969,7 +1005,7 @@ class SelectCompany extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.conglomerate !== state.id) {
       return {
-        conglomerate: props.conglomerate
+        id: props.conglomerate
       };
     }
     return null;
@@ -977,19 +1013,22 @@ class SelectCompany extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.conglomerate !== prevProps.conglomerate) {
-      this.getDataCompany(this.props.conglomerate);
+      // this.setState({
+      //   id: this.props.conglomerate
+      // });
+      this.getDataCompany();
     }
   }
 
   //edf39040-6f53-4f4e-b348-ef279819051a => no borrar
 
-  // componentDidMount() {
-  //   this.getDataCompany();
-  // }
+  componentDidMount() {
+    this.getDataCompany();
+  }
 
   getDataCompany = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.props.conglomerate}`,
+      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
       {
         method: "GET",
         headers: {
@@ -1007,7 +1046,6 @@ class SelectCompany extends React.Component {
       .catch(err => console.log("Error", err));
   };
   render() {
-    console.log(this.props.conglomerate);
     return (
       <div>
         <select
@@ -1017,7 +1055,11 @@ class SelectCompany extends React.Component {
           onChange={this.props.onChange}
         >
           {this.state.dataCompany.map((aux, id) => {
-            return <option value={aux.id}>{aux.name}</option>;
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
           })}
         </select>
         {/* <select
@@ -1058,6 +1100,10 @@ class SelectHeadquarter extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.getDataHeadquarter();
+  }
+
   getDataHeadquarter = () => {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.company}`,
@@ -1079,7 +1125,6 @@ class SelectHeadquarter extends React.Component {
   };
 
   render() {
-    console.log(this.props.company);
     return (
       <div>
         <select
@@ -1089,7 +1134,11 @@ class SelectHeadquarter extends React.Component {
           onChange={this.props.onChange}
         >
           {this.state.dataHeadquarter.map((aux, id) => {
-            return <option value={aux.id}>{aux.name}</option>;
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
           })}
         </select>
       </div>
@@ -1121,6 +1170,10 @@ class SelectDependence extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.getDataDependence();
+  }
+
   getDataDependence = () => {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.headquarter}`,
@@ -1142,7 +1195,6 @@ class SelectDependence extends React.Component {
   };
 
   render() {
-    console.log(this.props.headquarter);
     return (
       <div>
         <select
@@ -1152,7 +1204,11 @@ class SelectDependence extends React.Component {
           className={this.props.className}
         >
           {this.state.dataDependence.map((aux, id) => {
-            return <option value={aux.id}>{aux.name}</option>;
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
           })}
         </select>
       </div>

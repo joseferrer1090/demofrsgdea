@@ -1,190 +1,566 @@
-import React  from "react";
-import UploadFormGrupoUsuarios from "./../Forms/UploadFormGrupoUsuarios";
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
+import {
+  Row,
+  Col,
+  CustomInput,
+  Nav,
+  NavItem,
+  NavLink,
+  TabContent,
+  TabPane
+} from 'reactstrap';
+import axios from 'axios';
+import { CsvToHtmlTable } from 'react-csv-to-table';
+import { ToastContainer, toast } from 'react-toastify';
+import { css } from 'glamor';
+import { Formik, Field, ErrorMessage, withFormik } from 'formik';
+import * as Yup from 'yup';
+import { withTranslation } from 'react-i18next';
+import classnames from 'classnames';
 
-const data = {
-  separador: "",
-  archivo: [],
-  cabeza_titulos: ""
-};
+class FormImportGrupos extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      file: null,
+      username: 'ccuartas',
+      activeTab: '1'
+    };
+  }
 
-const FormImportGrupos = props => {
-  return (
-    <div className="animated fadeIn">
-      <UploadFormGrupoUsuarios importarmasivo={data} />
-      <br />
-    </div>
-  );
-};
+  onChange = e => {
+    this.setState({
+      file: e.target.files[0]
+    });
+  };
 
-export default FormImportGrupos;
+  toogleTab = tab => {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
+  };
 
-// import React, { Component } from "react";
-// import { Row, Col } from "reactstrap";
-// import { CsvToHtmlTable } from "react-csv-to-table";
-// class FormImportGrupos extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       file: [],
-//       data: []
-//     };
-//   }
+  render() {
+    const { t } = this.props;
+    return (
+      <Fragment>
+        <Row>
+          <ToastContainer />
+          <Col md="4">
+            {this.state.activeTab === '1' ? (
+              <div className="list-group">
+                <a className="list-group-item list-group-item-action flex-column align-items-start">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">{t('app_ciudad_import_step_1')}</h5>
+                  </div>
+                  <p className="mb-1" style={{ textAlign: 'justify' }}>
+                    {t('app_ciudad_import_step_1_descripcion')}
+                  </p>
+                </a>
+                <a className="list-group-item list-group-item-action flex-column align-items-start">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">{t('app_ciudad_import_step_2')}</h5>
+                  </div>
+                  <p className="mb-1" style={{ textAlign: 'justify' }}>
+                    {t('app_ciudad_import_step_2_descripcion')}
+                  </p>
+                </a>
+                <a className="list-group-item list-group-item-action flex-column align-items-start">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">{t('app_ciudad_import_step_3')}</h5>
+                  </div>
+                  <p className="mb-1" style={{ textAlign: 'justify' }}>
+                    {t('app_ciudad_import_step_3_descripcion')}
+                  </p>
+                </a>
+              </div>
+            ) : (
+              <div></div>
+            )}
+          </Col>
+          <Col md="8">
+            <Nav tabs>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === '1'
+                  })}
+                  onClick={() => {
+                    this.toogleTab('1');
+                  }}
+                >
+                  Importar grupo
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === '2'
+                  })}
+                  onClick={() => {
+                    this.toogleTab('2');
+                  }}
+                >
+                  Importar usuarios a un grupo
+                </NavLink>
+              </NavItem>
+            </Nav>
+            <TabContent activeTab={this.state.activeTab}>
+              <TabPane tabId="1">
+                <Formik
+                  onSubmit={(values, { setSubmitting }) => {
+                    const separator = separador => {
+                      let separador_empty = '';
+                      if (separador === undefined) {
+                        separador = separador_empty;
+                        return separador_empty;
+                      } else {
+                        return separador;
+                      }
+                    };
+                    const formData = new FormData();
+                    const file = this.state.file;
+                    const separador = values.separador_csv;
+                    formData.append('file', file);
+                    formData.append(
+                      'separator',
+                      separator(values.separador_csv)
+                    );
+                    setTimeout(() => {
+                      axios
+                        .post(
+                          `http://192.168.10.180:7016/api/sgdea/groupuser/import/?username=${this.state.username}`,
+                          formData,
+                          {
+                            headers: {
+                              'Content-Type': 'multipart/form-data'
+                            }
+                          }
+                        )
+                        .then(response => {
+                          if (response.status === 200) {
+                            toast.success(
+                              'La importación del grupo de usuarios se hizo satisfactoriamente.',
+                              {
+                                position: toast.POSITION.TOP_RIGHT,
+                                className: css({
+                                  marginTop: '60px'
+                                })
+                              }
+                            );
+                          } else if (response.status !== 200) {
+                            toast(
+                              'No se pudo realizar la importación, por favor verifique el archivo CSV.',
+                              {
+                                position: toast.POSITION.TOP_RIGHT,
+                                className: css({
+                                  marginTop: '60px'
+                                })
+                              }
+                            );
+                          }
+                        })
+                        .catch(error => {
+                          toast.error(`${error}`, {
+                            position: toast.POSITION.TOP_RIGHT,
+                            className: css({
+                              marginTop: '60px'
+                            })
+                          });
+                        });
+                    }, 1000);
+                  }}
+                  validationSchema={Yup.object().shape({
+                    separador_csv: Yup.string()
+                      // .required(' Por favor introduzca un separador.')
+                      .max(1, ' Máximo 1 carácter')
+                      .min(1, ' Por favor introduzca un separador.'),
+                    titulos: Yup.bool().test(
+                      'Activo',
+                      '',
+                      value => value === true
+                    )
+                    // archivo: Yup.mixed(),
+                  })}
+                >
+                  {props => {
+                    const {
+                      values,
+                      touched,
+                      errors,
+                      dirty,
+                      isSubmitting,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      handleReset
+                    } = props;
+                    return (
+                      <Fragment>
+                        <div className="card">
+                          <div className="card-body">
+                            <form className="form">
+                              <div className="row">
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {' '}
+                                      {t(
+                                        'app_ciudad_import_form_separador'
+                                      )}{' '}
+                                      <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                      name={'separador_csv'}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.separador_csv}
+                                      type="text"
+                                      className={`form-control form-control-sm ${errors.separador_csv &&
+                                        touched.separador_csv &&
+                                        'is-invalid'}`}
+                                    />
+                                    <div
+                                      className=""
+                                      style={{ color: '#D54B4B' }}
+                                    >
+                                      {errors.separador_csv &&
+                                      touched.separador_csv ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="separador_csv" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {t('app_ciudad_import_form_titulos')}
+                                    </label>
+                                    <CustomInput
+                                      name={'titulos'}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.titulos}
+                                      type="checkbox"
+                                      id="ExampleInputCheckbox3"
+                                      label={t(
+                                        'app_ciudad_import_form_titulos_label'
+                                      )}
+                                      className={
+                                        errors.titulos &&
+                                        touched.titulos &&
+                                        'invalid-feedback'
+                                      }
+                                    />{' '}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="row">
+                                <div className="col-md-12">
+                                  <div className="form-group">
+                                    <label>
+                                      {t('app_ciudad_import_form_archivo')}{' '}
+                                      <b>CSV</b>{' '}
+                                      <span className="text-danger"> * </span>
+                                    </label>
+                                    <CustomInput
+                                      type="file"
+                                      name={'archivo'}
+                                      onBlur={handleBlur}
+                                      onChange={e => this.onChange(e)}
+                                      label={this.props.t(
+                                        'app_ciudad_import_form_file'
+                                      )}
+                                      className={`form-control ${errors.archivo &&
+                                        touched.archivo &&
+                                        'is-invalid'}`}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                          <div className="card-footer">
+                            <div className="text-right">
+                              <button
+                                type="button"
+                                className={'btn btn-outline-secondary btn-sm'}
+                                onClick={e => {
+                                  e.preventDefault();
+                                  handleSubmit();
+                                }}
+                              >
+                                <i className="fa fa-save" />{' '}
+                                {t('app_ciudad_import_from_boton')}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </Fragment>
+                    );
+                  }}
+                </Formik>
+              </TabPane>
+              <TabPane tabId="2">
+                <Formik
+                  onSubmit={(values, { setSubmitting }) => {
+                    const separator = separador => {
+                      let separador_empty = '';
+                      if (separador === undefined) {
+                        separador = separador_empty;
+                        return separador_empty;
+                      } else {
+                        return separador;
+                      }
+                    };
+                    const formData = new FormData();
+                    const file = this.state.file;
+                    const separador = values.separador_csv_users;
+                    formData.append('file', file);
+                    formData.append(
+                      'separator',
+                      separator(values.separador_csv_users)
+                    );
+                    setTimeout(() => {
+                      axios
+                        .post(
+                          `http://192.168.10.180:7018/api/sgdea/groupuser/users/import/?username=${this.state.username}`,
+                          formData,
+                          {
+                            headers: {
+                              'Content-Type': 'multipart/form-data'
+                            }
+                          }
+                        )
+                        .then(response => {
+                          if (response.status === 200) {
+                            toast.success(
+                              'La importación de los usuarios del grupo se hizo satisfactoriamente.',
+                              {
+                                position: toast.POSITION.TOP_RIGHT,
+                                className: css({
+                                  marginTop: '60px'
+                                })
+                              }
+                            );
+                          } else if (response.status !== 200) {
+                            toast(
+                              'No se pudo realizar la importación, por favor verifique el archivo CSV.',
+                              {
+                                position: toast.POSITION.TOP_RIGHT,
+                                className: css({
+                                  marginTop: '60px'
+                                })
+                              }
+                            );
+                          }
+                        })
+                        .catch(error => {
+                          toast.error(`${error}`, {
+                            position: toast.POSITION.TOP_RIGHT,
+                            className: css({
+                              marginTop: '60px'
+                            })
+                          });
+                        });
+                    }, 1000);
+                  }}
+                  validationSchema={Yup.object().shape({
+                    separador_csv_users: Yup.string()
+                      // .required(' Por favor introduzca un separador.')
+                      .max(1, ' Máximo 1 carácter')
+                      .min(1, ' Por favor introduzca un separador.'),
+                    titulos_users: Yup.bool().test(
+                      'Activo',
+                      '',
+                      value => value === true
+                    )
+                    // archivo: Yup.mixed(),
+                  })}
+                >
+                  {props => {
+                    const {
+                      values,
+                      touched,
+                      errors,
+                      dirty,
+                      isSubmitting,
+                      handleChange,
+                      handleBlur,
+                      handleSubmit,
+                      handleReset
+                    } = props;
+                    return (
+                      <Fragment>
+                        <div className="card">
+                          <div className="card-body">
+                            <form className="form">
+                              <div className="row">
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {' '}
+                                      {t(
+                                        'app_ciudad_import_form_separador'
+                                      )}{' '}
+                                      <span className="text-danger">*</span>
+                                    </label>
+                                    <input
+                                      name={'separador_csv_users'}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.separador_csv_users}
+                                      type="text"
+                                      className={`form-control form-control-sm ${errors.separador_csv_users &&
+                                        touched.separador_csv_users &&
+                                        'is-invalid'}`}
+                                    />
+                                    <div
+                                      className=""
+                                      style={{ color: '#D54B4B' }}
+                                    >
+                                      {errors.separador_csv_users &&
+                                      touched.separador_csv_users ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="separador_csv_users" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {t('app_ciudad_import_form_titulos')}
+                                    </label>
+                                    <CustomInput
+                                      name={'titulos_users'}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.titulos_users}
+                                      type="checkbox"
+                                      id="ExampleInputCheckbox3"
+                                      label={t(
+                                        'app_ciudad_import_form_titulos_label'
+                                      )}
+                                      className={
+                                        errors.titulos_users &&
+                                        touched.titulos_users &&
+                                        'invalid-feedback'
+                                      }
+                                    />{' '}
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="row">
+                                <div className="col-md-12">
+                                  <div className="form-group">
+                                    <label>
+                                      {t('app_ciudad_import_form_archivo')}{' '}
+                                      <b>CSV</b>{' '}
+                                      <span className="text-danger"> * </span>
+                                    </label>
+                                    <CustomInput
+                                      type="file"
+                                      name={'archivo_users'}
+                                      onBlur={handleBlur}
+                                      onChange={e => this.onChange(e)}
+                                      label={this.props.t(
+                                        'app_ciudad_import_form_file'
+                                      )}
+                                      className={`form-control ${errors.archivo_users &&
+                                        touched.archivo_users &&
+                                        'is-invalid'}`}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                          <div className="card-footer">
+                            <div className="text-right">
+                              <button
+                                type="button"
+                                className={'btn btn-outline-secondary btn-sm'}
+                                onClick={e => {
+                                  e.preventDefault();
+                                  handleSubmit();
+                                }}
+                              >
+                                <i className="fa fa-save" />{' '}
+                                {t('app_ciudad_import_from_boton')}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </Fragment>
+                    );
+                  }}
+                </Formik>
+              </TabPane>
+            </TabContent>
+          </Col>
+        </Row>
+        <br />
+        <Row>
+          <Col md={12}>
+            <PreviewFile
+              file={this.state.file}
+              estilos={'table table-striped table-hover table-bordered'}
+            />
+          </Col>
+        </Row>
+      </Fragment>
+    );
+  }
+}
 
-//   onChange = e => {
-//     let files = e.target.files;
-//     // this.setState({ file: e.target.files[0] });
-//     let reader = new FileReader();
-//     reader.readAsBinaryString(files[0]);
-//     // reader.readAsText(files[0]);
-//     // reader.readAsArrayBuffer(files[0]);
-//     reader.onload = e => {
-//       // console.log(e.target.result);
-//       this.setState({ data: e.target.result });
-//     };
-//     this.setState({
-//       file: e.target.files[0]
-//     });
-//   };
+export default withTranslation('translations')(FormImportGrupos);
 
-//   onClick = () => {
-//     // console.log(this.state.data);
-//     alert("se Envio la data de manera correcta");
-//   };
+class PreviewFile extends React.Component {
+  state = {
+    loading: false,
+    thumb: undefined
+  };
 
-//   render() {
-//     const data = this.state.data.toString();
-//     console.log(data);
-//     return (
-//       <div className="animated fadeIn">
-//         <Row>
-//           <Col md="4">
-//             <div className="list-group">
-//               <a className="list-group-item list-group-item-action flex-column align-items-start">
-//                 <div className="d-flex w-100 justify-content-between">
-//                   <h5 className="mb-1">1. Paso</h5>
-//                 </div>
-//                 <p className="mb-1" style={{ textAlign: "justify" }}>
-//                   Descargue la plantilla de formato de importación de datos
-//                   (Link). Abre el archivo , proceda a rellenar los campos
-//                   indicados en el formato y guarde los cambios.
-//                 </p>
-//               </a>
-//               <a className="list-group-item list-group-item-action flex-column align-items-start">
-//                 <div className="d-flex w-100 justify-content-between">
-//                   <h5 className="mb-1">2. Paso</h5>
-//                 </div>
-//                 <p className="mb-1" style={{ textAlign: "justify" }}>
-//                   Si desea importar un archivo plano debe indicar el separador
-//                   de los campos. Si el primer registro del archivo contiene los
-//                   títulos debe marcar el check “Títulos”.
-//                 </p>
-//               </a>
-//               <a className="list-group-item list-group-item-action flex-column align-items-start">
-//                 <div className="d-flex w-100 justify-content-between">
-//                   <h5 className="mb-1">3. Paso</h5>
-//                 </div>
-//                 <p className="mb-1" style={{ textAlign: "justify" }}>
-//                   Haga clic en la opción “Seleccionar archivo” y seleccione el
-//                   archivo de formato de importación de los datos al cual le
-//                   agrego los campos requeridos. Haga clic en la opción “Cargar
-//                   información”.
-//                 </p>
-//               </a>
-//             </div>
-//           </Col>
-//           <Col md="8">
-//             <div className="card">
-//               <div className="card-body">
-//                 <form className="form" encType="multipart/form-data">
-//                   <div className="row">
-//                     <div className="col-md-6">
-//                       <div className="form-group">
-//                         <label>
-//                           {" "}
-//                           Separador{" "}
-//                           <span>
-//                             {" "}
-//                             <b> (Para archivos planos) </b>{" "}
-//                           </span>{" "}
-//                         </label>
-//                         <input
-//                           type="text"
-//                           className="form-control from-control-sm"
-//                         />
-//                       </div>
-//                     </div>
-//                     <div className="col-md-6">
-//                       <div className="form-group">
-//                         <label>Títulos</label>
-//                         <br />
-//                         &nbsp;
-//                         <input type="checkbox" />
-//                         &nbsp;
-//                         <b>
-//                           {" "}
-//                           (El primer registro contiene los títulos de las
-//                           columnas){" "}
-//                         </b>{" "}
-//                       </div>
-//                     </div>
-//                   </div>
-//                   <div className="row">
-//                     <div className="col-md-12">
-//                       <div className="form-group">
-//                         <label>
-//                           {" "}
-//                           Archivo a importar en extensión{" "}
-//                           <span>
-//                             {" "}
-//                             <b>CSV</b> <span className="text-danger"> * </span>
-//                           </span>{" "}
-//                         </label>
-//                         <br />
-//                         <input
-//                           type="file"
-//                           className="form-control"
-//                           onChange={this.onChange}
-//                           accept={".csv"}
-//                         />
-//                         {console.log(this.state.data)}
-//                       </div>
-//                     </div>
-//                   </div>
-//                 </form>
-//               </div>
-//               <div className="card-footer">
-//                 <div className="pull-right">
-//                   <button
-//                     className="btn btn-secondary btn-sm"
-//                     onClick={this.onClick}
-//                   >
-//                     {" "}
-//                     <i className="fa fa-upload" /> Cargar información
-//                   </button>
-//                 </div>
-//               </div>
-//             </div>
-//           </Col>
-//         </Row>
-//         <br />
-//         <Row>
-//           <Col md="12">
-//             {data ? (
-//               <div className="card">
-//                 <div className="card-body">
-//                   <CsvToHtmlTable
-//                     data={data}
-//                     csvDelimiter=","
-//                     tableClassName="table table-striped table-hover table-bordered"
-//                   />
-//                 </div>
-//               </div>
-//             ) : null}
-//           </Col>
-//         </Row>
-//       </div>
-//     );
-//   }
-// }
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.file) {
+      return;
+    }
+    this.setState(
+      {
+        loading: true
+      },
+      () => {
+        let reader = new FileReader();
 
-// export default FormImportGrupos;
+        reader.onloadend = () => {
+          this.setState({ loading: false, thumb: reader.result });
+        };
+
+        reader.readAsBinaryString(nextProps.file);
+      }
+    );
+  }
+  render() {
+    const { file } = this.props;
+    const { loading } = this.state;
+    const thumb = this.state.thumb;
+
+    if (!file) {
+      return null;
+    }
+
+    if (loading) {
+      return <p>loading...</p>;
+    }
+
+    // console.log(thumb.toString());
+    // console.log(file.type);
+
+    return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
+  }
+}

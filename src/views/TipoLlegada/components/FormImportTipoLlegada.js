@@ -58,15 +58,24 @@ class FormImportTipoLlegada extends React.Component {
           <Col md="8">
             <Formik
               onSubmit={(values, { setSubmitting }) => {
+                const separator = separador => {
+                  let separador_empty = '';
+                  if (separador === undefined) {
+                    separador = separador_empty;
+                    return separador_empty;
+                  } else {
+                    return separador;
+                  }
+                };
                 const formData = new FormData();
                 const file = this.state.file;
-                const separador = values.separador_csv;
+                // const separador = values.separador_csv;
                 formData.append('file', file);
-                formData.append('separator', separador);
+                formData.append('separator', separator(values.separador_csv));
                 setTimeout(() => {
                   axios
                     .post(
-                      `http://192.168.10.180:7001/api/sgdea/messenger/import/?username=${this.state.username}`,
+                      `http://192.168.10.180:7007/api/sgdea/typeshipmentarrival/import/?username=${this.state.username}`,
                       formData,
                       {
                         headers: {
@@ -77,7 +86,7 @@ class FormImportTipoLlegada extends React.Component {
                     .then(response => {
                       if (response.status === 200) {
                         toast.success(
-                          'La importación del tipo de llegada se hizo satisfactoriamente.',
+                          'La importación del tipo de envío / llegada se hizo satisfactoriamente.',
                           {
                             position: toast.POSITION.TOP_RIGHT,
                             className: css({
@@ -109,7 +118,7 @@ class FormImportTipoLlegada extends React.Component {
               }}
               validationSchema={Yup.object().shape({
                 separador_csv: Yup.string()
-                  .required(' Por favor introduzca un separador.')
+                  // .required(' Por favor introduzca un separador.')
                   .max(1, ' Máximo 1 carácter')
                   .min(1, ' Por favor introduzca un separador.'),
                 titulos: Yup.bool().test('Activo', '', value => value === true)

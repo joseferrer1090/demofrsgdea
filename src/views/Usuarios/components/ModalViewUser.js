@@ -186,7 +186,7 @@ class ModalViewUser extends Component {
                         <div className="form-group">
                           <dl className="param">
                             <dt>Conglomerado </dt>
-                            <dd>{this.state.data.conglomerate} </dd>
+                            <dd>{this.state.data.conglomerateName} </dd>
                           </dl>
                         </div>
                       </div>
@@ -194,7 +194,7 @@ class ModalViewUser extends Component {
                         <div className="form-group">
                           <dl className="param">
                             <dt>Empresa </dt>
-                            <dd> {this.state.data.company} </dd>
+                            <dd> {this.state.data.companyName} </dd>
                           </dl>
                         </div>
                       </div>
@@ -202,7 +202,7 @@ class ModalViewUser extends Component {
                         <div className="form-group">
                           <dl className="param">
                             <dt>Sede </dt>
-                            <dd> {this.state.data.headquarter} </dd>
+                            <dd> {this.state.data.headquarterName} </dd>
                           </dl>
                         </div>
                       </div>
@@ -210,7 +210,7 @@ class ModalViewUser extends Component {
                         <div className="form-group">
                           <dl className="param">
                             <dt>Dependencia </dt>
-                            <dd> {this.state.data.dependence} </dd>
+                            <dd> {this.state.data.dependenceName} </dd>
                           </dl>
                         </div>
                       </div>
@@ -218,7 +218,7 @@ class ModalViewUser extends Component {
                         <div className="form-group">
                           <dl className="param">
                             <dt>Cargo </dt>
-                            <dd>{this.state.data.charge} </dd>
+                            <dd>{this.state.data.chargeName} </dd>
                           </dl>
                         </div>
                       </div>

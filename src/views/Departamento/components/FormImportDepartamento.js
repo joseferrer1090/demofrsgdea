@@ -8,6 +8,7 @@ import { CsvToHtmlTable } from 'react-csv-to-table';
 import { ToastContainer, toast } from 'react-toastify';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
+import fileDepartment from './../../../assets/files/FilesImportCSV/department.csv';
 
 class FormImportDepartamento extends React.Component {
   constructor(props) {
@@ -38,6 +39,10 @@ class FormImportDepartamento extends React.Component {
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
                   {this.props.t('app_departamento_import_step_1_descripcion')}
+                  <br />
+                  <a href={fileDepartment} download="department.csv">
+                    <b>Plantilla de formato de importación</b>
+                  </a>
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">

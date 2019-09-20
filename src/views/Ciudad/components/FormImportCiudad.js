@@ -8,7 +8,8 @@ import { css } from 'glamor';
 import { Formik, Field, ErrorMessage, withFormik } from 'formik';
 import * as Yup from 'yup';
 import { withTranslation } from 'react-i18next';
-
+import fileCity from './../../../assets/files/FilesImportCSV/city.csv';
+import { file } from '@babel/types';
 class FormImportCiudad extends React.Component {
   constructor(props) {
     super(props);
@@ -38,6 +39,10 @@ class FormImportCiudad extends React.Component {
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
                   {t('app_ciudad_import_step_1_descripcion')}
+                  <br />
+                  <a href={fileCity} download="city.csv">
+                    <b>Plantilla de formato de importación</b>
+                  </a>
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">

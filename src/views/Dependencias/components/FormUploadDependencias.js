@@ -8,7 +8,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
-
+import fileDependence from './../../../assets/files/FilesImportCSV/dependence.csv';
 class FormUploadDependencias extends React.Component {
   state = {
     file: null,
@@ -42,6 +42,10 @@ class FormUploadDependencias extends React.Component {
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
                   {t('app_dependencia_import_step_1_descripcion')}
+                  <br />
+                  <a href={fileDependence} download="dependence.csv">
+                    <b>Plantilla de formato de importación</b>
+                  </a>
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">

@@ -8,7 +8,7 @@ import { CsvToHtmlTable } from 'react-csv-to-table';
 import { ToastContainer, toast } from 'react-toastify';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
-
+import fileTypeShipmentArrival from './../../../assets/files/FilesImportCSV/type_shipment_arrival.csv';
 class FormImportTipoLlegada extends React.Component {
   state = {
     file: null,
@@ -35,6 +35,13 @@ class FormImportTipoLlegada extends React.Component {
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
                   {t('app_tipoLlegada_import_step_1_descripcion')}
+                  <br />
+                  <a
+                    href={fileTypeShipmentArrival}
+                    download="typeshipmentarrival.csv"
+                  >
+                    <b>Plantilla de formato de importación</b>
+                  </a>
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">

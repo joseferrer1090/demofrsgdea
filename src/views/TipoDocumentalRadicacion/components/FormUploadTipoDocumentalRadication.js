@@ -18,6 +18,8 @@ import { Formik, Field, ErrorMessage, withFormik } from 'formik';
 import * as Yup from 'yup';
 import { withTranslation } from 'react-i18next';
 import classnames from 'classnames';
+import fileTypeDocumentary from './../../../assets/files/FilesImportCSV/type_documentary.csv';
+import fileTypeDocumentaryUsers from './../../../assets/files/FilesImportCSV/type_documentary_users.csv';
 
 class FormImportTipoDocumental extends React.Component {
   constructor(props) {
@@ -57,6 +59,13 @@ class FormImportTipoDocumental extends React.Component {
                   </div>
                   <p className="mb-1" style={{ textAlign: 'justify' }}>
                     {t('app_ciudad_import_step_1_descripcion')}
+                    <br />
+                    <a
+                      href={fileTypeDocumentary}
+                      download="typedocumentary.csv"
+                    >
+                      <b>Plantilla de formato de importación</b>
+                    </a>
                   </p>
                 </a>
                 <a className="list-group-item list-group-item-action flex-column align-items-start">
@@ -77,7 +86,23 @@ class FormImportTipoDocumental extends React.Component {
                 </a>
               </div>
             ) : (
-              <div></div>
+              <div className="list-group">
+                <a className="list-group-item list-group-item-action flex-column align-items-start">
+                  <div className="d-flex w-100 justify-content-between">
+                    <h5 className="mb-1">{t('app_ciudad_import_step_1')}</h5>
+                  </div>
+                  <p className="mb-1" style={{ textAlign: 'justify' }}>
+                    {t('app_ciudad_import_step_1_descripcion')}
+                    <br />
+                    <a
+                      href={fileTypeDocumentaryUsers}
+                      download="typedocumentary_users.csv"
+                    >
+                      <b>Plantilla de formato de importación</b>
+                    </a>
+                  </p>
+                </a>
+              </div>
             )}
           </Col>
           <Col md="8">

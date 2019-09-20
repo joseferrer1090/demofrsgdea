@@ -16,7 +16,7 @@ class ModalChangePasswordUser extends React.Component {
   state = {
     modal: this.props.modalpassword,
     id: this.props.id,
-    userLogged: "jferrer",
+    userLogged: "ccuartas",
     nameUser: "",
     alertSuccess: false,
     alertError: false,
@@ -65,7 +65,37 @@ class ModalChangePasswordUser extends React.Component {
           <Formik
             onSubmit={(values, setSubmitting) => {
               setTimeout(() => {
-                alert(JSON.stringify(values, "", 2));
+                fetch(
+                  `http://192.168.10.180:7000/api/sgdea/user/change/password`,
+                  {
+                    method: "POST",
+                    headers: {
+                      "Content-Type": "application/json",
+                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                    },
+                    body: JSON.stringify({
+                      id: this.state.id,
+                      password: values.newpassword,
+                      passwordConfirm: values.confirmpassword,
+                      userNameAuthenticate: this.state.userLogged
+                    })
+                  }
+                ).then(response => {
+                  if (response.status === 500) {
+                    this.setState({
+                      alertError: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError: false
+                      });
+                    }, 2000);
+                  } else if (response.status === 200) {
+                    this.setState({
+                      alertSuccess: true
+                    });
+                  }
+                });
               }, 1000);
             }}
             validationSchema={Yup.object().shape({})}

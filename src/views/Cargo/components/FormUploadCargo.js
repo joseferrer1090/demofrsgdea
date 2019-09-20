@@ -8,6 +8,7 @@ import { css } from 'glamor';
 import { ToastContainer, toast } from 'react-toastify';
 import { CsvToHtmlTable } from 'react-csv-to-table';
 import { withTranslation } from 'react-i18next';
+import fileCharge from './../../../assets/files/FilesImportCSV/charge.csv';
 
 class FormUploadCargo extends React.Component {
   state = {
@@ -33,6 +34,10 @@ class FormUploadCargo extends React.Component {
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
                   {t('app_cargo_import_step_1_descripcion')}
+                  <br />
+                  <a href={fileCharge} download="charge.csv">
+                    <b>Plantilla de formato de importación</b>
+                  </a>
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">

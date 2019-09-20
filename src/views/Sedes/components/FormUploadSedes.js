@@ -8,7 +8,7 @@ import { css } from 'glamor';
 import { Formik, Field, ErrorMessage, withFormik } from 'formik';
 import * as Yup from 'yup';
 import { withTranslation } from 'react-i18next';
-
+import fileHeadquarter from './../../../assets/files/FilesImportCSV/headquarters.csv';
 class FormUploadSedes extends React.Component {
   state = {
     file: null,
@@ -34,6 +34,10 @@ class FormUploadSedes extends React.Component {
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
                   {t('app_sedes_import_step_1_descripcion')}
+                  <br />
+                  <a href={fileHeadquarter} download="headquarter.csv">
+                    <b>Plantilla de formato de importación</b>
+                  </a>
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">

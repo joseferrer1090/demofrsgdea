@@ -8,6 +8,7 @@ import { css } from 'glamor';
 import { Formik, Field, ErrorMessage, withFormik } from 'formik';
 import * as Yup from 'yup';
 import { withTranslation } from 'react-i18next';
+import fileThirdParty from './../../../assets/files/FilesImportCSV/third_party.csv';
 
 class FormUploadSedes extends React.Component {
   state = {
@@ -33,6 +34,10 @@ class FormUploadSedes extends React.Component {
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
                   {t('app_tercero_import_step_1_descripcion')}
+                  <br />
+                  <a href={fileThirdParty} download="thirdparty.csv">
+                    <b>Plantilla de formato de importación</b>
+                  </a>
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">

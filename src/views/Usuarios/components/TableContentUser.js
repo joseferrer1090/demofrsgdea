@@ -74,7 +74,7 @@ class TableContentUser extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           {" "}
@@ -109,8 +109,8 @@ class TableContentUser extends Component {
     this.refs.child.toggle(id);
   }
 
-  openModalDelete() {
-    this.refs.child2.toggle();
+  openModalDelete(id) {
+    this.refs.child2.toggle(id);
   }
 
   openModalEdit(id) {
@@ -168,6 +168,13 @@ class TableContentUser extends Component {
               dataFormat={indexN}
             >
               #
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField={"identification"}
+              dataAlign={"center"}
+              width={"75"}
+            >
+              Identificacion
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField={"name"}
@@ -231,7 +238,11 @@ class TableContentUser extends Component {
         </Col>
 
         <ModalView modalview={this.state.modalviewuserstate} ref="child" />
-        <ModalDelete modaldel={this.state.modaldeluserstate} ref="child2" />
+        <ModalDelete
+          modaldel={this.state.modaldeluserstate}
+          updateTable={this.getDataUsers}
+          ref="child2"
+        />
         <ModalUpdate modaledit={this.state.modaledituserstate} ref="child3" />
         <ModalChangePassword
           modalpassword={this.state.modalchangepassword}

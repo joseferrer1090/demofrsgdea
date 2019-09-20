@@ -85,7 +85,7 @@ class TableContentUser extends Component {
           className="btn btn-warning btn-sm"
           data-hover="hover"
           onClick={() => {
-            this.openModalPassword();
+            this.openModalPassword(row.id);
           }}
         >
           {" "}
@@ -117,8 +117,8 @@ class TableContentUser extends Component {
     this.refs.child3.toggle(id);
   }
 
-  openModalPassword() {
-    this.refs.child4.toggle();
+  openModalPassword(id) {
+    this.refs.child4.toggle(id);
   }
 
   render() {

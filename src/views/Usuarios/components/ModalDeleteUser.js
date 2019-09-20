@@ -173,7 +173,7 @@ class ModalDeleteUser extends React.Component {
                     <ModalFooter>
                       <button
                         type="submit"
-                        className="btn btn-outline-danger"
+                        className="btn btn-outline-danger btn-sm"
                         onClick={e => {
                           e.preventDefault();
                           handleSubmit();

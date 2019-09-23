@@ -287,7 +287,7 @@ class ModalEditUser extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <form className="form">
-                      <Row>
+                      <div className="row">
                         <Col sm="3">
                           <img
                             src={`http://192.168.10.180:7000/api/sgdea/user/photo/view/${this.state.id}`}
@@ -462,8 +462,8 @@ class ModalEditUser extends React.Component {
                             </div>
                           </div>
                         </Col>
-                      </Row>
-                      <Row>
+                      </div>
+                      <div className="row">
                         <Col sm="12">
                           <Nav tabs>
                             <NavItem>
@@ -815,7 +815,7 @@ class ModalEditUser extends React.Component {
                             </TabPane>
                           </TabContent>
                         </Col>
-                      </Row>
+                      </div>
                     </form>
                   </ModalBody>
                   <ModalFooter>

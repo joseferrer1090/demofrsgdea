@@ -6,6 +6,7 @@ import ModalView from "./ModalViewUser";
 import ModalDelete from "./ModalDeleteUser";
 import ModalUpdate from "./ModalEditUser";
 import ModalChangePassword from "./FormChangePasswordUser";
+import ModalExportCSV from "./ModalExportUser";
 import "./../../../css/styleTableUsuarios.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import Moment from "react-moment";
@@ -18,6 +19,7 @@ class TableContentUser extends Component {
       modaledituserstate: false,
       modaldeluserstate: false,
       modalchangepassword: false,
+      modalexport: false,
       dataUsers: [],
       dataUsersDependence: [],
       dataUsersCharge: [],
@@ -74,7 +76,7 @@ class TableContentUser extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           {" "}
@@ -85,7 +87,7 @@ class TableContentUser extends Component {
           className="btn btn-warning btn-sm"
           data-hover="hover"
           onClick={() => {
-            this.openModalPassword();
+            this.openModalPassword(row.id);
           }}
         >
           {" "}
@@ -109,19 +111,40 @@ class TableContentUser extends Component {
     this.refs.child.toggle(id);
   }
 
-  openModalDelete() {
-    this.refs.child2.toggle();
+  openModalDelete(id) {
+    this.refs.child2.toggle(id);
   }
 
   openModalEdit(id) {
     this.refs.child3.toggle(id);
   }
 
-  openModalPassword() {
-    this.refs.child4.toggle();
+  openModalPassword(id) {
+    this.refs.child4.toggle(id);
   }
 
+  openModalExport = () => {
+    this.refs.child5.toggle();
+  };
+
+  createCustomButtonGroup = props => {
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" /> Exportar CSV
+      </button>
+    );
+  };
+
   render() {
+    const options = {
+      btnGroup: this.createCustomButtonGroup,
+      pagination: true,
+      exportCSV: true
+    };
     function indexN(cell, row, enumObject, index) {
       return <div>{index + 1}</div>;
     }
@@ -148,7 +171,7 @@ class TableContentUser extends Component {
             search
             searchPlaceholder="Buscar"
             data={this.state.dataUsers}
-            exportCSV
+            options={options}
             hover
             striped
             bordered={false}
@@ -168,6 +191,13 @@ class TableContentUser extends Component {
               dataFormat={indexN}
             >
               #
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField={"identification"}
+              dataAlign={"center"}
+              width={"75"}
+            >
+              Identificacion
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField={"name"}
@@ -231,12 +261,20 @@ class TableContentUser extends Component {
         </Col>
 
         <ModalView modalview={this.state.modalviewuserstate} ref="child" />
-        <ModalDelete modaldel={this.state.modaldeluserstate} ref="child2" />
+        <ModalDelete
+          modaldel={this.state.modaldeluserstate}
+          updateTable={this.getDataUsers}
+          ref="child2"
+        />
         <ModalUpdate modaledit={this.state.modaledituserstate} ref="child3" />
         <ModalChangePassword
           modalpassword={this.state.modalchangepassword}
           ref="child4"
         />
+        <ModalExportCSV
+          modalexport={this.state.modalexport}
+          ref={"child5"}
+        ></ModalExportCSV>
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
@@ -10,10 +10,23 @@ import {
   CardBody,
   CardFooter,
   CustomInput,
-  CardTitle
+  CardTitle,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink
 } from "reactstrap";
-
+import classnames from "classnames";
 const RolesForm = props => {
+  const [activeTab, toggleTab] = useState("1");
+
+  const toggle = tab => {
+    if (activeTab !== tab) {
+      toggleTab(tab);
+    }
+  };
+
   const {
     values,
     errors,
@@ -25,6 +38,7 @@ const RolesForm = props => {
     setFieldTouched,
     setFieldValue
   } = props;
+
   return (
     <div>
       <div className="row">
@@ -42,7 +56,9 @@ const RolesForm = props => {
                       </label>
                       <input
                         name={"codigo"}
-                        onChange={e => {setFieldValue("codigo", e.target.value.toUpperCase())}}
+                        onChange={e => {
+                          setFieldValue("codigo", e.target.value.toUpperCase());
+                        }}
                         onBlur={handleBlur}
                         value={values.codigo}
                         type="text"
@@ -50,13 +66,11 @@ const RolesForm = props => {
                           touched.codigo &&
                           "is-invalid"}`}
                       />
-                      <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.codigo && touched.codigo ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                      <ErrorMessage name={"codigo"} />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.codigo && touched.codigo ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name={"codigo"} />
                       </div>
                     </div>
                   </Col>
@@ -68,7 +82,9 @@ const RolesForm = props => {
                       </label>
                       <input
                         name={"nombre"}
-                        onChange={e => {setFieldValue("nombre", e.target.value.toUpperCase())}}
+                        onChange={e => {
+                          setFieldValue("nombre", e.target.value.toUpperCase());
+                        }}
                         onBlur={handleBlur}
                         value={values.nombre}
                         type="text"
@@ -76,13 +92,11 @@ const RolesForm = props => {
                           touched.nombre &&
                           "is-invalid"}`}
                       />
-                      <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.nombre && touched.nombre ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                      <ErrorMessage name={"nombre"} />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.nombre && touched.nombre ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name={"nombre"} />
                       </div>
                     </div>
                   </Col>
@@ -101,13 +115,11 @@ const RolesForm = props => {
                           touched.descripcion &&
                           "is-invalid"}`}
                       />
-                      <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.descripcion && touched.descripcion ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                      <ErrorMessage name={"descripcion"} />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.descripcion && touched.descripcion ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name={"descripcion"} />
                       </div>
                     </div>
                   </Col>
@@ -122,13 +134,152 @@ const RolesForm = props => {
                           Asignar permisos <hr />{" "}
                         </h4>
                       </CardTitle>
+                      <Nav tabs>
+                        <NavItem>
+                          <NavLink
+                            className={classnames({
+                              active: activeTab === "1"
+                            })}
+                            onClick={() => {
+                              toggle("1");
+                            }}
+                          >
+                            <i className="fa fa-search" /> Busqueda simple
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            className={classnames({
+                              active: activeTab === "2"
+                            })}
+                            onClick={() => {
+                              toggle("2");
+                            }}
+                          >
+                            <i className="fa fa-search" /> Busqueda Completa
+                          </NavLink>
+                        </NavItem>
+                      </Nav>
+                      <TabContent activeTab={activeTab}>
+                        <TabPane tabId={"1"}>
+                          <div className="row">
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>
+                                  Entidad <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  type="search"
+                                  className="form-control form-control-sm"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </TabPane>
+                        <TabPane tabId={"2"}>
+                          <div className="row">
+                            <Col sm="6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  Modulo <span className="text-danger">
+                                    *
+                                  </span>{" "}
+                                </label>
+                                <select
+                                  name="modulos"
+                                  className="form-control form-control-sm"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.modulos}
+                                >
+                                  <option> -- Seleccione -- </option>
+                                </select>
+                                {/* <MySelectModulos
+                              name={"modulos"}
+                              value={values.modulos}
+                              onChange={setFieldValue}
+                              onBlur={setFieldTouched}
+                            /> */}
+                                {touched ? (
+                                  <div style={{ color: "red" }}>
+                                    {" "}
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.modulos && touched.modulos ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name={"modulos"} />
+                                    </div>
+                                  </div>
+                                ) : null}
+                                {/* <select className="form-control form-control-sm">
+                              {" "}
+                              <option> Seleccione... </option>{" "}
+                            </select> */}
+                              </div>
+                            </Col>
+                            <Col sm="6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  Entidades{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <select
+                                  name="entidades"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.entidades}
+                                  className="form-control form-control-sm"
+                                >
+                                  <option>-- Seleccione --</option>
+                                </select>
+                                {/* <MySelectEntidades
+                              name={"entidades"}
+                              value={values.entidades}
+                              onChange={setFieldValue}
+                              onBlur={setFieldTouched}
+                            /> */}
+                                {touched ? (
+                                  <div style={{ color: "red" }}>
+                                    {" "}
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.entidades && touched.entidades ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name={"entidades"} />
+                                    </div>
+                                  </div>
+                                ) : null}
+                                {/* <select
+                              className="form-control form-control-sm
+                                "
+                            >
+                              {" "}
+                              <option> Seleccione... </option>{" "}
+                            </select> */}
+                              </div>
+                            </Col>
+                          </div>
+                        </TabPane>
+                      </TabContent>
+                      <br />
                       <Row>
-                        <Col sm="6">
+                        {/* <Col sm="6">
                           <div className="form-group">
                             <label>
                               {" "}
                               Modulo <span className="text-danger">*</span>{" "}
                             </label>
+                            <select
+                              name="modulos"
+                              className="form-control form-control-sm"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.modulos}
+                            >
+                              <option> -- Seleccione -- </option>
+                            </select>
                             <MySelectModulos
                               name={"modulos"}
                               value={values.modulos}
@@ -138,23 +289,21 @@ const RolesForm = props => {
                             {touched ? (
                               <div style={{ color: "red" }}>
                                 {" "}
-                                <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.modulos && touched.modulos ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                                <ErrorMessage name={"modulos"} />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.modulos && touched.modulos ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"modulos"} />
                                 </div>
                               </div>
                             ) : null}
-                            {/* <select className="form-control form-control-sm">
+                            <select className="form-control form-control-sm">
                               {" "}
                               <option> Seleccione... </option>{" "}
-                            </select> */}
+                            </select>
                           </div>
-                        </Col>
-                        <Col sm="6">
+                        </Col> */}
+                        {/* <Col sm="6">
                           <div className="form-group">
                             <label>
                               {" "}
@@ -162,6 +311,15 @@ const RolesForm = props => {
                                 *
                               </span>{" "}
                             </label>
+                            <select
+                              name="entidades"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.entidades}
+                              className="form-control form-control-sm"
+                            >
+                              <option>-- Seleccione --</option>
+                            </select>
                             <MySelectEntidades
                               name={"entidades"}
                               value={values.entidades}
@@ -171,25 +329,23 @@ const RolesForm = props => {
                             {touched ? (
                               <div style={{ color: "red" }}>
                                 {" "}
-                                <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.entidades && touched.entidades ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                                <ErrorMessage name={"entidades"} />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.entidades && touched.entidades ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"entidades"} />
                                 </div>
                               </div>
                             ) : null}
-                            {/* <select
+                            <select
                               className="form-control form-control-sm
                                 "
                             >
                               {" "}
                               <option> Seleccione... </option>{" "}
-                            </select> */}
+                            </select>
                           </div>
-                        </Col>
+                        </Col> */}
                         {/*  Aqui va la funcionalidad    */}
                         <div className="row">
                           <div className="col-md-6">
@@ -329,31 +485,23 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     codigo: Yup.string()
-    .required(" Por favor introduzca un código.")
-    .matches(/^[0-9a-zA-Z]+$/, " Codigo no es alfanumerico")
-    .min(2, " minimo 2 caracteres para el codigo")
-    .max(15, " maximo 15 caracteres para el codigo"),
+      .required(" Por favor introduzca un código.")
+      .matches(/^[0-9a-zA-Z]+$/, " Codigo no es alfanumerico")
+      .min(2, " minimo 2 caracteres para el codigo")
+      .max(15, " maximo 15 caracteres para el codigo"),
     nombre: Yup.string().required(" Por favor introduzca un nombre."),
-    descripcion: Yup.string().required(" Por favor introduzca una descripción."),
+    descripcion: Yup.string().required(
+      " Por favor introduzca una descripción."
+    ),
     estado: Yup.bool()
       .test("Activo", " Necesario activar el rol.", value => value === true)
       .required(" Necesario activar el rol."),
-    modulos: Yup.array()
-      .of(
-        Yup.object().shape({
-          value: Yup.string().required(),
-          label: Yup.string().required
-        })
-      )
-      .required(" Por favor seleccione un módulo."),
-    entidades: Yup.array()
-      .of(
-        Yup.object().shape({
-          value: Yup.string().required(),
-          label: Yup.string().required
-        })
-      )
-      .required(" Por favor seleccione una entidad.")
+    modulos: Yup.string()
+      .ensure()
+      .required("Se requiere el modulo para filtrar"),
+    entidades: Yup.string()
+      .ensure()
+      .required("Se requiere la entidad para filtrar")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

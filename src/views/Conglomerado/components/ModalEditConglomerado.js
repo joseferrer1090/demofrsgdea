@@ -318,7 +318,8 @@ class ModalEditConglomerado extends React.Component {
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset
+                handleReset,
+                setFieldValue
               } = props;
               return (
                 <Fragment>
@@ -432,6 +433,17 @@ class ModalEditConglomerado extends React.Component {
                                     'app_conglomerado_modal_actualizar_pais'
                                   )}
                                 </label>
+                                <span className="text-danger">*</span>{' '}
+                                {/* <SelectCountry
+                                  name={'conglomerate_country'}
+                                  onChange={e =>
+                                    setFieldValue('conglomerate_country', e.target.value)
+                                  }
+                                  value={values.conglomerate_country}
+                                  className={`form-control form-control-sm ${errors.conglomerate_country &&
+                                    touched.conglomerate_country &&
+                                    'is-invalid'}`}
+                                /> */}
                                 <select
                                   name={'conglomerate_country'}
                                   onChange={handleChange}
@@ -464,6 +476,21 @@ class ModalEditConglomerado extends React.Component {
                                     'app_conglomerado_modal_actualizar_departamento'
                                   )}{' '}
                                 </label>
+                                <span className="text-danger">*</span>{' '}
+                                {/* <SelectDepartment
+                                  conglomerate_country={props.values.conglomerate_country}
+                                  name="conglomerate_department"
+                                  value={values.conglomerate_department}
+                                  onChange={e =>
+                                    setFieldValue(
+                                      'conglomerate_department',
+                                      e.target.value
+                                    )
+                                  }
+                                  className={`form-control form-control-sm ${errors.conglomerate_department &&
+                                    touched.conglomerate_department &&
+                                    'is-invalid'}`}
+                                /> */}
                                 <select
                                   name="conglomerate_department"
                                   value={values.conglomerate_department}
@@ -496,6 +523,16 @@ class ModalEditConglomerado extends React.Component {
                                   )}{' '}
                                   <span className="text-danger">*</span>{' '}
                                 </label>
+                                {/* <SelectCity
+                                  departmentId={props.values.conglomerate_department}
+                                  name={'conglomerate_city'}
+                                  onChange={e =>
+                                    setFieldValue('conglomerate_city', e.target.value)
+                                  }
+                                  className={`form-control form-control-sm ${errors.conglomerate_city &&
+                                    touched.conglomerate_city &&
+                                    'is-invalid'}`}
+                                /> */}
                                 <select
                                   name="conglomerate_city"
                                   value={values.conglomerate_city}
@@ -709,4 +746,195 @@ export default ModalEditConglomerado;
   </button>
 </ModalFooter>
 </form> */
+}
+
+//--------------------//
+class SelectCountry extends React.Component {
+  state = {
+    dataCountry: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCountry: data
+        });
+      });
+  };
+
+  handleChange = value => {
+    this.props.onChange('conglomerate_country', value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur('conglomerate_country', true);
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          {this.state.dataCountry.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//
+class SelectDepartment extends React.Component {
+  state = {
+    dataDepartment: [],
+    id: this.props.conglomerate_country
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.conglomerate_country !== state.id) {
+      return {
+        id: props.conglomerate_country
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.conglomerate_country !== prevProps.conglomerate_country) {
+      this.getDataDepartment();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataDepartment();
+  }
+
+  getDataDepartment = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/country/deparment/${this.state.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDepartment: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataDepartment.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//
+class SelectCity extends React.Component {
+  state = {
+    dataCity: [],
+    id: this.props.conglomerate_department
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.conglomerate_department !== state.id) {
+      return {
+        conglomerate_department: props.conglomerate_department
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props.conglomerate_department !== prevProps.conglomerate_department
+    ) {
+      this.getDataCitys();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataCitys();
+  }
+
+  getDataCitys = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/city/department/${this.props.conglomerate_department}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCity: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataCity.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
 }

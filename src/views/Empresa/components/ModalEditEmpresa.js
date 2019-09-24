@@ -366,7 +366,8 @@ class ModalEditEmpresa extends React.Component {
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset
+                handleReset,
+                setFieldValue
               } = props;
               return (
                 <Fragment>
@@ -557,7 +558,21 @@ class ModalEditEmpresa extends React.Component {
                                       {this.props.t(
                                         'app_empresa_modal_actualizar_pais'
                                       )}
+                                      <span className="text-danger">*</span>{' '}
                                     </label>
+                                    {/* <SelectCountry
+                                      name={'company_country'}
+                                      onChange={e =>
+                                        setFieldValue(
+                                          'company_country',
+                                          e.target.value
+                                        )
+                                      }
+                                      value={values.company_country}
+                                      className={`form-control form-control-sm ${errors.company_country &&
+                                        touched.company_country &&
+                                        'is-invalid'}`}
+                                    /> */}
                                     <select
                                       name={'company_country'}
                                       onChange={handleChange}
@@ -593,7 +608,24 @@ class ModalEditEmpresa extends React.Component {
                                       {this.props.t(
                                         'app_empresa_modal_actualizar_departamento'
                                       )}
+                                      <span className="text-danger">*</span>{' '}
                                     </label>
+                                    {/* <SelectDepartment
+                                      company_country={
+                                        props.values.company_country
+                                      }
+                                      name="company_department"
+                                      value={values.company_department}
+                                      onChange={e =>
+                                        setFieldValue(
+                                          'company_department',
+                                          e.target.value
+                                        )
+                                      }
+                                      className={`form-control form-control-sm ${errors.company_department &&
+                                        touched.company_department &&
+                                        'is-invalid'}`}
+                                    /> */}
                                     <select
                                       name="company_department"
                                       value={values.company_department}
@@ -630,6 +662,21 @@ class ModalEditEmpresa extends React.Component {
                                       )}{' '}
                                       <span className="text-danger">*</span>{' '}
                                     </label>
+                                    {/* <SelectCity
+                                      company_department={
+                                        props.values.company_department
+                                      }
+                                      name={'company_city'}
+                                      onChange={e =>
+                                        setFieldValue(
+                                          'company_city',
+                                          e.target.value
+                                        )
+                                      }
+                                      className={`form-control form-control-sm ${errors.company_city &&
+                                        touched.company_city &&
+                                        'is-invalid'}`}
+                                    /> */}
                                     <select
                                       name="company_city"
                                       value={values.company_city}
@@ -810,3 +857,192 @@ class ModalEditEmpresa extends React.Component {
 }
 
 export default ModalEditEmpresa;
+
+//--------------------//
+class SelectCountry extends React.Component {
+  state = {
+    dataCountry: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCountry: data
+        });
+      });
+  };
+
+  handleChange = value => {
+    this.props.onChange('company_country', value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur('company_country', true);
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          {this.state.dataCountry.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//
+class SelectDepartment extends React.Component {
+  state = {
+    dataDepartment: [],
+    id: this.props.company_country
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.company_country !== state.id) {
+      return {
+        id: props.company_country
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.company_country !== prevProps.company_country) {
+      this.getDataDepartment();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataDepartment();
+  }
+
+  getDataDepartment = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/country/deparment/${this.state.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDepartment: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataDepartment.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//
+class SelectCity extends React.Component {
+  state = {
+    dataCity: [],
+    id: this.props.company_department
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.company_department !== state.id) {
+      return {
+        company_department: props.company_department
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.company_department !== prevProps.company_department) {
+      this.getDataCitys();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataCitys();
+  }
+
+  getDataCitys = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/city/department/${this.props.company_department}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCity: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataCity.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}

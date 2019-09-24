@@ -387,6 +387,14 @@ const RemitenteForm = props => {
                           {t('app_tercero_form_registrar_pais')}{' '}
                           <span className="text-danger"> * </span>{' '}
                         </label>
+                        {/* <SelectCountry
+                          name={'pais'}
+                          onChange={e => setFieldValue('pais', e.target.value)}
+                          value={values.pais}
+                          className={`form-control form-control-sm ${errors.pais &&
+                            touched.pais &&
+                            'is-invalid'}`}
+                        /> */}
                         <select
                           name={'pais'}
                           onChange={handleChange}
@@ -417,6 +425,17 @@ const RemitenteForm = props => {
                           {t('app_tercero_form_registrar_departamento')}{' '}
                           <span className="text-danger"> * </span>{' '}
                         </label>
+                        {/* <SelectDepartment
+                          pais={props.values.pais}
+                          name="departamento"
+                          value={values.departamento}
+                          onChange={e =>
+                            setFieldValue('departamento', e.target.value)
+                          }
+                          className={`form-control form-control-sm ${errors.departamento &&
+                            touched.departamento &&
+                            'is-invalid'}`}
+                        /> */}
                         <select
                           name={'departamento'}
                           onChange={handleChange}
@@ -450,6 +469,16 @@ const RemitenteForm = props => {
                           {t('app_tercero_form_registrar_ciudad')}{' '}
                           <span className="text-danger"> * </span>{' '}
                         </label>
+                        {/* <SelectCity
+                          departamento={props.values.departamento}
+                          name={'ciudad'}
+                          onChange={e =>
+                            setFieldValue('ciudad', e.target.value)
+                          }
+                          className={`form-control form-control-sm ${errors.ciudad &&
+                            touched.ciudad &&
+                            'is-invalid'}`}
+                        /> */}
                         <select
                           name={'ciudad'}
                           onChange={handleChange}
@@ -731,3 +760,191 @@ export default withTranslation('translations')(
     }
   })(RemitenteForm)
 );
+//--------------------//
+class SelectCountry extends React.Component {
+  state = {
+    dataCountry: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCountry: data
+        });
+      });
+  };
+
+  handleChange = value => {
+    this.props.onChange('pais', value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur('pais', true);
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          {this.state.dataCountry.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//
+class SelectDepartment extends React.Component {
+  state = {
+    dataDepartment: [],
+    id: this.props.pais
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.pais !== state.id) {
+      return {
+        id: props.pais
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.pais !== prevProps.pais) {
+      this.getDataDepartment();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataDepartment();
+  }
+
+  getDataDepartment = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/country/deparment/${this.state.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDepartment: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataDepartment.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//
+class SelectCity extends React.Component {
+  state = {
+    dataCity: [],
+    id: this.props.departamento
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.departamento !== state.id) {
+      return {
+        departamento: props.departamento
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.departamento !== prevProps.departamento) {
+      this.getDataCitys();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataCitys();
+  }
+
+  getDataCitys = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/city/department/${this.props.departamento}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCity: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataCity.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}

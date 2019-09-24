@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
@@ -10,10 +10,23 @@ import {
   CardBody,
   CardFooter,
   CustomInput,
-  CardTitle
+  CardTitle,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink
 } from "reactstrap";
-
+import classnames from "classnames";
 const RolesForm = props => {
+  const [activeTab, toggleTab] = useState("1");
+
+  const toggle = tab => {
+    if (activeTab !== tab) {
+      toggleTab(tab);
+    }
+  };
+
   const {
     values,
     errors,
@@ -25,6 +38,7 @@ const RolesForm = props => {
     setFieldTouched,
     setFieldValue
   } = props;
+
   return (
     <div>
       <div className="row">
@@ -120,8 +134,138 @@ const RolesForm = props => {
                           Asignar permisos <hr />{" "}
                         </h4>
                       </CardTitle>
+                      <Nav tabs>
+                        <NavItem>
+                          <NavLink
+                            className={classnames({
+                              active: activeTab === "1"
+                            })}
+                            onClick={() => {
+                              toggle("1");
+                            }}
+                          >
+                            <i className="fa fa-search" /> Busqueda simple
+                          </NavLink>
+                        </NavItem>
+                        <NavItem>
+                          <NavLink
+                            className={classnames({
+                              active: activeTab === "2"
+                            })}
+                            onClick={() => {
+                              toggle("2");
+                            }}
+                          >
+                            <i className="fa fa-search" /> Busqueda Completa
+                          </NavLink>
+                        </NavItem>
+                      </Nav>
+                      <TabContent activeTab={activeTab}>
+                        <TabPane tabId={"1"}>
+                          <div className="row">
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>
+                                  Entidad <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  type="search"
+                                  className="form-control form-control-sm"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </TabPane>
+                        <TabPane tabId={"2"}>
+                          <div className="row">
+                            <Col sm="6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  Modulo <span className="text-danger">
+                                    *
+                                  </span>{" "}
+                                </label>
+                                <select
+                                  name="modulos"
+                                  className="form-control form-control-sm"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.modulos}
+                                >
+                                  <option> -- Seleccione -- </option>
+                                </select>
+                                {/* <MySelectModulos
+                              name={"modulos"}
+                              value={values.modulos}
+                              onChange={setFieldValue}
+                              onBlur={setFieldTouched}
+                            /> */}
+                                {touched ? (
+                                  <div style={{ color: "red" }}>
+                                    {" "}
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.modulos && touched.modulos ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name={"modulos"} />
+                                    </div>
+                                  </div>
+                                ) : null}
+                                {/* <select className="form-control form-control-sm">
+                              {" "}
+                              <option> Seleccione... </option>{" "}
+                            </select> */}
+                              </div>
+                            </Col>
+                            <Col sm="6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  Entidades{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <select
+                                  name="entidades"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.entidades}
+                                  className="form-control form-control-sm"
+                                >
+                                  <option>-- Seleccione --</option>
+                                </select>
+                                {/* <MySelectEntidades
+                              name={"entidades"}
+                              value={values.entidades}
+                              onChange={setFieldValue}
+                              onBlur={setFieldTouched}
+                            /> */}
+                                {touched ? (
+                                  <div style={{ color: "red" }}>
+                                    {" "}
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.entidades && touched.entidades ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name={"entidades"} />
+                                    </div>
+                                  </div>
+                                ) : null}
+                                {/* <select
+                              className="form-control form-control-sm
+                                "
+                            >
+                              {" "}
+                              <option> Seleccione... </option>{" "}
+                            </select> */}
+                              </div>
+                            </Col>
+                          </div>
+                        </TabPane>
+                      </TabContent>
+                      <br />
                       <Row>
-                        <Col sm="6">
+                        {/* <Col sm="6">
                           <div className="form-group">
                             <label>
                               {" "}
@@ -136,12 +280,12 @@ const RolesForm = props => {
                             >
                               <option> -- Seleccione -- </option>
                             </select>
-                            {/* <MySelectModulos
+                            <MySelectModulos
                               name={"modulos"}
                               value={values.modulos}
                               onChange={setFieldValue}
                               onBlur={setFieldTouched}
-                            /> */}
+                            />
                             {touched ? (
                               <div style={{ color: "red" }}>
                                 {" "}
@@ -153,13 +297,13 @@ const RolesForm = props => {
                                 </div>
                               </div>
                             ) : null}
-                            {/* <select className="form-control form-control-sm">
+                            <select className="form-control form-control-sm">
                               {" "}
                               <option> Seleccione... </option>{" "}
-                            </select> */}
+                            </select>
                           </div>
-                        </Col>
-                        <Col sm="6">
+                        </Col> */}
+                        {/* <Col sm="6">
                           <div className="form-group">
                             <label>
                               {" "}
@@ -176,12 +320,12 @@ const RolesForm = props => {
                             >
                               <option>-- Seleccione --</option>
                             </select>
-                            {/* <MySelectEntidades
+                            <MySelectEntidades
                               name={"entidades"}
                               value={values.entidades}
                               onChange={setFieldValue}
                               onBlur={setFieldTouched}
-                            /> */}
+                            />
                             {touched ? (
                               <div style={{ color: "red" }}>
                                 {" "}
@@ -193,15 +337,15 @@ const RolesForm = props => {
                                 </div>
                               </div>
                             ) : null}
-                            {/* <select
+                            <select
                               className="form-control form-control-sm
                                 "
                             >
                               {" "}
                               <option> Seleccione... </option>{" "}
-                            </select> */}
+                            </select>
                           </div>
-                        </Col>
+                        </Col> */}
                         {/*  Aqui va la funcionalidad    */}
                         <div className="row">
                           <div className="col-md-6">

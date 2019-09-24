@@ -236,6 +236,16 @@ const SedesForm = props => {
                     {t('app_sedes_form_registrar_conglomerado')}{' '}
                     <span className="text-danger">*</span>{' '}
                   </label>
+                  {/* <SelectConglomerado
+                    name={'conglomerateId'}
+                    onChange={e =>
+                      setFieldValue('conglomerateId', e.target.value)
+                    }
+                    value={values.conglomerateId}
+                    className={`form-control form-control-sm ${errors.conglomerateId &&
+                      touched.conglomerateId &&
+                      'is-invalid'}`}
+                  /> */}
                   <select
                     name="conglomerateId"
                     onChange={handleChange}
@@ -267,6 +277,15 @@ const SedesForm = props => {
                     <span className="text-danger">*</span>
                   </label>
                   <br />
+                  {/* <SelectCompany
+                    conglomerateId={props.values.conglomerateId}
+                    name="companyId"
+                    value={values.companyId}
+                    onChange={e => setFieldValue('companyId', e.target.value)}
+                    className={`form-control form-control-sm ${errors.companyId &&
+                      touched.companyId &&
+                      'is-invalid'}`}
+                  ></SelectCompany> */}
                   <select
                     name="companyId"
                     onChange={handleChange}
@@ -439,6 +458,15 @@ const SedesForm = props => {
               <Col sm="4">
                 <div className="form-group">
                   <label>{t('app_sedes_form_registrar_pais')}</label>
+                  <span className="text-danger">*</span>{' '}
+                  {/* <SelectCountry
+                    name={'countryId'}
+                    onChange={e => setFieldValue('countryId', e.target.value)}
+                    value={values.countryId}
+                    className={`form-control form-control-sm ${errors.countryId &&
+                      touched.countryId &&
+                      'is-invalid'}`}
+                  /> */}
                   <select
                     name={'countryId'}
                     onChange={handleChange}
@@ -463,7 +491,21 @@ const SedesForm = props => {
               </Col>
               <Col sm="4">
                 <div className="form-group">
-                  <label>{t('app_sedes_form_registrar_departamento')}</label>
+                  <label>
+                    {t('app_sedes_form_registrar_departamento')}
+                    <span className="text-danger">*</span>{' '}
+                  </label>
+                  {/* <SelectDepartment
+                    countryId={props.values.countryId}
+                    name="departmentId"
+                    value={values.departmentId}
+                    onChange={e =>
+                      setFieldValue('departmentId', e.target.value)
+                    }
+                    className={`form-control form-control-sm ${errors.departmentId &&
+                      touched.departmentId &&
+                      'is-invalid'}`}
+                  /> */}
                   <select
                     name={'departmentId'}
                     onChange={handleChange}
@@ -492,6 +534,14 @@ const SedesForm = props => {
                     {t('app_sedes_form_registrar_ciudad')}{' '}
                     <span className="text-danger">*</span>
                   </label>
+                  {/* <SelectCity
+                    departmentId={props.values.departmentId}
+                    name={'cityId'}
+                    onChange={e => setFieldValue('cityId', e.target.value)}
+                    className={`form-control form-control-sm ${errors.cityId &&
+                      touched.cityId &&
+                      'is-invalid'}`}
+                  /> */}
                   <select
                     name={'cityId'}
                     onChange={handleChange}
@@ -793,3 +843,316 @@ export default withTranslation('translations')(
     }
   })(SedesForm)
 );
+
+//--------------------//
+
+class SelectConglomerado extends React.Component {
+  state = {
+    dataConglomerate: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataConglomerate: data
+        });
+      });
+  };
+
+  handleChange = value => {
+    this.props.onChange('conglomerateId', value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur('conglomerateId', true);
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          {this.state.dataConglomerate.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+//--------------------//
+class SelectCompany extends React.Component {
+  state = {
+    dataCompany: [],
+    id: this.props.conglomerateId
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.conglomerateId !== state.id) {
+      return {
+        id: props.conglomerateId
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.conglomerateId !== prevProps.conglomerateId) {
+      this.getDataCompany();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataCompany();
+  }
+
+  getDataCompany = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCompany: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataCompany.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+//--------------------//
+class SelectCountry extends React.Component {
+  state = {
+    dataCountry: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCountry: data
+        });
+      });
+  };
+
+  handleChange = value => {
+    this.props.onChange('countryId', value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur('countryId', true);
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          {this.state.dataCountry.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//
+class SelectDepartment extends React.Component {
+  state = {
+    dataDepartment: [],
+    id: this.props.countryId
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.countryId !== state.id) {
+      return {
+        id: props.countryId
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.countryId !== prevProps.countryId) {
+      this.getDataDepartment();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataDepartment();
+  }
+
+  getDataDepartment = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/country/deparment/${this.state.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDepartment: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataDepartment.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//
+class SelectCity extends React.Component {
+  state = {
+    dataCity: [],
+    id: this.props.departmentId
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.departmentId !== state.id) {
+      return {
+        departmentId: props.departmentId
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.departmentId !== prevProps.departmentId) {
+      this.getDataCitys();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataCitys();
+  }
+
+  getDataCitys = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/city/department/${this.props.departmentId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCity: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataCity.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}

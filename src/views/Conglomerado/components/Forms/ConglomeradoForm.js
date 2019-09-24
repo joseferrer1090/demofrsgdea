@@ -207,8 +207,11 @@ const ConglomeradorForm = props => {
             <div className="row">
               <div className="col-md-4">
                 <div className="form-group">
-                  <label>{t('app_conglomerado_form_registrar_pais')}</label>
-                  <span className="text-danger">*</span>{' '}
+                  <label>
+                    {t('app_conglomerado_form_registrar_pais')}
+                    <span className="text-danger">*</span>{' '}
+                  </label>
+
                   {/* <SelectCountry
                     name={'countryId'}
                     onChange={e => setFieldValue('countryId', e.target.value)}

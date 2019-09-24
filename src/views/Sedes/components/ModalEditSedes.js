@@ -423,7 +423,8 @@ class ModalEditSedes extends React.Component {
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset
+                handleReset,
+                setFieldValue
               } = props;
               return (
                 <Fragment>
@@ -464,6 +465,19 @@ class ModalEditSedes extends React.Component {
                                 )}{' '}
                                 <span className="text-danger">*</span>{' '}
                               </label>
+                              {/* <SelectConglomerado
+                                name={'headquarter_conglomerate'}
+                                onChange={e =>
+                                  setFieldValue(
+                                    'headquarter_conglomerate',
+                                    e.target.value
+                                  )
+                                }
+                                value={values.headquarter_conglomerate}
+                                className={`form-control form-control-sm ${errors.headquarter_conglomerate &&
+                                  touched.headquarter_conglomerate &&
+                                  'is-invalid'}`}
+                              /> */}
                               <select
                                 name="headquarter_conglomerate"
                                 className={`form-control form-control-sm ${errors.headquarter_conglomerate &&
@@ -500,6 +514,17 @@ class ModalEditSedes extends React.Component {
                                 )}{' '}
                                 <span className="text-danger">*</span>{' '}
                               </label>
+                              {/* <SelectCompany
+                                headquarter_conglomerate={props.values.headquarter_conglomerate}
+                                name="headquarter_company"
+                                value={values.headquarter_company}
+                                onChange={e =>
+                                  setFieldValue('headquarter_company', e.target.value)
+                                }
+                                className={`form-control form-control-sm ${errors.headquarter_company &&
+                                  touched.headquarter_company &&
+                                  'is-invalid'}`}
+                              ></SelectCompany> */}
                               <select
                                 name={'headquarter_company'}
                                 onChange={handleChange}
@@ -720,7 +745,21 @@ class ModalEditSedes extends React.Component {
                                         {this.props.t(
                                           'app_sedes_form_actualizar_pais'
                                         )}
+                                        <span className="text-danger">*</span>{' '}
                                       </label>
+                                      {/* <SelectCountry
+                                        name={'headquarter_country'}
+                                        onChange={e =>
+                                          setFieldValue(
+                                            'headquarter_country',
+                                            e.target.value
+                                          )
+                                        }
+                                        value={values.headquarter_country}
+                                        className={`form-control form-control-sm ${errors.headquarter_country &&
+                                          touched.headquarter_country &&
+                                          'is-invalid'}`}
+                                      /> */}
                                       <select
                                         name={'headquarter_country'}
                                         onChange={handleChange}
@@ -756,7 +795,24 @@ class ModalEditSedes extends React.Component {
                                         {this.props.t(
                                           'app_sedes_form_actualizar_departamento'
                                         )}
+                                        <span className="text-danger">*</span>{' '}
                                       </label>
+                                      {/* <SelectDepartment
+                                        headquarter_country={
+                                          props.values.headquarter_country
+                                        }
+                                        name="headquarter_department"
+                                        value={values.headquarter_department}
+                                        onChange={e =>
+                                          setFieldValue(
+                                            'headquarter_department',
+                                            e.target.value
+                                          )
+                                        }
+                                        className={`form-control form-control-sm ${errors.headquarter_department &&
+                                          touched.headquarter_department &&
+                                          'is-invalid'}`}
+                                      /> */}
                                       <select
                                         name="headquarter_department"
                                         value={values.headquarter_department}
@@ -793,6 +849,21 @@ class ModalEditSedes extends React.Component {
                                         )}{' '}
                                         <span className="text-danger">*</span>{' '}
                                       </label>
+                                      {/* <SelectCity
+                                        headquarter_department={
+                                          props.values.headquarter_department
+                                        }
+                                        name={'headquarter_city'}
+                                        onChange={e =>
+                                          setFieldValue(
+                                            'headquarter_city',
+                                            e.target.value
+                                          )
+                                        }
+                                        className={`form-control form-control-sm ${errors.headquarter_city &&
+                                          touched.headquarter_city &&
+                                          'is-invalid'}`}
+                                      /> */}
                                       <select
                                         name="headquarter_city"
                                         value={values.headquarter_city}
@@ -963,3 +1034,319 @@ ModalEditSedes.propTypes = {
 };
 
 export default ModalEditSedes;
+//--------------------//
+
+class SelectConglomerado extends React.Component {
+  state = {
+    dataConglomerate: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataConglomerate: data
+        });
+      });
+  };
+
+  handleChange = value => {
+    this.props.onChange('headquarter_conglomerate', value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur('headquarter_conglomerate', true);
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          {this.state.dataConglomerate.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+//--------------------//
+class SelectCompany extends React.Component {
+  state = {
+    dataCompany: [],
+    id: this.props.headquarter_conglomerate
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.headquarter_conglomerate !== state.id) {
+      return {
+        id: props.headquarter_conglomerate
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props.headquarter_conglomerate !== prevProps.headquarter_conglomerate
+    ) {
+      this.getDataCompany();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataCompany();
+  }
+
+  getDataCompany = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCompany: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataCompany.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+//--------------------//
+class SelectCountry extends React.Component {
+  state = {
+    dataCountry: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCountry: data
+        });
+      });
+  };
+
+  handleChange = value => {
+    this.props.onChange('headquarter_country', value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur('headquarter_country', true);
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          {this.state.dataCountry.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//
+class SelectDepartment extends React.Component {
+  state = {
+    dataDepartment: [],
+    id: this.props.headquarter_country
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.headquarter_country !== state.id) {
+      return {
+        id: props.headquarter_country
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.headquarter_country !== prevProps.headquarter_country) {
+      this.getDataDepartment();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataDepartment();
+  }
+
+  getDataDepartment = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/country/deparment/${this.state.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDepartment: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataDepartment.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//
+class SelectCity extends React.Component {
+  state = {
+    dataCity: [],
+    id: this.props.headquarter_department
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.headquarter_department !== state.id) {
+      return {
+        headquarter_department: props.headquarter_department
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      this.props.headquarter_department !== prevProps.headquarter_department
+    ) {
+      this.getDataCitys();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataCitys();
+  }
+
+  getDataCitys = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/city/department/${this.props.headquarter_department}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCity: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          {this.state.dataCity.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}

@@ -42,7 +42,9 @@ const RolesForm = props => {
                       </label>
                       <input
                         name={"codigo"}
-                        onChange={e => {setFieldValue("codigo", e.target.value.toUpperCase())}}
+                        onChange={e => {
+                          setFieldValue("codigo", e.target.value.toUpperCase());
+                        }}
                         onBlur={handleBlur}
                         value={values.codigo}
                         type="text"
@@ -50,13 +52,11 @@ const RolesForm = props => {
                           touched.codigo &&
                           "is-invalid"}`}
                       />
-                      <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.codigo && touched.codigo ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                      <ErrorMessage name={"codigo"} />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.codigo && touched.codigo ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name={"codigo"} />
                       </div>
                     </div>
                   </Col>
@@ -68,7 +68,9 @@ const RolesForm = props => {
                       </label>
                       <input
                         name={"nombre"}
-                        onChange={e => {setFieldValue("nombre", e.target.value.toUpperCase())}}
+                        onChange={e => {
+                          setFieldValue("nombre", e.target.value.toUpperCase());
+                        }}
                         onBlur={handleBlur}
                         value={values.nombre}
                         type="text"
@@ -76,13 +78,11 @@ const RolesForm = props => {
                           touched.nombre &&
                           "is-invalid"}`}
                       />
-                      <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.nombre && touched.nombre ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                      <ErrorMessage name={"nombre"} />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.nombre && touched.nombre ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name={"nombre"} />
                       </div>
                     </div>
                   </Col>
@@ -101,13 +101,11 @@ const RolesForm = props => {
                           touched.descripcion &&
                           "is-invalid"}`}
                       />
-                      <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.descripcion && touched.descripcion ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                      <ErrorMessage name={"descripcion"} />
+                      <div style={{ color: "#D54B4B" }}>
+                        {errors.descripcion && touched.descripcion ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name={"descripcion"} />
                       </div>
                     </div>
                   </Col>
@@ -129,22 +127,29 @@ const RolesForm = props => {
                               {" "}
                               Modulo <span className="text-danger">*</span>{" "}
                             </label>
-                            <MySelectModulos
+                            <select
+                              name="modulos"
+                              className="form-control form-control-sm"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.modulos}
+                            >
+                              <option> -- Seleccione -- </option>
+                            </select>
+                            {/* <MySelectModulos
                               name={"modulos"}
                               value={values.modulos}
                               onChange={setFieldValue}
                               onBlur={setFieldTouched}
-                            />
+                            /> */}
                             {touched ? (
                               <div style={{ color: "red" }}>
                                 {" "}
-                                <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.modulos && touched.modulos ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                                <ErrorMessage name={"modulos"} />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.modulos && touched.modulos ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"modulos"} />
                                 </div>
                               </div>
                             ) : null}
@@ -162,22 +167,29 @@ const RolesForm = props => {
                                 *
                               </span>{" "}
                             </label>
-                            <MySelectEntidades
+                            <select
+                              name="entidades"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.entidades}
+                              className="form-control form-control-sm"
+                            >
+                              <option>-- Seleccione --</option>
+                            </select>
+                            {/* <MySelectEntidades
                               name={"entidades"}
                               value={values.entidades}
                               onChange={setFieldValue}
                               onBlur={setFieldTouched}
-                            />
+                            /> */}
                             {touched ? (
                               <div style={{ color: "red" }}>
                                 {" "}
-                                <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.entidades && touched.entidades ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                                <ErrorMessage name={"entidades"} />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.entidades && touched.entidades ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"entidades"} />
                                 </div>
                               </div>
                             ) : null}
@@ -329,31 +341,23 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     codigo: Yup.string()
-    .required(" Por favor introduzca un código.")
-    .matches(/^[0-9a-zA-Z]+$/, " Codigo no es alfanumerico")
-    .min(2, " minimo 2 caracteres para el codigo")
-    .max(15, " maximo 15 caracteres para el codigo"),
+      .required(" Por favor introduzca un código.")
+      .matches(/^[0-9a-zA-Z]+$/, " Codigo no es alfanumerico")
+      .min(2, " minimo 2 caracteres para el codigo")
+      .max(15, " maximo 15 caracteres para el codigo"),
     nombre: Yup.string().required(" Por favor introduzca un nombre."),
-    descripcion: Yup.string().required(" Por favor introduzca una descripción."),
+    descripcion: Yup.string().required(
+      " Por favor introduzca una descripción."
+    ),
     estado: Yup.bool()
       .test("Activo", " Necesario activar el rol.", value => value === true)
       .required(" Necesario activar el rol."),
-    modulos: Yup.array()
-      .of(
-        Yup.object().shape({
-          value: Yup.string().required(),
-          label: Yup.string().required
-        })
-      )
-      .required(" Por favor seleccione un módulo."),
-    entidades: Yup.array()
-      .of(
-        Yup.object().shape({
-          value: Yup.string().required(),
-          label: Yup.string().required
-        })
-      )
-      .required(" Por favor seleccione una entidad.")
+    modulos: Yup.string()
+      .ensure()
+      .required("Se requiere el modulo para filtrar"),
+    entidades: Yup.string()
+      .ensure()
+      .required("Se requiere la entidad para filtrar")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {

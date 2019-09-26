@@ -518,7 +518,7 @@ class ModalSearchAuditoria extends Component {
                               <div className="row">
                                 <div className="col-sm-6">
                                   <label>Conglomerado</label>
-                                  {/* <SelectConglomerado
+                                  <SelectConglomerado
                                     name={'audit_conglomerado'}
                                     onChange={e =>
                                       setFieldValue(
@@ -530,8 +530,8 @@ class ModalSearchAuditoria extends Component {
                                     className={`form-control form-control-sm ${errors.audit_conglomerado &&
                                       touched.audit_conglomerado &&
                                       'is-invalid'}`}
-                                  /> */}
-                                  <select
+                                  />
+                                  {/* <select
                                     name="audit_conglomerado"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -542,22 +542,27 @@ class ModalSearchAuditoria extends Component {
                                   >
                                     <option value={''}>-- Seleccione --</option>
                                     {mapOptionsConglomerate}
-                                  </select>
+                                  </select> */}
                                 </div>
                                 <div className="col-sm-6">
                                   <label>Empresa</label>
-                                  {/* <SelectCompany
-                                    audit_conglomerado={props.values.audit_conglomerado}
+                                  <SelectCompany
+                                    audit_conglomerado={
+                                      props.values.audit_conglomerado
+                                    }
                                     name="empresa"
                                     value={values.audit_empresa}
                                     onChange={e =>
-                                      setFieldValue('audit_empresa', e.target.value)
+                                      setFieldValue(
+                                        'audit_empresa',
+                                        e.target.value
+                                      )
                                     }
                                     className={`form-control form-control-sm ${errors.audit_empresa &&
                                       touched.audit_empresa &&
                                       'is-invalid'}`}
-                                  ></SelectCompany> */}
-                                  <select
+                                  ></SelectCompany>
+                                  {/* <select
                                     name="audit_empresa"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -568,24 +573,27 @@ class ModalSearchAuditoria extends Component {
                                   >
                                     <option value={''}>-- Seleccione --</option>
                                     {mapOptionsCompanys}
-                                  </select>
+                                  </select> */}
                                 </div>
                               </div>
                               <br />
                               <div className="row">
                                 <div className="col-sm-6">
                                   <label>Sede</label>
-                                  {/* <SelectHeadquarter
+                                  <SelectHeadquarter
                                     audit_empresa={props.values.audit_empresa}
                                     name={'audit_sede'}
                                     onChange={e =>
-                                      setFieldValue('audit_sede', e.target.value)
+                                      setFieldValue(
+                                        'audit_sede',
+                                        e.target.value
+                                      )
                                     }
                                     className={`form-control form-control-sm ${errors.audit_sede &&
                                       touched.audit_sede &&
                                       'is-invalid'}`}
-                                  ></SelectHeadquarter> */}
-                                  <select
+                                  ></SelectHeadquarter>
+                                  {/* <select
                                     name="audit_sede"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -596,11 +604,11 @@ class ModalSearchAuditoria extends Component {
                                   >
                                     <option value={''}>-- Seleccione --</option>
                                     {mapOptionsHeadquarters}
-                                  </select>
+                                  </select> */}
                                 </div>
                                 <div className="col-sm-6">
                                   <label>Dependencia</label>
-                                  {/* <SelectDependence
+                                  <SelectDependence
                                     audit_sede={props.values.audit_sede}
                                     name={'audit_dependencia'}
                                     value={values.audit_dependencia}
@@ -613,8 +621,8 @@ class ModalSearchAuditoria extends Component {
                                     className={`form-control form-control-sm ${errors.audit_dependencia &&
                                       touched.audit_dependencia &&
                                       'is-invalid'}`}
-                                  ></SelectDependence> */}
-                                  <select
+                                  ></SelectDependence>
+                                  {/* <select
                                     name="audit_dependencia"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -628,7 +636,7 @@ class ModalSearchAuditoria extends Component {
                                       -- Seleccione --
                                     </option>
                                     {mapOptionsDependence}
-                                  </select>
+                                  </select> */}
                                 </div>
                               </div>
                               <br />
@@ -738,6 +746,7 @@ class SelectConglomerado extends React.Component {
           value={this.props.value}
           className={this.props.className}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -806,6 +815,7 @@ class SelectCompany extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -829,7 +839,7 @@ class SelectHeadquarter extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.audit_empresa !== state.id) {
       return {
-        audit_empresa: props.audit_empresa
+        id: props.audit_empresa
       };
     }
     return null;
@@ -874,6 +884,7 @@ class SelectHeadquarter extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataHeadquarter.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -898,7 +909,7 @@ class SelectDependence extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.audit_sede !== state.id) {
       return {
-        audit_sede: props.audit_sede
+        id: props.audit_sede
       };
     }
     return null;
@@ -943,6 +954,7 @@ class SelectDependence extends React.Component {
           onChange={this.props.onChange}
           className={this.props.className}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataDependence.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

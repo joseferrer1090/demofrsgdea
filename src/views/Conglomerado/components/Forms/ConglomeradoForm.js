@@ -215,7 +215,7 @@ const ConglomeradorForm = props => {
                   <SelectCountry
                     name={'countryId'}
                     // onChange={setFieldValue}
-                    // onBlur={setFieldValue}
+                    onBlur={setFieldValue}
                     onChange={e => setFieldValue('countryId', e.target.value)}
                     value={values.countryId}
                     className={`form-control form-control-sm ${errors.countryId &&
@@ -236,12 +236,17 @@ const ConglomeradorForm = props => {
                     </option>
                     {mapOptionsCountries}
                   </select> */}
-                  <div style={{ color: '#D54B4B' }}>
-                    {errors.countryId && touched.countryId ? (
-                      <i class="fa fa-exclamation-triangle" />
-                    ) : null}
-                    <ErrorMessage name="countryId" />
-                  </div>
+                  {touched ? (
+                    <div style={{ color: 'red' }}>
+                      {' '}
+                      <div style={{ color: '#D54B4B' }}>
+                        {errors.countryId && touched.countryId ? (
+                          <i class="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="countryId" />
+                      </div>
+                    </div>
+                  ) : null}
                 </div>
               </div>
               <div className="col-md-4">

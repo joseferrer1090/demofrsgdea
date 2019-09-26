@@ -363,7 +363,7 @@ class ModalEditDependencia extends React.Component {
                                   )}{' '}
                                   <span className="text-danger">*</span>{' '}
                                 </label>
-                                {/* <SelectConglomerado
+                                <SelectConglomerado
                                   name={'conglomerate'}
                                   onChange={e =>
                                     setFieldValue(
@@ -375,8 +375,8 @@ class ModalEditDependencia extends React.Component {
                                   className={`form-control form-control-sm ${errors.conglomerate &&
                                     touched.conglomerate &&
                                     'is-invalid'}`}
-                                /> */}
-                                <select
+                                />
+                                {/* <select
                                   name="conglomerate"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -391,7 +391,7 @@ class ModalEditDependencia extends React.Component {
                                     --
                                   </option>
                                   {conglomerateList}
-                                </select>
+                                </select> */}
                                 <div style={{ color: '#D54B4B' }}>
                                   {errors.conglomerate &&
                                   touched.conglomerate ? (
@@ -410,7 +410,7 @@ class ModalEditDependencia extends React.Component {
                                   )}{' '}
                                   <span className="text-danger">*</span>{' '}
                                 </label>
-                                {/* <SelectCompany
+                                <SelectCompany
                                   conglomerate={props.values.conglomerate}
                                   name="company"
                                   value={values.company}
@@ -420,8 +420,8 @@ class ModalEditDependencia extends React.Component {
                                   className={`form-control form-control-sm ${errors.company &&
                                     touched.company &&
                                     'is-invalid'}`}
-                                ></SelectCompany> */}
-                                <select
+                                ></SelectCompany>
+                                {/* <select
                                   name="company"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -436,7 +436,7 @@ class ModalEditDependencia extends React.Component {
                                     --
                                   </option>
                                   {companyList}
-                                </select>
+                                </select> */}
                                 <div style={{ color: '#D54B4B' }}>
                                   {errors.company && touched.company ? (
                                     <i class="fa fa-exclamation-triangle" />
@@ -454,17 +454,18 @@ class ModalEditDependencia extends React.Component {
                                   )}{' '}
                                   <span className="text-danger">*</span>{' '}
                                 </label>
-                                {/* <SelectHeadquarter
+                                <SelectHeadquarter
                                   company={props.values.company}
                                   name={'headquarter'}
+                                  value={values.headquarter}
                                   onChange={e =>
                                     setFieldValue('headquarter', e.target.value)
                                   }
                                   className={`form-control form-control-sm ${errors.headquarter &&
                                     touched.headquarter &&
                                     'is-invalid'}`}
-                                ></SelectHeadquarter> */}
-                                <select
+                                ></SelectHeadquarter>
+                                {/* <select
                                   name="headquarter"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
@@ -479,7 +480,7 @@ class ModalEditDependencia extends React.Component {
                                     --
                                   </option>
                                   {headquarterList}
-                                </select>
+                                </select> */}
                                 <div style={{ color: '#D54B4B' }}>
                                   {errors.headquarter && touched.headquarter ? (
                                     <i class="fa fa-exclamation-triangle" />
@@ -731,6 +732,7 @@ class SelectConglomerado extends React.Component {
           value={this.props.value}
           className={this.props.className}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -798,6 +800,7 @@ class SelectCompany extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -822,7 +825,7 @@ class SelectHeadquarter extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.company !== state.id) {
       return {
-        company: props.company
+        id: props.company
       };
     }
     return null;
@@ -867,6 +870,7 @@ class SelectHeadquarter extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataHeadquarter.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

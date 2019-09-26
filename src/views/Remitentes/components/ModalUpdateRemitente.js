@@ -601,15 +601,15 @@ class ModalUpdateRemitente extends React.Component {
                     <Col sm="4">
                       <div className="form-group">
                         <label> {this.props.t("app_tercero_modal_actualizar_pais")} <span className="text-danger">*</span>{" "} </label>
-                        {/* <SelectCountry
+                        <SelectCountry
                     name={'tercero_pais'}
                     onChange={e => setFieldValue('tercero_pais', e.target.value)}
                     value={values.tercero_pais}
                     className={`form-control form-control-sm ${errors.tercero_pais &&
                       touched.tercero_pais &&
                       'is-invalid'}`}
-                  /> */}
-                        <select
+                  />
+                        {/* <select
                           name={"tercero_pais"}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -623,7 +623,7 @@ class ModalUpdateRemitente extends React.Component {
                             -- {this.props.t("app_tercero_modal_actualizar_select_pais")} --
                           </option>
                           {mapOptionsCountries}
-                        </select>
+                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.tercero_pais && touched.tercero_pais ?
@@ -637,7 +637,7 @@ class ModalUpdateRemitente extends React.Component {
                     <Col sm="4">
                       <div className="form-group">
                         <label> {this.props.t("app_tercero_modal_actualizar_departamento")} <span className="text-danger">*</span>{" "} </label>
-                        {/* <SelectDepartment
+                        <SelectDepartment
                     tercero_pais={props.values.tercero_pais}
                     name="tercero_departamento"
                     value={values.tercero_departamento}
@@ -647,8 +647,8 @@ class ModalUpdateRemitente extends React.Component {
                     className={`form-control form-control-sm ${errors.tercero_departamento &&
                       touched.tercero_departamento &&
                       'is-invalid'}`}
-                  /> */}
-                        <select
+                  />
+                        {/* <select
                            name={"tercero_departamento"}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -664,7 +664,7 @@ class ModalUpdateRemitente extends React.Component {
                           </option>
                           {mapOptionsDepartments}
                           {" "}
-                        </select>
+                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.tercero_departamento && touched.tercero_departamento ?
@@ -678,17 +678,18 @@ class ModalUpdateRemitente extends React.Component {
                     <Col sm="4">
                     <div className="form-group">
                       <label> {this.props.t("app_tercero_modal_actualizar_ciudad")} <span className="text-danger">*</span>{" "} </label>
-                      {/* <SelectCity
+                      <SelectCity
                           tercero_departamento={props.values.tercero_departamento}
                           name={'tercero_ciudad'}
+                          value={values.tercero_ciudad}
                           onChange={e =>
                             setFieldValue('tercero_ciudad', e.target.value)
                           }
                           className={`form-control form-control-sm ${errors.tercero_ciudad &&
                             touched.tercero_ciudad &&
                             'is-invalid'}`}
-                        /> */}
-                      <select
+                        />
+                      {/* <select
                       name={"tercero_ciudad"}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -703,7 +704,7 @@ class ModalUpdateRemitente extends React.Component {
                           </option>
                           
                         {mapOptionsCities}
-                      </select>
+                      </select> */}
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.tercero_ciudad && touched.tercero_ciudad ?
@@ -877,6 +878,7 @@ class SelectCountry extends React.Component {
           value={this.props.value}
           className={this.props.className}
         >
+          <option value={""}>-- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -917,7 +919,7 @@ class SelectDepartment extends React.Component {
 
   getDataDepartment = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/country/deparment/${this.state.id}`,
+      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
       {
         method: 'GET',
         headers: {
@@ -943,6 +945,7 @@ class SelectDepartment extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={""}>-- Seleccione --</option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -965,7 +968,7 @@ class SelectCity extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.tercero_departamento !== state.id) {
       return {
-        tercero_departamento: props.tercero_departamento
+        id: props.tercero_departamento
       };
     }
     return null;
@@ -1010,6 +1013,7 @@ class SelectCity extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={""}>-- Seleccione --</option>
           {this.state.dataCity.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

@@ -387,15 +387,15 @@ const RemitenteForm = props => {
                           {t('app_tercero_form_registrar_pais')}{' '}
                           <span className="text-danger"> * </span>{' '}
                         </label>
-                        {/* <SelectCountry
+                        <SelectCountry
                           name={'pais'}
                           onChange={e => setFieldValue('pais', e.target.value)}
                           value={values.pais}
                           className={`form-control form-control-sm ${errors.pais &&
                             touched.pais &&
                             'is-invalid'}`}
-                        /> */}
-                        <select
+                        />
+                        {/* <select
                           name={'pais'}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -409,7 +409,7 @@ const RemitenteForm = props => {
                             -- {t('app_tercero_form_select_registrar_pais')} --
                           </option>
                           {mapOptionsCountries}
-                        </select>
+                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                           {errors.pais && touched.pais ? (
                             <i className="fa fa-exclamation-triangle" />
@@ -425,7 +425,7 @@ const RemitenteForm = props => {
                           {t('app_tercero_form_registrar_departamento')}{' '}
                           <span className="text-danger"> * </span>{' '}
                         </label>
-                        {/* <SelectDepartment
+                        <SelectDepartment
                           pais={props.values.pais}
                           name="departamento"
                           value={values.departamento}
@@ -435,8 +435,8 @@ const RemitenteForm = props => {
                           className={`form-control form-control-sm ${errors.departamento &&
                             touched.departamento &&
                             'is-invalid'}`}
-                        /> */}
-                        <select
+                        />
+                        {/* <select
                           name={'departamento'}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -453,7 +453,7 @@ const RemitenteForm = props => {
                             --
                           </option>
                           {mapOptionsDepartments}
-                        </select>
+                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                           {errors.departamento && touched.departamento ? (
                             <i className="fa fa-exclamation-triangle" />
@@ -469,7 +469,7 @@ const RemitenteForm = props => {
                           {t('app_tercero_form_registrar_ciudad')}{' '}
                           <span className="text-danger"> * </span>{' '}
                         </label>
-                        {/* <SelectCity
+                        <SelectCity
                           departamento={props.values.departamento}
                           name={'ciudad'}
                           onChange={e =>
@@ -478,8 +478,8 @@ const RemitenteForm = props => {
                           className={`form-control form-control-sm ${errors.ciudad &&
                             touched.ciudad &&
                             'is-invalid'}`}
-                        /> */}
-                        <select
+                        />
+                        {/* <select
                           name={'ciudad'}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -493,7 +493,7 @@ const RemitenteForm = props => {
                             --
                           </option>
                           {mapOptionsCitys}
-                        </select>
+                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                           {errors.ciudad && touched.ciudad ? (
                             <i className="fa fa-exclamation-triangle" />
@@ -803,6 +803,7 @@ class SelectCountry extends React.Component {
           value={this.props.value}
           className={this.props.className}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -843,7 +844,7 @@ class SelectDepartment extends React.Component {
 
   getDataDepartment = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/country/deparment/${this.state.id}`,
+      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
       {
         method: 'GET',
         headers: {
@@ -869,6 +870,7 @@ class SelectDepartment extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -891,7 +893,7 @@ class SelectCity extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.departamento !== state.id) {
       return {
-        departamento: props.departamento
+        id: props.departamento
       };
     }
     return null;
@@ -936,6 +938,7 @@ class SelectCity extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCity.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

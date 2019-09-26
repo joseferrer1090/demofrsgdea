@@ -441,21 +441,6 @@ class ModalEditConglomerado extends React.Component {
                                     touched.conglomerate_country &&
                                     'is-invalid'}`}
                                 />
-                                {/* <select
-                                  name={'conglomerate_country'}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.conglomerate_country}
-                                  className={`form-control form-control-sm ${errors.conglomerate_country &&
-                                    touched.conglomerate_country &&
-                                    'is-invalid'}`}
-                                >
-                                  {' '}
-                                  <option value={''} disabled>
-                                    -- Seleccione --
-                                  </option>
-                                  {mapOptionsCountries}{' '}
-                                </select>{' '} */}
                                 <div style={{ color: '#D54B4B' }}>
                                   {errors.conglomerate_country &&
                                   touched.conglomerate_country ? (
@@ -524,20 +509,7 @@ class ModalEditConglomerado extends React.Component {
                                     touched.conglomerate_city &&
                                     'is-invalid'}`}
                                 />
-                                {/* <select
-                                  name="conglomerate_city"
-                                  value={values.conglomerate_city}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  className={`form-control form-control-sm ${errors.conglomerate_city &&
-                                    touched.conglomerate_city &&
-                                    'is-invalid'}`}
-                                >
-                                  <option value={''} disabled>
-                                    -- Seleccione --
-                                  </option>
-                                  {mapOptionsCitys}
-                                </select> */}
+
                                 <div style={{ color: '#D54B4B' }}>
                                   {errors.conglomerate_city &&
                                   touched.conglomerate_city ? (
@@ -591,11 +563,7 @@ class ModalEditConglomerado extends React.Component {
                                   value={values.description}
                                   className="form-control form-control-sm"
                                 />
-                                {/* <Field
-                                  type="text"
-                                  name="descripcion"
-                                  className="form-control form-control-sm"
-                                /> */}
+
                                 <ErrorMessage name="description" />
                               </div>
                             </div>
@@ -615,13 +583,7 @@ class ModalEditConglomerado extends React.Component {
                                     name="status"
                                     type=""
                                     render={({ field, form }) => {
-                                      //console.log("field", field);
                                       return (
-                                        // <input
-                                        //   type="checkbox"
-                                        //   checked={field.value}
-                                        //   {...field}
-                                        // />
                                         <CustomInput
                                           type="checkbox"
                                           id="conglomeradoModalEdit"
@@ -639,20 +601,7 @@ class ModalEditConglomerado extends React.Component {
                                       );
                                     }}
                                   />
-                                  {/* <Field
-                                    name="estado"
-                                    type=""
-                                    render={({ field, form }) => {
-                                      //console.log("field", field);
-                                      return (
-                                        <input
-                                          type="checkbox"
-                                          checked={field.value}
-                                          {...field}
-                                        />
-                                      );
-                                    }}
-                                  /> */}
+
                                   <ErrorMessage name="status" />
                                 </div>
                               </div>
@@ -706,38 +655,6 @@ ModalEditConglomerado.propTypes = {
 };
 
 export default ModalEditConglomerado;
-
-// function CheckBox(props) {
-//   return (
-//     <Field
-//       {...props}
-//       render={({ field, form }) => {
-//         // console.log("field", field);
-//         return <input type="checkbox" checked={field.value} {...field} />;
-//       }}
-//     />
-//   );
-// }
-
-{
-  /* <form className={"form"} onSubmit={this.handleSubmit}>
-<ModalBody>
-  <p>Probando</p>
-</ModalBody>
-<ModalFooter>
-  <button type={"submit"}> Actualizar </button>
-  <button
-    type="button"
-    onClick={() => {
-      this.toggle();
-    }}
-  >
-    {" "}
-    Cerrar
-  </button>
-</ModalFooter>
-</form> */
-}
 
 //--------------------//
 class SelectCountry extends React.Component {

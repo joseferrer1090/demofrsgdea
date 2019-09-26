@@ -560,7 +560,7 @@ class ModalEditEmpresa extends React.Component {
                                       )}
                                       <span className="text-danger">*</span>{' '}
                                     </label>
-                                    {/* <SelectCountry
+                                    <SelectCountry
                                       name={'company_country'}
                                       onChange={e =>
                                         setFieldValue(
@@ -572,8 +572,8 @@ class ModalEditEmpresa extends React.Component {
                                       className={`form-control form-control-sm ${errors.company_country &&
                                         touched.company_country &&
                                         'is-invalid'}`}
-                                    /> */}
-                                    <select
+                                    />
+                                    {/* <select
                                       name={'company_country'}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
@@ -591,7 +591,7 @@ class ModalEditEmpresa extends React.Component {
                                         --
                                       </option>
                                       {mapOptionsCountries}{' '}
-                                    </select>{' '}
+                                    </select>{' '} */}
                                     <div style={{ color: '#D54B4B' }}>
                                       {errors.company_country &&
                                       touched.company_country ? (
@@ -610,7 +610,7 @@ class ModalEditEmpresa extends React.Component {
                                       )}
                                       <span className="text-danger">*</span>{' '}
                                     </label>
-                                    {/* <SelectDepartment
+                                    <SelectDepartment
                                       company_country={
                                         props.values.company_country
                                       }
@@ -625,8 +625,8 @@ class ModalEditEmpresa extends React.Component {
                                       className={`form-control form-control-sm ${errors.company_department &&
                                         touched.company_department &&
                                         'is-invalid'}`}
-                                    /> */}
-                                    <select
+                                    />
+                                    {/* <select
                                       name="company_department"
                                       value={values.company_department}
                                       onChange={handleChange}
@@ -643,7 +643,7 @@ class ModalEditEmpresa extends React.Component {
                                         --
                                       </option>
                                       {mapOptionsDepartments}
-                                    </select>
+                                    </select> */}
                                     <div style={{ color: '#D54B4B' }}>
                                       {errors.company_department &&
                                       touched.company_department ? (
@@ -662,11 +662,12 @@ class ModalEditEmpresa extends React.Component {
                                       )}{' '}
                                       <span className="text-danger">*</span>{' '}
                                     </label>
-                                    {/* <SelectCity
+                                    <SelectCity
                                       company_department={
                                         props.values.company_department
                                       }
                                       name={'company_city'}
+                                      value={values.company_city}
                                       onChange={e =>
                                         setFieldValue(
                                           'company_city',
@@ -676,8 +677,8 @@ class ModalEditEmpresa extends React.Component {
                                       className={`form-control form-control-sm ${errors.company_city &&
                                         touched.company_city &&
                                         'is-invalid'}`}
-                                    /> */}
-                                    <select
+                                    />
+                                    {/* <select
                                       name="company_city"
                                       value={values.company_city}
                                       onChange={handleChange}
@@ -694,7 +695,7 @@ class ModalEditEmpresa extends React.Component {
                                         --
                                       </option>
                                       {mapOptionsCitys}
-                                    </select>
+                                    </select> */}
                                     <div style={{ color: '#D54B4B' }}>
                                       {errors.company_city &&
                                       touched.company_city ? (
@@ -901,6 +902,7 @@ class SelectCountry extends React.Component {
           value={this.props.value}
           className={this.props.className}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -941,7 +943,7 @@ class SelectDepartment extends React.Component {
 
   getDataDepartment = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/country/deparment/${this.state.id}`,
+      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
       {
         method: 'GET',
         headers: {
@@ -967,6 +969,7 @@ class SelectDepartment extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -989,7 +992,7 @@ class SelectCity extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.company_department !== state.id) {
       return {
-        company_department: props.company_department
+        id: props.company_department
       };
     }
     return null;
@@ -1034,6 +1037,7 @@ class SelectCity extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCity.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

@@ -224,20 +224,7 @@ const ConglomeradorForm = props => {
                       touched.countryId &&
                       'is-invalid'}`}
                   />
-                  {/* <select
-                    name={'countryId'}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.countryId}
-                    className={`form-control form-control-sm ${errors.countryId &&
-                      touched.countryId &&
-                      'is-invalid'}`}
-                  >
-                    <option value={''} disabled>
-                      -- {t('app_conglomerado_form_select_pais')} --
-                    </option>
-                    {mapOptionsCountries}
-                  </select> */}
+
                   {touched ? (
                     <div style={{ color: '#D54B4B' }}>
                       {errors.countryId && touched.countryId ? (
@@ -268,20 +255,7 @@ const ConglomeradorForm = props => {
                       touched.departmentId &&
                       'is-invalid'}`}
                   />
-                  {/* <select
-                    name={'departmentId'}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.departmentId}
-                    className={`form-control form-control-sm ${errors.departmentId &&
-                      touched.departmentId &&
-                      'is-invalid'}`}
-                  >
-                    <option value={''} disabled>
-                      -- {t('app_conglomerado_form_select_departamento')} --
-                    </option>
-                    {mapOptionsDepartments}
-                  </select> */}
+
                   <div style={{ color: '#D54B4B' }}>
                     {errors.departmentId && touched.departmentId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -307,20 +281,7 @@ const ConglomeradorForm = props => {
                       touched.cityId &&
                       'is-invalid'}`}
                   />
-                  {/* <select
-                    name={'cityId'}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.cityId}
-                    className={`form-control form-control-sm ${errors.cityId &&
-                      touched.cityId &&
-                      'is-invalid'}`}
-                  >
-                    <option value={''} disabled>
-                      -- {t('app_conglomerado_form_select_pais')} --
-                    </option>
-                    {mapOptionsCitys}
-                  </select> */}
+
                   <div style={{ color: '#D54B4B' }}>
                     {errors.cityId && touched.cityId ? (
                       <i class="fa fa-exclamation-triangle" />

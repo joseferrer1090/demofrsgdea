@@ -319,7 +319,8 @@ class ModalEditConglomerado extends React.Component {
                 handleBlur,
                 handleSubmit,
                 handleReset,
-                setFieldValue
+                setFieldValue,
+                setFieldTouched
               } = props;
               return (
                 <Fragment>
@@ -436,6 +437,12 @@ class ModalEditConglomerado extends React.Component {
                                       e.target.value
                                     )
                                   }
+                                  onBlur={() => {
+                                    setFieldTouched(
+                                      'conglomerate_country',
+                                      true
+                                    );
+                                  }}
                                   value={values.conglomerate_country}
                                   className={`form-control form-control-sm ${errors.conglomerate_country &&
                                     touched.conglomerate_country &&
@@ -471,6 +478,12 @@ class ModalEditConglomerado extends React.Component {
                                       e.target.value
                                     )
                                   }
+                                  onBlur={() => {
+                                    setFieldTouched(
+                                      'conglomerate_department',
+                                      false
+                                    );
+                                  }}
                                   className={`form-control form-control-sm ${errors.conglomerate_department &&
                                     touched.conglomerate_department &&
                                     'is-invalid'}`}
@@ -504,6 +517,9 @@ class ModalEditConglomerado extends React.Component {
                                       'conglomerate_city',
                                       e.target.value
                                     )
+                                  }
+                                  onBlur={() =>
+                                    setFieldTouched('conglomerate_city')
                                   }
                                   className={`form-control form-control-sm ${errors.conglomerate_city &&
                                     touched.conglomerate_city &&
@@ -698,6 +714,7 @@ class SelectCountry extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
@@ -766,6 +783,7 @@ class SelectDepartment extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataDepartment.map((aux, id) => {
@@ -836,6 +854,7 @@ class SelectCity extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataCity.map((aux, id) => {

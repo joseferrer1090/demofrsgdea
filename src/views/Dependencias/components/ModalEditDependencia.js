@@ -314,7 +314,8 @@ class ModalEditDependencia extends React.Component {
                 handleBlur,
                 handleSubmit,
                 handleReset,
-                setFieldValue
+                setFieldValue,
+                setFieldTouched
               } = props;
               return (
                 <Fragment>
@@ -371,6 +372,9 @@ class ModalEditDependencia extends React.Component {
                                       e.target.value
                                     )
                                   }
+                                  onBlur={() =>
+                                    setFieldTouched('conglomerate', true)
+                                  }
                                   value={values.conglomerate}
                                   className={`form-control form-control-sm ${errors.conglomerate &&
                                     touched.conglomerate &&
@@ -417,6 +421,9 @@ class ModalEditDependencia extends React.Component {
                                   onChange={e =>
                                     setFieldValue('company', e.target.value)
                                   }
+                                  onBlur={() =>
+                                    setFieldTouched('company', true)
+                                  }
                                   className={`form-control form-control-sm ${errors.company &&
                                     touched.company &&
                                     'is-invalid'}`}
@@ -460,6 +467,9 @@ class ModalEditDependencia extends React.Component {
                                   value={values.headquarter}
                                   onChange={e =>
                                     setFieldValue('headquarter', e.target.value)
+                                  }
+                                  onBlur={() =>
+                                    setFieldTouched('headquarter', true)
                                   }
                                   className={`form-control form-control-sm ${errors.headquarter &&
                                     touched.headquarter &&
@@ -730,6 +740,7 @@ class SelectConglomerado extends React.Component {
           name={this.props.name}
           onChange={this.props.onChange}
           value={this.props.value}
+          onBlur={this.props.onBlur}
           className={this.props.className}
         >
           <option value={''}>-- Seleccione --</option>
@@ -799,6 +810,7 @@ class SelectCompany extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataCompany.map((aux, id) => {
@@ -869,6 +881,7 @@ class SelectHeadquarter extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataHeadquarter.map((aux, id) => {

@@ -35,6 +35,7 @@ const DependenciaForm = props => {
     setFieldValue,
     handleBlur,
     handleSubmit,
+    setFieldTouched,
     handleReset,
     t
   } = props;
@@ -174,6 +175,7 @@ const DependenciaForm = props => {
                         onChange={e =>
                           setFieldValue('conglomerateId', e.target.value)
                         }
+                        onBlur={() => setFieldTouched('conglomerateId', true)}
                         value={values.conglomerateId}
                         className={`form-control form-control-sm ${errors.conglomerateId &&
                           touched.conglomerateId &&
@@ -219,6 +221,7 @@ const DependenciaForm = props => {
                         onChange={e =>
                           setFieldValue('companyId', e.target.value)
                         }
+                        onBlur={() => setFieldTouched('companyId', true)}
                         className={`form-control form-control-sm ${errors.companyId &&
                           touched.companyId &&
                           'is-invalid'}`}
@@ -264,6 +267,7 @@ const DependenciaForm = props => {
                         onChange={e =>
                           setFieldValue('headquarterId', e.target.value)
                         }
+                        onBlur={() => setFieldTouched('headquarterId', true)}
                         className={`form-control form-control-sm ${errors.headquarterId &&
                           touched.headquarterId &&
                           'is-invalid'}`}
@@ -624,6 +628,7 @@ class SelectConglomerado extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataConglomerate.map((aux, id) => {
@@ -692,6 +697,7 @@ class SelectCompany extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataCompany.map((aux, id) => {
@@ -762,6 +768,7 @@ class SelectHeadquarter extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataHeadquarter.map((aux, id) => {

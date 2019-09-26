@@ -37,6 +37,7 @@ const SedesForm = props => {
     setFieldValue,
     handleBlur,
     handleSubmit,
+    setFieldTouched,
     handleReset,
     t
   } = props;
@@ -241,6 +242,7 @@ const SedesForm = props => {
                     onChange={e =>
                       setFieldValue('conglomerateId', e.target.value)
                     }
+                    onBlur={() => setFieldTouched('conglomerateId', true)}
                     value={values.conglomerateId}
                     className={`form-control form-control-sm ${errors.conglomerateId &&
                       touched.conglomerateId &&
@@ -282,6 +284,7 @@ const SedesForm = props => {
                     name="companyId"
                     value={values.companyId}
                     onChange={e => setFieldValue('companyId', e.target.value)}
+                    onBlur={() => setFieldTouched('companyId', true)}
                     className={`form-control form-control-sm ${errors.companyId &&
                       touched.companyId &&
                       'is-invalid'}`}
@@ -462,6 +465,7 @@ const SedesForm = props => {
                   <SelectCountry
                     name={'countryId'}
                     onChange={e => setFieldValue('countryId', e.target.value)}
+                    onBlur={() => setFieldTouched('countryId', true)}
                     value={values.countryId}
                     className={`form-control form-control-sm ${errors.countryId &&
                       touched.countryId &&
@@ -502,6 +506,7 @@ const SedesForm = props => {
                     onChange={e =>
                       setFieldValue('departmentId', e.target.value)
                     }
+                    onBlur={() => setFieldTouched('departmentId', true)}
                     className={`form-control form-control-sm ${errors.departmentId &&
                       touched.departmentId &&
                       'is-invalid'}`}
@@ -538,6 +543,9 @@ const SedesForm = props => {
                     departmentId={props.values.departmentId}
                     name={'cityId'}
                     onChange={e => setFieldValue('cityId', e.target.value)}
+                    onBlur={() => {
+                      setFieldTouched('cityId', true);
+                    }}
                     className={`form-control form-control-sm ${errors.cityId &&
                       touched.cityId &&
                       'is-invalid'}`}
@@ -885,6 +893,7 @@ class SelectConglomerado extends React.Component {
         <select
           name={this.props.name}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
           value={this.props.value}
           className={this.props.className}
         >
@@ -955,6 +964,7 @@ class SelectCompany extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataCompany.map((aux, id) => {
@@ -1012,6 +1022,7 @@ class SelectCountry extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
@@ -1079,6 +1090,7 @@ class SelectDepartment extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataDepartment.map((aux, id) => {
@@ -1147,6 +1159,7 @@ class SelectCity extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataCity.map((aux, id) => {

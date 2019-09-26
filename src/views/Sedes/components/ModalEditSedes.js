@@ -424,7 +424,8 @@ class ModalEditSedes extends React.Component {
                 handleBlur,
                 handleSubmit,
                 handleReset,
-                setFieldValue
+                setFieldValue,
+                setFieldTouched
               } = props;
               return (
                 <Fragment>
@@ -465,7 +466,7 @@ class ModalEditSedes extends React.Component {
                                 )}{' '}
                                 <span className="text-danger">*</span>{' '}
                               </label>
-                              {/* <SelectConglomerado
+                              <SelectConglomerado
                                 name={'headquarter_conglomerate'}
                                 onChange={e =>
                                   setFieldValue(
@@ -473,12 +474,18 @@ class ModalEditSedes extends React.Component {
                                     e.target.value
                                   )
                                 }
+                                onBlur={() =>
+                                  setFieldTouched(
+                                    'headquarter_conglomerate',
+                                    true
+                                  )
+                                }
                                 value={values.headquarter_conglomerate}
                                 className={`form-control form-control-sm ${errors.headquarter_conglomerate &&
                                   touched.headquarter_conglomerate &&
                                   'is-invalid'}`}
-                              /> */}
-                              <select
+                              />
+                              {/* <select
                                 name="headquarter_conglomerate"
                                 className={`form-control form-control-sm ${errors.headquarter_conglomerate &&
                                   touched.headquarter_conglomerate &&
@@ -495,7 +502,7 @@ class ModalEditSedes extends React.Component {
                                   --
                                 </option>
                                 {mapOptionsConglomerate}
-                              </select>
+                              </select> */}
                               <div style={{ color: '#D54B4B' }}>
                                 {errors.headquarter_conglomerate &&
                                 touched.headquarter_conglomerate ? (
@@ -514,18 +521,26 @@ class ModalEditSedes extends React.Component {
                                 )}{' '}
                                 <span className="text-danger">*</span>{' '}
                               </label>
-                              {/* <SelectCompany
-                                headquarter_conglomerate={props.values.headquarter_conglomerate}
+                              <SelectCompany
+                                headquarter_conglomerate={
+                                  props.values.headquarter_conglomerate
+                                }
                                 name="headquarter_company"
                                 value={values.headquarter_company}
                                 onChange={e =>
-                                  setFieldValue('headquarter_company', e.target.value)
+                                  setFieldValue(
+                                    'headquarter_company',
+                                    e.target.value
+                                  )
+                                }
+                                onBlur={() =>
+                                  setFieldTouched('headquarter_company', true)
                                 }
                                 className={`form-control form-control-sm ${errors.headquarter_company &&
                                   touched.headquarter_company &&
                                   'is-invalid'}`}
-                              ></SelectCompany> */}
-                              <select
+                              ></SelectCompany>
+                              {/* <select
                                 name={'headquarter_company'}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
@@ -542,7 +557,7 @@ class ModalEditSedes extends React.Component {
                                   --
                                 </option>
                                 {mapOptionsCompanys}
-                              </select>
+                              </select> */}
                               <div style={{ color: '#D54B4B' }}>
                                 {errors.headquarter_company &&
                                 touched.headquarter_company ? (
@@ -747,7 +762,7 @@ class ModalEditSedes extends React.Component {
                                         )}
                                         <span className="text-danger">*</span>{' '}
                                       </label>
-                                      {/* <SelectCountry
+                                      <SelectCountry
                                         name={'headquarter_country'}
                                         onChange={e =>
                                           setFieldValue(
@@ -755,12 +770,15 @@ class ModalEditSedes extends React.Component {
                                             e.target.value
                                           )
                                         }
+                                        onBlur={() =>
+                                          setFieldTouched('headquarter_country')
+                                        }
                                         value={values.headquarter_country}
                                         className={`form-control form-control-sm ${errors.headquarter_country &&
                                           touched.headquarter_country &&
                                           'is-invalid'}`}
-                                      /> */}
-                                      <select
+                                      />
+                                      {/* <select
                                         name={'headquarter_country'}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -778,7 +796,7 @@ class ModalEditSedes extends React.Component {
                                           --
                                         </option>
                                         {mapOptionsCountries}{' '}
-                                      </select>{' '}
+                                      </select>{' '} */}
                                       <div style={{ color: '#D54B4B' }}>
                                         {errors.headquarter_country &&
                                         touched.headquarter_country ? (
@@ -797,7 +815,7 @@ class ModalEditSedes extends React.Component {
                                         )}
                                         <span className="text-danger">*</span>{' '}
                                       </label>
-                                      {/* <SelectDepartment
+                                      <SelectDepartment
                                         headquarter_country={
                                           props.values.headquarter_country
                                         }
@@ -809,11 +827,17 @@ class ModalEditSedes extends React.Component {
                                             e.target.value
                                           )
                                         }
+                                        onBlur={() =>
+                                          setFieldTouched(
+                                            'headquarter_department',
+                                            true
+                                          )
+                                        }
                                         className={`form-control form-control-sm ${errors.headquarter_department &&
                                           touched.headquarter_department &&
                                           'is-invalid'}`}
-                                      /> */}
-                                      <select
+                                      />
+                                      {/* <select
                                         name="headquarter_department"
                                         value={values.headquarter_department}
                                         onChange={handleChange}
@@ -830,7 +854,7 @@ class ModalEditSedes extends React.Component {
                                           --
                                         </option>
                                         {mapOptionsDepartments}
-                                      </select>
+                                      </select> */}
                                       <div style={{ color: '#D54B4B' }}>
                                         {errors.headquarter_department &&
                                         touched.headquarter_department ? (
@@ -849,22 +873,29 @@ class ModalEditSedes extends React.Component {
                                         )}{' '}
                                         <span className="text-danger">*</span>{' '}
                                       </label>
-                                      {/* <SelectCity
+                                      <SelectCity
                                         headquarter_department={
                                           props.values.headquarter_department
                                         }
                                         name={'headquarter_city'}
+                                        value={values.headquarter_city}
                                         onChange={e =>
                                           setFieldValue(
                                             'headquarter_city',
                                             e.target.value
                                           )
                                         }
+                                        onBlur={() =>
+                                          setFieldTouched(
+                                            'headquarter_city',
+                                            true
+                                          )
+                                        }
                                         className={`form-control form-control-sm ${errors.headquarter_city &&
                                           touched.headquarter_city &&
                                           'is-invalid'}`}
-                                      /> */}
-                                      <select
+                                      />
+                                      {/* <select
                                         name="headquarter_city"
                                         value={values.headquarter_city}
                                         onChange={handleChange}
@@ -881,7 +912,7 @@ class ModalEditSedes extends React.Component {
                                           --
                                         </option>
                                         {mapOptionsCitys}
-                                      </select>
+                                      </select> */}
                                       <div style={{ color: '#D54B4B' }}>
                                         {errors.headquarter_city &&
                                         touched.headquarter_city ? (
@@ -1077,7 +1108,9 @@ class SelectConglomerado extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1146,7 +1179,9 @@ class SelectCompany extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1202,7 +1237,9 @@ class SelectCountry extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}> -- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1243,7 +1280,7 @@ class SelectDepartment extends React.Component {
 
   getDataDepartment = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/country/deparment/${this.state.id}`,
+      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
       {
         method: 'GET',
         headers: {
@@ -1267,8 +1304,10 @@ class SelectDepartment extends React.Component {
           name={this.props.name}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1291,7 +1330,7 @@ class SelectCity extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.headquarter_department !== state.id) {
       return {
-        headquarter_department: props.headquarter_department
+        id: props.headquarter_department
       };
     }
     return null;
@@ -1337,7 +1376,9 @@ class SelectCity extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCity.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

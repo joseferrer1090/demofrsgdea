@@ -35,6 +35,7 @@ const DependenciaForm = props => {
     setFieldValue,
     handleBlur,
     handleSubmit,
+    setFieldTouched,
     handleReset,
     t
   } = props;
@@ -169,17 +170,18 @@ const DependenciaForm = props => {
                         {t('app_dependencia_form_registrar_conglomerado')}{' '}
                         <span className="text-danger">*</span>{' '}
                       </label>
-                      {/* <SelectConglomerado
+                      <SelectConglomerado
                         name={'conglomerateId'}
                         onChange={e =>
                           setFieldValue('conglomerateId', e.target.value)
                         }
+                        onBlur={() => setFieldTouched('conglomerateId', true)}
                         value={values.conglomerateId}
                         className={`form-control form-control-sm ${errors.conglomerateId &&
                           touched.conglomerateId &&
                           'is-invalid'}`}
-                      /> */}
-                      <select
+                      />
+                      {/* <select
                         name="conglomerateId"
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -196,7 +198,7 @@ const DependenciaForm = props => {
                           --
                         </option>
                         {mapOptionsConglomerate}
-                      </select>
+                      </select> */}
                       <div style={{ color: '#D54B4B' }}>
                         {errors.conglomerateId && touched.conglomerateId ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -212,18 +214,19 @@ const DependenciaForm = props => {
                         {t('app_dependencia_form_registrar_empresa')}{' '}
                         <span className="text-danger">*</span>{' '}
                       </label>
-                      {/* <SelectCompany
+                      <SelectCompany
                         conglomerateId={props.values.conglomerateId}
                         name="companyId"
                         value={values.companyId}
                         onChange={e =>
                           setFieldValue('companyId', e.target.value)
                         }
+                        onBlur={() => setFieldTouched('companyId', true)}
                         className={`form-control form-control-sm ${errors.companyId &&
                           touched.companyId &&
                           'is-invalid'}`}
-                      ></SelectCompany> */}
-                      <select
+                      ></SelectCompany>
+                      {/* <select
                         name={'companyId'}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -242,7 +245,7 @@ const DependenciaForm = props => {
                           --
                         </option>
                         {mapOptionsCompanys}{' '}
-                      </select>
+                      </select> */}
                       <div style={{ color: '#D54B4B' }}>
                         {errors.companyId && touched.companyId ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -258,17 +261,18 @@ const DependenciaForm = props => {
                         {t('app_dependencia_form_registrar_sede')}{' '}
                         <span className="text-danger">*</span>{' '}
                       </label>
-                      {/* <SelectHeadquarter
+                      <SelectHeadquarter
                         companyId={props.values.companyId}
                         name={'headquarterId'}
                         onChange={e =>
                           setFieldValue('headquarterId', e.target.value)
                         }
+                        onBlur={() => setFieldTouched('headquarterId', true)}
                         className={`form-control form-control-sm ${errors.headquarterId &&
                           touched.headquarterId &&
                           'is-invalid'}`}
-                      ></SelectHeadquarter> */}
-                      <select
+                      ></SelectHeadquarter>
+                      {/* <select
                         name={'headquarterId'}
                         onChange={handleChange}
                         onBlur={handleBlur}
@@ -282,7 +286,7 @@ const DependenciaForm = props => {
                           --
                         </option>
                         {mapOptionsHeadquarters}
-                      </select>
+                      </select> */}
                       <div style={{ color: '#D54B4B' }}>
                         {errors.headquarterId && touched.headquarterId ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -624,7 +628,9 @@ class SelectConglomerado extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -691,7 +697,9 @@ class SelectCompany extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -716,7 +724,7 @@ class SelectHeadquarter extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.companyId !== state.id) {
       return {
-        companyId: props.companyId
+        id: props.companyId
       };
     }
     return null;
@@ -760,7 +768,9 @@ class SelectHeadquarter extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataHeadquarter.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

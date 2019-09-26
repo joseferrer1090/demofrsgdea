@@ -31,6 +31,7 @@ const CiudadForm = props => {
     handleBlur,
     handleSubmit,
     handleReset,
+    setFieldTouched,
     t
   } = props;
 
@@ -110,15 +111,16 @@ const CiudadForm = props => {
                       {t('app_ciudad_form_select_pais')}{' '}
                       <span className="text-danger">*</span>{' '}
                     </label>
-                    {/* <SelectCountry
+                    <SelectCountry
                       name={'countryId'}
                       onChange={e => setFieldValue('countryId', e.target.value)}
+                      onBlur={() => setFieldTouched('countryId', true)}
                       value={values.countryId}
                       className={`form-control form-control-sm ${errors.countryId &&
                         touched.countryId &&
                         'is-invalid'}`}
-                    /> */}
-                    <select
+                    />
+                    {/* <select
                       name={'countryId'}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -132,7 +134,7 @@ const CiudadForm = props => {
                         -- {t('app_ciudad_form_registrar_pais')} --
                       </option>
                       {mapOptionsCountries}
-                    </select>
+                    </select> */}
                     <div style={{ color: '#D54B4B' }}>
                       {errors.countryId && touched.countryId ? (
                         <i className="fa fa-exclamation-triangle" />
@@ -148,18 +150,19 @@ const CiudadForm = props => {
                       {t('app_ciudad_form_select_departamento')}{' '}
                       <span className="text-danger">*</span>{' '}
                     </label>
-                    {/* <SelectDepartment
+                    <SelectDepartment
                       countryId={props.values.countryId}
                       name="departmentId"
                       value={values.departmentId}
                       onChange={e =>
                         setFieldValue('departmentId', e.target.value)
                       }
+                      onBlur={() => setFieldTouched('departmentId', true)}
                       className={`form-control form-control-sm ${errors.departmentId &&
                         touched.departmentId &&
                         'is-invalid'}`}
-                    /> */}
-                    <select
+                    />
+                    {/* <select
                       name={'departmentId'}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -173,7 +176,7 @@ const CiudadForm = props => {
                         -- {t('app_ciudad_form_registrar_departamento')} --{' '}
                       </option>
                       {mapOptionsDepartments}
-                    </select>
+                    </select> */}
                     <div style={{ color: '#D54B4B' }}>
                       {errors.departmentId && touched.departmentId ? (
                         <i className="fa fa-exclamation-triangle" />
@@ -449,7 +452,9 @@ class SelectCountry extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -490,7 +495,7 @@ class SelectDepartment extends React.Component {
 
   getDataDepartment = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/country/deparment/${this.state.id}`,
+      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
       {
         method: 'GET',
         headers: {
@@ -515,7 +520,9 @@ class SelectDepartment extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

@@ -237,7 +237,9 @@ class ModalEditCiudad extends React.Component {
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset
+                handleReset,
+                setFieldValue,
+                setFieldTouched
               } = props;
               return (
                 <Fragment>
@@ -282,7 +284,23 @@ class ModalEditCiudad extends React.Component {
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
-                                  <select
+                                  <SelectCountry
+                                    name={'city_country'}
+                                    onChange={e =>
+                                      setFieldValue(
+                                        'city_country',
+                                        e.target.value
+                                      )
+                                    }
+                                    onBlur={() =>
+                                      setFieldTouched('city_country', true)
+                                    }
+                                    value={values.city_country}
+                                    className={`form-control form-control-sm ${errors.city_country &&
+                                      touched.city_country &&
+                                      'is-invalid'}`}
+                                  />
+                                  {/* <select
                                     name={'city_country'}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -300,7 +318,7 @@ class ModalEditCiudad extends React.Component {
                                       --
                                     </option>
                                     {mapOptionsCountries}{' '}
-                                  </select>{' '}
+                                  </select>{' '} */}
                                   <div style={{ color: '#D54B4B' }}>
                                     {errors.city_country &&
                                     touched.city_country ? (
@@ -321,7 +339,24 @@ class ModalEditCiudad extends React.Component {
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
-                                  <select
+                                  <SelectDepartment
+                                    city_country={props.values.city_country}
+                                    name="city_department"
+                                    value={values.city_department}
+                                    onChange={e =>
+                                      setFieldValue(
+                                        'city_department',
+                                        e.target.value
+                                      )
+                                    }
+                                    onBlur={() =>
+                                      setFieldTouched('city_department', true)
+                                    }
+                                    className={`form-control form-control-sm ${errors.city_department &&
+                                      touched.city_department &&
+                                      'is-invalid'}`}
+                                  />
+                                  {/* <select
                                     name={'city_department'}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -339,7 +374,7 @@ class ModalEditCiudad extends React.Component {
                                       --
                                     </option>
                                     {mapOptionsDepartments}{' '}
-                                  </select>{' '}
+                                  </select>{' '} */}
                                   <div style={{ color: '#D54B4B' }}>
                                     {errors.city_department &&
                                     touched.city_department ? (
@@ -493,7 +528,134 @@ class ModalEditCiudad extends React.Component {
 ModalEditCiudad.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   updateTable: PropTypes.func.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  id: PropTypes.any
 };
 
 export default ModalEditCiudad;
+
+class SelectCountry extends React.Component {
+  state = {
+    dataCountry: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCountry: data
+        });
+      });
+  };
+
+  handleChange = value => {
+    this.props.onChange('city_country', value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur('city_country', true);
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          value={this.props.value}
+          className={this.props.className}
+          onBlur={this.props.onBlur}
+        >
+          <option value={''}>-- Seleccione --</option>
+          {this.state.dataCountry.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//
+class SelectDepartment extends React.Component {
+  state = {
+    dataDepartment: [],
+    id: this.props.city_country
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.city_country !== state.id) {
+      return {
+        id: props.city_country
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.city_country !== prevProps.city_country) {
+      this.getDataDepartment();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataDepartment();
+  }
+
+  getDataDepartment = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDepartment: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+        >
+          <option value={''}>-- Seleccione --</option>
+          {this.state.dataDepartment.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+//--------------------//

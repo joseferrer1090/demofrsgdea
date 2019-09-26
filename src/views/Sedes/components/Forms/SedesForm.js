@@ -236,7 +236,7 @@ const SedesForm = props => {
                     {t('app_sedes_form_registrar_conglomerado')}{' '}
                     <span className="text-danger">*</span>{' '}
                   </label>
-                  {/* <SelectConglomerado
+                  <SelectConglomerado
                     name={'conglomerateId'}
                     onChange={e =>
                       setFieldValue('conglomerateId', e.target.value)
@@ -245,8 +245,8 @@ const SedesForm = props => {
                     className={`form-control form-control-sm ${errors.conglomerateId &&
                       touched.conglomerateId &&
                       'is-invalid'}`}
-                  /> */}
-                  <select
+                  />
+                  {/* <select
                     name="conglomerateId"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -260,7 +260,7 @@ const SedesForm = props => {
                       -- {t('app_sedes_form_registrar_select_conglomerado')} --
                     </option>
                     {mapOptionsConglomerate}{' '}
-                  </select>
+                  </select> */}
                   <div style={{ color: '#D54B4B' }}>
                     {errors.conglomerateId && touched.conglomerateId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -277,7 +277,7 @@ const SedesForm = props => {
                     <span className="text-danger">*</span>
                   </label>
                   <br />
-                  {/* <SelectCompany
+                  <SelectCompany
                     conglomerateId={props.values.conglomerateId}
                     name="companyId"
                     value={values.companyId}
@@ -285,8 +285,8 @@ const SedesForm = props => {
                     className={`form-control form-control-sm ${errors.companyId &&
                       touched.companyId &&
                       'is-invalid'}`}
-                  ></SelectCompany> */}
-                  <select
+                  ></SelectCompany>
+                  {/* <select
                     name="companyId"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -299,7 +299,7 @@ const SedesForm = props => {
                       -- {t('app_sedes_form_registrar_select_empresa')} --
                     </option>
                     {mapOptionsCompanys}
-                  </select>
+                  </select> */}
                   <div style={{ color: '#D54B4B' }}>
                     {errors.companyId && touched.companyId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -459,15 +459,15 @@ const SedesForm = props => {
                 <div className="form-group">
                   <label>{t('app_sedes_form_registrar_pais')}</label>
                   <span className="text-danger">*</span>{' '}
-                  {/* <SelectCountry
+                  <SelectCountry
                     name={'countryId'}
                     onChange={e => setFieldValue('countryId', e.target.value)}
                     value={values.countryId}
                     className={`form-control form-control-sm ${errors.countryId &&
                       touched.countryId &&
                       'is-invalid'}`}
-                  /> */}
-                  <select
+                  />
+                  {/* <select
                     name={'countryId'}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -480,7 +480,7 @@ const SedesForm = props => {
                       -- {t('app_sedes_form_select_pais')} --
                     </option>
                     {mapOptionsCountries}
-                  </select>
+                  </select> */}
                   <div style={{ color: '#D54B4B' }}>
                     {errors.countryId && touched.countryId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -495,7 +495,7 @@ const SedesForm = props => {
                     {t('app_sedes_form_registrar_departamento')}
                     <span className="text-danger">*</span>{' '}
                   </label>
-                  {/* <SelectDepartment
+                  <SelectDepartment
                     countryId={props.values.countryId}
                     name="departmentId"
                     value={values.departmentId}
@@ -505,8 +505,8 @@ const SedesForm = props => {
                     className={`form-control form-control-sm ${errors.departmentId &&
                       touched.departmentId &&
                       'is-invalid'}`}
-                  /> */}
-                  <select
+                  />
+                  {/* <select
                     name={'departmentId'}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -519,7 +519,7 @@ const SedesForm = props => {
                       -- {t('app_sedes_form_select_departamento')} --
                     </option>
                     {mapOptionsDepartments}
-                  </select>
+                  </select> */}
                   <div style={{ color: '#D54B4B' }}>
                     {errors.departmentId && touched.departmentId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -534,15 +534,15 @@ const SedesForm = props => {
                     {t('app_sedes_form_registrar_ciudad')}{' '}
                     <span className="text-danger">*</span>
                   </label>
-                  {/* <SelectCity
+                  <SelectCity
                     departmentId={props.values.departmentId}
                     name={'cityId'}
                     onChange={e => setFieldValue('cityId', e.target.value)}
                     className={`form-control form-control-sm ${errors.cityId &&
                       touched.cityId &&
                       'is-invalid'}`}
-                  /> */}
-                  <select
+                  />
+                  {/* <select
                     name={'cityId'}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -555,7 +555,7 @@ const SedesForm = props => {
                       -- {t('app_sedes_form_select_ciudad')} --
                     </option>
                     {mapOptionsCitys}
-                  </select>
+                  </select> */}
                   <div style={{ color: '#D54B4B' }}>
                     {errors.cityId && touched.cityId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -888,6 +888,7 @@ class SelectConglomerado extends React.Component {
           value={this.props.value}
           className={this.props.className}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -955,6 +956,7 @@ class SelectCompany extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1011,6 +1013,7 @@ class SelectCountry extends React.Component {
           value={this.props.value}
           className={this.props.className}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1051,7 +1054,7 @@ class SelectDepartment extends React.Component {
 
   getDataDepartment = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/country/deparment/${this.state.id}`,
+      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
       {
         method: 'GET',
         headers: {
@@ -1077,6 +1080,7 @@ class SelectDepartment extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1099,7 +1103,7 @@ class SelectCity extends React.Component {
   static getDerivedStateFromProps(props, state) {
     if (props.departmentId !== state.id) {
       return {
-        departmentId: props.departmentId
+        id: props.departmentId
       };
     }
     return null;
@@ -1144,6 +1148,7 @@ class SelectCity extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCity.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

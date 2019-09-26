@@ -15,7 +15,9 @@ import {
   TabPane,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  ListGroup,
+  ListGroupItem
 } from "reactstrap";
 import classnames from "classnames";
 const RolesForm = props => {
@@ -168,10 +170,7 @@ const RolesForm = props => {
                                 <label>
                                   Entidad <span className="text-danger">*</span>{" "}
                                 </label>
-                                <input
-                                  type="search"
-                                  className="form-control form-control-sm"
-                                />
+                                <Autocomplete />
                               </div>
                             </div>
                           </div>
@@ -578,7 +577,7 @@ class MySelectModulos extends React.Component {
     );
   }
 }
-
+// ---------------------------------------------------------------------------------------//
 class MySelectEntidades extends React.Component {
   state = {
     dataEntidades: [],
@@ -653,6 +652,81 @@ class MySelectEntidades extends React.Component {
             );
           })}
         </select>
+      </div>
+    );
+  }
+}
+
+//------------------------------------------------------------------------------------------------//
+
+class Autocomplete extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSearch: [],
+      query: ""
+    };
+  }
+
+  _handleChange = e => {
+    this.setState(
+      {
+        query: e.target.value
+      },
+      () => {
+        fetch(
+          `http://192.168.10.180:7000/api/sgdea/entity/search/name?name=${this.state.query}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Basic " + window.btoa("sgdea:123456")
+            }
+          }
+        )
+          .then(response => response.json())
+          .then(data => {
+            this.setState({
+              dataSearch: data
+            });
+          })
+          .catch(err => console.log("", err));
+      }
+    );
+    console.log(this.state.query);
+  };
+
+  // _handleSubmit = e => {
+  //   e.preventDefault();
+  //   const query = this.state.query;
+  //   fetch(
+  //     `http://192.168.10.180:7000/api/sgdea/entity/search/name?name=${query}`,
+  //     {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: "Basic " + window.btoa("sgdea:123456")
+  //       }
+  //     }
+  //   )
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log(data);
+  //     })
+  //     .catch(err => console.log("", err));
+  // };
+
+  render() {
+    console.log(this.state.dataSearch);
+    return (
+      <div>
+        <input
+          name={"query"}
+          type="search"
+          className="form-control form-control-sm"
+          value={this.state.query}
+          onChange={this._handleChange}
+        />
       </div>
     );
   }

@@ -349,7 +349,8 @@ class ModalUpdateRemitente extends React.Component {
           handleBlur,
           handleSubmit,
           handleReset,
-          setFieldValue
+          setFieldValue,
+          setFieldTouched
         } = props;
         return(
           <Fragment>
@@ -604,6 +605,7 @@ class ModalUpdateRemitente extends React.Component {
                         <SelectCountry
                     name={'tercero_pais'}
                     onChange={e => setFieldValue('tercero_pais', e.target.value)}
+                        onBlur={()=>setFieldTouched('tercero_pais', true)}
                     value={values.tercero_pais}
                     className={`form-control form-control-sm ${errors.tercero_pais &&
                       touched.tercero_pais &&
@@ -644,6 +646,7 @@ class ModalUpdateRemitente extends React.Component {
                     onChange={e =>
                       setFieldValue('tercero_departamento', e.target.value)
                     }
+                    onBlur={()=>setFieldTouched('tercero_departamento', true)}
                     className={`form-control form-control-sm ${errors.tercero_departamento &&
                       touched.tercero_departamento &&
                       'is-invalid'}`}
@@ -685,6 +688,7 @@ class ModalUpdateRemitente extends React.Component {
                           onChange={e =>
                             setFieldValue('tercero_ciudad', e.target.value)
                           }
+                          onBlur={()=>setFieldTouched('tercero_ciudad', true)}
                           className={`form-control form-control-sm ${errors.tercero_ciudad &&
                             touched.tercero_ciudad &&
                             'is-invalid'}`}
@@ -877,6 +881,7 @@ class SelectCountry extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
           <option value={""}>-- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
@@ -944,6 +949,7 @@ class SelectDepartment extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={""}>-- Seleccione --</option>
           {this.state.dataDepartment.map((aux, id) => {
@@ -1012,7 +1018,7 @@ class SelectCity extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
-        >
+          onBlur={this.props.onBlur}        >
           <option value={""}>-- Seleccione --</option>
           {this.state.dataCity.map((aux, id) => {
             return (

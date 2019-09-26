@@ -238,7 +238,8 @@ class ModalEditCiudad extends React.Component {
                 handleBlur,
                 handleSubmit,
                 handleReset,
-                setFieldValue
+                setFieldValue,
+                setFieldTouched
               } = props;
               return (
                 <Fragment>
@@ -290,6 +291,9 @@ class ModalEditCiudad extends React.Component {
                                         'city_country',
                                         e.target.value
                                       )
+                                    }
+                                    onBlur={() =>
+                                      setFieldTouched('city_country', true)
                                     }
                                     value={values.city_country}
                                     className={`form-control form-control-sm ${errors.city_country &&
@@ -344,6 +348,9 @@ class ModalEditCiudad extends React.Component {
                                         'city_department',
                                         e.target.value
                                       )
+                                    }
+                                    onBlur={() =>
+                                      setFieldTouched('city_department', true)
                                     }
                                     className={`form-control form-control-sm ${errors.city_department &&
                                       touched.city_department &&
@@ -568,6 +575,7 @@ class SelectCountry extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
@@ -635,6 +643,7 @@ class SelectDepartment extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataDepartment.map((aux, id) => {

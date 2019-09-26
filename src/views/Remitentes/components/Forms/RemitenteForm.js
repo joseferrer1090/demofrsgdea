@@ -391,6 +391,7 @@ const RemitenteForm = props => {
                           name={'pais'}
                           onChange={e => setFieldValue('pais', e.target.value)}
                           value={values.pais}
+                          onBlur={() => setFieldTouched('pais', true)}
                           className={`form-control form-control-sm ${errors.pais &&
                             touched.pais &&
                             'is-invalid'}`}
@@ -432,6 +433,7 @@ const RemitenteForm = props => {
                           onChange={e =>
                             setFieldValue('departamento', e.target.value)
                           }
+                          onBlur={() => setFieldTouched('departamento', true)}
                           className={`form-control form-control-sm ${errors.departamento &&
                             touched.departamento &&
                             'is-invalid'}`}
@@ -475,6 +477,7 @@ const RemitenteForm = props => {
                           onChange={e =>
                             setFieldValue('ciudad', e.target.value)
                           }
+                          onBlur={() => setFieldTouched('ciudad', true)}
                           className={`form-control form-control-sm ${errors.ciudad &&
                             touched.ciudad &&
                             'is-invalid'}`}
@@ -802,6 +805,7 @@ class SelectCountry extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
@@ -868,6 +872,7 @@ class SelectDepartment extends React.Component {
           name={this.props.name}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
           onChange={this.props.onChange}
         >
           <option value={''}>-- Seleccione --</option>
@@ -937,6 +942,7 @@ class SelectCity extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataCity.map((aux, id) => {

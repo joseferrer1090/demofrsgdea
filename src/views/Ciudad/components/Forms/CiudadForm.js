@@ -31,6 +31,7 @@ const CiudadForm = props => {
     handleBlur,
     handleSubmit,
     handleReset,
+    setFieldTouched,
     t
   } = props;
 
@@ -113,6 +114,7 @@ const CiudadForm = props => {
                     <SelectCountry
                       name={'countryId'}
                       onChange={e => setFieldValue('countryId', e.target.value)}
+                      onBlur={() => setFieldTouched('countryId', true)}
                       value={values.countryId}
                       className={`form-control form-control-sm ${errors.countryId &&
                         touched.countryId &&
@@ -155,6 +157,7 @@ const CiudadForm = props => {
                       onChange={e =>
                         setFieldValue('departmentId', e.target.value)
                       }
+                      onBlur={() => setFieldTouched('departmentId', true)}
                       className={`form-control form-control-sm ${errors.departmentId &&
                         touched.departmentId &&
                         'is-invalid'}`}
@@ -449,6 +452,7 @@ class SelectCountry extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataCountry.map((aux, id) => {
@@ -516,6 +520,7 @@ class SelectDepartment extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
           <option value={''}>-- Seleccione --</option>
           {this.state.dataDepartment.map((aux, id) => {

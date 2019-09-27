@@ -170,7 +170,7 @@ const RolesForm = props => {
                                 <label>
                                   Entidad <span className="text-danger">*</span>{" "}
                                 </label>
-                                <Autocomplete />
+                                <Autocomplete  />
                               </div>
                             </div>
                           </div>
@@ -361,7 +361,8 @@ const RolesForm = props => {
                               <dt>Permisos disponibles:</dt>
                             </label>
                             <div className="form-group">
-                              <select
+                              <ListPermissions identidad={} />
+                              {/* <select
                                 multiple
                                 className="form-control"
                                 style={{
@@ -370,7 +371,7 @@ const RolesForm = props => {
                                 }}
                               >
                                 <option> Seleccione </option>
-                              </select>
+                              </select> */}
                               {/* <ListaRoles
                                 data={this.props.data}
                                 favouritesroles={this.state.favourites}
@@ -664,7 +665,8 @@ class Autocomplete extends React.Component {
     super(props);
     this.state = {
       dataSearch: [],
-      query: ""
+      query: "",
+      idEntidad: ""
     };
   }
 
@@ -680,22 +682,116 @@ class Autocomplete extends React.Component {
           }
         }
       )
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+        .then(response => response.json())
+        .then(data => {
+          this.setState({
+            dataSearch: data
+          });
+        })
+        .catch(err => console.log("", err));
     });
   };
 
+  searchInput = term => {
+    return function(x) {
+      return x.name.includes(term);
+    };
+  };
+
   render() {
-    console.log(this.state.dataSearch);
+    //console.log(this.state.dataSearch);
+    const data = this.state.dataSearch;
+    const term = this.state.query;
+    //console.log(data);
+
     return (
       <div>
         <input
+          type="text"
           name="query"
           value={this.state.query}
           onChange={this.onTextChange}
           placeholder={"Entiad a buscar"}
           className="form-control form-control-sm"
         />
+        <input type="hidden" name={this.props.name}  value={this.state.idEntidad} />
+        <ListGroup>
+          {term
+            ? data.filter(this.searchInput(term)).map((aux, id) => {
+                return (
+                  <a
+                    href="#"
+                    onClick={e => {
+                      e.preventDefault();
+                      this.setState({ idEntidad: aux.id }, () => {
+                        console.log(this.state.idEntidad);
+                      });
+                    }}
+                  >
+                    {" "}
+                    <ListGroupItem key={id}>{aux.name}</ListGroupItem>
+                  </a>
+                );
+              })
+            : null}
+        </ListGroup>
+      </div>
+    );
+  }
+}
+
+//------------------------------------------------------------------------------------------------//
+
+class ListPermissions extends React.Component {
+  state = {
+    datalist: [],
+    id: this.props.identidad
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.identidad !== state.id) {
+      return {
+        id: props.identidad
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.identidad !== prevProps.identidad) {
+      // getById
+      this.getPermissionById();
+    }
+  }
+
+  componentDidMount() {
+    // getById
+    this.getPermissionById();
+  }
+
+  getPermissionById = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.state.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataEntidades: data
+        });
+      })
+      .catch(err => console.log("Error", err));
+  };
+
+  render() {
+    return (
+      <div>
+        <p>Probando apenas</p>
       </div>
     );
   }

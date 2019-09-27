@@ -1,5 +1,5 @@
-import React, { useState, useEffect, Fragment, Component } from "react";
-import { Formik, withFormik, ErrorMessage, Field, Form } from "formik";
+import React, { useState, useEffect, Fragment, Component } from 'react';
+import { Formik, withFormik, ErrorMessage, Field, Form } from 'formik';
 import {
   CONGLOMERATES,
   COUNTRIES,
@@ -7,9 +7,9 @@ import {
   CITYS,
   CHARGES,
   COMPANY
-} from "./../../../../services/EndPoints";
-import * as Yup from "yup";
-import axios from "axios";
+} from './../../../../services/EndPoints';
+import * as Yup from 'yup';
+import axios from 'axios';
 import {
   Card,
   CardBody,
@@ -18,12 +18,12 @@ import {
   Row,
   CustomInput,
   CardFooter
-} from "reactstrap";
-import Select from "react-select";
-import CustonImageInput from "./CustonImageInput";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { css } from "glamor";
+} from 'reactstrap';
+import Select from 'react-select';
+import CustonImageInput from './CustonImageInput';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { css } from 'glamor';
 
 const UserForm = props => {
   const {
@@ -70,93 +70,93 @@ const UserForm = props => {
   // }, []);
 
   const deteRoles = data => {
-    fetch("http://192.168.10.180:7000/api/sgdea/role/active", {
-      method: "GET",
+    fetch('http://192.168.10.180:7000/api/sgdea/role/active', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
         setRoleOptions(data);
       })
-      .catch(Error => console.log("Error", Error));
+      .catch(Error => console.log('Error', Error));
   };
 
   const dataConglomerate = data => {
     fetch(CONGLOMERATES, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
         setConglomerateOptions(data);
       })
-      .catch(error => console.log(" " + error));
+      .catch(error => console.log(' ' + error));
   };
 
   const dataCompany = data => {
-    fetch("http://192.168.10.180:7000/api/sgdea/company/", {
-      method: "GET",
+    fetch('http://192.168.10.180:7000/api/sgdea/company/', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
         setCompanyOptions(data);
       })
-      .catch(Error => console.log(" " + Error));
+      .catch(Error => console.log(' ' + Error));
   };
 
   const dataSedes = data => {
-    fetch("http://192.168.10.180:7000/api/sgdea/headquarter", {
-      method: "GET",
+    fetch('http://192.168.10.180:7000/api/sgdea/headquarter', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
         setSedeOptions(data);
       })
-      .catch(Error => console.log(" " + Error));
+      .catch(Error => console.log(' ' + Error));
   };
 
   const dataDependencia = data => {
-    fetch("http://192.168.10.180:7000/api/sgdea/dependence", {
-      method: "GET",
+    fetch('http://192.168.10.180:7000/api/sgdea/dependence', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
         setDependenciaOptions(data);
       })
-      .catch(Error => console.log(" " + Error));
+      .catch(Error => console.log(' ' + Error));
   };
 
   const dataCharge = data => {
-    fetch("http://192.168.10.180:7000/api/sgdea/charge", {
-      method: "GET",
+    fetch('http://192.168.10.180:7000/api/sgdea/charge', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
         setCargoOptions(data);
       })
-      .catch(Error => console.log(" " + Error));
+      .catch(Error => console.log(' ' + Error));
   };
 
   const selectConglomerate = conglomerateOptions.map((aux, id) => {
@@ -205,7 +205,7 @@ const UserForm = props => {
         <ToastContainer />
         <CardHeader>Registro de usuarios </CardHeader>
         <CardBody>
-          <form encType={"multipart/form-data"}>
+          <form encType={'multipart/form-data'}>
             <Row>
               <Col sm="3">
                 <div className="text-center">
@@ -216,7 +216,7 @@ const UserForm = props => {
                   <br />
                   <br />
                   <Field
-                    name={"foto"}
+                    name={'foto'}
                     component={CustonImageInput}
                     setFieldValue={setFieldValue}
                     // onChange={event => {
@@ -246,33 +246,33 @@ const UserForm = props => {
 
               <Col sm="9">
                 <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Datos personales{" "}
-                  </h5>{" "}
+                  {' '}
+                  <h5 className="" style={{ borderBottom: '1px solid black' }}>
+                    {' '}
+                    Datos personales{' '}
+                  </h5>{' '}
                 </div>
                 <br />
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {" "}
+                        {' '}
                         Identificación <span className="text-danger">
                           *
-                        </span>{" "}
+                        </span>{' '}
                       </label>
                       <input
-                        name={"identificacion"}
+                        name={'identificacion'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.identificacion}
                         type="text"
                         className={`form-control form-control-sm ${errors.identificacion &&
                           touched.identificacion &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
-                      <div style={{ color: "#D54B4B" }}>
+                      <div style={{ color: '#D54B4B' }}>
                         {errors.identificacion && touched.identificacion ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -283,20 +283,20 @@ const UserForm = props => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Nombre <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Nombre <span className="text-danger">*</span>{' '}
                       </label>
                       <input
-                        name={"nombre"}
+                        name={'nombre'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.nombre}
                         type="text"
                         className={`form-control form-control-sm ${errors.nombre &&
                           touched.nombre &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
-                      <div style={{ color: "#D54B4B" }}>
+                      <div style={{ color: '#D54B4B' }}>
                         {errors.nombre && touched.nombre ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -309,20 +309,20 @@ const UserForm = props => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {" "}
+                        {' '}
                         Email <span className="text-danger">*</span>
                       </label>
                       <input
-                        name={"email"}
+                        name={'email'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.email}
                         type="text"
                         className={`form-control form-control-sm ${errors.email &&
                           touched.email &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
-                      <div style={{ color: "#D54B4B" }}>
+                      <div style={{ color: '#D54B4B' }}>
                         {errors.email && touched.email ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -333,20 +333,20 @@ const UserForm = props => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Teléfono <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Teléfono <span className="text-danger">*</span>{' '}
                       </label>
                       <input
-                        name={"telefono"}
+                        name={'telefono'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.telefono}
                         type="text"
                         className={`form-control form-control-sm ${errors.telefono &&
                           touched.telefono &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
-                      <div style={{ color: "#D54B4B" }}>
+                      <div style={{ color: '#D54B4B' }}>
                         {errors.telefono && touched.telefono ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -358,7 +358,7 @@ const UserForm = props => {
                     <div className="form-group">
                       <label> Dirección </label>
                       <input
-                        name={"direccion"}
+                        name={'direccion'}
                         type="text"
                         className="form-control form-control-sm"
                         onChange={handleChange}
@@ -372,7 +372,7 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>Fecha de nacimiento </label>
                       <input
-                        name={"f_d_nacimiento"}
+                        name={'f_d_nacimiento'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.f_d_nacimiento}
@@ -382,29 +382,29 @@ const UserForm = props => {
                     </div>
                   </div>
                 </div>
-                <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                  {" "}
-                  Datos laborales{" "}
-                </h5>{" "}
+                <h5 className="" style={{ borderBottom: '1px solid black' }}>
+                  {' '}
+                  Datos laborales{' '}
+                </h5>{' '}
                 <br />
                 <div className="row">
                   <div className="col-md-4">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Conglomerado <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Conglomerado <span className="text-danger">*</span>{' '}
                       </label>
                       <SelectConglomerado
-                        name={"conglomeradoID"}
-                        onChange={setFieldValue}
-                        onBlur={setFieldTouched}
-                        // onChange={e =>
-                        //   setFieldValue("conglomeradoID", e.target.value)
-                        // }
+                        name={'conglomeradoID'}
+                        // onChange={setFieldValue}
+                        // onBlur={setFieldTouched}
+                        onChange={e =>
+                          setFieldValue('conglomeradoID', e.target.value)
+                        }
                         value={values.conglomeradoID}
                         className={`form-control form-control-sm ${errors.conglomeradoID &&
                           touched.conglomeradoID &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       ></SelectConglomerado>
                       {/* <select
                         name={"conglomeradoID"}
@@ -423,13 +423,13 @@ const UserForm = props => {
                         {selectConglomerate}
                       </select> */}
                       {touched ? (
-                        <div style={{ color: "red" }}>
-                          {" "}
-                          <div style={{ color: "#D54B4B" }}>
+                        <div style={{ color: 'red' }}>
+                          {' '}
+                          <div style={{ color: '#D54B4B' }}>
                             {errors.conglomeradoID && touched.conglomeradoID ? (
                               <i className="fa fa-exclamation-triangle" />
                             ) : null}
-                            <ErrorMessage name={"conglomeradoID"} />
+                            <ErrorMessage name={'conglomeradoID'} />
                           </div>
                         </div>
                       ) : null}
@@ -438,19 +438,19 @@ const UserForm = props => {
                   <div className="col-md-4">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Empresa <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Empresa <span className="text-danger">*</span>{' '}
                       </label>
                       <SelectCompany
                         conglomerate={props.values.conglomeradoID}
                         name="empresaID"
                         value={values.empresaID}
                         onChange={e =>
-                          setFieldValue("empresaID", e.target.value)
+                          setFieldValue('empresaID', e.target.value)
                         }
                         className={`form-control form-control-sm ${errors.empresaID &&
                           touched.empresaID &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       ></SelectCompany>
                       {/* <select
                         name={"empresaID"}
@@ -465,7 +465,7 @@ const UserForm = props => {
                         <option value={""}> -- Seleccione -- </option>{" "}
                         {selectCompany}
                       </select> */}
-                      <div style={{ color: "#D54B4B" }}>
+                      <div style={{ color: '#D54B4B' }}>
                         {errors.empresaID && touched.empresaID ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -476,16 +476,16 @@ const UserForm = props => {
                   <div className="col-md-4">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Sede <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Sede <span className="text-danger">*</span>{' '}
                       </label>
                       <SelectHeadquarter
                         company={props.values.empresaID}
-                        name={"sedeID"}
-                        onChange={e => setFieldValue("sedeID", e.target.value)}
+                        name={'sedeID'}
+                        onChange={e => setFieldValue('sedeID', e.target.value)}
                         className={`form-control form-control-sm ${errors.sedeID &&
                           touched.sedeID &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       ></SelectHeadquarter>
                       {/* <select
                         name={"sedeID"}
@@ -500,30 +500,30 @@ const UserForm = props => {
                         <option value={""}> -- Seleccione -- </option>{" "}
                         {selectSede}
                       </select> */}
-                      <div style={{ color: "#D54B4B" }}>
+                      <div style={{ color: '#D54B4B' }}>
                         {errors.sedeID && touched.sedeID ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
-                        <ErrorMessage name={"sedeID"} />
+                        <ErrorMessage name={'sedeID'} />
                       </div>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Dependencia <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Dependencia <span className="text-danger">*</span>{' '}
                       </label>
                       <SelectDependence
                         headquarter={props.values.sedeID}
-                        name={"dependenciaID"}
+                        name={'dependenciaID'}
                         value={values.dependenciaID}
                         onChange={e =>
-                          setFieldValue("dependenciaID", e.target.value)
+                          setFieldValue('dependenciaID', e.target.value)
                         }
                         className={`form-control form-control-sm ${errors.dependenciaID &&
                           touched.dependenciaID &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       ></SelectDependence>
                       {/* <select
                         name={"dependenciaID"}
@@ -537,7 +537,7 @@ const UserForm = props => {
                         <option value={""}> -- Seleccione -- </option>
                         {selectDependencia}
                         </select>*/}
-                      <div style={{ color: "#D54B4B" }}>
+                      <div style={{ color: '#D54B4B' }}>
                         {errors.dependenciaID && touched.dependenciaID ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -548,22 +548,22 @@ const UserForm = props => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Cargo <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Cargo <span className="text-danger">*</span>{' '}
                       </label>
                       <select
-                        name={"cargoID"}
+                        name={'cargoID'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.cargoID}
                         className={`form-control form-control-sm ${errors.cargoID &&
                           touched.cargoID &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       >
-                        <option value={""}> -- Seleccione -- </option>
+                        <option value={''}> -- Seleccione -- </option>
                         {selectCargo}
                       </select>
-                      <div style={{ color: "#D54B4B" }}>
+                      <div style={{ color: '#D54B4B' }}>
                         {errors.cargoID && touched.cargoID ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -572,31 +572,31 @@ const UserForm = props => {
                     </div>
                   </div>
                 </div>
-                <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                  {" "}
-                  Datos de seguridad{" "}
-                </h5>{" "}
+                <h5 className="" style={{ borderBottom: '1px solid black' }}>
+                  {' '}
+                  Datos de seguridad{' '}
+                </h5>{' '}
                 <br />
                 <div className="row">
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>
-                        {" "}
+                        {' '}
                         Nombre de usuario <span className="text-danger">
                           *
-                        </span>{" "}
+                        </span>{' '}
                       </label>
                       <input
-                        name={"username"}
+                        name={'username'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.username}
                         className={`form-control form-control-sm ${errors.username &&
                           touched.username &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                         type="text"
                       />
-                      <div style={{ color: "#D54B4B" }}>
+                      <div style={{ color: '#D54B4B' }}>
                         {errors.username && touched.username ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -609,20 +609,20 @@ const UserForm = props => {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Contraseña <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Contraseña <span className="text-danger">*</span>{' '}
                       </label>
                       <input
-                        name={"password"}
+                        name={'password'}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.password}
                         className={`form-control form-control-sm ${errors.password &&
                           touched.password &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                         type="password"
                       />
-                      <div style={{ color: "#D54B4B" }}>
+                      <div style={{ color: '#D54B4B' }}>
                         {errors.password && touched.password ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -633,21 +633,21 @@ const UserForm = props => {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Confirmar contraseña{" "}
-                        <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Confirmar contraseña{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
-                        name={"confirm_password"}
+                        name={'confirm_password'}
                         type="password"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.confirm_password}
                         className={`form-control form-control-sm ${errors.confirm_password &&
                           touched.confirm_password &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
-                      <div style={{ color: "#D54B4B" }}>
+                      <div style={{ color: '#D54B4B' }}>
                         {errors.confirm_password && touched.confirm_password ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -659,25 +659,25 @@ const UserForm = props => {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Roles <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Roles <span className="text-danger">*</span>{' '}
                       </label>
                       <MySelect
-                        name={"rolesID"}
+                        name={'rolesID'}
                         value={values.rolesID}
                         onChange={setFieldValue}
                         onBlur={setFieldTouched}
                         error={errors.rolesID}
                         touched={touched.rolesID}
-                      />{" "}
+                      />{' '}
                       {touched ? (
-                        <div style={{ color: "red" }}>
-                          {" "}
-                          <div style={{ color: "#D54B4B" }}>
+                        <div style={{ color: 'red' }}>
+                          {' '}
+                          <div style={{ color: '#D54B4B' }}>
                             {errors.rolesID && touched.rolesID ? (
                               <i className="fa fa-exclamation-triangle" />
                             ) : null}
-                            <ErrorMessage name={"roles"} />
+                            <ErrorMessage name={'roles'} />
                           </div>
                         </div>
                       ) : null}
@@ -697,8 +697,8 @@ const UserForm = props => {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>
-                        {" "}
-                        Estado <span className="text-danger">*</span>{" "}
+                        {' '}
+                        Estado <span className="text-danger">*</span>{' '}
                       </label>
                       <div className="text-justify">
                         <CustomInput
@@ -712,14 +712,14 @@ const UserForm = props => {
                                 elimina del sistema solo quedará inactivo e
                                 invisibles para cada uno de los módulos
                                 correspondiente del sistema."
-                          name={"estado"}
+                          name={'estado'}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.estado}
                           className={
                             errors.estado &&
                             touched.estado &&
-                            "invalid-feedback"
+                            'invalid-feedback'
                           }
                         />
                         {/* <label
@@ -794,51 +794,51 @@ export default withFormik({
   }),
   validationSchema: Yup.object().shape({
     identificacion: Yup.string().required(
-      " Por favor introduzca una identificación."
+      ' Por favor introduzca una identificación.'
     ),
-    nombre: Yup.string().required("Por favor introduzca un nombre."),
+    nombre: Yup.string().required('Por favor introduzca un nombre.'),
     email: Yup.string()
-      .email(" Por favor introduzca un email valido.")
-      .required(" Por favor introduzca un email."),
+      .email(' Por favor introduzca un email valido.')
+      .required(' Por favor introduzca un email.'),
     telefono: Yup.string()
       .matches(
         /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
-        " Número no valido"
+        ' Número no valido'
       )
-      .length(10, " Mínimo 10 digitos")
-      .required(" Por favor introduzca un número."),
+      .length(10, ' Mínimo 10 digitos')
+      .required(' Por favor introduzca un número.'),
     direccion: Yup.string(),
     f_d_nacimiento: Yup.date()
       .nullable()
       .notRequired(),
     conglomeradoID: Yup.string()
       .ensure()
-      .required(" Por favor seleccione un conglomerado."),
+      .required(' Por favor seleccione un conglomerado.'),
     empresaID: Yup.string()
       .ensure()
-      .required(" Por favor seleccione una empresa."),
+      .required(' Por favor seleccione una empresa.'),
     sedeID: Yup.string()
       .ensure()
-      .required(" Por favor seleccione una sede"),
+      .required(' Por favor seleccione una sede'),
     dependenciaID: Yup.string()
       .ensure()
-      .required(" Por favor seleccione una dependencia"),
+      .required(' Por favor seleccione una dependencia'),
     cargoID: Yup.string()
       .ensure()
-      .required(" Por favor selccione un cargo"),
-    username: Yup.string().required(" Por favor introduzca un username"),
+      .required(' Por favor selccione un cargo'),
+    username: Yup.string().required(' Por favor introduzca un username'),
     password: Yup.string()
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,15}$/, // esta expresion regular valida la contraseña
-        " Contraseña no valida, asegúrese de que lleve al menos una letra en mayuscula, un digito, y un caracter especial."
+        ' Contraseña no valida, asegúrese de que lleve al menos una letra en mayuscula, un digito, y un caracter especial.'
       )
-      .required(" Por favor introduzca una contraseña.")
-      .min(8, "  Mínimo 8 caracteres. ")
-      .max(15, " Máximo 15 caracteres."),
+      .required(' Por favor introduzca una contraseña.')
+      .min(8, '  Mínimo 8 caracteres. ')
+      .max(15, ' Máximo 15 caracteres.'),
     confirm_password: Yup.string()
-      .oneOf([Yup.ref("password"), null], " Las contraseñas no coinciden.")
-      .required(" Por favor confirme la contraseña.")
-      .min(10, " Mínimo 10 caracteres.")
+      .oneOf([Yup.ref('password'), null], ' Las contraseñas no coinciden.')
+      .required(' Por favor confirme la contraseña.')
+      .min(10, ' Mínimo 10 caracteres.')
       .max(200),
     rolesID: Yup.array().of(
       Yup.object().shape({
@@ -847,17 +847,17 @@ export default withFormik({
       })
     ),
     estado: Yup.bool().test(
-      "Activo",
-      "Se requiere la activacion del usuario",
+      'Activo',
+      'Se requiere la activacion del usuario',
       value => value === true
     ),
     foto: Yup.mixed()
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     const formData = new FormData();
-    formData.append("photo", values.foto);
+    formData.append('photo', values.foto);
     formData.append(
-      "user",
+      'user',
       new Blob(
         [
           JSON.stringify({
@@ -873,34 +873,34 @@ export default withFormik({
             chargeId: values.cargoID,
             userRoleRequests: values.rolesID,
             enabled: values.estado,
-            userNameAuthenticate: "ccuartas"
+            userNameAuthenticate: 'ccuartas'
           })
         ],
         {
-          type: "application/json"
+          type: 'application/json'
         }
       )
     );
     setTimeout(() => {
       axios
-        .post("http://192.168.10.180:7000/api/sgdea/user", formData, {
+        .post('http://192.168.10.180:7000/api/sgdea/user', formData, {
           headers: {
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: 'Basic ' + window.btoa('sgdea:123456')
           }
         })
         .then(response => {
           if (response.status === 201) {
-            toast.success("Se creo el usuario con éxito.", {
+            toast.success('Se creo el usuario con éxito.', {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
+                marginTop: '60px'
               })
             });
           } else if (response.status === 500) {
-            toast.error("El usuario ya existe.", {
+            toast.error('El usuario ya existe.', {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: "60px"
+                marginTop: '60px'
               })
             });
           }
@@ -909,59 +909,17 @@ export default withFormik({
           toast.error(`${error}.`, {
             position: toast.POSITION.TOP_RIGHT,
             className: css({
-              marginTop: "60px"
+              marginTop: '60px'
             })
           });
         });
-      // fetch("http://192.168.10.180:7000/api/sgdea/user", {
-      //   method: "POST",
-      //   headers: {
-      //     Authorization: "Basic " + window.btoa("sgdea:123456")
-      //   },
-      //   body: formData
-      // })
-      //   .then(response => {
-      //     if (response.status === 200) {
-      //       alert("Se creo el usuario");
-      //     } else if (response.status === 400) {
-      //       alert("Error revisar la consola");
-      //     }
-      //   })
-      //   .catch(Error => console.log("Error", Error));
-      // alert(
-      //   JSON.stringify(
-      //     {
-      //       identificacion: values.identificacion,
-      //       nombre: values.nombre,
-      //       email: values.email,
-      //       telefono: values.telefono,
-      //       direccion: values.direccion,
-      //       f_d_nacimiento: values.f_d_nacimiento,
-      //       conglomeradoID: values.conglomeradoID,
-      //       empresaID: values.empresaID,
-      //       sedeID: values.sedeID,
-      //       dependenciaID: values.dependenciaID,
-      //       cargoID: values.cargoID,
-      //       username: values.username,
-      //       password: values.password,
-      //       confirm_password: values.confirm_password,
-      //       rolesID: values.rolesID,
-      //       estado: values.estado,
-      //       foto: {
-      //         fileName: values.foto.name,
-      //         size: `${values.foto.size} bytes`
-      //       }
-      //     },
-      //     " ",
-      //     2
-      //   )
-      // );
       console.log(formData);
     }, 1000);
     setSubmitting(false);
     resetForm();
   }
 })(UserForm);
+//---------------------------------------//
 
 class MySelect extends React.Component {
   state = {
@@ -973,19 +931,19 @@ class MySelect extends React.Component {
   }
 
   handleChange = value => {
-    this.props.onChange("rolesID", value);
+    this.props.onChange('rolesID', value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("rolesID", true);
+    this.props.onBlur('rolesID', true);
   };
 
   getData = async () => {
-    let url = "http://192.168.10.180:7000/api/sgdea/role/active";
+    let url = 'http://192.168.10.180:7000/api/sgdea/role/active';
     const response = await fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     });
     const data = await response.json();
@@ -1004,7 +962,7 @@ class MySelect extends React.Component {
     });
 
     return (
-      <div style={{ margin: "0" }}>
+      <div style={{ margin: '0' }}>
         <Select
           name={this.props.name}
           options={aux}
@@ -1012,7 +970,7 @@ class MySelect extends React.Component {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           value={this.props.value}
-          placeholder={"-- seleccione rol --"}
+          placeholder={'-- seleccione rol --'}
         />
       </div>
     );
@@ -1030,10 +988,10 @@ class SelectConglomerado extends React.Component {
 
   getData = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -1044,13 +1002,13 @@ class SelectConglomerado extends React.Component {
       });
   };
 
-  handleChange = value => {
-    this.props.onChange("conglomeradoID", value);
-  };
+  // handleChange = value => {
+  //   this.props.onChange('conglomeradoID', value);
+  // };
 
-  handleBlur = () => {
-    this.props.onBlur("conglomeradoID", true);
-  };
+  // handleBlur = () => {
+  //   this.props.onBlur('conglomeradoID', true);
+  // };
 
   render() {
     return (
@@ -1060,11 +1018,10 @@ class SelectConglomerado extends React.Component {
           onChange={this.props.onChange}
           // onChange={e => setFieldValue("conglomerado", e)}
           value={this.props.value}
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
+          // onBlur={this.handleBlur}
           className={this.props.className}
         >
-          <option value={""}>-- Seleccione --</option>
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1116,10 +1073,10 @@ class SelectCompany extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -1129,7 +1086,7 @@ class SelectCompany extends React.Component {
           dataCompany: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   render() {
@@ -1141,7 +1098,7 @@ class SelectCompany extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
-          <option value={""}> -- Seleccione -- </option>
+          <option value={''}> -- Seleccione -- </option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1197,10 +1154,10 @@ class SelectHeadquarter extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.company}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -1210,7 +1167,7 @@ class SelectHeadquarter extends React.Component {
           dataHeadquarter: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   render() {
@@ -1222,7 +1179,7 @@ class SelectHeadquarter extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
-          <option value={""}>-- Seleccione -- </option>
+          <option value={''}>-- Seleccione -- </option>
           {this.state.dataHeadquarter.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1267,10 +1224,10 @@ class SelectDependence extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.headquarter}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -1280,7 +1237,7 @@ class SelectDependence extends React.Component {
           dataDependence: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   render() {
@@ -1292,7 +1249,7 @@ class SelectDependence extends React.Component {
           onChange={this.props.onChange}
           className={this.props.className}
         >
-          <option value={""}>-- Seleccione --</option>
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataDependence.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

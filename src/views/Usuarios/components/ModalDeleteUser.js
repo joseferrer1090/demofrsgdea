@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
-import PropTypes from "prop-types";
-import * as Yup from "yup";
-import { Formik, withFormik, ErrorMessage, Field, From } from "formik";
-import { Trans } from "react-i18next";
+import React, { Component, Fragment } from 'react';
+import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from 'reactstrap';
+import PropTypes from 'prop-types';
+import * as Yup from 'yup';
+import { Formik, withFormik, ErrorMessage, Field, From } from 'formik';
+import { Trans } from 'react-i18next';
 
 class ModalDeleteUser extends React.Component {
   state = {
@@ -12,9 +12,9 @@ class ModalDeleteUser extends React.Component {
     alertSuccess: false,
     alertError: false,
     alertCode: false,
-    identification: "",
-    useLogged: "jferrer",
-    nameUser: ""
+    identification: '',
+    useLogged: 'jferrer',
+    nameUser: ''
   };
 
   toggle = id => {
@@ -28,10 +28,10 @@ class ModalDeleteUser extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/user/${id}?username=${this.state.useLogged}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
         }
       }
     )
@@ -54,7 +54,7 @@ class ModalDeleteUser extends React.Component {
 
   render() {
     const dataInitial = {
-      identificacion: ""
+      identificacion: ''
     };
     console.log(this.state.id);
     return (
@@ -67,12 +67,12 @@ class ModalDeleteUser extends React.Component {
             onSubmit={(values, setSubmitting) => {
               setTimeout(() => {
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/user/${this.state.idConglomerado}?code=${values.identificacion}&username=${this.state.useLogged}`,
+                  `http://192.168.10.180:7000/api/sgdea/user/${this.state.id}?identification=${values.identificacion}&username=${this.state.useLogged}`,
                   {
-                    method: "DELETE",
+                    method: 'DELETE',
                     headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                      'Content-Type': 'application/json',
+                      Authorization: 'BASIC ' + window.btoa('sgdea:123456')
                     }
                   }
                 )
@@ -81,15 +81,24 @@ class ModalDeleteUser extends React.Component {
                       this.setState({
                         alertError: true
                       });
-                    } else if (response.status === 200) {
                       setTimeout(() => {
-                        this.setState(
-                          {
-                            alertSuccess: true,
-                            modal: false
-                          },
-                          () => this.props.updateTable()
-                        );
+                        this.setState({
+                          modal: false,
+                          alertError: false
+                        });
+                      }, 3000);
+                    } else if (response.status === 204) {
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
+                      setTimeout(() => {
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false
+                        });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
@@ -97,12 +106,12 @@ class ModalDeleteUser extends React.Component {
                       });
                     }
                   })
-                  .catch(Error => console.log("", Error));
+                  .catch(Error => console.log('', Error));
               }, 3000);
             }}
             validationSchema={Yup.object().shape({
               identificacion: Yup.string().required(
-                " Por favor introduzca la identificacion del usuario."
+                ' Por favor introduzca la identificacion del usuario.'
               )
             })}
           >
@@ -150,16 +159,16 @@ class ModalDeleteUser extends React.Component {
                       <input
                         type="text"
                         placeholder="identificacion del usuario"
-                        style={{ textAlign: "center" }}
+                        style={{ textAlign: 'center' }}
                         name="identificacion"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.code}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.identificacion &&
                           touched.identificacion &&
-                          "is-invalid"}`}
+                          'is-invalid'}`}
                       />
-                      <div className="text-center" style={{ color: "#D54B4B" }}>
+                      <div className="text-center" style={{ color: '#D54B4B' }}>
                         {errors.identificacion && touched.identificacion ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
@@ -179,7 +188,7 @@ class ModalDeleteUser extends React.Component {
                           handleSubmit();
                         }}
                       >
-                        {" "}
+                        {' '}
                         <i className="fa fa-trash" /> Eliminar
                       </button>
                       <button

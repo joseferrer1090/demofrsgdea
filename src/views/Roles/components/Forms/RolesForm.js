@@ -733,7 +733,6 @@ class Autocomplete extends React.Component {
           value={this.state.query}
           onChange={this._handleChange}
         />
-        {list}
       </div>
     );
   }

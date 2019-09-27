@@ -170,7 +170,7 @@ const RolesForm = props => {
                                 <label>
                                   Entidad <span className="text-danger">*</span>{" "}
                                 </label>
-                                <Autocomplete  />
+                                <Autocomplete />
                               </div>
                             </div>
                           </div>
@@ -361,7 +361,7 @@ const RolesForm = props => {
                               <dt>Permisos disponibles:</dt>
                             </label>
                             <div className="form-group">
-                              <ListPermissions identidad={} />
+                              <ListPermissions />
                               {/* <select
                                 multiple
                                 className="form-control"
@@ -714,7 +714,11 @@ class Autocomplete extends React.Component {
           placeholder={"Entiad a buscar"}
           className="form-control form-control-sm"
         />
-        <input type="hidden" name={this.props.name}  value={this.state.idEntidad} />
+        <input
+          type="hidden"
+          name={this.props.name}
+          value={this.state.idEntidad}
+        />
         <ListGroup>
           {term
             ? data.filter(this.searchInput(term)).map((aux, id) => {

@@ -693,7 +693,6 @@ class Autocomplete extends React.Component {
           .catch(err => console.log("", err));
       }
     );
-    console.log(this.state.query);
   };
 
   // _handleSubmit = e => {
@@ -718,6 +717,13 @@ class Autocomplete extends React.Component {
 
   render() {
     console.log(this.state.dataSearch);
+    if (this.state.dataSearch) {
+      const list = this.state.dataSearch.map((aux, id) => {
+        return <ListGroupItem>{aux.name}</ListGroupItem>;
+      });
+    } else {
+      return null;
+    }
     return (
       <div>
         <input
@@ -727,6 +733,7 @@ class Autocomplete extends React.Component {
           value={this.state.query}
           onChange={this._handleChange}
         />
+        {list}
       </div>
     );
   }

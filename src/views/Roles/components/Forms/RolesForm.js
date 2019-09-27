@@ -668,70 +668,33 @@ class Autocomplete extends React.Component {
     };
   }
 
-  _handleChange = e => {
-    this.setState(
-      {
-        query: e.target.value
-      },
-      () => {
-        fetch(
-          `http://192.168.10.180:7000/api/sgdea/entity/search/name?name=${this.state.query}`,
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Basic " + window.btoa("sgdea:123456")
-            }
+  onTextChange = e => {
+    this.setState({ query: e.target.value }, () => {
+      fetch(
+        `http://192.168.10.180:7000/api/sgdea/entity/search/name?name=${this.state.query}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa("sgdea:123456")
           }
-        )
-          .then(response => response.json())
-          .then(data => {
-            this.setState({
-              dataSearch: data
-            });
-          })
-          .catch(err => console.log("", err));
-      }
-    );
+        }
+      )
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    });
   };
-
-  // _handleSubmit = e => {
-  //   e.preventDefault();
-  //   const query = this.state.query;
-  //   fetch(
-  //     `http://192.168.10.180:7000/api/sgdea/entity/search/name?name=${query}`,
-  //     {
-  //       method: "GET",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "Basic " + window.btoa("sgdea:123456")
-  //       }
-  //     }
-  //   )
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data);
-  //     })
-  //     .catch(err => console.log("", err));
-  // };
 
   render() {
     console.log(this.state.dataSearch);
-    if (this.state.dataSearch) {
-      const list = this.state.dataSearch.map((aux, id) => {
-        return <ListGroupItem>{aux.name}</ListGroupItem>;
-      });
-    } else {
-      return null;
-    }
     return (
       <div>
         <input
-          name={"query"}
-          type="search"
-          className="form-control form-control-sm"
+          name="query"
           value={this.state.query}
-          onChange={this._handleChange}
+          onChange={this.onTextChange}
+          placeholder={"Entiad a buscar"}
+          className="form-control form-control-sm"
         />
       </div>
     );

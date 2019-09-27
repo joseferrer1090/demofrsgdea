@@ -15,7 +15,9 @@ import {
   TabPane,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  ListGroup,
+  ListGroupItem
 } from "reactstrap";
 import classnames from "classnames";
 const RolesForm = props => {
@@ -168,10 +170,7 @@ const RolesForm = props => {
                                 <label>
                                   Entidad <span className="text-danger">*</span>{" "}
                                 </label>
-                                <input
-                                  type="search"
-                                  className="form-control form-control-sm"
-                                />
+                                <Autocomplete />
                               </div>
                             </div>
                           </div>
@@ -186,15 +185,19 @@ const RolesForm = props => {
                                     *
                                   </span>{" "}
                                 </label>
-                                <select
-                                  name="modulos"
-                                  className="form-control form-control-sm"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
+                                <MySelectModulos
+                                  name={"modulos"}
                                   value={values.modulos}
-                                >
-                                  <option> -- Seleccione -- </option>
-                                </select>
+                                  onChange={e => {
+                                    setFieldValue("modulos", e.target.value);
+                                  }}
+                                  onBlur={() => {
+                                    setFieldTouched("modulos", true);
+                                  }}
+                                  className={`form-control form-control-sm ${errors.modulos &&
+                                    touched.modulos &&
+                                    "is-invalid"}`}
+                                />
                                 {/* <MySelectModulos
                               name={"modulos"}
                               value={values.modulos}
@@ -225,15 +228,20 @@ const RolesForm = props => {
                                   Entidades{" "}
                                   <span className="text-danger">*</span>{" "}
                                 </label>
-                                <select
-                                  name="entidades"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
+                                <MySelectEntidades
+                                  modulo={props.values.modulos}
+                                  name={"entidades"}
                                   value={values.entidades}
-                                  className="form-control form-control-sm"
-                                >
-                                  <option>-- Seleccione --</option>
-                                </select>
+                                  onChange={e => {
+                                    setFieldValue("entidades", e.target.value);
+                                  }}
+                                  onBlur={() => {
+                                    setFieldTouched("entidades", true);
+                                  }}
+                                  className={`form-control form-control-sm ${errors.entidades &&
+                                    touched.entidades &&
+                                    "is-invalid"}`}
+                                />
                                 {/* <MySelectEntidades
                               name={"entidades"}
                               value={values.entidades}
@@ -512,37 +520,32 @@ export default withFormik({
   }
 })(RolesForm);
 
-const dataModulos = [
-  { value: "10", label: "Configuracion" },
-  { value: "11", label: "Correspondencia" },
-  { value: "12", label: "Archivo" },
-  { value: "13", label: "Workflow" }
-];
-
-const dataEntidades = [
-  { value: "1", label: "Conglomerado" },
-  { value: "2", label: "Empresa" },
-  { value: "3", label: "Sedes" },
-  { value: "4", label: "Dependencia" },
-  { value: "5", label: "Cargo" },
-  { value: "6", label: "Mensajero" },
-  { value: "7", label: "Tipo de envio / llegada" },
-  { value: "8", label: "Tramite" },
-  { value: "9", label: "Usuarios" },
-  { value: "10", label: "Tipo de terceros" },
-  { value: "11", label: "Roles" },
-  { value: "12", label: "Grupo de usuarios" },
-  { value: "13", label: "Terceros" },
-  { value: "14", label: "Tipo documental de radicacion" },
-  { value: "15", label: "Pais" },
-  { value: "16", label: "Departamentio" },
-  { value: "17", label: "Ciudad" },
-  { value: "18", label: "Auditoria" },
-  { value: "19", label: "Plantilla" },
-  { value: "20", label: "Tema" }
-];
-
 class MySelectModulos extends React.Component {
+  state = {
+    dataModule: []
+  };
+
+  componentDidMount() {
+    this.getDataModule();
+  }
+
+  getDataModule = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/module/active`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "Application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataModule: data
+        });
+      })
+      .catch(err => console.log("", err));
+  };
+
   handleChange = value => {
     this.props.onChange("modulos", value);
   };
@@ -554,21 +557,73 @@ class MySelectModulos extends React.Component {
   render() {
     return (
       <div>
-        <Select
+        <select
+          className="form-control form-control-sm"
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
           name={this.props.name}
-          options={dataModulos}
-          isMulti
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
           value={this.props.value}
-          placeholder={"-- selecione --"}
-        />
+        >
+          <option value={0}> -- seleccione -- </option>
+          {this.state.dataModule.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
       </div>
     );
   }
 }
-
+// ---------------------------------------------------------------------------------------//
 class MySelectEntidades extends React.Component {
+  state = {
+    dataEntidades: [],
+    id: this.props.modulo
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.modulo !== state.id) {
+      return {
+        id: props.modulo
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.modulo !== prevProps.modulo) {
+      this.getDataEntity();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataEntity();
+  }
+
+  getDataEntity = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/entity/module/${this.state.id}/active`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataEntidades: data
+        });
+        console.log(data);
+      })
+      .catch(err => console.log("Error", err));
+  };
+
   handleChange = value => {
     this.props.onChange("entidades", value);
   };
@@ -578,16 +633,68 @@ class MySelectEntidades extends React.Component {
   };
 
   render() {
+    console.log(this.state.id);
     return (
       <div>
-        <Select
+        <select
           name={this.props.name}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          className={this.props.className}
           value={this.props.value}
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-          options={dataEntidades}
-          placeholder={"-- seleccione --"}
-          isMulti
+        >
+          <option value={""}>-- seleccione --</option>
+          {this.state.dataEntidades.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+//------------------------------------------------------------------------------------------------//
+
+class Autocomplete extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataSearch: [],
+      query: ""
+    };
+  }
+
+  onTextChange = e => {
+    this.setState({ query: e.target.value }, () => {
+      fetch(
+        `http://192.168.10.180:7000/api/sgdea/entity/search/name?name=${this.state.query}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa("sgdea:123456")
+          }
+        }
+      )
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    });
+  };
+
+  render() {
+    console.log(this.state.dataSearch);
+    return (
+      <div>
+        <input
+          name="query"
+          value={this.state.query}
+          onChange={this.onTextChange}
+          placeholder={"Entiad a buscar"}
+          className="form-control form-control-sm"
         />
       </div>
     );

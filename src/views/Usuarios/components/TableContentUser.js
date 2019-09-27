@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
-import { Row, Col } from "reactstrap";
-import ModalView from "./ModalViewUser";
-import ModalDelete from "./ModalDeleteUser";
-import ModalUpdate from "./ModalEditUser";
-import ModalChangePassword from "./FormChangePasswordUser";
-import ModalExportCSV from "./ModalExportUser";
-import "./../../../css/styleTableUsuarios.css";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import Moment from "react-moment";
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { TableHeaderColumn, BootstrapTable } from 'react-bootstrap-table';
+import { Row, Col } from 'reactstrap';
+import ModalView from './ModalViewUser';
+import ModalDelete from './ModalDeleteUser';
+import ModalUpdate from './ModalEditUser';
+import ModalChangePassword from './FormChangePasswordUser';
+import ModalExportCSV from './ModalExportUser';
+import './../../../css/styleTableUsuarios.css';
+import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
+import Moment from 'react-moment';
 
 class TableContentUser extends Component {
   constructor(props) {
@@ -32,11 +32,11 @@ class TableContentUser extends Component {
   }
 
   getDataUsers = () => {
-    fetch("http://192.168.10.180:7000/api/sgdea/user", {
-      method: "GET",
+    fetch('http://192.168.10.180:7000/api/sgdea/user', {
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -45,12 +45,12 @@ class TableContentUser extends Component {
           dataUsers: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
   };
 
   accionesUsuario(cell, row) {
     return (
-      <div className="table-actionMenuUsu" style={{ marginRight: "65px" }}>
+      <div className="table-actionMenuUsu" style={{ marginRight: '30px' }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -58,8 +58,8 @@ class TableContentUser extends Component {
             this.openModalView(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-eye" />{" "}
+          {' '}
+          <i className="fa fa-eye" />{' '}
         </button>
         &nbsp;
         <button
@@ -79,8 +79,8 @@ class TableContentUser extends Component {
             this.openModalDelete(row.id);
           }}
         >
-          {" "}
-          <i className="fa fa-trash" />{" "}
+          {' '}
+          <i className="fa fa-trash" />{' '}
         </button>
         &nbsp;
         <button
@@ -90,7 +90,7 @@ class TableContentUser extends Component {
             this.openModalPassword(row.id);
           }}
         >
-          {" "}
+          {' '}
           <i className="fa fa-lock" />
         </button>
       </div>
@@ -100,9 +100,17 @@ class TableContentUser extends Component {
   UsuarioStatus(cell, row) {
     let status;
     if (row.enabled === true) {
-      status = <p className="text-success">ACTIVO</p>;
+      status = (
+        <p className="text-success">
+          <b>Activo</b>
+        </p>
+      );
     } else if (row.enabled !== true) {
-      status = <p className="text-danger">INACTIVO</p>;
+      status = (
+        <p className="text-danger">
+          <b>Inactivo</b>
+        </p>
+      );
     }
     return status;
   }
@@ -181,79 +189,79 @@ class TableContentUser extends Component {
             <TableHeaderColumn
               export={false}
               isKey
-              dataField={"id"}
+              dataField={'id'}
               hidden={this.state.hiddenColumnID}
             />
             <TableHeaderColumn
-              dataField={"id"}
-              width={"20"}
+              dataField={'id'}
+              width={'30'}
               dataAlign="center"
               dataFormat={indexN}
             >
               #
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField={"identification"}
-              dataAlign={"center"}
-              width={"75"}
+              dataField={'identification'}
+              dataAlign={'center'}
+              width={'120'}
             >
               Identificacion
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField={"name"}
+              dataField={'name'}
               dataAlign="center"
-              width={"100"}
+              width={'100'}
             >
               Nombre
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField={"username"}
+              dataField={'username'}
               dataAlign="center"
-              width={"90"}
+              width={'90'}
             >
               Usuario
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField={"dependence"}
+              dataField={'dependence'}
               dataAlign="center"
-              width={"70"}
+              width={'150'}
               dataFormat={dependenceFormatter}
             >
-              {" "}
-              Dependencia{" "}
+              {' '}
+              Dependencia{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField={"charge"}
+              dataField={'charge'}
               dataAlign="center"
-              width={"100"}
+              width={'130'}
               dataFormat={chargeFormatter}
             >
               Cargo
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"100"}
-              dataField={"createdAt"}
+              width={'150'}
+              dataField={'createdAt'}
               dataAlign="center"
               dataFormat={DateFormat}
             >
-              {" "}
-              Fecha de creacrion{" "}
+              {' '}
+              Fecha de creación{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"70"}
-              dataField={"enabled"}
+              width={'70'}
+              dataField={'enabled'}
               dataAlign="center"
               dataFormat={(cell, row) => this.UsuarioStatus(cell, row)}
             >
-              {" "}
-              Estado{" "}
+              {' '}
+              Estado{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"190"}
+              width={'150'}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesUsuario(cell, row)}
-              style={{ border: "none" }}
+              style={{ border: 'none' }}
             >
               Acciones
             </TableHeaderColumn>
@@ -266,14 +274,18 @@ class TableContentUser extends Component {
           updateTable={this.getDataUsers}
           ref="child2"
         />
-        <ModalUpdate modaledit={this.state.modaledituserstate} ref="child3" />
+        <ModalUpdate
+          updateTable={this.getDataUsers}
+          modaledit={this.state.modaledituserstate}
+          ref="child3"
+        />
         <ModalChangePassword
           modalpassword={this.state.modalchangepassword}
           ref="child4"
         />
         <ModalExportCSV
           modalexport={this.state.modalexport}
-          ref={"child5"}
+          ref={'child5'}
         ></ModalExportCSV>
       </div>
     );

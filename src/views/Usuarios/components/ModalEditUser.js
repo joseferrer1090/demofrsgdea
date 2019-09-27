@@ -1,5 +1,5 @@
-import React, { Fragment } from "react";
-import PropTypes from "prop-types";
+import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import {
   Modal,
   ModalHeader,
@@ -17,28 +17,34 @@ import {
   CardTitle,
   CardText,
   NavLink,
-  CustomInput
-} from "reactstrap";
-import Select from "react-select";
-import classnames from "classnames";
-
-import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
-import * as Yup from "yup";
+  CustomInput,
+  Alert
+} from 'reactstrap';
+import Select from 'react-select';
+import classnames from 'classnames';
+import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { USERS } from '../../../services/EndPoints';
+import axios from 'axios';
+import moment from 'moment';
 
 class ModalEditUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: this.props.modaledit,
-      activeTab: "1",
+      activeTab: '1',
       id: this.props.id,
-      userLogged: "jferrer",
+      userLogged: 'jferrer',
       dataUser: {},
       dataConglomerate: [],
       dataCompany: [],
       dataHeadquarter: [],
       dataDependence: [],
-      dataCharge: []
+      dataCharge: [],
+      alertError400: false,
+      alertSuccess: false,
+      alertError: false
     };
     this.inputOpenFileRef = React.createRef();
   }
@@ -81,38 +87,38 @@ class ModalEditUser extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/user/${id}/?username=${this.state.userLogged}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         this.setState({
           dataUser: data
         });
       })
-      .catch(Error => console.log("Error", Error));
+      .catch(Error => console.log('Error', Error));
   };
 
   getDataConglomerate = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataConglomerate: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   // getDataCompany = () => {
@@ -171,40 +177,42 @@ class ModalEditUser extends React.Component {
 
   getDataCharge = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/charge/active`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataCharge: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   render() {
-    console.log(this.state.id);
-    const dataResult = {
-      identificacion: this.state.dataUser.identification,
-      nombre: this.state.dataUser.name,
-      email: this.state.dataUser.email,
-      telefono: this.state.dataUser.phone,
-      direccion: this.state.dataUser.address,
-      f_d_nacimiento: this.state.dataUser.birthDate,
-      username: this.state.dataUser.username,
-      conglomerado: this.state.dataUser.conglomerateId,
-      empresa: this.state.dataUser.companyId,
-      sede: this.state.dataUser.headquarterId,
-      dependence: this.state.dataUser.dependenceId,
-      cargo: this.state.dataUser.chargeId,
-      estado: this.state.dataUser.enabled
+    const birthDate = data => {
+      let birthDate;
+      birthDate = new Date(data);
+      return moment(birthDate).format('YYYY-MM-DD');
     };
-    console.log(dataResult);
+    const dataResult = {
+      usuario_identification: this.state.dataUser.identification,
+      usuario_name: this.state.dataUser.name,
+      usuario_email: this.state.dataUser.email,
+      usuario_phone: this.state.dataUser.phone,
+      usuario_address: this.state.dataUser.address,
+      usuario_birthDate: birthDate(this.state.dataUser.birthDate),
+      usuario_username: this.state.dataUser.username,
+      usuario_conglomerate: this.state.dataUser.conglomerateId,
+      usuario_company: this.state.dataUser.companyId,
+      usuario_headquarter: this.state.dataUser.headquarterId,
+      usuario_dependence: this.state.dataUser.dependenceId,
+      usuario_charge: this.state.dataUser.chargeId,
+      usuario_status: this.state.dataUser.enabled
+    };
     const selectOptionsCharge = this.state.dataCharge.map((aux, id) => {
       return <option value={aux.id}>{aux.name}</option>;
     });
@@ -213,50 +221,129 @@ class ModalEditUser extends React.Component {
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {" "}
-            Actualizar usuario {this.state.dataUser.name}{" "}
+            {' '}
+            Actualizar usuario {this.state.dataUser.name}{' '}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
+              const formData = new FormData();
+              // formData.append('photo', values.foto);
+              formData.append(
+                'user',
+                new Blob(
+                  [
+                    JSON.stringify({
+                      address: values.usuario_address,
+                      birthDate: values.usuario_birthDate,
+                      username: values.usuario_username,
+                      chargeId: values.usuario_charge,
+                      dependenceId: values.usuario_dependence,
+                      email: values.usuario_email,
+                      enabled: values.usuario_status,
+                      id: this.state.id,
+                      identification: values.usuario_identification,
+                      name: values.usuario_name,
+                      phone: values.usuario_phone,
+                      userRoleRequests: values.roles,
+                      userNameAuthenticate: 'ccuartas'
+                    })
+                  ],
+                  {
+                    type: 'application/json'
+                  }
+                )
+              );
               setTimeout(() => {
-                alert(JSON.stringify(values, null, 2));
+                axios
+                  .put('http://192.168.10.180:7000/api/sgdea/user', formData, {
+                    headers: {
+                      Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                    }
+                  })
+                  .then(response => {
+                    if (response.status === 200) {
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
+                      setTimeout(() => {
+                        this.setState({
+                          alertSuccess: false,
+                          modal: false
+                        });
+                      }, 3000);
+                    } else if (response.status === 400) {
+                      this.setState({
+                        alertError400: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError400: false
+                        });
+                      }, 3000);
+                    } else if (response.status === 500) {
+                      this.setState({
+                        alertError: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError: false,
+                          modal: !this.state.modal
+                        });
+                      }, 500);
+                    }
+                  })
+                  .catch(error => console.log('', error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
-              email: Yup.string()
-                .email(" Por favor introduzca un email valido.")
-                .required(" Por favor introduzca un email."),
-              telefono: Yup.string()
+              usuario_identification: Yup.string().required(
+                ' Por favor introduzca una identificación.'
+              ),
+              usuario_name: Yup.string().required(
+                ' Por favor introduzca un nombre.'
+              ),
+              usuario_email: Yup.string()
+                .email(' Por favor introduzca un email valido.')
+                .required(' Por favor introduzca un email.'),
+              usuario_phone: Yup.string()
                 .matches(
                   /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
-                  " Número no valido"
+                  ' Número no valido'
                 )
-                .length(10, " Mínimo 10 digitos")
-                .required(" Por favor introduzca un número."),
-              nombre: Yup.string().required(" Por favor introduzca un nombre."),
-              identificacion: Yup.string().required(
-                " Por favor introduzca una identificación."
+                .length(10, ' Mínimo 10 digitos')
+                .required(' Por favor introduzca un número.'),
+              usuario_address: Yup.string(),
+              usuario_birthDate: Yup.date()
+                .nullable()
+                .notRequired(),
+              usuario_username: Yup.string().required(
+                ' Por favor introduzca un username'
               ),
-              sede: Yup.string()
+              usuario_conglomerate: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione una sede."),
-              conglomerado: Yup.string()
+                .required(' Por favor seleccione un conglomerado.'),
+              usuario_company: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione un conglomerado."),
-              empresa: Yup.string()
+                .required(' Por favor seleccione una empresa.'),
+              usuario_headquarter: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione una empresa."),
-              dependencia: Yup.string()
+                .required(' Por favor seleccione una sede'),
+              usuario_dependence: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione una dependencia."),
-              cargo: Yup.string()
+                .required(' Por favor seleccione una dependencia'),
+              usuario_charge: Yup.string()
                 .ensure()
-                .required(" Por favor seleccione un cargo."),
-              username: Yup.string().required(
-                " Por favor introduzca un username."
+                .required(' Por favor selccione un cargo'),
+              usuario_status: Yup.bool().test(
+                'Activado',
+                '',
+                value => value === true
               ),
               roles: Yup.array()
                 .of(
@@ -265,8 +352,7 @@ class ModalEditUser extends React.Component {
                     value: Yup.string().required()
                   })
                 )
-                .required(" Por favor seleccione al menos un rol."),
-              estado: Yup.bool().test("Activado", "", value => value === true)
+                .required(' Por favor seleccione al menos un rol.')
             })}
           >
             {props => {
@@ -286,6 +372,15 @@ class ModalEditUser extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
+                    <Alert color="danger" isOpen={this.state.alertError}>
+                      Error al actualizar el usuario.
+                    </Alert>
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                      Se actualizo el usuario con éxito.
+                    </Alert>
+                    <Alert color="danger" isOpen={this.state.alertError400}>
+                      Error, el usuario ya esta asignado.
+                    </Alert>
                     <form className="form">
                       <div className="row">
                         <Col sm="3">
@@ -295,51 +390,51 @@ class ModalEditUser extends React.Component {
                           />
                           <input
                             type="file"
-                            style={{ display: "none" }}
+                            style={{ display: 'none' }}
                             ref={this.inputOpenFileRef}
                           />
                           <button
                             className="btn btn-secondary btn-sm"
                             onClick={this.showOpenFileDlg}
-                            style={{ width: "160px" }}
+                            style={{ width: '160px' }}
                           >
-                            <i className="fa fa-camera" /> Cambiar imagen{" "}
+                            <i className="fa fa-camera" /> Cambiar imagen{' '}
                           </button>
                         </Col>
                         <Col sm="9">
                           <div className="">
-                            {" "}
+                            {' '}
                             <h5
                               className=""
-                              style={{ borderBottom: "1px solid black" }}
+                              style={{ borderBottom: '1px solid black' }}
                             >
-                              {" "}
-                              Datos personales{" "}
-                            </h5>{" "}
+                              {' '}
+                              Datos personales{' '}
+                            </h5>{' '}
                           </div>
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  Identificación{" "}
-                                  <span className="text-danger">*</span>{" "}
+                                  Identificación{' '}
+                                  <span className="text-danger">*</span>{' '}
                                   <dd>
                                     <input
-                                      name={"identificacion"}
+                                      name={'usuario_identification'}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      value={values.identificacion}
+                                      value={values.usuario_identification}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.identificacion &&
-                                        touched.identificacion &&
-                                        "is-invalid"}`}
+                                      className={`form-control form-control-sm ${errors.usuario_identification &&
+                                        touched.usuario_identification &&
+                                        'is-invalid'}`}
                                     />
-                                    <div style={{ color: "#D54B4B" }}>
-                                      {errors.identificacion &&
-                                      touched.identificacion ? (
+                                    <div style={{ color: '#D54B4B' }}>
+                                      {errors.usuario_identification &&
+                                      touched.usuario_identification ? (
                                         <i className="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name="identificacion" />
+                                      <ErrorMessage name="usuario_identification" />
                                     </div>
                                   </dd>
                                 </dl>
@@ -348,24 +443,25 @@ class ModalEditUser extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  Nombre <span className="text-danger">*</span>{" "}
+                                  Nombre <span className="text-danger">*</span>{' '}
                                   <dd>
-                                    {" "}
+                                    {' '}
                                     <input
-                                      name={"nombre"}
+                                      name={'usuario_name'}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      value={values.nombre}
+                                      value={values.usuario_name}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.nombre &&
-                                        touched.nombre &&
-                                        "is-invalid"}`}
+                                      className={`form-control form-control-sm ${errors.usuario_name &&
+                                        touched.usuario_name &&
+                                        'is-invalid'}`}
                                     />
-                                    <div style={{ color: "#D54B4B" }}>
-                                      {errors.nombre && touched.nombre ? (
+                                    <div style={{ color: '#D54B4B' }}>
+                                      {errors.usuario_name &&
+                                      touched.usuario_name ? (
                                         <i className="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name="nombre" />
+                                      <ErrorMessage name="usuario_name" />
                                     </div>
                                   </dd>
                                 </dl>
@@ -374,23 +470,24 @@ class ModalEditUser extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  E-mail <span className="text-danger">*</span>{" "}
+                                  E-mail <span className="text-danger">*</span>{' '}
                                   <dd>
                                     <input
-                                      name={"email"}
+                                      name={'usuario_email'}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      value={values.email}
+                                      value={values.usuario_email}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.email &&
-                                        touched.email &&
-                                        "is-invalid"}`}
+                                      className={`form-control form-control-sm ${errors.usuario_email &&
+                                        touched.usuario_email &&
+                                        'is-invalid'}`}
                                     />
-                                    <div style={{ color: "#D54B4B" }}>
-                                      {errors.email && touched.email ? (
+                                    <div style={{ color: '#D54B4B' }}>
+                                      {errors.usuario_email &&
+                                      touched.usuario_email ? (
                                         <i className="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name="email" />
+                                      <ErrorMessage name="usuario_email" />
                                     </div>
                                   </dd>
                                 </dl>
@@ -399,25 +496,26 @@ class ModalEditUser extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  Teléfono{" "}
-                                  <span className="text-danger">*</span>{" "}
+                                  Teléfono{' '}
+                                  <span className="text-danger">*</span>{' '}
                                   <dd>
-                                    {" "}
+                                    {' '}
                                     <input
-                                      name={"telefono"}
+                                      name={'usuario_phone'}
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      value={values.telefono}
+                                      value={values.usuario_phone}
                                       type="text"
-                                      className={`form-control form-control-sm ${errors.telefono &&
-                                        touched.telefono &&
-                                        "is-invalid"}`}
+                                      className={`form-control form-control-sm ${errors.usuario_phone &&
+                                        touched.usuario_phone &&
+                                        'is-invalid'}`}
                                     />
-                                    <div style={{ color: "#D54B4B" }}>
-                                      {errors.telefono && touched.telefono ? (
+                                    <div style={{ color: '#D54B4B' }}>
+                                      {errors.usuario_phone &&
+                                      touched.usuario_phone ? (
                                         <i className="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name="telefono" />
+                                      <ErrorMessage name="usuario_phone" />
                                     </div>
                                   </dd>
                                 </dl>
@@ -428,14 +526,14 @@ class ModalEditUser extends React.Component {
                                 <dl className="param">
                                   Dirección
                                   <dd>
-                                    {" "}
+                                    {' '}
                                     <input
-                                      name={"direccion"}
+                                      name={'usuario_address'}
                                       type="text"
                                       className="form-control form-control-sm"
                                       onChange={handleChange}
                                       onBlur={handleBlur}
-                                      value={values.direccion}
+                                      value={values.usuario_address}
                                     />
                                   </dd>
                                 </dl>
@@ -446,13 +544,13 @@ class ModalEditUser extends React.Component {
                                 <dl className="param">
                                   Fecha de nacimiento
                                   <dd>
-                                    {" "}
+                                    {' '}
                                     <input
-                                      name={"f_d_nacimiento"}
+                                      name={'usuario_birthDate'}
                                       onChange={handleChange}
                                       // onChange={(e)=> console.log(e.target.value)}
                                       onBlur={handleBlur}
-                                      value={values.f_d_nacimiento}
+                                      value={values.usuario_birthDate}
                                       type="date"
                                       className="form-control form-control-sm"
                                     />
@@ -469,10 +567,10 @@ class ModalEditUser extends React.Component {
                             <NavItem>
                               <NavLink
                                 className={classnames({
-                                  active: this.state.activeTab === "1"
+                                  active: this.state.activeTab === '1'
                                 })}
                                 onClick={() => {
-                                  this.toogleTab("1");
+                                  this.toogleTab('1');
                                 }}
                               >
                                 Datos laborales
@@ -481,10 +579,10 @@ class ModalEditUser extends React.Component {
                             <NavItem>
                               <NavLink
                                 className={classnames({
-                                  active: this.state.activeTab === "2"
+                                  active: this.state.activeTab === '2'
                                 })}
                                 onClick={() => {
-                                  this.toogleTab("2");
+                                  this.toogleTab('2');
                                 }}
                               >
                                 Datos de seguridad
@@ -501,201 +599,194 @@ class ModalEditUser extends React.Component {
                                         <div className="col-md-6">
                                           <div className="form-group">
                                             <label>
-                                              {" "}
-                                              Conglomerado{" "}
+                                              {' '}
+                                              Conglomerado{' '}
                                               <span className="text-danger">
                                                 *
-                                              </span>{" "}
+                                              </span>{' '}
                                             </label>
                                             <SelectConglomerado
-                                              name={"conglomerado"}
+                                              name={'usuario_conglomerate'}
                                               onChange={e =>
                                                 setFieldValue(
-                                                  "conglomerado",
+                                                  'usuario_conglomerate',
                                                   e.target.value
                                                 )
                                               }
-                                              value={values.conglomerado}
-                                              className={`form-control form-control-sm ${errors.conglomerado &&
-                                                touched.conglomerado &&
-                                                "is-invalid"}`}
+                                              onBlur={() =>
+                                                setFieldTouched(
+                                                  'usuario_conglomerate',
+                                                  true
+                                                )
+                                              }
+                                              value={
+                                                values.usuario_conglomerate
+                                              }
+                                              className={`form-control form-control-sm ${errors.usuario_conglomerate &&
+                                                touched.usuario_conglomerate &&
+                                                'is-invalid'}`}
                                             />
-
-                                            {/* <select
-                                              name={"conglomerado"}
-                                              onChange={handleChange}
-                                              onBlur={handleBlur}
-                                              value={values.conglomerado}
-                                              className={`form-control form-control-sm ${errors.conglomerado &&
-                                                touched.conglomerado &&
-                                                "is-invalid"}`}
-                                            >
-                                              {mapOptionConglomerate}
-                                            </select> */}
-                                            {/* <div style={{ color: "#D54B4B" }}>
-                                              {errors.conglomerado &&
-                                              touched.conglomerado ? (
+                                            <div style={{ color: '#D54B4B' }}>
+                                              {errors.usuario_conglomerate &&
+                                              touched.usuario_conglomerate ? (
                                                 <i className="fa fa-exclamation-triangle" />
                                               ) : null}
-                                              <ErrorMessage name="conglomerado" />
-                                            </div> */}
+                                              <ErrorMessage name="usuario_conglomerate" />
+                                            </div>
                                           </div>
                                         </div>
                                         <div className="col-md-6">
                                           <div className="form-group">
                                             <label>
-                                              {" "}
-                                              Empresa{" "}
+                                              {' '}
+                                              Empresa{' '}
                                               <span className="text-danger">
                                                 *
-                                              </span>{" "}
+                                              </span>{' '}
                                             </label>
                                             <SelectCompany
-                                              conglomerate={
-                                                props.values.conglomerado
+                                              usuario_conglomerate={
+                                                props.values
+                                                  .usuario_conglomerate
                                               }
-                                              name="empresa"
-                                              value={values.empresa}
+                                              name="usuario_company"
+                                              value={values.usuario_company}
                                               onChange={e =>
                                                 setFieldValue(
-                                                  "empresa",
+                                                  'usuario_company',
                                                   e.target.value
                                                 )
                                               }
-                                              className={`form-control form-control-sm ${errors.empresa &&
-                                                touched.empresa &&
-                                                "is-invalid"}`}
+                                              onBlur={() =>
+                                                setFieldTouched(
+                                                  'usuario_company',
+                                                  true
+                                                )
+                                              }
+                                              className={`form-control form-control-sm ${errors.usuario_company &&
+                                                touched.usuario_company &&
+                                                'is-invalid'}`}
                                             ></SelectCompany>
-                                            {/* <select
-                                              name={"empresa"}
-                                              onChange={handleChange}
-                                              onBlur={handleBlur}
-                                              value={values.empresa}
-                                              className={`form-control form-control-sm ${errors.empresa &&
-                                                touched.empresa &&
-                                                "is-invalid"}`}
-                                            >
-                                              <option>Seleccioen</option>
-                                            </select> */}
-                                            <div style={{ color: "#D54B4B" }}>
-                                              {errors.empresa &&
-                                              touched.empresa ? (
+                                            <div style={{ color: '#D54B4B' }}>
+                                              {errors.usuario_company &&
+                                              touched.usuario_company ? (
                                                 <i className="fa fa-exclamation-triangle" />
                                               ) : null}
-                                              <ErrorMessage name="empresa" />
+                                              <ErrorMessage name="usuario_company" />
                                             </div>
                                           </div>
                                         </div>
                                         <div className="col-md-6">
                                           <div className="form-group">
                                             <label>
-                                              {" "}
-                                              Sede{" "}
+                                              {' '}
+                                              Sede{' '}
                                               <span className="text-danger">
                                                 *
-                                              </span>{" "}
+                                              </span>{' '}
                                             </label>
                                             <SelectHeadquarter
-                                              company={props.values.empresa}
-                                              name={"sede"}
+                                              usuario_company={
+                                                props.values.usuario_company
+                                              }
+                                              name={'usuario_headquarter'}
                                               onChange={e =>
                                                 setFieldValue(
-                                                  "sede",
+                                                  'usuario_headquarter',
                                                   e.target.value
                                                 )
                                               }
-                                              className={`form-control form-control-sm ${errors.sede &&
-                                                touched.sede &&
-                                                "is-invalid"}`}
+                                              onBlur={() =>
+                                                setFieldTouched(
+                                                  'usuario_headquarter',
+                                                  true
+                                                )
+                                              }
+                                              value={values.usuario_headquarter}
+                                              className={`form-control form-control-sm ${errors.usuario_headquarter &&
+                                                touched.usuario_headquarter &&
+                                                'is-invalid'}`}
                                             ></SelectHeadquarter>
-                                            {/* <select
-                                              name={"sede"}
-                                              onChange={handleChange}
-                                              onBlur={handleBlur}
-                                              value={values.sede}
-                                              className={`form-control form-control-sm ${errors.sede &&
-                                                touched.sede &&
-                                                "is-invalid"}`}
-                                            >
-                                              <option>Seleccione</option>
-                                            </select> */}
-                                            <div style={{ color: "#D54B4B" }}>
-                                              {errors.sede && touched.sede ? (
+                                            <div style={{ color: '#D54B4B' }}>
+                                              {errors.usuario_headquarter &&
+                                              touched.usuario_headquarter ? (
                                                 <i className="fa fa-exclamation-triangle" />
                                               ) : null}
-                                              <ErrorMessage name={"sede"} />
+                                              <ErrorMessage
+                                                name={'usuario_headquarter'}
+                                              />
                                             </div>
                                           </div>
                                         </div>
                                         <div className="col-md-6">
                                           <div className="form-group">
                                             <label>
-                                              {" "}
-                                              Dependencia{" "}
+                                              {' '}
+                                              Dependencia{' '}
                                               <span className="text-danger">
                                                 *
-                                              </span>{" "}
+                                              </span>{' '}
                                             </label>
                                             <SelectDependence
-                                              headquarter={props.values.sede}
-                                              name={"dependence"}
-                                              value={values.dependence}
+                                              usuario_headquarter={
+                                                props.values.usuario_headquarter
+                                              }
+                                              name={'usuario_dependence'}
+                                              value={values.usuario_dependence}
                                               onChange={e =>
                                                 setFieldValue(
-                                                  "dependence",
+                                                  'usuario_dependence',
                                                   e.target.value
                                                 )
                                               }
-                                              className={`form-control form-control-sm ${errors.dependence &&
-                                                touched.dependence &&
-                                                "is-invalid"}`}
+                                              onBlur={() =>
+                                                setFieldTouched(
+                                                  'usuario_dependence',
+                                                  true
+                                                )
+                                              }
+                                              className={`form-control form-control-sm ${errors.usuario_dependence &&
+                                                touched.usuario_dependence &&
+                                                'is-invalid'}`}
                                             ></SelectDependence>
-                                            {/* <select
-                                              name={"dependencia"}
-                                              onChange={handleChange}
-                                              onBlur={handleBlur}
-                                              value={values.dependencia}
-                                              className={`form-control form-control-sm ${errors.dependencia &&
-                                                touched.dependencia &&
-                                                "is-invalid"}`}
-                                            >
-                                              <option>Seleccione</option>
-                                            </select> */}
-                                            <div style={{ color: "#D54B4B" }}>
-                                              {errors.dependencia &&
-                                              touched.dependencia ? (
+                                            <div style={{ color: '#D54B4B' }}>
+                                              {errors.usuario_dependence &&
+                                              touched.usuario_dependence ? (
                                                 <i className="fa fa-exclamation-triangle" />
                                               ) : null}
-                                              <ErrorMessage name="dependencia" />
+                                              <ErrorMessage name="usuario_dependence" />
                                             </div>
                                           </div>
                                         </div>
                                         <div className="col-md-12">
                                           <div className="form-group">
                                             <label>
-                                              {" "}
-                                              Cargo{" "}
+                                              {' '}
+                                              Cargo{' '}
                                               <span className="text-danger">
                                                 *
-                                              </span>{" "}
+                                              </span>{' '}
                                             </label>
                                             <select
-                                              name={"cargo"}
+                                              name={'usuario_charge'}
                                               onChange={handleChange}
                                               onBlur={handleBlur}
-                                              value={values.cargo}
-                                              className={`form-control form-control-sm ${errors.cargo &&
-                                                touched.cargo &&
-                                                "is-invalid"}`}
+                                              value={values.usuario_charge}
+                                              className={`form-control form-control-sm ${errors.usuario_charge &&
+                                                touched.usuario_charge &&
+                                                'is-invalid'}`}
                                             >
-                                              <option>Seleccione</option>
+                                              <option value={''}>
+                                                -- Seleccione --
+                                              </option>
                                               {selectOptionsCharge}
                                             </select>
-                                            <div style={{ color: "#D54B4B" }}>
-                                              {errors.cargo && touched.cargo ? (
+                                            <div style={{ color: '#D54B4B' }}>
+                                              {errors.usuario_charge &&
+                                              touched.usuario_charge ? (
                                                 <i className="fa fa-exclamation-triangle" />
                                               ) : null}
-                                              <ErrorMessage name="cargo" />
+                                              <ErrorMessage name="usuario_charge" />
                                             </div>
                                           </div>
                                         </div>
@@ -713,57 +804,59 @@ class ModalEditUser extends React.Component {
                                       <div className="col-md-6">
                                         <div className="form-group">
                                           <label>
-                                            Usuario{" "}
+                                            Usuario{' '}
                                             <span className="text-danger">
                                               *
                                             </span>
                                           </label>
                                           <input
                                             disabled
-                                            name={"username"}
+                                            name={'usuario_username'}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            value={values.username}
-                                            className={`form-control form-control-sm ${errors.username &&
-                                              touched.username &&
-                                              "is-invalid"}`}
+                                            value={values.usuario_username}
+                                            className={`form-control form-control-sm ${errors.usuario_username &&
+                                              touched.usuario_username &&
+                                              'is-invalid'}`}
                                             type="text"
                                           />
-                                          <div style={{ color: "#D54B4B" }}>
-                                            {errors.username &&
-                                            touched.username ? (
+                                          <div style={{ color: '#D54B4B' }}>
+                                            {errors.usuario_username &&
+                                            touched.usuario_username ? (
                                               <i className="fa fa-exclamation-triangle" />
                                             ) : null}
-                                            <ErrorMessage name="username" />
+                                            <ErrorMessage name="usuario_username" />
                                           </div>
                                         </div>
                                       </div>
                                       <div className="col-md-6">
                                         <div className="form-group">
                                           <label>
-                                            {" "}
-                                            Roles{" "}
+                                            {' '}
+                                            Roles{' '}
                                             <span className="text-danger">
                                               *
-                                            </span>{" "}
+                                            </span>{' '}
                                           </label>
                                           <MySelect
-                                            name={"roles"}
+                                            name={'roles'}
                                             value={values.roles}
                                             onChange={setFieldValue}
-                                            onBlur={setFieldTouched}
+                                            onBlur={() =>
+                                              setFieldTouched('roles', true)
+                                            }
                                             error={errors.roles}
                                             touched={touched.roles}
                                           />
                                           {touched ? (
-                                            <div style={{ color: "red" }}>
-                                              {" "}
-                                              <div style={{ color: "#D54B4B" }}>
+                                            <div style={{ color: 'red' }}>
+                                              {' '}
+                                              <div style={{ color: '#D54B4B' }}>
                                                 {errors.roles &&
                                                 touched.roles ? (
                                                   <i className="fa fa-exclamation-triangle" />
                                                 ) : null}
-                                                <ErrorMessage name={"roles"} />
+                                                <ErrorMessage name={'roles'} />
                                               </div>
                                             </div>
                                           ) : null}
@@ -772,21 +865,21 @@ class ModalEditUser extends React.Component {
                                       <div className="col-md-12">
                                         <div className="form-group">
                                           <label>
-                                            {" "}
-                                            Estado{" "}
+                                            {' '}
+                                            Estado{' '}
                                             <span className="text-danger">
                                               *
-                                            </span>{" "}
+                                            </span>{' '}
                                           </label>
                                           <div className="text-justify">
                                             <Field
-                                              name="estado"
+                                              name="usuario_status"
                                               render={({ field, form }) => {
                                                 return (
                                                   <CustomInput
                                                     type="checkbox"
                                                     id="CheckBoxEditRoles"
-                                                    label=" Si esta opción se encuentra activada, representa
+                                                    label="Si esta opción se encuentra activada, representa
                                   que el rol es visible en el sistema y se podrán
                                   realizar operaciones entre cada uno de los módulos
                                   correspondientes de la aplicación. En caso
@@ -796,15 +889,15 @@ class ModalEditUser extends React.Component {
                                                     {...field}
                                                     checked={field.value}
                                                     className={
-                                                      errors.estado &&
-                                                      touched.estado &&
-                                                      "invalid-feedback"
+                                                      errors.usuario_status &&
+                                                      touched.usuario_status &&
+                                                      'invalid-feedback'
                                                     }
                                                   />
                                                 );
                                               }}
                                             />
-                                            <ErrorMessage name="estado" />
+                                            <ErrorMessage name="usuario_status" />
                                           </div>
                                         </div>
                                       </div>
@@ -827,7 +920,7 @@ class ModalEditUser extends React.Component {
                       type="button"
                       className="btn btn-outline-success btn-sm"
                     >
-                      <i className="fa fa-pencil" /> Actualizar{" "}
+                      <i className="fa fa-pencil" /> Actualizar{' '}
                     </button>
                     <button
                       className="btn btn-secondary btn-sm"
@@ -835,7 +928,7 @@ class ModalEditUser extends React.Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      <i className="fa fa-times" /> Cerrar{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -850,7 +943,8 @@ class ModalEditUser extends React.Component {
 
 ModalEditUser.propTypes = {
   modaledit: PropTypes.bool.isRequired,
-  id: PropTypes.any.isRequired
+  id: PropTypes.any.isRequired,
+  updateTable: PropTypes.func.isRequired
 };
 
 export default ModalEditUser;
@@ -876,11 +970,11 @@ class MySelect extends React.Component {
   }
 
   getData = async () => {
-    let url = "http://192.168.10.180:7000/api/sgdea/role/active";
+    let url = 'http://192.168.10.180:7000/api/sgdea/role/active';
     const response = await fetch(url, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     });
     const data = await response.json();
@@ -890,11 +984,11 @@ class MySelect extends React.Component {
   };
 
   handleChange = value => {
-    this.props.onChange("roles", value);
+    this.props.onChange('roles', value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("roles", true);
+    this.props.onBlur('roles', true);
   };
 
   render() {
@@ -905,15 +999,15 @@ class MySelect extends React.Component {
       };
     });
     return (
-      <div style={{ margin: "0" }}>
+      <div style={{ margin: '0' }}>
         <Select
           name={this.props.name}
           options={aux}
           isMulti
           onChange={this.handleChange}
-          onBlur={this.handleBlur}
+          onBlur={this.props.onBlur}
           value={this.props.value}
-          placeholder={"-- seleccione rol --"}
+          placeholder={'-- seleccione rol --'}
         />
       </div>
     );
@@ -932,10 +1026,10 @@ class SelectConglomerado extends React.Component {
 
   getData = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -947,11 +1041,11 @@ class SelectConglomerado extends React.Component {
   };
 
   handleChange = value => {
-    this.props.onChange("conglomerado", value);
+    this.props.onChange('usuario_conglomerate', value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("conglomerado", true);
+    this.props.onBlur('usuario_conglomerate', true);
   };
 
   render() {
@@ -965,10 +1059,11 @@ class SelectConglomerado extends React.Component {
         <select
           name={this.props.name}
           onChange={this.props.onChange}
-          // onChange={e => setFieldValue("conglomerado", e)}
+          onBlur={this.props.onBlur}
           value={this.props.value}
           className={this.props.className}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -977,12 +1072,6 @@ class SelectConglomerado extends React.Component {
             );
           })}
         </select>
-        {/* <div style={{ color: "#D54B4B" }}>
-          {errors.conglomerado && touched.conglomerado ? (
-            <i className="fa fa-exclamation-triangle" />
-          ) : null}
-          <ErrorMessage name="conglomerado" />
-        </div> */}
       </div>
     );
   }
@@ -993,23 +1082,20 @@ class SelectConglomerado extends React.Component {
 class SelectCompany extends React.Component {
   state = {
     dataCompany: [],
-    id: this.props.conglomerate
+    id: this.props.usuario_conglomerate
   };
 
   static getDerivedStateFromProps(props, state) {
-    if (props.conglomerate !== state.id) {
+    if (props.usuario_conglomerate !== state.id) {
       return {
-        id: props.conglomerate
+        id: props.usuario_conglomerate
       };
     }
     return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.conglomerate !== prevProps.conglomerate) {
-      // this.setState({
-      //   id: this.props.conglomerate
-      // });
+    if (this.props.usuario_conglomerate !== prevProps.usuario_conglomerate) {
       this.getDataCompany();
     }
   }
@@ -1024,10 +1110,10 @@ class SelectCompany extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -1037,7 +1123,7 @@ class SelectCompany extends React.Component {
           dataCompany: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
   render() {
     return (
@@ -1047,7 +1133,9 @@ class SelectCompany extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1075,20 +1163,20 @@ class SelectCompany extends React.Component {
 class SelectHeadquarter extends React.Component {
   state = {
     dataHeadquarter: [],
-    id: this.props.company
+    id: this.props.usuario_company
   };
 
   static getDerivedStateFromProps(props, state) {
-    if (props.company !== state.id) {
+    if (props.usuario_company !== state.id) {
       return {
-        company: props.company
+        id: props.usuario_company
       };
     }
     return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.company !== prevProps.company) {
+    if (this.props.usuario_company !== prevProps.usuario_company) {
       // metodo del fetch()
       this.getDataHeadquarter();
     }
@@ -1100,12 +1188,12 @@ class SelectHeadquarter extends React.Component {
 
   getDataHeadquarter = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.company}`,
+      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.usuario_company}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -1115,7 +1203,7 @@ class SelectHeadquarter extends React.Component {
           dataHeadquarter: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   render() {
@@ -1126,7 +1214,9 @@ class SelectHeadquarter extends React.Component {
           value={this.props.value}
           className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataHeadquarter.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1145,20 +1235,20 @@ class SelectHeadquarter extends React.Component {
 class SelectDependence extends React.Component {
   state = {
     dataDependence: [],
-    id: this.props.headquarter
+    id: this.props.usuario_headquarter
   };
 
   static getDerivedStateFromProps(props, state) {
-    if (props.headquarter !== state.id) {
+    if (props.usuario_headquarter !== state.id) {
       return {
-        headquarter: props.headquarter
+        id: props.usuario_headquarter
       };
     }
     return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.headquarter !== prevProps.headquarter) {
+    if (this.props.usuario_headquarter !== prevProps.usuario_headquarter) {
       // metodo del fetch()
       this.getDataDependence();
     }
@@ -1170,12 +1260,12 @@ class SelectDependence extends React.Component {
 
   getDataDependence = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.headquarter}`,
+      `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.usuario_headquarter}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -1185,7 +1275,7 @@ class SelectDependence extends React.Component {
           dataDependence: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   render() {
@@ -1196,7 +1286,9 @@ class SelectDependence extends React.Component {
           value={this.props.value}
           onChange={this.props.onChange}
           className={this.props.className}
+          onBlur={this.props.onBlur}
         >
+          <option value={''}>-- Seleccione --</option>
           {this.state.dataDependence.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

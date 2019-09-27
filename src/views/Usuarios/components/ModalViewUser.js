@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -17,10 +17,10 @@ import {
   CardTitle,
   CardText,
   Button
-} from "reactstrap";
-import PropTypes from "prop-types";
-import Moment from "react-moment";
-import classnames from "classnames";
+} from 'reactstrap';
+import PropTypes from 'prop-types';
+import Moment from 'react-moment';
+import classnames from 'classnames';
 
 class ModalViewUser extends Component {
   constructor(props) {
@@ -32,8 +32,8 @@ class ModalViewUser extends Component {
       id: this.props.id,
       data: [],
       dataRoles: [],
-      userlogged: "ccuartas",
-      activeTab: "1"
+      userlogged: 'ccuartas',
+      activeTab: '1'
     };
   }
 
@@ -53,10 +53,10 @@ class ModalViewUser extends Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/user/${id}/?username=${this.state.userlogged}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
         }
       }
     )
@@ -68,7 +68,7 @@ class ModalViewUser extends Component {
           dataRoles: data.listRoleResponses
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch(Error => console.log(' ', Error));
     //this.getDataById(this.state.id);
   };
 
@@ -118,11 +118,11 @@ class ModalViewUser extends Component {
             </Col>
             <Col sm="9">
               <div className="">
-                {" "}
-                <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                  {" "}
-                  Datos personales{" "}
-                </h5>{" "}
+                {' '}
+                <h5 className="" style={{ borderBottom: '1px solid black' }}>
+                  {' '}
+                  Datos personales{' '}
+                </h5>{' '}
               </div>
               <div className="row">
                 <div className="col-md-6">
@@ -186,9 +186,9 @@ class ModalViewUser extends Component {
           <Nav tabs>
             <NavItem>
               <NavLink
-                className={classnames({ active: this.state.activeTab === "1" })}
+                className={classnames({ active: this.state.activeTab === '1' })}
                 onClick={() => {
-                  this.toggleTab("1");
+                  this.toggleTab('1');
                 }}
               >
                 Datos laborales
@@ -196,9 +196,9 @@ class ModalViewUser extends Component {
             </NavItem>
             <NavItem>
               <NavLink
-                className={classnames({ active: this.state.activeTab === "2" })}
+                className={classnames({ active: this.state.activeTab === '2' })}
                 onClick={() => {
-                  this.toggleTab("2");
+                  this.toggleTab('2');
                 }}
               >
                 Datos de seguridad
@@ -286,10 +286,14 @@ class ModalViewUser extends Component {
                       <dt>Estado </dt>
                       <dd>
                         {this.state.data.enabled ? (
-                          <p className="text-success">Activo</p>
+                          <p className="text-success">
+                            <b>Activo</b>
+                          </p>
                         ) : (
-                          <p className="text-danger">Inactivo</p>
-                        )}{" "}
+                          <p className="text-danger">
+                            <b>Inactivo</b>
+                          </p>
+                        )}{' '}
                       </dd>
                     </dl>
                   </div>
@@ -303,7 +307,7 @@ class ModalViewUser extends Component {
                           <Moment format="YYYY/MM/DD">
                             {this.state.data.createdAt}
                           </Moment>
-                        }{" "}
+                        }{' '}
                       </dd>
                     </dl>
                   </div>
@@ -317,7 +321,7 @@ class ModalViewUser extends Component {
                           <Moment format="YYYY/MM/DD">
                             {this.state.data.updatedAt}
                           </Moment>
-                        }{" "}
+                        }{' '}
                       </dd>
                     </dl>
                   </div>
@@ -334,8 +338,8 @@ class ModalViewUser extends Component {
                 this.setState({ modal: false });
               }}
             >
-              {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
+              {' '}
+              <i className="fa fa-times" /> Cerrar{' '}
             </button>
           </div>
         </ModalFooter>

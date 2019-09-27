@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -7,17 +7,17 @@ import {
   Alert,
   Card,
   CardBody
-} from "reactstrap";
-import PropTypes from "prop-types";
-import * as Yup from "yup";
-import { Formik, withFormik, ErrorMessage, Field, From } from "formik";
+} from 'reactstrap';
+import PropTypes from 'prop-types';
+import * as Yup from 'yup';
+import { Formik, withFormik, ErrorMessage, Field, From } from 'formik';
 
 class ModalChangePasswordUser extends React.Component {
   state = {
     modal: this.props.modalpassword,
     id: this.props.id,
-    userLogged: "ccuartas",
-    nameUser: "",
+    userLogged: 'ccuartas',
+    nameUser: '',
     alertSuccess: false,
     alertError: false,
     alertCode: false
@@ -31,10 +31,10 @@ class ModalChangePasswordUser extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/user/${id}?username=${this.state.userLogged}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
         }
       }
     )
@@ -61,17 +61,17 @@ class ModalChangePasswordUser extends React.Component {
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader>Eliminar usuario {this.state.nameUser}</ModalHeader>
+          <ModalHeader>Cambiar la contraseña {this.state.nameUser}</ModalHeader>
           <Formik
             onSubmit={(values, setSubmitting) => {
               setTimeout(() => {
                 fetch(
                   `http://192.168.10.180:7000/api/sgdea/user/change/password`,
                   {
-                    method: "POST",
+                    method: 'POST',
                     headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                      'Content-Type': 'application/json',
+                      Authorization: 'Basic ' + window.btoa('sgdea:123456')
                     },
                     body: JSON.stringify({
                       id: this.state.id,
@@ -136,28 +136,29 @@ class ModalChangePasswordUser extends React.Component {
                         toggle={this.onDismiss}
                       >
                         La identificacion {values.identificacion} para eliminar
-                        no corresponde a usuario
+                        no corresponde a usuario.
                       </Alert>
                       <p
                         className="text-muted"
-                        style={{ textAlign: "justify" }}
+                        style={{ textAlign: 'justify' }}
                       >
                         Tener en cuenta que previamente se debe notificar al
                         usuario
-                        <code> Nombre</code>, que la contraseña se va a
-                        actualizar. En caso contrario se le pueden borrar las
-                        operaciones que se estén realizando en el sistema
+                        <code> {this.state.nameUser}</code>, que la contraseña
+                        se va a actualizar. En caso contrario se le pueden
+                        borrar las operaciones que se estén realizando en el
+                        sistema
                       </p>
                       <Card>
                         <CardBody>
                           <div className="form-group">
                             <label>
-                              {" "}
-                              Nueva contraseña{" "}
-                              <span className="text-danger">*</span>{" "}
+                              {' '}
+                              Nueva contraseña{' '}
+                              <span className="text-danger">*</span>{' '}
                             </label>
                             <input
-                              name={"newpassword"}
+                              name={'newpassword'}
                               value={values.newpassword}
                               onChange={handleChange}
                               onBlur={handleBlur}
@@ -168,12 +169,12 @@ class ModalChangePasswordUser extends React.Component {
                           </div>
                           <div className="form-group">
                             <label>
-                              {" "}
-                              Confirmar contraseña{" "}
-                              <span className="text-danger">*</span>{" "}
+                              {' '}
+                              Confirmar contraseña{' '}
+                              <span className="text-danger">*</span>{' '}
                             </label>
                             <input
-                              name={"confirmpassword"}
+                              name={'confirmpassword'}
                               value={values.confirmpassword}
                               onChange={handleChange}
                               onBlur={handleBlur}
@@ -194,8 +195,8 @@ class ModalChangePasswordUser extends React.Component {
                           handleSubmit();
                         }}
                       >
-                        {" "}
-                        <i className="fa fa-trash" /> Eliminar
+                        {' '}
+                        <i className="fa fa-trash" /> Cambiar la contraseña
                       </button>
                       <button
                         type="button"

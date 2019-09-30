@@ -375,13 +375,19 @@ class ModalEditEmpresa extends React.Component {
                   <ModalBody>
                     <form className="form">
                       <Alert color="danger" isOpen={this.state.alertError}>
-                        Error al actualizar la empresa.
+                        {this.props.t(
+                          'app_empresa_modal_actualizar_alert_error'
+                        )}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
-                        Se actualizo la empresa con éxito.
+                        {this.props.t(
+                          'app_empresa_modal_actualizar_alert_success'
+                        )}
                       </Alert>
                       <Alert color="danger" isOpen={this.state.alertError400}>
-                        Error, la empresa ya esta asignada.
+                        {this.props.t(
+                          'app_empresa_modal_Actualizar_alert_error400'
+                        )}
                       </Alert>
                       <Row>
                         <Col sm="3">

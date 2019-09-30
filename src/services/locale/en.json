@@ -163,6 +163,9 @@
     "app_conglomerado_modal_actualizar_cargo_responsable": "Responsible charge",
     "app_conglomerado_modal_actualizar_botom_actualizar": "Upgrade",
     "app_conglomerado_modal_actualizar_botom_cerrar": "Close",
+    "app_conglomerado_modal_actualizar_alert_success": "The conglomerate was successfully updated.",
+    "app_conglomerado_modal_actualizar_alert_error": "Failed to update cluster.",
+    "app_conglomerado_modal_Actualizar_alert_error400": "Error, the cluster is already assigned.",
 
     "app_conglomerado_modal_eliminar_titulo": "Remove",
     "app_conglomerado_modal_eliminar_informacion": "Confirm the code to remove the cluster",
@@ -170,6 +173,9 @@
     "app_conglomerado_modal_eliminar_placeholder": "Conglomerate code to remove",
     "app_conglomerado_modal_eliminar_boton": "Remove",
     "app_conglomerado_modal_eliminar_boton_2": "Close",
+    "app_conglomerado_modal_eliminar_alert_success": "The conglomerate was successfully removed",
+    "app_conglomerado_modal_eliminar_alert_error": "Failed, deleting the cluster.",
+    "app_conglomerado_modal_eliminar_alert_errorCode": "Error, the code is not valid to delete the cluster.",
 
     "app_conglomerado_modal_export_titulo": "Export conglomerate table",
     "app_conglomerado_modal_export_tabla_codigo": "Code",
@@ -277,6 +283,9 @@
     "app_empresa_modal_actualizar_estado_descripcion": "If this option is enabled, it represents that the company is visible on the system and operations can be performed between each of the corresponding modules in the application. Otherwise the company is not deleted from the system it will only be inactive and invisible for each of the corresponding modules of the system.",
     "app_empresa_modal_actualizar_boton_actualizar": "Upgrade",
     "app_empresa_modal_actualizar_boton_cerrar": "Close",
+    "app_empresa_modal_actualizar_alert_success": "The company was successfully updated.",
+    "app_empresa_modal_actualizar_alert_error": "Failed to upgrade company.",
+    "app_empresa_modal_Actualizar_alert_error400": "Error, the company is already assigned.",
 
     "app_empresa_modal_eliminar_titulo": "Delete",
     "app_empresa_modal_eliminar_titulo_2": "Confirm the code to delete the company.",
@@ -284,6 +293,9 @@
     "app_empresa_modal_eliminar_placeholder": "Company code to be removed",
     "app_empresa_modal_eliminar_boton_eliminar": "Delete",
     "app_empresa_modal_eliminar_boton_cerrar": "Close",
+    "app_empresa_modal_eliminar_alert_success": "The company has been successfully wiped out.",
+    "app_empresa_modal_eliminar_alert_error": "The company to be removed, is associated with other entities.",
+    "app_empresa_modal_eliminar_alert_errorCode": "Error, the code is not valid to delete the company.",
 
     "app_empresa_import_step_1": "1. Step",
     "app_empresa_import_step_2": "2. Step",
@@ -400,6 +412,9 @@
     "app_sedes_form_actualizar_estado_descripcion": "If this option is enabled, it represents that the headquarters is visible on the system and operations can be performed between each of the corresponding modules in the application. Otherwise the headquarters is not removed from the system it will only be inactive and invisible for each of the corresponding modules of the system.",
     "app_sedes_form_actualizar_boton_actualizar": "Upgrade",
     "app_sedes_form_actualizar_boton_cerrar": "Close",
+    "app_sedes_modal_actualizar_alert_success": "The headquarters was successfully updated.",
+    "app_sedes_modal_actualizar_alert_error": "Failed to update headquarters.",
+    "app_sedes_modal_Actualizar_alert_error400": "Error, headquarters is already assigned.",
 
     "app_sedes_form_eliminar_titulo": "Delete",
     "app_sedes_form_eliminar_titulo_2": "Confirm the code to delete the headquarter.",
@@ -407,6 +422,9 @@
     "app_sedes_form_eliminar_placeholder": "Headquarters code to be removed",
     "app_sedes_form_eliminar_boton_eliminar": "Delete",
     "app_sedes_form_eliminar_boton_cerrar": "Close",
+    "app_sedes_modal_eliminar_alert_success": "The headquarters has been successfully removed.",
+    "app_sedes_modal_eliminar_alert_error": "The headquarters you are deleting is associated with other entities.",
+    "app_sedes_modal_eliminar_alert_errorCode": "Error, the code is not valid to delete the headquarters.",
 
     "app_sedes_import_step_1": "1. Step",
     "app_sedes_import_step_2": "2. Step",
@@ -493,6 +511,9 @@
     "app_dependencia_form_actualizar_estado_descripcion": "If this option is enabled, it represents that the dependency is visible on the system and operations can be performed between each of the corresponding modules in the application. Otherwise the dependency is not removed from the system it will only be inactive and invisible to each of the corresponding modules in the system.",
     "app_dependencia_form_actualizar_boton_actualizar": "Upgrade",
     "app_dependencia_form_actualizar_boton_cerrar": "Close",
+    "app_dependencia_modal_actualizar_alert_success": "The dependency was successfully updated.",
+    "app_dependencia_modal_actualizar_alert_error": "Failed to update dependency.",
+    "app_dependencia_modal_actualizar_alert_error400": "Failed, dependency is already allocated.",
 
     "app_dependencia_form_eliminar_titulo": "Delete",
     "app_dependencia_form_eliminar_titulo_2": "Confirm the code to remove the dependency.",
@@ -500,6 +521,9 @@
     "app_dependencia_form_eliminar_placeholder": "Dependency code to be removed",
     "app_dependencia_form_eliminar_boton_eliminar": "Delete",
     "app_dependencia_form_eliminar_boton_cerrar": "Close",
+    "app_dependencia_modal_eliminar_alert_success": "The dependency has been successfully eliminated.",
+    "app_dependencia_modal_eliminar_alert_error": "The dependency to delete is associated with other entities.",
+    "app_dependencia_modal_eliminar_alert_errorCode": "Error, the code is not valid to remove the dependency.",
 
     "app_dependencia_import_step_1": "1. Step",
     "app_dependencia_import_step_2": "2. Step",
@@ -561,7 +585,10 @@
     "app_cargo_modal_actualizar_estado": "State",
     "app_cargo_modal_actualizar_estado_descripcion": "If this option is activated, it represents that the charge is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the charge is not eliminated from the system, it will only be inactive and invisible for each of the corresponding modules in the system.",
     "app_cargo_modal_actualizar_button_actualizar": "Upgrade",
-    "app_cargo_modal_actualizar_button_cerrar": "Clase",
+    "app_cargo_modal_actualizar_button_cerrar": "Close",
+    "app_cargo_modal_actualizar_alert_success": "The position was successfully updated.",
+    "app_cargo_modal_actualizar_alert_error": "Failed to update charge.",
+    "app_cargo_modal_actualizar_alert_error400": "Error, the charge is already assigned.",
 
     "app_cargo_modal_eliminar_titulo": "Delete",
     "app_cargo_modal_eliminar_titulo_2": "Confirm the code to eliminate the charge.",
@@ -569,6 +596,9 @@
     "app_cargo_modal_eliminar_placeholder": "Charge code to delete",
     "app_cargo_modal_eliminar_button_eliminar": "Delete",
     "app_cargo_modal_eliminar_button_cerrar": "Close",
+    "app_cargo_modal_eliminar_alert_success": "The charge has been successfully removed.",
+    "app_cargo_modal_eliminar_alert_error": "The charge you are deleting is associated with other entities.",
+    "app_cargo_modal_eliminar_alert_errorCode": "Please enter a valid code.",
 
     "app_cargo_import_step_1": "1. Step",
     "app_cargo_import_step_2": "2. Step",

@@ -462,7 +462,7 @@ export default withTranslation('translations')(
         return null;
       };
       setTimeout(() => {
-        alert(JSON.stringify(values, '', 2));
+        // alert(JSON.stringify(values, '', 2));
         fetch(CONGLOMERATES, {
           method: 'POST',
           headers: {

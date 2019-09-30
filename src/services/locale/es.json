@@ -161,6 +161,10 @@
     "app_conglomerado_modal_actualizar_cargo_responsable": "Cargo responsbale",
     "app_conglomerado_modal_actualizar_botom_actualizar": "Actualizar",
     "app_conglomerado_modal_actualizar_botom_cerrar": "Cerrar",
+    "{/**/}": "",
+    "app_conglomerado_modal_actualizar_alert_success": "Se actualizo el conglomerado con éxito.",
+    "app_conglomerado_modal_actualizar_alert_error": "Error al actualizar el conglomerado.",
+    "app_conglomerado_modal_Actualizar_alert_error400": "Error, el conglomerado ya esta asignado.",
 
     "app_conglomerado_modal_eliminar_titulo": "Eliminar",
     "app_conglomerado_modal_eliminar_informacion": "Confirmar el Código para eliminar el conglomerado",
@@ -168,6 +172,10 @@
     "app_conglomerado_modal_eliminar_placeholder": "Código del conglomerado a eliminar",
     "app_conglomerado_modal_eliminar_boton": "Eliminar",
     "app_conglomerado_modal_eliminar_boton_2": "Cerrar",
+    "{/**/}": "",
+    "app_conglomerado_modal_eliminar_alert_success": "Se elimino de manera satisfactoria el conglomerado.",
+    "app_conglomerado_modal_eliminar_alert_error": "Error, al eliminar el conglomerado.",
+    "app_conglomerado_modal_eliminar_alert_errorCode": "Error, el código no es válido para eliminar el conglomerado.",
 
     "app_conglomerado_modal_export_titulo": "Exportar tabla de conglomerado",
     "app_conglomerado_modal_export_tabla_codigo": "Código",
@@ -240,7 +248,6 @@
     "app_empresa_modal_ver_titulo": "Empresa",
     "app_empresa_modal_ver_titulo_2": "Datos",
     "app_empresa_modal_ver_conglomerado": "Conglomerado",
-
     "app_empresa_modal_ver_codigo": "Código",
     "app_empresa_modal_ver_nit": "Nit",
     "app_empresa_modal_ver_nombre": "Nombre",
@@ -248,11 +255,8 @@
     "app_empresa_modal_ver_estado": "Estado",
     "app_empresa_modal_ver_collapse": "Más información",
     "app_empresa_modal_ver_pais": "País",
-
     "app_empresa_modal_ver_departamento": "Departamento",
-
     "app_empresa_modal_ver_ciudad": "Ciudad",
-
     "app_empresa_modal_ver_cargo_responsable": "Cargo responsable",
     "app_empresa_modal_ver_fecha_creacion": "Fecha de creación",
     "app_empresa_modal_ver_fecha_modificacion": "Fecha de modificación",
@@ -279,6 +283,9 @@
     "app_empresa_modal_actualizar_estado_descripcion": "Si esta opción se encuentra activada, representa que la empresa es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la empresa no se elimina del sistema solo quedará inactiva e invisibles para cada uno de los módulos correspondiente del sistema.",
     "app_empresa_modal_actualizar_boton_actualizar": "Actualizar",
     "app_empresa_modal_actualizar_boton_cerrar": "Cerrar",
+    "app_empresa_modal_actualizar_alert_success": "Se actualizo la empresa con éxito.",
+    "app_empresa_modal_actualizar_alert_error": "Error al actualizar la empresa.",
+    "app_empresa_modal_Actualizar_alert_error400": "Error, la empresa ya esta asignada.",
 
     "app_empresa_modal_eliminar_titulo": "Eliminar",
     "app_empresa_modal_eliminar_titulo_2": "Confirmar el código para eliminar la empresa.",
@@ -286,6 +293,9 @@
     "app_empresa_modal_eliminar_placeholder": "Código de la empresa a eliminar",
     "app_empresa_modal_eliminar_boton_eliminar": "Eliminar",
     "app_empresa_modal_eliminar_boton_cerrar": "Cerrar",
+    "app_empresa_modal_eliminar_alert_success": "La empresa ha sido eliminada con éxito.",
+    "app_empresa_modal_eliminar_alert_error": "La empresa a eliminar, esta asociado a otras entidades.",
+    "app_empresa_modal_eliminar_alert_errorCode": "Error, el código no es válido para eliminar la empresa.",
 
     "app_empresa_import_step_1": "1. Paso",
     "app_empresa_import_step_2": "2. Paso",
@@ -402,6 +412,9 @@
     "app_sedes_form_actualizar_estado_descripcion": "Si esta opción se encuentra activada, representa que la sede es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la sede no se elimina del sistema solo quedará inactiva e invisibles para cada uno de los módulos correspondiente del sistema.",
     "app_sedes_form_actualizar_boton_actualizar": "Actualizar",
     "app_sedes_form_actualizar_boton_cerrar": "Cerrar",
+    "app_sedes_modal_actualizar_alert_success": "Se actualizo la sede con éxito.",
+    "app_sedes_modal_actualizar_alert_error": "Error al actualizar la sede.",
+    "app_sedes_modal_Actualizar_alert_error400": "Error, la sede ya esta asignada.",
 
     "app_sedes_form_eliminar_titulo": "Eliminar",
     "app_sedes_form_eliminar_titulo_2": "Confirmar el código para eliminar el sede.",
@@ -409,6 +422,9 @@
     "app_sedes_form_eliminar_placeholder": "Código de la sede a eliminar",
     "app_sedes_form_eliminar_boton_eliminar": "Eliminar",
     "app_sedes_form_eliminar_boton_cerrar": "Cerrar",
+    "app_sedes_modal_eliminar_alert_success": "La sede ha sido eliminada con éxito.",
+    "app_sedes_modal_eliminar_alert_error": "La sede que va a eliminar, esta asociado a otras entidades.",
+    "app_sedes_modal_eliminar_alert_errorCode": "Error, el código no es válido para eliminar la sede.",
 
     "app_sedes_import_step_1": "1. Paso",
     "app_sedes_import_step_2": "2. Paso",
@@ -495,6 +511,9 @@
     "app_dependencia_form_actualizar_estado_descripcion": "Si esta opción se encuentra activada, representa que la dependencia es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la dependencia no se elimina del sistema solo quedará inactivo e invisibles para cada uno de los módulos correspondiente del sistema.",
     "app_dependencia_form_actualizar_boton_actualizar": "Actualizar",
     "app_dependencia_form_actualizar_boton_cerrar": "Cerrar",
+    "app_dependencia_modal_actualizar_alert_success": "Se actualizo la dependencia con éxito.",
+    "app_dependencia_modal_actualizar_alert_error": "Error al actualizar la dependencia.",
+    "app_dependencia_modal_actualizar_alert_error400": "Error, la dependencia ya esta asignada.",
 
     "app_dependencia_form_eliminar_titulo": "Eliminar",
     "app_dependencia_form_eliminar_titulo_2": "Confirmar el código para eliminar la dependencia.",
@@ -502,6 +521,9 @@
     "app_dependencia_form_eliminar_placeholder": "Código de la dependencia a eliminar",
     "app_dependencia_form_eliminar_boton_eliminar": "Eliminar",
     "app_dependencia_form_eliminar_boton_cerrar": "Cerrar",
+    "app_dependencia_modal_eliminar_alert_success": "La dependencia ha sido eliminada con éxito.",
+    "app_dependencia_modal_eliminar_alert_error": "La dependencia a eliminar, esta asociado a otras entidades.",
+    "app_dependencia_modal_eliminar_alert_errorCode": "Error, el código no es válido para eliminar la dependencia.",
 
     "app_dependencia_import_step_1": "1. Paso",
     "app_dependencia_import_step_2": "2. Paso",
@@ -564,6 +586,9 @@
     "app_cargo_modal_actualizar_estado_descripcion": "Si esta opción se encuentra activada, representa que el cargo es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el cargo no se elimina del sistema solo quedará inactivo e invisibles para cada uno de los módulos correspondiente del sistema.",
     "app_cargo_modal_actualizar_button_actualizar": "Actualizar",
     "app_cargo_modal_actualizar_button_cerrar": "Cerrar",
+    "app_cargo_modal_actualizar_alert_success": "Se actualizo el cargo con éxito.",
+    "app_cargo_modal_actualizar_alert_error": "Error al actualizar el cargo.",
+    "app_cargo_modal_actualizar_alert_error400": "Error, el cargo ya esta asignado.",
 
     "app_cargo_modal_eliminar_titulo": "Eliminar",
     "app_cargo_modal_eliminar_titulo_2": "Confirmar el código para eliminar el cargo.",
@@ -571,6 +596,9 @@
     "app_cargo_modal_eliminar_placeholder": "Código del cargo a eliminar",
     "app_cargo_modal_eliminar_button_eliminar": "Eliminar",
     "app_cargo_modal_eliminar_button_cerrar": "Cerrar",
+    "app_cargo_modal_eliminar_alert_success": "El cargo se ha eliminado con éxito.",
+    "app_cargo_modal_eliminar_alert_error": "El cargo que va a eliminar, esta asociado a otras entidades.",
+    "app_cargo_modal_eliminar_alert_errorCode": "Por favor introduzca un código válido.",
 
     "app_cargo_import_step_1": "1. Paso",
     "app_cargo_import_step_2": "2. Paso",

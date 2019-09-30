@@ -321,21 +321,27 @@ class ModalEditDependencia extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, la dependencia ya esta asignada.
+                      {this.props.t(
+                        'app_dependencia_modal_actualizar_alert_error400'
+                      )}
                     </Alert>
                     <Alert
                       color="danger"
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      Error al actualizar la dependencia
+                      {this.props.t(
+                        'app_dependencia_modal_actualizar_alert_error'
+                      )}
                     </Alert>
                     <Alert
                       color="success"
                       isOpen={this.state.alertSuccess}
                       toggle={this.onDismiss}
                     >
-                      Se actualizo la dependencia con éxito.
+                      {this.props.t(
+                        'app_dependencia_modal_actualizar_alert_success'
+                      )}
                     </Alert>
                     <form className="form">
                       <div className="row">

@@ -309,13 +309,19 @@ class ModalEditConglomerado extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      Error al actualizar el conglomerado.
+                      {this.props.t(
+                        'app_conglomerado_modal_actualizar_alert_error'
+                      )}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, el conglomerado ya esta asignado.
+                      {this.props.t(
+                        'app_conglomerado_modal_Actualizar_alert_error400'
+                      )}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      Se actualizo el conglomerado con éxito.
+                      {this.props.t(
+                        'app_conglomerado_modal_actualizar_alert_success'
+                      )}
                     </Alert>
                     <form className="form">
                       <div className="row">

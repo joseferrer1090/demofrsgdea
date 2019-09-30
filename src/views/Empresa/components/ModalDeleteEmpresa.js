@@ -137,17 +137,19 @@ class ModalDeleteEmpresa extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      La empresa a eliminar, esta asociado a otras entidades.
+                      {this.props.t('app_empresa_modal_eliminar_alert_error')}
                     </Alert>
                     <Alert
                       color="danger"
                       isOpen={this.state.alertCode}
                       toggle={this.onDismiss}
                     >
-                      Por favor introduzca un código válido.
+                      {this.props.t(
+                        'app_empresa_modal_eliminar_alert_errorCode'
+                      )}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      La empresa ha sido eliminada con éxito.
+                      {this.props.t('app_empresa_modal_eliminar_alert_success')}
                     </Alert>
                     <form className="form">
                       <p className="text-center">

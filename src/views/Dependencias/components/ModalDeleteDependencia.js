@@ -154,18 +154,23 @@ class ModalDeleteDependencia extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        La dependencia a eliminar, esta asociado a otras
-                        entidades.
+                        {this.props.t(
+                          'app_dependencia_modal_eliminar_alert_error'
+                        )}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un código válido.
+                        {this.props.t(
+                          'app_dependencia_modal_eliminar_alert_errorCode'
+                        )}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
-                        La dependencia ha sido eliminada con éxito.
+                        {this.props.t(
+                          'app_dependencia_modal_eliminar_alert_success'
+                        )}
                       </Alert>
                       <p className="text-center">
                         {' '}

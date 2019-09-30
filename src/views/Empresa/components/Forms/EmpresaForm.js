@@ -318,6 +318,7 @@ const EmpresaForm = props => {
                   <label>{t('app_empresa_form_registrar_pais')}</label>
                   <span className="text-danger">*</span>{' '}
                   <SelectCountry
+                    t={props.t}
                     name={'countryId'}
                     onChange={e => setFieldValue('countryId', e.target.value)}
                     onBlur={() => setFieldTouched('countryId', true)}
@@ -353,6 +354,7 @@ const EmpresaForm = props => {
                   <label>{t('app_empresa_form_registrar_departamento')}</label>
                   <span className="text-danger">*</span>{' '}
                   <SelectDepartment
+                    t={props.t}
                     countryId={props.values.countryId}
                     name="departmentId"
                     value={values.departmentId}
@@ -394,6 +396,7 @@ const EmpresaForm = props => {
                     <span className="text-danger">*</span>
                   </label>
                   <SelectCity
+                    t={props.t}
                     departmentId={props.values.departmentId}
                     name={'cityId'}
                     onChange={e => setFieldValue('cityId', e.target.value)}
@@ -639,7 +642,8 @@ export default withTranslation('translations')(
 //--------------------//
 class SelectCountry extends React.Component {
   state = {
-    dataCountry: []
+    dataCountry: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -680,7 +684,10 @@ class SelectCountry extends React.Component {
           onBlur={this.props.onBlur}
           className={this.props.className}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_empresa_form_registrar_select_conglomerado')}{' '}
+            --
+          </option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -697,7 +704,8 @@ class SelectCountry extends React.Component {
 class SelectDepartment extends React.Component {
   state = {
     dataDepartment: [],
-    id: this.props.countryId
+    id: this.props.countryId,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -748,7 +756,10 @@ class SelectDepartment extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_empresa_form_registrar_select_departamento')}{' '}
+            --
+          </option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -765,7 +776,8 @@ class SelectDepartment extends React.Component {
 class SelectCity extends React.Component {
   state = {
     dataCity: [],
-    id: this.props.departmentId
+    id: this.props.departmentId,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -817,7 +829,9 @@ class SelectCity extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_empresa_form_registrar_select_ciudad')} --
+          </option>
           {this.state.dataCity.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

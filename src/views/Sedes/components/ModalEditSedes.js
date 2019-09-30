@@ -467,6 +467,7 @@ class ModalEditSedes extends React.Component {
                                 <span className="text-danger">*</span>{' '}
                               </label>
                               <SelectConglomerado
+                                t={this.state.t}
                                 name={'headquarter_conglomerate'}
                                 onChange={e =>
                                   setFieldValue(
@@ -522,6 +523,7 @@ class ModalEditSedes extends React.Component {
                                 <span className="text-danger">*</span>{' '}
                               </label>
                               <SelectCompany
+                                t={this.state.t}
                                 headquarter_conglomerate={
                                   props.values.headquarter_conglomerate
                                 }
@@ -763,6 +765,7 @@ class ModalEditSedes extends React.Component {
                                         <span className="text-danger">*</span>{' '}
                                       </label>
                                       <SelectCountry
+                                        t={this.state.t}
                                         name={'headquarter_country'}
                                         onChange={e =>
                                           setFieldValue(
@@ -816,6 +819,7 @@ class ModalEditSedes extends React.Component {
                                         <span className="text-danger">*</span>{' '}
                                       </label>
                                       <SelectDepartment
+                                        t={this.state.t}
                                         headquarter_country={
                                           props.values.headquarter_country
                                         }
@@ -874,6 +878,7 @@ class ModalEditSedes extends React.Component {
                                         <span className="text-danger">*</span>{' '}
                                       </label>
                                       <SelectCity
+                                        t={this.state.t}
                                         headquarter_department={
                                           props.values.headquarter_department
                                         }
@@ -1069,7 +1074,8 @@ export default ModalEditSedes;
 
 class SelectConglomerado extends React.Component {
   state = {
-    dataConglomerate: []
+    dataConglomerate: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -1110,7 +1116,10 @@ class SelectConglomerado extends React.Component {
           className={this.props.className}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_sedes_form_actualizar_select_conglomerado')}{' '}
+            --
+          </option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1128,7 +1137,8 @@ class SelectConglomerado extends React.Component {
 class SelectCompany extends React.Component {
   state = {
     dataCompany: [],
-    id: this.props.headquarter_conglomerate
+    id: this.props.headquarter_conglomerate,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -1181,7 +1191,9 @@ class SelectCompany extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_sedes_form_actualizar_select_empresa')} --
+          </option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1198,7 +1210,8 @@ class SelectCompany extends React.Component {
 //--------------------//
 class SelectCountry extends React.Component {
   state = {
-    dataCountry: []
+    dataCountry: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -1239,7 +1252,10 @@ class SelectCountry extends React.Component {
           className={this.props.className}
           onBlur={this.props.onBlur}
         >
-          <option value={''}> -- Seleccione --</option>
+          <option value={''}>
+            {' '}
+            -- {this.props.t('app_sedes_form_actualizar_select_pais')} --
+          </option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1256,7 +1272,8 @@ class SelectCountry extends React.Component {
 class SelectDepartment extends React.Component {
   state = {
     dataDepartment: [],
-    id: this.props.headquarter_country
+    id: this.props.headquarter_country,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -1307,7 +1324,10 @@ class SelectDepartment extends React.Component {
           onBlur={this.props.onBlur}
           onChange={this.props.onChange}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_sedes_form_actualizar_select_departamento')}{' '}
+            --
+          </option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1324,7 +1344,8 @@ class SelectDepartment extends React.Component {
 class SelectCity extends React.Component {
   state = {
     dataCity: [],
-    id: this.props.headquarter_department
+    id: this.props.headquarter_department,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -1378,7 +1399,9 @@ class SelectCity extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_sedes_form_actualizar_select_ciudad')} --
+          </option>
           {this.state.dataCity.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

@@ -365,6 +365,7 @@ class ModalEditDependencia extends React.Component {
                                   <span className="text-danger">*</span>{' '}
                                 </label>
                                 <SelectConglomerado
+                                  t={this.state.t}
                                   name={'conglomerate'}
                                   onChange={e =>
                                     setFieldValue(
@@ -415,6 +416,7 @@ class ModalEditDependencia extends React.Component {
                                   <span className="text-danger">*</span>{' '}
                                 </label>
                                 <SelectCompany
+                                  t={this.state.t}
                                   conglomerate={props.values.conglomerate}
                                   name="company"
                                   value={values.company}
@@ -462,6 +464,7 @@ class ModalEditDependencia extends React.Component {
                                   <span className="text-danger">*</span>{' '}
                                 </label>
                                 <SelectHeadquarter
+                                  t={this.state.t}
                                   company={props.values.company}
                                   name={'headquarter'}
                                   value={values.headquarter}
@@ -702,7 +705,8 @@ export default ModalEditDependencia;
 
 class SelectConglomerado extends React.Component {
   state = {
-    dataConglomerate: []
+    dataConglomerate: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -743,7 +747,13 @@ class SelectConglomerado extends React.Component {
           onBlur={this.props.onBlur}
           className={this.props.className}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            --{' '}
+            {this.props.t(
+              'app_dependencia_form_actualizar_select_conglomerado'
+            )}{' '}
+            --
+          </option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -761,7 +771,8 @@ class SelectConglomerado extends React.Component {
 class SelectCompany extends React.Component {
   state = {
     dataCompany: [],
-    id: this.props.conglomerate
+    id: this.props.conglomerate,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -812,7 +823,10 @@ class SelectCompany extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_dependencia_form_actualizar_select_empresa')}{' '}
+            --
+          </option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -831,7 +845,8 @@ class SelectCompany extends React.Component {
 class SelectHeadquarter extends React.Component {
   state = {
     dataHeadquarter: [],
-    id: this.props.company
+    id: this.props.company,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -883,7 +898,9 @@ class SelectHeadquarter extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_dependencia_form_actualizar_select_sede')} --
+          </option>
           {this.state.dataHeadquarter.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

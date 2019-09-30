@@ -285,6 +285,7 @@ class ModalEditCiudad extends React.Component {
                                 <dd>
                                   {' '}
                                   <SelectCountry
+                                    t={this.state.t}
                                     name={'city_country'}
                                     onChange={e =>
                                       setFieldValue(
@@ -340,6 +341,7 @@ class ModalEditCiudad extends React.Component {
                                 <dd>
                                   {' '}
                                   <SelectDepartment
+                                    t={this.state.t}
                                     city_country={props.values.city_country}
                                     name="city_department"
                                     value={values.city_department}
@@ -536,7 +538,8 @@ export default ModalEditCiudad;
 
 class SelectCountry extends React.Component {
   state = {
-    dataCountry: []
+    dataCountry: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -577,7 +580,9 @@ class SelectCountry extends React.Component {
           className={this.props.className}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_ciudad_modal_actualizar_select_pais')} --
+          </option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -594,7 +599,8 @@ class SelectCountry extends React.Component {
 class SelectDepartment extends React.Component {
   state = {
     dataDepartment: [],
-    id: this.props.city_country
+    id: this.props.city_country,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -645,7 +651,9 @@ class SelectDepartment extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_ciudad_modal_actualizar_departamento')} --
+          </option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

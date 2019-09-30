@@ -24,6 +24,7 @@ import CustonImageInput from './CustonImageInput';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
+import { withTranslation } from 'react-i18next';
 
 const UserForm = props => {
   const {
@@ -37,7 +38,8 @@ const UserForm = props => {
     handleBlur,
     handleSubmit,
     handleReset,
-    setFieldTouched
+    setFieldTouched,
+    t
   } = props;
 
   const [conglomerateOptions, setConglomerateOptions] = useState([]);
@@ -198,12 +200,11 @@ const UserForm = props => {
       </option>
     );
   });
-
   return (
     <Fragment>
       <Card>
         <ToastContainer />
-        <CardHeader>Registro de usuarios </CardHeader>
+        <CardHeader> {t('app_usuarios_tab_title')}</CardHeader>
         <CardBody>
           <form encType={'multipart/form-data'}>
             <Row>
@@ -249,7 +250,7 @@ const UserForm = props => {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    Datos personales{' '}
+                    {t('app_usuarios_form_registrar_titulo_1')}{' '}
                   </h5>{' '}
                 </div>
                 <br />
@@ -258,9 +259,8 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Identificación <span className="text-danger">
-                          *
-                        </span>{' '}
+                        {t('app_usuarios_form_registrar_identificacion')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'identificacion'}
@@ -284,7 +284,8 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Nombre <span className="text-danger">*</span>{' '}
+                        {t('app_usuarios_form_registrar_nombre')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'nombre'}
@@ -310,7 +311,8 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Email <span className="text-danger">*</span>
+                        {t('app_usuarios_form_registrar_email')}{' '}
+                        <span className="text-danger">*</span>
                       </label>
                       <input
                         name={'email'}
@@ -334,7 +336,8 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Teléfono <span className="text-danger">*</span>{' '}
+                        {t('app_usuarios_form_registrar_telefono')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'telefono'}
@@ -356,7 +359,10 @@ const UserForm = props => {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label> Dirección </label>
+                      <label>
+                        {' '}
+                        {t('app_usuarios_form_registrar_direccion')}{' '}
+                      </label>
                       <input
                         name={'direccion'}
                         type="text"
@@ -370,7 +376,9 @@ const UserForm = props => {
 
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Fecha de nacimiento </label>
+                      <label>
+                        {t('app_usuarios_form_registrar_fecha_nacimiento')}{' '}
+                      </label>
                       <input
                         name={'f_d_nacimiento'}
                         onChange={handleChange}
@@ -384,7 +392,7 @@ const UserForm = props => {
                 </div>
                 <h5 className="" style={{ borderBottom: '1px solid black' }}>
                   {' '}
-                  Datos laborales{' '}
+                  {t('app_usuarios_form_registrar_titulo_2')}{' '}
                 </h5>{' '}
                 <br />
                 <div className="row">
@@ -392,9 +400,11 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Conglomerado <span className="text-danger">*</span>{' '}
+                        {t('app_usuarios_form_registrar_conglomerado')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <SelectConglomerado
+                        t={props.t}
                         name={'conglomeradoID'}
                         // onChange={setFieldValue}
                         // onBlur={setFieldTouched}
@@ -439,9 +449,11 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Empresa <span className="text-danger">*</span>{' '}
+                        {t('app_usuarios_form_registrar_empresa')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <SelectCompany
+                        t={props.t}
                         conglomerate={props.values.conglomeradoID}
                         name="empresaID"
                         value={values.empresaID}
@@ -477,9 +489,11 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Sede <span className="text-danger">*</span>{' '}
+                        {t('app_usuarios_form_registrar_sede')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <SelectHeadquarter
+                        t={props.t}
                         company={props.values.empresaID}
                         name={'sedeID'}
                         onChange={e => setFieldValue('sedeID', e.target.value)}
@@ -512,9 +526,11 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Dependencia <span className="text-danger">*</span>{' '}
+                        {t('app_usuarios_form_registrar_dependencia')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <SelectDependence
+                        t={props.t}
                         headquarter={props.values.sedeID}
                         name={'dependenciaID'}
                         value={values.dependenciaID}
@@ -549,7 +565,8 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Cargo <span className="text-danger">*</span>{' '}
+                        {t('app_usuarios_form_registrar_cargo')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <select
                         name={'cargoID'}
@@ -560,7 +577,12 @@ const UserForm = props => {
                           touched.cargoID &&
                           'is-invalid'}`}
                       >
-                        <option value={''}> -- Seleccione -- </option>
+                        <option value={''}>
+                          {' '}
+                          -- {t(
+                            'app_usuarios_form_registrar_cargo_select'
+                          )} --{' '}
+                        </option>
                         {selectCargo}
                       </select>
                       <div style={{ color: '#D54B4B' }}>
@@ -574,7 +596,7 @@ const UserForm = props => {
                 </div>
                 <h5 className="" style={{ borderBottom: '1px solid black' }}>
                   {' '}
-                  Datos de seguridad{' '}
+                  {t('app_usuarios_form_registrar_titulo_3')}{' '}
                 </h5>{' '}
                 <br />
                 <div className="row">
@@ -582,9 +604,8 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Nombre de usuario <span className="text-danger">
-                          *
-                        </span>{' '}
+                        {t('app_usuarios_form_registrar_username')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'username'}
@@ -610,7 +631,8 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Contraseña <span className="text-danger">*</span>{' '}
+                        {t('app_usuarios_form_registrar_contraseña')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'password'}
@@ -634,7 +656,9 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Confirmar contraseña{' '}
+                        {t(
+                          'app_usuarios_form_registrar_confirmar_contraseña'
+                        )}{' '}
                         <span className="text-danger">*</span>{' '}
                       </label>
                       <input
@@ -660,9 +684,11 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Roles <span className="text-danger">*</span>{' '}
+                        {t('app_usuarios_form_registrar_roles')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <MySelect
+                        t={props.t}
                         name={'rolesID'}
                         value={values.rolesID}
                         onChange={setFieldValue}
@@ -698,20 +724,16 @@ const UserForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Estado <span className="text-danger">*</span>{' '}
+                        {t('app_usuarios_form_registrar_estado')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <div className="text-justify">
                         <CustomInput
                           type="checkbox"
                           id="ExampleCheckBoxInput"
-                          label="Si esta opción se encuentra activada,
-                                representa que el usuario es visible en el
-                                sistema y se podrán realizar operaciones entre
-                                cada uno de los módulos correspondientes de la
-                                aplicación. En caso contrario el usuario no se
-                                elimina del sistema solo quedará inactivo e
-                                invisibles para cada uno de los módulos
-                                correspondiente del sistema."
+                          label={t(
+                            'app_usuarios_form_registrar_estado_descripcion'
+                          )}
                           name={'estado'}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -761,7 +783,8 @@ const UserForm = props => {
                 <i className=" fa fa-spinner fa-spin" />
               ) : (
                 <div>
-                  <i className="fa fa-save" /> Guardar
+                  <i className="fa fa-save" />{' '}
+                  {t('app_usuarios_form_registrar_boton_guardar')}
                 </div>
               )}
             </button>
@@ -772,158 +795,161 @@ const UserForm = props => {
   );
 };
 
-export default withFormik({
-  mapPropsToValues: props => ({
-    identificacion: props.user.identificacion,
-    nombre: props.user.nombre,
-    email: props.user.email,
-    telefono: props.user.telefono,
-    direccion: props.user.direccion,
-    f_d_nacimiento: props.user.f_d_nacimiento,
-    conglomeradoID: props.user.conglomeradoID,
-    empresaID: props.user.empresaID,
-    sedeID: props.user.sedeID,
-    dependenciaID: props.user.dependenciaID,
-    cargoID: props.user.cargoID,
-    username: props.user.username,
-    password: props.user.password,
-    confirm_password: props.user.confirm_password,
-    rolesID: props.user.rolesID,
-    estado: props.user.estado,
-    foto: props.user.foto
-  }),
-  validationSchema: Yup.object().shape({
-    identificacion: Yup.string().required(
-      ' Por favor introduzca una identificación.'
-    ),
-    nombre: Yup.string().required('Por favor introduzca un nombre.'),
-    email: Yup.string()
-      .email(' Por favor introduzca un email valido.')
-      .required(' Por favor introduzca un email.'),
-    telefono: Yup.string()
-      .matches(
-        /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
-        ' Número no valido'
-      )
-      .length(10, ' Mínimo 10 digitos')
-      .required(' Por favor introduzca un número.'),
-    direccion: Yup.string(),
-    f_d_nacimiento: Yup.date()
-      .nullable()
-      .notRequired(),
-    conglomeradoID: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione un conglomerado.'),
-    empresaID: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione una empresa.'),
-    sedeID: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione una sede'),
-    dependenciaID: Yup.string()
-      .ensure()
-      .required(' Por favor seleccione una dependencia'),
-    cargoID: Yup.string()
-      .ensure()
-      .required(' Por favor selccione un cargo'),
-    username: Yup.string().required(' Por favor introduzca un username'),
-    password: Yup.string()
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,15}$/, // esta expresion regular valida la contraseña
-        ' Contraseña no valida, asegúrese de que lleve al menos una letra en mayuscula, un digito, y un caracter especial.'
-      )
-      .required(' Por favor introduzca una contraseña.')
-      .min(8, '  Mínimo 8 caracteres. ')
-      .max(15, ' Máximo 15 caracteres.'),
-    confirm_password: Yup.string()
-      .oneOf([Yup.ref('password'), null], ' Las contraseñas no coinciden.')
-      .required(' Por favor confirme la contraseña.')
-      .min(10, ' Mínimo 10 caracteres.')
-      .max(200),
-    rolesID: Yup.array().of(
-      Yup.object().shape({
-        label: Yup.string().required(),
-        value: Yup.string().required()
-      })
-    ),
-    estado: Yup.bool().test(
-      'Activo',
-      'Se requiere la activacion del usuario',
-      value => value === true
-    ),
-    foto: Yup.mixed()
-  }),
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    const formData = new FormData();
-    formData.append('photo', values.foto);
-    formData.append(
-      'user',
-      new Blob(
-        [
-          JSON.stringify({
-            identification: values.identificacion,
-            name: values.nombre,
-            email: values.email,
-            phone: values.telefono,
-            address: values.direccion,
-            birthDate: values.f_d_nacimiento,
-            username: values.username,
-            password: values.password,
-            dependenceId: values.dependenciaID,
-            chargeId: values.cargoID,
-            userRoleRequests: values.rolesID,
-            enabled: values.estado,
-            userNameAuthenticate: 'ccuartas'
-          })
-        ],
-        {
-          type: 'application/json'
-        }
-      )
-    );
-    setTimeout(() => {
-      axios
-        .post('http://192.168.10.180:7000/api/sgdea/user', formData, {
-          headers: {
-            Authorization: 'Basic ' + window.btoa('sgdea:123456')
-          }
+export default withTranslation('translations')(
+  withFormik({
+    mapPropsToValues: props => ({
+      identificacion: props.user.identificacion,
+      nombre: props.user.nombre,
+      email: props.user.email,
+      telefono: props.user.telefono,
+      direccion: props.user.direccion,
+      f_d_nacimiento: props.user.f_d_nacimiento,
+      conglomeradoID: props.user.conglomeradoID,
+      empresaID: props.user.empresaID,
+      sedeID: props.user.sedeID,
+      dependenciaID: props.user.dependenciaID,
+      cargoID: props.user.cargoID,
+      username: props.user.username,
+      password: props.user.password,
+      confirm_password: props.user.confirm_password,
+      rolesID: props.user.rolesID,
+      estado: props.user.estado,
+      foto: props.user.foto
+    }),
+    validationSchema: Yup.object().shape({
+      identificacion: Yup.string().required(
+        ' Por favor introduzca una identificación.'
+      ),
+      nombre: Yup.string().required('Por favor introduzca un nombre.'),
+      email: Yup.string()
+        .email(' Por favor introduzca un email valido.')
+        .required(' Por favor introduzca un email.'),
+      telefono: Yup.string()
+        .matches(
+          /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
+          ' Número no valido'
+        )
+        .length(10, ' Mínimo 10 digitos')
+        .required(' Por favor introduzca un número.'),
+      direccion: Yup.string(),
+      f_d_nacimiento: Yup.date()
+        .nullable()
+        .notRequired(),
+      conglomeradoID: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione un conglomerado.'),
+      empresaID: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione una empresa.'),
+      sedeID: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione una sede'),
+      dependenciaID: Yup.string()
+        .ensure()
+        .required(' Por favor seleccione una dependencia'),
+      cargoID: Yup.string()
+        .ensure()
+        .required(' Por favor selccione un cargo'),
+      username: Yup.string().required(' Por favor introduzca un username'),
+      password: Yup.string()
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,15}$/, // esta expresion regular valida la contraseña
+          ' Contraseña no valida, asegúrese de que lleve al menos una letra en mayuscula, un digito, y un caracter especial.'
+        )
+        .required(' Por favor introduzca una contraseña.')
+        .min(8, '  Mínimo 8 caracteres. ')
+        .max(15, ' Máximo 15 caracteres.'),
+      confirm_password: Yup.string()
+        .oneOf([Yup.ref('password'), null], ' Las contraseñas no coinciden.')
+        .required(' Por favor confirme la contraseña.')
+        .min(10, ' Mínimo 10 caracteres.')
+        .max(200),
+      rolesID: Yup.array().of(
+        Yup.object().shape({
+          label: Yup.string().required(),
+          value: Yup.string().required()
         })
-        .then(response => {
-          if (response.status === 201) {
-            toast.success('Se creo el usuario con éxito.', {
-              position: toast.POSITION.TOP_RIGHT,
-              className: css({
-                marginTop: '60px'
-              })
-            });
-          } else if (response.status === 500) {
-            toast.error('El usuario ya existe.', {
-              position: toast.POSITION.TOP_RIGHT,
-              className: css({
-                marginTop: '60px'
-              })
-            });
-          }
-        })
-        .catch(error => {
-          toast.error(`${error}.`, {
-            position: toast.POSITION.TOP_RIGHT,
-            className: css({
-              marginTop: '60px'
+      ),
+      estado: Yup.bool().test(
+        'Activo',
+        'Se requiere la activacion del usuario',
+        value => value === true
+      ),
+      foto: Yup.mixed()
+    }),
+    handleSubmit: (values, { setSubmitting, resetForm }) => {
+      const formData = new FormData();
+      formData.append('photo', values.foto);
+      formData.append(
+        'user',
+        new Blob(
+          [
+            JSON.stringify({
+              identification: values.identificacion,
+              name: values.nombre,
+              email: values.email,
+              phone: values.telefono,
+              address: values.direccion,
+              birthDate: values.f_d_nacimiento,
+              username: values.username,
+              password: values.password,
+              dependenceId: values.dependenciaID,
+              chargeId: values.cargoID,
+              userRoleRequests: values.rolesID,
+              enabled: values.estado,
+              userNameAuthenticate: 'ccuartas'
             })
+          ],
+          {
+            type: 'application/json'
+          }
+        )
+      );
+      setTimeout(() => {
+        axios
+          .post('http://192.168.10.180:7000/api/sgdea/user', formData, {
+            headers: {
+              Authorization: 'Basic ' + window.btoa('sgdea:123456')
+            }
+          })
+          .then(response => {
+            if (response.status === 201) {
+              toast.success('Se creo el usuario con éxito.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: '60px'
+                })
+              });
+            } else if (response.status === 500) {
+              toast.error('El usuario ya existe.', {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: '60px'
+                })
+              });
+            }
+          })
+          .catch(error => {
+            toast.error(`${error}.`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: '60px'
+              })
+            });
           });
-        });
-      console.log(formData);
-    }, 1000);
-    setSubmitting(false);
-    resetForm();
-  }
-})(UserForm);
+        console.log(formData);
+      }, 1000);
+      setSubmitting(false);
+      resetForm();
+    }
+  })(UserForm)
+);
 //---------------------------------------//
 
 class MySelect extends React.Component {
   state = {
-    dataRoles: []
+    dataRoles: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -970,7 +996,11 @@ class MySelect extends React.Component {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           value={this.props.value}
-          placeholder={'-- seleccione rol --'}
+          placeholder={
+            '-- ' +
+            this.props.t('app_usuarios_form_registrar_roles_select') +
+            ' --'
+          }
         />
       </div>
     );
@@ -979,7 +1009,8 @@ class MySelect extends React.Component {
 // ------------------------------------------------------------------------------ //
 class SelectConglomerado extends React.Component {
   state = {
-    dataConglomerate: []
+    dataConglomerate: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -1021,7 +1052,10 @@ class SelectConglomerado extends React.Component {
           // onBlur={this.handleBlur}
           className={this.props.className}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_usuarios_form_registrar_conglomerado_select')}{' '}
+            --
+          </option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1047,7 +1081,8 @@ class SelectConglomerado extends React.Component {
 class SelectCompany extends React.Component {
   state = {
     dataCompany: [],
-    id: this.props.conglomerate
+    id: this.props.conglomerate,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -1098,7 +1133,12 @@ class SelectCompany extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
-          <option value={''}> -- Seleccione -- </option>
+          <option value={''}>
+            {' '}
+            -- {this.props.t(
+              'app_usuarios_form_registrar_empresa_select'
+            )} --{' '}
+          </option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1127,7 +1167,8 @@ class SelectCompany extends React.Component {
 class SelectHeadquarter extends React.Component {
   state = {
     dataHeadquarter: [],
-    id: this.props.company
+    id: this.props.company,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -1179,7 +1220,9 @@ class SelectHeadquarter extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
-          <option value={''}>-- Seleccione -- </option>
+          <option value={''}>
+            -- {this.props.t('app_usuarios_form_registrar_sede_select')} --{' '}
+          </option>
           {this.state.dataHeadquarter.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1197,7 +1240,8 @@ class SelectHeadquarter extends React.Component {
 class SelectDependence extends React.Component {
   state = {
     dataDependence: [],
-    id: this.props.headquarter
+    id: this.props.headquarter,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -1249,7 +1293,10 @@ class SelectDependence extends React.Component {
           onChange={this.props.onChange}
           className={this.props.className}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_usuarios_form_registrar_dependencia_select')}{' '}
+            --
+          </option>
           {this.state.dataDependence.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

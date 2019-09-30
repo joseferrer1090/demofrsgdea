@@ -10,6 +10,7 @@ const dataRoles = {
   descripcion: "",
   modulos: [],
   entidades: [],
+  entidades_search: [],
   estado: ""
 };
 

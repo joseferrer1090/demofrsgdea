@@ -20,13 +20,34 @@ import {
   ListGroupItem
 } from "reactstrap";
 import classnames from "classnames";
+import NamePermission from "./NamePermission";
+import ShortList from "./ShortListPermission";
+
 const RolesForm = props => {
   const [activeTab, toggleTab] = useState("1");
+  const [favourites, setfavourites] = useState([]);
 
   const toggle = tab => {
     if (activeTab !== tab) {
       toggleTab(tab);
     }
+  };
+
+  const addFavourite = id => {
+    const newSet = favourites.concat([id]);
+    setfavourites([...favourites.concat([id])]);
+    console.log(newSet);
+  };
+
+  const deleteFavourite = id => {
+    const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
+    setfavourites([...favourites.slice(0, id), ...favourites.slice(id + 1)]);
+    console.log(newList);
+    // const { favourites } = this.state;
+    // const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
+    // this.setState({
+    //   favourites: newList
+    // });
   };
 
   const {
@@ -137,7 +158,7 @@ const RolesForm = props => {
                         </h4>
                       </CardTitle>
                       <Nav tabs>
-                        <NavItem>
+                        {/* <NavItem>
                           <NavLink
                             className={classnames({
                               active: activeTab === "1"
@@ -148,14 +169,14 @@ const RolesForm = props => {
                           >
                             <i className="fa fa-search" /> Busqueda simple
                           </NavLink>
-                        </NavItem>
+                        </NavItem> */}
                         <NavItem>
                           <NavLink
                             className={classnames({
-                              active: activeTab === "2"
+                              active: activeTab === "1"
                             })}
                             onClick={() => {
-                              toggle("2");
+                              toggle("1");
                             }}
                           >
                             <i className="fa fa-search" /> Busqueda Completa
@@ -163,19 +184,22 @@ const RolesForm = props => {
                         </NavItem>
                       </Nav>
                       <TabContent activeTab={activeTab}>
-                        <TabPane tabId={"1"}>
+                        {/* <TabPane tabId={"1"}>
                           <div className="row">
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
                                   Entidad <span className="text-danger">*</span>{" "}
                                 </label>
-                                <Autocomplete />
+                                <Autocomplete
+                                  name={"entidades_search"}
+                                  value={values.entidades_search}
+                                />
                               </div>
                             </div>
                           </div>
-                        </TabPane>
-                        <TabPane tabId={"2"}>
+                        </TabPane> */}
+                        <TabPane tabId={"1"}>
                           <div className="row">
                             <Col sm="6">
                               <div className="form-group">
@@ -361,7 +385,10 @@ const RolesForm = props => {
                               <dt>Permisos disponibles:</dt>
                             </label>
                             <div className="form-group">
-                              <ListPermissions />
+                              <ListPermissions
+                                addFavourite={addFavourite}
+                                IDentidad={props.values.entidades}
+                              />
                               {/* <select
                                 multiple
                                 className="form-control"
@@ -383,7 +410,12 @@ const RolesForm = props => {
                             <label>
                               <dt>Permisos asignados:</dt>
                             </label>
-                            <select
+                            <ShortList
+                              data={favourites}
+                              favourites={favourites}
+                              deleteFavourite={deleteFavourite}
+                            />
+                            {/* <select
                               multiple
                               className="form-control"
                               disabled
@@ -393,7 +425,7 @@ const RolesForm = props => {
                               }}
                             >
                               <option> las nuevas opciones</option>
-                            </select>
+                            </select> */}
                             {/* <NuevaListaRoles
                               data={this.props.data}
                               favourites={this.state.favourites}
@@ -490,6 +522,7 @@ export default withFormik({
     descripcion: props.roles.descripcion,
     modulos: props.roles.modulos,
     entidades: props.roles.entidades,
+    entidades_search: props.roles.entidades_search,
     estado: props.roles.estado
   }),
   validationSchema: Yup.object().shape({
@@ -749,19 +782,19 @@ class Autocomplete extends React.Component {
 class ListPermissions extends React.Component {
   state = {
     datalist: [],
-    id: this.props.identidad
+    id: this.props.IDentidad
   };
 
   static getDerivedStateFromProps(props, state) {
-    if (props.identidad !== state.id) {
+    if (props.IDentidad !== state.id) {
       return {
-        id: props.identidad
+        id: props.IDentidad
       };
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.identidad !== prevProps.identidad) {
+    if (this.props.IDentidad !== prevProps.IDentidad) {
       // getById
       this.getPermissionById();
     }
@@ -774,7 +807,7 @@ class ListPermissions extends React.Component {
 
   getPermissionById = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.state.id}`,
+      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.props.IDentidad}`,
       {
         method: "GET",
         headers: {
@@ -786,16 +819,27 @@ class ListPermissions extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataEntidades: data
+          datalist: data
         });
       })
       .catch(err => console.log("Error", err));
   };
 
   render() {
+    // console.log(this.state.datalist);
+    // console.log(this.props.IDentidad);
     return (
       <div>
-        <p>Probando apenas</p>
+        {this.state.datalist.map((aux, i) => {
+          return (
+            <NamePermission
+              id={aux.id}
+              key={i}
+              info={aux}
+              handleFavourite={id => this.props.addFavourite(id)}
+            />
+          );
+        })}
       </div>
     );
   }

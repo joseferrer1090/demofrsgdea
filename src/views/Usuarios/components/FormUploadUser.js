@@ -41,7 +41,7 @@ class FormImportUsers extends React.Component {
                   {t('app_usuarios_import_step_1_descripcion')}
                   <br />
                   <a href={fileUser} download="users.csv">
-                    <b>Plantilla de formato de importación</b>
+                    <b>{t('app_tab_importar_plantilla_formato_importacion')}</b>
                   </a>
                 </p>
               </a>

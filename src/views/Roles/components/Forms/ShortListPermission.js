@@ -13,6 +13,7 @@ export default ({ favourites, data, deleteFavourite }) => {
       />
     );
   });
+  console.log(favList);
   return (
     <div className="favourites">
       <h4>

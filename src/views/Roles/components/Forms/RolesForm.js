@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
@@ -25,29 +25,10 @@ import ShortList from "./ShortListPermission";
 
 const RolesForm = props => {
   const [activeTab, toggleTab] = useState("1");
-  const [favourites, setfavourites] = useState([]);
-
   const toggle = tab => {
     if (activeTab !== tab) {
       toggleTab(tab);
     }
-  };
-
-  const addFavourite = id => {
-    const newSet = favourites.concat([id]);
-    setfavourites([...favourites.concat([id])]);
-    console.log(newSet);
-  };
-
-  const deleteFavourite = id => {
-    const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
-    setfavourites([...favourites.slice(0, id), ...favourites.slice(id + 1)]);
-    console.log(newList);
-    // const { favourites } = this.state;
-    // const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
-    // this.setState({
-    //   favourites: newList
-    // });
   };
 
   const {
@@ -61,6 +42,36 @@ const RolesForm = props => {
     setFieldTouched,
     setFieldValue
   } = props;
+
+  const [favourites, setfavourites] = useState([]);
+  useEffect(async () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${values.entidades}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => setfavourites(data));
+  }, []);
+
+  const addFavourite = id => {
+    const newSet = favourites.concat([id]);
+    setfavourites([...favourites.concat(id)]);
+    console.log(newSet);
+  };
+
+  const deleteFavourite = id => {
+    const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
+    setfavourites([...favourites.slice(0, id), ...favourites.slice(id + 1)]);
+    console.log(newList);
+  };
+
+  console.log(favourites);
 
   return (
     <div>
@@ -386,6 +397,7 @@ const RolesForm = props => {
                             </label>
                             <div className="form-group">
                               <ListPermissions
+                                data={favourites}
                                 addFavourite={addFavourite}
                                 IDentidad={props.values.entidades}
                               />
@@ -826,15 +838,16 @@ class ListPermissions extends React.Component {
   };
 
   render() {
-    // console.log(this.state.datalist);
+    console.log(this.state.datalist);
     // console.log(this.props.IDentidad);
+
     return (
       <div>
-        {this.state.datalist.map((aux, i) => {
+        {this.state.datalist.map((aux, id) => {
           return (
             <NamePermission
               id={aux.id}
-              key={i}
+              key={id}
               info={aux}
               handleFavourite={id => this.props.addFavourite(id)}
             />
@@ -844,3 +857,16 @@ class ListPermissions extends React.Component {
     );
   }
 }
+
+// {
+//   this.state.datalist.map((aux, i) => {
+//     return (
+//       <NamePermission
+//         id={aux.id}
+//         key={i}
+//         info={aux}
+//         handleFavourite={id => this.props.addFavourite(id)}
+//       />
+//     );
+//   });
+// }

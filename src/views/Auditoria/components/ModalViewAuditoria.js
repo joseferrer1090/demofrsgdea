@@ -20,6 +20,7 @@ class ModalViewAuditoria extends Component {
     super(props);
     this.state = {
       id: this.props.id,
+      t: this.props.t,
       modal: this.props.modalview,
       collapse: false,
       username: 'ccuartas',
@@ -75,10 +76,11 @@ class ModalViewAuditoria extends Component {
     const dataModulo = this.state.dataModulo;
     const dataEntidad = this.state.dataEntidad;
     const dataAccion = this.state.dataAccion;
+    const t = this.state.t;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Detalle de la auditoría </ModalHeader>
+          <ModalHeader> {t('app_auditoria_modal_ver_titulo')} </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -89,14 +91,14 @@ class ModalViewAuditoria extends Component {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    Datos{' '}
+                    {t('app_auditoria_modal_ver_titulo_2')}{' '}
                   </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de la auditoría </dt>
+                        <dt>{t('app_auditoria_modal_ver_fecha_auditoria')} </dt>
                         <dd>{this.FechaAuditoria(dataAudit.date)} </dd>
                       </dl>
                     </div>
@@ -104,7 +106,7 @@ class ModalViewAuditoria extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Módulo</dt>
+                        <dt>{t('app_auditoria_modal_ver_modulo')}</dt>
                         <dd>{dataModulo.name} </dd>
                       </dl>
                     </div>
@@ -112,7 +114,7 @@ class ModalViewAuditoria extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Entidad </dt>
+                        <dt>{t('app_auditoria_modal_ver_entidad')} </dt>
                         <dd>{dataEntidad.name} </dd>
                       </dl>
                     </div>
@@ -120,7 +122,7 @@ class ModalViewAuditoria extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Acción </dt>
+                        <dt>{t('app_auditoria_modal_ver_accion')} </dt>
                         <dd> {dataAccion.name} </dd>
                       </dl>
                     </div>
@@ -128,7 +130,7 @@ class ModalViewAuditoria extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Usuario que realizo la acción </dt>
+                        <dt>{t('app_auditoria_modal_ver_usuario_accion')}</dt>
                         <dd> {dataAudit.username}</dd>
                       </dl>
                     </div>
@@ -149,7 +151,7 @@ class ModalViewAuditoria extends Component {
                       style={{ cursor: 'pointer' }}
                     >
                       {' '}
-                      Más información{' '}
+                      {t('app_auditoria_modal_ver_collapse')}{' '}
                     </a>{' '}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapase}>
@@ -158,7 +160,9 @@ class ModalViewAuditoria extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Valores viejos </dt>
+                              <dt>
+                                {t('app_auditoria_modal_ver_valores_viejos')}{' '}
+                              </dt>
                               <dd>
                                 {' '}
                                 <code>{dataAudit.valueOld} </code>
@@ -169,7 +173,12 @@ class ModalViewAuditoria extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Valores nuevos </dt>
+                              <dt>
+                                {' '}
+                                {t(
+                                  'app_auditoria_modal_ver_valores_nuevos'
+                                )}{' '}
+                              </dt>
                               <dd>
                                 {' '}
                                 <code>{dataAudit.valueNew} </code>
@@ -180,7 +189,7 @@ class ModalViewAuditoria extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Url </dt>
+                              <dt> {t('app_auditoria_modal_ver_url')} </dt>
                               <dd> {dataAudit.url}</dd>
                             </dl>
                           </div>
@@ -188,7 +197,7 @@ class ModalViewAuditoria extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Ip </dt>
+                              <dt> {t('app_auditoria_modal_ver_ip')} </dt>
                               <dd> {dataAudit.ip} </dd>
                             </dl>
                           </div>
@@ -196,7 +205,12 @@ class ModalViewAuditoria extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Agente de usuario </dt>
+                              <dt>
+                                {' '}
+                                {t(
+                                  'app_auditoria_modal_ver_agente_usuario'
+                                )}{' '}
+                              </dt>
                               <dd> {dataAudit.userAgent} </dd>
                             </dl>
                           </div>
@@ -216,7 +230,8 @@ class ModalViewAuditoria extends Component {
                 this.setState({ modal: false });
               }}
             >
-              <i className="fa fa-times" /> Cerrar{' '}
+              <i className="fa fa-times" />{' '}
+              {t('app_auditoria_modal_ver_buton_cerrar')}{' '}
             </button>
           </ModalFooter>
         </Modal>

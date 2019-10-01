@@ -79,7 +79,7 @@ class TableContentRoles extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -114,8 +114,8 @@ class TableContentRoles extends Component {
     this.refs.child3.toggle();
   }
 
-  openModalEdit() {
-    this.refs.child2.toggle();
+  openModalEdit(id) {
+    this.refs.child2.toggle(id);
   }
 
   openModalPermission() {
@@ -225,7 +225,11 @@ class TableContentRoles extends Component {
         </Row>
 
         <ModalView modalviewroles={this.state.modalview} ref="child" />
-        <ModalEdit modaledit={this.state.modaledit} ref="child2" />
+        <ModalEdit
+          modaledit={this.state.modaledit}
+          ref="child2"
+          updateTable={this.getDataRoles}
+        />
         <ModalDelete modaldelete={this.state.modaldel} ref="child3" />
         <ModalPermission
           datamodal={this.state.data}

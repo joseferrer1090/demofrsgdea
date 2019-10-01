@@ -11,7 +11,8 @@ const dataRoles = {
   modulos: [],
   entidades: [],
   entidades_search: [],
-  estado: ""
+  estado: "",
+  permisos: []
 };
 
 const FormCreateRoles = props => {

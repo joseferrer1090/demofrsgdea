@@ -22,6 +22,7 @@ import {
 import classnames from "classnames";
 import NamePermission from "./NamePermission";
 import ShortList from "./ShortListPermission";
+import axios from "axios";
 
 const RolesForm = props => {
   const [activeTab, toggleTab] = useState("1");
@@ -43,35 +44,38 @@ const RolesForm = props => {
     setFieldValue
   } = props;
 
-  const [favourites, setfavourites] = useState([]);
-  useEffect(async () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${values.entidades}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => setfavourites(data));
-  }, []);
+  // const [favourites, setfavourites] = useState([]);
 
-  const addFavourite = id => {
-    const newSet = favourites.concat([id]);
-    setfavourites([...favourites.concat(id)]);
-    console.log(newSet);
-  };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await axios.get(
+  //       `http://192.168.10.180/7000/api/sgdea/permission/page/entity/${props.values.entidades}`,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: "Basic " + window.btoa("sgdea:123456")
+  //         }
+  //       }
+  //     );
+  //     setfavourites(result.data);
+  //   };
+  //   fetchData();
+  // }, [favourites]);
 
-  const deleteFavourite = id => {
-    const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
-    setfavourites([...favourites.slice(0, id), ...favourites.slice(id + 1)]);
-    console.log(newList);
-  };
+  // const addFavourite = id => {
+  //   const newSet = favourites.concat([id]);
+  //   setfavourites([...favourites.concat(id)]);
+  //   console.log(newSet);
+  // };
 
-  console.log(favourites);
+  // const deleteFavourite = id => {
+  //   const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
+  //   setfavourites([...favourites.slice(0, id), ...favourites.slice(id + 1)]);
+  //   console.log(newList);
+  // };
+
+  // console.log(props.values.entidades);
+  // console.log(favourites);
 
   return (
     <div>
@@ -308,6 +312,34 @@ const RolesForm = props => {
                       </TabContent>
                       <br />
                       <Row>
+                        <Col sm="12">
+                          <div className="form-group">
+                            <label>
+                              Asignar permisos{" "}
+                              <span className="text-danger">*</span>{" "}
+                            </label>
+                            <Assignedpermissions
+                              entidad={props.values.entidades}
+                              name={"permisos"}
+                              value={values.permisos}
+                              onChange={setFieldValue}
+                              onBlur={setFieldTouched}
+                              error={errors.permisos}
+                              touched={touched.permisos}
+                            />
+                            {touched ? (
+                              <div style={{ color: "red" }}>
+                                {" "}
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.permisos && touched.permisos ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"permisos"} />
+                                </div>
+                              </div>
+                            ) : null}
+                          </div>
+                        </Col>
                         {/* <Col sm="6">
                           <div className="form-group">
                             <label>
@@ -390,17 +422,18 @@ const RolesForm = props => {
                           </div>
                         </Col> */}
                         {/*  Aqui va la funcionalidad    */}
+
                         <div className="row">
                           <div className="col-md-6">
-                            <label className="col-md-12">
+                            {/* <label className="col-md-12">
                               <dt>Permisos disponibles:</dt>
-                            </label>
+                            </label> */}
                             <div className="form-group">
-                              <ListPermissions
+                              {/* <ListPermissions
                                 data={favourites}
                                 addFavourite={addFavourite}
                                 IDentidad={props.values.entidades}
-                              />
+                              /> */}
                               {/* <select
                                 multiple
                                 className="form-control"
@@ -419,14 +452,13 @@ const RolesForm = props => {
                             </div>
                           </div>
                           <div className="col-md-6">
-                            <label>
+                            {/* <label>
                               <dt>Permisos asignados:</dt>
-                            </label>
-                            <ShortList
-                              data={favourites}
+                            </label> */}
+                            {/* <ShortList
                               favourites={favourites}
                               deleteFavourite={deleteFavourite}
-                            />
+                            /> */}
                             {/* <select
                               multiple
                               className="form-control"
@@ -535,6 +567,7 @@ export default withFormik({
     modulos: props.roles.modulos,
     entidades: props.roles.entidades,
     entidades_search: props.roles.entidades_search,
+    permisos: props.roles.permisos,
     estado: props.roles.estado
   }),
   validationSchema: Yup.object().shape({
@@ -555,7 +588,15 @@ export default withFormik({
       .required("Se requiere el modulo para filtrar"),
     entidades: Yup.string()
       .ensure()
-      .required("Se requiere la entidad para filtrar")
+      .required("Se requiere la entidad para filtrar"),
+    permisos: Yup.array()
+      .of(
+        Yup.object().shape({
+          label: Yup.string().required(),
+          value: Yup.string().required()
+        })
+      )
+      .required("Es necesario asignar permisos")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
@@ -705,158 +746,158 @@ class MySelectEntidades extends React.Component {
 
 //------------------------------------------------------------------------------------------------//
 
-class Autocomplete extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataSearch: [],
-      query: "",
-      idEntidad: ""
-    };
-  }
+// class Autocomplete extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       dataSearch: [],
+//       query: "",
+//       idEntidad: ""
+//     };
+//   }
 
-  onTextChange = e => {
-    this.setState({ query: e.target.value }, () => {
-      fetch(
-        `http://192.168.10.180:7000/api/sgdea/entity/search/name?name=${this.state.query}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
-          }
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            dataSearch: data
-          });
-        })
-        .catch(err => console.log("", err));
-    });
-  };
+//   onTextChange = e => {
+//     this.setState({ query: e.target.value }, () => {
+//       fetch(
+//         `http://192.168.10.180:7000/api/sgdea/entity/search/name?name=${this.state.query}`,
+//         {
+//           method: "GET",
+//           headers: {
+//             "Content-Type": "application/json",
+//             Authorization: "Basic " + window.btoa("sgdea:123456")
+//           }
+//         }
+//       )
+//         .then(response => response.json())
+//         .then(data => {
+//           this.setState({
+//             dataSearch: data
+//           });
+//         })
+//         .catch(err => console.log("", err));
+//     });
+//   };
 
-  searchInput = term => {
-    return function(x) {
-      return x.name.includes(term);
-    };
-  };
+//   searchInput = term => {
+//     return function(x) {
+//       return x.name.includes(term);
+//     };
+//   };
 
-  render() {
-    //console.log(this.state.dataSearch);
-    const data = this.state.dataSearch;
-    const term = this.state.query;
-    //console.log(data);
+//   render() {
+//     //console.log(this.state.dataSearch);
+//     const data = this.state.dataSearch;
+//     const term = this.state.query;
+//     //console.log(data);
 
-    return (
-      <div>
-        <input
-          type="text"
-          name="query"
-          value={this.state.query}
-          onChange={this.onTextChange}
-          placeholder={"Entiad a buscar"}
-          className="form-control form-control-sm"
-        />
-        <input
-          type="hidden"
-          name={this.props.name}
-          value={this.state.idEntidad}
-        />
-        <ListGroup>
-          {term
-            ? data.filter(this.searchInput(term)).map((aux, id) => {
-                return (
-                  <a
-                    href="#"
-                    onClick={e => {
-                      e.preventDefault();
-                      this.setState({ idEntidad: aux.id }, () => {
-                        console.log(this.state.idEntidad);
-                      });
-                    }}
-                  >
-                    {" "}
-                    <ListGroupItem key={id}>{aux.name}</ListGroupItem>
-                  </a>
-                );
-              })
-            : null}
-        </ListGroup>
-      </div>
-    );
-  }
-}
+//     return (
+//       <div>
+//         <input
+//           type="text"
+//           name="query"
+//           value={this.state.query}
+//           onChange={this.onTextChange}
+//           placeholder={"Entiad a buscar"}
+//           className="form-control form-control-sm"
+//         />
+//         <input
+//           type="hidden"
+//           name={this.props.name}
+//           value={this.state.idEntidad}
+//         />
+//         <ListGroup>
+//           {term
+//             ? data.filter(this.searchInput(term)).map((aux, id) => {
+//                 return (
+//                   <a
+//                     href="#"
+//                     onClick={e => {
+//                       e.preventDefault();
+//                       this.setState({ idEntidad: aux.id }, () => {
+//                         console.log(this.state.idEntidad);
+//                       });
+//                     }}
+//                   >
+//                     {" "}
+//                     <ListGroupItem key={id}>{aux.name}</ListGroupItem>
+//                   </a>
+//                 );
+//               })
+//             : null}
+//         </ListGroup>
+//       </div>
+//     );
+//   }
+// }
 
 //------------------------------------------------------------------------------------------------//
 
-class ListPermissions extends React.Component {
-  state = {
-    datalist: [],
-    id: this.props.IDentidad
-  };
+// class ListPermissions extends React.Component {
+//   state = {
+//     datalist: [],
+//     id: this.props.IDentidad
+//   };
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.IDentidad !== state.id) {
-      return {
-        id: props.IDentidad
-      };
-    }
-  }
+//   static getDerivedStateFromProps(props, state) {
+//     if (props.IDentidad !== state.id) {
+//       return {
+//         id: props.IDentidad
+//       };
+//     }
+//   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.IDentidad !== prevProps.IDentidad) {
-      // getById
-      this.getPermissionById();
-    }
-  }
+//   componentDidUpdate(prevProps, prevState) {
+//     if (this.props.IDentidad !== prevProps.IDentidad) {
+//       // getById
+//       this.getPermissionById();
+//     }
+//   }
 
-  componentDidMount() {
-    // getById
-    this.getPermissionById();
-  }
+//   componentDidMount() {
+//     // getById
+//     this.getPermissionById();
+//   }
 
-  getPermissionById = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.props.IDentidad}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          datalist: data
-        });
-      })
-      .catch(err => console.log("Error", err));
-  };
+//   getPermissionById = () => {
+//     fetch(
+//       `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.props.IDentidad}`,
+//       {
+//         method: "GET",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: "Basic " + window.btoa("sgdea:123456")
+//         }
+//       }
+//     )
+//       .then(response => response.json())
+//       .then(data => {
+//         this.setState({
+//           datalist: data
+//         });
+//       })
+//       .catch(err => console.log("Error", err));
+//   };
 
-  render() {
-    console.log(this.state.datalist);
-    // console.log(this.props.IDentidad);
+//   render() {
+//     console.log(this.state.datalist);
+//     // console.log(this.props.IDentidad);
 
-    return (
-      <div>
-        {this.state.datalist.map((aux, id) => {
-          return (
-            <NamePermission
-              id={aux.id}
-              key={id}
-              info={aux}
-              handleFavourite={id => this.props.addFavourite(id)}
-            />
-          );
-        })}
-      </div>
-    );
-  }
-}
+//     return (
+//       <div>
+//         {this.state.datalist.map((aux, id) => {
+//           return (
+//             <NamePermission
+//               id={aux.id}
+//               key={id}
+//               info={aux}
+//               handleFavourite={id => this.props.addFavourite(id)}
+//             />
+//           );
+//         })}
+//       </div>
+//     );
+//   }
+// }
 
 // {
 //   this.state.datalist.map((aux, i) => {
@@ -870,3 +911,85 @@ class ListPermissions extends React.Component {
 //     );
 //   });
 // }
+
+// --------------------------------------------------------------------------------------------------- //
+
+class Assignedpermissions extends React.Component {
+  state = {
+    dataPermission: [],
+    id: this.props.entidad
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.entidad !== state.id) {
+      return {
+        id: props.entidad
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.entidad !== prevProps.entidad) {
+      this.getPermissionById();
+    }
+  }
+
+  componentDidMount() {
+    this.getPermissionById();
+  }
+
+  getPermissionById = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.state.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataPermission: data
+        });
+      })
+      .catch(err => console.log("Error", err));
+  };
+
+  handleChange = value => {
+    this.props.onChange("permisos", value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur("permisos", true);
+  };
+
+  render() {
+    const aux = this.state.dataPermission.map((aux, id) => {
+      return {
+        id: id,
+        label: aux.name,
+        value: aux.id
+      };
+    });
+
+    return (
+      <div>
+        <Select
+          name={this.props.name}
+          options={this.state.dataPermission.map((aux, id) => {
+            return { label: aux.name, value: aux.id };
+          })}
+          isMulti
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          value={this.props.value}
+          placeholder={"Asignar permisos"}
+        />
+      </div>
+    );
+  }
+}

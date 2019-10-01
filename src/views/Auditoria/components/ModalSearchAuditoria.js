@@ -10,7 +10,8 @@ import {
   NavItem,
   NavLink,
   TabContent,
-  TabPane
+  TabPane,
+  Alert
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import {
@@ -44,7 +45,8 @@ class ModalSearchAuditoria extends Component {
       dataSede: [],
       dataDependencias: [],
       dataUsers: [],
-      activeTab: '1'
+      activeTab: '1',
+      alertSucces: false
     };
   }
 
@@ -270,6 +272,14 @@ class ModalSearchAuditoria extends Component {
                     this.setState({
                       dataAuditoria: data.content
                     });
+
+                    setTimeout(() => {
+                      this.setState({
+                        modal: false
+                        // alertSucces: false
+                      });
+                    }, 1000);
+
                     this.props.onDataFetch(data.content);
                     console.log(data.content);
                   })
@@ -310,6 +320,9 @@ class ModalSearchAuditoria extends Component {
               return (
                 <Fragment>
                   <ModalBody>
+                    <Alert color="success" isOpen={this.state.alertSucces}>
+                      Se realizo la consulta satisfactoriamente.
+                    </Alert>
                     <Row>
                       <Col sm="12">
                         <Nav tabs>

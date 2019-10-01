@@ -141,18 +141,21 @@ class ModalDeleteCiudad extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        La ciudad que va a eliminar, esta asociado a otras
-                        entidades.
+                        {this.props.t('app_ciudad_modal_eliminar_alert_error')}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un código válido.
+                        {this.props.t(
+                          'app_ciudad_modal_eliminar_alert_errorCode'
+                        )}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
-                        La ciudad se ha eliminado con éxito.
+                        {this.props.t(
+                          'app_ciudad_modal_eliminar_alert_success'
+                        )}
                       </Alert>
                       <p className="text-center">
                         {' '}

@@ -137,22 +137,27 @@ class ModalDeleteTipoLlegada extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        El tipo de envío / llegada que va a eliminar, esta
-                        asociado a otras entidades.
+                        {this.props.t(
+                          'app_tipoLlegada_modal_eliminar_alert_error'
+                        )}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un código válido.
+                        {this.props.t(
+                          'app_tipoLlegada_modal_eliminar_alert_errorCode'
+                        )}
                       </Alert>
                       <Alert
                         className="text-center"
                         color="success"
                         isOpen={this.state.alertSuccess}
                       >
-                        El tipo de envío / llegada ha sido eliminado con éxito.
+                        {this.props.t(
+                          'app_tipoLlegada_modal_eliminar_alert_success'
+                        )}
                       </Alert>
                       <p className="text-center">
                         {' '}

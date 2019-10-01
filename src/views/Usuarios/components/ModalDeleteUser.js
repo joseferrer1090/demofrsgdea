@@ -140,22 +140,32 @@ class ModalDeleteUser extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        Error, al eliminar el usuario {values.identificacion}
+                        {this.props.t(
+                          'app_usuarios_modal_eliminar_alert_error'
+                        )}{' '}
+                        {values.identificacion}
                       </Alert>
                       <Alert
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        Se elimino de manera satisfactoria el usuario
+                        {this.props.t(
+                          'app_usuarios_modal_eliminar_alert_success'
+                        )}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        La identificacion {values.identificacion} para eliminar
-                        no corresponde a usuario
+                        {this.props.t(
+                          'app_usuarios_modal_eliminar_alert_errorCode_parte_1'
+                        )}{' '}
+                        {values.identificacion}{' '}
+                        {this.props.t(
+                          'app_usuarios_modal_eliminar_alert_errorCode_parte_2'
+                        )}
                       </Alert>
                       <p className="text-center">
                         {t('app_usuarios_modal_eliminar_titulo_2')}

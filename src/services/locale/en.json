@@ -598,7 +598,7 @@
     "app_cargo_modal_eliminar_button_cerrar": "Close",
     "app_cargo_modal_eliminar_alert_success": "The charge has been successfully removed.",
     "app_cargo_modal_eliminar_alert_error": "The charge you are deleting is associated with other entities.",
-    "app_cargo_modal_eliminar_alert_errorCode": "Please enter a valid code.",
+    "app_cargo_modal_eliminar_alert_errorCode": "Error, the code is not valid to eliminate the charge.",
 
     "app_cargo_import_step_1": "1. Step",
     "app_cargo_import_step_2": "2. Step",
@@ -661,6 +661,9 @@
     "app_mensajero_modal_actualizar_estado_descripcion": "If this option is activated, it represents that the messenger is visible in the system and can perform operations between each of the corresponding modules of the application. Otherwise, the messenger is not removed from the system, it will only be inactive and invisible for each of the corresponding modules in the system.",
     "app_mensajero_modal_actualizar_boton_actualizar": "Upgrade",
     "app_mensajero_modal_actualizar_boton_cerrar": "Close",
+    "app_mensajero_modal_actualizar_alert_success": "The messenger was updated successfully.",
+    "app_mensajero_modal_actualizar_alert_error": "Error updating messenger.",
+    "app_mensajero_modal_actualizar_alert_error400": "Error, the messenger is already assigned.",
 
     "app_mensajero_modal_eliminar_titulo": "Delete",
     "app_mensajero_modal_eliminar_titulo_2": "Confirm the identification number to delete the messenger.",
@@ -668,6 +671,9 @@
     "app_mensajero_modal_eliminar_placeholder": "Messenger Identification Number",
     "app_mensajero_modal_eliminar_boton_eliminar": "Delete",
     "app_mensajero_modal_eliminar_boton_cerrar": "Close",
+    "app_mensajero_modal_eliminar_alert_success": "The messenger has been removed successfully.",
+    "app_mensajero_modal_eliminar_alert_error": "The messenger to be deleted is associated with other entities.",
+    "app_mensajero_modal_eliminar_alert_errorId": "Error, the identification is not valid to delete the messenger.",
 
     "app_mensajero_import_step_1": "1. Step",
     "app_mensajero_import_step_2": "2. Step",
@@ -730,6 +736,9 @@
     "app_tipoLlegada_modal_actualizar_estado_descripcion": "If this option is activated, it represents that the type of shipment / arrival is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the type of shipment / arrival is not removed from the system, it will only be inactive and invisible for each of the corresponding modules in the system.",
     "app_tipoLlegada_modal_actualizar_button_actualizar": "Upgrade",
     "app_tipoLlegada_modal_actualizar_button_cerrar": "Close",
+    "app_tipoLlegada_modal_actualizar_alert_success": "The type of shipment / arrival was updated successfully.",
+    "app_tipoLlegada_modal_actualizar_alert_error": "Error updating the type of shipment / arrival.",
+    "app_tipoLlegada_modal_actualizar_alert_error400": "Error, the type of shipment / arrival is already assigned.",
 
     "app_tipoLlegada_modal_eliminar_titulo": "Delete",
     "app_tipoLlegada_modal_eliminar_titulo_2": "Confirm the code to eliminate the type of shipment / arrival.",
@@ -737,6 +746,9 @@
     "app_tipoLlegada_modal_eliminar_placeholder": "Shipping / arrival type code to be removed",
     "app_tipoLlegada_modal_eliminar_button_eliminar": "Delete",
     "app_tipoLlegada_modal_eliminar_button_cerrar": "Close",
+    "app_tipoLlegada_modal_eliminar_alert_success": "The type of shipment / arrival has been removed successfully.",
+    "app_tipoLlegada_modal_eliminar_alert_error": "The type of shipment / arrival to be eliminated is associated with other entities.",
+    "app_tipoLlegada_modal_eliminar_alert_errorCode": "Error, the code is not valid to eliminate the type of shipment / arrival",
 
     "app_tipoLlegada_import_step_1": "1. Step",
     "app_tipoLlegada_import_step_2": "2. Step",
@@ -848,6 +860,9 @@
     "app_usuarios_modal_editar_estado_descripcion": "If this option is enabled, it represents that the user is visible on the system and operations can be performed between each of the corresponding modules in the application. Otherwise the user is not deleted from the system only will be inactive and invisible for each of the corresponding modules of the system.",
     "app_usuarios_modal_editar_boton_actualizar": "Upgrade",
     "app_usuarios_modal_editar_boton_cerrar": "Close",
+    "app_usuarios_modal_actualizar_alert_success": "The user was updated successfully.",
+    "app_usuarios_modal_actualizar_alert_error": "Error updating user.",
+    "app_usuarios_modal_actualizar_alert_error400": "Error, the user is already assigned.",
 
     "app_usuarios_modal_eliminar_titulo": "Delete",
     "app_usuarios_modal_eliminar_titulo_2": "Confirm the identification to delete the user.",
@@ -855,6 +870,10 @@
     "app_usuarios_modal_eliminar_placeholder": "User identification number",
     "app_usuarios_modal_eliminar_boton_eliminar": "Delete",
     "app_usuarios_modal_eliminar_boton_cerrar": "Close",
+    "app_usuarios_modal_eliminar_alert_success": "The user was successfully deleted.",
+    "app_usuarios_modal_eliminar_alert_error": "Error, deleting the user.",
+    "app_usuarios_modal_eliminar_alert_errorCode_parte_1": "Error, identification",
+    "app_usuarios_modal_eliminar_alert_errorCode_parte_2": "it is not valid to delete the user.",
 
     "app_usuarios_modal_cambiar_contraseña_titulo": "Change your password",
     "app_usuarios_modal_cambiar_contraseña_enunciado_parte_1": "Keep in mind that the user must be notified in advance",
@@ -925,6 +944,9 @@
     "app_tipoTerecero_modal_actualizar_estado_descripcion": "If this option is activated, it represents that the type of third party is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the type of roof is not removed from the system, it will only be inactive and invisible for each of the corresponding modules in the system.",
     "app_tipoTerecero_modal_actualizar_button_actualizar": "Upgrade",
     "app_tipoTerecero_modal_actualizar_button_cerrar": "Close",
+    "app_tipoTerecero_modal_actualizar_alert_success": "The third-party type was updated successfully.",
+    "app_tipoTerecero_modal_actualizar_alert_error": "Error updating third party type.",
+    "app_tipoTerecero_modal_actualizar_alert_error400": "Error, the type of third party is already assigned.",
 
     "app_tipoTercero_modal_eliminar_titulo": "Delete",
     "app_tipoTercero_modal_eliminar_titulo_2": "Confirm the code to remove the third party type.",
@@ -932,6 +954,9 @@
     "app_tipoTercero_modal_eliminar_placeholder": "Code of the type of third party to delete",
     "app_tipoTercero_modal_eliminar_button_eliminar": "Delete",
     "app_tipoTercero_modal_eliminar_button_cerrar": "Close",
+    "app_tipoTercero_modal_eliminar_alert_success": "The third party type has been removed successfully.",
+    "app_tipoTercero_modal_eliminar_alert_error": "The type of third party to be deleted is associated with other entities.",
+    "app_tipoTercero_modal_eliminar_alert_errorCode": "Error, the code is not valid to remove the third party type.",
 
     "app_tipoTercero_import_step_1": "1. Step",
     "app_tipoTercero_import_step_2": "2. Step",
@@ -1048,6 +1073,9 @@
     "app_tercero_modal_actualizar_estado_descripcion": "If this option is activated, it represents that the third party is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the third party is not removed from the system, it will only be inactive and invisible for each of the corresponding modules in the system.",
     "app_tercero_modal_actualizar_boton_actualizar": "Upgrade",
     "app_tercero_modal_actualizar_boton_cerrar": "Close",
+    "app_tercero_modal_actualizar_alert_success": "The third one was updated successfully.",
+    "app_tercero_modal_actualizar_alert_error": "Error updating third.",
+    "app_tercero_modal_actualizar_alert_error400": "Error, the third party is already assigned.",
 
     "app_tercero_modal_eliminar_titulo": "Delete",
     "app_tercero_modal_eliminar_titulo_2": "Confirm identification to remove the third party.",
@@ -1055,6 +1083,9 @@
     "app_tercero_modal_eliminar_placeholder": "Identification of the third party to delete",
     "app_tercero_modal_eliminar_boton_eliminar": "Delete",
     "app_tercero_modal_eliminar_boton_cerrar": "Close",
+    "app_tercero_modal_eliminar_alert_success": "The third has been successfully removed.",
+    "app_tercero_modal_eliminar_alert_error": "The third party you are going to delete is associated with other entities.",
+    "app_tercero_modal_eliminar_alert_errorCode": "Error, the code is not valid to remove the third party.",
 
     "app_tercero_import_step_1": "1. Step",
     "app_tercero_import_step_2": "2. Step",
@@ -1112,6 +1143,9 @@
     "app_pais_modal_actualizar_estado_descripcion": "If this option is activated, it represents that the cluster is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the cluster is not removed from the system, it will only be inactive and invisible for each of the corresponding modules in the system.",
     "app_pais_modal_actualizar_button_actualizar": "Upgrade",
     "app_pais_modal_actualizar_button_cerrar": "Close",
+    "app_pais_modal_actualizar_alert_success": "The country was updated successfully.",
+    "app_pais_modal_actualizar_alert_error": "Error updating country.",
+    "app_pais_modal_actualizar_alert_error400": "Error, the country is already assigned.",
 
     "app_pais_modal_eliminar_titulo": "Delete",
     "app_pais_modal_eliminar_titulo_2": "Confirm the code to delete the country.",
@@ -1119,6 +1153,9 @@
     "app_pais_modal_eliminar_placeholder": "Country code to delete.",
     "app_pais_modal_eliminar_button_eliminar": "Delete",
     "app_pais_modal_eliminar_button_cerrar": "Close",
+    "app_pais_modal_eliminar_alert_success": "The country has been removed successfully.",
+    "app_pais_modal_eliminar_alert_error": "The country to be eliminated is associated with other entities.",
+    "app_pais_modal_eliminar_alert_errorCode": "Error, the code is not valid to delete the country.",
 
     "app_pais_import_step_1": "1. Step",
     "app_pais_import_step_2": "2. Step",
@@ -1196,6 +1233,9 @@
     "app_departamento_modal_actualizar_estado_descripcion": "If this option is activated, it represents the department that is visible in the system and can perform operations between each of the corresponding modules of the application. Otherwise, the department is not removed from the system, it will only be inactive and invisible for each of the corresponding modules in the system.",
     "app_departamento_modal_actualizar_button_actualizar": "Upgrade",
     "app_departamento_modal_actualizar_button_cerrar": "Close",
+    "app_departamento_modal_actualizar_alert_success": "The department was updated successfully.",
+    "app_departamento_modal_actualizar_alert_error": "Error updating department.",
+    "app_departamento_modal_actualizar_alert_error400": "Error, the department is already assigned.",
 
     "app_departamento_modal_eliminar_titulo": "Delete",
     "app_departamento_modal_eliminar_titulo_2": "Confirm the code to delete the department.",
@@ -1203,6 +1243,9 @@
     "app_departamento_modal_eliminar_placeholder": "Department code to delete",
     "app_departamento_modal_eliminar_button_eliminar": "Delete",
     "app_departamento_modal_eliminar_button_cerrar": "Close",
+    "app_departamento_modal_eliminar_alert_success": "The department has been removed successfully.",
+    "app_departamento_modal_eliminar_alert_error": "The department you are going to delete is associated with other entities.",
+    "app_departamento_modal_eliminar_alert_errorCode": "Error, the code is not valid to delete the department.",
 
     "app_ciudad_tab": "Register",
     "app_ciudad_tab_2": "Manage",
@@ -1273,6 +1316,9 @@
     "app_ciudad_modal_actualizar_estado_descripcion": "If this option is activated, it represents that the city is visible in the system and operations can be performed between each of the corresponding modules of the application. Otherwise, the city is not removed from the system, it will only be inactive and invisible for each of the corresponding modules in the system.",
     "app_ciudad_modal_actualizar_button_actualizar": "Upgrade",
     "app_ciudad_modal_actualizar_button_cerrar": "Close",
+    "app_ciudad_modal_actualizar_alert_success": "The city was updated successfully.",
+    "app_ciudad_modal_actualizar_alert_error": "Error updating city.",
+    "app_ciudad_modal_actualizar_alert_error400": "Error, the city is already assigned.",
 
     "app_ciudad_modal_eliminar_titulo": "Delete",
     "app_ciudad_modal_eliminar_titulo_2": "Confirm the code to remove the city.",
@@ -1280,6 +1326,9 @@
     "app_ciudad_modal_eliminar_placeholder": "City code to delete",
     "app_ciudad_modal_eliminar_button_eliminar": "Delete",
     "app_ciudad_modal_eliminar_button_cerrar": "Close",
+    "app_ciudad_modal_eliminar_alert_success": "The city has been removed successfully.",
+    "app_ciudad_modal_eliminar_alert_error": "The city to be eliminated is associated with other entities.",
+    "app_ciudad_modal_eliminar_alert_errorCode": "Error, the code is not valid to delete the city.",
 
     "app_auditoria_tabla_consulta_boton_consultar": "Consult audit",
     "app_auditoria_tabla_fecha_auditoria": "Date of the audit",

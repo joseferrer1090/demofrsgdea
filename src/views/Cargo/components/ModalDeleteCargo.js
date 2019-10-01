@@ -141,18 +141,19 @@ class ModalDeleteCargo extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        El cargo que va a eliminar, esta asociado a otras
-                        entidades.
+                        {this.props.t('app_cargo_modal_eliminar_alert_error')}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un código válido.
+                        {this.props.t(
+                          'app_cargo_modal_eliminar_alert_errorCode'
+                        )}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
-                        El cargo se ha eliminado con éxito.
+                        {this.props.t('app_cargo_modal_eliminar_alert_success')}
                       </Alert>
                       <p className="text-center">
                         {' '}

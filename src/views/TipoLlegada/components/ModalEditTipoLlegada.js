@@ -178,17 +178,23 @@ class ModalEditTipoLlegada extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      Error al actualizar el tipo de envío / llegada.
+                      {this.props.t(
+                        'app_tipoLlegada_modal_actualizar_alert_error'
+                      )}
                     </Alert>
                     <Alert
                       color="success"
                       isOpen={this.state.alertSuccess}
                       toggle={this.onDismiss}
                     >
-                      Se actualizo el tipo de envío / llegada con éxito.
+                      {this.props.t(
+                        'app_tipoLlegada_modal_actualizar_alert_success'
+                      )}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, el tipo de envío / llegada ya esta asignado.
+                      {this.props.t(
+                        'app_tipoLlegada_modal_actualizar_alert_error400'
+                      )}
                     </Alert>
                     <Row>
                       <Col sm="3">

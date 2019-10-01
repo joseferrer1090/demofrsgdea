@@ -20,9 +20,9 @@ import {
   ListGroupItem
 } from "reactstrap";
 import classnames from "classnames";
-import NamePermission from "./NamePermission";
-import ShortList from "./ShortListPermission";
-import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
 const RolesForm = props => {
   const [activeTab, toggleTab] = useState("1");
@@ -599,8 +599,60 @@ export default withFormik({
       .required("Es necesario asignar permisos")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
+      fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          code: values.codigo,
+          name: values.nombre,
+          descripcion: values.descripcion,
+          permissions: values.permisos,
+          status: tipoEstado(values.estado),
+          userName: "jferrer"
+        })
+      }).then(response => {
+        response
+          .json()
+          .then(data => {
+            if (response.status === 201) {
+              toast.success("Se creo el rol con exito.", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            } else if (response.status === 500) {
+              toast.error("El rol ya existe.", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            }
+          })
+          .catch(err => {
+            toast.error(`Error ${err}.`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
+            });
+          });
+      });
       setSubmitting(false);
       resetForm();
     }, 1000);

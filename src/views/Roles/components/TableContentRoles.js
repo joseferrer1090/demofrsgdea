@@ -18,7 +18,6 @@ class TableContentRoles extends Component {
       modaldel: false,
       modaledit: false,
       modalpermission: false,
-      data: this.props.data,
       dataRoles: [],
       hiddenColumnID: true
     };
@@ -88,7 +87,7 @@ class TableContentRoles extends Component {
         <button
           className="btn btn-warning btn-sm"
           onClick={() => {
-            this.openModalPermission();
+            this.openModalPermission(row.id);
           }}
         >
           <i className="fa fa-lock" />
@@ -118,8 +117,8 @@ class TableContentRoles extends Component {
     this.refs.child2.toggle(id);
   }
 
-  openModalPermission() {
-    this.refs.child4.toggle();
+  openModalPermission(id) {
+    this.refs.child4.toggle(id);
   }
 
   indexN(cell, row, enumObject, index) {

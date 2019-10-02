@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
+import Select from "react-select";
 import {
   Modal,
   ModalHeader,
@@ -15,154 +16,64 @@ import {
   CardText,
   UncontrolledAlert
 } from "reactstrap";
-
-import ListaRolesEdit from "./../componentsPermission/ListaRolesEdit";
-import NuevaListaRolesEdit from "../componentsPermission/NuevaListaRolesEdit";
+import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
+import * as Yup from "yup";
 
 class ModalEditPermissionRoles extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.id,
       modal: this.props.modaleditpermission,
-      backdrop: true,
-      dataroles: [],
-      data: this.props.datamodal
+      dataPermisos: []
     };
   }
-  addrol(id) {
-    const newSet = this.state.dataroles.concat([id]);
-    console.log("voy por este lado", id);
-    this.setState({
-      dataroles: newSet
-    });
-  }
 
-  deleterol(id) {
-    const { dataroles } = this.state;
-    const newList = [...dataroles.slice(0, id), ...dataroles.slice(id + 1)];
+  toggle = id => {
     this.setState({
-      dataroles: newList
-    });
-  }
-
-  toggle = () => {
-    this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id: id
     });
   };
+
   render() {
-    console.log(this.state.data);
     return (
-      <div>
-        <Modal
-          className="modal-lg"
-          isOpen={this.state.modal}
-          backdrop={this.state.backdrop}
-        >
-          <ModalHeader> Asignar permisos </ModalHeader>
-          <ModalBody>
-            <form>
-              <Row>
-                <Col sm="12">
-                  <UncontrolledAlert color="warning">
-                    <div className="text-center">
-                      <i className="fa fa-exclamation-triangle" /> Tenga en
-                      cuenta que cuando se editan los permisos, puede afectar la
-                      sesión de los usuario{" "}
-                      <i className="fa fa-exclamation-triangle" />
-                    </div>
-                  </UncontrolledAlert>
-                </Col>
-              </Row>
-              <br />
-              <Row>
-              <Col sm="12">
-
-                  <Row>
-                    <Col sm="6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Módulo <span className="text-danger">
-                            *
-                          </span>{" "}
-                        </label>
-                        <select className="form-control form-control-sm">
-                          {" "}
-                          <option> Seleccione... </option>{" "}
-                        </select>
-                      </div>
-                    </Col>
-                    <Col sm="6">
-                      <div className="form-group">
-                        <label>
-                          {" "}
-                          Entidades{" "}
-                          <span className="text-danger">*</span>{" "}
-                        </label>
-                        <select
-                          className="form-control form-control-sm
-                        "
-                        >
-                          {" "}
-                          <option> Seleccione... </option>{" "}
-                        </select>
-                      </div>
-                    </Col>
-                    {/*  Aqui va la funcionalidad    */}
-                    <Row>
-                      <div className="col-md-6">
-                      <label className="col-md-12"><dt>Permisos disponibles:</dt></label>
-                          <ListaRolesEdit
-                            data={this.state.data}
-                            dataroles={this.state.dataroles}
-                            addrol={this.addrol.bind(this)}
-                          />
-                      </div>
-                      <div className="col-md-6">
-                      <label className=""><dt>Permisos asignados:</dt></label>
-                          <NuevaListaRolesEdit
-                            data={this.state.data}
-                            dataroles={this.state.dataroles}
-                            addrol={this.addrol.bind(this)}
-                          />
-                      </div>
-                      </Row>
-                    {/*  Fin   */}
-
-                  </Row>
-              </Col>
-            </Row>
-              <Row />
-            </form>
-          </ModalBody>
-          <ModalFooter>
-            <button className="btn btn-outline-warning">
-              {" "}
-              <i className="fa fa-lock" /> Editar permiso{" "}
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => {
-                this.setState({ modal: false });
-              }}
-            >
-              {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
-            </button>
-          </ModalFooter>
-        </Modal>
-
-      </div>
-
+      <Fragment>
+        <Modal className="modal-lg" isOpen={this.state.modal}></Modal>
+        <ModalHeader>Editar Permisos rol</ModalHeader>
+        <Formik>
+          {props => {
+            const {
+              values,
+              touched,
+              errors,
+              dirty,
+              isSubmitting,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              handleReset
+            } = props;
+            return (
+              <Fragment>
+                <ModalBody>
+                  <p>Hola mundo</p>
+                </ModalBody>
+                <ModalFooter>
+                  <button>Probando</button>
+                </ModalFooter>
+              </Fragment>
+            );
+          }}
+        </Formik>
+      </Fragment>
     );
   }
 }
 
 ModalEditPermissionRoles.propTypes = {
-  modaleditpermission: PropTypes.bool.isRequired,
-  datamodal: PropTypes.array.isRequired
+  id: PropTypes.string.isRequired,
+  modal: PropTypes.bool.isRequired
 };
 
 export default ModalEditPermissionRoles;

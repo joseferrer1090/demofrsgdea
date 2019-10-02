@@ -96,7 +96,7 @@ class TableContentRoles extends Component {
         <button
           className="btn btn-danger btn-sm"
           onClick={() => {
-            this.openModalDel();
+            this.openModalDel(row.id);
           }}
         >
           <i className="fa fa-trash" />
@@ -109,8 +109,8 @@ class TableContentRoles extends Component {
     this.refs.child.toggle(id);
   }
 
-  openModalDel() {
-    this.refs.child3.toggle();
+  openModalDel(id) {
+    this.refs.child3.toggle(id);
   }
 
   openModalEdit(id) {

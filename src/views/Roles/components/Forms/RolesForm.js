@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
@@ -20,34 +20,16 @@ import {
   ListGroupItem
 } from "reactstrap";
 import classnames from "classnames";
-import NamePermission from "./NamePermission";
-import ShortList from "./ShortListPermission";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
 const RolesForm = props => {
   const [activeTab, toggleTab] = useState("1");
-  const [favourites, setfavourites] = useState([]);
-
   const toggle = tab => {
     if (activeTab !== tab) {
       toggleTab(tab);
     }
-  };
-
-  const addFavourite = id => {
-    const newSet = favourites.concat([id]);
-    setfavourites([...favourites.concat([id])]);
-    console.log(newSet);
-  };
-
-  const deleteFavourite = id => {
-    const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
-    setfavourites([...favourites.slice(0, id), ...favourites.slice(id + 1)]);
-    console.log(newList);
-    // const { favourites } = this.state;
-    // const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
-    // this.setState({
-    //   favourites: newList
-    // });
   };
 
   const {
@@ -61,6 +43,39 @@ const RolesForm = props => {
     setFieldTouched,
     setFieldValue
   } = props;
+
+  // const [favourites, setfavourites] = useState([]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await axios.get(
+  //       `http://192.168.10.180/7000/api/sgdea/permission/page/entity/${props.values.entidades}`,
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: "Basic " + window.btoa("sgdea:123456")
+  //         }
+  //       }
+  //     );
+  //     setfavourites(result.data);
+  //   };
+  //   fetchData();
+  // }, [favourites]);
+
+  // const addFavourite = id => {
+  //   const newSet = favourites.concat([id]);
+  //   setfavourites([...favourites.concat(id)]);
+  //   console.log(newSet);
+  // };
+
+  // const deleteFavourite = id => {
+  //   const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
+  //   setfavourites([...favourites.slice(0, id), ...favourites.slice(id + 1)]);
+  //   console.log(newList);
+  // };
+
+  // console.log(props.values.entidades);
+  // console.log(favourites);
 
   return (
     <div>
@@ -297,6 +312,34 @@ const RolesForm = props => {
                       </TabContent>
                       <br />
                       <Row>
+                        <Col sm="12">
+                          <div className="form-group">
+                            <label>
+                              Asignar permisos{" "}
+                              <span className="text-danger">*</span>{" "}
+                            </label>
+                            <Assignedpermissions
+                              entidad={props.values.entidades}
+                              name={"permisos"}
+                              value={values.permisos}
+                              onChange={setFieldValue}
+                              onBlur={setFieldTouched}
+                              error={errors.permisos}
+                              touched={touched.permisos}
+                            />
+                            {touched ? (
+                              <div style={{ color: "red" }}>
+                                {" "}
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.permisos && touched.permisos ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"permisos"} />
+                                </div>
+                              </div>
+                            ) : null}
+                          </div>
+                        </Col>
                         {/* <Col sm="6">
                           <div className="form-group">
                             <label>
@@ -379,16 +422,18 @@ const RolesForm = props => {
                           </div>
                         </Col> */}
                         {/*  Aqui va la funcionalidad    */}
+
                         <div className="row">
                           <div className="col-md-6">
-                            <label className="col-md-12">
+                            {/* <label className="col-md-12">
                               <dt>Permisos disponibles:</dt>
-                            </label>
+                            </label> */}
                             <div className="form-group">
-                              <ListPermissions
+                              {/* <ListPermissions
+                                data={favourites}
                                 addFavourite={addFavourite}
                                 IDentidad={props.values.entidades}
-                              />
+                              /> */}
                               {/* <select
                                 multiple
                                 className="form-control"
@@ -407,14 +452,13 @@ const RolesForm = props => {
                             </div>
                           </div>
                           <div className="col-md-6">
-                            <label>
+                            {/* <label>
                               <dt>Permisos asignados:</dt>
-                            </label>
-                            <ShortList
-                              data={favourites}
+                            </label> */}
+                            {/* <ShortList
                               favourites={favourites}
                               deleteFavourite={deleteFavourite}
-                            />
+                            /> */}
                             {/* <select
                               multiple
                               className="form-control"
@@ -523,6 +567,7 @@ export default withFormik({
     modulos: props.roles.modulos,
     entidades: props.roles.entidades,
     entidades_search: props.roles.entidades_search,
+    permisos: props.roles.permisos,
     estado: props.roles.estado
   }),
   validationSchema: Yup.object().shape({
@@ -543,11 +588,71 @@ export default withFormik({
       .required("Se requiere el modulo para filtrar"),
     entidades: Yup.string()
       .ensure()
-      .required("Se requiere la entidad para filtrar")
+      .required("Se requiere la entidad para filtrar"),
+    permisos: Yup.array()
+      .of(
+        Yup.object().shape({
+          label: Yup.string().required(),
+          value: Yup.string().required()
+        })
+      )
+      .required("Es necesario asignar permisos")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      // alert(JSON.stringify(values, null, 2));
+      fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          code: values.codigo,
+          name: values.nombre,
+          descripcion: values.descripcion,
+          permissions: values.permisos,
+          status: tipoEstado(values.estado),
+          userName: "jferrer"
+        })
+      }).then(response => {
+        response
+          .json()
+          .then(data => {
+            if (response.status === 201) {
+              toast.success("Se creo el rol con exito.", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            } else if (response.status === 500) {
+              toast.error("El rol ya existe.", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            }
+          })
+          .catch(err => {
+            toast.error(`Error ${err}.`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
+            });
+          });
+      });
       setSubmitting(false);
       resetForm();
     }, 1000);
@@ -693,121 +798,202 @@ class MySelectEntidades extends React.Component {
 
 //------------------------------------------------------------------------------------------------//
 
-class Autocomplete extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      dataSearch: [],
-      query: "",
-      idEntidad: ""
-    };
-  }
+// class Autocomplete extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       dataSearch: [],
+//       query: "",
+//       idEntidad: ""
+//     };
+//   }
 
-  onTextChange = e => {
-    this.setState({ query: e.target.value }, () => {
-      fetch(
-        `http://192.168.10.180:7000/api/sgdea/entity/search/name?name=${this.state.query}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
-          }
-        }
-      )
-        .then(response => response.json())
-        .then(data => {
-          this.setState({
-            dataSearch: data
-          });
-        })
-        .catch(err => console.log("", err));
-    });
-  };
+//   onTextChange = e => {
+//     this.setState({ query: e.target.value }, () => {
+//       fetch(
+//         `http://192.168.10.180:7000/api/sgdea/entity/search/name?name=${this.state.query}`,
+//         {
+//           method: "GET",
+//           headers: {
+//             "Content-Type": "application/json",
+//             Authorization: "Basic " + window.btoa("sgdea:123456")
+//           }
+//         }
+//       )
+//         .then(response => response.json())
+//         .then(data => {
+//           this.setState({
+//             dataSearch: data
+//           });
+//         })
+//         .catch(err => console.log("", err));
+//     });
+//   };
 
-  searchInput = term => {
-    return function(x) {
-      return x.name.includes(term);
-    };
-  };
+//   searchInput = term => {
+//     return function(x) {
+//       return x.name.includes(term);
+//     };
+//   };
 
-  render() {
-    //console.log(this.state.dataSearch);
-    const data = this.state.dataSearch;
-    const term = this.state.query;
-    //console.log(data);
+//   render() {
+//     //console.log(this.state.dataSearch);
+//     const data = this.state.dataSearch;
+//     const term = this.state.query;
+//     //console.log(data);
 
-    return (
-      <div>
-        <input
-          type="text"
-          name="query"
-          value={this.state.query}
-          onChange={this.onTextChange}
-          placeholder={"Entiad a buscar"}
-          className="form-control form-control-sm"
-        />
-        <input
-          type="hidden"
-          name={this.props.name}
-          value={this.state.idEntidad}
-        />
-        <ListGroup>
-          {term
-            ? data.filter(this.searchInput(term)).map((aux, id) => {
-                return (
-                  <a
-                    href="#"
-                    onClick={e => {
-                      e.preventDefault();
-                      this.setState({ idEntidad: aux.id }, () => {
-                        console.log(this.state.idEntidad);
-                      });
-                    }}
-                  >
-                    {" "}
-                    <ListGroupItem key={id}>{aux.name}</ListGroupItem>
-                  </a>
-                );
-              })
-            : null}
-        </ListGroup>
-      </div>
-    );
-  }
-}
+//     return (
+//       <div>
+//         <input
+//           type="text"
+//           name="query"
+//           value={this.state.query}
+//           onChange={this.onTextChange}
+//           placeholder={"Entiad a buscar"}
+//           className="form-control form-control-sm"
+//         />
+//         <input
+//           type="hidden"
+//           name={this.props.name}
+//           value={this.state.idEntidad}
+//         />
+//         <ListGroup>
+//           {term
+//             ? data.filter(this.searchInput(term)).map((aux, id) => {
+//                 return (
+//                   <a
+//                     href="#"
+//                     onClick={e => {
+//                       e.preventDefault();
+//                       this.setState({ idEntidad: aux.id }, () => {
+//                         console.log(this.state.idEntidad);
+//                       });
+//                     }}
+//                   >
+//                     {" "}
+//                     <ListGroupItem key={id}>{aux.name}</ListGroupItem>
+//                   </a>
+//                 );
+//               })
+//             : null}
+//         </ListGroup>
+//       </div>
+//     );
+//   }
+// }
 
 //------------------------------------------------------------------------------------------------//
 
-class ListPermissions extends React.Component {
+// class ListPermissions extends React.Component {
+//   state = {
+//     datalist: [],
+//     id: this.props.IDentidad
+//   };
+
+//   static getDerivedStateFromProps(props, state) {
+//     if (props.IDentidad !== state.id) {
+//       return {
+//         id: props.IDentidad
+//       };
+//     }
+//   }
+
+//   componentDidUpdate(prevProps, prevState) {
+//     if (this.props.IDentidad !== prevProps.IDentidad) {
+//       // getById
+//       this.getPermissionById();
+//     }
+//   }
+
+//   componentDidMount() {
+//     // getById
+//     this.getPermissionById();
+//   }
+
+//   getPermissionById = () => {
+//     fetch(
+//       `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.props.IDentidad}`,
+//       {
+//         method: "GET",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: "Basic " + window.btoa("sgdea:123456")
+//         }
+//       }
+//     )
+//       .then(response => response.json())
+//       .then(data => {
+//         this.setState({
+//           datalist: data
+//         });
+//       })
+//       .catch(err => console.log("Error", err));
+//   };
+
+//   render() {
+//     console.log(this.state.datalist);
+//     // console.log(this.props.IDentidad);
+
+//     return (
+//       <div>
+//         {this.state.datalist.map((aux, id) => {
+//           return (
+//             <NamePermission
+//               id={aux.id}
+//               key={id}
+//               info={aux}
+//               handleFavourite={id => this.props.addFavourite(id)}
+//             />
+//           );
+//         })}
+//       </div>
+//     );
+//   }
+// }
+
+// {
+//   this.state.datalist.map((aux, i) => {
+//     return (
+//       <NamePermission
+//         id={aux.id}
+//         key={i}
+//         info={aux}
+//         handleFavourite={id => this.props.addFavourite(id)}
+//       />
+//     );
+//   });
+// }
+
+// --------------------------------------------------------------------------------------------------- //
+
+class Assignedpermissions extends React.Component {
   state = {
-    datalist: [],
-    id: this.props.IDentidad
+    dataPermission: [],
+    id: this.props.entidad
   };
 
   static getDerivedStateFromProps(props, state) {
-    if (props.IDentidad !== state.id) {
+    if (props.entidad !== state.id) {
       return {
-        id: props.IDentidad
+        id: props.entidad
       };
     }
+    return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.IDentidad !== prevProps.IDentidad) {
-      // getById
+    if (this.props.entidad !== prevProps.entidad) {
       this.getPermissionById();
     }
   }
 
   componentDidMount() {
-    // getById
     this.getPermissionById();
   }
 
   getPermissionById = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.props.IDentidad}`,
+      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.state.id}`,
       {
         method: "GET",
         headers: {
@@ -819,27 +1005,42 @@ class ListPermissions extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          datalist: data
+          dataPermission: data
         });
       })
       .catch(err => console.log("Error", err));
   };
 
+  handleChange = value => {
+    this.props.onChange("permisos", value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur("permisos", true);
+  };
+
   render() {
-    // console.log(this.state.datalist);
-    // console.log(this.props.IDentidad);
+    const aux = this.state.dataPermission.map((aux, id) => {
+      return {
+        id: id,
+        label: aux.name,
+        value: aux.id
+      };
+    });
+
     return (
       <div>
-        {this.state.datalist.map((aux, i) => {
-          return (
-            <NamePermission
-              id={aux.id}
-              key={i}
-              info={aux}
-              handleFavourite={id => this.props.addFavourite(id)}
-            />
-          );
-        })}
+        <Select
+          name={this.props.name}
+          options={this.state.dataPermission.map((aux, id) => {
+            return { label: aux.name, value: aux.id };
+          })}
+          isMulti
+          onChange={this.handleChange}
+          onBlur={this.handleBlur}
+          value={this.props.value}
+          placeholder={"Asignar permisos"}
+        />
       </div>
     );
   }

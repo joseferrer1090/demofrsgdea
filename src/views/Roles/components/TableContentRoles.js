@@ -6,80 +6,9 @@ import ModalView from "./ModalViewRoles";
 import ModalDelete from "./ModalDeleteRoles";
 import ModalEdit from "./ModalEditRoles";
 import ModalPermission from "./ModalEditPermissionRoles";
-import "../../../css/styleTableRoles.css"
+import "../../../css/styleTableRoles.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-const dataExample = [
-  {
-    id: 1,
-    codigo: "rol1",
-    nombre: "rol_nombre",
-    descripcion: "descripcion general del rol",
-    estado: true
-  },
-  {
-    id: 2,
-    codigo: "rol2",
-    nombre: "rol_nombre",
-    descripcion: "descripcion general del rol",
-    estado: false
-  },
-  {
-    id: 3,
-    codigo: "rol3",
-    nombre: "rol_nombre",
-    descripcion: "descripcion general del rol",
-    estado: true
-  },
-  {
-    id: 4,
-    codigo: "rol4",
-    nombre: "rol_nombre",
-    descripcion: "descripcion general del rol",
-    estado: false
-  },
-  {
-    id: 5,
-    codigo: "rol5",
-    nombre: "rol_nombre",
-    descripcion: "descripcion general del rol",
-    estado: true
-  },
-  {
-    id: 6,
-    codigo: "rol6",
-    nombre: "rol_nombre",
-    descripcion: "descripcion general del rol",
-    estado: false
-  },
-  {
-    id: 7,
-    codigo: "rol7",
-    nombre: "rol_nombre",
-    descripcion: "descripcion general del rol",
-    estado: true
-  },
-  {
-    id: 8,
-    codigo: "rol8",
-    nombre: "rol_nombre",
-    descripcion: "descripcion general del rol",
-    estado: false
-  },
-  {
-    id: 9,
-    codigo: "rol9",
-    nombre: "rol_nombre",
-    descripcion: "descripcion general del rol",
-    estado: true
-  },
-  {
-    id: 10,
-    codigo: "rol10",
-    nombre: "rol_nombre",
-    descripcion: "descripcion general del rol",
-    estado: true
-  }
-];
+import moment from "moment";
 
 class TableContentRoles extends Component {
   constructor(props) {
@@ -89,18 +18,47 @@ class TableContentRoles extends Component {
       modaldel: false,
       modaledit: false,
       modalpermission: false,
-      data: this.props.data
+      data: this.props.data,
+      dataRoles: [],
+      hiddenColumnID: true
     };
   }
 
+  componentDidMount() {
+    this.getDataRoles();
+  }
+
+  getDataRoles = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataRoles: data
+        });
+        console.log(this.state.dataRoles);
+      })
+      .catch(err => console.log("Error", err));
+  };
+
   EstadoRoles(cell, row) {
     let status;
-    if (row.estado === true) {
+    if (row.status === 1) {
       status = <p className="text-success"> Activo </p>;
-    } else if (row.estado !== true) {
+    } else if (row.status !== 1) {
       status = <p className="text-danger"> Inactivo </p>;
     }
     return status;
+  }
+  FechaCreacionRoles(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("YYYY-MM-DD");
   }
 
   accionesRoles(cel, row) {
@@ -112,7 +70,7 @@ class TableContentRoles extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           <i className="fa fa-eye" />
@@ -121,7 +79,7 @@ class TableContentRoles extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -148,99 +106,137 @@ class TableContentRoles extends Component {
     );
   }
 
-  openModalView() {
-    this.refs.child.toggle();
+  openModalView(id) {
+    this.refs.child.toggle(id);
   }
 
   openModalDel() {
     this.refs.child3.toggle();
   }
 
-  openModalEdit() {
-    this.refs.child2.toggle();
+  openModalEdit(id) {
+    this.refs.child2.toggle(id);
   }
 
   openModalPermission() {
     this.refs.child4.toggle();
   }
 
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
   render() {
     console.log(this.state.data);
     return (
-
       <div className="animated fadeIn">
-      <Row>
+        <Row>
           <Col md="12">
-        <div className="col-md-12">
-          <BootstrapTable
-            data={dataExample}
-            search
-            searchPlaceholder="Buscar"
-            pagination
-            bordered={false}
-            hover
-            striped
-            exportCSV
-            className="tableRP texto-RP"
-          >
-            <TableHeaderColumn
-            dataSort={true}
-              isKey
-              dataField="id"
-              dataAlign="center"
-              width={"20"}
-            >
-              #
-            </TableHeaderColumn>
-            <TableHeaderColumn dataSort={true} dataField="codigo" dataAlign="center" width={"100"}>
+            <div className="col-md-12">
+              <BootstrapTable
+                data={this.state.dataRoles}
+                search
+                searchPlaceholder="Buscar"
+                pagination
+                bordered={false}
+                hover
+                striped
+                exportCSV
+                className="tableRP texto-RP"
+              >
+                <TableHeaderColumn
+                  dataSort={true}
+                  isKey
+                  dataField="id"
+                  dataAlign="center"
+                  width={"20"}
+                  hidden={this.state.hiddenColumnID}
+                >
+                  #
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataSort={true}
+                  dataFormat={this.indexN}
+                  dataField="id"
+                  dataAlign="center"
+                  width={"20"}
+                >
+                  #
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataSort={true}
+                  dataField="code"
+                  dataAlign="center"
+                  width={"50"}
+                >
+                  Código
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataSort={true}
+                  dataField="name"
+                  dataAlign="center"
+                  width={"80"}
+                >
+                  {" "}
+                  Nombre{" "}
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataSort={true}
+                  dataField="description"
+                  dataAlign="center"
+                  width={"80"}
+                >
+                  {" "}
+                  Descripción{" "}
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  width={"50"}
+                  dataSort={true}
+                  dataField="status"
+                  dataAlign="center"
+                  dataFormat={(cell, row) => this.EstadoRoles(cell, row)}
+                >
+                  {" "}
+                  Estado{" "}
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  width={"80"}
+                  dataSort={true}
+                  dataField="createdAt"
+                  dataAlign="center"
+                  dataFormat={(cell, row) => this.FechaCreacionRoles(cell, row)}
+                >
+                  {" "}
+                  Fecha de creacion{" "}
+                </TableHeaderColumn>
 
-              Código
-            </TableHeaderColumn>
-            <TableHeaderColumn dataSort={true} dataField="nombre" dataAlign="center" width={"150"}>
-              {" "}
-              Nombre{" "}
-            </TableHeaderColumn>
-            <TableHeaderColumn dataSort={true} dataField="descripcion" dataAlign="center" width={"150"}>
-              {" "}
-              Descripción{" "}
-            </TableHeaderColumn>
-            <TableHeaderColumn
-            width={"50"}
-              dataSort={true}
-              dataField="estado"
-              dataAlign="center"
-              dataFormat={(cell, row) => this.EstadoRoles(cell, row)}
-            >
-              {" "}
-              Estado{" "}
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              width={"200"}
-              export={false}
-              dataAlign="center"
-              dataFormat={(cell, row) => this.accionesRoles(cell, row)}
-            >
-              {" "}
-              Acciones{" "}
-            </TableHeaderColumn>
-          </BootstrapTable>
-
-        </div>
-        </Col>
+                <TableHeaderColumn
+                  width={"200"}
+                  export={false}
+                  dataAlign="center"
+                  dataFormat={(cell, row) => this.accionesRoles(cell, row)}
+                >
+                  {" "}
+                  Acciones{" "}
+                </TableHeaderColumn>
+              </BootstrapTable>
+            </div>
+          </Col>
         </Row>
 
         <ModalView modalviewroles={this.state.modalview} ref="child" />
-        <ModalEdit modaledit={this.state.modaledit} ref="child2" />
+        <ModalEdit
+          modaledit={this.state.modaledit}
+          ref="child2"
+          updateTable={this.getDataRoles}
+        />
         <ModalDelete modaldelete={this.state.modaldel} ref="child3" />
         <ModalPermission
           datamodal={this.state.data}
           modaleditpermission={this.state.modalpermission}
           ref="child4"
         />
-
-
       </div>
-
     );
   }
 }

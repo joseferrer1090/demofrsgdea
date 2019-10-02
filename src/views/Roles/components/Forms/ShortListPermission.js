@@ -8,7 +8,7 @@ export default ({ favourites, data, deleteFavourite }) => {
       <NamePermission
         id={i}
         key={i}
-        info={data}
+        info={this.props.favorites}
         handleFavourite={id => deleteFavourite(id)}
       />
     );

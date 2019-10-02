@@ -13,12 +13,16 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGROLES from "./../../../assets/img/shield.svg";
+import moment from "moment";
 
 class ModalViewRoles extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalviewroles
+      modal: this.props.modalviewroles,
+      id: this.props.id,
+      data: [],
+      userName: "jferrer"
     };
   }
   toggleCollapse = () => {
@@ -27,16 +31,55 @@ class ModalViewRoles extends Component {
     });
   };
 
-  toggle = () => {
+  toggle = id => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id: id
     });
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/role/${id}?username=${this.state.userName}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          data: data
+        });
+      })
+      .catch(err => console.log("Error", err));
   };
 
+  FechaCreacionRol(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+  }
+  FechaModificacionRol(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    // moment.locale(es);
+    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+  }
+
   render() {
+    const statusRol = data => {
+      let status;
+      if (data === 1) {
+        status = <b className="text-success">Activo</b>;
+      } else if (data === 0) {
+        status = <b className="text-danger">Inactivo</b>;
+      }
+      return status;
+    };
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader> Ver rol </ModalHeader>
+        <ModalHeader> Ver Rol {this.state.data.name}</ModalHeader>
         <ModalBody>
           <Row>
             <Col sm="3">
@@ -55,7 +98,7 @@ class ModalViewRoles extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Código </dt>
-                      <dd> código </dd>
+                      <dd> {this.state.data.code} </dd>
                     </dl>
                   </div>
                 </div>
@@ -63,7 +106,7 @@ class ModalViewRoles extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Nombre </dt>
-                      <dd> nombre </dd>
+                      <dd> {this.state.data.name} </dd>
                     </dl>
                   </div>
                 </div>
@@ -71,7 +114,7 @@ class ModalViewRoles extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Descripción </dt>
-                      <dd> descripción </dd>
+                      <dd> {this.state.data.description} </dd>
                     </dl>
                   </div>
                 </div>
@@ -79,7 +122,7 @@ class ModalViewRoles extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Estado </dt>
-                      <dd> estado </dd>
+                      <dd> {statusRol(this.state.data.status)} </dd>
                     </dl>
                   </div>
                 </div>
@@ -87,7 +130,9 @@ class ModalViewRoles extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Fecha de creación </dt>
-                      <dd> fecha de creación </dd>
+                      <dd>
+                        {this.FechaCreacionRol(this.state.data.createdAt)}{" "}
+                      </dd>
                     </dl>
                   </div>
                 </div>
@@ -95,84 +140,89 @@ class ModalViewRoles extends Component {
                   <div className="form-group">
                     <dl className="param">
                       <dt> Fecha de modificación </dt>
-                      <dd> fecha de modificación </dd>
+                      <dd>
+                        {" "}
+                        {this.FechaModificacionRol(
+                          this.state.data.updatedAt
+                        )}{" "}
+                      </dd>
                     </dl>
                   </div>
                 </div>
               </div>
             </Col>
           </Row>
-          <Row>
-          <Col sm="12">
-            <Card>
-              <CardHeader>
-                {" "}
-                <a
-                  onClick={() => {
-                    this.toggleCollapse();
-                  }}
-                  style={{ cursor: "pointer" }}
-                >
+          {/* <Row>
+            <Col sm="12">
+              <Card>
+                <CardHeader>
                   {" "}
-                  Permisos asignados{" "}
-                </a>{" "}
-              </CardHeader>
-              <Collapse isOpen={this.state.collapase}>
-              <Row>
-        <Col sm="12">
-          <Table size="sm" striped hover>
-            <thead>
-              <tr className="text-center">
-                <th>Módulo</th>
-                <th>Entidad</th>
-                <th>Permisos </th>
-              </tr>
-            </thead>
-            <tbody className="text-center">
-              <tr>
-                <td>Módulo</td>
-                <td>
-                <label> Entidad </label>
-                </td>
-                <td>
-                <label>Permisos asignados</label>
-                </td>
-              </tr>
-              <tr>
-              <td>Módulo</td>
-              <td>
-              <label> Entidad </label>
-              </td>
-              <td>
-              <label>Permisos asignados</label>
-              </td>
-            </tr>
-            <tr>
-            <td>Módulo</td>
-            <td>
-            <label> Entidad </label>
-            </td>
-            <td>
-            <label>Permisos asignados</label>
-            </td>
-          </tr>
-          <tr>
-          <td>Módulo</td>
-          <td>
-          <label> Entidad </label>
-          </td>
-          <td>
-          <label>Permisos asignados</label>
-          </td>
-        </tr>
-            </tbody>
-          </Table>
-        </Col>
-      </Row>
-            </Collapse>
+                  <a
+                    onClick={() => {
+                      this.toggleCollapse();
+                    }}
+                    style={{ cursor: "pointer" }}
+                  >
+                    {" "}
+                    Permisos asignados{" "}
+                  </a>{" "}
+                </CardHeader>
+                <Collapse isOpen={this.state.collapase}>
+                  <Row>
+                    <Col sm="12">
+                      <Table size="sm" striped hover>
+                        <thead>
+                          <tr className="text-center">
+                            <th>Módulo</th>
+                            <th>Entidad</th>
+                            <th>Permisos </th>
+                          </tr>
+                        </thead>
+                        <tbody className="text-center">
+                          <tr>
+                            <td>Módulo</td>
+                            <td>
+                              <label> Entidad </label>
+                            </td>
+                            <td>
+                              <label>Permisos asignados</label>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Módulo</td>
+                            <td>
+                              <label> Entidad </label>
+                            </td>
+                            <td>
+                              <label>Permisos asignados</label>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Módulo</td>
+                            <td>
+                              <label> Entidad </label>
+                            </td>
+                            <td>
+                              <label>Permisos asignados</label>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Módulo</td>
+                            <td>
+                              <label> Entidad </label>
+                            </td>
+                            <td>
+                              <label>Permisos asignados</label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </Table>
+                    </Col>
+                  </Row>
+                </Collapse>
               </Card>
-              </Col>
-              </Row>
+            </Col>
+                  </Row>*/}
         </ModalBody>
         <ModalFooter>
           <button

@@ -25,9 +25,29 @@ class TableContent extends Component {
     this.state = {
       modalview: false,
       modaledit: false,
-      modaldelete: false
+      modaldelete: false,
+      dataGroup: []
     };
   }
+
+  componentDidMount() {
+    this.getDataGroup();
+  }
+
+  getDataGroup = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err, console.log("Error", err));
+  };
 
   accionesGrupo = (cel, row) => {
     return (

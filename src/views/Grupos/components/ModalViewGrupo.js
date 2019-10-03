@@ -34,9 +34,9 @@ class ModalViewPais extends Component {
     this.getDataGroupById(id);
   };
 
-  getDataGroupById = () => {
+  getDataGroupById = id => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/groupuser/${this.state.id}?username=${this.state.username}`,
+      `http://192.168.10.180:7000/api/sgdea/groupuser/${id}?username=${this.state.username}`,
       {
         method: "GET",
         headers: {

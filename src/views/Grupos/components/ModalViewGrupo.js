@@ -62,6 +62,15 @@ class ModalViewPais extends Component {
   };
 
   render() {
+    const statusGrupo = data => {
+      let status;
+      if (data === 1) {
+        status = <b className="text-success">Activo</b>;
+      } else if (data === 0) {
+        status = <b className="text-danger">Inactivo</b>;
+      }
+      return status;
+    };
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -111,7 +120,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Estado </dt>
-                        <dd> {this.state.status} </dd>
+                        <dd> {statusGrupo(this.state.dataGroup.status)} </dd>
                       </dl>
                     </div>
                   </div>

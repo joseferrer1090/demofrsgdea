@@ -455,7 +455,7 @@ class SelectConglomerado extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataConglomerate: data
+          dataConglomerado: data
         });
       });
   };
@@ -472,7 +472,7 @@ class SelectConglomerado extends React.Component {
           className={this.props.className}
         >
           <option value={""}>-- Seleccione --</option>
-          {this.state.dataConglomerate.map((aux, id) => {
+          {this.state.dataConglomerado.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
                 {aux.name}

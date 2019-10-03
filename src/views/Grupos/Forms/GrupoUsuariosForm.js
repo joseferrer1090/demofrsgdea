@@ -123,22 +123,19 @@ const GrupoUsuariosForm = props => {
                               Conglomerado{" "}
                               <span className="text-danger">*</span>{" "}
                             </label>
-                            <select
+                            <SelectConglomerado
                               name="conglomerado"
-                              onBlur={handleBlur}
-                              onChange={handleChange}
+                              onChange={e => {
+                                setFieldValue("conglomerado", e.target.value);
+                              }}
+                              onBlur={() => {
+                                setFieldTouched("conglomerado", true);
+                              }}
+                              value={values.conglomerado}
                               className={`form-control form-control-sm ${errors.conglomerado &&
                                 touched.conglomerado &&
                                 "is-invalid"}`}
-                              value={values.conglomerado}
-                            >
-                              <option disabled value={""}>
-                                --Seleccione--
-                              </option>
-                              <option value={"1"}>Conglomerado 1</option>
-                              <option value={"2"}>Conglomerado 2</option>
-                              <option value={"3"}>Conglomerado 3</option>
-                            </select>
+                            />
                             <div style={{ color: "#D54B4B" }}>
                               {errors.conglomerado && touched.conglomerado ? (
                                 <i className="fa fa-exclamation-triangle" />
@@ -245,7 +242,40 @@ const GrupoUsuariosForm = props => {
                           </div>
                         </div>
                       </div>
+                      <div className="form-group">
+                        <label>Usuarios disponibles</label>
+                        <select
+                          className="form-control form-control-sm"
+                          multiple
+                          disabled
+                        >
+                          <option>Usuarios disponibles de la consulta</option>
+                        </select>
+                      </div>
+
+                      {/*dataOk ? (
+                                <div className="form-group">
+                                  <label>Usuarios disponibles</label>
+                                  <select className="form-control form-control-sm"  multiple>
+                                   {buscarOpciones}
+                                  </select>
+                                </div>
+                            ) : null*/}
                     </CardBody>
+                    <CardFooter>
+                      <div className="float-right">
+                        <button
+                          type="button"
+                          className="btn btn-secondary btn-sm"
+                          // onClick={() => {
+                          //   this.setState({ dataOk: !this.state.dataOk });
+                          // }}
+                        >
+                          {" "}
+                          <i className="fa fa-search" /> Buscar
+                        </button>{" "}
+                      </div>
+                    </CardFooter>
                   </Card>
                 </div>
               </div>
@@ -404,6 +434,57 @@ export default withFormik({
   }
 })(GrupoUsuariosForm);
 
+// -------------------------------------------------------------------- //
+class SelectConglomerado extends React.Component {
+  state = {
+    dataConglomerado: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataConglomerate: data
+        });
+      });
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          // onChange={e => setFieldValue("conglomerado", e)}
+          value={this.props.value}
+          // onBlur={this.handleBlur}
+          className={this.props.className}
+        >
+          <option value={""}>-- Seleccione --</option>
+          {this.state.dataConglomerate.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
 const options = [
   { value: "Food", label: "Food" },
   { value: "Being Fabulous", label: "Being Fabulous" },
@@ -432,7 +513,7 @@ class MySelect extends React.Component {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           value={this.props.value}
-          placeholder={"Agregue lo usuarios al grupo"}
+          placeholder={"-- seleccione rol --"}
         />
         {/* {!!this.props.error && this.props.touched && (
           <div

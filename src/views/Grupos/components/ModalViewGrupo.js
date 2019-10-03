@@ -194,7 +194,11 @@ class ModalViewPais extends Component {
                               <dt> Usuarios asigandos: </dt>
                               <dd>
                                 {""}
-                                  <Select options={data.map(aux, id)=> {return{label:aux.name, value: aux.id}}}  />
+                                <Select
+                                  options={data.map((aux, id) => {
+                                    return { label: aux.name, value: aux.id };
+                                  })}
+                                />
                               </dd>
                             </dl>
                           </div>

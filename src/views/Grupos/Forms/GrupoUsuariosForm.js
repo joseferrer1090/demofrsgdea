@@ -279,6 +279,7 @@ const GrupoUsuariosForm = props => {
                       <span className="text-danger">*</span>{" "}
                     </label>
                     <MySelect
+                      idDependence={props.values.dependencia}
                       name={"roles"}
                       value={values.roles}
                       onChange={setFieldValue}
@@ -683,16 +684,45 @@ class SelectDependencia extends React.Component {
   }
 }
 
-const options = [
-  { value: "Food", label: "Food" },
-  { value: "Being Fabulous", label: "Being Fabulous" },
-  { value: "Ken Wheeler", label: "Ken Wheeler" },
-  { value: "ReasonML", label: "ReasonML" },
-  { value: "Unicorns", label: "Unicorns" },
-  { value: "Kittens", label: "Kittens" }
-];
-
 class MySelect extends React.Component {
+  state = {
+    dataUsersDependencia: [],
+    id: this.props.idDependence
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.idDependence !== state.id) {
+      return {
+        id: props.idDependence
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.idDependence !== prevProps.idDependence) {
+    }
+  }
+
+  getDataUserDependenceList = () => {
+    fetch(`http://192.168.10.180:7000/api/user/dependence/${this.state.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataUsersDependencia: data
+        });
+      })
+      .catch(err => console.log("Error", err));
+  };
+
+  // Lista de usuarios por la dependencia //
+
   handleChange = value => {
     this.props.onChange("roles", value);
   };
@@ -702,11 +732,12 @@ class MySelect extends React.Component {
   };
 
   render() {
+    console.log(this.state.dataUsersDependencia);
     return (
       <div style={{ margin: "0" }}>
         <Select
+          isDisabled={true}
           name={this.props.name}
-          options={options}
           isMulti
           onChange={this.handleChange}
           onBlur={this.handleBlur}

@@ -12,10 +12,9 @@ import {
   CardHeader,
   CardBody
 } from "reactstrap";
-
 import IMGGROUPOS from "./../../../assets/img/multiple-users-silhouette.svg";
-
 import moment from "moment";
+import Select from "react-select";
 
 class ModalViewPais extends Component {
   constructor(props) {
@@ -85,6 +84,13 @@ class ModalViewPais extends Component {
       }
       return status;
     };
+
+    const dataUsers = this.state.dataGroup.users.map((aux, id) => {
+      return {
+        label: aux.name,
+        value: aux.id
+      };
+    });
 
     return (
       <div>
@@ -191,10 +197,11 @@ class ModalViewPais extends Component {
                               <dt> Usuarios asigandos: </dt>
                               <dd>
                                 {" "}
-                                <textarea
-                                  className="form-control"
-                                  disabled
-                                />{" "}
+                                <Select
+                                  options={dataUsers}
+                                  isMulti
+                                  isDisabled={true}
+                                />
                               </dd>
                             </dl>
                           </div>
@@ -208,7 +215,7 @@ class ModalViewPais extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}

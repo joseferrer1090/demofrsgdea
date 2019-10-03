@@ -15,7 +15,8 @@ class TableContent extends Component {
       modalview: false,
       modaledit: false,
       modaldelete: false,
-      dataGroup: []
+      dataGroup: [],
+      hiddenColumnID: true
     };
   }
 
@@ -109,6 +110,10 @@ class TableContent extends Component {
     return moment(createdAt).format("YYYY-MM-DD");
   }
 
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -129,8 +134,17 @@ class TableContent extends Component {
               dataField="id"
               dataAlign="center"
               width={"100"}
+              hidden={this.state.hiddenColumnID}
             >
               {" "}
+              #{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="id"
+              dataAlign="center"
+              width={"100"}
+              dataFormat={this.indexN}
+            >
               #{" "}
             </TableHeaderColumn>
             <TableHeaderColumn

@@ -181,6 +181,7 @@ const GrupoUsuariosForm = props => {
                               Sede <span className="text-danger">*</span>{" "}
                             </label>
                             <SelectSedes
+                              company={props.values.empresa}
                               name="sede"
                               value={values.sede}
                               onChange={e => {

@@ -22,7 +22,8 @@ class ModalViewPais extends Component {
       modal: this.props.modalview,
       collapse: false,
       id: this.props.id,
-      username: "jferrer"
+      username: "jferrer",
+      dataGroup: {}
     };
   }
 
@@ -47,7 +48,9 @@ class ModalViewPais extends Component {
     )
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          dataGroup: data
+        });
       })
       .catch(err => console.log("Error", err));
   };
@@ -62,7 +65,10 @@ class ModalViewPais extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver grupo de usuarios </ModalHeader>
+          <ModalHeader>
+            {" "}
+            Ver grupo de usuarios {this.state.dataGroup.name}{" "}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -81,7 +87,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Código </dt>
-                        <dd> codigo </dd>
+                        <dd> {this.state.dataGroup.code} </dd>
                       </dl>
                     </div>
                   </div>
@@ -89,7 +95,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Nombre </dt>
-                        <dd> nombre </dd>
+                        <dd> {this.state.dataGroup.name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -97,7 +103,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Descripción </dt>
-                        <dd> descripción </dd>
+                        <dd> {this.state.dataGroup.description} </dd>
                       </dl>
                     </div>
                   </div>
@@ -105,7 +111,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Estado </dt>
-                        <dd> estado </dd>
+                        <dd> {this.state.status} </dd>
                       </dl>
                     </div>
                   </div>

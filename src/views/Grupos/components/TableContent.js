@@ -46,7 +46,7 @@ class TableContent extends Component {
       .then(data => {
         console.log(data);
       })
-      .catch(err, console.log("Error", err));
+      .catch(err => console.log("Error", err));
   };
 
   accionesGrupo = (cel, row) => {

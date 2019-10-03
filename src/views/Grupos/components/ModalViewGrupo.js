@@ -150,7 +150,7 @@ class ModalViewPais extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt> Fecha de creaciónn </dt>
-                              <dd> fecha de creaciónn </dd>
+                              <dd>{this.state.dataGroup.createdAt} </dd>
                             </dl>
                           </div>
                         </div>
@@ -158,7 +158,7 @@ class ModalViewPais extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt> Fecha de modificación </dt>
-                              <dd> fecha de modificación </dd>
+                              <dd>{this.state.dataGroup.updatedAt} </dd>
                             </dl>
                           </div>
                         </div>

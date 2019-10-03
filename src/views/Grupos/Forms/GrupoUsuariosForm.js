@@ -32,6 +32,7 @@ const GrupoUsuariosForm = props => {
   } = props;
   return (
     <Row>
+      <ToastContainer />
       <Col sm="8" md={{ offset: 2 }}>
         <form>
           <Card>

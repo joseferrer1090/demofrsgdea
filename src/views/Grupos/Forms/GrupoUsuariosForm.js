@@ -418,6 +418,15 @@ export default withFormik({
       .required(" Por favor seleccione al menos un rol.")
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
+    const tipoEstado = data => {
+      let tipo = null;
+      if (data === true) {
+        return (tipo = 1);
+      } else if (data === false) {
+        return (tipo = 0);
+      }
+      return null;
+    };
     setTimeout(() => {
       //alert(JSON.stringify(values, null, 2));
       fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
@@ -431,7 +440,7 @@ export default withFormik({
           name: values.nombre,
           descripcion: values.descripcion,
           users: values.roles,
-          status: values.estado,
+          status: tipoEstado(values.estado),
           userName: "jferrer"
         })
       })

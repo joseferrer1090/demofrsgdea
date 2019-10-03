@@ -194,7 +194,7 @@ class ModalViewPais extends Component {
                               <dt> Usuarios asigandos: </dt>
                               <dd>
                                 {""}
-                                {data.length > 0 ? <p>hay datos</p> : null}
+                                {data !== null ? <p>hay datos</p> : null}
                               </dd>
                             </dl>
                           </div>

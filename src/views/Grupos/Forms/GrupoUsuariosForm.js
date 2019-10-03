@@ -707,16 +707,13 @@ class MySelect extends React.Component {
   }
 
   getDataUserDependenceList = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/user/dependence/${this.state.id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    fetch(`http://192.168.10.180:7000/api/user/dependence/${this.state.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({

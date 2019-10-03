@@ -152,23 +152,20 @@ const GrupoUsuariosForm = props => {
                                 *
                               </span>{" "}
                             </label>
-                            <select
+                            <SelectEmpresa
+                              idConglomerado={props.values.conglomerado}
                               name="empresa"
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              className={`form-control form-control-sm
-                                      ${errors.empresa &&
-                                        touched.empresa &&
-                                        "is-invalid"}`}
                               value={values.empresa}
-                            >
-                              <option disabled value={""}>
-                                --Seleccione--
-                              </option>
-                              <option value={"1"}>Empresa 1</option>
-                              <option value={"2"}>Empresa 2</option>
-                              <option value={"3"}>Empresa 3</option>
-                            </select>
+                              onChange={e => {
+                                setFieldValue("empresa", e.target.value);
+                              }}
+                              onBlur={() => {
+                                setFieldTouched("empresa", true);
+                              }}
+                              className={`form-control form-control-sm ${errors.empresa &&
+                                touched.empresa &&
+                                "is-invalid"}`}
+                            />
                             <div style={{ color: "#D54B4B" }}>
                               {errors.empresa && touched.empresa ? (
                                 <i className="fa fa-exclamation-triangle" />
@@ -473,6 +470,76 @@ class SelectConglomerado extends React.Component {
         >
           <option value={""}>-- Seleccione --</option>
           {this.state.dataConglomerado.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+// --------------------------------------------------------------------------- //
+
+class SelectEmpresa extends React.Component {
+  state = {
+    dataEmpresa: [],
+    id: this.props.idConglomerado
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.idConglomerado !== state.id) {
+      return {
+        id: props.idConglomerado
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.idConglomerado !== prevProps.idConglomerado) {
+      this.getDataCompany();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataCompany();
+  }
+
+  getDataCompany = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataEmpresa: data
+        });
+      })
+      .catch(err => console.log("Error", err));
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+        >
+          <option value={""}> -- Seleccione -- </option>
+          {this.state.dataEmpresa.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
                 {aux.name}

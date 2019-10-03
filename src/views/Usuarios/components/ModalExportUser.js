@@ -22,7 +22,7 @@ class ModalExportCSV extends Component {
 
   getDataExportCSV = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/conglomerate/export/data?username=${this.state.username}`,
+      `http://192.168.10.180:7000/api/sgdea/user/export/data?username=${this.state.username}`,
       {
         method: "GET",
         headers: {
@@ -40,6 +40,53 @@ class ModalExportCSV extends Component {
       .catch(err => console.log("", err));
   };
   render() {
+    const data = this.state.dataExport;
+    const fields = [
+      {
+        label: "identification",
+        value: "identification"
+      },
+      {
+        label: "Name",
+        value: "name"
+      },
+      {
+        label: "email",
+        value: "email"
+      },
+      {
+        label: "phone",
+        value: "phone"
+      },
+      {
+        label: "address",
+        value: "address"
+      },
+      {
+        label: "birthDate",
+        value: "birthDate"
+      },
+      {
+        label: "username",
+        value: "username"
+      },
+      {
+        label: "enabled",
+        value: "enabled"
+      },
+      {
+        label: "codeDependence",
+        value: "codeDependence"
+      },
+      {
+        label: "codeCharge",
+        value: "codeCharge"
+      }
+    ];
+
+    const json2csvParser = new Parser({ fields, quote: "" });
+    const csv = json2csvParser.parse(data);
+    // console.log(csv);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -48,27 +95,35 @@ class ModalExportCSV extends Component {
             <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
               <thead className="">
                 <tr className="">
-                  <th>cabeza 1</th>
-                  <th>cabeza 2</th>
-                  <th>cabeza 3</th>
-                  <th>cabeza 4</th>
-                  <th>cabeza 5</th>
-                  <th>cabeza 6</th>
+                  <th>identificacion</th>
+                  <th>nombre</th>
+                  <th>email</th>
+                  <th>telefono</th>
+                  <th>direccion</th>
+                  <th>fecha de nacimiento</th>
+                  <th>usuario</th>
+                  <th>estado</th>
+                  <th>dependencia</th>
+                  <th>cargo</th>
                 </tr>
               </thead>
               <tbody className="text-justify">
-                {/* {data.map((aux, id) => {
+                {data.map((aux, id) => {
                   return [
                     <tr key={id}>
-                      <td>{aux.code}</td>
+                      <td>{aux.identification}</td>
                       <td>{aux.name}</td>
-                      <td>{aux.description}</td>
+                      <td>{aux.email}</td>
+                      <td>{aux.phone}</td>
+                      <td>{aux.address}</td>
+                      <td>{aux.birthDate}</td>
+                      <td>{aux.username}</td>
+                      <td>{aux.enabled}</td>
+                      <td>{aux.codeDependence}</td>
                       <td>{aux.codeCharge}</td>
-                      <td>{aux.codeCity}</td>
-                      <td>{aux.status}</td>
                     </tr>
                   ];
-                })} */}
+                })}
               </tbody>
             </table>
           </ModalBody>
@@ -83,9 +138,9 @@ class ModalExportCSV extends Component {
               <i className="fa fa-times" /> Cerrar
             </button>
 
-            {/* <CSVLink data={csv} className="btn btn-secondary btn-sm">
+            <CSVLink data={csv} className="btn btn-secondary btn-sm">
               <i className="fa fa-download" /> Descargar CSV
-            </CSVLink> */}
+            </CSVLink>
             {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
               {" "}
               <i className="fa fa-download" /> Exportar CSV{" "}

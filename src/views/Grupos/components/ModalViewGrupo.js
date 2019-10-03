@@ -15,6 +15,8 @@ import {
 
 import IMGGROUPOS from "./../../../assets/img/multiple-users-silhouette.svg";
 
+import moment from "moment";
+
 class ModalViewPais extends Component {
   constructor(props) {
     super(props);
@@ -61,6 +63,18 @@ class ModalViewPais extends Component {
     });
   };
 
+  FechaCreacionGrupo = data => {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+  };
+  FechaModificacionGrupo = data => {
+    let updatedAt;
+    updatedAt = new Date(data);
+    // moment.locale(es);
+    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+  };
+
   render() {
     const statusGrupo = data => {
       let status;
@@ -71,6 +85,7 @@ class ModalViewPais extends Component {
       }
       return status;
     };
+
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -150,7 +165,11 @@ class ModalViewPais extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt> Fecha de creaciónn </dt>
-                              <dd>{this.state.dataGroup.createdAt} </dd>
+                              <dd>
+                                {this.FechaCreacionGrupo(
+                                  this.state.dataGroup.createdAt
+                                )}{" "}
+                              </dd>
                             </dl>
                           </div>
                         </div>
@@ -158,7 +177,11 @@ class ModalViewPais extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt> Fecha de modificación </dt>
-                              <dd>{this.state.dataGroup.updatedAt} </dd>
+                              <dd>
+                                {this.FechaModificacionGrupo(
+                                  this.state.dataGroup.updatedAt
+                                )}{" "}
+                              </dd>
                             </dl>
                           </div>
                         </div>

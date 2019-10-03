@@ -470,7 +470,14 @@ export default withFormik({
             });
           }
         })
-        .catch(err => console.log("Error", err));
+        .catch(err => {
+          toast.error(`Error, ${err}`, {
+            position: toast.POSITION.TOP_RIGHT,
+            className: css({
+              marginTop: "60px"
+            })
+          });
+        });
       setSubmitting(false);
       resetForm();
     }, 1000);

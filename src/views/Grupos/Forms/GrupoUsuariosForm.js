@@ -687,7 +687,8 @@ class SelectDependencia extends React.Component {
 class MySelect extends React.Component {
   state = {
     dataUsersDependencia: [],
-    id: this.props.idDependence
+    id: this.props.idDependence,
+    username: "jferrer"
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -706,13 +707,16 @@ class MySelect extends React.Component {
   }
 
   getDataUserDependenceList = () => {
-    fetch(`http://192.168.10.180:7000/api/user/dependence/${this.state.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+    fetch(
+      `http://192.168.10.180:7000/api/user/dependence/${this.state.id}?userName=${this.state.username}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
       }
-    })
+    )
       .then(response => response.json())
       .then(data => {
         this.setState({

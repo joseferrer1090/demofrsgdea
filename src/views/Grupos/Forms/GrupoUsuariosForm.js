@@ -12,8 +12,9 @@ import {
   CustomInput
 } from "reactstrap";
 import Select from "react-select";
-import AsyncSelect from "../../../../node_modules/react-select/lib/AsyncCreatable";
-import { strict } from "assert";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
 const GrupoUsuariosForm = props => {
   const {
@@ -446,11 +447,26 @@ export default withFormik({
       })
         .then(response => {
           if (response.status === 201) {
-            console.log("Se ha creado el grupo");
+            toast.success("Se creo el grupo de usuario con éxito.", {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
+            });
           } else if (response.status === 400) {
-            console.log("se estan enviando mal los datos");
+            toast.error("Error.", {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
+            });
           } else if (response.status === 500) {
-            console.log("Exite un problema revisar el code");
+            toast.error("El grupo de usuario ya existe.", {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
+            });
           }
         })
         .catch(err => console.log("Error", err));

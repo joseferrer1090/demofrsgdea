@@ -210,7 +210,8 @@ const GrupoUsuariosForm = props => {
                                 *
                               </span>{" "}
                             </label>
-                            <SelectDeendencia
+                            <SelectDependencia
+                              headquarter={props.values.sede}
                               name="dependencia"
                               value={values.dependencia}
                               onChange={e => {
@@ -616,7 +617,7 @@ class SelectSedes extends React.Component {
 
 // ------------------------------------------------------------------------------------------ //
 
-class SelectDeendencia extends React.Component {
+class SelectDependencia extends React.Component {
   state = {
     dataDependence: [],
     id: this.props.headquarter

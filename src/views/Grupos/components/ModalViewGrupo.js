@@ -198,7 +198,7 @@ class ModalViewPais extends Component {
                                 {""}
                                 {data !== null ? (
                                   data.map((aux, id) => {
-                                    return <p>aux.name </p>;
+                                    return <p>{aux.name} </p>;
                                   })
                                 ) : (
                                   <p>No en este grupo hay usuarios asignados</p>

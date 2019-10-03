@@ -726,6 +726,10 @@ class MySelect extends React.Component {
       .catch(err => console.log("Error", err));
   };
 
+  componentDidMount() {
+    this.getDataUserDependenceList();
+  }
+
   // Lista de usuarios por la dependencia //
 
   handleChange = value => {

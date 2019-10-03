@@ -6,6 +6,7 @@ import ModalView from "./ModalViewRoles";
 import ModalDelete from "./ModalDeleteRoles";
 import ModalEdit from "./ModalEditRoles";
 import ModalPermission from "./ModalEditPermissionRoles";
+import ModalExport from "./ModalExportCSV";
 import "../../../css/styleTableRoles.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import moment from "moment";
@@ -18,6 +19,7 @@ class TableContentRoles extends Component {
       modaldel: false,
       modaledit: false,
       modalpermission: false,
+      modalexport: false,
       dataRoles: [],
       hiddenColumnID: true
     };
@@ -121,18 +123,39 @@ class TableContentRoles extends Component {
     this.refs.child4.toggle(id);
   }
 
+  openModalExport() {
+    this.refs.child5.toggle();
+  }
+
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
+  createCustomButtonGroup = props => {
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" /> Exportar
+      </button>
+    );
+  };
+
   render() {
-    console.log(this.state.data);
+    const options = {
+      btnGroup: this.createCustomButtonGroup,
+      pagination: true,
+      exportCSV: true
+    };
     return (
       <div className="animated fadeIn">
         <Row>
           <Col md="12">
             <div className="col-md-12">
               <BootstrapTable
+                options={options}
                 data={this.state.dataRoles}
                 search
                 searchPlaceholder="Buscar"
@@ -235,6 +258,7 @@ class TableContentRoles extends Component {
           modaleditpermission={this.state.modalpermission}
           ref="child4"
         />
+        <ModalExport modalexport={this.state.modalexport} ref="child5" />
       </div>
     );
   }

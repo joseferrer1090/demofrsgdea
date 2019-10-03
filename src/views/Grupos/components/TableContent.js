@@ -62,7 +62,7 @@ class TableContent extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -96,8 +96,8 @@ class TableContent extends Component {
     this.refs.child.toggle(id);
   };
 
-  openModalEdit = () => {
-    this.refs.child3.toggle();
+  openModalEdit = id => {
+    this.refs.child3.toggle(id);
   };
 
   openModalDelete = () => {

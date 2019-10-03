@@ -419,7 +419,32 @@ export default withFormik({
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
+      //alert(JSON.stringify(values, null, 2));
+      fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        },
+        body: JSON.stringify({
+          code: values.codigo,
+          name: values.nombre,
+          descripcion: values.descripcion,
+          users: values.roles,
+          status: values.estado,
+          userName: "jferrer"
+        })
+      })
+        .then(response => {
+          if (response.status === 201) {
+            console.log("Se ha creado el grupo");
+          } else if (response.status === 400) {
+            console.log("se estan enviando mal los datos");
+          } else if (response.status === 500) {
+            console.log("Exite un problema revisar el code");
+          }
+        })
+        .catch(err => console.log("Error", err));
       setSubmitting(false);
       resetForm();
     }, 1000);

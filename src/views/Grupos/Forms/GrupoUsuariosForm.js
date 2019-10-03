@@ -708,7 +708,7 @@ class MySelect extends React.Component {
 
   getDataUserDependenceList = () => {
     fetch(
-      `http://192.168.10.180:7000/api/user/dependence/${this.props.idDependence}`,
+      `http://192.168.10.180:7000/api/sgdea/user/dependence/${this.props.idDependence}`,
       {
         method: "GET",
         headers: {

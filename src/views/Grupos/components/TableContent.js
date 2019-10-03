@@ -133,7 +133,7 @@ class TableContent extends Component {
               isKey
               dataField="id"
               dataAlign="center"
-              width={"100"}
+              width={"10"}
               hidden={this.state.hiddenColumnID}
             >
               {" "}
@@ -142,7 +142,7 @@ class TableContent extends Component {
             <TableHeaderColumn
               dataField="id"
               dataAlign="center"
-              width={"100"}
+              width={"50"}
               dataFormat={this.indexN}
             >
               #{" "}

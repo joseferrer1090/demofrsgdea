@@ -6,6 +6,7 @@ import ModalDelete from "./ModalDeleteGrupo";
 import ModalEdit from "./ModalEditGrupo";
 import "./../../../css/styleTableGrupoUsuarios.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import moment from "moment";
 
 class TableContent extends Component {
   constructor(props) {
@@ -101,6 +102,13 @@ class TableContent extends Component {
   openModalDelete = () => {
     this.refs.child2.toggle();
   };
+
+  FechaCreacionRoles(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("YYYY-MM-DD");
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -149,6 +157,16 @@ class TableContent extends Component {
             >
               {" "}
               Estado{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              width={"80"}
+              dataSort={true}
+              dataField="createdAt"
+              dataAlign="center"
+              dataFormat={(cell, row) => this.FechaCreacionRoles(cell, row)}
+            >
+              {" "}
+              Fecha de creacion{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
               export={false}

@@ -147,11 +147,7 @@ class TableContent extends Component {
             >
               #{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="code"
-              dataAlign="center"
-              width={"200"}
-            >
+            <TableHeaderColumn dataField="code" dataAlign="center" width={"80"}>
               {" "}
               Codigo{" "}
             </TableHeaderColumn>

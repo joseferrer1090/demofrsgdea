@@ -24,7 +24,8 @@ class ModalViewPais extends Component {
       collapse: false,
       id: this.props.id,
       username: "jferrer",
-      dataGroup: {}
+      dataGroup: {},
+      dataUsers: []
     };
   }
 
@@ -50,7 +51,8 @@ class ModalViewPais extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataGroup: data
+          dataGroup: data,
+          dataUsers: data.users
         });
       })
       .catch(err => console.log("Error", err));
@@ -85,7 +87,7 @@ class ModalViewPais extends Component {
       return status;
     };
 
-    const data = this.state.dataGroup.users;
+    const data = this.state.dataUsers;
 
     console.log(data);
 
@@ -194,7 +196,13 @@ class ModalViewPais extends Component {
                               <dt> Usuarios asigandos: </dt>
                               <dd>
                                 {""}
-                                {data !== null ? <p>{data.name}</p> : null}
+                                {data !== null ? (
+                                  data.map((aux, id) => {
+                                    return <p>aux.name </p>;
+                                  })
+                                ) : (
+                                  <p>No en este grupo hay usuarios asignados</p>
+                                )}
                               </dd>
                             </dl>
                           </div>

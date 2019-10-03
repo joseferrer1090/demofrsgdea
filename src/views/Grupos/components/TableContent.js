@@ -51,7 +51,7 @@ class TableContent extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -92,8 +92,8 @@ class TableContent extends Component {
     return status;
   }
 
-  openModalView = () => {
-    this.refs.child.toggle();
+  openModalView = id => {
+    this.refs.child.toggle(id);
   };
 
   openModalEdit = () => {

@@ -18,13 +18,38 @@ import IMGGROUPOS from "./../../../assets/img/multiple-users-silhouette.svg";
 class ModalViewPais extends Component {
   constructor(props) {
     super(props);
-    this.state = { modal: this.props.modalview, collapse: false };
+    this.state = {
+      modal: this.props.modalview,
+      collapse: false,
+      id: this.props.id,
+      username: "jferrer"
+    };
   }
 
-  toggle = () => {
+  toggle = id => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id: id
     });
+    this.getDataGroupById(id);
+  };
+
+  getDataGroupById = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/groupuser/${this.state.id}?username=${this.state.username}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => console.log("Error", err));
   };
 
   toggleCollapse = () => {

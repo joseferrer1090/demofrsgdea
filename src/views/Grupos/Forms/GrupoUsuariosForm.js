@@ -744,13 +744,15 @@ class MySelect extends React.Component {
     return (
       <div style={{ margin: "0" }}>
         <Select
-          isDisabled={true}
           name={this.props.name}
+          options={this.state.dataUsersDependencia.map((aux, id) => {
+            return { label: aux.name, value: aux.id };
+          })}
           isMulti
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           value={this.props.value}
-          placeholder={"-- seleccione rol --"}
+          placeholder={"Asignar permisos"}
         />
         {/* {!!this.props.error && this.props.touched && (
           <div

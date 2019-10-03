@@ -439,7 +439,7 @@ export default withFormik({
         body: JSON.stringify({
           code: values.codigo,
           name: values.nombre,
-          descripcion: values.descripcion,
+          description: values.descripcion,
           users: values.roles,
           status: tipoEstado(values.estado),
           userName: "jferrer"

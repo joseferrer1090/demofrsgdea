@@ -87,9 +87,7 @@ class ModalViewPais extends Component {
       return status;
     };
 
-    const data = this.state.dataUsers.map((aux, id) => {
-      return { label: aux.name, value: aux.id };
-    });
+    const data = this.state.dataUsers;
 
     return (
       <div>
@@ -198,11 +196,9 @@ class ModalViewPais extends Component {
                                 {""}
 
                                 {data !== null ? (
-                                  <Select
-                                    options={data}
-                                    isMulti
-                                    isDisabled={true}
-                                  />
+                                  data.map((aux, id) => {
+                                    return <p>{aux.name} </p>;
+                                  })
                                 ) : (
                                   <p className="text-danger">
                                     No en este grupo hay usuarios asignados

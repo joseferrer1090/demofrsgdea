@@ -701,6 +701,7 @@ class MySelect extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.idDependence !== prevProps.idDependence) {
+      this.getDataUserDependenceList();
     }
   }
 

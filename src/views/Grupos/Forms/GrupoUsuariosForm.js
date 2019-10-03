@@ -688,7 +688,7 @@ class MySelect extends React.Component {
   state = {
     dataUsersDependencia: [],
     id: this.props.idDependence,
-    username: "ccuartas"
+    username: "jferrer"
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -719,7 +719,10 @@ class MySelect extends React.Component {
     )
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          dataUsersDependencia: data
+        });
+        //console.log(data);
       })
       .catch(err => console.log("Error", err));
   };

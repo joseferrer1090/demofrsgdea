@@ -85,6 +85,10 @@ class ModalViewPais extends Component {
       return status;
     };
 
+    const data = this.state.dataGroup.users;
+
+    console.log(data);
+
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -189,8 +193,8 @@ class ModalViewPais extends Component {
                             <dl className="param">
                               <dt> Usuarios asigandos: </dt>
                               <dd>
-                                {" "}
-                                <p>Probando apenas</p>
+                                {""}
+                                  <Select options={data.map(aux, id)=> {return{label:aux.name, value: aux.id}}}  />
                               </dd>
                             </dl>
                           </div>

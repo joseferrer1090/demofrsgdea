@@ -197,15 +197,7 @@ class ModalViewPais extends Component {
                               <dt> Usuarios asigandos: </dt>
                               <dd>
                                 {" "}
-                                <Select
-                                  options={this.state.dataGroup.users.map(
-                                    aux => {
-                                      return { label: aux.name, value: aux.id };
-                                    }
-                                  )}
-                                  isMulti
-                                  isDisabled={true}
-                                />
+                                <p>Probando apenas</p>
                               </dd>
                             </dl>
                           </div>

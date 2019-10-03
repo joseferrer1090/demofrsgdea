@@ -6,18 +6,6 @@ import ModalDelete from "./ModalDeleteGrupo";
 import ModalEdit from "./ModalEditGrupo";
 import "./../../../css/styleTableGrupoUsuarios.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-const dataExample = [
-  { id: 1, codigo: "gp1", nombre: "grupo_nombre", estado: true },
-  { id: 2, codigo: "gp2", nombre: "grupo_nombre", estado: true },
-  { id: 3, codigo: "gp3", nombre: "grupo_nombre", estado: true },
-  { id: 4, codigo: "gp4", nombre: "grupo_nombre", estado: true },
-  { id: 5, codigo: "gp5", nombre: "grupo_nombre", estado: true },
-  { id: 6, codigo: "gp6", nombre: "grupo_nombre", estado: true },
-  { id: 7, codigo: "gp7", nombre: "grupo_nombre", estado: true },
-  { id: 8, codigo: "gp8", nombre: "grupo_nombre", estado: true },
-  { id: 9, codigo: "gp9", nombre: "grupo_nombre", estado: true },
-  { id: 10, codigo: "gp10", nombre: "grupo_nombre", estado: true }
-];
 
 class TableContent extends Component {
   constructor(props) {
@@ -44,7 +32,9 @@ class TableContent extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          dataGroup: data
+        });
       })
       .catch(err => console.log("Error", err));
   };
@@ -116,7 +106,7 @@ class TableContent extends Component {
       <div className="animated fadeIn">
         <Col md="12">
           <BootstrapTable
-            data={dataExample}
+            data={this.state.dataGroup}
             bordered={false}
             hover
             striped
@@ -136,7 +126,7 @@ class TableContent extends Component {
               #{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField="codigo"
+              dataField="code"
               dataAlign="center"
               width={"200"}
             >
@@ -144,7 +134,7 @@ class TableContent extends Component {
               Codigo{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField="nombre"
+              dataField="name"
               dataAlign="center"
               width={"250"}
             >

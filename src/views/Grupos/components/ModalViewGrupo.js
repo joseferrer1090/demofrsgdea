@@ -85,13 +85,6 @@ class ModalViewPais extends Component {
       return status;
     };
 
-    const dataUsers = this.state.dataGroup.users.map((aux, id) => {
-      return {
-        label: aux.name,
-        value: aux.id
-      };
-    });
-
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>

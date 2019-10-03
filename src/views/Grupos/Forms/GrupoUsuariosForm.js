@@ -210,23 +210,19 @@ const GrupoUsuariosForm = props => {
                                 *
                               </span>{" "}
                             </label>
-                            <select
+                            <SelectDeendencia
                               name="dependencia"
-                              onBlur={handleBlur}
-                              onChange={handleChange}
-                              className={`form-control form-control-sm
-                                      ${errors.dependencia &&
-                                        touched.dependencia &&
-                                        "is-invalid"}`}
                               value={values.dependencia}
-                            >
-                              <option disabled value={""}>
-                                --Seleccione--
-                              </option>
-                              <option value={"1"}>Dependencia 1</option>
-                              <option value={"2"}>Dependencia 2</option>
-                              <option value={"3"}>Dependencia 3</option>
-                            </select>
+                              onChange={e => {
+                                setFieldValue("dependencia", e.target.value);
+                              }}
+                              onBlur={() => {
+                                setFieldTouched("dependencia", true);
+                              }}
+                              className={`form-control form-control-sm ${errors.dependencia &&
+                                touched.dependencia &&
+                                "is-invalid"}`}
+                            />
                             <div style={{ color: "#D54B4B" }}>
                               {errors.dependencia && touched.dependencia ? (
                                 <i className="fa fa-exclamation-triangle" />
@@ -606,6 +602,74 @@ class SelectSedes extends React.Component {
         >
           <option value={""}>-- Seleccione -- </option>
           {this.state.dataHeadquarter.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+// ------------------------------------------------------------------------------------------ //
+
+class SelectDeendencia extends React.Component {
+  state = {
+    dataDependence: [],
+    id: this.props.headquarter
+  };
+  static getDerivedStateFromProps(props, state) {
+    if (props.headquarter !== state.id) {
+      return {
+        headquarter: props.headquarter
+      };
+    }
+    return null;
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.headquarter !== prevProps.headquarter) {
+      // metodo del fetch()
+      this.getDataDependence();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataDependence();
+  }
+
+  getDataDependence = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.headquarter}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDependence: data
+        });
+      })
+      .catch(err => console.log("Error", err));
+  };
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          className={this.props.className}
+        >
+          <option value={""}>-- Seleccione --</option>
+          {this.state.dataDependence.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
                 {aux.name}

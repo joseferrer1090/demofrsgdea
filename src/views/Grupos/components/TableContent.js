@@ -160,7 +160,7 @@ class TableContent extends Component {
               Nombre{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"200"}
+              width={"80"}
               dataField="estado"
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoGrupo(cell, row)}

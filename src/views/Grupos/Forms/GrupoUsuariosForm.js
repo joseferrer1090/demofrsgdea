@@ -719,9 +719,7 @@ class MySelect extends React.Component {
     )
       .then(response => response.json())
       .then(data => {
-        this.setState({
-          dataUsersDependencia: data
-        });
+        console.log(data);
       })
       .catch(err => console.log("Error", err));
   };

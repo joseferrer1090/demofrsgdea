@@ -158,7 +158,7 @@ class TableContent extends Component {
             <TableHeaderColumn
               dataField="name"
               dataAlign="center"
-              width={"250"}
+              width={"100"}
             >
               {" "}
               Nombre{" "}
@@ -186,6 +186,7 @@ class TableContent extends Component {
               export={false}
               dataFormat={(cell, row) => this.accionesGrupo(cell, row)}
               dataAlign="center"
+              width={"200"}
             >
               {" "}
               Acciones{" "}

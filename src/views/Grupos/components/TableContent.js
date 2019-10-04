@@ -6,18 +6,7 @@ import ModalDelete from "./ModalDeleteGrupo";
 import ModalEdit from "./ModalEditGrupo";
 import "./../../../css/styleTableGrupoUsuarios.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-const dataExample = [
-  { id: 1, codigo: "gp1", nombre: "grupo_nombre", estado: true },
-  { id: 2, codigo: "gp2", nombre: "grupo_nombre", estado: true },
-  { id: 3, codigo: "gp3", nombre: "grupo_nombre", estado: true },
-  { id: 4, codigo: "gp4", nombre: "grupo_nombre", estado: true },
-  { id: 5, codigo: "gp5", nombre: "grupo_nombre", estado: true },
-  { id: 6, codigo: "gp6", nombre: "grupo_nombre", estado: true },
-  { id: 7, codigo: "gp7", nombre: "grupo_nombre", estado: true },
-  { id: 8, codigo: "gp8", nombre: "grupo_nombre", estado: true },
-  { id: 9, codigo: "gp9", nombre: "grupo_nombre", estado: true },
-  { id: 10, codigo: "gp10", nombre: "grupo_nombre", estado: true }
-];
+import moment from "moment";
 
 class TableContent extends Component {
   constructor(props) {
@@ -25,9 +14,32 @@ class TableContent extends Component {
     this.state = {
       modalview: false,
       modaledit: false,
-      modaldelete: false
+      modaldelete: false,
+      dataGroup: [],
+      hiddenColumnID: true
     };
   }
+
+  componentDidMount() {
+    this.getDataGroup();
+  }
+
+  getDataGroup = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataGroup: data
+        });
+      })
+      .catch(err => console.log("Error", err));
+  };
 
   accionesGrupo = (cel, row) => {
     return (
@@ -39,7 +51,7 @@ class TableContent extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -50,7 +62,7 @@ class TableContent extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -80,23 +92,34 @@ class TableContent extends Component {
     return status;
   }
 
-  openModalView = () => {
-    this.refs.child.toggle();
+  openModalView = id => {
+    this.refs.child.toggle(id);
   };
 
-  openModalEdit = () => {
-    this.refs.child3.toggle();
+  openModalEdit = id => {
+    this.refs.child3.toggle(id);
   };
 
   openModalDelete = () => {
     this.refs.child2.toggle();
   };
+
+  FechaCreacionRoles(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("YYYY-MM-DD");
+  }
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
         <Col md="12">
           <BootstrapTable
-            data={dataExample}
+            data={this.state.dataGroup}
             bordered={false}
             hover
             striped
@@ -110,29 +133,34 @@ class TableContent extends Component {
               isKey
               dataField="id"
               dataAlign="center"
-              width={"100"}
+              width={"10"}
+              hidden={this.state.hiddenColumnID}
             >
               {" "}
               #{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField="codigo"
+              dataField="id"
               dataAlign="center"
-              width={"200"}
+              width={"50"}
+              dataFormat={this.indexN}
             >
+              #{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField="code" dataAlign="center" width={"80"}>
               {" "}
               Codigo{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField="nombre"
+              dataField="name"
               dataAlign="center"
-              width={"250"}
+              width={"100"}
             >
               {" "}
               Nombre{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"200"}
+              width={"80"}
               dataField="estado"
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoGrupo(cell, row)}
@@ -141,9 +169,20 @@ class TableContent extends Component {
               Estado{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+              width={"80"}
+              dataSort={true}
+              dataField="createdAt"
+              dataAlign="center"
+              dataFormat={(cell, row) => this.FechaCreacionRoles(cell, row)}
+            >
+              {" "}
+              Fecha de creacion{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn
               export={false}
               dataFormat={(cell, row) => this.accionesGrupo(cell, row)}
               dataAlign="center"
+              width={"200"}
             >
               {" "}
               Acciones{" "}

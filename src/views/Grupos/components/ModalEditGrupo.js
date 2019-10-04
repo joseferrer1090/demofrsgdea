@@ -42,13 +42,15 @@ class ModalEditPais extends React.Component {
       dependencia_selected:[],
       roles: "",
       estado: "",
-      descripcion:""
+      descripcion: "", 
+      id: this.props.id
     };
 
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal, 
+      id:id
     });
   };
 

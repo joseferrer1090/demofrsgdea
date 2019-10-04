@@ -14,121 +14,50 @@ import {
   CardTitle,
   CustomInput
 } from "reactstrap";
-import {
-  GRUPO_USUARIOS_EDIT,
-  CONGLOMERADO_SELECTED,
-  EMPRESA_SELECTED,
-  SEDE_SELECTED,
-  DEPENDENCIA_SELECTED
-} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
-class ModalEditPais extends React.Component {
+class ModalEditGrupos extends React.Component {
     state = {
       // items: dataGrupoUsuarios,
       modal: this.props.modalgitedit,
       dataOk: false,
-      selectedOptionUserAsigandos: null,
-      codigo: "",
-      nombre: "",
-      conglomerado: "",
-      conglomerado_selected:[],
-      empresa: "",
-      empresa_selected:[],
-      sede: "",
-      sede_selected:[],
-      dependencia: "",
-      dependencia_selected:[],
-      roles: "",
-      estado: "",
-      descripcion: "", 
-      id: this.props.id
+      id: this.props.id, 
+      datagroup:{}, 
+      datagroupUsers: [], 
+      username: "jferrer"
     };
-
 
   toggle = (id) => {
     this.setState({
       modal: !this.state.modal, 
       id:id
     });
+    this.getDataGroup(id);
   };
 
-  handleSubmit = (values, { props = this.props, setSubmitting }) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    return;
-  };
+  // handleSubmit = (values, { props = this.props, setSubmitting }) => {
+  //   alert(JSON.stringify(values, null, 2));
+  //   setSubmitting(false);
+  //   return;
+  // };
 
-  componentDidMount() {
-    this.getGrupoInformation();
-    this.getConglomeradoData();
-    this.getEmpresaData();
-    this.getSedeData();
-    this.getDependenciaData();
+  getDataGroup = (id) => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/groupuser/${id}?username=${this.state.username}`, {
+      method: "GET", 
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: "Basic " + window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        datagroup: data, 
+        datagroupUsers: data.users
+
+      })
+      console.log(data);
+    }).catch(err => console.log("Error", err));
   }
-
-  getGrupoInformation() {
-    fetch(GRUPO_USUARIOS_EDIT)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          codigo: data.codigo,
-          nombre: data.nombre,
-          descripcion: data.descripcion,
-          conglomerado: data.conglomerado,
-          empresa: data.empresa,
-          sede: data.sede,
-          dependencia: data.dependencia,
-          roles: data.roles,
-          estado: data.estado
-        });
-        console.log(this.state);
-      })
-      .catch(error => console.log("Error", error));
-  }
-  getConglomeradoData = () => {
-    fetch(CONGLOMERADO_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          conglomerado_selected: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-  getEmpresaData = () => {
-    fetch(EMPRESA_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          empresa_selected: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-  getSedeData = () => {
-    fetch(SEDE_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          sede_selected: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-  getDependenciaData = () => {
-    fetch(DEPENDENCIA_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dependencia_selected: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-
 
   // handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
   //   this.setState({ selectedOptionUserAsigandos });
@@ -153,50 +82,28 @@ class ModalEditPais extends React.Component {
     // </option>
     //     ));
     // console.log(filtraritems);
-    const dataPreview = {
-      codigo: this.state.codigo,
-      nombre: this.state.nombre,
-      descripcion: this.state.descripcion,
-      conglomerado: this.state.conglomerado,
-      empresa: this.state.empresa,
-      sede: this.state.sede,
-      dependencia: this.state.dependencia,
-      roles: this.state.roles,
-      estado: this.state.estado
+    const tipoEstado = data => {
+      let tipo;
+      if (data === true || data === 1) {
+        return (tipo = 1);
+      } else if (data === false || data === 0) {
+        return (tipo = 0);
+      }
+      return 0;
     };
-    const auxSelectedConglomerado = this.state.conglomerado_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
-    const auxSelectedEmpresa = this.state.empresa_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
-    const auxSelectedSede = this.state.sede_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
-    const auxSelectedDependencia = this.state.dependencia_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
+    const dataPreview = {
+      codigo: this.state.datagroup.code, 
+      nombre: this.state.datagroup.name, 
+      descripcion: this.state.datagroup.description, 
+      usuarios: this.state.datagroupUsers.map((aux, id) => {return { label: aux.name, value: aux.id}}),
+      estado: this.state.datagroup.status
+    }
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
       <ModalHeader> Actualizar grupo de usuarios </ModalHeader>
       <Formik
+      enableReinitialize={true}
       initialValues={dataPreview}
             onSubmit={(values, {setSubmitting}) =>{
               setTimeout(()=>{
@@ -226,7 +133,7 @@ class ModalEditPais extends React.Component {
               dependencia: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione una dependencia."),
-              roles: Yup.array()
+              usuarios: Yup.array()
                 .of(
                   Yup.object().shape({
                     label: Yup.string().required(),
@@ -352,7 +259,28 @@ class ModalEditPais extends React.Component {
                             Conglomerado{" "}
                             <span className="text-danger">*</span>{" "}
                           </label>
-                          <select
+                          <SelectConglomerado
+                            name={'conglomerado'}
+                            onChange={e =>
+                              setFieldValue(
+                                'conglomerado',
+                                e.target.value
+                              )
+                            }
+                            onBlur={() =>
+                              setFieldTouched(
+                                'conglomerado',
+                                true
+                              )
+                            }
+                            value={
+                              values.conglomerado
+                            }
+                            className={`form-control form-control-sm ${errors.conglomerado &&
+                              touched.conglomerado &&
+                              'is-invalid'}`}
+                          />
+                          {/* <select
                           name="conglomerado"
                           onBlur={handleBlur}
                           onChange={handleChange}
@@ -361,8 +289,8 @@ class ModalEditPais extends React.Component {
                             "is-invalid"}`}
                           value={values.conglomerado}
                         >
-                        {auxSelectedConglomerado}
-                      </select>
+                        {/* {auxSelectedConglomerado} */}
+                  
                       <div style={{ color: '#D54B4B' }}>
                       {
                         errors.conglomerado && touched.conglomerado ?
@@ -380,7 +308,30 @@ class ModalEditPais extends React.Component {
                             Empresa{" "}
                             <span className="text-danger">*</span>{" "}
                           </label>
-                          <select
+                           <SelectCompany
+                            usuario_conglomerate={
+                              props.values
+                                .conglomerado
+                            }
+                            name="empresa"
+                            value={values.empresa}
+                            onChange={e =>
+                              setFieldValue(
+                                'empresa',
+                                e.target.value
+                              )
+                            }
+                            onBlur={() =>
+                              setFieldTouched(
+                                'empresa',
+                                true
+                              )
+                            }
+                            className={`form-control form-control-sm ${errors.empresa &&
+                              touched.empresa &&
+                            'is-invalid'}`}
+                              ></SelectCompany>
+                          {/* <select
                             name="empresa"
                             onBlur={handleBlur}
                             onChange={handleChange}
@@ -390,8 +341,9 @@ class ModalEditPais extends React.Component {
                               "is-invalid"}`}
                             value={values.empresa}
                           >
-                          {auxSelectedEmpresa}
-                        </select>
+                            <option>Seleccion</option>
+                           {auxSelectedEmpresa}
+                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.empresa && touched.empresa ?
@@ -410,7 +362,29 @@ class ModalEditPais extends React.Component {
                               *
                             </span>{" "}
                           </label>
-                          <select
+                          <SelectHeadquarter
+                            usuario_company={
+                              props.values.empresa
+                            }
+                            name={'sede'}
+                            onChange={e =>
+                              setFieldValue(
+                                'sede',
+                                e.target.value
+                              )
+                            }
+                            onBlur={() =>
+                              setFieldTouched(
+                                'sede',
+                                true
+                              )
+                            }
+                            value={values.sede}
+                            className={`form-control form-control-sm ${errors.sede &&
+                              touched.sede &&
+                              'is-invalid'}`}
+                          ></SelectHeadquarter>
+                          {/* <select
                             name="sede"
                             onBlur={handleBlur}
                             onChange={handleChange}
@@ -420,8 +394,9 @@ class ModalEditPais extends React.Component {
                               "is-invalid"}`}
                             value={values.sede}
                           >
+                            <option>Seleccione</option>
                           {auxSelectedSede}
-                        </select>
+                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.sede && touched.sede ?
@@ -439,7 +414,29 @@ class ModalEditPais extends React.Component {
                             Dependencia{" "}
                             <span className="text-danger">*</span>{" "}
                           </label>
-                          <select
+                          <SelectDependence
+                            usuario_headquarter={
+                              props.values.sede
+                            }
+                            name={'dependencia'}
+                            value={values.dependencia}
+                            onChange={e =>
+                              setFieldValue(
+                                'dependencia',
+                                e.target.value
+                              )
+                            }
+                            onBlur={() =>
+                              setFieldTouched(
+                                'dependencia',
+                                true
+                              )
+                            }
+                            className={`form-control form-control-sm ${errors.dependencia &&
+                              touched.dependencia &&
+                              'is-invalid'}`}
+                          ></SelectDependence>
+                          {/* <select
                             name="dependencia"
                             onBlur={handleBlur}
                             onChange={handleChange}
@@ -449,8 +446,9 @@ class ModalEditPais extends React.Component {
                                 "is-invalid"}`}
                             value={values.dependencia}
                             >
+                              <option>Seleccione</option>
                             {auxSelectedDependencia}
-                          </select>
+                          </select> */}
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.dependencia && touched.dependencia ?
@@ -462,20 +460,15 @@ class ModalEditPais extends React.Component {
                         </div>
                       </div>
                     </div>
-
-
-                        <div className="form-group">
+                        {/* <div className="form-group">
                           <label>Usuarios disponibles</label>
                           <select className="form-control form-control-sm"  multiple>
                             <option>Usuarios disponibles de la consulta </option>
                           </select>
-
-                        </div>
-
-
+                        </div> */}
                   </form>
                 </CardBody>
-                <CardFooter>
+                {/* <CardFooter>
                   <div className="float-right">
                     <button
                       type="button"
@@ -488,7 +481,7 @@ class ModalEditPais extends React.Component {
                       <i className="fa fa-search" /> Buscar
                     </button>{" "}
                   </div>
-                </CardFooter>
+                </CardFooter> */}
               </Card>
                 </div>
               </div>
@@ -500,24 +493,31 @@ class ModalEditPais extends React.Component {
                       Seleccione usuario(s) asignados{" "}
                       <span className="text-danger">*</span>{" "}
                     </label>
-                    <MySelect
+                    <UsuariosAsignados 
+                      dependencia={props.values.dependencia}
+                      name="usuarios"
+                      onChange={setFieldValue}
+                      onBlur={setFieldTouched}
+                      value={values.usuarios}
+                    />
+                    {/* <MySelect
                           name={"roles"}
                           value={values.roles}
                           onChange={setFieldValue}
                           onBlur={setFieldTouched}
                           error={errors.roles}
                           touched={touched.roles}
-                        />
+                        /> */}
                         {touched ? (
                           <div style={{ color: "red" }}>
                             {" "}
                             <div style={{ color: '#D54B4B' }}>
                             {
-                              errors.roles && touched.roles ?
+                              errors.usuarios && touched.usuarios ?
                               <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
-                            <ErrorMessage name={"roles"} />
+                            <ErrorMessage name={"usuarios"} />
                             </div>
                           </div>
                         ) : null}
@@ -567,11 +567,11 @@ class ModalEditPais extends React.Component {
         </ModalBody>
         <ModalFooter>
           <button
-            type="button"
+            type="submit"
             className="btn btn-outline-success btn-sm"
             onClick={e=>{
               e.preventDefault();
-              handleSubmit();
+             console.log(values);
             }}
             >
             {" "}
@@ -588,7 +588,10 @@ class ModalEditPais extends React.Component {
             <i className="fa fa-times" /> Cerrar{" "}
           </button>
         </ModalFooter>
-      </Fragment>);}}
+      </Fragment>
+      );
+      }
+      }
       </Formik>
     </Modal>
       </Fragment>
@@ -596,50 +599,370 @@ class ModalEditPais extends React.Component {
   }
 }
 
-ModalEditPais.propTypes = {
+ModalEditGrupos.propTypes = {
   modaledit: PropTypes.bool.isRequired
 };
 
-export default ModalEditPais;
+export default ModalEditGrupos;
 
-const options = [
-  { value: "Food", label: "Food" },
-  { value: "Being Fabulous", label: "Being Fabulous" },
-  { value: "Ken Wheeler", label: "Ken Wheeler" },
-  { value: "ReasonML", label: "ReasonML" },
-  { value: "Unicorns", label: "Unicorns" },
-  { value: "Kittens", label: "Kittens" }
-];
 
-class MySelect extends React.Component {
+//--------------------------------------------------------------------------------------------//
+
+class SelectConglomerado extends React.Component {
+  state = {
+    dataConglomerate: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataConglomerate: data
+        });
+      });
+  };
+
   handleChange = value => {
-    this.props.onChange("roles", value);
+    this.props.onChange('usuario_conglomerate', value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("roles", true);
+    this.props.onBlur('usuario_conglomerate', true);
+  };
+
+  render() {
+    // const selectOptionsConglomerate = this.state.dataConglomerate.map(
+    //   (aux, id) => {
+    //     return <option value={aux.id}>{aux.name}</option>;
+    //   }
+    // );
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          <option value={''}>-- Seleccione --</option>
+          {this.state.dataConglomerate.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+// --------------------------------------------------------------------------------------------- //
+class SelectCompany extends React.Component {
+  state = {
+    dataCompany: [],
+    id: this.props.usuario_conglomerate
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.usuario_conglomerate !== state.id) {
+      return {
+        id: props.usuario_conglomerate
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.usuario_conglomerate !== prevProps.usuario_conglomerate) {
+      this.getDataCompany();
+    }
+  }
+
+  //edf39040-6f53-4f4e-b348-ef279819051a => no borrar
+
+  componentDidMount() {
+    this.getDataCompany();
+  }
+
+  getDataCompany = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCompany: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+        >
+          <option value={''}>-- Seleccione --</option>
+          {this.state.dataCompany.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+        {/* <select
+          name={this.props.name}
+          value={this.props.value}
+          className="form-control form-control-sm"
+          onChange={this.props.onChange}
+        >
+          {this.dataCompany.map((aux, id) => {
+            return <option value={aux.id}>{aux.name}</option>;
+          })}
+        </select> */}
+      </div>
+    );
+  }
+}
+ // ---------------------------------------------------------------------------------------------------- //
+
+ class SelectHeadquarter extends React.Component {
+  state = {
+    dataHeadquarter: [],
+    id: this.props.usuario_company
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.usuario_company !== state.id) {
+      return {
+        id: props.usuario_company
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.usuario_company !== prevProps.usuario_company) {
+      // metodo del fetch()
+      this.getDataHeadquarter();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataHeadquarter();
+  }
+
+  getDataHeadquarter = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.usuario_company}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataHeadquarter: data
+        });
+      })
+      .catch(err => console.log('Error', err));
   };
 
   render() {
     return (
-      <div style={{ margin: "0" }}>
-        <Select
+      <div>
+        <select
           name={this.props.name}
-          options={options}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+        >
+          <option value={''}>-- Seleccione --</option>
+          {this.state.dataHeadquarter.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------------------- //
+
+class SelectDependence extends React.Component {
+  state = {
+    dataDependence: [],
+    id: this.props.usuario_headquarter
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.usuario_headquarter !== state.id) {
+      return {
+        id: props.usuario_headquarter
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.usuario_headquarter !== prevProps.usuario_headquarter) {
+      // metodo del fetch()
+      this.getDataDependence();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataDependence();
+  }
+
+  getDataDependence = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.usuario_headquarter}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDependence: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          className={this.props.className}
+          onBlur={this.props.onBlur}
+        >
+          <option value={''}>-- Seleccione --</option>
+          {this.state.dataDependence.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+// -------------------------------------------------------------------------------------- //
+
+class UsuariosAsignados extends React.Component {
+  state = {
+    dataUsers: [], 
+    id: this.props.dependencia
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.dependencia !== state.id) {
+      return {
+        id: props.dependencia
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.dependencia !== prevProps.dependencia) {
+      this.getDataUserDependenceList();
+    }
+  }
+
+ getDataUserDependenceList = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/user/dependence/${this.props.dependencia}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataUsers: data
+        });
+        //console.log(data);
+      })
+      .catch(err => console.log("Error", err));
+  };
+
+  componentDidMount() {
+    this.getDataUserDependenceList();
+  }
+
+   handleChange = value => {
+    this.props.onChange("usuarios", value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur("usuarios", true);
+  };
+
+  render() {
+    return (
+      <div>
+         <Select
+          name={this.props.name}
+          options={this.state.dataUsers.map((aux, id) => {
+            return { label: aux.name, value: aux.id };
+          })}
           isMulti
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           value={this.props.value}
-          placeholder={"-- seleccione rol --"}
+          placeholder={"Asignar usuarios"}
         />
-        {/* {!!this.props.error && this.props.touched && (
-          <div
-            style={{ color: "red", marginTop: ".5rem" }}
-            className="invalid-feedback"
-          >
-            {this.props.error}
-          </div>
-        )} */}
       </div>
     );
   }

@@ -84,9 +84,9 @@ class TableContent extends Component {
 
   EstadoGrupo(cell, row) {
     let status;
-    if (row.estado === true) {
+    if (row.status === 1) {
       status = <p className="text-success"> Activo </p>;
-    } else if (row.estado !== true) {
+    } else if (row.status === 0 ) {
       status = <p className="text-danger"> Inactivo </p>;
     }
     return status;

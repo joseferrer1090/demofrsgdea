@@ -1,6 +1,6 @@
-import React, { Component, Fragment, useState } from "react";
-import PropTypes from "prop-types";
-import Select from "react-select";
+import React, { Component, Fragment, useState } from 'react';
+import PropTypes from 'prop-types';
+import Select from 'react-select';
 import {
   Modal,
   ModalHeader,
@@ -15,9 +15,9 @@ import {
   CardTitle,
   CardText,
   UncontrolledAlert
-} from "reactstrap";
-import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
-import * as Yup from "yup";
+} from 'reactstrap';
+import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import * as Yup from 'yup';
 
 class ModalEditPermissionRoles extends Component {
   constructor(props) {
@@ -29,7 +29,8 @@ class ModalEditPermissionRoles extends Component {
       dataRolById: {},
       modulos: [],
       entidades: [],
-      userName: "jferrer"
+      userName: 'jferrer',
+      t: this.props.t
     };
   }
 
@@ -46,10 +47,10 @@ class ModalEditPermissionRoles extends Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/role/${id}?username=${this.state.userName}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -59,17 +60,17 @@ class ModalEditPermissionRoles extends Component {
           dataRolById: data
         });
       })
-      .catch(err => console.log("Err", err));
+      .catch(err => console.log('Err', err));
   };
 
   getDataPermissionById = id => {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/role/permissions/${id}?username=${this.state.userName}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Cotent-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Cotent-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -79,7 +80,7 @@ class ModalEditPermissionRoles extends Component {
           dataPermisosId: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   render() {
@@ -89,11 +90,13 @@ class ModalEditPermissionRoles extends Component {
         value: aux.id
       };
     });
+    const t = this.state.t;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            Editar Permisos rol {this.state.dataRolById.name}
+            {t('app_roles_modal_editar_permisos_titulo')}{' '}
+            {this.state.dataRolById.name}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -107,10 +110,10 @@ class ModalEditPermissionRoles extends Component {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 fetch(`http://192.168.10.180:7000/api/sgdea/role/permissions`, {
-                  method: "PUT",
+                  method: 'PUT',
                   headers: {
-                    "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    'Content-Type': 'application/json',
+                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -120,14 +123,14 @@ class ModalEditPermissionRoles extends Component {
                 })
                   .then(response => {
                     if (response === 200) {
-                      console.log("Se hizo el put con los nuevos permisos");
+                      console.log('Se hizo el put con los nuevos permisos');
                     } else if (response.status === 400) {
-                      console.log("Error se enviaron mal los datos");
+                      console.log('Error se enviaron mal los datos');
                     } else if (response === 500) {
-                      console.log("Error en el Servidor");
+                      console.log('Error en el Servidor');
                     }
                   })
-                  .catch(err => console.log("error"));
+                  .catch(err => console.log('error'));
                 // alert(JSON.stringify(values, "", 2));
               }, 1000);
               setSubmitting(false);
@@ -163,9 +166,8 @@ class ModalEditPermissionRoles extends Component {
                         <Col sm="12">
                           <UncontrolledAlert color="warning">
                             <div className="text-center">
-                              <i className="fa fa-exclamation-triangle" /> Tenga
-                              en cuenta que cuando se editan los permisos, puede
-                              afectar la sesión de los usuario{" "}
+                              <i className="fa fa-exclamation-triangle" />{' '}
+                              {t('app_roles_modal_editar_permisos_alert')}{' '}
                               <i className="fa fa-exclamation-triangle" />
                             </div>
                           </UncontrolledAlert>
@@ -180,7 +182,11 @@ class ModalEditPermissionRoles extends Component {
                                 <div className="row">
                                   <Col sm="6">
                                     <div className="form-group">
-                                      <dt>Codigo</dt>
+                                      <dt>
+                                        {t(
+                                          'app_roles_modal_editar_permisos_codigo'
+                                        )}
+                                      </dt>
                                       {/* <dd>{values.codigo}</dd> */}
                                       <input
                                         type="text"
@@ -193,7 +199,11 @@ class ModalEditPermissionRoles extends Component {
                                   </Col>
                                   <Col sm="6">
                                     <div className="form-group">
-                                      <dt>Nombre</dt>
+                                      <dt>
+                                        {t(
+                                          'app_roles_modal_editar_permisos_nombre'
+                                        )}
+                                      </dt>
                                       {/* <dd>{values.nombre}</dd> */}
                                       <input
                                         type="text"
@@ -210,46 +220,51 @@ class ModalEditPermissionRoles extends Component {
                             <Col sm="6">
                               <div className="form-group">
                                 <label>
-                                  {" "}
-                                  Módulo <span className="text-danger">
-                                    *
-                                  </span>{" "}
+                                  {' '}
+                                  {t(
+                                    'app_roles_modal_editar_permisos_modulo'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <SelectModulo
+                                  t={this.props.t}
                                   name="modulos"
                                   value={values.modulos}
                                   onChange={e => {
-                                    setFieldValue("modulos", e.target.value);
+                                    setFieldValue('modulos', e.target.value);
                                   }}
                                   onBlur={() => {
-                                    setFieldTouched("modulos", true);
+                                    setFieldTouched('modulos', true);
                                   }}
                                   className={`form-control form-control-sm ${errors.modulos &&
                                     touched.modulos &&
-                                    "is-invalid"}`}
+                                    'is-invalid'}`}
                                 />
                               </div>
                             </Col>
                             <Col sm="6">
                               <div className="form-group">
                                 <label>
-                                  {" "}
-                                  Entidades{" "}
-                                  <span className="text-danger">*</span>{" "}
+                                  {' '}
+                                  {t(
+                                    'app_roles_modal_editar_permisos_entidades'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <MySelectEntidades
+                                  t={this.props.t}
                                   modulo={props.values.modulos}
-                                  name={"entidad"}
+                                  name={'entidad'}
                                   value={values.entidad}
                                   onChange={e => {
-                                    setFieldValue("entidad", e.target.value);
+                                    setFieldValue('entidad', e.target.value);
                                   }}
                                   onBlur={() => {
-                                    setFieldTouched("entidad", true);
+                                    setFieldTouched('entidad', true);
                                   }}
                                   className={`form-control form-control-sm ${errors.entidad &&
                                     touched.entidad &&
-                                    "is-invalid"}`}
+                                    'is-invalid'}`}
                                 />
                               </div>
                             </Col>
@@ -257,12 +272,15 @@ class ModalEditPermissionRoles extends Component {
                             <Col sm="12">
                               <div className="form-group">
                                 <label>
-                                  Asignar permisos{" "}
-                                  <span className="text-danger">*</span>{" "}
+                                  {t(
+                                    'app_roles_modal_editar_permisos_asignar_permisos'
+                                  )}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                 </label>
                                 <PermisosAsignados
+                                  t={this.props.t}
                                   entidad={props.values.entidad}
-                                  name={"permisos"}
+                                  name={'permisos'}
                                   value={values.permisos}
                                   onChange={setFieldValue}
                                   onBlur={setFieldTouched}
@@ -286,8 +304,11 @@ class ModalEditPermissionRoles extends Component {
                       }}
                       className="btn btn-outline-warning btn-sm"
                     >
-                      {" "}
-                      <i className="fa fa-lock" /> Editar permisos{" "}
+                      {' '}
+                      <i className="fa fa-lock" />{' '}
+                      {t(
+                        'app_roles_modal_editar_permisos_boton_editar_permisos'
+                      )}{' '}
                     </button>
                     <button
                       type="button"
@@ -296,8 +317,9 @@ class ModalEditPermissionRoles extends Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      {" "}
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      {' '}
+                      <i className="fa fa-times" />{' '}
+                      {t('app_roles_modal_editar_permisos_boton_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -328,10 +350,10 @@ class SelectModulo extends React.Component {
 
   getDataModulos = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/module/active`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "Application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'Application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -340,15 +362,15 @@ class SelectModulo extends React.Component {
           dataModule: data
         });
       })
-      .catch(err => console.log("", err));
+      .catch(err => console.log('', err));
   };
 
   handleChange = value => {
-    this.props.onChange("modulos", value);
+    this.props.onChange('modulos', value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("modulos", true);
+    this.props.onBlur('modulos', true);
   };
 
   render() {
@@ -403,10 +425,10 @@ class MySelectEntidades extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/entity/module/${this.state.id}/active`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -417,15 +439,15 @@ class MySelectEntidades extends React.Component {
         });
         console.log(data);
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   handleChange = value => {
-    this.props.onChange("entidad", value);
+    this.props.onChange('entidad', value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("entidad", true);
+    this.props.onBlur('entidad', true);
   };
 
   render() {
@@ -439,7 +461,7 @@ class MySelectEntidades extends React.Component {
           className={this.props.className}
           value={this.props.value}
         >
-          <option value={""}>-- seleccione --</option>
+          <option value={''}>-- seleccione --</option>
           {this.state.dataEntidades.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -482,10 +504,10 @@ class PermisosAsignados extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.state.id}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -495,15 +517,15 @@ class PermisosAsignados extends React.Component {
           dataPermisos: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   handleChange = value => {
-    this.props.onChange("permisos", value);
+    this.props.onChange('permisos', value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("permisos", true);
+    this.props.onBlur('permisos', true);
   };
   render() {
     console.log(this.state.id);
@@ -526,7 +548,7 @@ class PermisosAsignados extends React.Component {
             onChange={this.handleChange}
             onBlur={this.handleBlur}
             value={this.props.value}
-            placeholder={"Asignar permisos"}
+            placeholder={'Asignar permisos'}
           />
         </div>
       </div>

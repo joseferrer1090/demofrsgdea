@@ -34,10 +34,10 @@ class FormImportRoles extends React.Component {
             <div className="list-group">
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">{t('app_ciudad_import_step_1')}</h5>
+                  <h5 className="mb-1">{t('app_roles_import_step_1')}</h5>
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  {t('app_ciudad_import_step_1_descripcion')}
+                  {t('app_roles_import_step_1_descripcion')}
                   <br />
                   <a href={fileRole} download="role.csv">
                     <b>{t('app_tab_importar_plantilla_formato_importacion')}</b>
@@ -46,18 +46,18 @@ class FormImportRoles extends React.Component {
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">{t('app_ciudad_import_step_2')}</h5>
+                  <h5 className="mb-1">{t('app_roles_import_step_2')}</h5>
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  {t('app_ciudad_import_step_2_descripcion')}
+                  {t('app_roles_import_step_2_descripcion')}
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">{t('app_ciudad_import_step_3')}</h5>
+                  <h5 className="mb-1">{t('app_roles_import_step_3')}</h5>
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  {t('app_ciudad_import_step_3_descripcion')}
+                  {t('app_roles_import_step_3_descripcion')}
                 </p>
               </a>
             </div>
@@ -154,7 +154,7 @@ class FormImportRoles extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  {t('app_ciudad_import_form_separador')}{' '}
+                                  {t('app_roles_import_form_separador')}{' '}
                                   <span className="text-danger">*</span>
                                 </label>
                                 <input
@@ -179,7 +179,7 @@ class FormImportRoles extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {t('app_ciudad_import_form_titulos')}
+                                  {t('app_roles_import_form_titulos')}
                                 </label>
                                 <CustomInput
                                   name={'titulos'}
@@ -189,7 +189,7 @@ class FormImportRoles extends React.Component {
                                   type="checkbox"
                                   id="ExampleInputCheckbox3"
                                   label={t(
-                                    'app_ciudad_import_form_titulos_label'
+                                    'app_roles_import_form_titulos_label'
                                   )}
                                   className={
                                     errors.titulos &&
@@ -204,7 +204,7 @@ class FormImportRoles extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {t('app_ciudad_import_form_archivo')}{' '}
+                                  {t('app_roles_import_form_archivo')}{' '}
                                   <b>CSV</b>{' '}
                                   <span className="text-danger"> * </span>
                                 </label>
@@ -214,7 +214,7 @@ class FormImportRoles extends React.Component {
                                   onBlur={handleBlur}
                                   onChange={e => this.onChange(e)}
                                   label={this.props.t(
-                                    'app_ciudad_import_form_file'
+                                    'app_roles_import_form_file'
                                   )}
                                   className={`form-control ${errors.archivo &&
                                     touched.archivo &&
@@ -236,7 +236,7 @@ class FormImportRoles extends React.Component {
                             }}
                           >
                             <i className="fa fa-save" />{' '}
-                            {t('app_ciudad_import_from_boton')}
+                            {t('app_roles_import_from_boton')}
                           </button>
                         </div>
                       </div>

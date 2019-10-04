@@ -567,11 +567,11 @@ class ModalEditGrupos extends React.Component {
         </ModalBody>
         <ModalFooter>
           <button
-            type="submit"
+            type="button"
             className="btn btn-outline-success btn-sm"
             onClick={e=>{
               e.preventDefault();
-             console.log(values);
+              handleSubmit();
             }}
             >
             {" "}

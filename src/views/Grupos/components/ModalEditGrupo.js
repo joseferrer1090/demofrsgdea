@@ -494,11 +494,16 @@ class ModalEditGrupos extends React.Component {
                   </ModalBody>
                   <ModalFooter>
                     <button type="button" 
+                      className="btn btn-outline-success btn-sm"
                       onClick={(e) => { 
                         e.preventDefault(); 
                         handleSubmit();
                         }}
-                      >Probando</button>
+                      > <i className="fa fa-pencil"/> Actualizar grupo </button>
+                       <button type="button" 
+                      className="btn btn-secondary btn-sm"
+                      onClick={()=> {this.setState({ modal: false  })}}
+                      > <i className="fa fa-times"/> Cerrar </button>
                   </ModalFooter>
                 </Fragment>
               );

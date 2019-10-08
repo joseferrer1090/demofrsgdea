@@ -9,7 +9,7 @@ import ModalChangePassword from './FormChangePasswordUser';
 import ModalExportCSV from './ModalExportUser';
 import './../../../css/styleTableUsuarios.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import Moment from 'react-moment';
+import moment from "moment";
 
 class TableContentUser extends Component {
   constructor(props) {
@@ -147,6 +147,12 @@ class TableContentUser extends Component {
     );
   };
 
+   FechaCreacionUsuario(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
+
   render() {
     const options = {
       btnGroup: this.createCustomButtonGroup,
@@ -165,9 +171,9 @@ class TableContentUser extends Component {
       return !data ? null : `<div>${data.name}</div>`;
     };
 
-    const DateFormat = data => {
-      return <Moment format="YYYY/MM/DD">{data}</Moment>;
-    };
+    // const DateFormat = data => {
+    //   return <Moment format="YYYY/MM/DD">{data}</Moment>;
+    // };
 
     console.log(this.state.dataUsers);
 
@@ -242,7 +248,7 @@ class TableContentUser extends Component {
               width={'150'}
               dataField={'createdAt'}
               dataAlign="center"
-              dataFormat={DateFormat}
+              dataFormat={(cell, row) => this.FechaCreacionUsuario(cell, row)}
             >
               {' '}
               Fecha de creación{' '}

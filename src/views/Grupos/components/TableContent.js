@@ -142,7 +142,6 @@ class TableContent extends Component {
             striped
             search
             searchPlaceholder="Buscar"
-            exportCSV
             pagination
             className="tableGUsu texto-GUsu"
           >

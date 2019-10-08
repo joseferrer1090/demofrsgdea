@@ -112,11 +112,35 @@ class ModalEditGrupos extends React.Component {
               descripcion: dataPreview.descripcion,
               usuarios: this.state.datagroupUsers.map((aux, id) => {return { label: aux.name, value: aux.id}}),
               estado: this.state.datagroup.status
-
             }}
             onSubmit={(values, {setSubmitting}) =>{
               setTimeout(()=>{
-                alert(JSON.stringify(values, null, 2));
+                // alert(JSON.stringify(values, null, 2));
+                fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
+                  method: "PUT", 
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa('sgdea:123456')
+                  }, 
+                  body: JSON.stringify({
+                    id: this.state.id,
+                    code: values.codigo,
+                    name: values.nombre, 
+                    description: values.descripcion, 
+                    userName: "jferrer",
+                    users: values.usuarios, 
+                    status: values.estado
+                  })
+                }).then(response => {
+                  console.log(response.status);
+                  if (response.status === 200) {
+                    console.log("se actualizo");
+                  } else if(response.status === 400) {
+                    console.log("Se enviaron mal los datos");
+                  } else if (response.status === 500){
+                    console.log("Error al actualizar el grupo");
+                  }
+                }).catch(err => console.log("Error", err));
               },1000)
               setSubmitting(false);
             }}
@@ -501,7 +525,7 @@ class ModalEditGrupos extends React.Component {
                         }}
                       > <i className="fa fa-pencil"/> Actualizar grupo </button>
                        <button type="button" 
-                      className="btn btn-secondary btn-sm"
+                      className="btn btn-secondary   btn-sm"
                       onClick={()=> {this.setState({ modal: false  })}}
                       > <i className="fa fa-times"/> Cerrar </button>
                   </ModalFooter>

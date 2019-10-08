@@ -12,7 +12,8 @@ import {
   CardBody,
   CardFooter,
   CardTitle,
-  CustomInput
+  CustomInput, 
+  Alert
 } from "reactstrap";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -25,7 +26,10 @@ class ModalEditGrupos extends React.Component {
       id: this.props.id, 
       datagroup:{}, 
       datagroupUsers: [], 
-      username: "jferrer"
+      username: "jferrer", 
+      alertError: false,
+      alertError400: false,
+      alertSuccess: false,
     };
 
   toggle = (id) => {
@@ -134,11 +138,37 @@ class ModalEditGrupos extends React.Component {
                 }).then(response => {
                   console.log(response.status);
                   if (response.status === 200) {
-                    console.log("se actualizo");
-                  } else if(response.status === 400) {
-                    console.log("Se enviaron mal los datos");
-                  } else if (response.status === 500){
-                    console.log("Error al actualizar el grupo");
+                    this.setState({
+                      alertSuccess: true
+                    });
+                    setTimeout(() => {
+                      this.setState(
+                        {
+                          alertSuccess: false,
+                          modal: false
+                        },
+                        this.props.updateTable()
+                      );
+                    }, 3000);
+                  } else if (response.status === 400) {
+                    this.setState({
+                      alertError400: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError400: false
+                      });
+                    }, 3000);
+                  } else if (response.status === 500) {
+                    this.setState({
+                      alertError: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError: false,
+                        modal: !this.state.modal
+                      });
+                    }, 3000);
                   }
                 }).catch(err => console.log("Error", err));
               },1000)
@@ -199,6 +229,19 @@ class ModalEditGrupos extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
+                  <Alert
+                      color="danger"
+                      isOpen={this.state.alertError}
+                      toggle={this.onDismiss}
+                    >
+                      Error al actualizar el gruoo de usuarios.
+                    </Alert>
+                    <Alert color="danger" isOpen={this.state.alertError400}>
+                      Error, grupo de usuarios ya asignados.
+                    </Alert>
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                      Se actualizo el grupo de usuarios  con éxito.
+                    </Alert>
                     <form className="form">
                      <div className="container">
                      <div className="row">

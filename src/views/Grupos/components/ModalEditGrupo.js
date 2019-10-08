@@ -103,11 +103,11 @@ class ModalEditGrupos extends React.Component {
       usuarios: this.state.datagroupUsers.map((aux, id) => {return { label: aux.name, value: aux.id}}),
       estado: this.state.datagroup.status
     }
-     
+    console.log(this.state.id);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Editar Grupo de usuario</ModalHeader>
+          <ModalHeader>Editar Grupo de usuario {this.state.datagroup.name}</ModalHeader>
           <Formik
           enableReinitialize={true}
             initialValues={{
@@ -118,6 +118,7 @@ class ModalEditGrupos extends React.Component {
               estado: this.state.datagroup.status
             }}
             onSubmit={(values, {setSubmitting}) =>{
+               
               setTimeout(()=>{
                 // alert(JSON.stringify(values, null, 2));
                 fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
@@ -175,51 +176,39 @@ class ModalEditGrupos extends React.Component {
               setSubmitting(false);
             }}
             validationSchema={Yup.object().shape({
-              codigo: Yup.string().
-              required("Por favor introduzca un código")
+              codigo: Yup.string()
+              .required("Por favor introduzca un código")
               .min(6, "Mínimo 6 caracteres .")
               .max(6, "Máximo 6 caracteres"), 
               nombre: Yup.string()
               .required("Por favor introduzca un nombre")
-              .max(100)
+              .max(100), 
+              descripcion: Yup.string()
+              .nullable()
+              .max(250, "Máximo 250 para la descripción del grupo"),
+              conglomerado: Yup.string()
+              .ensure()
+              .required("Por favor seleccione un conglomerado para filtrar"), 
+              empresa: Yup.string()
+              .ensure()
+              .required("Por favor selecciones uan empresa para filtrar"), 
+              sede: Yup.string()
+              .ensure()
+              .required("Por favor Seleccione una sede para filtrar "), 
+              dependencia: Yup.string()
+              .ensure()
+              .required("Por favor seleccione la dependencia para filtrar"),
+              usuarios: Yup.array()
+              .of(
+                Yup.object().shape({
+                  label: Yup.string().required(),
+                  value: Yup.string().required()
+                })
+              )
+              .required("Por favor asignar usuarios al grupo"), 
+              estado: Yup.bool()
+              .test("Activado", "", value => value === true)
             })}
-            // validationSchema={Yup.object().shape({
-            //   codigo: Yup.string()
-            //     .min(6, " Mínimo 6 caracteres.")
-            //     .max(6, " Máximo 6 caracteres.")
-            //     .required(" Por favor introduzca un código."),
-            //   nombre: Yup.string()
-            //   .required(" Por favor introduzca un nombre.")
-            //   .max(100),
-            //   descripcion: Yup.string()
-            //   .max(250, " Máximo 250 para la descripción del conglomerado"),
-            //   conglomerado: Yup.string()
-            //     .ensure()
-            //     .required(" Por favor seleccione un conglomerado."),
-            //   empresa: Yup.string()
-            //     .ensure()
-            //     .required(" Por favor seleccione una empresa."),
-            //   sede: Yup.string()
-            //     .ensure()
-            //     .required(" Por favor seleccione una sede."),
-            //   dependencia: Yup.string()
-            //     .ensure()
-            //     .required(" Por favor seleccione una dependencia."),
-            //   usuarios: Yup.array()
-            //     .of(
-            //       Yup.object().shape({
-            //         label: Yup.string().required(),
-            //         value: Yup.string().required()
-            //       })
-            //     )
-            //     .required(" Por favor seleccione al menos un rol."),
-            //   estado: Yup.bool()
-            //     .test(
-            //       "Activado",
-            //       "",
-            //       value=> value === true
-            //     )
-            // })}
           >
             {props => {
               const {
@@ -302,12 +291,13 @@ class ModalEditGrupos extends React.Component {
                   <div className="form-group">
                     <label> Descripción </label>
                     <textarea
-                            name={"descripcion"}
-                            value={values.descripcion}
-                            className="form-control form-control-sm"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
+                      name="descripcion"
+                      value={values.descripcion}
+                      className="form-control form-control-sm"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      defaultValue
+                    />
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.descripcion && touched.descripcion ?

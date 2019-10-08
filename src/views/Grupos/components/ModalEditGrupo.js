@@ -174,6 +174,12 @@ class ModalEditGrupos extends React.Component {
               },1000)
               setSubmitting(false);
             }}
+            validationSchema={Yup.object().shape({
+              codigo: Yup.string().
+              required("Por favor introduzca un código")
+              .min(6, "Mínimo 6 caracteres .")
+              .max(6, "Máximo 6 caracteres")
+            })}
             // validationSchema={Yup.object().shape({
             //   codigo: Yup.string()
             //     .min(6, " Mínimo 6 caracteres.")

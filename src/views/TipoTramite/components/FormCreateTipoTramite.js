@@ -13,7 +13,11 @@ const dataTramite = {
   estado: "",
   asunto: "",
   plantilla: "",
-  workflow: ""
+  workflow: "", 
+  conglomerado: [],
+  empresa: [], 
+  sede: [], 
+  dependencia: []
 };
 
 const FormCreateTipoTramite = () => {

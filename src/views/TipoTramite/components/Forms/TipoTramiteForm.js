@@ -2,6 +2,8 @@ import React from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Col, Row, CustomInput } from "reactstrap";
+import Select from "react-select";
+import { thisExpression } from "@babel/types";
 
 const TipoTramite = props => {
   const {
@@ -14,7 +16,8 @@ const TipoTramite = props => {
     handleBlur,
     handleSubmit,
     handleReset, 
-    setFieldValue
+    setFieldValue, 
+    setFieldTouched
   } = props;
   return (
     <div className="col-md-12">
@@ -219,33 +222,63 @@ const TipoTramite = props => {
                         <div className="col-md-6">
                           <div className="form-group">
                             <label> Conglomerado </label>
-                            <select className="form-control form-control-sm">
+                              <SelectConglomerado 
+                                name="conglomerado" 
+                                value={values.conglomerado} 
+                                onChange={(e) => {setFieldValue('conglomerado', e.target.value)}}
+                                onBlur={() => {setFieldTouched('conglomerado', true)}}
+                                className="form-control form-control-sm"
+                              />
+                            {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
-                            </select>
+                            </select> */}
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <label>Empresa </label>
-                            <select className="form-control form-control-sm">
+                            <SelectEmpresa 
+                              idConglomerado={props.values.conglomerado}
+                              name="empresa" 
+                              value={values.empresa}
+                              onChange={(e) => { setFieldValue("empresa", e.target.value)}}
+                              onBlur={() => { setFieldTouched('empresa', true)}}
+                              className={"form-control form-control-sm"}
+                              />
+                            {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
-                            </select>
+                            </select> */}
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <label> Sede </label>
-                            <select className="form-control form-control-sm">
+                            <SelectSede 
+                              idEmpresa={props.values.empresa}
+                              name="sede"
+                              value={values.sede}
+                              onChange={(e) => {setFieldValue('sede', e.target.value)}}
+                              onBlur={() => {setFieldTouched('sede', true)}}
+                              className="form-control form-control-sm"
+                            />
+                            {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
-                            </select>
+                            </select> */}
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <label> Dependencia </label>
-                            <select className="form-control form-control-sm">
+                            <SelectDependencia
+                            idSede={props.values.sede} 
+                            name="dependencia"
+                            value={values.dependencia}
+                            onChange={(e) => {setFieldValue('dependencia', e.target.value)}}
+                            onBlur={() => { setFieldTouched('dependencia', true)}}
+                            className={"form-control form-control-sm"}  />
+                            {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
-                            </select>
+                            </select> */}
                           </div>
                         </div>
                         <div className="col-md-12">
@@ -456,7 +489,11 @@ export default withFormik({
     plantilla: props.tipotramite.plantilla,
     asunto: props.tipotramite.asunto,
     workflow: props.tipotramite.workflow,
-    user_enabled: props.tipotramite.user_enabled
+    user_enabled: props.tipotramite.user_enabled, 
+    conglomerado: props.tipotramite.conglomerado, 
+    empresa: props.tipotramite.empresa, 
+    sede: props.tipotramite.sede, 
+    dependencia: props.tipotramite.dependencia
   }),
   validationSchema: Yup.object().shape({
     t_correspondencia: Yup.string()
@@ -487,7 +524,11 @@ export default withFormik({
     ),
     asunto: Yup.string(),
     plantilla: Yup.string().ensure(),
-    workflow: Yup.string().ensure()
+    workflow: Yup.string().ensure(), 
+    conglomerado: Yup.string().ensure(), 
+    empresa: Yup.string().ensure(),
+    sede: Yup.string().ensure(), 
+    dependencia: Yup.string().ensure()
   }),
   handleSubmit: (values, { setSubmitting, resetForm }) => {
     setTimeout(() => {
@@ -497,3 +538,255 @@ export default withFormik({
     }, 1000);
   }
 })(TipoTramite);
+
+// Esta es la Seccion de los usuarios disponibles //
+
+class SelectConglomerado extends React.Component {
+  state = {
+    dataConglomerado: []
+  }
+
+  componentDidMount() {
+    this.getDataConglomerado();
+  }
+
+  getDataConglomerado = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: "Basic " + window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+     this.setState({
+       dataConglomerado: data
+     })
+    }).catch(err => console.log("Error", err))
+  }
+
+  handleChange = value => {
+    this.props.onChange('conglomerado', value);
+  }
+
+  handleBlur = () => {
+    this.props.onBlur('conglomerado', true);
+  }
+
+  render() {
+    const data = this.state.dataConglomerado;
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          <option value={" "}>-- Seleccione --</option>
+          {data.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>{aux.name}</option>
+            )
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+class SelectEmpresa extends React.Component {
+  state = {
+    dataEmpresa: [], 
+    id: this.props.idConglomerado
+  }
+
+  static getDerivedStateFormProps(props, state){
+    if(props.idConglomerado !== state.id){
+      return{
+        id: props.idConglomerado
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.idConglomerado !== prevProps.idConglomerado){
+      // Metodo
+      this.getDataEmpresa();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataEmpresa()
+  }
+
+  getDataEmpresa = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.props.idConglomerado}`, {
+      method: "GET", 
+      headers: {
+        "Content-Type":"application/json", 
+        Authorization: "Basic " +  window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataEmpresa: data
+      })
+      console.log(data);
+    }).catch(err => console.log("Error", err));
+  }
+
+  render() {
+    return (
+      <div>
+        <select 
+          name={this.props.name}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          className={this.props.className}>
+          <option value={" "}> -- Seleccione --  </option>
+          {
+            this.state.dataEmpresa.map((aux, id) => {
+              return(
+                <option key={id} value={aux.id}>{aux.name}</option>
+              )
+            })
+          }
+        </select>
+      </div>
+    );
+  }
+
+}
+
+class SelectSede extends React.Component {
+  state={
+    dataSede: [], 
+    id: this.props.idEmpresa
+  }
+
+   static getDerivedStateFormProps(props, state){
+    if(props.idEmpresa !== state.id){
+      return{
+        id: props.idEmpresa
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.idEmpresa !== prevProps.idEmpresa){
+      // Metodo
+      this.getDataSede();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataSede()
+  }
+
+  getDataSede = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.idEmpresa}`, {
+      method:"GET",
+      headers: {
+        "Content-Type":"application/json", 
+        Authorization: "Basic " +  window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataSede: data
+      })
+    }).catch(err => console.log("Error", err))
+  }
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          className={this.props.className}
+        >
+          <option>-- Seleccione --</option>
+          {
+            this.state.dataSede.map((aux, id ) => {
+              return(
+                <option key={id}  value={aux.id}>{aux.name}</option>
+              )
+            })
+          }
+        </select>
+      </div>
+    );
+  }
+}
+
+class SelectDependencia extends React.Component {
+  state = {
+    dataDependencia: [], 
+    id: this.props.idSede
+  }
+
+  static getDerivedStateFormProps(props, state){
+    if(props.idSede !== state.id){
+      return{
+        id: props.idSede
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.idSede !== prevProps.idSede){
+      // Metodo para actualizar
+      this.getDataDependencia();
+    }
+  }
+
+  componentDidMount() {
+    // metodo para refrezcer el compomente
+    this.getDataDependencia();
+  }
+
+  getDataDependencia = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.idSede}`, {
+      method: "GET", 
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: "Basic " + window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataDependencia: data
+      })
+    }).catch(err => console.log("Error", err));
+  }
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          className={this.props.className}
+        >
+          <option> -- Seleccione --   </option>
+          {
+            this.state.dataDependencia.map((aux, id) => {
+              return (
+                <option key={id}  value={aux.id}>{aux.name}</option>
+              )
+            })
+          }
+        </select>
+      </div>
+    );
+  }
+}
+
+// Fin de la Seccion //

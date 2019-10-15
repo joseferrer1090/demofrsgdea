@@ -1,7 +1,7 @@
 import React from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Col, Row, CustomInput, ListGroup, ListGroupItem, Badge } from "reactstrap";
+import { Col, Row, CustomInput, ListGroup, ListGroupItem, Badge, Button } from "reactstrap";
 import Select from "react-select";
 
 const TipoTramite = props => {
@@ -524,7 +524,7 @@ class SelectConglomerado extends React.Component {
   }
 
   getDataConglomerado = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate`, {
+    fetch(`http://192.168.20.187:7000/api/sgdea/conglomerate`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json", 
@@ -595,7 +595,7 @@ class SelectEmpresa extends React.Component {
   }
 
   getDataEmpresa = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.props.idConglomerado}`, {
+    fetch(`http://192.168.20.187:7000/api/sgdea/company/conglomerate/${this.props.idConglomerado}`, {
       method: "GET", 
       headers: {
         "Content-Type":"application/json", 
@@ -660,7 +660,7 @@ class SelectSede extends React.Component {
   }
 
   getDataSede = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.idEmpresa}`, {
+    fetch(`http://192.168.20.187:7000/api/sgdea/headquarter/company/${this.props.idEmpresa}`, {
       method:"GET",
       headers: {
         "Content-Type":"application/json", 
@@ -725,7 +725,7 @@ class SelectDependencia extends React.Component {
   }
 
   getDataDependencia = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.idSede}`, {
+    fetch(`http://192.168.20.187:7000/api/sgdea/dependence/headquarter/${this.props.idSede}`, {
       method: "GET", 
       headers: {
         "Content-Type": "application/json", 
@@ -791,7 +791,7 @@ class UserList extends React.Component{
   }
 
   getDataUsers = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/user/dependence/${this.props.idDependence}`, {
+    fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${this.props.idDependence}`, {
       method: "GET", 
       headers: {
         "Content-Type": "application/json", 
@@ -838,7 +838,8 @@ class UserList extends React.Component{
                <li className="media">
                 <img className="mr-2" src="https://via.placeholder.com/40" alt="Generic placeholder image"/> 
                 <div className="media-body">
-                  <p className="mt-0 mb-1">List-based media object</p>
+                  <p className="mt-0 mb-1">{aux.name}</p>
+                  <Button style={{marginTop: "-20px", marginLeft: "-12px"}}  color={"link"} onClick={() => {alert("Probando apenas" +aux.id)}}> <div className="badge badge-secondary">agregar</div>   </Button>
                 </div>
               </li>
               </ul>

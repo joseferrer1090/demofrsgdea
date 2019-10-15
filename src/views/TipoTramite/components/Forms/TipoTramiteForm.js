@@ -1,10 +1,19 @@
-import React from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Col, Row, CustomInput, ListGroup, ListGroupItem, Badge, Button } from "reactstrap";
 import Select from "react-select";
+import { useDispatch } from "react-redux";
+import {agregarUserAction}  from "./../../../../actions/usersActions";
 
 const TipoTramite = props => {
+
+  //  const [usuario, setUsuarios] = useState({});
+
+  // const dispatch = useDispatch();
+
+  // const AgregarUsuario = (user) => dispatch(agregarUserAction(user));
+
   const {
     values,
     touched,
@@ -281,7 +290,7 @@ const TipoTramite = props => {
                           </div>
                         </div>
                         <div className="col-md-12">
-                            <UserList idDependence={props.values.dependencia}  />
+                            <UserList id={props.values.dependencia}  />
                           {/* <textarea
                             className="form-control form-control-sm"
                             disabled
@@ -605,7 +614,7 @@ class SelectEmpresa extends React.Component {
       this.setState({
         dataEmpresa: data
       })
-      console.log(data);
+     // console.log(data);
     }).catch(err => console.log("Error", err));
   }
 
@@ -762,54 +771,40 @@ class SelectDependencia extends React.Component {
   }
 }
 
-class UserList extends React.Component{
-  
-  state={
-    dataUsersDependence: [], 
-    id: this.props.idDependence
-  }
+const UserList = props => {
 
-  static getDerivedStateFormProps(props, state){
-    if(props.idDependence !== state.id){
-      return{
-        id: props.idDependence
-      };
-    }
-    return null;
-  }
+  const id = props.id;
 
-  componentDidUpdate(prevProps, prevState) {
-    if(this.props.idDependence !== prevProps.idDependence){
-      // Metodo para actualizar
-      this.getDataUsers();
-    }
-  }
+  const [data, setdata] = useState([]);
+  const mounted = useRef();
 
-  componentDidMount() {
-    // metodo para refrezcer el compomente
-    this.getDataUsers();
-  }
-
-  getDataUsers = () => {
-    fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${this.props.idDependence}`, {
+  const getDataUsers = () => {
+    fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
       method: "GET", 
       headers: {
-        "Content-Type": "application/json", 
+        "Content-Type":"application/json", 
         Authorization: "Basic " + window.btoa('sgdea:123456')
       }
     }).then(response => response.json()).then(data => {
-      this.setState({
-        dataUsersDependence: data
-      })
+      setdata(data);
+      console.log(data);
     }).catch(err => console.log("Error", err));
-  }
+  };
 
-  render() {
-    const data = this.state.dataUsersDependence;
-    console.log(data);
-    return (
-      <div>
-        <div className="form-group">
+  
+  useEffect(() =>{
+    if(!mounted.current){
+      mounted.current = true;
+    } else {
+      console.log("componentDidUpdate");
+    }
+  }, []);
+
+  console.log(id);
+ 
+  return (
+    <div>
+        {/* <div className="form-group">
             <label> Buscar usuario <span className="text-danger">*</span> </label>
             <div className="input-group input-group-sm">
               <input
@@ -830,25 +825,30 @@ class UserList extends React.Component{
                 
               </div>
             </div>
-          </div>
-         <div style={{ height: "140px", overflow: "scroll", overflowX: "hidden", border: "1px solid #e3e3e3", background: "#e3e3e3", padding: "10px"}}>
-            {data.length > 0 ? (this.state.dataUsersDependence.map((aux, id) => {
+          </div> */}
+         {/* <div style={{ height: "140px", overflow: "scroll", overflowX: "hidden", border: "1px solid #e3e3e3", background: "#e3e3e3", padding: "10px"}}>
+            {data.length > 0 ? (dataUsersDependence.map((aux, id) => {
             return(
               <ul className="list-unstyled">
                <li className="media">
                 <img className="mr-2" src="https://via.placeholder.com/40" alt="Generic placeholder image"/> 
                 <div className="media-body">
                   <p className="mt-0 mb-1">{aux.name}</p>
-                  <Button style={{marginTop: "-20px", marginLeft: "-12px"}}  color={"link"} onClick={() => {alert("Probando apenas" +aux.id)}}> <div className="badge badge-secondary">agregar</div>   </Button>
+                  <Button 
+                    style={{marginTop: "-13px", marginLeft: "-12px"}}  
+                    color={"link"} 
+                    //onClick={AgregarUsuario({id: aux.id})}
+                    >
+                      <h6 className="badge badge-secondary">agregar</h6>   
+                  </Button>
                 </div>
               </li>
               </ul>
             )
           })): <p>Seleccione los usuarios asignar</p>  }
-         </div>
+         </div> */}
       </div>
-    );
-  }
+  );
 }
 
 // Fin de la Seccion //

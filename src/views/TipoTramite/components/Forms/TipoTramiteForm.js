@@ -791,7 +791,6 @@ const UserList = props => {
     }).catch(err => console.log("Error", err));
   };
 
-  
   useEffect(() =>{
     if(!mounted.current){
       mounted.current = true;

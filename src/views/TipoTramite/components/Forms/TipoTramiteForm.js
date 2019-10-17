@@ -771,12 +771,12 @@ class SelectDependencia extends React.Component {
   }
 }
 
-const UserList = props => {
+ function UserList(props) {
 
   const id = props.id;
 
   const [data, setdata] = useState([]);
-  const mounted = useRef();
+  const firstUpdate = useRef(true);
 
   const getDataUsers = () => {
     fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
@@ -791,13 +791,24 @@ const UserList = props => {
     }).catch(err => console.log("Error", err));
   };
 
+
   useEffect(() =>{
-    if(!mounted.current){
-      mounted.current = true;
-    } else {
-      console.log("componentDidUpdate");
+    if(firstUpdate.current){
+      firstUpdate.current = false;
+      return;
     }
-  }, []);
+      fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
+      method: "GET", 
+      headers: {
+        "Content-Type":"application/json", 
+        Authorization: "Basic " + window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      setdata(data);
+      console.log(data);
+    }).catch(err => console.log("Error", err));
+  console.log("componentDidUpdate");
+  }, [id]);
 
   console.log(id);
  
@@ -825,8 +836,8 @@ const UserList = props => {
               </div>
             </div>
           </div> */}
-         {/* <div style={{ height: "140px", overflow: "scroll", overflowX: "hidden", border: "1px solid #e3e3e3", background: "#e3e3e3", padding: "10px"}}>
-            {data.length > 0 ? (dataUsersDependence.map((aux, id) => {
+         <div style={{ height: "140px", overflow: "scroll", overflowX: "hidden", border: "1px solid #e3e3e3", background: "#e3e3e3", padding: "10px"}}>
+            {data.length > 0 ? (data.map((aux, id) => {
             return(
               <ul className="list-unstyled">
                <li className="media">
@@ -845,7 +856,7 @@ const UserList = props => {
               </ul>
             )
           })): <p>Seleccione los usuarios asignar</p>  }
-         </div> */}
+         </div>
       </div>
   );
 }

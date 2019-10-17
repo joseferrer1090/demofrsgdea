@@ -8,6 +8,8 @@ import {agregarUserAction, borrarUserAction}  from "./../../../../actions/usersA
 
 const TipoTramite = props => {
 
+  const usersdata = useSelector(state => state.users);
+
   //  const [usuario, setUsuarios] = useState({});
 
   // const dispatch = useDispatch();
@@ -305,7 +307,7 @@ const TipoTramite = props => {
               </div>
             </div>
             <div className="row">
-             <UserListEnabled/>
+             <UserListEnabled name="" value={usersdata} />
             </div>
             <div className="row">
               <div className="col-md-4">
@@ -804,7 +806,7 @@ class SelectDependencia extends React.Component {
                   <Button 
                     style={{marginTop: "-13px", marginLeft: "-12px"}}  
                     color={"link"} 
-                   onClick={() => AgregarUsuario({aux})}>
+                   onClick={() => AgregarUsuario({id: aux.id, name: aux.name})}>
                   
                       <h6 className="badge badge-secondary">agregar</h6>   
                   </Button>
@@ -819,9 +821,10 @@ class SelectDependencia extends React.Component {
 }
 
 const UserListEnabled = () => {
+
   const dispatch = useDispatch();
-  const users = useSelector(state => state.usersReducers.users);
-  console.log(users);
+  const users = useSelector(state => state.users);
+  console.log(users.users);
 
    return(
      <div className="col-md-12">
@@ -843,10 +846,10 @@ const UserListEnabled = () => {
                   </thead>
                   <tbody className="text-center">
                     {
-                      users.map((aux, id) => {
+                      users.users.map((aux, id) => {
                         return(
-                           <tr>
-                      <td scope="row">{aux.aux.name}</td>
+                            <tr>
+                      <td scope="row">{aux.name}</td>
                       <td>
                         <CustomInput
                           type="radio"
@@ -856,9 +859,9 @@ const UserListEnabled = () => {
                       <td>
                         {" "}
                         <button
-                          type="button"
-                          className="btn btn-sm btn-danger"
-                          onClick={() => dispatch(borrarUserAction(aux.aux.id))}
+                        type="button"
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => dispatch(borrarUserAction(aux.id))}
                         >
                           <i className="fa fa-trash" />
                         </button>{" "}

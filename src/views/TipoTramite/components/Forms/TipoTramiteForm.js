@@ -777,6 +777,8 @@ class SelectDependencia extends React.Component {
 
   const [data, setdata] = useState([]);
   const firstUpdate = useRef(true);
+  const dispatch = useDispatch();
+  const AgregarUsuario = (user) => dispatch(agregarUserAction(user));
 
   const getDataUsers = () => {
     fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
@@ -847,8 +849,8 @@ class SelectDependencia extends React.Component {
                   <Button 
                     style={{marginTop: "-13px", marginLeft: "-12px"}}  
                     color={"link"} 
-                    //onClick={AgregarUsuario({id: aux.id})}
-                    >
+                   onClick={() => AgregarUsuario({aux})}>
+                  
                       <h6 className="badge badge-secondary">agregar</h6>   
                   </Button>
                 </div>

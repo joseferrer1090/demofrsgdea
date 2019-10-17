@@ -3,8 +3,8 @@ import { Formik, withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Col, Row, CustomInput, ListGroup, ListGroupItem, Badge, Button } from "reactstrap";
 import Select from "react-select";
-import { useDispatch } from "react-redux";
-import {agregarUserAction}  from "./../../../../actions/usersActions";
+import { useDispatch, useSelector } from "react-redux";
+import {agregarUserAction, borrarUserAction}  from "./../../../../actions/usersActions";
 
 const TipoTramite = props => {
 
@@ -305,54 +305,7 @@ const TipoTramite = props => {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-12">
-                <div className="card">
-                  <div className="p-2 mb-1 bg-light text-dark">
-                    Usuarios disponibles
-                  </div>
-                  <div className="card-body">
-                    <div>
-                      <div className="row">
-                        <div className="col-md-12">
-                          <table className="table table-bordered table-sm">
-                            <thead className="thead-light">
-                              <tr className="text-center">
-                                <th scope="col">Usuario</th>
-                                <th scope="col">Sede</th>
-                                <th scope="col">Dependencia</th>
-                                <th scope="col">Original</th>
-                                <th scope="col">Eliminar</th>
-                              </tr>
-                            </thead>
-                            <tbody className="text-center">
-                              <tr>
-                                <td scope="row">NOMBRE COMPLETO DEL USUARIO</td>
-                                <td>SEDE I</td>
-                                <td>DEPENDENCIA I</td>
-                                <td>
-                                  <CustomInput
-                                    type="radio"
-                                    id="exampleCustomCheckbox2"
-                                  />{" "}
-                                </td>
-                                <td>
-                                  {" "}
-                                  <button
-                                    type="button"
-                                    className="btn btn-sm btn-danger"
-                                  >
-                                    <i className="fa fa-trash" />
-                                  </button>{" "}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+             <UserListEnabled/>
             </div>
             <div className="row">
               <div className="col-md-4">
@@ -771,27 +724,29 @@ class SelectDependencia extends React.Component {
   }
 }
 
+
  function UserList(props) {
 
   const id = props.id;
 
   const [data, setdata] = useState([]);
   const firstUpdate = useRef(true);
+ 
   const dispatch = useDispatch();
   const AgregarUsuario = (user) => dispatch(agregarUserAction(user));
 
-  const getDataUsers = () => {
-    fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
-      method: "GET", 
-      headers: {
-        "Content-Type":"application/json", 
-        Authorization: "Basic " + window.btoa('sgdea:123456')
-      }
-    }).then(response => response.json()).then(data => {
-      setdata(data);
-      console.log(data);
-    }).catch(err => console.log("Error", err));
-  };
+  // const getDataUsers = () => {
+  //   fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
+  //     method: "GET", 
+  //     headers: {
+  //       "Content-Type":"application/json", 
+  //       Authorization: "Basic " + window.btoa('sgdea:123456')
+  //     }
+  //   }).then(response => response.json()).then(data => {
+  //     setdata(data);
+  //     console.log(data);
+  //   }).catch(err => console.log("Error", err));
+  // };
 
 
   useEffect(() =>{
@@ -807,12 +762,12 @@ class SelectDependencia extends React.Component {
       }
     }).then(response => response.json()).then(data => {
       setdata(data);
-      console.log(data);
+     // console.log(data);
     }).catch(err => console.log("Error", err));
-  console.log("componentDidUpdate");
+  //console.log("componentDidUpdate");
   }, [id]);
 
-  console.log(id);
+  //console.log(id);
  
   return (
     <div>
@@ -862,5 +817,68 @@ class SelectDependencia extends React.Component {
       </div>
   );
 }
+
+const UserListEnabled = () => {
+  const dispatch = useDispatch();
+  const users = useSelector(state => state.usersReducers.users);
+  console.log(users);
+
+   return(
+     <div className="col-md-12">
+      <div className="card">
+        <div className="p-2 mb-1 bg-light text-dark">
+          Usuarios disponibles
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="row">
+              <div className="col-md-12">
+                <table className="table table-bordered table-sm">
+                  <thead className="thead-light">
+                    <tr className="text-center">
+                      <th scope="col">Usuario</th>
+                      <th scope="col">Original</th>
+                      <th scope="col">Eliminar</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-center">
+                    {
+                      users.map((aux, id) => {
+                        return(
+                           <tr>
+                      <td scope="row">{aux.aux.name}</td>
+                      <td>
+                        <CustomInput
+                          type="radio"
+                          id="exampleCustomCheckbox2"
+                        />{" "}
+                      </td>
+                      <td>
+                        {" "}
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-danger"
+                          onClick={() => dispatch(borrarUserAction(aux.aux.id))}
+                        >
+                          <i className="fa fa-trash" />
+                        </button>{" "}
+                      </td>
+                    </tr>
+                        )
+                      })
+                    } 
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
+
 
 // Fin de la Seccion //

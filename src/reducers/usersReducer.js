@@ -8,8 +8,12 @@ export default function(state = initialState, action) {
             return {
                 ...state, 
                 users: [...state.users, action.payload]
-            }
-    
+            }; 
+        case 'BORRAR_USUARIO':
+            return {
+                ...state, 
+                users:  state.users.filter(user => user.id !== action.payload)
+            };
         default:
           return state;
     }

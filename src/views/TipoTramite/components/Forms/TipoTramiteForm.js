@@ -1,37 +1,75 @@
-import React, {useState, useEffect, useRef} from "react";
-import { Formik, withFormik, ErrorMessage } from "formik";
+import React, {useState, useRef, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Col, Row, CustomInput, ListGroup, ListGroupItem, Badge, Button } from "reactstrap";
-import Select from "react-select";
-import { useDispatch, useSelector } from "react-redux";
+import { Row, Col, CustomInput, Button } from "reactstrap";
 import {agregarUserAction, borrarUserAction}  from "./../../../../actions/usersActions";
 
-const TipoTramite = props => {
+
+
+
+const TipoTramiteForm = () => {
 
   const usersdata = useSelector(state => state.users);
 
-  //  const [usuario, setUsuarios] = useState({});
 
-  // const dispatch = useDispatch();
-
-  // const AgregarUsuario = (user) => dispatch(agregarUserAction(user));
-
-  const {
-    values,
-    touched,
-    errors,
-    dirty,
-    isSubmitting,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    handleReset, 
-    setFieldValue, 
-    setFieldTouched
-  } = props;
-  return (
-    <div className="col-md-12">
-      <form className="form">
+return(
+    <Formik    
+     validationSchema={Yup.object().shape({
+         t_correspondencia: Yup.string()
+          .ensure()
+          .required(" Por favor seleccione el tipo de correspondencia."), 
+        codigo: Yup.string()
+      .required(" Por favor introduzca un código.")
+      .matches(/^[0-9a-zA-Z]+$/, " No es un codigo alfanumerico")
+      .min(2, " minimo 2 caracteres para el codigo")
+      .max(15, " maximo 15 caracteres para el codigo"),
+      nombre: Yup.string()
+      .required(" Por favor introduzca un nombre."),
+    descripcion: Yup.string()
+    .required(" Por favor introduzca una descripción."),
+    d_maximos: Yup.number()
+      .integer()
+      .positive()
+      .required(" Por favor introduzca los días máximos de respuesta."),
+    estado: Yup.bool()
+      .test(
+        "Activo",
+        "Es necesario activar el tipo de trámite",
+        value => value === true
+      )
+      .required(" Es necesario activar el tipo de trámite.")
+      })}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify({
+            t_correspondencia: values.t_correspondencia, 
+            codigo: values.codigo, 
+            nombre: values.nombre, 
+            descripcion: values.descripcion, 
+            d_maximos: values.d_maximos, 
+            estado: values.estado, 
+            user_enabled: usersdata.users
+          }, null, 2));
+          setSubmitting(false);
+        }, 1000);
+      }}
+      render={({
+        values,
+        touched,
+        errors,
+        dirty,
+        isSubmitting,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        handleReset,
+        setFieldTouched, 
+        setFieldValue,
+        props
+      }) => (
+       <div className="col-md-12">
+          <form className="form">
         <div className="card">
           <div className="card-body">
             <div className="row">
@@ -248,7 +286,7 @@ const TipoTramite = props => {
                           <div className="form-group">
                             <label>Empresa </label>
                             <SelectEmpresa 
-                              idConglomerado={props.values.conglomerado}
+                              idConglomerado={values.conglomerado}
                               name="empresa" 
                               value={values.empresa}
                               onChange={(e) => { setFieldValue("empresa", e.target.value)}}
@@ -264,7 +302,7 @@ const TipoTramite = props => {
                           <div className="form-group">
                             <label> Sede </label>
                             <SelectSede 
-                              idEmpresa={props.values.empresa}
+                              idEmpresa={values.empresa}
                               name="sede"
                               value={values.sede}
                               onChange={(e) => {setFieldValue('sede', e.target.value)}}
@@ -280,7 +318,7 @@ const TipoTramite = props => {
                           <div className="form-group">
                             <label> Dependencia </label>
                             <SelectDependencia
-                            idSede={props.values.sede} 
+                            idSede={values.sede} 
                             name="dependencia"
                             value={values.dependencia}
                             onChange={(e) => {setFieldValue('dependencia', e.target.value)}}
@@ -292,7 +330,7 @@ const TipoTramite = props => {
                           </div>
                         </div>
                         <div className="col-md-12">
-                            <UserList id={props.values.dependencia}  />
+                            <UserList id={values.dependencia}  />
                           {/* <textarea
                             className="form-control form-control-sm"
                             disabled
@@ -307,7 +345,7 @@ const TipoTramite = props => {
               </div>
             </div>
             <div className="row">
-             <UserListEnabled name="" value={usersdata} />
+             <UserListEnabled data={usersdata}   />
             </div>
             <div className="row">
               <div className="col-md-4">
@@ -411,72 +449,10 @@ const TipoTramite = props => {
           </div>
         </div>
       </form>
-    </div>
-  );
-};
-
-export default withFormik({
-  mapPropsToValues: props => ({
-    t_correspondencia: props.tipotramite.t_correspondencia,
-    codigo: props.tipotramite.codigo,
-    nombre: props.tipotramite.nombre,
-    descripcion: props.tipotramite.descripcion,
-    d_maximos: props.tipotramite.d_maximos,
-    estado: props.tipotramite.estado,
-    plantilla: props.tipotramite.plantilla,
-    asunto: props.tipotramite.asunto,
-    workflow: props.tipotramite.workflow,
-    user_enabled: props.tipotramite.user_enabled, 
-    conglomerado: props.tipotramite.conglomerado, 
-    empresa: props.tipotramite.empresa, 
-    sede: props.tipotramite.sede, 
-    dependencia: props.tipotramite.dependencia
-  }),
-  validationSchema: Yup.object().shape({
-    t_correspondencia: Yup.string()
-      .ensure()
-      .required(" Por favor seleccione el tipo de correspondencia."),
-    codigo: Yup.string()
-      .required(" Por favor introduzca un código.")
-      .matches(/^[0-9a-zA-Z]+$/, " No es un codigo alfanumerico")
-      .min(2, " minimo 2 caracteres para el codigo")
-      .max(15, " maximo 15 caracteres para el codigo"),
-    nombre: Yup.string()
-      .required(" Por favor introduzca un nombre."),
-    descripcion: Yup.string()
-    .required(" Por favor introduzca una descripción."),
-    d_maximos: Yup.number()
-      .integer()
-      .positive()
-      .required(" Por favor introduzca los días máximos de respuesta."),
-    estado: Yup.bool()
-      .test(
-        "Activo",
-        "Es necesario activar el tipo de trámite",
-        value => value === true
-      )
-      .required(" Es necesario activar el tipo de trámite."),
-    user_enabled: Yup.array().of(
-      Yup.object().shape({ id: Yup.number(), name: Yup.string() })
-    ),
-    asunto: Yup.string(),
-    plantilla: Yup.string().ensure(),
-    workflow: Yup.string().ensure(), 
-    conglomerado: Yup.string().ensure(), 
-    empresa: Yup.string().ensure(),
-    sede: Yup.string().ensure(), 
-    dependencia: Yup.string().ensure()
-  }),
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-      resetForm();
-    }, 1000);
-  }
-})(TipoTramite);
-
-// Esta es la Seccion de los usuarios disponibles //
+       </div>
+      )}
+    />
+)}
 
 class SelectConglomerado extends React.Component {
   state = {
@@ -726,8 +702,7 @@ class SelectDependencia extends React.Component {
   }
 }
 
-
- function UserList(props) {
+function UserList(props) {
 
   const id = props.id;
 
@@ -820,11 +795,15 @@ class SelectDependencia extends React.Component {
   );
 }
 
-const UserListEnabled = () => {
+const UserListEnabled = (props) => {
 
   const dispatch = useDispatch();
-  const users = useSelector(state => state.users);
+  const users = props.data
   console.log(users.users);
+
+  const [original, setOriginal] = useState("");
+
+
 
    return(
      <div className="col-md-12">
@@ -852,10 +831,7 @@ const UserListEnabled = () => {
                             <tr>
                       <td scope="row">{aux.name}</td>
                       <td>
-                        <CustomInput
-                          type="radio"
-                          id="exampleCustomCheckbox2"
-                        />{" "}
+                       <input id={`original${aux.id}`} value={original}  type="radio" onChange={e => setOriginal(e.target.value)} />
                       </td>
                       <td>
                         {" "}
@@ -882,8 +858,4 @@ const UserListEnabled = () => {
     </div>
   )
 }
-
-
-
-
-// Fin de la Seccion //
+export default TipoTramiteForm;

@@ -1,24 +1,75 @@
-import React from "react";
-import { Formik, withFormik, ErrorMessage } from "formik";
+import React, {useState, useRef, useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
+import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Col, Row, CustomInput } from "reactstrap";
+import { Row, Col, CustomInput, Button } from "reactstrap";
+import {agregarUserAction, borrarUserAction}  from "./../../../../actions/usersActions";
 
-const TipoTramite = props => {
-  const {
-    values,
-    touched,
-    errors,
-    dirty,
-    isSubmitting,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-    handleReset, 
-    setFieldValue
-  } = props;
-  return (
-    <div className="col-md-12">
-      <form className="form">
+
+
+
+const TipoTramiteForm = () => {
+
+  const usersdata = useSelector(state => state.users);
+
+
+return(
+    <Formik    
+     validationSchema={Yup.object().shape({
+         t_correspondencia: Yup.string()
+          .ensure()
+          .required(" Por favor seleccione el tipo de correspondencia."), 
+        codigo: Yup.string()
+      .required(" Por favor introduzca un código.")
+      .matches(/^[0-9a-zA-Z]+$/, " No es un codigo alfanumerico")
+      .min(2, " minimo 2 caracteres para el codigo")
+      .max(15, " maximo 15 caracteres para el codigo"),
+      nombre: Yup.string()
+      .required(" Por favor introduzca un nombre."),
+    descripcion: Yup.string()
+    .required(" Por favor introduzca una descripción."),
+    d_maximos: Yup.number()
+      .integer()
+      .positive()
+      .required(" Por favor introduzca los días máximos de respuesta."),
+    estado: Yup.bool()
+      .test(
+        "Activo",
+        "Es necesario activar el tipo de trámite",
+        value => value === true
+      )
+      .required(" Es necesario activar el tipo de trámite.")
+      })}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify({
+            t_correspondencia: values.t_correspondencia, 
+            codigo: values.codigo, 
+            nombre: values.nombre, 
+            descripcion: values.descripcion, 
+            d_maximos: values.d_maximos, 
+            estado: values.estado, 
+            user_enabled: usersdata.users
+          }, null, 2));
+          setSubmitting(false);
+        }, 1000);
+      }}
+      render={({
+        values,
+        touched,
+        errors,
+        dirty,
+        isSubmitting,
+        handleChange,
+        handleBlur,
+        handleSubmit,
+        handleReset,
+        setFieldTouched, 
+        setFieldValue,
+        props
+      }) => (
+       <div className="col-md-12">
+          <form className="form">
         <div className="card">
           <div className="card-body">
             <div className="row">
@@ -219,69 +270,73 @@ const TipoTramite = props => {
                         <div className="col-md-6">
                           <div className="form-group">
                             <label> Conglomerado </label>
-                            <select className="form-control form-control-sm">
+                              <SelectConglomerado 
+                                name="conglomerado" 
+                                value={values.conglomerado} 
+                                onChange={(e) => {setFieldValue('conglomerado', e.target.value)}}
+                                onBlur={() => {setFieldTouched('conglomerado', true)}}
+                                className="form-control form-control-sm"
+                              />
+                            {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
-                            </select>
+                            </select> */}
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <label>Empresa </label>
-                            <select className="form-control form-control-sm">
+                            <SelectEmpresa 
+                              idConglomerado={values.conglomerado}
+                              name="empresa" 
+                              value={values.empresa}
+                              onChange={(e) => { setFieldValue("empresa", e.target.value)}}
+                              onBlur={() => { setFieldTouched('empresa', true)}}
+                              className={"form-control form-control-sm"}
+                              />
+                            {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
-                            </select>
+                            </select> */}
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <label> Sede </label>
-                            <select className="form-control form-control-sm">
+                            <SelectSede 
+                              idEmpresa={values.empresa}
+                              name="sede"
+                              value={values.sede}
+                              onChange={(e) => {setFieldValue('sede', e.target.value)}}
+                              onBlur={() => {setFieldTouched('sede', true)}}
+                              className="form-control form-control-sm"
+                            />
+                            {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
-                            </select>
+                            </select> */}
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <label> Dependencia </label>
-                            <select className="form-control form-control-sm">
+                            <SelectDependencia
+                            idSede={values.sede} 
+                            name="dependencia"
+                            value={values.dependencia}
+                            onChange={(e) => {setFieldValue('dependencia', e.target.value)}}
+                            onBlur={() => { setFieldTouched('dependencia', true)}}
+                            className={"form-control form-control-sm"}  />
+                            {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
-                            </select>
+                            </select> */}
                           </div>
                         </div>
                         <div className="col-md-12">
-                          <div className="form-group">
-                            <label> Buscar usuario </label>
-                            <div className="input-group input-group-sm">
-                              <input
-                                type="text"
-                                className="form-control form-control-sm"
-                                aria-label="Dollar amount (with dot and two decimal places)"
-                              />
-                              <div
-                                className="input-group-append"
-                                id="button-addon4"
-                              >
-                                <button
-                                  className="btn btn-secondary"
-                                  type="button"
-                                >
-                                  <i className="fa fa-search" />
-                                </button>
-                                <button
-                                  className="btn btn-secondary"
-                                  type="button"
-                                >
-                                  <i className="fa fa-plus" /> Agregar
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                          <textarea
+                            <UserList id={values.dependencia}  />
+                          {/* <textarea
                             className="form-control form-control-sm"
                             disabled
                             placeholder="Usuarios disponibles de la consulta"
                             rows={8}
-                          />
+                          /> */}
                         </div>
                       </div>
                     </div>
@@ -290,54 +345,7 @@ const TipoTramite = props => {
               </div>
             </div>
             <div className="row">
-              <div className="col-md-12">
-                <div className="card">
-                  <div className="p-2 mb-1 bg-light text-dark">
-                    Usuarios disponibles
-                  </div>
-                  <div className="card-body">
-                    <div>
-                      <div className="row">
-                        <div className="col-md-12">
-                          <table className="table table-bordered table-sm">
-                            <thead className="thead-light">
-                              <tr className="text-center">
-                                <th scope="col">Usuario</th>
-                                <th scope="col">Sede</th>
-                                <th scope="col">Dependencia</th>
-                                <th scope="col">Original</th>
-                                <th scope="col">Eliminar</th>
-                              </tr>
-                            </thead>
-                            <tbody className="text-center">
-                              <tr>
-                                <td scope="row">NOMBRE COMPLETO DEL USUARIO</td>
-                                <td>SEDE I</td>
-                                <td>DEPENDENCIA I</td>
-                                <td>
-                                  <CustomInput
-                                    type="radio"
-                                    id="exampleCustomCheckbox2"
-                                  />{" "}
-                                </td>
-                                <td>
-                                  {" "}
-                                  <button
-                                    type="button"
-                                    className="btn btn-sm btn-danger"
-                                  >
-                                    <i className="fa fa-trash" />
-                                  </button>{" "}
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+             <UserListEnabled data={usersdata}   />
             </div>
             <div className="row">
               <div className="col-md-4">
@@ -441,59 +449,413 @@ const TipoTramite = props => {
           </div>
         </div>
       </form>
-    </div>
-  );
-};
+       </div>
+      )}
+    />
+)}
 
-export default withFormik({
-  mapPropsToValues: props => ({
-    t_correspondencia: props.tipotramite.t_correspondencia,
-    codigo: props.tipotramite.codigo,
-    nombre: props.tipotramite.nombre,
-    descripcion: props.tipotramite.descripcion,
-    d_maximos: props.tipotramite.d_maximos,
-    estado: props.tipotramite.estado,
-    plantilla: props.tipotramite.plantilla,
-    asunto: props.tipotramite.asunto,
-    workflow: props.tipotramite.workflow,
-    user_enabled: props.tipotramite.user_enabled
-  }),
-  validationSchema: Yup.object().shape({
-    t_correspondencia: Yup.string()
-      .ensure()
-      .required(" Por favor seleccione el tipo de correspondencia."),
-    codigo: Yup.string()
-      .required(" Por favor introduzca un código.")
-      .matches(/^[0-9a-zA-Z]+$/, " No es un codigo alfanumerico")
-      .min(2, " minimo 2 caracteres para el codigo")
-      .max(15, " maximo 15 caracteres para el codigo"),
-    nombre: Yup.string()
-      .required(" Por favor introduzca un nombre."),
-    descripcion: Yup.string()
-    .required(" Por favor introduzca una descripción."),
-    d_maximos: Yup.number()
-      .integer()
-      .positive()
-      .required(" Por favor introduzca los días máximos de respuesta."),
-    estado: Yup.bool()
-      .test(
-        "Activo",
-        "Es necesario activar el tipo de trámite",
-        value => value === true
-      )
-      .required(" Es necesario activar el tipo de trámite."),
-    user_enabled: Yup.array().of(
-      Yup.object().shape({ id: Yup.number(), name: Yup.string() })
-    ),
-    asunto: Yup.string(),
-    plantilla: Yup.string().ensure(),
-    workflow: Yup.string().ensure()
-  }),
-  handleSubmit: (values, { setSubmitting, resetForm }) => {
-    setTimeout(() => {
-      alert(JSON.stringify(values, null, 2));
-      setSubmitting(false);
-      resetForm();
-    }, 1000);
+class SelectConglomerado extends React.Component {
+  state = {
+    dataConglomerado: []
   }
-})(TipoTramite);
+
+  componentDidMount() {
+    this.getDataConglomerado();
+  }
+
+  getDataConglomerado = () => {
+    fetch(`http://192.168.20.187:7000/api/sgdea/conglomerate`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: "Basic " + window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+     this.setState({
+       dataConglomerado: data
+     })
+    }).catch(err => console.log("Error", err))
+  }
+
+  handleChange = value => {
+    this.props.onChange('conglomerado', value);
+  }
+
+  handleBlur = () => {
+    this.props.onBlur('conglomerado', true);
+  }
+
+  render() {
+    const data = this.state.dataConglomerado;
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          <option value={" "}>-- Seleccione --</option>
+          {data.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>{aux.name}</option>
+            )
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+class SelectEmpresa extends React.Component {
+  state = {
+    dataEmpresa: [], 
+    id: this.props.idConglomerado
+  }
+
+  static getDerivedStateFormProps(props, state){
+    if(props.idConglomerado !== state.id){
+      return{
+        id: props.idConglomerado
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.idConglomerado !== prevProps.idConglomerado){
+      // Metodo
+      this.getDataEmpresa();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataEmpresa()
+  }
+
+  getDataEmpresa = () => {
+    fetch(`http://192.168.20.187:7000/api/sgdea/company/conglomerate/${this.props.idConglomerado}`, {
+      method: "GET", 
+      headers: {
+        "Content-Type":"application/json", 
+        Authorization: "Basic " +  window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataEmpresa: data
+      })
+     // console.log(data);
+    }).catch(err => console.log("Error", err));
+  }
+
+  render() {
+    return (
+      <div>
+        <select 
+          name={this.props.name}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          className={this.props.className}>
+          <option value={" "}> -- Seleccione --  </option>
+          {
+            this.state.dataEmpresa.map((aux, id) => {
+              return(
+                <option key={id} value={aux.id}>{aux.name}</option>
+              )
+            })
+          }
+        </select>
+      </div>
+    );
+  }
+
+}
+
+class SelectSede extends React.Component {
+  state={
+    dataSede: [], 
+    id: this.props.idEmpresa
+  }
+
+   static getDerivedStateFormProps(props, state){
+    if(props.idEmpresa !== state.id){
+      return{
+        id: props.idEmpresa
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.idEmpresa !== prevProps.idEmpresa){
+      // Metodo
+      this.getDataSede();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataSede()
+  }
+
+  getDataSede = () => {
+    fetch(`http://192.168.20.187:7000/api/sgdea/headquarter/company/${this.props.idEmpresa}`, {
+      method:"GET",
+      headers: {
+        "Content-Type":"application/json", 
+        Authorization: "Basic " +  window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataSede: data
+      })
+    }).catch(err => console.log("Error", err))
+  }
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          className={this.props.className}
+        >
+          <option>-- Seleccione --</option>
+          {
+            this.state.dataSede.map((aux, id ) => {
+              return(
+                <option key={id}  value={aux.id}>{aux.name}</option>
+              )
+            })
+          }
+        </select>
+      </div>
+    );
+  }
+}
+
+class SelectDependencia extends React.Component {
+  state = {
+    dataDependencia: [], 
+    id: this.props.idSede
+  }
+
+  static getDerivedStateFormProps(props, state){
+    if(props.idSede !== state.id){
+      return{
+        id: props.idSede
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.idSede !== prevProps.idSede){
+      // Metodo para actualizar
+      this.getDataDependencia();
+    }
+  }
+
+  componentDidMount() {
+    // metodo para refrezcer el compomente
+    this.getDataDependencia();
+  }
+
+  getDataDependencia = () => {
+    fetch(`http://192.168.20.187:7000/api/sgdea/dependence/headquarter/${this.props.idSede}`, {
+      method: "GET", 
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: "Basic " + window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataDependencia: data
+      })
+    }).catch(err => console.log("Error", err));
+  }
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          className={this.props.className}
+        >
+          <option> -- Seleccione --   </option>
+          {
+            this.state.dataDependencia.map((aux, id) => {
+              return (
+                <option key={id}  value={aux.id}>{aux.name}</option>
+              )
+            })
+          }
+        </select>
+      </div>
+    );
+  }
+}
+
+function UserList(props) {
+
+  const id = props.id;
+
+  const [data, setdata] = useState([]);
+  const firstUpdate = useRef(true);
+ 
+  const dispatch = useDispatch();
+  const AgregarUsuario = (user) => dispatch(agregarUserAction(user));
+
+  // const getDataUsers = () => {
+  //   fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
+  //     method: "GET", 
+  //     headers: {
+  //       "Content-Type":"application/json", 
+  //       Authorization: "Basic " + window.btoa('sgdea:123456')
+  //     }
+  //   }).then(response => response.json()).then(data => {
+  //     setdata(data);
+  //     console.log(data);
+  //   }).catch(err => console.log("Error", err));
+  // };
+
+
+  useEffect(() =>{
+    if(firstUpdate.current){
+      firstUpdate.current = false;
+      return;
+    }
+      fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
+      method: "GET", 
+      headers: {
+        "Content-Type":"application/json", 
+        Authorization: "Basic " + window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      setdata(data);
+     // console.log(data);
+    }).catch(err => console.log("Error", err));
+  //console.log("componentDidUpdate");
+  }, [id]);
+
+  //console.log(id);
+ 
+  return (
+    <div>
+        {/* <div className="form-group">
+            <label> Buscar usuario <span className="text-danger">*</span> </label>
+            <div className="input-group input-group-sm">
+              <input
+                type="text"
+                className="form-control form-control-sm"
+                aria-label="Dollar amount (with dot and two decimal places)"
+              />
+              <div
+                className="input-group-append"
+                id="button-addon4"
+              >
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                >
+                  <i className="fa fa-search" />
+                </button>
+                
+              </div>
+            </div>
+          </div> */}
+         <div style={{ height: "140px", overflow: "scroll", overflowX: "hidden", border: "1px solid #e3e3e3", background: "#e3e3e3", padding: "10px"}}>
+            {data.length > 0 ? (data.map((aux, id) => {
+            return(
+              <ul className="list-unstyled">
+               <li className="media">
+                <img className="mr-2" src="https://via.placeholder.com/40" alt="Generic placeholder image"/> 
+                <div className="media-body">
+                  <p className="mt-0 mb-1">{aux.name}</p>
+                  <Button 
+                    style={{marginTop: "-13px", marginLeft: "-12px"}}  
+                    color={"link"} 
+                   onClick={() => AgregarUsuario({id: aux.id, name: aux.name})}>
+                  
+                      <h6 className="badge badge-secondary">agregar</h6>   
+                  </Button>
+                </div>
+              </li>
+              </ul>
+            )
+          })): <p>Seleccione los usuarios asignar</p>  }
+         </div>
+      </div>
+  );
+}
+
+const UserListEnabled = (props) => {
+
+  const dispatch = useDispatch();
+  const users = props.data
+  console.log(users.users);
+
+  const [original, setOriginal] = useState("");
+
+
+
+   return(
+     <div className="col-md-12">
+      <div className="card">
+        <div className="p-2 mb-1 bg-light text-dark">
+          Usuarios disponibles
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="row">
+              <div className="col-md-12">
+              {
+                Object.keys(users.users).length === 0 ? <p className="text-center"> <b> No hay usuarios asignados a este tramite </b>  </p> :   <table className="table table-bordered table-sm">
+                  <thead className="thead-light">
+                    <tr className="text-center">
+                      <th scope="col">Usuario</th>
+                      <th scope="col">Original</th>
+                      <th scope="col">Eliminar</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-center">
+                    {
+                      users.users.map((aux, id) => {
+                        return(
+                            <tr>
+                      <td scope="row">{aux.name}</td>
+                      <td>
+                       <input id={`original${aux.id}`} value={original}  type="radio" onChange={e => setOriginal(e.target.value)} />
+                      </td>
+                      <td>
+                        {" "}
+                        <button
+                        type="button"
+                          className="btn btn-sm btn-outline-danger"
+                          onClick={() => dispatch(borrarUserAction(aux.id))}
+                        >
+                          <i className="fa fa-trash" />
+                        </button>{" "}
+                      </td>
+                    </tr>
+                        )
+                      })
+                    } 
+                  </tbody>
+                </table>
+              }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+export default TipoTramiteForm;

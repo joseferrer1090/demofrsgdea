@@ -296,7 +296,6 @@ class ModalEditGrupos extends React.Component {
                       className="form-control form-control-sm"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      defaultValue
                     />
                           <div style={{ color: '#D54B4B' }}>
                             {

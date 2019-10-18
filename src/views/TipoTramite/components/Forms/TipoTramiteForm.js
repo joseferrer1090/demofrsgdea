@@ -836,7 +836,8 @@ const UserListEnabled = () => {
           <div>
             <div className="row">
               <div className="col-md-12">
-                <table className="table table-bordered table-sm">
+              {
+                Object.keys(users.users).length === 0 ? <p className="text-center"> <b> No hay usuarios asignados a este tramite </b>  </p> :   <table className="table table-bordered table-sm">
                   <thead className="thead-light">
                     <tr className="text-center">
                       <th scope="col">Usuario</th>
@@ -872,6 +873,7 @@ const UserListEnabled = () => {
                     } 
                   </tbody>
                 </table>
+              }
               </div>
             </div>
           </div>

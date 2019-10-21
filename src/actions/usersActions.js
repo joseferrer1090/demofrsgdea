@@ -11,3 +11,10 @@ export const borrarUserAction = (id) => {
         payload: id
     };
 };
+
+export const agregarOriginal = (id) => {
+    return {
+        type: 'AGREGAR_ORIGINAL', 
+        payload: id
+    }
+};

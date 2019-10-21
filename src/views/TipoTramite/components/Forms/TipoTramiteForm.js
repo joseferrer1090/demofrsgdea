@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "react-redux";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Row, Col, CustomInput, Button } from "reactstrap";
-import {agregarUserAction, borrarUserAction}  from "./../../../../actions/usersActions";
+import {agregarUserAction, borrarUserAction, agregarOriginal}  from "./../../../../actions/usersActions";
 
 
 
@@ -801,10 +801,6 @@ const UserListEnabled = (props) => {
   const users = props.data
   console.log(users.users);
 
-  const [original, setOriginal] = useState("");
-
-
-
    return(
      <div className="col-md-12">
       <div className="card">
@@ -831,7 +827,7 @@ const UserListEnabled = (props) => {
                             <tr>
                       <td scope="row">{aux.name}</td>
                       <td>
-                       <input id={`original${aux.id}`} value={original}  type="radio" onChange={e => setOriginal(e.target.value)} />
+                        <button type="button" onClick={() => dispatch(agregarOriginal(aux.id))}> asignar original  </button>
                       </td>
                       <td>
                         {" "}

@@ -1,5 +1,6 @@
 const initialState = {
-    users: []
+    users: [], 
+    original: {}
 };
 
 export default function(state = initialState, action) {
@@ -13,6 +14,11 @@ export default function(state = initialState, action) {
             return {
                 ...state, 
                 users:  state.users.filter(user => user.id !== action.payload)
+            };
+        case 'AGREGAR_ORIGINAL':
+            return {
+                ...state,
+                original: action.payload
             };
         default:
           return state;

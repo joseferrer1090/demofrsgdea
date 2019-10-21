@@ -4,13 +4,16 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Row, Col, CustomInput, Button } from "reactstrap";
 import {agregarUserAction, borrarUserAction, agregarOriginal}  from "./../../../../actions/usersActions";
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
+import { css } from 'glamor';
 
 
 
 const TipoTramiteForm = () => {
 
   const usersdata = useSelector(state => state.users);
+  const notification = useSelector(state => state.users.assigned);
 
 
 return(
@@ -49,7 +52,8 @@ return(
             descripcion: values.descripcion, 
             d_maximos: values.d_maximos, 
             estado: values.estado, 
-            user_enabled: usersdata.users
+            user_enabled: usersdata.users, 
+            original: usersdata.original
           }, null, 2));
           setSubmitting(false);
         }, 1000);
@@ -69,6 +73,7 @@ return(
         props
       }) => (
        <div className="col-md-12">
+         <ToastContainer/>
           <form className="form">
         <div className="card">
           <div className="card-body">
@@ -800,7 +805,6 @@ const UserListEnabled = (props) => {
   const dispatch = useDispatch();
   const users = props.data
   console.log(users.users);
-
    return(
      <div className="col-md-12">
       <div className="card">

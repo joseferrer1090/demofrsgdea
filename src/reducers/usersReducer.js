@@ -1,6 +1,7 @@
 const initialState = {
     users: [], 
-    original: {}
+    original: {}, 
+    assigned: null
 };
 
 export default function(state = initialState, action) {
@@ -8,17 +9,21 @@ export default function(state = initialState, action) {
         case 'AGREGAR_USUARIO':
             return {
                 ...state, 
-                users: [...state.users, action.payload]
+                users: [...state.users, action.payload], 
+                assigned: null
             }; 
         case 'BORRAR_USUARIO':
             return {
                 ...state, 
-                users:  state.users.filter(user => user.id !== action.payload)
+                users:  state.users.filter(user => user.id !== action.payload), 
+                original: {}, 
+                assigned: false
             };
         case 'AGREGAR_ORIGINAL':
             return {
                 ...state,
-                original: action.payload
+                original: action.payload, 
+                assigned: true
             };
         default:
           return state;

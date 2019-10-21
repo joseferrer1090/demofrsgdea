@@ -9,22 +9,73 @@ import {
   Col
 } from "reactstrap";
 import IMGTRAMITE from "./../../../assets/img/folder.svg";
+import moment from "moment";
 
 class ModalViewTramite extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalviewtramit
+      modal: this.props.modalviewtramit, 
+      id: this.props.id, 
+      username: "jferrer", 
+      dataTipoTramite: {}
     };
   }
 
-  toggle = () => {
+  toggle = (id) => {
     this.setState(prevState => ({
-      modal: !prevState.modal
+      modal: !prevState.modal, 
+      id: id
     }));
+    this.getDataTipoTramiteById(id);
   };
 
+  getDataTipoTramiteById = (id) => {
+    fetch(`http://192.168.20.187:7000/api/sgdea/typeprocedure/${id}?username=${this.state.username}`, {
+      method: "GET", 
+      headers: {
+        "Content-Type" : "application/json", 
+        Authorization: "Basic " + window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataTipoTramite: data
+      })
+    }).catch(err => console.log("Error", err));
+  }
+
+  FechaCreacionTipoTramite(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
+  FechaModificacionTipoTramite(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    // moment.locale(es);
+    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
+
   render() {
+     const statusTipoTramite = data => {
+      let status;
+      if (data === 1) {
+        status = (
+          <b className="text-success">
+            {' '}
+           Tramite activo
+          </b>
+        );
+      } else if (data === 0) {
+        status = (
+          <b className="text-danger">
+            {' '}
+            Tramite inactivo
+          </b>
+        );
+      }
+      return status;
+    };
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -47,7 +98,7 @@ class ModalViewTramite extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Código </dt>
-                        <dd> Código </dd>
+                        <dd>{this.state.dataTipoTramite.code}</dd>
                       </dl>
                     </div>
                   </div>
@@ -55,7 +106,7 @@ class ModalViewTramite extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Tipo de correspondencia </dt>
-                        <dd> tipo de correspondencia </dd>
+                        <dd> {this.state.dataTipoTramite.typeCorrespondence} </dd>
                       </dl>
                     </div>
                   </div>
@@ -63,7 +114,7 @@ class ModalViewTramite extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Nombre </dt>
-                        <dd> nombre </dd>
+                        <dd> {this.state.dataTipoTramite.name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -71,7 +122,7 @@ class ModalViewTramite extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Descripción </dt>
-                        <dd> descripción </dd>
+                        <dd> {this.state.dataTipoTramite.description} </dd>
                       </dl>
                     </div>
                   </div>
@@ -79,7 +130,7 @@ class ModalViewTramite extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Estado </dt>
-                        <dd> estado </dd>
+                        <dd> {statusTipoTramite(this.state.dataTipoTramite.status)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -87,7 +138,7 @@ class ModalViewTramite extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de creación </dt>
-                        <dd> Fecha de creación </dd>
+                        <dd> {this.FechaCreacionTipoTramite(this.state.dataTipoTramite.createdAt)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -95,7 +146,7 @@ class ModalViewTramite extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de modificación </dt>
-                        <dd> Fecha de modificación </dd>
+                        <dd>{this.FechaModificacionTipoTramite(this.state.dataTipoTramite.updatedAt)}</dd>
                       </dl>
                     </div>
                   </div>

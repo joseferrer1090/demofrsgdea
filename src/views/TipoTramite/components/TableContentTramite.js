@@ -34,7 +34,6 @@ class TableContentTramite extends Component {
       this.setState({
         dataTipoTramite: data
       })
-      console.log(data);
     }).catch(err => console.log("Error", err));
   }
 
@@ -47,7 +46,7 @@ class TableContentTramite extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           <i className="fa fa-eye" />
@@ -90,8 +89,8 @@ class TableContentTramite extends Component {
     return status;
   };
 
-  openModalView() {
-    this.refs.child1.toggle();
+  openModalView(id) {
+    this.refs.child1.toggle(id);
   }
 
   routeChange = () => {

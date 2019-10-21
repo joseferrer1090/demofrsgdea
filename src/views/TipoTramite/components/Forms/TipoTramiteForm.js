@@ -2,7 +2,7 @@ import React, {useState, useRef, useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { Row, Col, CustomInput, Button } from "reactstrap";
+import { Row, Col, CustomInput, Button, Alert} from "reactstrap";
 import {agregarUserAction, borrarUserAction, agregarOriginal}  from "./../../../../actions/usersActions";
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
@@ -13,16 +13,28 @@ import { css } from 'glamor';
 const TipoTramiteForm = () => {
 
   const usersdata = useSelector(state => state.users);
-  const notification = useSelector(state => state.users.assigned);
-
-
+  const aux = useSelector(state => state.users.assigned);
+ 
+  
+  
 return(
-    <Formik    
+    <Formik  
+    initialValues={{  tipocorrespondencia: "", 
+            codigo: "", 
+            nombre: "", 
+            descripcion: "", 
+            d_maximos: "", 
+            conglomerado: "", 
+            empresa: "", 
+            sede: "", 
+            dependencia: "",
+            estado: false
+          }}  
      validationSchema={Yup.object().shape({
-         t_correspondencia: Yup.string()
-          .ensure()
-          .required(" Por favor seleccione el tipo de correspondencia."), 
-        codigo: Yup.string()
+      tipocorrespondencia: Yup.string()
+      .ensure()
+      .required(" Por favor seleccione el tipo de correspondencia."), 
+      codigo: Yup.string()
       .required(" Por favor introduzca un código.")
       .matches(/^[0-9a-zA-Z]+$/, " No es un codigo alfanumerico")
       .min(2, " minimo 2 caracteres para el codigo")
@@ -43,10 +55,10 @@ return(
       )
       .required(" Es necesario activar el tipo de trámite.")
       })}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
           alert(JSON.stringify({
-            t_correspondencia: values.t_correspondencia, 
+            tipocorrespondencia: values.tipocorrespondencia, 
             codigo: values.codigo, 
             nombre: values.nombre, 
             descripcion: values.descripcion, 
@@ -56,6 +68,17 @@ return(
             original: usersdata.original
           }, null, 2));
           setSubmitting(false);
+          resetForm({
+            tipocorrespondencia: "", 
+            codigo: "", 
+            nombre: "", 
+            descripcion: "", 
+            d_maximos: "", 
+            conglomerado: "", 
+            empresa: "", 
+            sede: "", 
+            dependencia: ""
+          });
         }, 1000);
       }}
       render={({
@@ -72,8 +95,7 @@ return(
         setFieldValue,
         props
       }) => (
-       <div className="col-md-12">
-         <ToastContainer/>
+       <div className="col-md-12">         
           <form className="form">
         <div className="card">
           <div className="card-body">
@@ -92,26 +114,26 @@ return(
                             <span className="text-danger">* </span>
                           </label>
                           <select
-                            name={"t_correspondencia"}
-                            value={values.t_correspondencia}
+                            name="tipocorrespondencia"
+                            value={values.tipocorrespondencia}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            className={`form-control form-control-sm ${errors.t_correspondencia &&
-                              touched.t_correspondencia &&
+                            className={`form-control form-control-sm ${errors.tipocorrespondencia &&
+                              touched.tipocorrespondencia &&
                               "is-invalid"}`}
                           >
-                            <option disabled value={""}> --Seleccione-- </option>
+                            <option value={""}> --Seleccione-- </option>
                             <option value={"1"}> Recibida </option>
                             <option value={"2"}> Despachada </option>
                             <option value={"3"}> Interna </option>
                           </select>
                           <div style={{ color: '#D54B4B' }}>
                           {
-                            errors.t_correspondencia && touched.t_correspondencia ?
+                            errors.tipocorrespondencia && touched.tipocorrespondencia ?
                             <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
-                          <ErrorMessage name={"t_correspondencia"} />
+                          <ErrorMessage name="tipocorrespondencia" />
                           </div>
                         </div>
                       </div>
@@ -121,7 +143,7 @@ return(
                             Código <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            name={"codigo"}
+                            name="codigo"
                             onChange={e => {setFieldValue("codigo", e.target.value.toUpperCase())}}
                             onBlur={handleBlur}
                             value={values.codigo}
@@ -136,7 +158,7 @@ return(
                             <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
-                          <ErrorMessage name={"codigo"} />
+                          <ErrorMessage name="codigo" />
                           </div>
                         </div>
                       </div>
@@ -171,10 +193,10 @@ return(
                             Descripción <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            name={"descripcion"}
+                            name="descripcion"
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            value={values.description}
+                            value={values.descripcion}
                             type="text"
                             className={`form-control form-control-sm ${errors.descripcion &&
                               touched.descripcion &&
@@ -186,7 +208,7 @@ return(
                             <i className="fa fa-exclamation-triangle"/> :
                             null
                           }
-                          <ErrorMessage name={"descripcion"} />
+                          <ErrorMessage name="descripcion" />
                           </div>
                         </div>
                       </div>
@@ -802,11 +824,31 @@ function UserList(props) {
 
 const UserListEnabled = (props) => {
 
+  const x = useSelector(state => state.users.assigned);
+
+ const notificacion = ({x, visible}) => {
+    if(x === null){
+     return;
+    } else if(x === true){
+      return (<Alert isOpen={x} color="success" fade={true}>
+        Usuario Asignado para recibir original
+      </Alert>);
+    } else if( x === false ){
+      return (
+        <Alert isOpen={x}   color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original
+      </Alert>
+      );
+    }
+    return x;
+  }
   const dispatch = useDispatch();
   const users = props.data
-  console.log(users.users);
+  // console.log(users.users);
    return(
+     
      <div className="col-md-12">
+        {notificacion({x})}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
           Usuarios disponibles
@@ -856,6 +898,7 @@ const UserListEnabled = (props) => {
         </div>
       </div>
     </div>
+  
   )
 }
 export default TipoTramiteForm;

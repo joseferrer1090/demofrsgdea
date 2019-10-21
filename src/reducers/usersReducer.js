@@ -16,7 +16,6 @@ export default function(state = initialState, action) {
             return {
                 ...state, 
                 users:  state.users.filter(user => user.id !== action.payload), 
-                original: {}, 
                 assigned: false
             };
         case 'AGREGAR_ORIGINAL':

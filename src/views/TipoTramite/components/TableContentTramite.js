@@ -5,38 +5,36 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewTramite from "./ModalViewTramite";
 import ModalDeleteTramite from "./ModalDeleteTramite";
 import PropTypes from "prop-types";
+import moment from 'moment';
 
-const dataExample = [
-  {
-    id: 1,
-    codigo: 12366,
-    nombre: "tipo tramite1",
-    descripcion: "Tramite 1",
-    estado: true
-  },
-  {
-    id: 2,
-    codigo: 12366,
-    nombre: "tipo tramite2",
-    descripcion: "Tramite 2",
-    estado: true
-  },
-  {
-    id: 3,
-    codigo: 12366,
-    nombre: "tipo tramite3",
-    descripcion: "Tramite 3",
-    estado: false
-  }
-];
 
 class TableContentTramite extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      dataTipoTramite: [],
       modalview: false,
-      modaldel: false
+      modaldel: false, 
+      hiddenColumnID: true
     };
+  }
+
+  componentDidMount() {
+    this.getDataTipoTramite();
+  }
+
+  getDataTipoTramite = () => {
+    fetch(`http://192.168.20.187:7000/api/sgdea/typeprocedure`, {
+      method: "GET", 
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataTipoTramite: data
+      })
+    }).catch(err => console.log("Error", err));
   }
 
   accionesTramite = (cell, row) => {
@@ -48,7 +46,7 @@ class TableContentTramite extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           <i className="fa fa-eye" />
@@ -75,18 +73,24 @@ class TableContentTramite extends Component {
     );
   };
 
+  FechaCreacionTipoTramite(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
+
   estadotramite = (cell, row) => {
     let status;
-    if (row.estado === true) {
+    if (row.status === 1) {
       status = <div className="text-success"> Activo </div>;
-    } else if (row.estado !== true) {
+    } else if (row.status === 0) {
       status = <div className="text-danger"> Inactivo </div>;
     }
     return status;
   };
 
-  openModalView() {
-    this.refs.child1.toggle();
+  openModalView(id) {
+    this.refs.child1.toggle(id);
   }
 
   routeChange = () => {
@@ -97,13 +101,18 @@ class TableContentTramite extends Component {
   openModalDelete() {
     this.refs.child2.toggle();
   }
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
         <Row>
           <Col sm={12}>
             <BootstrapTable
-              data={dataExample}
+              data={this.state.dataTipoTramite}
               bordered={false}
               hover
               pagination
@@ -113,24 +122,28 @@ class TableContentTramite extends Component {
               exportCSV
               className="texto-TLlegada"
             >
-              <TableHeaderColumn isKey dataField={"id"} width="50">
+             
+              <TableHeaderColumn isKey dataField={"id"} width="50" hidden={this.state.hiddenColumnID}/>
+              <TableHeaderColumn  dataField={"id"} width="50"  dataFormat={this.indexN} >
                 {" "}
                 #{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"codigo"} dataAlign="center">
+              <TableHeaderColumn dataField={"code"} dataAlign="center">
                 {" "}
                 Código{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"nombre"} dataAlign="center">
+              <TableHeaderColumn dataField={"name"} dataAlign="center">
                 {" "}
                 Nombre{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"descripcion"} dataAlign="center">
+              <TableHeaderColumn dataField={"description"} dataAlign="center">
                 {" "}
                 Descripción{" "}
               </TableHeaderColumn>
+              <TableHeaderColumn dataField={"answerDays"} dataAlign={"center"}> Tiempo de respuesta  </TableHeaderColumn>
+              <TableHeaderColumn dataField={"createdAt"} dataAlign={"center"} dataFormat={(cell, row) => this.FechaCreacionTipoTramite(cell, row)}> Fecha de creacion</TableHeaderColumn>
               <TableHeaderColumn
-                dataField={"estado"}
+                dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.estadotramite(cell, row)}
               >

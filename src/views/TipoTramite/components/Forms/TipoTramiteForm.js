@@ -19,17 +19,18 @@ const TipoTramiteForm = () => {
   
 return(
     <Formik  
-    initialValues={{  tipocorrespondencia: "", 
-            codigo: "", 
-            nombre: "", 
-            descripcion: "", 
-            d_maximos: "", 
-            conglomerado: "", 
-            empresa: "", 
-            sede: "", 
-            dependencia: "",
-            estado: false
-          }}  
+    initialValues={{  
+      tipocorrespondencia: "", 
+      codigo: "", 
+      nombre: "", 
+      descripcion: "", 
+      d_maximos: "", 
+      conglomerado: "", 
+      empresa: "", 
+      sede: "", 
+      dependencia: "",
+      estado: false
+     }}  
      validationSchema={Yup.object().shape({
       tipocorrespondencia: Yup.string()
       .ensure()

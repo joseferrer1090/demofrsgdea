@@ -4,6 +4,8 @@ import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewTramite from "./ModalViewTramite";
 import ModalDeleteTramite from "./ModalDeleteTramite";
+import ModalExport from "./ModalExportCSV";
+import ModalExport2 from "./ModalExportCSVTipoTramiteUser";
 import PropTypes from "prop-types";
 import moment from 'moment';
 
@@ -15,6 +17,8 @@ class TableContentTramite extends Component {
       dataTipoTramite: [],
       modalview: false,
       modaldel: false, 
+      modalexport: false,
+      modalexport2: false,
       hiddenColumnID: true
     };
   }
@@ -102,11 +106,49 @@ class TableContentTramite extends Component {
     this.refs.child2.toggle(id);
   }
 
+  openModalExport(){
+    this.refs.child3.toggle();
+  }
+
+  openModalExportUsers(){
+    this.refs.child4.toggle();
+  }
+
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
+   createCustomButtonGroup = props => {
+    return (
+     <div>
+        <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" />{' '}
+        Exportar
+      </button>
+      &nbsp;
+       <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExportUsers()}
+      >
+        <i className="fa fa-download" />{' '}
+        Exportar usuarios por tramite
+      </button>
+     </div>
+      
+    );
+  };
+
   render() {
+    const options = {
+      btnGroup: this.createCustomButtonGroup,
+      pagination: true,
+      exportCSV: true
+    };
     return (
       <div className="animated fadeIn">
         <Row>
@@ -114,6 +156,7 @@ class TableContentTramite extends Component {
             <BootstrapTable
               data={this.state.dataTipoTramite}
               bordered={false}
+              options={options}
               hover
               pagination
               search
@@ -166,6 +209,8 @@ class TableContentTramite extends Component {
           ref={"child1"}
         />
         <ModalDeleteTramite updateTable={this.getDataConglomerates} modaldelete={this.state.modaldel} ref={"child2"} />
+        <ModalExport modalexport={this.state.modalexport} ref={"child3"}  />
+        <ModalExport2 modalexport2={this.state.modalexport2} ref={"child4"}/>
       </div>
     );
   }

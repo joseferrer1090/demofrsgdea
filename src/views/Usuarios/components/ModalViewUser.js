@@ -19,8 +19,8 @@ import {
   Button
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import Moment from 'react-moment';
 import classnames from 'classnames';
+import moment from "moment";
 
 class ModalViewUser extends Component {
   constructor(props) {
@@ -98,6 +98,24 @@ class ModalViewUser extends Component {
   toogleCollapse2 = () => {
     this.setState({ collapse2: !this.state.collapse2, collapse: false });
   };
+
+  FechaCreacionUsuario(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
+  FechaModificacionActualizacion(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    // moment.locale(es);
+    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
+
+  FechaNacimiento(data){
+    let birthDate;
+    birthDate = new Date(data);
+    return moment(birthDate).format('YYYY-MM-DD');
+  }
 
   render() {
     console.log(this.state.id);
@@ -184,9 +202,7 @@ class ModalViewUser extends Component {
                       </dt>
                       <dd>
                         {
-                          <Moment format="YYYY/MM/DD">
-                            {this.state.data.birthDate}
-                          </Moment>
+                          this.FechaCreacionUsuario(this.state.data.birthDate)
                         }
                       </dd>
                     </dl>
@@ -330,11 +346,7 @@ class ModalViewUser extends Component {
                         {this.props.t('app_usuarios_modal_ver_fecha_creacion')}{' '}
                       </dt>
                       <dd>
-                        {
-                          <Moment format="YYYY/MM/DD">
-                            {this.state.data.createdAt}
-                          </Moment>
-                        }{' '}
+                        {this.FechaCreacionUsuario(this.state.data.createdAt)}
                       </dd>
                     </dl>
                   </div>
@@ -348,11 +360,7 @@ class ModalViewUser extends Component {
                         )}{' '}
                       </dt>
                       <dd>
-                        {
-                          <Moment format="YYYY/MM/DD">
-                            {this.state.data.updatedAt}
-                          </Moment>
-                        }{' '}
+                       {this.FechaModificacionActualizacion(this.state.data.updatedAt)}
                       </dd>
                     </dl>
                   </div>

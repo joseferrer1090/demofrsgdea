@@ -149,6 +149,12 @@ class TableContentUser extends Component {
     );
   };
 
+  FechaCreacionUsuario(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
+
   render() {
     const options = {
       btnGroup: this.createCustomButtonGroup,
@@ -167,9 +173,9 @@ class TableContentUser extends Component {
       return !data ? null : `<div>${data.name}</div>`;
     };
 
-    const DateFormat = data => {
-      return <Moment format="YYYY/MM/DD">{data}</Moment>;
-    };
+    // const DateFormat = data => {
+    //   return <Moment format="YYYY/MM/DD">{data}</Moment>;
+    // };
 
     console.log(this.state.dataUsers);
     const t = this.props.t;
@@ -244,7 +250,7 @@ class TableContentUser extends Component {
               width={'150'}
               dataField={'createdAt'}
               dataAlign="center"
-              dataFormat={DateFormat}
+              dataFormat={(cell, row) => this.FechaCreacionUsuario(cell, row)}
             >
               {' '}
               {t('app_usuarios_administrar_table_fecha_creacion')}{' '}

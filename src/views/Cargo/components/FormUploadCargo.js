@@ -36,7 +36,7 @@ class FormUploadCargo extends React.Component {
                   {t('app_cargo_import_step_1_descripcion')}
                   <br />
                   <a href={fileCharge} download="charge.csv">
-                    <b>Plantilla de formato de importación</b>
+                    <b>{t('app_tab_importar_plantilla_formato_importacion')}</b>
                   </a>
                 </p>
               </a>

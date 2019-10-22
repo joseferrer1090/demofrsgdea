@@ -356,13 +356,13 @@ class ModalUpdateRemitente extends React.Component {
           <Fragment>
           <ModalBody>
           <Alert color="danger" isOpen={this.state.alertError}>
-             Error al actualizar el tercero.
+             {this.props.t("app_tercero_modal_actualizar_alert_error")}
           </Alert>
           <Alert color="success" isOpen={this.state.alertSuccess}>
-              Se actualizo el tercero con éxito.
+              {this.props.t("app_tercero_modal_actualizar_alert_success")}
            </Alert>
            <Alert color="danger" isOpen={this.state.alertError400}>
-              Error, el tercero ya esta asignado.
+              {this.props.t("app_tercero_modal_actualizar_alert_error400")}
             </Alert>
           <Row>
             <Col sm="3">
@@ -603,6 +603,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div className="form-group">
                         <label> {this.props.t("app_tercero_modal_actualizar_pais")} <span className="text-danger">*</span>{" "} </label>
                         <SelectCountry
+                        t={this.state.t}
                     name={'tercero_pais'}
                     onChange={e => setFieldValue('tercero_pais', e.target.value)}
                         onBlur={()=>setFieldTouched('tercero_pais', true)}
@@ -640,6 +641,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div className="form-group">
                         <label> {this.props.t("app_tercero_modal_actualizar_departamento")} <span className="text-danger">*</span>{" "} </label>
                         <SelectDepartment
+                        t={this.state.t}
                     tercero_pais={props.values.tercero_pais}
                     name="tercero_departamento"
                     value={values.tercero_departamento}
@@ -682,6 +684,7 @@ class ModalUpdateRemitente extends React.Component {
                     <div className="form-group">
                       <label> {this.props.t("app_tercero_modal_actualizar_ciudad")} <span className="text-danger">*</span>{" "} </label>
                       <SelectCity
+                      t={this.state.t}
                           tercero_departamento={props.values.tercero_departamento}
                           name={'tercero_ciudad'}
                           value={values.tercero_ciudad}
@@ -842,7 +845,8 @@ export default ModalUpdateRemitente;
 //--------------------//
 class SelectCountry extends React.Component {
   state = {
-    dataCountry: []
+    dataCountry: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -883,7 +887,7 @@ class SelectCountry extends React.Component {
           className={this.props.className}
           onBlur={this.props.onBlur}
         >
-          <option value={""}>-- Seleccione --</option>
+          <option value={""}>-- {this.props.t("app_tercero_modal_actualizar_select_pais")} --</option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -900,7 +904,8 @@ class SelectCountry extends React.Component {
 class SelectDepartment extends React.Component {
   state = {
     dataDepartment: [],
-    id: this.props.tercero_pais
+    id: this.props.tercero_pais,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -951,7 +956,7 @@ class SelectDepartment extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={""}>-- Seleccione --</option>
+          <option value={""}>-- {this.props.t("app_tercero_modal_actualizar_select_departamento")} --</option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -968,7 +973,8 @@ class SelectDepartment extends React.Component {
 class SelectCity extends React.Component {
   state = {
     dataCity: [],
-    id: this.props.tercero_departamento
+    id: this.props.tercero_departamento,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -1019,7 +1025,7 @@ class SelectCity extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}        >
-          <option value={""}>-- Seleccione --</option>
+          <option value={""}>-- {this.props.t("app_tercero_modal_actualizar_select_ciudad")} --</option>
           {this.state.dataCity.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

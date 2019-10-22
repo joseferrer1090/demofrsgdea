@@ -36,7 +36,7 @@ class FormImportPais extends React.Component {
                   {t('app_pais_import_step_1_descripcion')}
                   <br />
                   <a href={fileCountry} download="country.csv">
-                    <b>Plantilla de formato de importación</b>
+                    <b>{t('app_tab_importar_plantilla_formato_importacion')}</b>
                   </a>
                 </p>
               </a>

@@ -137,18 +137,23 @@ class ModalDeleteTipoTercero extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        El tipo de tercero que va a eliminar, esta asociado a
-                        otras entidades.
+                        {this.props.t(
+                          'app_tipoTercero_modal_eliminar_alert_error'
+                        )}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un código válido.
+                        {this.props.t(
+                          'app_tipoTercero_modal_eliminar_alert_errorCode'
+                        )}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
-                        El tipo de tecero se ha eliminado con éxito.
+                        {this.props.t(
+                          'app_tipoTercero_modal_eliminar_alert_success'
+                        )}
                       </Alert>
                       <p className="text-center">
                         {' '}

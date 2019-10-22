@@ -375,13 +375,19 @@ class ModalEditEmpresa extends React.Component {
                   <ModalBody>
                     <form className="form">
                       <Alert color="danger" isOpen={this.state.alertError}>
-                        Error al actualizar la empresa.
+                        {this.props.t(
+                          'app_empresa_modal_actualizar_alert_error'
+                        )}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
-                        Se actualizo la empresa con éxito.
+                        {this.props.t(
+                          'app_empresa_modal_actualizar_alert_success'
+                        )}
                       </Alert>
                       <Alert color="danger" isOpen={this.state.alertError400}>
-                        Error, la empresa ya esta asignada.
+                        {this.props.t(
+                          'app_empresa_modal_Actualizar_alert_error400'
+                        )}
                       </Alert>
                       <Row>
                         <Col sm="3">
@@ -562,6 +568,7 @@ class ModalEditEmpresa extends React.Component {
                                       <span className="text-danger">*</span>{' '}
                                     </label>
                                     <SelectCountry
+                                      t={this.state.t}
                                       name={'company_country'}
                                       onChange={e =>
                                         setFieldValue(
@@ -615,6 +622,7 @@ class ModalEditEmpresa extends React.Component {
                                       <span className="text-danger">*</span>{' '}
                                     </label>
                                     <SelectDepartment
+                                      t={this.state.t}
                                       company_country={
                                         props.values.company_country
                                       }
@@ -673,6 +681,7 @@ class ModalEditEmpresa extends React.Component {
                                       <span className="text-danger">*</span>{' '}
                                     </label>
                                     <SelectCity
+                                      t={this.state.t}
                                       company_department={
                                         props.values.company_department
                                       }
@@ -875,7 +884,8 @@ export default ModalEditEmpresa;
 //--------------------//
 class SelectCountry extends React.Component {
   state = {
-    dataCountry: []
+    dataCountry: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -916,7 +926,9 @@ class SelectCountry extends React.Component {
           className={this.props.className}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_empresa_modal_actualizar_select_pais')} --
+          </option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -933,7 +945,8 @@ class SelectCountry extends React.Component {
 class SelectDepartment extends React.Component {
   state = {
     dataDepartment: [],
-    id: this.props.company_country
+    id: this.props.company_country,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -984,7 +997,11 @@ class SelectDepartment extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            --{' '}
+            {this.props.t('app_empresa_modal_actualizar_select_departamento')}{' '}
+            --
+          </option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1001,7 +1018,8 @@ class SelectDepartment extends React.Component {
 class SelectCity extends React.Component {
   state = {
     dataCity: [],
-    id: this.props.company_department
+    id: this.props.company_department,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -1053,7 +1071,9 @@ class SelectCity extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_empresa_modal_actualizar_select_ciudad')} --
+          </option>
           {this.state.dataCity.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

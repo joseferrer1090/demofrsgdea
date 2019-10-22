@@ -10,7 +10,8 @@ import {
   NavItem,
   NavLink,
   TabContent,
-  TabPane
+  TabPane,
+  Alert
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import {
@@ -26,11 +27,13 @@ import {
 import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import classnames from 'classnames';
+import { withTranslation } from 'react-i18next';
 
 class ModalSearchAuditoria extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      t: this.props.t,
       modal: this.props.modalSearch,
       acciones: '',
       usuarios: '',
@@ -42,7 +45,8 @@ class ModalSearchAuditoria extends Component {
       dataSede: [],
       dataDependencias: [],
       dataUsers: [],
-      activeTab: '1'
+      activeTab: '1',
+      alertSucces: false
     };
   }
 
@@ -231,41 +235,6 @@ class ModalSearchAuditoria extends Component {
         </option>
       );
     });
-
-    const mapOptionsConglomerate = this.state.dataConglomerado.map(
-      (aux, idx) => {
-        return (
-          <option key={aux.id} value={aux.id}>
-            {aux.name}
-          </option>
-        );
-      }
-    );
-
-    const mapOptionsCompanys = this.state.dataEmpresa.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
-
-    const mapOptionsHeadquarters = this.state.dataSede.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
-
-    const mapOptionsDependence = this.state.dataDependencias.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
-
     const mapOptionsUsers = this.state.dataUsers.map((aux, idx) => {
       return (
         <option key={aux.id} value={aux.id}>
@@ -273,10 +242,11 @@ class ModalSearchAuditoria extends Component {
         </option>
       );
     });
+    const t = this.state.t;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Consultar auditoría</ModalHeader>
+          <ModalHeader>{t('app_auditoria_modal_consultar_titulo')}</ModalHeader>
           <Formik
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
@@ -302,6 +272,14 @@ class ModalSearchAuditoria extends Component {
                     this.setState({
                       dataAuditoria: data.content
                     });
+
+                    setTimeout(() => {
+                      this.setState({
+                        modal: false
+                        // alertSucces: false
+                      });
+                    }, 1000);
+
                     this.props.onDataFetch(data.content);
                     console.log(data.content);
                   })
@@ -342,6 +320,9 @@ class ModalSearchAuditoria extends Component {
               return (
                 <Fragment>
                   <ModalBody>
+                    <Alert color="success" isOpen={this.state.alertSucces}>
+                      Se realizo la consulta satisfactoriamente.
+                    </Alert>
                     <Row>
                       <Col sm="12">
                         <Nav tabs>
@@ -354,7 +335,7 @@ class ModalSearchAuditoria extends Component {
                                 this.toogleTab('1');
                               }}
                             >
-                              Consultar auditoría
+                              {t('app_auditoria_modal_consultar_tab_1')}
                             </NavLink>
                           </NavItem>
                           <NavItem>
@@ -366,7 +347,7 @@ class ModalSearchAuditoria extends Component {
                                 this.toogleTab('2');
                               }}
                             >
-                              Consulta detallada
+                              {t('app_auditoria_modal_consultar_tab_2')}
                             </NavLink>
                           </NavItem>
                         </Nav>
@@ -374,7 +355,11 @@ class ModalSearchAuditoria extends Component {
                           <TabPane tabId="1">
                             <div className="row">
                               <div className="col-sm-6  ">
-                                <label>Fecha desde</label>
+                                <label>
+                                  {t(
+                                    'app_auditoria_modal_consultar_fecha_desde'
+                                  )}
+                                </label>
                                 <input
                                   type="date"
                                   placeholder="Desde"
@@ -395,7 +380,11 @@ class ModalSearchAuditoria extends Component {
                                 </div>
                               </div>
                               <div className="col-sm-6">
-                                <label>Fecha hasta</label>
+                                <label>
+                                  {t(
+                                    'app_auditoria_modal_consultar_fecha_hasta'
+                                  )}
+                                </label>
                                 <input
                                   type="date"
                                   className={`form-control form-control-sm ${errors.audit_fechaHasta &&
@@ -421,13 +410,16 @@ class ModalSearchAuditoria extends Component {
                             <form className="">
                               <div className="row">
                                 <div className="col-sm-6  ">
-                                  <label>Fecha desde</label>
+                                  <label>
+                                    {t(
+                                      'app_auditoria_modal_consultar_fecha_desde'
+                                    )}
+                                  </label>
                                   <input
                                     type="date"
                                     className={`form-control form-control-sm ${errors.audit_fechaDesde &&
                                       touched.audit_fechaDesde &&
                                       'is-invalid'}`}
-                                    placeholder="Desde"
                                     name="audit_fechaDesde"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -442,13 +434,16 @@ class ModalSearchAuditoria extends Component {
                                   </div>
                                 </div>
                                 <div className="col-sm-6">
-                                  <label>Fecha hasta</label>
+                                  <label>
+                                    {t(
+                                      'app_auditoria_modal_consultar_fecha_hasta'
+                                    )}
+                                  </label>
                                   <input
                                     type="date"
                                     className={`form-control form-control-sm ${errors.audit_fechaHasta &&
                                       touched.audit_fechaHasta &&
                                       'is-invalid'}`}
-                                    placeholder="Hasta"
                                     name="audit_fechaHasta"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
@@ -466,7 +461,9 @@ class ModalSearchAuditoria extends Component {
                               <br />
                               <div className="row">
                                 <div className="col-sm-6">
-                                  <label>Módulo</label>
+                                  <label>
+                                    {t('app_auditoria_modal_consultar_modulo')}
+                                  </label>
                                   <select
                                     name="audit_modulo"
                                     onChange={handleChange}
@@ -476,12 +473,20 @@ class ModalSearchAuditoria extends Component {
                                       touched.audit_modulo &&
                                       'is-invalid'}`}
                                   >
-                                    <option value={''}>-- Seleccione --</option>
+                                    <option value={''}>
+                                      --{' '}
+                                      {t(
+                                        'app_auditoria_modal_consultar_modulo_select'
+                                      )}{' '}
+                                      --
+                                    </option>
                                     {mapOptionsModules}
                                   </select>
                                 </div>
                                 <div className="col-sm-6">
-                                  <label>Entidad</label>
+                                  <label>
+                                    {t('app_auditoria_modal_consultar_entidad')}
+                                  </label>
                                   <select
                                     name="audit_entidad"
                                     onChange={handleChange}
@@ -491,7 +496,13 @@ class ModalSearchAuditoria extends Component {
                                       touched.audit_entidad &&
                                       'is-invalid'}`}
                                   >
-                                    <option value={''}>-- Seleccione --</option>
+                                    <option value={''}>
+                                      --{' '}
+                                      {t(
+                                        'app_auditoria_modal_consultar_entidad_select'
+                                      )}{' '}
+                                      --
+                                    </option>
                                     {mapOptionsEntities}
                                   </select>
                                 </div>
@@ -499,7 +510,11 @@ class ModalSearchAuditoria extends Component {
                               <br />
                               <div className="row">
                                 <div className="col-sm-12">
-                                  <label>Acciones</label>
+                                  <label>
+                                    {t(
+                                      'app_auditoria_modal_consultar_acciones'
+                                    )}
+                                  </label>
                                   <select
                                     name="audit_accciones"
                                     onChange={handleChange}
@@ -509,7 +524,13 @@ class ModalSearchAuditoria extends Component {
                                       touched.audit_accciones &&
                                       'is-invalid'}`}
                                   >
-                                    <option value={''}>-- Seleccione --</option>
+                                    <option value={''}>
+                                      --{' '}
+                                      {t(
+                                        'app_auditoria_modal_consultar_acciones_select'
+                                      )}{' '}
+                                      --
+                                    </option>
                                     {mapOptionsActions}
                                   </select>
                                 </div>
@@ -517,8 +538,13 @@ class ModalSearchAuditoria extends Component {
                               <br />
                               <div className="row">
                                 <div className="col-sm-6">
-                                  <label>Conglomerado</label>
+                                  <label>
+                                    {t(
+                                      'app_auditoria_modal_consultar_conglomerado'
+                                    )}
+                                  </label>
                                   <SelectConglomerado
+                                    t={this.state.t}
                                     name={'audit_conglomerado'}
                                     onChange={e =>
                                       setFieldValue(
@@ -545,8 +571,11 @@ class ModalSearchAuditoria extends Component {
                                   </select> */}
                                 </div>
                                 <div className="col-sm-6">
-                                  <label>Empresa</label>
+                                  <label>
+                                    {t('app_auditoria_modal_consultar_empresa')}
+                                  </label>
                                   <SelectCompany
+                                    t={this.state.t}
                                     audit_conglomerado={
                                       props.values.audit_conglomerado
                                     }
@@ -579,8 +608,11 @@ class ModalSearchAuditoria extends Component {
                               <br />
                               <div className="row">
                                 <div className="col-sm-6">
-                                  <label>Sede</label>
+                                  <label>
+                                    {t('app_auditoria_modal_consultar_sede')}
+                                  </label>
                                   <SelectHeadquarter
+                                    t={this.state.t}
                                     audit_empresa={props.values.audit_empresa}
                                     name={'audit_sede'}
                                     onChange={e =>
@@ -607,8 +639,13 @@ class ModalSearchAuditoria extends Component {
                                   </select> */}
                                 </div>
                                 <div className="col-sm-6">
-                                  <label>Dependencia</label>
+                                  <label>
+                                    {t(
+                                      'app_auditoria_modal_consultar_dependencia'
+                                    )}
+                                  </label>
                                   <SelectDependence
+                                    t={this.state.t}
                                     audit_sede={props.values.audit_sede}
                                     name={'audit_dependencia'}
                                     value={values.audit_dependencia}
@@ -642,7 +679,11 @@ class ModalSearchAuditoria extends Component {
                               <br />
                               <div className="row">
                                 <div className="col-sm-12">
-                                  <label>Usuarios</label>
+                                  <label>
+                                    {t(
+                                      'app_auditoria_modal_consultar_usuarios'
+                                    )}
+                                  </label>
                                   <select
                                     name="audit_usuarios"
                                     onChange={handleChange}
@@ -652,7 +693,13 @@ class ModalSearchAuditoria extends Component {
                                       touched.audit_usuarios &&
                                       'is-invalid'}`}
                                   >
-                                    <option value={''}>-- Seleccione --</option>
+                                    <option value={''}>
+                                      --{' '}
+                                      {t(
+                                        'app_auditoria_modal_consultar_usuarios_select'
+                                      )}{' '}
+                                      --
+                                    </option>
                                     {mapOptionsUsers}
                                   </select>
                                 </div>
@@ -673,7 +720,8 @@ class ModalSearchAuditoria extends Component {
                       className="btn btn-success btn-sm"
                     >
                       {' '}
-                      <i className="fa fa-filter" /> Consultar{' '}
+                      <i className="fa fa-filter" />{' '}
+                      {t('app_auditoria_modal_consultar_boton_consultar')}{' '}
                     </button>
                     <button
                       type="button"
@@ -683,7 +731,8 @@ class ModalSearchAuditoria extends Component {
                       }}
                     >
                       {' '}
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {t('app_auditoria_modal_consultar_boton_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -706,7 +755,8 @@ export default ModalSearchAuditoria;
 // ------------------------------------------------------------------------------------------------------ //
 class SelectConglomerado extends React.Component {
   state = {
-    dataConglomerate: []
+    dataConglomerate: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -746,7 +796,11 @@ class SelectConglomerado extends React.Component {
           value={this.props.value}
           className={this.props.className}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            --{' '}
+            {this.props.t('app_auditoria_modal_consultar_conglomerado_select')}{' '}
+            --
+          </option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -765,7 +819,8 @@ class SelectConglomerado extends React.Component {
 class SelectCompany extends React.Component {
   state = {
     dataCompany: [],
-    id: this.props.audit_conglomerado
+    id: this.props.audit_conglomerado,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -815,7 +870,9 @@ class SelectCompany extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_auditoria_modal_consultar_empresa_select')} --
+          </option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -833,7 +890,8 @@ class SelectCompany extends React.Component {
 class SelectHeadquarter extends React.Component {
   state = {
     dataHeadquarter: [],
-    id: this.props.audit_empresa
+    id: this.props.audit_empresa,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -884,7 +942,9 @@ class SelectHeadquarter extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_auditoria_modal_consultar_sede_select')} --
+          </option>
           {this.state.dataHeadquarter.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -903,7 +963,8 @@ class SelectHeadquarter extends React.Component {
 class SelectDependence extends React.Component {
   state = {
     dataDependence: [],
-    id: this.props.audit_sede
+    id: this.props.audit_sede,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -954,7 +1015,11 @@ class SelectDependence extends React.Component {
           onChange={this.props.onChange}
           className={this.props.className}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            --{' '}
+            {this.props.t('app_auditoria_modal_consultar_dependencia_select')}{' '}
+            --
+          </option>
           {this.state.dataDependence.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

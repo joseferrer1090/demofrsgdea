@@ -14,7 +14,8 @@ class ModalDeleteUser extends React.Component {
     alertCode: false,
     identification: '',
     useLogged: 'jferrer',
-    nameUser: ''
+    nameUser: '',
+    t: this.props.t
   };
 
   toggle = id => {
@@ -57,10 +58,13 @@ class ModalDeleteUser extends React.Component {
       identificacion: ''
     };
     console.log(this.state.id);
+    const t = this.state.t;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader>Eliminar usuario {this.state.nameUser}</ModalHeader>
+          <ModalHeader>
+            {t('app_usuarios_modal_eliminar_titulo')} {this.state.nameUser}
+          </ModalHeader>
 
           <Formik
             initialValues={dataInitial}
@@ -136,29 +140,41 @@ class ModalDeleteUser extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        Error, al eliminar el usuario {values.identificacion}
+                        {this.props.t(
+                          'app_usuarios_modal_eliminar_alert_error'
+                        )}{' '}
+                        {values.identificacion}
                       </Alert>
                       <Alert
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        Se elimino de manera satisfactoria el usuario
+                        {this.props.t(
+                          'app_usuarios_modal_eliminar_alert_success'
+                        )}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        La identificacion {values.identificacion} para eliminar
-                        no corresponde a usuario
+                        {this.props.t(
+                          'app_usuarios_modal_eliminar_alert_errorCode_parte_1'
+                        )}{' '}
+                        {values.identificacion}{' '}
+                        {this.props.t(
+                          'app_usuarios_modal_eliminar_alert_errorCode_parte_2'
+                        )}
                       </Alert>
                       <p className="text-center">
-                        Confirmar la identificacion para eliminar el usuario
+                        {t('app_usuarios_modal_eliminar_titulo_2')}
                       </p>
                       <input
                         type="text"
-                        placeholder="identificacion del usuario"
+                        placeholder={t(
+                          'app_usuarios_modal_eliminar_placeholder'
+                        )}
                         style={{ textAlign: 'center' }}
                         name="identificacion"
                         onChange={handleChange}
@@ -176,7 +192,7 @@ class ModalDeleteUser extends React.Component {
                       </div>
                       <br />
                       <p className="text-center text-danger">
-                        El usuario sera eliminado de manera permanente
+                        {t('app_usuarios_modal_eliminar_titulo_3')}
                       </p>
                     </ModalBody>
                     <ModalFooter>
@@ -189,7 +205,8 @@ class ModalDeleteUser extends React.Component {
                         }}
                       >
                         {' '}
-                        <i className="fa fa-trash" /> Eliminar
+                        <i className="fa fa-trash" />{' '}
+                        {t('app_usuarios_modal_eliminar_boton_eliminar')}
                       </button>
                       <button
                         type="button"
@@ -203,7 +220,8 @@ class ModalDeleteUser extends React.Component {
                           });
                         }}
                       >
-                        <i className="fa fa-times" /> Cerrar
+                        <i className="fa fa-times" />{' '}
+                        {t('app_usuarios_modal_eliminar_boton_cerrar')}
                       </button>
                     </ModalFooter>
                   </form>

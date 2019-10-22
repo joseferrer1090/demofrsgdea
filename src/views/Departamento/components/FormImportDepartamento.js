@@ -41,7 +41,11 @@ class FormImportDepartamento extends React.Component {
                   {this.props.t('app_departamento_import_step_1_descripcion')}
                   <br />
                   <a href={fileDepartment} download="department.csv">
-                    <b>Plantilla de formato de importación</b>
+                    <b>
+                      {this.props.t(
+                        'app_tab_importar_plantilla_formato_importacion'
+                      )}
+                    </b>
                   </a>
                 </p>
               </a>

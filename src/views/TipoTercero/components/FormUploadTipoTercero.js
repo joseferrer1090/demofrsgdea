@@ -38,7 +38,11 @@ class FormImportTipoLlegada extends React.Component {
                   {this.props.t('app_tipoTercero_import_step_1_descripcion')}
                   <br />
                   <a href={fileTypeThirdParty} download="typethirdparty.csv">
-                    <b>Plantilla de formato de importación</b>
+                    <b>
+                      {this.props.t(
+                        'app_tab_importar_plantilla_formato_importacion'
+                      )}
+                    </b>
                   </a>
                 </p>
               </a>

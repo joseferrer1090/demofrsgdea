@@ -15,7 +15,8 @@ class ModalExportCSVTipoTramiteUser extends Component {
       dataExport: [],
       t: this.props.t,
       username: 'ccuartas', 
-      tipoTramite: ""
+      tipoTramite: "",
+      dataExportUSer: []
     };
   }
 
@@ -26,7 +27,7 @@ class ModalExportCSVTipoTramiteUser extends Component {
   };
 
   render() {
-      // console.log(this.state.tipoTramite);
+      console.log(this.state.dataExportUSer);
     return (
       <Fragment>
         <Modal className="modal-xl" isOpen={this.state.modal}>
@@ -37,7 +38,7 @@ class ModalExportCSVTipoTramiteUser extends Component {
              <SelectTipoTramite value={this.state.tipoTramite} onChange={(e) =>{this.setState({ tipoTramite: e.target.value  })}} />
            <div className="row">
                <div className="col-md-12">
-               <TableCSV id={this.state.tipoTramite}/>
+               <TableCSV id={this.state.tipoTramite} data={this.state.dataExportUSer}/>
                </div>
            </div>
           </ModalBody>
@@ -53,8 +54,8 @@ class ModalExportCSVTipoTramiteUser extends Component {
               cerrar{' '}
             </button>
 
-            <button className="btn btn-secondary btn-sm"> Exportar  </button>
-            {/* <CSVLink data={csv} className="btn btn-secondary btn-sm">
+            {/* <button className="btn btn-secondary btn-sm"> Exportar  </button> */}
+            {/* <CSVLink data={} className="btn btn-secondary btn-sm">
               <i className="fa fa-download" />{' '}
               Exportar csv
             </CSVLink> */}
@@ -114,7 +115,7 @@ const SelectTipoTramite = (props) => {
 
 class TableCSV extends React.Component {
     state = {
-        data: [], 
+        data: this.props.data, 
         idTipoTramite: this.props.id, 
         username: "jferrer"
     }
@@ -153,7 +154,32 @@ class TableCSV extends React.Component {
     }
 
     render() {
-        // console.log(this.state.data);
+       console.log(this.state.data);
+        const data = this.state.data;
+        const fields = [
+          {
+            label: 'CodeTypeProcedure', 
+            value: 'codeTypeProcedure'
+          }, 
+          {
+            label: 'email', 
+            value: 'email'
+          }, 
+          {
+            label: 'identification',
+            value: 'identification'
+          }, 
+          {
+            label: 'nombre', 
+            value: 'name'
+          }, 
+          {
+            label: 'original', 
+            value: 'original'
+          }
+        ];
+        const json2csvParser = new Parser({ fields, quote: '' });
+        const csv = json2csvParser.parse(data);
         return (
            <div>
                <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
@@ -194,6 +220,10 @@ class TableCSV extends React.Component {
                 }
               </tbody>
             </table>
+           <CSVLink data={csv} className="btn btn-secondary btn-sm">
+              <i className="fa fa-download" />{' '}
+              Exportar csv
+            </CSVLink>
            </div>
         );
     }

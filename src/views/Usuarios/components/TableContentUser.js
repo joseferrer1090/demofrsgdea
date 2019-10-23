@@ -9,7 +9,7 @@ import ModalChangePassword from './FormChangePasswordUser';
 import ModalExportCSV from './ModalExportUser';
 import './../../../css/styleTableUsuarios.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import moment from 'react-moment';
+import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 
 class TableContentUser extends Component {

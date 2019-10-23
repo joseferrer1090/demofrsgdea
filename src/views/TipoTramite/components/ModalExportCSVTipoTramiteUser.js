@@ -27,7 +27,7 @@ class ModalExportCSVTipoTramiteUser extends Component {
   };
 
   render() {
-      console.log(this.state.dataExportUSer);
+      // console.log(this.state.dataExportUSer);
     return (
       <Fragment>
         <Modal className="modal-xl" isOpen={this.state.modal}>
@@ -154,7 +154,7 @@ class TableCSV extends React.Component {
     }
 
     render() {
-       console.log(this.state.data);
+      //  console.log(this.state.data);
         const data = this.state.data;
         const fields = [
           {

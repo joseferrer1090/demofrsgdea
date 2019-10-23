@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
+import SIGNIN from './../../../assets/img/favicon.ico';
 import {
   Button,
   Card,
@@ -25,12 +26,16 @@ class Forgot extends Component {
     this.state = {
       email: '',
       alertError: false,
-      alertError400: false,
-      alertError404: false,
-      alertSuccess: false
+      failed: false
     };
   }
 
+  onDismiss = () => {
+    this.setState({
+      alertError: false,
+      failed: false
+    });
+  };
   handleChangeInput = e => {
     this.setState({
       [e.target.name]: e.target.value
@@ -52,7 +57,7 @@ class Forgot extends Component {
                 .email(' Por favor introduzca un email valido.')
                 .required(' Por favor introduzca un email.')
             })}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={(values, { setSubmitting, resetForm }) => {
               setTimeout(() => {
                 fetch(
                   `http://192.168.10.180:8090/api/sgdea/service/configuration/user/password-reset-request`,
@@ -70,27 +75,57 @@ class Forgot extends Component {
                   .then(response => {
                     if (response.status === 200) {
                       this.setState({
-                        alertSuccess: true
+                        alertSuccess: false
                       });
+                      setTimeout(() => {
+                        this.setState({
+                          alertSuccess: true
+                        });
+                      }, 1000);
                       console.log(response.status);
                     } else if (response.status === 404) {
                       this.setState({
-                        alertError404: true
+                        alertError404: false
                       });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError404: true
+                        });
+                      }, 1000);
                       console.log(response.status);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError: false
                       });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError: true
+                        });
+                      }, 1000);
                       console.log(response.status);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: false
                       });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError400: true
+                        });
+                      }, 1000);
                       console.log(response.status);
                     }
                   })
-                  .catch(error => console.log('', error));
+                  .catch(error => {
+                    console.log('', error);
+                    this.setState({
+                      failed: false
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        failed: true
+                      });
+                    }, 1000);
+                  });
                 setSubmitting(false);
               }, 500);
             }}
@@ -100,14 +135,9 @@ class Forgot extends Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset,
-                setFieldValue,
-                setFieldTouched
+                handleSubmit
               } = props;
               return (
                 <Fragment>
@@ -126,31 +156,55 @@ class Forgot extends Component {
                                   una nueva contraseña.
                                 </p>
                                 <Alert
+                                  toggle={this.onDismiss}
                                   color="danger"
                                   isOpen={this.state.alertError}
                                 >
                                   Error no se ha podido recuperar la contraseña.
+                                  Inténtelo más tarde.
                                 </Alert>
                                 <Alert
-                                  color="success"
+                                  className="alert-dismissible"
+                                  color="info"
                                   isOpen={this.state.alertSuccess}
-                                ></Alert>
+                                >
+                                  <i className="fa fa-envelope-square" />
+                                  &nbsp; Se ha enviado satisfactoriamente un
+                                  correo electrónico para la recuperación de la
+                                  contraseña. Por favor revise su bandeja de
+                                  entrada.
+                                </Alert>
                                 <Alert
+                                  className="alert-dismissible"
                                   color="danger"
                                   isOpen={this.state.alertError400}
                                 >
-                                  Error 400
+                                  Error no se ha podido recuperar la contraseña.
+                                  Inténtelo nuevamente.
                                 </Alert>
                                 <Alert
+                                  className="alert-dismissible"
                                   color="danger"
                                   isOpen={this.state.alertError404}
                                 >
-                                  Error 404
+                                  El correo electrónico ingresado no se
+                                  encuentra asociado a ningún usuario. Por favor
+                                  inténtelo nuevamente.
+                                </Alert>
+                                <Alert
+                                  toggle={this.onDismiss}
+                                  color="danger"
+                                  isOpen={this.state.failed}
+                                >
+                                  <i className="fa fa-exclamation-circle" />
+                                  &nbsp; Error, por favor inténtelo más tarde.
                                 </Alert>
                                 <InputGroup className="mb-3">
                                   <InputGroupAddon addonType="prepend">
                                     <InputGroupText>
-                                      <i className="icon-user" />
+                                      <i className="fa fa-envelope-square" />
+
+                                      {/* <i className="icon-user" /> */}
                                     </InputGroupText>
                                   </InputGroupAddon>
                                   <Input
@@ -162,7 +216,7 @@ class Forgot extends Component {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.user_email}
-                                    className={`form-control form-control-sm ${errors.user_email &&
+                                    className={`form-control form-control-md ${errors.user_email &&
                                       touched.user_email &&
                                       'is-invalid'}`}
                                     /*
@@ -195,9 +249,25 @@ class Forgot extends Component {
                                       type="button"
                                       className="btn btn-secondary btn-block"
                                     >
-                                      <i className="fa fa-send" /> Recuperar
-                                      contraseña
+                                      <i className="fa fa-send" />
+                                      &nbsp; Recuperar contraseña
                                     </Button>
+                                  </Col>
+                                </Row>
+                                <br />
+                                <Row>
+                                  <Col xs="12">
+                                    <Link
+                                      to="/"
+                                      className="btn btn-dark btn-block"
+                                    >
+                                      <img
+                                        src={SIGNIN}
+                                        width={20}
+                                        height={20}
+                                      />
+                                      &nbsp; Iniciar sesión
+                                    </Link>
                                   </Col>
                                 </Row>
                               </Form>

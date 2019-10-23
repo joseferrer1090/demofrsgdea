@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik, ErrorMessage, Field } from 'formik';
+import SIGNIN from './../../../../assets/img/favicon.ico';
 import * as Yup from 'yup';
 import {
   Button,
@@ -23,20 +24,34 @@ class ResetPassword extends Component {
     super(props);
     this.state = {
       LoginPage: false,
-      access_token: ''
+      access_token: '',
+      alertError: false,
+      alertError400: false,
+      alertError404: false,
+      alertSuccess: false,
+      failed: false
     };
   }
+
+  onDismiss = () => {
+    this.setState({
+      alertError: false,
+      alertError400: false,
+      alertError404: false,
+      alertSuccess: false,
+      failed: false
+    });
+  };
+
   componentDidMount() {
     const url = new URLSearchParams(this.props.location.search);
     const token = url.get('token');
     this.setState({
       access_token: token
     });
-    // localStorage.setItem('token', token);
   }
 
   render() {
-    console.log(this.state.access_token);
     return (
       <Fragment>
         <div className="app flex-row align-items-center">
@@ -80,15 +95,28 @@ class ResetPassword extends Component {
                       this.setState({
                         LoginPage: true
                       });
-                    } else if (response.status === 404) {
-                      console.log(response.status);
                     } else if (response.status === 500) {
-                      console.log(response.status);
-                    } else if (response.status === 400) {
-                      console.log(response.status);
+                      this.setState({
+                        alertError: false
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError: true
+                        });
+                      }, 1000);
                     }
                   })
-                  .catch(error => console.log('', error));
+                  .catch(error => {
+                    console.log('', error);
+                    this.setState({
+                      failed: false
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        failed: true
+                      });
+                    }, 1000);
+                  });
                 setSubmitting(false);
               }, 500);
             }}
@@ -124,7 +152,24 @@ class ResetPassword extends Component {
                                     <p className="text-center text-muted">
                                       Por favor introduzca una nueva contraseña:
                                     </p>
-
+                                    <br />
+                                    <Alert
+                                      toggle={this.onDismiss}
+                                      color="danger"
+                                      isOpen={this.state.alertError}
+                                    >
+                                      Error no se ha podido restablecer la
+                                      contraseña. Inténtelo más tarde.
+                                    </Alert>
+                                    <Alert
+                                      toggle={this.onDismiss}
+                                      color="danger"
+                                      isOpen={this.state.failed}
+                                    >
+                                      <i className="fa fa-exclamation-circle" />
+                                      &nbsp; Error, por favor inténtelo más
+                                      tarde.
+                                    </Alert>
                                     <InputGroup className="mb-3">
                                       <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
@@ -134,7 +179,7 @@ class ResetPassword extends Component {
                                       <Input
                                         id="password_one"
                                         name={'password_one'}
-                                        type="text"
+                                        type="password"
                                         placeholder="Contraseña"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -143,6 +188,8 @@ class ResetPassword extends Component {
                                           touched.password_one &&
                                           'is-invalid'}`}
                                       />
+                                    </InputGroup>
+                                    <Row>
                                       <div style={{ color: '#D54B4B' }}>
                                         {errors.password_one &&
                                         touched.password_one ? (
@@ -150,7 +197,8 @@ class ResetPassword extends Component {
                                         ) : null}
                                         <ErrorMessage name="password_one" />
                                       </div>
-                                    </InputGroup>
+                                    </Row>
+                                    <br />
                                     <InputGroup className="mb-3">
                                       <InputGroupAddon addonType="prepend">
                                         <InputGroupText>
@@ -160,7 +208,7 @@ class ResetPassword extends Component {
                                       <Input
                                         id="password_two"
                                         name={'password_two'}
-                                        type="text"
+                                        type="password"
                                         placeholder="Confirmar contraseña"
                                         onChange={handleChange}
                                         onBlur={handleBlur}
@@ -169,6 +217,8 @@ class ResetPassword extends Component {
                                           touched.password_two &&
                                           'is-invalid'}`}
                                       />
+                                    </InputGroup>
+                                    <Row>
                                       <div style={{ color: '#D54B4B' }}>
                                         {errors.password_two &&
                                         touched.password_two ? (
@@ -176,7 +226,7 @@ class ResetPassword extends Component {
                                         ) : null}
                                         <ErrorMessage name="password_two" />
                                       </div>
-                                    </InputGroup>
+                                    </Row>
                                     {/* <div className="text-center">
                                       <div style={{ color: '#D54B4B' }}>
                                         {errors.user_email &&
@@ -204,17 +254,26 @@ class ResetPassword extends Component {
                                     </Row>
                                   </Fragment>
                                 ) : (
-                                  <Row>
-                                    <Col xs="12">
-                                      <Link
-                                        to="/"
-                                        className="btn btn-primary btn-block"
-                                      >
-                                        <i className="fa fa-send" /> Iniciar
-                                        sesión
-                                      </Link>
-                                    </Col>
-                                  </Row>
+                                  <Fragment>
+                                    <h1 className="text-center">
+                                      Restablecer constraseña
+                                    </h1>
+                                    <Row>
+                                      <Col xs="12">
+                                        <Link
+                                          to="/"
+                                          className="btn btn-dark btn-block"
+                                        >
+                                          <img
+                                            src={SIGNIN}
+                                            width={20}
+                                            height={20}
+                                          />
+                                          &nbsp; Iniciar sesión
+                                        </Link>
+                                      </Col>
+                                    </Row>
+                                  </Fragment>
                                 )}
                               </Form>
                             </CardBody>

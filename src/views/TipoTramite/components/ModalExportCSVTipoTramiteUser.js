@@ -26,7 +26,7 @@ class ModalExportCSVTipoTramiteUser extends Component {
   };
 
   render() {
-      console.log(this.state.tipoTramite);
+      // console.log(this.state.tipoTramite);
     return (
       <Fragment>
         <Modal className="modal-xl" isOpen={this.state.modal}>
@@ -151,46 +151,49 @@ class TableCSV extends React.Component {
     componentDidMount() {
         this.getDataTipoTramiteByUser();
     }
-    
 
     render() {
-        console.log(this.state.data);
-        const data = () => {
-            if(Object.keys(this.state.data).length === 0 ){
-                return(
-                     <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
+        // console.log(this.state.data);
+        return (
+           <div>
+               <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
                 <thead className="">
                     <tr className="">
                     <th>
-                    código
+                    CodeTypeProcedure
                     </th>
                     <th>
-                     nombre
+                     Email
                     </th>
                     <th>
-                    descripción
+                    Identificacion
                     </th>
                     <th>
-                    respuesta
+                    Nombre
                     </th>
                     <th>
-                    Asunto
+                    Original
                     </th>     
                     </tr>
                 </thead>
               <tbody className="text-justify">
-               
+                {
+                  (Object.keys(this.state.data).length === 0) ?  (<p className="text-center"> No hay dato para generar el CSV  </p>):
+                  
+                  (this.state.data.map((aux, id) => {
+                    return(
+                      <tr>
+                        <td>{aux.codeTypeProcedure}</td>
+                        <td>{aux.email}</td>
+                        <td>{aux.identification}</td>
+                        <td>{aux.name}</td>
+                        <td>{aux.original}</td>
+                      </tr>
+                    )
+                  }))
+                }
               </tbody>
             </table>
-                )
-            } else {
-                return <p className="text-center">No hay datos para generar el CSV</p>
-            
-            }
-        }
-        return (
-           <div>
-               {data}
            </div>
         );
     }

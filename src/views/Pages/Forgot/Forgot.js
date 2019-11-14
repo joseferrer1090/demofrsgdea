@@ -26,7 +26,10 @@ class Forgot extends Component {
     this.state = {
       email: '',
       alertError: false,
-      failed: false
+      failed: false,
+      alertError404: false,
+      alertError400: false,
+      alertSuccess: false
     };
   }
 

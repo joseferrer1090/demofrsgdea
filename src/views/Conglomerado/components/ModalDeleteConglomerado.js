@@ -1,9 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { Formik, withFormik, ErrorMessage, Field, From } from 'formik';
-import { Trans } from 'react-i18next';
+import { Formik, ErrorMessage } from 'formik';
 
 class ModalDeleteConglomerado extends React.Component {
   state = {
@@ -58,12 +57,13 @@ class ModalDeleteConglomerado extends React.Component {
     const dataInitial = {
       code: ''
     };
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            {this.props.t('app_conglomerado_modal_eliminar_titulo')}{' '}
+            {t('app_conglomerado_modal_eliminar_titulo')}{' '}
             {this.state.nameCompany}
           </ModalHeader>
 
@@ -133,9 +133,7 @@ class ModalDeleteConglomerado extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_conglomerado_modal_eliminar_alert_error'
-                        )}{' '}
+                        {t('app_conglomerado_modal_eliminar_alert_error')}{' '}
                         {values.code}.
                       </Alert>
                       <Alert
@@ -143,28 +141,22 @@ class ModalDeleteConglomerado extends React.Component {
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_conglomerado_modal_eliminar_alert_success'
-                        )}
+                        {t('app_conglomerado_modal_eliminar_alert_success')}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_conglomerado_modal_eliminar_alert_errorCode'
-                        )}
+                        {t('app_conglomerado_modal_eliminar_alert_errorCode')}
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        {this.props.t(
-                          'app_conglomerado_modal_eliminar_informacion'
-                        )}
+                        {t('app_conglomerado_modal_eliminar_informacion')}
                       </p>
                       <input
                         type="text"
-                        placeholder={this.props.t(
+                        placeholder={t(
                           'app_conglomerado_modal_eliminar_placeholder'
                         )}
                         style={{ textAlign: 'center' }}
@@ -185,7 +177,7 @@ class ModalDeleteConglomerado extends React.Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        {this.props.t(
+                        {t(
                           'app_conglomerado_modal_eliminar_informacion_2'
                         )}{' '}
                       </p>
@@ -215,9 +207,7 @@ class ModalDeleteConglomerado extends React.Component {
                         }}
                       >
                         <i className="fa fa-times" />{' '}
-                        {this.props.t(
-                          'app_conglomerado_modal_eliminar_boton_2'
-                        )}{' '}
+                        {t('app_conglomerado_modal_eliminar_boton_2')}{' '}
                       </button>
                     </ModalFooter>
                   </form>

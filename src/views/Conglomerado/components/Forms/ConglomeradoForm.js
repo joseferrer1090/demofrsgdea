@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Formik, withFormik, ErrorMessage } from 'formik';
+import { withFormik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {
   CustomInput,
@@ -19,7 +19,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
-import { isLabeledStatement } from '@babel/types';
+import SelectCity from './components/SelectCity';
+import SelectDepartment from './components/SelectDepartment';
+import SelectCountry from './components/SelectCountry';
 
 const ConglomeradorForm = props => {
   const {
@@ -368,19 +370,6 @@ const ConglomeradorForm = props => {
                         errors.estado && touched.estado && 'invalid-feedback'
                       }
                     />
-                    {/* <p
-                              className="text-muted"
-                              style={{ textAlign: "justify" }}
-                            >
-                              Si esta opción se encuentra activada, representa
-                              que el conglomerado es visible en el sistema y se
-                              podrán realizar operaciones entre cada uno de los
-                              módulos correspondientes de la aplicación. En caso
-                              contrario el conglomerado no se elimina del
-                              sistema solo quedará inactivo e invisibles para
-                              cada uno de los módulos correspondiente del
-                              sistema.
-                            </p> */}
                   </div>
                 </div>
               </div>
@@ -462,7 +451,6 @@ export default withTranslation('translations')(
         return null;
       };
       setTimeout(() => {
-        // alert(JSON.stringify(values, '', 2));
         fetch(CONGLOMERATES, {
           method: 'POST',
           headers: {
@@ -512,208 +500,3 @@ export default withTranslation('translations')(
     }
   })(ConglomeradorForm)
 );
-
-//--------------------//
-class SelectCountry extends React.Component {
-  state = {
-    dataCountry: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCountry: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('countryId', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('countryId', true);
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-          value={this.props.value}
-          className={this.props.className}
-        >
-          <option value={''}>
-            -- {this.props.t('app_conglomerado_form_select_pais')} --
-          </option>
-          {this.state.dataCountry.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectDepartment extends React.Component {
-  state = {
-    dataDepartment: [],
-    id: this.props.countryId,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.countryId !== state.id) {
-      return {
-        id: props.countryId
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.countryId !== prevProps.countryId) {
-      this.getDataDepartment();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDepartment();
-    console.log(this.state.countryId);
-  }
-
-  getDataDepartment = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataDepartment: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_conglomerado_form_select_departamento')} --
-          </option>
-          {this.state.dataDepartment.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectCity extends React.Component {
-  state = {
-    dataCity: [],
-    id: this.props.departmentId,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.departmentId !== state.id) {
-      return {
-        departmentId: props.departmentId
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.departmentId !== prevProps.departmentId) {
-      this.getDataCitys();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataCitys();
-  }
-
-  getDataCitys = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/city/department/${this.props.departmentId}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCity: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_conglomerado_form_select_ciudad')} --
-          </option>
-          {this.state.dataCity.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}

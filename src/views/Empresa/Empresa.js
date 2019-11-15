@@ -1,27 +1,18 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   TabContent,
   TabPane,
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
-  Col,
-  CardBody,
-  CardFooter,
-  CardHeader
+  Col
 } from 'reactstrap';
 import classnames from 'classnames';
 import FormCreate from './components/FormCreateEmpresa';
 import TableContent from './components/TableContentEmpresa';
 import FormImport from './components/FormUpload';
 import { withTranslation } from 'react-i18next';
-import { COMPANYS } from '../../services/EndPoints';
 
 class Empresa extends Component {
   constructor(props) {

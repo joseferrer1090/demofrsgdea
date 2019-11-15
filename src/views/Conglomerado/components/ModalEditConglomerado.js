@@ -1,19 +1,15 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import {
   Modal,
   ModalHeader,
   ModalFooter,
   ModalBody,
-  Card,
-  CardHeader,
-  CardFooter,
-  CardBody,
   CustomInput,
   Alert
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import IMGCONGLOMERADO from './../../../assets/img/puzzle.svg';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import {
   CONGLOMERATES,
@@ -23,7 +19,9 @@ import {
   CHARGES_STATUS
 } from './../../../services/EndPoints';
 import { Trans } from 'react-i18next';
-import moment from 'moment';
+import SelectCity from './SelectCityModalEdit';
+import SelectDepartment from './SelectDepartmentModalEdit';
+import SelectCountry from './SelectCountryModalEdit';
 
 class ModalEditConglomerado extends React.Component {
   state = {
@@ -180,15 +178,12 @@ class ModalEditConglomerado extends React.Component {
       );
     });
     const dataResult = this.state.dataResult;
-    const auxID = this.state.idConglomerado;
-
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            <Trans>
-              {this.props.t('app_conglomerado_modal_actualizar_titulo')}
-            </Trans>
+            <Trans>{t('app_conglomerado_modal_actualizar_titulo')}</Trans>
             &nbsp;{this.state.dataResult.conglomerate_name}
           </ModalHeader>
           <Formik
@@ -309,19 +304,13 @@ class ModalEditConglomerado extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {this.props.t(
-                        'app_conglomerado_modal_actualizar_alert_error'
-                      )}
+                      {t('app_conglomerado_modal_actualizar_alert_error')}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {this.props.t(
-                        'app_conglomerado_modal_Actualizar_alert_error400'
-                      )}
+                      {t('app_conglomerado_modal_Actualizar_alert_error400')}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t(
-                        'app_conglomerado_modal_actualizar_alert_success'
-                      )}
+                      {t('app_conglomerado_modal_actualizar_alert_success')}
                     </Alert>
                     <form className="form">
                       <div className="row">
@@ -340,7 +329,7 @@ class ModalEditConglomerado extends React.Component {
                             >
                               {' '}
                               <Trans>
-                                {this.props.t(
+                                {t(
                                   'app_conglomerado_modal_actualizar_titulo_2'
                                 )}
                               </Trans>{' '}
@@ -352,7 +341,7 @@ class ModalEditConglomerado extends React.Component {
                                 <label>
                                   {' '}
                                   <Trans>
-                                    {this.props.t(
+                                    {t(
                                       'app_conglomerado_modal_actualizar_codigo'
                                     )}
                                   </Trans>{' '}
@@ -381,7 +370,7 @@ class ModalEditConglomerado extends React.Component {
                                 <label>
                                   {' '}
                                   <Trans>
-                                    {this.props.t(
+                                    {t(
                                       'app_conglomerado_modal_actualizar_nombre'
                                     )}
                                   </Trans>{' '}
@@ -409,9 +398,7 @@ class ModalEditConglomerado extends React.Component {
                             <div className="col-md-4">
                               <div className="form-group">
                                 <label>
-                                  {this.props.t(
-                                    'app_conglomerado_modal_actualizar_pais'
-                                  )}
+                                  {t('app_conglomerado_modal_actualizar_pais')}
                                 </label>
                                 <span className="text-danger">*</span>{' '}
                                 <SelectCountry
@@ -447,7 +434,7 @@ class ModalEditConglomerado extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  {this.props.t(
+                                  {t(
                                     'app_conglomerado_modal_actualizar_departamento'
                                   )}{' '}
                                 </label>
@@ -488,7 +475,7 @@ class ModalEditConglomerado extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  {this.props.t(
+                                  {t(
                                     'app_conglomerado_modal_actualizar_ciudad'
                                   )}{' '}
                                   <span className="text-danger">*</span>{' '}
@@ -527,7 +514,7 @@ class ModalEditConglomerado extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  {this.props.t(
+                                  {t(
                                     'app_conglomerado_modal_actualizar_cargo_responsable'
                                   )}{' '}
                                 </label>
@@ -542,7 +529,7 @@ class ModalEditConglomerado extends React.Component {
                                   <option value={' '}>
                                     {' '}
                                     --
-                                    {this.props.t(
+                                    {t(
                                       'app_conglomerado_form_select_cargo_responsable'
                                     )}{' '}
                                     --{' '}
@@ -555,7 +542,7 @@ class ModalEditConglomerado extends React.Component {
                               <div className="form-group">
                                 <label>
                                   <Trans>
-                                    {this.props.t(
+                                    {t(
                                       'app_conglomerado_modal_actualizar_descripcion'
                                     )}
                                   </Trans>
@@ -576,7 +563,7 @@ class ModalEditConglomerado extends React.Component {
                                 <label>
                                   {' '}
                                   <Trans>
-                                    {this.props.t(
+                                    {t(
                                       'app_conglomerado_modal_actualizar_estado'
                                     )}
                                   </Trans>{' '}
@@ -591,7 +578,7 @@ class ModalEditConglomerado extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="conglomeradoModalEdit"
-                                          label={this.props.t(
+                                          label={t(
                                             'app_conglomerado_modal_actualizar_estado_descripcion'
                                           )}
                                           {...field}
@@ -625,9 +612,7 @@ class ModalEditConglomerado extends React.Component {
                       }}
                     >
                       <i className="fa fa-pencil" />{' '}
-                      {this.props.t(
-                        'app_conglomerado_modal_actualizar_botom_actualizar'
-                      )}
+                      {t('app_conglomerado_modal_actualizar_botom_actualizar')}
                     </button>
                     <button
                       className={'btn btn-outline-secondary btn-sm'}
@@ -637,9 +622,7 @@ class ModalEditConglomerado extends React.Component {
                       }}
                     >
                       <i className="fa fa-times" />{' '}
-                      {this.props.t(
-                        'app_conglomerado_modal_actualizar_botom_cerrar'
-                      )}
+                      {t('app_conglomerado_modal_actualizar_botom_cerrar')}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -659,216 +642,3 @@ ModalEditConglomerado.propTypes = {
 };
 
 export default ModalEditConglomerado;
-
-//--------------------//
-class SelectCountry extends React.Component {
-  state = {
-    dataCountry: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCountry: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('conglomerate_country', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('conglomerate_country', true);
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          value={this.props.value}
-          className={this.props.className}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_conglomerado_modal_actualizar_pais_select')}{' '}
-            --
-          </option>
-          {this.state.dataCountry.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectDepartment extends React.Component {
-  state = {
-    dataDepartment: [],
-    id: this.props.conglomerate_country,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.conglomerate_country !== state.id) {
-      return {
-        id: props.conglomerate_country
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.conglomerate_country !== prevProps.conglomerate_country) {
-      this.getDataDepartment();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDepartment();
-  }
-
-  getDataDepartment = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          dataDepartment: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            --{' '}
-            {this.props.t(
-              'app_conglomerado_modal_actualizar_departamento_select'
-            )}{' '}
-            --
-          </option>
-          {this.state.dataDepartment.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectCity extends React.Component {
-  state = {
-    dataCity: [],
-    id: this.props.conglomerate_department,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.conglomerate_department !== state.id) {
-      return {
-        id: props.conglomerate_department
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.props.conglomerate_department !== prevProps.conglomerate_department
-    ) {
-      this.getDataCitys();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataCitys();
-  }
-
-  getDataCitys = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/city/department/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCity: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_conglomerado_modal_actualizar_ciudad_select')}{' '}
-            --
-          </option>
-          {this.state.dataCity.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}

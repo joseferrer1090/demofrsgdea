@@ -1,21 +1,13 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import {
-  BootstrapTable,
-  TableHeaderColumn,
-  SearchField
-} from 'react-bootstrap-table';
-import { Row, Col, Button, ButtonGroup } from 'reactstrap';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { Row, Col } from 'reactstrap';
 import ModalView from './ModalViewConglomerado';
 import ModalDelete from './ModalDeleteConglomerado';
 import ModalEdit from './ModalEditConglomerado';
 import ModalExport from './ModalExportCSV';
 import './../../../css/styleTableConglomerado.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import {
-  CONGLOMERATES,
-  CONGLOMERATE_EXPORT
-} from './../../../services/EndPoints';
+import { CONGLOMERATES } from './../../../services/EndPoints';
 import { withTranslation } from 'react-i18next';
 import moment from 'moment';
 
@@ -95,19 +87,12 @@ class TableContentConglomerado extends Component {
   }
 
   EstadoConglomerado(cell, row) {
+    const { t } = this.props;
     let status;
     if (row.status === 1) {
-      status = (
-        <b className="text-success">
-          {this.props.t('app_tablas_estado_activo')}
-        </b>
-      );
+      status = <b className="text-success">{t('app_tablas_estado_activo')}</b>;
     } else if (row.status === 0) {
-      status = (
-        <b className="text-danger">
-          {this.props.t('app_tablas_estado_inactivo')}
-        </b>
-      );
+      status = <b className="text-danger">{t('app_tablas_estado_inactivo')}</b>;
     }
     return status;
   }
@@ -138,22 +123,8 @@ class TableContentConglomerado extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  // getExportDocument = () => {
-  //   fetch(CONGLOMERATE_EXPORT, {
-  //     method: "GET",
-  //     headers: {
-  //       Authorization: "BASIC " + window.btoa("sgdea:123456")
-  //     }
-  //   }).then(response => {
-  //     if (response.ok) {
-  //       console.log("descargo el documento");
-  //     } else {
-  //       console.log("revisar el network");
-  //     }
-  //   });
-  // };
-
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
@@ -161,18 +132,10 @@ class TableContentConglomerado extends Component {
         onClick={() => this.openModalExport()}
       >
         <i className="fa fa-download" />{' '}
-        {this.props.t('app_conglomerado_administrar_button_exportar')}
+        {t('app_conglomerado_administrar_button_exportar')}
       </button>
     );
   };
-
-  // tengo dudas sobre este ciclo de vida, porque siempre lo he utilizado cuando con el getDerivedStateFormProps
-  // componentDidUpdate(prevState){
-  //  if(prevState !== this.state.dataConglomerates){
-  // this.getDataConglomerates();
-  //}
-  // }
-  // Fin
 
   render() {
     const options = {

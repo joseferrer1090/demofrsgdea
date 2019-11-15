@@ -35,7 +35,7 @@ class ModalDeleteRadicacionEmail extends Component {
           'Content-Type': 'application/json',
           Authorization:
             'Bearer ' +
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM3NjY0OTksInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjkxMGRhYzBjLTgyODEtNDFlYi1iNzM2LWU1ZWQ1OTUxZmE5MyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.l165cU9w7Yl8eDgKdrYgZ-ZQOazEthA4Cx1jFEpQDjs'
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM4MzExOTQsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjlmODRhMTYwLTJmYzUtNDQ4MC04YjdlLWNkYmE2YjU2NWE3NiIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.yhrzith-pTcRnaUWZ655-ATmuvfWmZ3nIiUcGDrrN2c'
         }
       }
     )
@@ -61,10 +61,13 @@ class ModalDeleteRadicacionEmail extends Component {
       email: ''
     };
     const email = this.state.email;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader>Eliminar {email} </ModalHeader>
+          <ModalHeader>
+            {t('app_radicacion_email_modal_eliminar_titulo')} {email}{' '}
+          </ModalHeader>
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
@@ -77,7 +80,7 @@ class ModalDeleteRadicacionEmail extends Component {
                       'Content-Type': 'application/json',
                       Authorization:
                         'Bearer ' +
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM3NjY0OTksInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjkxMGRhYzBjLTgyODEtNDFlYi1iNzM2LWU1ZWQ1OTUxZmE5MyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.l165cU9w7Yl8eDgKdrYgZ-ZQOazEthA4Cx1jFEpQDjs'
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM4Mjc0NDcsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImEyMDEzODE2LTM4MzQtNDdkZS04NmZhLTdmODhiN2NjMTg1NSIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.Vzd_seriJB_27rVwKleOz_TDEPDwP8HCl3Q8GtlEGXY'
                     }
                   }
                 )
@@ -137,31 +140,25 @@ class ModalDeleteRadicacionEmail extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_mensajero_modal_eliminar_alert_error'
-                        )}
+                        {t('app_radicacion_email_modal_eliminar_alert_error')}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertemail}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_mensajero_modal_eliminar_alert_errorId'
-                        )}
+                        {t('app_radicacion_email_modal_eliminar_alert_errorId')}
                       </Alert>
                       <Alert
                         className="text-center"
                         color="success"
                         isOpen={this.state.alertSuccess}
                       >
-                        {this.props.t(
-                          'app_mensajero_modal_eliminar_alert_success'
-                        )}
+                        {t('app_radicacion_email_modal_eliminar_alert_success')}
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        Confirmar el correo electrónico para eliminar.
+                        {t('appradicacion_email_modal_eliminar_titulo_2')}
                       </p>
 
                       <input
@@ -170,7 +167,9 @@ class ModalDeleteRadicacionEmail extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder={'Introduzca el correo electrónico'}
+                        placeholder={t(
+                          'app_radicacion_email_modal_eliminar_placeholder'
+                        )}
                         style={{ textAlign: 'center' }}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.email &&
                           touched.email &&
@@ -185,7 +184,7 @@ class ModalDeleteRadicacionEmail extends Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        El correo electrónico quedará eliminado permanente.
+                        {t('app_radicacion_email_modal_eliminar_titulo_3')}
                       </p>
                     </form>
                   </ModalBody>
@@ -200,7 +199,7 @@ class ModalDeleteRadicacionEmail extends Component {
                     >
                       <i className="fa fa-trash" />{' '}
                       {this.props.t(
-                        'app_mensajero_modal_eliminar_boton_eliminar'
+                        'app_radicacion_email_modal_eliminar_boton_eliminar'
                       )}
                     </button>
                     <button
@@ -217,7 +216,7 @@ class ModalDeleteRadicacionEmail extends Component {
                     >
                       <i className="fa fa-times" />{' '}
                       {this.props.t(
-                        'app_mensajero_modal_eliminar_boton_cerrar'
+                        'app_radicacion_email_modal_eliminar_boton_cerrar'
                       )}{' '}
                     </button>
                   </ModalFooter>

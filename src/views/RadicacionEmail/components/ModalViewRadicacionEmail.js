@@ -36,7 +36,7 @@ class ModalViewRadicacionEmail extends Component {
           'Content-Type': 'application/json',
           Authorization:
             'Bearer ' +
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM3NjY0OTksInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjkxMGRhYzBjLTgyODEtNDFlYi1iNzM2LWU1ZWQ1OTUxZmE5MyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.l165cU9w7Yl8eDgKdrYgZ-ZQOazEthA4Cx1jFEpQDjs'
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM4MzExOTQsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjlmODRhMTYwLTJmYzUtNDQ4MC04YjdlLWNkYmE2YjU2NWE3NiIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.yhrzith-pTcRnaUWZ655-ATmuvfWmZ3nIiUcGDrrN2c'
         }
       }
     )
@@ -62,12 +62,17 @@ class ModalViewRadicacionEmail extends Component {
   }
 
   render() {
+    const { t } = this.props;
     const statusRadicacionEmail = data => {
       let status;
       if (data === true) {
-        status = <b className="text-success"> Activo</b>;
+        status = (
+          <b className="text-success"> {t('app_tablas_estado_activo')}</b>
+        );
       } else if (data === false) {
-        status = <b className="text-danger"> Inactivo</b>;
+        status = (
+          <b className="text-danger"> {t('app_tablas_estado_inactivo')}</b>
+        );
       }
       return status;
     };
@@ -81,7 +86,9 @@ class ModalViewRadicacionEmail extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver correo electrónico {email}</ModalHeader>
+          <ModalHeader>
+            {t('app_radicacion_email_modal_ver_titulo')} {email}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -92,14 +99,14 @@ class ModalViewRadicacionEmail extends Component {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    Datos
+                    {t('app_radicacion_email_modal_ver_titulo_2')}
                   </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Protocolo</dt>
+                        <dt>{t('app_radicacion_email_modal_ver_protocol')}</dt>
                         <dd>{protocol} </dd>
                       </dl>
                     </div>
@@ -107,7 +114,7 @@ class ModalViewRadicacionEmail extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Host</dt>
+                        <dt>{t('app_radicacion_email_modal_ver_host')}</dt>
                         <dd> {host} </dd>
                       </dl>
                     </div>
@@ -115,7 +122,7 @@ class ModalViewRadicacionEmail extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Puerto</dt>
+                        <dt>{t('app_radicacion_email_modal_ver_puerto')}</dt>
                         <dd> {port} </dd>
                       </dl>
                     </div>
@@ -123,7 +130,7 @@ class ModalViewRadicacionEmail extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Email</dt>
+                        <dt>{t('app_radicacion_email_modal_ver_email')}</dt>
                         <dd> {email} </dd>
                       </dl>
                     </div>
@@ -131,7 +138,7 @@ class ModalViewRadicacionEmail extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Estado</dt>
+                        <dt>{t('app_radicacion_email_modal_ver_estado')}</dt>
                         <dd> {statusRadicacionEmail(status)} </dd>
                       </dl>
                     </div>
@@ -139,7 +146,9 @@ class ModalViewRadicacionEmail extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de creación</dt>
+                        <dt>
+                          {t('app_radicacion_email_modal_ver_fecha_creacion')}
+                        </dt>
                         <dd>
                           {' '}
                           {this.FechaCreacionRadicacionEmail(createdAt)}{' '}
@@ -150,7 +159,11 @@ class ModalViewRadicacionEmail extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de modificación</dt>
+                        <dt>
+                          {t(
+                            'app_radicacion_email_modal_ver_fecha_modificacion'
+                          )}
+                        </dt>
                         <dd>
                           {' '}
                           {this.FechaModificacionRadicacionEmail(
@@ -173,7 +186,8 @@ class ModalViewRadicacionEmail extends Component {
               }}
             >
               {' '}
-              <i className="fa fa-times" /> Cerrar
+              <i className="fa fa-times" />{' '}
+              {t('app_radicacion_email_modal_ver_cerrar')}
             </button>
           </ModalFooter>
         </Modal>

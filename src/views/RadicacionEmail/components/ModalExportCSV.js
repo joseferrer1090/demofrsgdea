@@ -37,7 +37,7 @@ class ModalExportCSV extends Component {
           'Content-Type': 'application/json',
           Authorization:
             'Bearer ' +
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM3NjY0OTksInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjkxMGRhYzBjLTgyODEtNDFlYi1iNzM2LWU1ZWQ1OTUxZmE5MyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.l165cU9w7Yl8eDgKdrYgZ-ZQOazEthA4Cx1jFEpQDjs'
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM4MzExOTQsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjlmODRhMTYwLTJmYzUtNDQ4MC04YjdlLWNkYmE2YjU2NWE3NiIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.yhrzith-pTcRnaUWZ655-ATmuvfWmZ3nIiUcGDrrN2c'
         }
       }
     )
@@ -79,21 +79,24 @@ class ModalExportCSV extends Component {
     const json2csvParser = new Parser({ fields, quote: '' });
     const csv = json2csvParser.parse(data);
     // console.log(csv);
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {this.props.t('app_mensajero_modal_export_titulo')}
+            {t('app_radicacion_email_modal_export_titulo')}
           </ModalHeader>
           <ModalBody>
             <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
               <thead className="">
                 <tr>
-                  <th>Protocolo</th>
-                  <th>Host</th>
-                  <th>Puerto</th>
-                  <th>Email</th>
-                  <th>Estado</th>
+                  <th>
+                    {t('app_radicacion_email_modal_export_table_protocol')}
+                  </th>
+                  <th>{t('app_radicacion_email_modal_export_table_host')}</th>
+                  <th>{t('app_radicacion_email_modal_export_table_puerto')}</th>
+                  <th>{t('app_radicacion_email_modal_export_table_email')}</th>
+                  <th>{t('app_radicacion_email_modal_export_table_estado')}</th>
                 </tr>
               </thead>
               <tbody className="">
@@ -101,9 +104,19 @@ class ModalExportCSV extends Component {
                   const statusRadicacionEmail = data => {
                     let status;
                     if (data === true) {
-                      status = <b className="text-success"> Activo</b>;
+                      status = (
+                        <b className="text-success">
+                          {' '}
+                          {t('app_tablas_estado_activo')}
+                        </b>
+                      );
                     } else if (data === false) {
-                      status = <b className="text-danger"> Inactivo</b>;
+                      status = (
+                        <b className="text-danger">
+                          {' '}
+                          {t('app_tablas_estado_inactivo')}
+                        </b>
+                      );
                     }
                     return status;
                   };
@@ -129,12 +142,12 @@ class ModalExportCSV extends Component {
             >
               {' '}
               <i className="fa fa-times" />{' '}
-              {this.props.t('app_mensajero_modal_export_table_boton_cerrar')}{' '}
+              {t('app_radicacion_email_modal_export_table_boton_cerrar')}{' '}
             </button>
 
             <CSVLink data={csv} className="btn btn-secondary btn-sm">
               <i className="fa fa-download" />{' '}
-              {this.props.t('app_mensajero_modal_export_table_boton_exportar')}
+              {t('app_radicacion_email_modal_export_table_boton_exportar')}
             </CSVLink>
             {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
               {" "}

@@ -44,7 +44,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
           'Content-Type': 'application/json',
           Authorization:
             'Bearer ' +
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM3NjY0OTksInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjkxMGRhYzBjLTgyODEtNDFlYi1iNzM2LWU1ZWQ1OTUxZmE5MyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.l165cU9w7Yl8eDgKdrYgZ-ZQOazEthA4Cx1jFEpQDjs'
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM4MzExOTQsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjlmODRhMTYwLTJmYzUtNDQ4MC04YjdlLWNkYmE2YjU2NWE3NiIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.yhrzith-pTcRnaUWZ655-ATmuvfWmZ3nIiUcGDrrN2c'
         }
       }
     )
@@ -66,13 +66,14 @@ class ModalUpdateRadicacionEmail extends React.Component {
 
   render() {
     const dataResult = this.state.dataResult;
-
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            Actualizar {dataResult.radicacionemail_email}
+            {t('app_radicacion_email_modal_actualizar_titulo')}{' '}
+            {dataResult.radicacionemail_email}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -119,7 +120,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
                       'Content-Type': 'application/json',
                       Authorization:
                         'Bearer ' +
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM3NjY0OTksInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjkxMGRhYzBjLTgyODEtNDFlYi1iNzM2LWU1ZWQ1OTUxZmE5MyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.l165cU9w7Yl8eDgKdrYgZ-ZQOazEthA4Cx1jFEpQDjs'
+                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM4MzExOTQsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjlmODRhMTYwLTJmYzUtNDQ4MC04YjdlLWNkYmE2YjU2NWE3NiIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.yhrzith-pTcRnaUWZ655-ATmuvfWmZ3nIiUcGDrrN2c'
                     },
                     body: JSON.stringify({
                       id: this.state.idRadicacionEmail,
@@ -189,18 +190,14 @@ class ModalUpdateRadicacionEmail extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {this.props.t(
-                        'app_mensajero_modal_actualizar_alert_error'
-                      )}
+                      {t('app_radicacion_email_modal_actualizar_alert_error')}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t(
-                        'app_mensajero_modal_actualizar_alert_success'
-                      )}
+                      {t('app_radicacion_email_modal_actualizar_alert_success')}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {this.props.t(
-                        'app_mensajero_modal_actualizar_alert_error400'
+                      {t(
+                        'app_radicacion_email_modal_actualizar_alert_error400'
                       )}
                     </Alert>
                     <Row>
@@ -215,14 +212,18 @@ class ModalUpdateRadicacionEmail extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            Datos
+                            {t(
+                              'app_radicacion_email_modal_actualizar_titulo_2'
+                            )}
                           </h5>{' '}
                         </div>
                         <div className="row">
                           <div className="col-md-3">
                             <div className="form-group">
                               <dl className="param">
-                                Protocolo
+                                {t(
+                                  'app_radicacion_email_modal_actualizar_protocol'
+                                )}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   <input
@@ -249,7 +250,9 @@ class ModalUpdateRadicacionEmail extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Host
+                                {t(
+                                  'app_radicacion_email_modal_actualizar_host'
+                                )}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -277,7 +280,9 @@ class ModalUpdateRadicacionEmail extends React.Component {
                           <div className="col-md-3">
                             <div className="form-group">
                               <dl className="param">
-                                Puerto
+                                {t(
+                                  'app_radicacion_email_modal_actualizar_puerto'
+                                )}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -305,7 +310,9 @@ class ModalUpdateRadicacionEmail extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Email
+                                {t(
+                                  'app_radicacion_email_modal_actualizar_email'
+                                )}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -333,7 +340,9 @@ class ModalUpdateRadicacionEmail extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                Password
+                                {t(
+                                  'app_radicacion_email_modal_actualizar_constraseña'
+                                )}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -364,7 +373,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
                                 <label>
                                   {' '}
                                   {this.props.t(
-                                    'app_mensajero_modal_actualizar_estado'
+                                    'app_radicacion_email_modal_actualizar_estado'
                                   )}{' '}
                                   <span className="text-danger">*</span>{' '}
                                 </label>
@@ -377,7 +386,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
                                           type="checkbox"
                                           id="CheckBoxEditRoles"
                                           label={this.props.t(
-                                            'app_mensajero_modal_actualizar_estado_descripcion'
+                                            'app_radicacion_email_modal_actualizar_estado_descripcion'
                                           )}
                                           {...field}
                                           checked={field.value}
@@ -410,7 +419,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
                     >
                       <i className="fa fa-pencil" />{' '}
                       {this.props.t(
-                        'app_mensajero_modal_actualizar_boton_actualizar'
+                        'app_radicacion_email_modal_actualizar_boton_actualizar'
                       )}
                     </button>
                     <button
@@ -422,7 +431,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
                       {' '}
                       <i className="fa fa-times" />{' '}
                       {this.props.t(
-                        'app_mensajero_modal_actualizar_boton_cerrar'
+                        'app_radicacion_email_modal_actualizar_boton_cerrar'
                       )}{' '}
                     </button>
                   </ModalFooter>

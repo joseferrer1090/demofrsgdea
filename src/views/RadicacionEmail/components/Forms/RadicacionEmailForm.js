@@ -34,14 +34,14 @@ const RadicacionEmailForm = props => {
         <Col sm={{ size: 8, offset: 2 }}>
           <Card>
             <ToastContainer />
-            <CardHeader>Registro de email para radicación</CardHeader>
+            <CardHeader>{t('app_radicacion_email_tab_title')}</CardHeader>
             <CardBody>
               <form className="form">
                 <div className="row">
                   <div className="col-md-3">
                     <div className="form-group">
                       <label>
-                        Protocolo
+                        {t('app_radicacion_email_form_registrar_protocolo')}
                         <span className="text-danger">*</span>{' '}
                       </label>
                       <input
@@ -66,7 +66,8 @@ const RadicacionEmailForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Host <span className="text-danger">*</span>{' '}
+                        {t('app_radicacion_email_form_registrar_host')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'host'}
@@ -90,7 +91,8 @@ const RadicacionEmailForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Puerto <span className="text-danger">*</span>{' '}
+                        {t('app_radicacion_email_form_registrar_puerto')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'puerto'}
@@ -114,7 +116,8 @@ const RadicacionEmailForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Email <span className="text-danger">*</span>{' '}
+                        {t('app_radicacion_email_form_registrar_email')}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'email'}
@@ -138,7 +141,10 @@ const RadicacionEmailForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        Contraseña <span className="text-danger">*</span>{' '}
+                        {t(
+                          'app_radicacion_email_form_registrar_contraseña'
+                        )}{' '}
+                        <span className="text-danger">*</span>{' '}
                       </label>
                       <input
                         name={'password'}
@@ -162,7 +168,7 @@ const RadicacionEmailForm = props => {
                     <div className="form-group">
                       <label>
                         {' '}
-                        {t('app_mensajero_form_registrar_estado')}{' '}
+                        {t('app_radicacion_email_form_registrar_estado')}{' '}
                         <span className="text-danger">*</span>{' '}
                       </label>
                       <div className="text-justify">
@@ -173,9 +179,9 @@ const RadicacionEmailForm = props => {
                           value={values.status}
                           type="checkbox"
                           id="ExampleCheckboxInput"
-                          label={
-                            'Si esta opción se encuentra activada, representa que el correo electrónico es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario el correo electrónico no se elimina del sistema solo quedará inactivo e invisibles para cada uno de los módulos correspondiente del sistema.'
-                          }
+                          label={t(
+                            'app_radicacion_email_form_registrar_estado_descripcion'
+                          )}
                           className={
                             errors.status &&
                             touched.status &&
@@ -201,7 +207,7 @@ const RadicacionEmailForm = props => {
                   ) : (
                     <div>
                       <i className="fa fa-save" />{' '}
-                      {t('app_mensajero_form_registrar_boton_guardar')}
+                      {t('app_radicacion_email_form_registrar_boton_guardar')}
                     </div>
                   )}
                 </button>
@@ -264,7 +270,7 @@ export default withTranslation('translations')(
               'Content-Type': 'application/json',
               Authorization:
                 'Bearer ' +
-                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM3NjY0OTksInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjkxMGRhYzBjLTgyODEtNDFlYi1iNzM2LWU1ZWQ1OTUxZmE5MyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.l165cU9w7Yl8eDgKdrYgZ-ZQOazEthA4Cx1jFEpQDjs'
+                'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM4MzExOTQsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjlmODRhMTYwLTJmYzUtNDQ4MC04YjdlLWNkYmE2YjU2NWE3NiIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.yhrzith-pTcRnaUWZ655-ATmuvfWmZ3nIiUcGDrrN2c'
             },
             body: JSON.stringify({
               protocol: values.protocolo,

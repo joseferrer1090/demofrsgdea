@@ -11,6 +11,7 @@ import {
 import classnames from 'classnames';
 import FormCreateRadicacionEmail from './components/FormCreateRadicacionEmail';
 import TableContentRadicacionEmail from './components/TableContentRadicacionEmail';
+import { withTranslation } from 'react-i18next';
 
 class RadicacionEmail extends Component {
   constructor(props) {
@@ -40,7 +41,7 @@ class RadicacionEmail extends Component {
                 this.toggle('1');
               }}
             >
-              <i className="fa fa-plus " /> Registrar
+              <i className="fa fa-plus " /> {t('app_radicacion_email_tab')}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -50,7 +51,7 @@ class RadicacionEmail extends Component {
                 this.toggle('2');
               }}
             >
-              <i className={'fa fa-gear'} /> Administrar
+              <i className={'fa fa-gear'} /> {t('app_radicacion_email_tab_2')}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -60,7 +61,7 @@ class RadicacionEmail extends Component {
                 this.toggle('3');
               }}
             >
-              <i className={'fa fa-upload'} /> Importar
+              <i className={'fa fa-upload'} /> {t('app_radicacion_email_tab_3')}
             </NavLink>
           </NavItem>
         </Nav>
@@ -90,4 +91,4 @@ class RadicacionEmail extends Component {
   }
 }
 
-export default RadicacionEmail;
+export default withTranslation('translations')(RadicacionEmail);

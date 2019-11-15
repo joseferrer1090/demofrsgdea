@@ -36,7 +36,7 @@ class TableContentRadicacionEmail extends Component {
           'Content-Type': 'application/json',
           Authorization:
             'Bearer ' +
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM3NjY0OTksInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjkxMGRhYzBjLTgyODEtNDFlYi1iNzM2LWU1ZWQ1OTUxZmE5MyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.l165cU9w7Yl8eDgKdrYgZ-ZQOazEthA4Cx1jFEpQDjs'
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM4MzExOTQsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjlmODRhMTYwLTJmYzUtNDQ4MC04YjdlLWNkYmE2YjU2NWE3NiIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.yhrzith-pTcRnaUWZ655-ATmuvfWmZ3nIiUcGDrrN2c'
         }
       }
     )
@@ -87,12 +87,17 @@ class TableContentRadicacionEmail extends Component {
   }
 
   EstadoRadicacionEmail = (cell, row) => {
+    const { t } = this.props;
     let status;
     console.log(row.status);
     if (row.status === true) {
-      status = <b className="text-success"> Activo </b>;
+      status = (
+        <b className="text-success"> {t('app_tablas_estado_activo')} </b>
+      );
     } else if (row.status === false) {
-      status = <b className="text-danger"> Inactivo </b>;
+      status = (
+        <b className="text-danger"> {t('app_tablas_estado_inactivo')} </b>
+      );
     }
     return status;
   };
@@ -124,13 +129,15 @@ class TableContentRadicacionEmail extends Component {
   }
 
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar
+        <i className="fa fa-download" />{' '}
+        {t('app_radicacion_email_administrar_table_boton_exportar')}
       </button>
     );
   };
@@ -153,7 +160,9 @@ class TableContentRadicacionEmail extends Component {
               pagination
               search={true}
               exportCSV
-              searchPlaceholder={'Buscar'}
+              searchPlaceholder={t(
+                'app_radicacion_email_administrar_table_placeholder'
+              )}
               className="tableMensj texto-Mensj"
             >
               <TableHeaderColumn
@@ -176,28 +185,28 @@ class TableContentRadicacionEmail extends Component {
                 dataAlign="center"
                 width={'100'}
               >
-                Protocolo
+                {t('app_radicacion_email_administrar_table_protocol')}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="host"
                 dataAlign="center"
                 width={'120'}
               >
-                Host
+                {t('app_radicacion_email_administrar_table_host')}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="port"
                 dataAlign="center"
                 width={'100'}
               >
-                Puerto
+                {t('app_radicacion_email_administrar_table_puerto')}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="email"
                 dataAlign="center"
                 width={'200'}
               >
-                Email
+                {t('app_radicacion_email_administrar_registrar_email')}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataSort={true}
@@ -208,7 +217,7 @@ class TableContentRadicacionEmail extends Component {
                 dataAlign="center"
                 width={'150'}
               >
-                Fecha de creación
+                {t('app_radicacion_email_administrar_table_fecha_creacion')}
               </TableHeaderColumn>
               <TableHeaderColumn
                 width={'100'}
@@ -219,7 +228,7 @@ class TableContentRadicacionEmail extends Component {
                 }
               >
                 {' '}
-                Estado
+                {t('app_radicacion_email_administrar_table_estado')}
               </TableHeaderColumn>
               <TableHeaderColumn
                 width={'120'}
@@ -230,7 +239,7 @@ class TableContentRadicacionEmail extends Component {
                 }
               >
                 {' '}
-                Acciones
+                {t('app_radicacion_email_administrar_table_acciones')}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>

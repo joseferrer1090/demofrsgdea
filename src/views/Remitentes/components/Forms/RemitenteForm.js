@@ -15,13 +15,15 @@ import {
   CONTRIES_STATUS,
   DEPARTMENTS_STATUS,
   CITIES_STATUS
-} from './../../../../services/EndPoints';
-import Select from 'react-select';
-import { Formik, withFormik, ErrorMessage } from 'formik';
+} from '../../../../services/EndPoints';
+import { withFormik, ErrorMessage } from 'formik';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
+import SelectCountry from './components/SelectCountry';
+import SelectDepartment from './components/SelectDepartment';
+import SelectCity from './components/SelectCity';
 
 const RemitenteForm = props => {
   const {
@@ -87,14 +89,6 @@ const RemitenteForm = props => {
       .catch(Error => console.log(' ', Error));
   };
 
-  const mapOptionsCountries = optionsCountries.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
   const getDataDepartments = data => {
     fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
@@ -110,14 +104,6 @@ const RemitenteForm = props => {
       .catch(Error => console.log(' ', Error));
   };
 
-  const mapOptionsDepartments = optionsDepartment.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
   const getDataCitys = data => {
     fetch(CITIES_STATUS, {
       method: 'GET',
@@ -132,15 +118,6 @@ const RemitenteForm = props => {
       })
       .catch(Error => console.log(' ', Error));
   };
-
-  const mapOptionsCitys = optionsCitys.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
   return (
     <div className="animated fadeIn">
       <div className="container">
@@ -397,21 +374,6 @@ const RemitenteForm = props => {
                             touched.pais &&
                             'is-invalid'}`}
                         />
-                        {/* <select
-                          name={'pais'}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.pais}
-                          className={`form-control form-control-sm ${errors.pais &&
-                            touched.pais &&
-                            'is-invalid'}`}
-                        >
-                          <option disabled value={''}>
-                            {' '}
-                            -- {t('app_tercero_form_select_registrar_pais')} --
-                          </option>
-                          {mapOptionsCountries}
-                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                           {errors.pais && touched.pais ? (
                             <i className="fa fa-exclamation-triangle" />
@@ -440,24 +402,6 @@ const RemitenteForm = props => {
                             touched.departamento &&
                             'is-invalid'}`}
                         />
-                        {/* <select
-                          name={'departamento'}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.departamento}
-                          className={`form-control form-control-sm ${errors.departamento &&
-                            touched.departamento &&
-                            'is-invalid'}`}
-                        >
-                          <option disabled value={''}>
-                            --{' '}
-                            {t(
-                              'app_tercero_form_registrar_select_departamento'
-                            )}{' '}
-                            --
-                          </option>
-                          {mapOptionsDepartments}
-                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                           {errors.departamento && touched.departamento ? (
                             <i className="fa fa-exclamation-triangle" />
@@ -485,21 +429,6 @@ const RemitenteForm = props => {
                             touched.ciudad &&
                             'is-invalid'}`}
                         />
-                        {/* <select
-                          name={'ciudad'}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.ciudad}
-                          className={`form-control form-control-sm ${errors.ciudad &&
-                            touched.ciudad &&
-                            'is-invalid'}`}
-                        >
-                          <option value={''} disabled>
-                            -- {t('app_tercero_form_registrar_select_ciudad')}{' '}
-                            --
-                          </option>
-                          {mapOptionsCitys}
-                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                           {errors.ciudad && touched.ciudad ? (
                             <i className="fa fa-exclamation-triangle" />
@@ -574,24 +503,6 @@ const RemitenteForm = props => {
                               'invalid-feedback'
                             }
                           />
-                          {/* <label
-                              className="form-check-label"
-                              htmlFor="exampleCheck1"
-                            >
-                              Activar
-                            </label> */}
-                          {/* <p
-                              className="text-muted"
-                              style={{ textAlign: "justify" }}
-                            >
-                              Si esta opción se encuentra activada, representa
-                              que el remitente es visible en el sistema y se
-                              podrán realizar operaciones entre cada uno de los
-                              módulos correspondientes de la aplicación. En caso
-                              contrario el remitente no se elimina del sistema
-                              solo quedará inactivo e invisibles para cada uno
-                              de los módulos correspondiente del sistema.
-                            </p> */}
                         </div>
                       </div>
                     </div>
@@ -766,207 +677,3 @@ export default withTranslation('translations')(
     }
   })(RemitenteForm)
 );
-//--------------------//
-class SelectCountry extends React.Component {
-  state = {
-    dataCountry: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCountry: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('pais', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('pais', true);
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          value={this.props.value}
-          className={this.props.className}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_tercero_form_select_registrar_pais')} --
-          </option>
-          {this.state.dataCountry.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectDepartment extends React.Component {
-  state = {
-    dataDepartment: [],
-    id: this.props.pais,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.pais !== state.id) {
-      return {
-        id: props.pais
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.pais !== prevProps.pais) {
-      this.getDataDepartment();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDepartment();
-  }
-
-  getDataDepartment = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataDepartment: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onBlur={this.props.onBlur}
-          onChange={this.props.onChange}
-        >
-          <option value={''}>
-            -- {this.props.t('app_tercero_form_registrar_select_departamento')}{' '}
-            --
-          </option>
-          {this.state.dataDepartment.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectCity extends React.Component {
-  state = {
-    dataCity: [],
-    id: this.props.departamento,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.departamento !== state.id) {
-      return {
-        id: props.departamento
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.departamento !== prevProps.departamento) {
-      this.getDataCitys();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataCitys();
-  }
-
-  getDataCitys = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/city/department/${this.props.departamento}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCity: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_tercero_form_registrar_select_ciudad')} --
-          </option>
-          {this.state.dataCity.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}

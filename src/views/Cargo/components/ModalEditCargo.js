@@ -7,18 +7,13 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Card,
-  CardBody,
-  CardHeader,
-  CardFooter,
   CustomInput,
-  Table,
   Alert
 } from 'reactstrap';
-import { Formik, withFormik, ErrorMessage, Field } from 'formik';
+import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import IMGCARGO from './../../../assets/img/employee.svg';
-import { CHARGE, CHARGES } from '../../../services/EndPoints';
+import { CHARGES } from '../../../services/EndPoints';
 
 class ModalEditCargo extends React.Component {
   state = {
@@ -70,11 +65,12 @@ class ModalEditCargo extends React.Component {
 
   render() {
     const datainit = this.state.dataCharge;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {this.props.t('app_cargo_modal_actualizar_titulo')}{' '}
+            {t('app_cargo_modal_actualizar_titulo')}{' '}
             {this.state.dataCharge.name}{' '}
           </ModalHeader>
           <Formik
@@ -162,26 +158,23 @@ class ModalEditCargo extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
+
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset
+                t
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {this.props.t('app_cargo_modal_actualizar_alert_error')}
+                      {t('app_cargo_modal_actualizar_alert_error')}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {this.props.t(
-                        'app_cargo_modal_actualizar_alert_error400'
-                      )}
+                      {t('app_cargo_modal_actualizar_alert_error400')}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t('app_cargo_modal_actualizar_alert_success')}
+                      {t('app_cargo_modal_actualizar_alert_success')}
                     </Alert>
                     <form className="form">
                       <Row>
@@ -196,18 +189,14 @@ class ModalEditCargo extends React.Component {
                               style={{ borderBottom: '1px solid black' }}
                             >
                               {' '}
-                              {this.props.t(
-                                'app_cargo_modal_actualizar_titulo_2'
-                              )}{' '}
+                              {t('app_cargo_modal_actualizar_titulo_2')}{' '}
                             </h5>{' '}
                           </div>
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  {this.props.t(
-                                    'app_cargo_modal_actualizar_codigo'
-                                  )}{' '}
+                                  {t('app_cargo_modal_actualizar_codigo')}{' '}
                                   <span className="text-danger">*</span>{' '}
                                   <dd>
                                     {' '}
@@ -235,9 +224,7 @@ class ModalEditCargo extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  {this.props.t(
-                                    'app_cargo_modal_actualizar_nombre'
-                                  )}{' '}
+                                  {t('app_cargo_modal_actualizar_nombre')}{' '}
                                   <span className="text-danger">*</span>{' '}
                                   <dd>
                                     <input
@@ -264,9 +251,7 @@ class ModalEditCargo extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <dl className="param">
-                                  {this.props.t(
-                                    'app_cargo_modal_actualizar_descripcion'
-                                  )}
+                                  {t('app_cargo_modal_actualizar_descripcion')}
                                   <dd>
                                     {' '}
                                     <textarea
@@ -286,7 +271,7 @@ class ModalEditCargo extends React.Component {
                                 <dl className="param">
                                   <label>
                                     {' '}
-                                    {this.props.t(
+                                    {t(
                                       'app_cargo_modal_actualizar_estado'
                                     )}{' '}
                                     <span className="text-danger">*</span>{' '}
@@ -299,7 +284,7 @@ class ModalEditCargo extends React.Component {
                                           <CustomInput
                                             type="checkbox"
                                             id="CheckBoxEditRoles"
-                                            label={this.props.t(
+                                            label={t(
                                               'app_cargo_modal_actualizar_estado_descripcion'
                                             )}
                                             {...field}
@@ -333,9 +318,7 @@ class ModalEditCargo extends React.Component {
                       }}
                     >
                       <i className="fa fa-pencil" />{' '}
-                      {this.props.t(
-                        'app_cargo_modal_actualizar_button_actualizar'
-                      )}
+                      {t('app_cargo_modal_actualizar_button_actualizar')}
                     </button>
                     <button
                       className={'btn btn-outline-secondary btn-sm'}
@@ -345,7 +328,7 @@ class ModalEditCargo extends React.Component {
                       }}
                     >
                       <i className="fa fa-times" />{' '}
-                      {this.props.t('app_cargo_modal_actualizar_button_cerrar')}
+                      {t('app_cargo_modal_actualizar_button_cerrar')}
                     </button>
                   </ModalFooter>
                 </Fragment>

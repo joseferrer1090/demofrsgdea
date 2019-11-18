@@ -51,7 +51,7 @@ class ModalDeleteRoles extends Component {
     const dataInitial = {
       codigo: ''
     };
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
@@ -112,12 +112,9 @@ class ModalDeleteRoles extends Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
@@ -128,17 +125,17 @@ class ModalDeleteRoles extends Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {this.props.t('app_roles_modal_eliminar_alert_error')}
+                      {t('app_roles_modal_eliminar_alert_error')}
                     </Alert>
                     <Alert
                       color="danger"
                       isOpen={this.state.alertCode}
                       toggle={this.onDismiss}
                     >
-                      {this.props.t('app_roles_modal_eliminar_alert_errorCode')}
+                      {t('app_roles_modal_eliminar_alert_errorCode')}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t('app_roles_modal_eliminar_alert_success')}
+                      {t('app_roles_modal_eliminar_alert_success')}
                     </Alert>
                     <form className="form">
                       <p className="text-center">

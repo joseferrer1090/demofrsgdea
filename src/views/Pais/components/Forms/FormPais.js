@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, withFormik, ErrorMessage } from 'formik';
+import { withFormik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {
   CustomInput,
@@ -21,13 +21,10 @@ const FormPais = props => {
     values,
     touched,
     errors,
-    dirty,
     isSubmitting,
     handleChange,
-    setFieldValue,
     handleBlur,
     handleSubmit,
-    handleReset,
     t
   } = props;
   return (
@@ -113,24 +110,6 @@ const FormPais = props => {
                         id="ExampleCheckboxInput"
                         label={t('app_pais_form_registrar_estado_descripcion')}
                       />
-                      {/* <label
-                        className="form-check-label"
-                        htmlFor="exampleCheck1"
-                      >
-                        Activar
-                      </label> */}
-                      {/* <p
-                        className="text-muted"
-                        style={{ textAlign: "justify" }}
-                      >
-                        Si esta opción se encuentra activada, representa que
-                        el país es visible en el sistema y se podrán
-                        realizar operaciones entre cada uno de los módulos
-                        correspondientes de la aplicación. En caso contrario
-                        el país no se elimina del sistema solo quedará
-                        inactivo e invisibles para cada uno de los módulos
-                        correspondiente del sistema.
-                      </p> */}
                     </div>
                   </div>
                 </div>
@@ -215,7 +194,6 @@ export default withTranslation('translations')(
                     marginTop: '60px'
                   })
                 });
-                // alert("oki");
               } else if (response.status === 400) {
                 toast.error('Error, el país ya existe.', {
                   position: toast.POSITION.TOP_RIGHT,
@@ -223,7 +201,6 @@ export default withTranslation('translations')(
                     marginTop: '60px'
                   })
                 });
-                //alert("Erro en el cuerpo");
               } else if (response.status === 500) {
                 toast.error('Error, no se pudo crear el país.', {
                   position: toast.POSITION.TOP_RIGHT,

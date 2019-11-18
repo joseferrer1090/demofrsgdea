@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Row, Col, Badge } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import ModalEdit from './ModalEditSedes';
 import ModalView from './ModalViewSedes';
 import ModalDelete from './ModalDeleteSedes';
@@ -11,6 +11,7 @@ import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-tab
 import { HEADQUARTERS } from './../../../services/EndPoints';
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
+
 class TableContentSedes extends Component {
   constructor(props) {
     super(props);
@@ -46,19 +47,12 @@ class TableContentSedes extends Component {
   };
 
   SedesStatus = (cell, row) => {
+    const { t } = this;
     let status;
     if (row.status === 1)
-      status = (
-        <b className="text-success">
-          {this.props.t('app_tablas_estado_activo')}
-        </b>
-      );
+      status = <b className="text-success">{t('app_tablas_estado_activo')}</b>;
     else if (row.status === 0) {
-      status = (
-        <b className="text-danger">
-          {this.props.t('app_tablas_estado_inactivo')}
-        </b>
-      );
+      status = <b className="text-danger">{t('app_tablas_estado_inactivo')}</b>;
     }
     return status;
   };
@@ -128,6 +122,7 @@ class TableContentSedes extends Component {
   }
 
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
@@ -135,7 +130,7 @@ class TableContentSedes extends Component {
         onClick={() => this.openModalExport()}
       >
         <i className="fa fa-download" />{' '}
-        {this.props.t('app_sedes_administrar_table_button_exportar')}
+        {t('app_sedes_administrar_table_button_exportar')}
       </button>
     );
   };
@@ -165,7 +160,6 @@ class TableContentSedes extends Component {
                 searchPlaceholder={t('app_sedes_administrar_table_placeholder')}
                 exportCSV
                 className="tableSedes tableSedes1 texto-Sedes"
-                // headerStyle={{ height: "55px" }}
               >
                 <TableHeaderColumn
                   export={false}

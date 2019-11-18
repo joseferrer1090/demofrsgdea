@@ -808,6 +808,18 @@
     "app_usuarios_administrar_table_estado": "State",
     "app_usuarios_administrar_table_acciones": "Actions",
 
+    "app_usuarios_modal_exportar_titulo": "Export users table",
+    "app_usuarios_modal_exportar_identificacion": "Identification",
+    "app_usuarios_modal_exportar_nombre": "Name",
+    "app_usuarios_modal_exportar_email": "Email",
+    "app_usuarios_modal_exportar_telefono": "Phone",
+    "app_usuarios_modal_exportar_direccion": "Address",
+    "app_usuarios_modal_exportar_fecha_nacimiento": "Date of birth",
+    "app_usuarios_modal_exportar_usuario": "User",
+    "app_usuarios_modal_exportar_estado": "State",
+    "app_usuarios_modal_exportar_dependencia": "Dependence",
+    "app_usuarios_modal_exportar_cargo": "Charge",
+    "app_usuarios_modal_exportar_descargar_CSV": "Export CSV",
     "app_usuarios_modal_exportar_boton_cerrar": "Close",
 
     "app_usuarios_modal_ver_titulo": "User",
@@ -881,6 +893,8 @@
     "app_usuarios_modal_cambiar_contraseña_nueva_contraseña": "New password",
     "app_usuarios_modal_cambiar_contraseña_confirmar_contraseña": "Confirm password",
     "app_usuarios_modal_cambiar_contraseña_boton_cambiar_contraseña": "Change your password",
+    "app_usuarios_modal_cambiar_contraseña_alert_success": "Password restriction changed successfully.",
+    "app_usuarios_modal_cambiar_contraseña_alert_error": "Error changing password. Try again.",
     "app_usuarios_modal_cambiar_contraseña_cerrar": "Close",
 
     "app_usuarios_import_step_1": "1. Step",

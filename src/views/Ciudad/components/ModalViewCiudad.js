@@ -9,7 +9,6 @@ import {
   Col
 } from 'reactstrap';
 import IMGCITY from './../../../assets/img/skyline.svg';
-import { CITIES } from './../../../services/EndPoints';
 import moment from 'moment';
 
 class ModalViewCiudad extends Component {
@@ -59,11 +58,11 @@ class ModalViewCiudad extends Component {
   FechaModificacionCiudad(data) {
     let updatedAt;
     updatedAt = new Date(data);
-    // moment.locale(es);
     return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
   }
 
   render() {
+    const { t } = this.props;
     const dataCity = this.state.dataCity;
     const dataDepartment = this.state.dataDepartment;
     const dataCountry = this.state.dataCountry;
@@ -71,17 +70,11 @@ class ModalViewCiudad extends Component {
       let status;
       if (data === 1) {
         status = (
-          <b className="text-success">
-            {' '}
-            {this.props.t('app_tablas_estado_activo')}{' '}
-          </b>
+          <b className="text-success"> {t('app_tablas_estado_activo')} </b>
         );
       } else if (data === 0) {
         status = (
-          <b className="text-danger">
-            {' '}
-            {this.props.t('app_tablas_estado_inactivo')}{' '}
-          </b>
+          <b className="text-danger"> {t('app_tablas_estado_inactivo')} </b>
         );
       }
       return status;
@@ -91,7 +84,7 @@ class ModalViewCiudad extends Component {
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            {this.props.t('app_ciudad_modal_ver_titulo')} {dataCity.name}{' '}
+            {t('app_ciudad_modal_ver_titulo')} {dataCity.name}{' '}
           </ModalHeader>
           <ModalBody>
             <Row>
@@ -103,14 +96,14 @@ class ModalViewCiudad extends Component {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    {this.props.t('app_ciudad_modal_ver_titulo_2')}{' '}
+                    {t('app_ciudad_modal_ver_titulo_2')}{' '}
                   </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>{this.props.t('app_ciudad_modal_ver_pais')} </dt>
+                        <dt>{t('app_ciudad_modal_ver_pais')} </dt>
                         <dd> {dataCountry.name} </dd>
                       </dl>
                     </div>
@@ -118,9 +111,7 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          {this.props.t('app_ciudad_modal_ver_departamento')}{' '}
-                        </dt>
+                        <dt>{t('app_ciudad_modal_ver_departamento')} </dt>
                         <dd> {dataDepartment.name} </dd>
                       </dl>
                     </div>
@@ -128,7 +119,7 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> {this.props.t('app_ciudad_modal_ver_codigo')} </dt>
+                        <dt> {t('app_ciudad_modal_ver_codigo')} </dt>
                         <dd> {dataCity.code} </dd>
                       </dl>
                     </div>
@@ -136,7 +127,7 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> {this.props.t('app_ciudad_modal_ver_nombre')} </dt>
+                        <dt> {t('app_ciudad_modal_ver_nombre')} </dt>
                         <dd> {dataCity.name} </dd>
                       </dl>
                     </div>
@@ -144,7 +135,7 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> {this.props.t('app_ciudad_modal_ver_estado')} </dt>
+                        <dt> {t('app_ciudad_modal_ver_estado')} </dt>
                         <dd> {statusCity(dataCity.status)} </dd>
                       </dl>
                     </div>
@@ -152,12 +143,7 @@ class ModalViewCiudad extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          {' '}
-                          {this.props.t(
-                            'app_ciudad_modal_ver_fecha_creacion'
-                          )}{' '}
-                        </dt>
+                        <dt> {t('app_ciudad_modal_ver_fecha_creacion')} </dt>
                         <dd>
                           {' '}
                           {this.FechaCreacionCiudad(dataCity.createdAt)}{' '}
@@ -170,9 +156,7 @@ class ModalViewCiudad extends Component {
                       <dl className="param">
                         <dt>
                           {' '}
-                          {this.props.t(
-                            'app_ciudad_modal_ver_fecha_modificacion'
-                          )}{' '}
+                          {t('app_ciudad_modal_ver_fecha_modificacion')}{' '}
                         </dt>
                         <dd>
                           {' '}
@@ -195,8 +179,7 @@ class ModalViewCiudad extends Component {
               }}
             >
               {' '}
-              <i className="fa fa-times" />{' '}
-              {this.props.t('app_ciudad_modal_ver_cerrar')}{' '}
+              <i className="fa fa-times" /> {t('app_ciudad_modal_ver_cerrar')}{' '}
             </button>
           </ModalFooter>
         </Modal>

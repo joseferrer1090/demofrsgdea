@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, withFormik, ErrorMessage } from 'formik';
+import { withFormik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {
   Card,
   CardBody,
   CardFooter,
   CardHeader,
-  Button,
   Row,
   Col,
-  Buttom,
   CustomInput
 } from 'reactstrap';
 import {
@@ -23,20 +21,21 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
+import SelectConglomerado from './components/SelectConglomerado';
+import SelectCompany from './components/SelectCompany';
+import SelectHeadquarter from './components/SelectHeadquarter';
 
 const DependenciaForm = props => {
   const {
     values,
     touched,
     errors,
-    dirty,
     isSubmitting,
     handleChange,
     setFieldValue,
     handleBlur,
     handleSubmit,
     setFieldTouched,
-    handleReset,
     t
   } = props;
 
@@ -67,14 +66,6 @@ const DependenciaForm = props => {
       .catch(Error => console.log(' ', Error));
   };
 
-  const mapOptionsConglomerate = optionsConglomerate.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
   const getDataCompanys = data => {
     fetch(COMPANYS_STATUS, {
       method: 'GET',
@@ -86,20 +77,9 @@ const DependenciaForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsCompanys(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
-
-  const mapOptionsCompanys = optionsCompanys.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   const getDataHeadquarters = data => {
     fetch(HEADQUARTERS_STATUS, {
@@ -112,20 +92,9 @@ const DependenciaForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsHeadquarters(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
-
-  const mapOptionsHeadquarters = optionsHeadquarters.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   const getDataCharges = data => {
     fetch(CHARGES_STATUS, {
@@ -138,9 +107,6 @@ const DependenciaForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsCharges(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
@@ -182,24 +148,7 @@ const DependenciaForm = props => {
                           touched.conglomerateId &&
                           'is-invalid'}`}
                       />
-                      {/* <select
-                        name="conglomerateId"
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.conglomerateId}
-                        className={`form-control form-control-sm ${errors.conglomerateId &&
-                          touched.conglomerateId &&
-                          'is-invalid'}`}
-                      >
-                        <option value={''}>
-                          --{' '}
-                          {t(
-                            'app_dependencia_form_registrar_select_conglomerado'
-                          )}{' '}
-                          --
-                        </option>
-                        {mapOptionsConglomerate}
-                      </select> */}
+
                       <div style={{ color: '#D54B4B' }}>
                         {errors.conglomerateId && touched.conglomerateId ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -228,26 +177,7 @@ const DependenciaForm = props => {
                           touched.companyId &&
                           'is-invalid'}`}
                       ></SelectCompany>
-                      {/* <select
-                        name={'companyId'}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.companyId}
-                        className={`form-control form-control-sm ${errors.companyId &&
-                          touched.companyId &&
-                          'is-invalid'}`}
-                      >
-                        {' '}
-                        <option value={''}>
-                          {' '}
-                          --{' '}
-                          {t(
-                            'app_dependencia_form_registrar_select_empresa'
-                          )}{' '}
-                          --
-                        </option>
-                        {mapOptionsCompanys}{' '}
-                      </select> */}
+
                       <div style={{ color: '#D54B4B' }}>
                         {errors.companyId && touched.companyId ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -275,21 +205,7 @@ const DependenciaForm = props => {
                           touched.headquarterId &&
                           'is-invalid'}`}
                       ></SelectHeadquarter>
-                      {/* <select
-                        name={'headquarterId'}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.headquarterId}
-                        className={`form-control form-control-sm ${errors.headquarterId &&
-                          touched.headquarterId &&
-                          'is-invalid'}`}
-                      >
-                        <option value={''}>
-                          -- {t('app_dependencia_form_registrar_select_sede')}{' '}
-                          --
-                        </option>
-                        {mapOptionsHeadquarters}
-                      </select> */}
+
                       <div style={{ color: '#D54B4B' }}>
                         {errors.headquarterId && touched.headquarterId ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -438,18 +354,6 @@ const DependenciaForm = props => {
                             'invalid-feedback'
                           }
                         />
-                        {/* <p
-                              className="text-muted"
-                              style={{ textAlign: "justify" }}
-                            >
-                              Si esta opción se encuentra activada, representa
-                              que la dependencia es visible en el sistema y se
-                              podrán realizar operaciones entre cada uno de los
-                              módulos correspondientes de la aplicación. En caso
-                              contrario la dependencia no se elimina del sistema
-                              solo quedará inactivo e invisibles para cada uno
-                              de los módulos correspondiente del sistema.
-                            </p> */}
                       </div>
                     </div>
                   </div>
@@ -587,214 +491,3 @@ export default withTranslation('translations')(
     }
   })(DependenciaForm)
 );
-
-//--------------------//
-
-class SelectConglomerado extends React.Component {
-  state = {
-    dataConglomerate: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataConglomerate: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('conglomerateId', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('conglomerateId', true);
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          value={this.props.value}
-          className={this.props.className}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            --{' '}
-            {this.props.t('app_dependencia_form_registrar_select_conglomerado')}{' '}
-            --
-          </option>
-          {this.state.dataConglomerate.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-//--------------------//
-class SelectCompany extends React.Component {
-  state = {
-    dataCompany: [],
-    id: this.props.conglomerateId,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.conglomerateId !== state.id) {
-      return {
-        id: props.conglomerateId
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.conglomerateId !== prevProps.conglomerateId) {
-      this.getDataCompany();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataCompany();
-  }
-
-  getDataCompany = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCompany: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_dependencia_form_registrar_select_empresa')}{' '}
-            --
-          </option>
-          {this.state.dataCompany.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-//--------------------//
-
-class SelectHeadquarter extends React.Component {
-  state = {
-    dataHeadquarter: [],
-    id: this.props.companyId,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.companyId !== state.id) {
-      return {
-        id: props.companyId
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.companyId !== prevProps.companyId) {
-      this.getDataHeadquarter();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataHeadquarter();
-  }
-
-  getDataHeadquarter = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.companyId}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataHeadquarter: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_dependencia_form_registrar_select_sede')} --
-          </option>
-          {this.state.dataHeadquarter.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}

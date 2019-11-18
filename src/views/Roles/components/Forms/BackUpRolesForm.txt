@@ -1,0 +1,343 @@
+const [favourites, setfavourites] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios.get(
+        `http://192.168.10.180/7000/api/sgdea/permission/page/entity/${props.values.entidades}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa("sgdea:123456")
+          }
+        }
+      );
+      setfavourites(result.data);
+    };
+    fetchData();
+  }, [favourites]);
+
+  const addFavourite = id => {
+    const newSet = favourites.concat([id]);
+    setfavourites([...favourites.concat(id)]);
+    console.log(newSet);
+  };
+
+  const deleteFavourite = id => {
+    const newList = [...favourites.slice(0, id), ...favourites.slice(id + 1)];
+    setfavourites([...favourites.slice(0, id), ...favourites.slice(id + 1)]);
+    console.log(newList);
+  };
+
+  console.log(props.values.entidades);
+  console.log(favourites);
+ 
+ -------
+ <Col sm="6">
+                          <div className="form-group">
+                            <label>
+                              {" "}
+                              Modulo <span className="text-danger">*</span>{" "}
+                            </label>
+                            <select
+                              name="modulos"
+                              className="form-control form-control-sm"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.modulos}
+                            >
+                              <option> -- Seleccione -- </option>
+                            </select>
+                            <MySelectModulos
+                              name={"modulos"}
+                              value={values.modulos}
+                              onChange={setFieldValue}
+                              onBlur={setFieldTouched}
+                            />
+                            {touched ? (
+                              <div style={{ color: "red" }}>
+                                {" "}
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.modulos && touched.modulos ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"modulos"} />
+                                </div>
+                              </div>
+                            ) : null}
+                            <select className="form-control form-control-sm">
+                              {" "}
+                              <option> Seleccione... </option>{" "}
+                            </select>
+                          </div>
+                        </Col> 
+                        <Col sm="6">
+                          <div className="form-group">
+                            <label>
+                              {" "}
+                              Entidades <span className="text-danger">
+                                *
+                              </span>{" "}
+                            </label>
+                            <select
+                              name="entidades"
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              value={values.entidades}
+                              className="form-control form-control-sm"
+                            >
+                              <option>-- Seleccione --</option>
+                            </select>
+                            <MySelectEntidades
+                              name={"entidades"}
+                              value={values.entidades}
+                              onChange={setFieldValue}
+                              onBlur={setFieldTouched}
+                            />
+                            {touched ? (
+                              <div style={{ color: "red" }}>
+                                {" "}
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.entidades && touched.entidades ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"entidades"} />
+                                </div>
+                              </div>
+                            ) : null}
+                            <select
+                              className="form-control form-control-sm
+                                "
+                            >
+                              {" "}
+                              <option> Seleccione... </option>{" "}
+                            </select>
+                          </div>
+                        </Col>
+--------
+{/*  Aqui va la funcionalidad    */}
+
+                        <div className="row">
+                          <div className="col-md-6">
+                            {/* <label className="col-md-12">
+                              <dt>Permisos disponibles:</dt>
+                            </label> */}
+                            <div className="form-group">
+                              {/* <ListPermissions
+                                data={favourites}
+                                addFavourite={addFavourite}
+                                IDentidad={props.values.entidades}
+                              /> */}
+                              {/* <select
+                                multiple
+                                className="form-control"
+                                style={{
+                                  width: "310px",
+                                  marginLeft: "14px"
+                                }}
+                              >
+                                <option> Seleccione </option>
+                              </select> */}
+                              {/* <ListaRoles
+                                data={this.props.data}
+                                favouritesroles={this.state.favourites}
+                                addFavourite={this.addFavourite.bind(this)}
+                              /> */}
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            {/* <label>
+                              <dt>Permisos asignados:</dt>
+                            </label> */}
+                            {/* <ShortList
+                              favourites={favourites}
+                              deleteFavourite={deleteFavourite}
+                            /> */}
+                            {/* <select
+                              multiple
+                              className="form-control"
+                              disabled
+                              style={{
+                                width: "310px",
+                                marginRight: "10px"
+                              }}
+                            >
+                              <option> las nuevas opciones</option>
+                            </select> */}
+                            {/* <NuevaListaRoles
+                              data={this.props.data}
+                              favourites={this.state.favourites}
+                              deleteFavourite={this.deleteFavourite.bind(this)}
+                            /> */}
+                          </div>
+                        </div>
+                        {/*  Fin   */}
+
+--------------          
+
+// class Autocomplete extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       dataSearch: [],
+//       query: "",
+//       idEntidad: ""
+//     };
+//   }
+
+//   onTextChange = e => {
+//     this.setState({ query: e.target.value }, () => {
+//       fetch(
+//         `http://192.168.10.180:7000/api/sgdea/entity/search/name?name=${this.state.query}`,
+//         {
+//           method: "GET",
+//           headers: {
+//             "Content-Type": "application/json",
+//             Authorization: "Basic " + window.btoa("sgdea:123456")
+//           }
+//         }
+//       )
+//         .then(response => response.json())
+//         .then(data => {
+//           this.setState({
+//             dataSearch: data
+//           });
+//         })
+//         .catch(err => console.log("", err));
+//     });
+//   };
+
+//   searchInput = term => {
+//     return function(x) {
+//       return x.name.includes(term);
+//     };
+//   };
+
+//   render() {
+//     //console.log(this.state.dataSearch);
+//     const data = this.state.dataSearch;
+//     const term = this.state.query;
+//     //console.log(data);
+
+//     return (
+//       <div>
+//         <input
+//           type="text"
+//           name="query"
+//           value={this.state.query}
+//           onChange={this.onTextChange}
+//           placeholder={"Entiad a buscar"}
+//           className="form-control form-control-sm"
+//         />
+//         <input
+//           type="hidden"
+//           name={this.props.name}
+//           value={this.state.idEntidad}
+//         />
+//         <ListGroup>
+//           {term
+//             ? data.filter(this.searchInput(term)).map((aux, id) => {
+//                 return (
+//                   <a
+//                     href="#"
+//                     onClick={e => {
+//                       e.preventDefault();
+//                       this.setState({ idEntidad: aux.id }, () => {
+//                         console.log(this.state.idEntidad);
+//                       });
+//                     }}
+//                   >
+//                     {" "}
+//                     <ListGroupItem key={id}>{aux.name}</ListGroupItem>
+//                   </a>
+//                 );
+//               })
+//             : null}
+//         </ListGroup>
+//       </div>
+//     );
+//   }
+// }
+
+//------------------------------------------------------------------------------------------------//
+
+// class ListPermissions extends React.Component {
+//   state = {
+//     datalist: [],
+//     id: this.props.IDentidad
+//   };
+
+//   static getDerivedStateFromProps(props, state) {
+//     if (props.IDentidad !== state.id) {
+//       return {
+//         id: props.IDentidad
+//       };
+//     }
+//   }
+
+//   componentDidUpdate(prevProps, prevState) {
+//     if (this.props.IDentidad !== prevProps.IDentidad) {
+//       // getById
+//       this.getPermissionById();
+//     }
+//   }
+
+//   componentDidMount() {
+//     // getById
+//     this.getPermissionById();
+//   }
+
+//   getPermissionById = () => {
+//     fetch(
+//       `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.props.IDentidad}`,
+//       {
+//         method: "GET",
+//         headers: {
+//           "Content-Type": "application/json",
+//           Authorization: "Basic " + window.btoa("sgdea:123456")
+//         }
+//       }
+//     )
+//       .then(response => response.json())
+//       .then(data => {
+//         this.setState({
+//           datalist: data
+//         });
+//       })
+//       .catch(err => console.log("Error", err));
+//   };
+
+//   render() {
+//     console.log(this.state.datalist);
+//     // console.log(this.props.IDentidad);
+
+//     return (
+//       <div>
+//         {this.state.datalist.map((aux, id) => {
+//           return (
+//             <NamePermission
+//               id={aux.id}
+//               key={id}
+//               info={aux}
+//               handleFavourite={id => this.props.addFavourite(id)}
+//             />
+//           );
+//         })}
+//       </div>
+//     );
+//   }
+// }
+
+// {
+//   this.state.datalist.map((aux, i) => {
+//     return (
+//       <NamePermission
+//         id={aux.id}
+//         key={i}
+//         info={aux}
+//         handleFavourite={id => this.props.addFavourite(id)}
+//       />
+//     );
+//   });
+// }
+
+// --------------------------------------------------------------------------------------------------- //

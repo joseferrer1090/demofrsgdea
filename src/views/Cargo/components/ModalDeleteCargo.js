@@ -1,16 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import {
-  Row,
-  Col,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Alert
-} from 'reactstrap';
+import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import * as Yup from 'yup';
-import { Formik, withFormik, ErrorMessage } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 
 class ModalDeleteCargo extends React.Component {
   state = {
@@ -64,12 +56,13 @@ class ModalDeleteCargo extends React.Component {
       code: ''
     };
     const nameCharge = this.state.nameCharge;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            {this.props.t('app_cargo_modal_eliminar_titulo')} {nameCharge}{' '}
+            {t('app_cargo_modal_eliminar_titulo')} {nameCharge}{' '}
           </ModalHeader>
           <Formik
             initialValues={dataInitial}
@@ -124,12 +117,10 @@ class ModalDeleteCargo extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset
+                t
               } = props;
               return (
                 <Fragment>
@@ -141,30 +132,26 @@ class ModalDeleteCargo extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t('app_cargo_modal_eliminar_alert_error')}
+                        {t('app_cargo_modal_eliminar_alert_error')}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_cargo_modal_eliminar_alert_errorCode'
-                        )}
+                        {t('app_cargo_modal_eliminar_alert_errorCode')}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
-                        {this.props.t('app_cargo_modal_eliminar_alert_success')}
+                        {t('app_cargo_modal_eliminar_alert_success')}
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        {this.props.t('app_cargo_modal_eliminar_titulo_2')}
+                        {t('app_cargo_modal_eliminar_titulo_2')}
                       </p>
 
                       <input
                         type="text"
-                        placeholder={this.props.t(
-                          'app_cargo_modal_eliminar_placeholder'
-                        )}
+                        placeholder={t('app_cargo_modal_eliminar_placeholder')}
                         style={{ textAlign: 'center' }}
                         name="code"
                         onChange={handleChange}
@@ -180,13 +167,10 @@ class ModalDeleteCargo extends React.Component {
                         ) : null}
                         <ErrorMessage name="code" />
                       </div>
-                      {/* <div className="text-center">
-                        <ErrorMessage name={"nombre"} />
-                      </div> */}
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        {this.props.t('app_cargo_modal_eliminar_titulo_3')}
+                        {t('app_cargo_modal_eliminar_titulo_3')}
                       </p>
                     </form>
                   </ModalBody>
@@ -200,7 +184,7 @@ class ModalDeleteCargo extends React.Component {
                       }}
                     >
                       <i className="fa fa-trash" />{' '}
-                      {this.props.t('app_cargo_modal_eliminar_button_eliminar')}
+                      {t('app_cargo_modal_eliminar_button_eliminar')}
                     </button>
                     <button
                       type="button"
@@ -214,7 +198,7 @@ class ModalDeleteCargo extends React.Component {
                       }}
                     >
                       <i className="fa fa-times" />{' '}
-                      {this.props.t('app_cargo_modal_eliminar_button_cerrar')}{' '}
+                      {t('app_cargo_modal_eliminar_button_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

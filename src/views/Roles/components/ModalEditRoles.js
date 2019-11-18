@@ -11,8 +11,7 @@ import {
   Alert
 } from 'reactstrap';
 import IMGROLES from './../../../assets/img/shield.svg';
-import { ROLES_EDIT } from './../../../data/JSON-SERVER';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 
 class ModalEditRoles extends React.Component {
@@ -67,7 +66,7 @@ class ModalEditRoles extends React.Component {
       descripcion: this.state.dataResult.description,
       estado: this.state.dataResult.status
     };
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -89,7 +88,6 @@ class ModalEditRoles extends React.Component {
                 return 0;
               };
               setTimeout(() => {
-                // alert(JSON.stringify(values, null, 2));
                 fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
                   method: 'PUT',
                   headers: {
@@ -159,12 +157,9 @@ class ModalEditRoles extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>

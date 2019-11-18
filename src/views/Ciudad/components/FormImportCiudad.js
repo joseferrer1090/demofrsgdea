@@ -2,14 +2,14 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, CustomInput } from 'reactstrap';
 import axios from 'axios';
-import { CsvToHtmlTable } from 'react-csv-to-table';
+import PreviewFile from './PreviewFile';
 import { ToastContainer, toast } from 'react-toastify';
 import { css } from 'glamor';
-import { Formik, Field, ErrorMessage, withFormik } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { withTranslation } from 'react-i18next';
 import fileCity from './../../../assets/files/FilesImportCSV/city.csv';
-import { file } from '@babel/types';
+
 class FormImportCiudad extends React.Component {
   constructor(props) {
     super(props);
@@ -77,7 +77,6 @@ class FormImportCiudad extends React.Component {
                 };
                 const formData = new FormData();
                 const file = this.state.file;
-                const separador = values.separador_csv;
                 formData.append('file', file);
                 formData.append('separator', separator(values.separador_csv));
                 setTimeout(() => {
@@ -138,12 +137,9 @@ class FormImportCiudad extends React.Component {
                   values,
                   touched,
                   errors,
-                  dirty,
-                  isSubmitting,
                   handleChange,
                   handleBlur,
-                  handleSubmit,
-                  handleReset
+                  handleSubmit
                 } = props;
                 return (
                   <Fragment>
@@ -214,9 +210,7 @@ class FormImportCiudad extends React.Component {
                                   name={'archivo'}
                                   onBlur={handleBlur}
                                   onChange={e => this.onChange(e)}
-                                  label={this.props.t(
-                                    'app_ciudad_import_form_file'
-                                  )}
+                                  label={t('app_ciudad_import_form_file')}
                                   className={`form-control ${errors.archivo &&
                                     touched.archivo &&
                                     'is-invalid'}`}
@@ -263,48 +257,3 @@ class FormImportCiudad extends React.Component {
 }
 
 export default withTranslation('translations')(FormImportCiudad);
-
-class PreviewFile extends React.Component {
-  state = {
-    loading: false,
-    thumb: undefined
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.file) {
-      return;
-    }
-    this.setState(
-      {
-        loading: true
-      },
-      () => {
-        let reader = new FileReader();
-
-        reader.onloadend = () => {
-          this.setState({ loading: false, thumb: reader.result });
-        };
-
-        reader.readAsBinaryString(nextProps.file);
-      }
-    );
-  }
-  render() {
-    const { file } = this.props;
-    const { loading } = this.state;
-    const thumb = this.state.thumb;
-
-    if (!file) {
-      return null;
-    }
-
-    if (loading) {
-      return <p>loading...</p>;
-    }
-
-    // console.log(thumb.toString());
-    // console.log(file.type);
-
-    return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
-  }
-}

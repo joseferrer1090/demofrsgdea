@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { TableHeaderColumn, BootstrapTable } from 'react-bootstrap-table';
-import { Row, Col } from 'reactstrap';
+import { Col } from 'reactstrap';
 import ModalView from './ModalViewUser';
 import ModalDelete from './ModalDeleteUser';
 import ModalUpdate from './ModalEditUser';
@@ -99,17 +99,18 @@ class TableContentUser extends Component {
   }
 
   UsuarioStatus(cell, row) {
+    const { t } = this.props;
     let status;
     if (row.enabled === true) {
       status = (
         <p className="text-success">
-          <b>{this.props.t('app_tablas_estado_activo')}</b>
+          <b>{t('app_tablas_estado_activo')}</b>
         </p>
       );
     } else if (row.enabled !== true) {
       status = (
         <p className="text-danger">
-          <b>{this.props.t('app_tablas_estado_inactivo')}</b>
+          <b>{t('app_tablas_estado_inactivo')}</b>
         </p>
       );
     }
@@ -137,6 +138,7 @@ class TableContentUser extends Component {
   };
 
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
@@ -144,7 +146,7 @@ class TableContentUser extends Component {
         onClick={() => this.openModalExport()}
       >
         <i className="fa fa-download" />{' '}
-        {this.props.t('app_usuarios_administrar_table_boton_exportar')}
+        {t('app_usuarios_administrar_table_boton_exportar')}
       </button>
     );
   };
@@ -173,10 +175,6 @@ class TableContentUser extends Component {
       return !data ? null : `<div>${data.name}</div>`;
     };
 
-    // const DateFormat = data => {
-    //   return <Moment format="YYYY/MM/DD">{data}</Moment>;
-    // };
-
     console.log(this.state.dataUsers);
     const t = this.props.t;
     return (
@@ -192,7 +190,6 @@ class TableContentUser extends Component {
             striped
             bordered={false}
             className="tableUsu texto-Usu"
-            // headerStyle={{ height: "px" }}
           >
             <TableHeaderColumn
               export={false}

@@ -55,26 +55,21 @@ class ModalViewMensajero extends Component {
   FechaModificacionMensajero(data) {
     let updatedAt;
     updatedAt = new Date(data);
-    // moment.locale(es);
     return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
   }
 
   render() {
+    const { t } = this.props;
+
     const statusMessenger = data => {
       let status;
       if (data === 1) {
         status = (
-          <b className="text-success">
-            {' '}
-            {this.props.t('app_tablas_estado_activo')}{' '}
-          </b>
+          <b className="text-success"> {t('app_tablas_estado_activo')} </b>
         );
       } else if (data === 0) {
         status = (
-          <b className="text-danger">
-            {' '}
-            {this.props.t('app_tablas_estado_inactivo')}{' '}
-          </b>
+          <b className="text-danger"> {t('app_tablas_estado_inactivo')} </b>
         );
       }
       return status;
@@ -89,7 +84,7 @@ class ModalViewMensajero extends Component {
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {this.props.t('app_mensajero_modal_ver_titulo')} {name}
+            {t('app_mensajero_modal_ver_titulo')} {name}
           </ModalHeader>
           <ModalBody>
             <Row>
@@ -101,18 +96,14 @@ class ModalViewMensajero extends Component {
                   {' '}
                   <h5 className="" style={{ borderBottom: '1px solid black' }}>
                     {' '}
-                    {this.props.t('app_mensajero_modal_ver_titulo_2')}{' '}
+                    {t('app_mensajero_modal_ver_titulo_2')}{' '}
                   </h5>{' '}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          {this.props.t(
-                            'app_mensajero_modal_ver_identificacion'
-                          )}{' '}
-                        </dt>
+                        <dt>{t('app_mensajero_modal_ver_identificacion')} </dt>
                         <dd>{identification} </dd>
                       </dl>
                     </div>
@@ -120,9 +111,7 @@ class ModalViewMensajero extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          {this.props.t('app_mensajero_modal_ver_nombre')}{' '}
-                        </dt>
+                        <dt>{t('app_mensajero_modal_ver_nombre')} </dt>
                         <dd> {name} </dd>
                       </dl>
                     </div>
@@ -130,9 +119,7 @@ class ModalViewMensajero extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          {this.props.t('app_mensajero_modal_ver_descripcion')}{' '}
-                        </dt>
+                        <dt>{t('app_mensajero_modal_ver_descripcion')} </dt>
                         <dd> {description} </dd>
                       </dl>
                     </div>
@@ -140,9 +127,7 @@ class ModalViewMensajero extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          {this.props.t('app_mensajero_modal_ver_estado')}{' '}
-                        </dt>
+                        <dt>{t('app_mensajero_modal_ver_estado')} </dt>
                         <dd> {statusMessenger(status)} </dd>
                       </dl>
                     </div>
@@ -150,11 +135,7 @@ class ModalViewMensajero extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          {this.props.t(
-                            'app_mensajero_modal_ver_fecha_creacion'
-                          )}{' '}
-                        </dt>
+                        <dt>{t('app_mensajero_modal_ver_fecha_creacion')} </dt>
                         <dd> {this.FechaCreacionMensajero(createdAt)} </dd>
                       </dl>
                     </div>
@@ -163,9 +144,7 @@ class ModalViewMensajero extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>
-                          {this.props.t(
-                            'app_mensajero_modal_ver_fecha_modificacion'
-                          )}{' '}
+                          {t('app_mensajero_modal_ver_fecha_modificacion')}{' '}
                         </dt>
                         <dd> {this.FechaModificacionMensajero(updatedAt)} </dd>
                       </dl>
@@ -185,7 +164,7 @@ class ModalViewMensajero extends Component {
             >
               {' '}
               <i className="fa fa-times" />{' '}
-              {this.props.t('app_mensajero_modal_ver_cerrar')}{' '}
+              {t('app_mensajero_modal_ver_cerrar')}{' '}
             </button>
           </ModalFooter>
         </Modal>

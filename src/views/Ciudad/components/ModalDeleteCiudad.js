@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from 'reactstrap';
 import * as Yup from 'yup';
-import { Formik, ErrorMessage, Field } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 
 class ModalDeleteCiudad extends Component {
   constructor(props) {
@@ -59,12 +59,13 @@ class ModalDeleteCiudad extends Component {
       code: ''
     };
     const nameCity = this.state.nameCity;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            {this.props.t('app_ciudad_modal_eliminar_titulo')} {nameCity}{' '}
+            {t('app_ciudad_modal_eliminar_titulo')} {nameCity}{' '}
           </ModalHeader>
           <Formik
             initialValues={dataPreview}
@@ -124,12 +125,9 @@ class ModalDeleteCiudad extends Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
@@ -141,25 +139,21 @@ class ModalDeleteCiudad extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t('app_ciudad_modal_eliminar_alert_error')}
+                        {t('app_ciudad_modal_eliminar_alert_error')}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_ciudad_modal_eliminar_alert_errorCode'
-                        )}
+                        {t('app_ciudad_modal_eliminar_alert_errorCode')}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
-                        {this.props.t(
-                          'app_ciudad_modal_eliminar_alert_success'
-                        )}
+                        {t('app_ciudad_modal_eliminar_alert_success')}
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        {this.props.t('app_ciudad_modal_eliminar_titulo_2')}
+                        {t('app_ciudad_modal_eliminar_titulo_2')}
                       </p>
 
                       <input
@@ -167,9 +161,7 @@ class ModalDeleteCiudad extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder={this.props.t(
-                          'app_ciudad_modal_eliminar_placeholder'
-                        )}
+                        placeholder={t('app_ciudad_modal_eliminar_placeholder')}
                         style={{ textAlign: 'center' }}
                         value={values.code}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
@@ -185,9 +177,7 @@ class ModalDeleteCiudad extends Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        {this.props.t(
-                          'app_ciudad_modal_eliminar_titulo_3'
-                        )}{' '}
+                        {t('app_ciudad_modal_eliminar_titulo_3')}{' '}
                       </p>
                     </form>
                   </ModalBody>
@@ -201,9 +191,7 @@ class ModalDeleteCiudad extends Component {
                       }}
                     >
                       <i className="fa fa-trash" />{' '}
-                      {this.props.t(
-                        'app_ciudad_modal_eliminar_button_eliminar'
-                      )}
+                      {t('app_ciudad_modal_eliminar_button_eliminar')}
                     </button>
                     <button
                       type="button"
@@ -218,7 +206,7 @@ class ModalDeleteCiudad extends Component {
                       }}
                     >
                       <i className="fa fa-times" />{' '}
-                      {this.props.t('app_ciudad_modal_eliminar_button_cerrar')}{' '}
+                      {t('app_ciudad_modal_eliminar_button_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

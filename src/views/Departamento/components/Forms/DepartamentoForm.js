@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Formik, withFormik, ErrorMessage } from 'formik';
+import { withFormik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {
   Card,
@@ -21,13 +21,11 @@ const DepartamentoForm = props => {
     values,
     touched,
     errors,
-    dirty,
     isSubmitting,
     handleChange,
     setFieldValue,
     handleBlur,
     handleSubmit,
-    handleReset,
     t
   } = props;
 
@@ -48,9 +46,6 @@ const DepartamentoForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsCountries(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
@@ -180,24 +175,6 @@ const DepartamentoForm = props => {
                           'app_departamento_form_registrar_estado_descripcion'
                         )}
                       />
-                      {/* <label
-                    className="form-check-label"
-                    htmlFor="exampleCheck1"
-                  >
-                    Activar
-                  </label> */}
-                      {/* <p
-                    className="text-muted"
-                    style={{ textAlign: "justify" }}
-                  >
-                    Si esta opción se encuentra activada, representa que
-                    el departamento es visible en el sistema y se podrán
-                    realizar operaciones entre cada uno de los módulos
-                    correspondientes de la aplicación. En caso contrario
-                    el departamento no se elimina del sistema solo
-                    quedará inactivo e invisibles para cada uno de los
-                    módulos correspondiente del sistema.
-                  </p> */}
                     </div>
                   </div>
                 </div>

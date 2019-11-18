@@ -808,6 +808,18 @@
     "app_usuarios_administrar_table_estado": "Estado",
     "app_usuarios_administrar_table_acciones": "Acciones",
 
+    "app_usuarios_modal_exportar_titulo": "Exportar tabla de usuarios",
+    "app_usuarios_modal_exportar_identificacion": "Identificación",
+    "app_usuarios_modal_exportar_nombre": "Nombre",
+    "app_usuarios_modal_exportar_email": "Email",
+    "app_usuarios_modal_exportar_telefono": "Teléfono",
+    "app_usuarios_modal_exportar_direccion": "Dirección",
+    "app_usuarios_modal_exportar_fecha_nacimiento": "Fecha de nacimiento",
+    "app_usuarios_modal_exportar_usuario": "Usuario",
+    "app_usuarios_modal_exportar_estado": "Estado",
+    "app_usuarios_modal_exportar_dependencia": "Dependencia",
+    "app_usuarios_modal_exportar_cargo": "Cargo",
+    "app_usuarios_modal_exportar_descargar_CSV": "Exportar CSV",
     "app_usuarios_modal_exportar_boton_cerrar": "Cerrar",
 
     "app_usuarios_modal_ver_titulo": "Usuario",
@@ -881,6 +893,9 @@
     "app_usuarios_modal_cambiar_contraseña_nueva_contraseña": "Nueva contraseña",
     "app_usuarios_modal_cambiar_contraseña_confirmar_contraseña": "Confirmar contraseña",
     "app_usuarios_modal_cambiar_contraseña_boton_cambiar_contraseña": "Cambiar la contraseña",
+    "app_usuarios_modal_cambiar_contraseña_alert_success": "Se cambio la constraseña satisfactoriamente.",
+    "app_usuarios_modal_cambiar_contraseña_alert_error": "Error al cambiar la contraseña. Intente nuevamente.",
+
     "app_usuarios_modal_cambiar_contraseña_cerrar": "Cerrar",
 
     "app_usuarios_import_step_1": "1. Paso",

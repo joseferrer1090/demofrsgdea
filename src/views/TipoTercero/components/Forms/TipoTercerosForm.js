@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Yup from 'yup';
-import { Formik, withFormik, ErrorMessage } from 'formik';
+import { withFormik, ErrorMessage } from 'formik';
 import {
   Card,
   CardBody,
@@ -25,7 +25,6 @@ const TipoTercerosForm = props => {
     handleBlur,
     handleSubmit,
     isSubmitting,
-    setFieldTouched,
     setFieldValue,
     t
   } = props;
@@ -140,19 +139,6 @@ const TipoTercerosForm = props => {
                         />
                         <ErrorMessage name="this.status" />
                       </div>
-                      {/* <p
-                        className="text-muted"
-                        style={{ textAlign: "justify" }}
-                      >
-                        {" "}
-                        Si esta opción se encuentra activada, Representa que
-                        la sede es visible en el sistema y se podrán
-                        realizar operaciones entre cada uno de los módulos
-                        correspondientes de la aplicación. En caso contrario
-                        la sede no se elimina del sistema solo quedará
-                        inactiva e invisibles para cada uno de los módulos
-                        correspondiente del sistema.
-                      </p> */}
                     </div>
                   </div>
                 </div>
@@ -242,7 +228,6 @@ export default withTranslation('translations')(
                     marginTop: '60px'
                   })
                 });
-                // alert("oki");
               } else if (response.status === 400) {
                 toast.error('Error, el tipo de tercero ya existe.', {
                   position: toast.POSITION.TOP_RIGHT,
@@ -250,7 +235,6 @@ export default withTranslation('translations')(
                     marginTop: '60px'
                   })
                 });
-                //alert("Erro en el cuerpo");
               }
             })
           )

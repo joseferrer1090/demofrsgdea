@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import IMGPackage from './../../../assets/img/package.svg';
 import PropTypes from 'prop-types';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import { TYPESHIPMENTARRIVAL } from './../../../services/EndPoints';
 
@@ -63,11 +63,12 @@ class ModalEditTipoLlegada extends React.Component {
 
   render() {
     const dataResult = this.state.dataResult;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {this.props.t('app_tipoLlegada_modal_actualizar_titulo')}{' '}
+            {t('app_tipoLlegada_modal_actualizar_titulo')}{' '}
             {dataResult.typeshipmentarrival_name}
           </ModalHeader>
           <Formik
@@ -163,12 +164,9 @@ class ModalEditTipoLlegada extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
@@ -178,23 +176,17 @@ class ModalEditTipoLlegada extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {this.props.t(
-                        'app_tipoLlegada_modal_actualizar_alert_error'
-                      )}
+                      {t('app_tipoLlegada_modal_actualizar_alert_error')}
                     </Alert>
                     <Alert
                       color="success"
                       isOpen={this.state.alertSuccess}
                       toggle={this.onDismiss}
                     >
-                      {this.props.t(
-                        'app_tipoLlegada_modal_actualizar_alert_success'
-                      )}
+                      {t('app_tipoLlegada_modal_actualizar_alert_success')}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {this.props.t(
-                        'app_tipoLlegada_modal_actualizar_alert_error400'
-                      )}
+                      {t('app_tipoLlegada_modal_actualizar_alert_error400')}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -208,7 +200,7 @@ class ModalEditTipoLlegada extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            {this.props.t(
+                            {t(
                               'app_tipoLlegada_modal_actualizar_titulo_2'
                             )}{' '}
                           </h5>{' '}
@@ -217,9 +209,7 @@ class ModalEditTipoLlegada extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {this.props.t(
-                                  'app_tipoLlegada_modal_actualizar_codigo'
-                                )}{' '}
+                                {t('app_tipoLlegada_modal_actualizar_codigo')}{' '}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -249,9 +239,7 @@ class ModalEditTipoLlegada extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {this.props.t(
-                                  'app_tipoLlegada_modal_actualizar_nombre'
-                                )}{' '}
+                                {t('app_tipoLlegada_modal_actualizar_nombre')}{' '}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -281,7 +269,7 @@ class ModalEditTipoLlegada extends React.Component {
                           <div className="col-md-12">
                             <div className="form-group">
                               <dl className="param">
-                                {this.props.t(
+                                {t(
                                   'app_tipoLlegada_modal_actualizar_descripcion'
                                 )}
                                 <dd>
@@ -315,7 +303,7 @@ class ModalEditTipoLlegada extends React.Component {
                               <dl className="param">
                                 <label>
                                   {' '}
-                                  {this.props.t(
+                                  {t(
                                     'app_tipoLlegada_modal_actualizar_estado'
                                   )}{' '}
                                   <span className="text-danger">*</span>{' '}
@@ -328,7 +316,7 @@ class ModalEditTipoLlegada extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="CheckBoxEditRoles"
-                                          label={this.props.t(
+                                          label={t(
                                             'app_tipoLlegada_modal_actualizar_estado_descripcion'
                                           )}
                                           {...field}
@@ -361,7 +349,7 @@ class ModalEditTipoLlegada extends React.Component {
                         className="btn btn-sm btn-outline-success"
                       >
                         <i className="fa fa-pencil" />{' '}
-                        {this.props.t(
+                        {t(
                           'app_tipoLlegada_modal_actualizar_button_actualizar'
                         )}
                       </button>
@@ -373,9 +361,7 @@ class ModalEditTipoLlegada extends React.Component {
                         }}
                       >
                         <i className="fa fa-times" />{' '}
-                        {this.props.t(
-                          'app_tipoLlegada_modal_actualizar_button_cerrar'
-                        )}
+                        {t('app_tipoLlegada_modal_actualizar_button_cerrar')}
                       </button>
                     </div>
                   </ModalFooter>

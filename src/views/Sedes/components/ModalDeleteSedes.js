@@ -64,12 +64,13 @@ class ModalDeleteSedes extends Component {
       code: ''
     };
     const nameSedes = this.state.nameSedes;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            {this.props.t('app_sedes_form_eliminar_titulo')} {nameSedes}{' '}
+            {t('app_sedes_form_eliminar_titulo')} {nameSedes}{' '}
           </ModalHeader>
           <Formik
             initialValues={dataPreview}
@@ -127,15 +128,13 @@ class ModalDeleteSedes extends Component {
           >
             {props => {
               const {
-                values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
+
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset
+                t
               } = props;
               return (
                 <Fragment>
@@ -146,7 +145,7 @@ class ModalDeleteSedes extends Component {
                         color="success"
                         isOpen={this.state.alertSuccess}
                       >
-                        {this.props.t('app_sedes_modal_eliminar_alert_success')}
+                        {t('app_sedes_modal_eliminar_alert_success')}
                       </Alert>
                       <Alert
                         className="text-center"
@@ -154,20 +153,18 @@ class ModalDeleteSedes extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t('app_sedes_modal_eliminar_alert_error')}
+                        {t('app_sedes_modal_eliminar_alert_error')}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_sedes_modal_eliminar_alert_errorCode'
-                        )}
+                        {t('app_sedes_modal_eliminar_alert_errorCode')}
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        {this.props.t('app_sedes_form_eliminar_titulo_2')}
+                        {t('app_sedes_form_eliminar_titulo_2')}
                       </p>
 
                       <input
@@ -175,9 +172,7 @@ class ModalDeleteSedes extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder={this.props.t(
-                          'app_sedes_form_eliminar_placeholder'
-                        )}
+                        placeholder={t('app_sedes_form_eliminar_placeholder')}
                         style={{ textAlign: 'center' }}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
                           touched.code &&
@@ -192,7 +187,7 @@ class ModalDeleteSedes extends Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        {this.props.t('app_sedes_form_eliminar_titulo_3')}{' '}
+                        {t('app_sedes_form_eliminar_titulo_3')}{' '}
                       </p>
                     </form>
                   </ModalBody>
@@ -206,7 +201,7 @@ class ModalDeleteSedes extends Component {
                       }}
                     >
                       <i className="fa fa-trash" />{' '}
-                      {this.props.t('app_sedes_form_eliminar_boton_eliminar')}
+                      {t('app_sedes_form_eliminar_boton_eliminar')}
                     </button>
                     <button
                       type="button"
@@ -221,7 +216,7 @@ class ModalDeleteSedes extends Component {
                       }}
                     >
                       <i className="fa fa-times" />{' '}
-                      {this.props.t('app_sedes_form_eliminar_boton_cerrar')}{' '}
+                      {t('app_sedes_form_eliminar_boton_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

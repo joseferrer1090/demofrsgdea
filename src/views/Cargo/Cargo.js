@@ -6,8 +6,7 @@ import {
   TabContent,
   TabPane,
   Row,
-  Col,
-  Input
+  Col
 } from 'reactstrap';
 import classnames from 'classnames';
 import FormCreate from './components/FormCreateCargo';

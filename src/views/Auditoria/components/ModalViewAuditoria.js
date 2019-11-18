@@ -76,7 +76,7 @@ class ModalViewAuditoria extends Component {
     const dataModulo = this.state.dataModulo;
     const dataEntidad = this.state.dataEntidad;
     const dataAccion = this.state.dataAccion;
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>

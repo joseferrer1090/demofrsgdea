@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Formik, withFormik, ErrorMessage } from 'formik';
+import { withFormik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import {
   Card,
@@ -19,18 +19,19 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
+import SelectCountry from './components/SelectCountry';
+import SelectDepartment from './components/SelectDepartment';
+
 const CiudadForm = props => {
   const {
     values,
     touched,
     errors,
-    dirty,
     isSubmitting,
     handleChange,
     setFieldValue,
     handleBlur,
     handleSubmit,
-    handleReset,
     setFieldTouched,
     t
   } = props;
@@ -54,20 +55,9 @@ const CiudadForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsCountries(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
-
-  const mapOptionsCountries = optionsCountries.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   const getDataDepartments = data => {
     fetch(DEPARTMENTS_STATUS, {
@@ -80,20 +70,9 @@ const CiudadForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsDepartment(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
-
-  const mapOptionsDepartments = optionsDepartment.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   return (
     <Row>
@@ -121,21 +100,6 @@ const CiudadForm = props => {
                         touched.countryId &&
                         'is-invalid'}`}
                     />
-                    {/* <select
-                      name={'countryId'}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.countryId}
-                      className={`form-control form-control-sm ${errors.countryId &&
-                        touched.countryId &&
-                        'is-invalid'}`}
-                    >
-                      <option value={''} disabled>
-                        {' '}
-                        -- {t('app_ciudad_form_registrar_pais')} --
-                      </option>
-                      {mapOptionsCountries}
-                    </select> */}
                     <div style={{ color: '#D54B4B' }}>
                       {errors.countryId && touched.countryId ? (
                         <i className="fa fa-exclamation-triangle" />
@@ -164,21 +128,6 @@ const CiudadForm = props => {
                         touched.departmentId &&
                         'is-invalid'}`}
                     />
-                    {/* <select
-                      name={'departmentId'}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.departmentId}
-                      className={`form-control form-control-sm ${errors.departmentId &&
-                        touched.departmentId &&
-                        'is-invalid'}`}
-                    >
-                      <option value={''} disabled>
-                        {' '}
-                        -- {t('app_ciudad_form_registrar_departamento')} --{' '}
-                      </option>
-                      {mapOptionsDepartments}
-                    </select> */}
                     <div style={{ color: '#D54B4B' }}>
                       {errors.departmentId && touched.departmentId ? (
                         <i className="fa fa-exclamation-triangle" />
@@ -267,24 +216,6 @@ const CiudadForm = props => {
                           'app_ciudad_form_registrar_estado_descripcion'
                         )}
                       />
-                      {/* <label
-                      className="form-check-label"
-                      htmlFor="exampleCheck1"
-                    >
-                      Activar
-                    </label> */}
-                      {/* <p
-                      className="text-muted"
-                      style={{ textAlign: "justify" }}
-                    >
-                      Si esta opción se encuentra activada, representa que
-                      la ciudad es visible en el sistema y se podrán
-                      realizar operaciones entre cada uno de los módulos
-                      correspondientes de la aplicación. En caso contrario
-                      la ciudad no se elimina del sistema solo quedará
-                      inactivo e invisibles para cada uno de los módulos
-                      correspondiente del sistema.
-                    </p> */}
                     </div>
                   </div>
                 </div>
@@ -412,135 +343,3 @@ export default withTranslation('translations')(
     }
   })(CiudadForm)
 );
-
-class SelectCountry extends React.Component {
-  state = {
-    dataCountry: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCountry: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('countryId', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('countryId', true);
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          value={this.props.value}
-          className={this.props.className}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_ciudad_form_registrar_pais')} --
-          </option>
-          {this.state.dataCountry.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectDepartment extends React.Component {
-  state = {
-    dataDepartment: [],
-    id: this.props.countryId,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.countryId !== state.id) {
-      return {
-        id: props.countryId
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.countryId !== prevProps.countryId) {
-      this.getDataDepartment();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDepartment();
-  }
-
-  getDataDepartment = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataDepartment: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_ciudad_form_registrar_departamento')} --
-          </option>
-          {this.state.dataDepartment.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//

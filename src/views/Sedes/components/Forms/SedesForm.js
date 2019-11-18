@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Formik, withFormik, ErrorMessage } from 'formik';
+import { withFormik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
-import { animateScroll as scroll } from 'react-scroll';
 import {
   Card,
   CardBody,
@@ -25,20 +24,23 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
+import SelectConglomerado from './components/SelectConglomerado';
+import SelectCompany from './components/SelectCompany';
+import SelectCountry from './components/SelectCountry';
+import SelectDepartment from './components/SelectDepartment';
+import SelectCity from './components/SelectCity';
 
 const SedesForm = props => {
   const {
     values,
     touched,
     errors,
-    dirty,
     isSubmitting,
     handleChange,
     setFieldValue,
     handleBlur,
     handleSubmit,
     setFieldTouched,
-    handleReset,
     t
   } = props;
 
@@ -70,24 +72,9 @@ const SedesForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsConglomerate(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
-
-  const onClickUp = () => {
-    scroll.scrollToTop();
-  };
-
-  const mapOptionsConglomerate = optionsConglomerate.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   const getDataCompanys = data => {
     fetch(COMPANYS_STATUS, {
@@ -100,20 +87,9 @@ const SedesForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsCompanys(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
-
-  const mapOptionsCompanys = optionsCompanys.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   const getDataCountries = data => {
     fetch(CONTRIES_STATUS, {
@@ -126,20 +102,9 @@ const SedesForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsCountries(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
-
-  const mapOptionsCountries = optionsCountries.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   const getDataDepartments = data => {
     fetch(DEPARTMENTS_STATUS, {
@@ -152,20 +117,9 @@ const SedesForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsDepartment(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
-
-  const mapOptionsDepartments = optionsDepartment.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   const getDataCitys = data => {
     fetch(CITIES_STATUS, {
@@ -178,20 +132,9 @@ const SedesForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsCitys(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
-
-  const mapOptionsCitys = optionsCitys.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   const getDataCharges = data => {
     fetch(CHARGES_STATUS, {
@@ -204,9 +147,6 @@ const SedesForm = props => {
       .then(response => response.json())
       .then(data => {
         setOptionsCharges(data);
-        // this.setState({
-        //   dataConglomerates: data
-        // });
       })
       .catch(Error => console.log(' ', Error));
   };
@@ -222,6 +162,7 @@ const SedesForm = props => {
   const onDismiss = () => {
     setVisibleAlert(!visibleAlert);
   };
+
   return (
     <div>
       <Card>
@@ -249,21 +190,7 @@ const SedesForm = props => {
                       touched.conglomerateId &&
                       'is-invalid'}`}
                   />
-                  {/* <select
-                    name="conglomerateId"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.conglomerateId}
-                    className={`form-control form-control-sm ${errors.conglomerateId &&
-                      touched.conglomerateId &&
-                      'is-invalid'}`}
-                  >
-                    {' '}
-                    <option value={''} disabled>
-                      -- {t('app_sedes_form_registrar_select_conglomerado')} --
-                    </option>
-                    {mapOptionsConglomerate}{' '}
-                  </select> */}
+
                   <div style={{ color: '#D54B4B' }}>
                     {errors.conglomerateId && touched.conglomerateId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -291,32 +218,13 @@ const SedesForm = props => {
                       touched.companyId &&
                       'is-invalid'}`}
                   ></SelectCompany>
-                  {/* <select
-                    name="companyId"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.companyId}
-                    className={`form-control form-control-sm ${errors.companyId &&
-                      touched.companyId &&
-                      'is-invalid'}`}
-                  >
-                    <option value={''} disabled>
-                      -- {t('app_sedes_form_registrar_select_empresa')} --
-                    </option>
-                    {mapOptionsCompanys}
-                  </select> */}
+
                   <div style={{ color: '#D54B4B' }}>
                     {errors.companyId && touched.companyId ? (
                       <i class="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="companyId" />
                   </div>
-                  {/* <Select
-                    className=""
-                    value={this.state.selectedOptionEmpresa}
-                    onChange={this.handleChangeOptionEmpresa}
-                    options={dataEmpresa}
-                  /> */}
                 </div>
               </Col>
               <Col sm="6">
@@ -474,20 +382,6 @@ const SedesForm = props => {
                       touched.countryId &&
                       'is-invalid'}`}
                   />
-                  {/* <select
-                    name={'countryId'}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.countryId}
-                    className={`form-control form-control-sm ${errors.countryId &&
-                      touched.countryId &&
-                      'is-invalid'}`}
-                  >
-                    <option value={''} disabled>
-                      -- {t('app_sedes_form_select_pais')} --
-                    </option>
-                    {mapOptionsCountries}
-                  </select> */}
                   <div style={{ color: '#D54B4B' }}>
                     {errors.countryId && touched.countryId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -515,20 +409,7 @@ const SedesForm = props => {
                       touched.departmentId &&
                       'is-invalid'}`}
                   />
-                  {/* <select
-                    name={'departmentId'}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.departmentId}
-                    className={`form-control form-control-sm ${errors.departmentId &&
-                      touched.departmentId &&
-                      'is-invalid'}`}
-                  >
-                    <option value={''} disabled>
-                      -- {t('app_sedes_form_select_departamento')} --
-                    </option>
-                    {mapOptionsDepartments}
-                  </select> */}
+
                   <div style={{ color: '#D54B4B' }}>
                     {errors.departmentId && touched.departmentId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -555,20 +436,7 @@ const SedesForm = props => {
                       touched.cityId &&
                       'is-invalid'}`}
                   />
-                  {/* <select
-                    name={'cityId'}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.cityId}
-                    className={`form-control form-control-sm ${errors.cityId &&
-                      touched.cityId &&
-                      'is-invalid'}`}
-                  >
-                    <option value={''} disabled>
-                      -- {t('app_sedes_form_select_ciudad')} --
-                    </option>
-                    {mapOptionsCitys}
-                  </select> */}
+
                   <div style={{ color: '#D54B4B' }}>
                     {errors.cityId && touched.cityId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -636,11 +504,7 @@ const SedesForm = props => {
                     {' '}
                     {t('app_sedes_form_registrar_cargo_responsable')}{' '}
                   </label>
-                  {/* <Select
-                    value={selectedOptionOptionRolResponsable}
-                    onChange={this.handleChangeOptionRolResponsable}
-                    options={dataExampleRolResponsable}
-                  /> */}
+
                   <select
                     name={'chargeId'}
                     onChange={handleChange}
@@ -678,19 +542,6 @@ const SedesForm = props => {
                       }
                     />
                   </div>
-                  {/* <p
-                            className="text-muted"
-                            style={{ textAlign: "justify" }}
-                          >
-                            {" "}
-                            Si esta opción se encuentra activada, Representa que
-                            la sede es visible en el sistema y se podrán
-                            realizar operaciones entre cada uno de los módulos
-                            correspondientes de la aplicación. En caso contrario
-                            la sede no se elimina del sistema solo quedará
-                            inactiva e invisibles para cada uno de los módulos
-                            correspondiente del sistema.
-                          </p> */}
                 </div>
               </Col>
             </Row>
@@ -856,341 +707,3 @@ export default withTranslation('translations')(
     }
   })(SedesForm)
 );
-
-//--------------------//
-
-class SelectConglomerado extends React.Component {
-  state = {
-    dataConglomerate: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataConglomerate: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('conglomerateId', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('conglomerateId', true);
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-          value={this.props.value}
-          className={this.props.className}
-        >
-          <option value={''}>
-            -- {this.props.t('app_sedes_form_registrar_select_conglomerado')} --
-          </option>
-          {this.state.dataConglomerate.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-//--------------------//
-class SelectCompany extends React.Component {
-  state = {
-    dataCompany: [],
-    id: this.props.conglomerateId,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.conglomerateId !== state.id) {
-      return {
-        id: props.conglomerateId
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.conglomerateId !== prevProps.conglomerateId) {
-      this.getDataCompany();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataCompany();
-  }
-
-  getDataCompany = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCompany: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_sedes_form_registrar_select_empresa')} --
-          </option>
-          {this.state.dataCompany.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-//--------------------//
-class SelectCountry extends React.Component {
-  state = {
-    dataCountry: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCountry: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('countryId', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('countryId', true);
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          value={this.props.value}
-          className={this.props.className}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_sedes_form_select_pais')} --
-          </option>
-          {this.state.dataCountry.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectDepartment extends React.Component {
-  state = {
-    dataDepartment: [],
-    id: this.props.countryId,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.countryId !== state.id) {
-      return {
-        id: props.countryId
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.countryId !== prevProps.countryId) {
-      this.getDataDepartment();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDepartment();
-  }
-
-  getDataDepartment = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataDepartment: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_sedes_form_select_departamento')} --
-          </option>
-          {this.state.dataDepartment.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectCity extends React.Component {
-  state = {
-    dataCity: [],
-    id: this.props.departmentId,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.departmentId !== state.id) {
-      return {
-        id: props.departmentId
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.departmentId !== prevProps.departmentId) {
-      this.getDataCitys();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataCitys();
-  }
-
-  getDataCitys = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/city/department/${this.props.departmentId}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCity: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_sedes_form_select_ciudad')} --
-          </option>
-          {this.state.dataCity.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}

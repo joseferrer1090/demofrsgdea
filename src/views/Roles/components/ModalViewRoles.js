@@ -5,11 +5,7 @@ import {
   ModalFooter,
   ModalBody,
   Row,
-  Col,
-  Collapse,
-  Card,
-  CardHeader,
-  Table
+  Col
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import IMGROLES from './../../../assets/img/shield.svg';
@@ -64,30 +60,24 @@ class ModalViewRoles extends Component {
   FechaModificacionRol(data) {
     let updatedAt;
     updatedAt = new Date(data);
-    // moment.locale(es);
     return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
   }
 
   render() {
+    const { t } = this.props;
     const statusRol = data => {
       let status;
       if (data === 1) {
         status = (
-          <b className="text-success">
-            {this.props.t('app_tablas_estado_activo')}
-          </b>
+          <b className="text-success">{t('app_tablas_estado_activo')}</b>
         );
       } else if (data === 0) {
         status = (
-          <b className="text-danger">
-            {' '}
-            {this.props.t('app_tablas_estado_inactivo')}
-          </b>
+          <b className="text-danger"> {t('app_tablas_estado_inactivo')}</b>
         );
       }
       return status;
     };
-    const t = this.state.t;
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
         <ModalHeader>
@@ -166,77 +156,6 @@ class ModalViewRoles extends Component {
               </div>
             </Col>
           </Row>
-          {/* <Row>
-            <Col sm="12">
-              <Card>
-                <CardHeader>
-                  {" "}
-                  <a
-                    onClick={() => {
-                      this.toggleCollapse();
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {" "}
-                    Permisos asignados{" "}
-                  </a>{" "}
-                </CardHeader>
-                <Collapse isOpen={this.state.collapase}>
-                  <Row>
-                    <Col sm="12">
-                      <Table size="sm" striped hover>
-                        <thead>
-                          <tr className="text-center">
-                            <th>Módulo</th>
-                            <th>Entidad</th>
-                            <th>Permisos </th>
-                          </tr>
-                        </thead>
-                        <tbody className="text-center">
-                          <tr>
-                            <td>Módulo</td>
-                            <td>
-                              <label> Entidad </label>
-                            </td>
-                            <td>
-                              <label>Permisos asignados</label>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Módulo</td>
-                            <td>
-                              <label> Entidad </label>
-                            </td>
-                            <td>
-                              <label>Permisos asignados</label>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Módulo</td>
-                            <td>
-                              <label> Entidad </label>
-                            </td>
-                            <td>
-                              <label>Permisos asignados</label>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Módulo</td>
-                            <td>
-                              <label> Entidad </label>
-                            </td>
-                            <td>
-                              <label>Permisos asignados</label>
-                            </td>
-                          </tr>
-                        </tbody>
-                      </Table>
-                    </Col>
-                  </Row>
-                </Collapse>
-              </Card>
-            </Col>
-                  </Row>*/}
         </ModalBody>
         <ModalFooter>
           <button

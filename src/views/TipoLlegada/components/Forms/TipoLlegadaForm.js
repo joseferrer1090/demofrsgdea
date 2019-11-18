@@ -1,5 +1,5 @@
 import React from 'react';
-import { Formik, withFormik, ErrorMessage } from 'formik';
+import { withFormik, ErrorMessage } from 'formik';
 import {
   Card,
   CardHeader,
@@ -132,19 +132,6 @@ const TipoLlegadaForm = props => {
                           }
                         />
                       </div>
-                      {/* <p
-                            className="text-muted"
-                            style={{ textAlign: "justify" }}
-                          >
-                            {" "}
-                            Si esta opción se encuentra activada, Representa que
-                            la sede es visible en el sistema y se podrán
-                            realizar operaciones entre cada uno de los módulos
-                            correspondientes de la aplicación. En caso contrario
-                            la sede no se elimina del sistema solo quedará
-                            inactiva e invisibles para cada uno de los módulos
-                            correspondiente del sistema.
-                          </p> */}
                     </div>
                   </div>
                 </div>

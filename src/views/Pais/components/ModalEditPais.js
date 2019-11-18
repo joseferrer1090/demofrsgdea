@@ -63,13 +63,13 @@ class ModalEditPais extends React.Component {
 
   render() {
     const dataResult = this.state.dataResult;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            {this.props.t('app_pais_modal_actualizar_titulo')}{' '}
-            {dataResult.country_name}{' '}
+            {t('app_pais_modal_actualizar_titulo')} {dataResult.country_name}{' '}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -159,24 +159,21 @@ class ModalEditPais extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {this.props.t('app_pais_modal_actualizar_alert_error')}
+                      {t('app_pais_modal_actualizar_alert_error')}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t('app_pais_modal_actualizar_alert_success')}
+                      {t('app_pais_modal_actualizar_alert_success')}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {this.props.t('app_pais_modal_actualizar_alert_error400')}
+                      {t('app_pais_modal_actualizar_alert_error400')}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -190,9 +187,7 @@ class ModalEditPais extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            {this.props.t(
-                              'app_pais_modal_actualizar_titulo_2'
-                            )}{' '}
+                            {t('app_pais_modal_actualizar_titulo_2')}{' '}
                           </h5>{' '}
                         </div>
                         <form className="form">
@@ -200,9 +195,7 @@ class ModalEditPais extends React.Component {
                             <div className="col-md-6">
                               <label>
                                 {' '}
-                                {this.props.t(
-                                  'app_pais_modal_actualizar_codigo'
-                                )}{' '}
+                                {t('app_pais_modal_actualizar_codigo')}{' '}
                                 <span className="text-danger">*</span>
                               </label>
                               <input
@@ -226,9 +219,7 @@ class ModalEditPais extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  {this.props.t(
-                                    'app_pais_modal_actualizar_nombre'
-                                  )}{' '}
+                                  {t('app_pais_modal_actualizar_nombre')}{' '}
                                   <span className="text-danger">*</span>{' '}
                                 </label>
                                 <input
@@ -254,9 +245,7 @@ class ModalEditPais extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  {this.props.t(
-                                    'app_pais_modal_actualizar_estado'
-                                  )}{' '}
+                                  {t('app_pais_modal_actualizar_estado')}{' '}
                                   <span className="text-danger">*</span>{' '}
                                 </label>
                                 <div className="text-justify">
@@ -267,7 +256,7 @@ class ModalEditPais extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="CheckboxEditPais"
-                                          label={this.props.t(
+                                          label={t(
                                             'app_pais_modal_actualizar_estado_descripcion'
                                           )}
                                           {...field}
@@ -301,9 +290,7 @@ class ModalEditPais extends React.Component {
                     >
                       {' '}
                       <i className="fa fa-pencil" />{' '}
-                      {this.props.t(
-                        'app_pais_modal_actualizar_button_actualizar'
-                      )}{' '}
+                      {t('app_pais_modal_actualizar_button_actualizar')}{' '}
                     </button>
                     <button
                       type="button"
@@ -314,7 +301,7 @@ class ModalEditPais extends React.Component {
                     >
                       {' '}
                       <i className="fa fa-times" />{' '}
-                      {this.props.t('app_pais_modal_actualizar_button_cerrar')}{' '}
+                      {t('app_pais_modal_actualizar_button_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

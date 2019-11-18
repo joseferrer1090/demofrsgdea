@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'reactstrap';
+import { Col } from 'reactstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import ModalView from './ViewCargoModal';
 import ModalEdit from './ModalEditCargo';
@@ -45,19 +45,12 @@ class TableContentCargo extends Component {
   };
 
   CargoStatus = (cell, row) => {
+    const { t } = this.props;
     let status;
     if (row.status === 1) {
-      status = (
-        <b className="text-success">
-          {this.props.t('app_tablas_estado_activo')}
-        </b>
-      );
+      status = <b className="text-success">{t('app_tablas_estado_activo')}</b>;
     } else if (row.status === 0) {
-      status = (
-        <b className="text-danger">
-          {this.props.t('app_tablas_estado_inactivo')}
-        </b>
-      );
+      status = <b className="text-danger">{t('app_tablas_estado_inactivo')}</b>;
     }
     return status;
   };
@@ -130,6 +123,7 @@ class TableContentCargo extends Component {
   }
 
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
@@ -137,7 +131,7 @@ class TableContentCargo extends Component {
         onClick={() => this.openModalExport()}
       >
         <i className="fa fa-download" />{' '}
-        {this.props.t('app_cargo_administrar_table_button_exportar')}
+        {t('app_cargo_administrar_table_button_exportar')}
       </button>
     );
   };
@@ -161,7 +155,6 @@ class TableContentCargo extends Component {
             pagination
             bordered={false}
             className="tableCargo texto-Cargo"
-            // headerStyle={{ height: "55px" }}
           >
             <TableHeaderColumn
               dataAlign="center"

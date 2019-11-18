@@ -24,10 +24,13 @@ import {
   DEPENDENCIES_STATUS,
   USERS_STATUS
 } from './../../../services/EndPoints';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import classnames from 'classnames';
-import { withTranslation } from 'react-i18next';
+import SelectConglomerado from './components/SelectConglomerado';
+import SelectCompany from './components/SelectCompany';
+import SelectHeadquarter from './components/SelectHeadquarter';
+import SelectDependence from './components/SelectDependence';
 
 class ModalSearchAuditoria extends Component {
   constructor(props) {
@@ -214,6 +217,8 @@ class ModalSearchAuditoria extends Component {
       .catch(Error => console.log(' ', Error));
   };
   render() {
+    const { t } = this.props;
+
     const mapOptionsModules = this.state.dataModules.map((aux, idx) => {
       return (
         <option key={aux.id} value={aux.id}>
@@ -242,7 +247,6 @@ class ModalSearchAuditoria extends Component {
         </option>
       );
     });
-    const t = this.state.t;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -557,18 +561,6 @@ class ModalSearchAuditoria extends Component {
                                       touched.audit_conglomerado &&
                                       'is-invalid'}`}
                                   />
-                                  {/* <select
-                                    name="audit_conglomerado"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.audit_conglomerado}
-                                    className={`form-control form-control-sm ${errors.audit_conglomerado &&
-                                      touched.audit_conglomerado &&
-                                      'is-invalid'}`}
-                                  >
-                                    <option value={''}>-- Seleccione --</option>
-                                    {mapOptionsConglomerate}
-                                  </select> */}
                                 </div>
                                 <div className="col-sm-6">
                                   <label>
@@ -591,18 +583,6 @@ class ModalSearchAuditoria extends Component {
                                       touched.audit_empresa &&
                                       'is-invalid'}`}
                                   ></SelectCompany>
-                                  {/* <select
-                                    name="audit_empresa"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.audit_empresa}
-                                    className={`form-control form-control-sm ${errors.audit_empresa &&
-                                      touched.audit_empresa &&
-                                      'is-invalid'}`}
-                                  >
-                                    <option value={''}>-- Seleccione --</option>
-                                    {mapOptionsCompanys}
-                                  </select> */}
                                 </div>
                               </div>
                               <br />
@@ -625,18 +605,6 @@ class ModalSearchAuditoria extends Component {
                                       touched.audit_sede &&
                                       'is-invalid'}`}
                                   ></SelectHeadquarter>
-                                  {/* <select
-                                    name="audit_sede"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.audit_sede}
-                                    className={`form-control form-control-sm ${errors.audit_sede &&
-                                      touched.audit_sede &&
-                                      'is-invalid'}`}
-                                  >
-                                    <option value={''}>-- Seleccione --</option>
-                                    {mapOptionsHeadquarters}
-                                  </select> */}
                                 </div>
                                 <div className="col-sm-6">
                                   <label>
@@ -659,21 +627,6 @@ class ModalSearchAuditoria extends Component {
                                       touched.audit_dependencia &&
                                       'is-invalid'}`}
                                   ></SelectDependence>
-                                  {/* <select
-                                    name="audit_dependencia"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.audit_dependencia}
-                                    className={`form-control form-control-sm ${errors.audit_dependencia &&
-                                      touched.audit_dependencia &&
-                                      'is-invalid'}`}
-                                  >
-                                    <option value={''}>
-                                      {' '}
-                                      -- Seleccione --
-                                    </option>
-                                    {mapOptionsDependence}
-                                  </select> */}
                                 </div>
                               </div>
                               <br />
@@ -746,289 +699,9 @@ class ModalSearchAuditoria extends Component {
 }
 
 // Aca se valida que el props que se va a pasar sea un bool y no cualquier valor
+
 ModalSearchAuditoria.propTypes = {
   modalSearch: PropTypes.bool.isRequired
 };
 
 export default ModalSearchAuditoria;
-
-// ------------------------------------------------------------------------------------------------------ //
-class SelectConglomerado extends React.Component {
-  state = {
-    dataConglomerate: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataConglomerate: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('audit_conglomerado', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('audit_conglomerado', true);
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          value={this.props.value}
-          className={this.props.className}
-        >
-          <option value={''}>
-            --{' '}
-            {this.props.t('app_auditoria_modal_consultar_conglomerado_select')}{' '}
-            --
-          </option>
-          {this.state.dataConglomerate.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-// ----------------------------------------//
-
-class SelectCompany extends React.Component {
-  state = {
-    dataCompany: [],
-    id: this.props.audit_conglomerado,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.audit_conglomerado !== state.id) {
-      return {
-        id: props.audit_conglomerado
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.audit_conglomerado !== prevProps.audit_conglomerado) {
-      this.getDataCompany();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataCompany();
-  }
-
-  getDataCompany = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCompany: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-        >
-          <option value={''}>
-            -- {this.props.t('app_auditoria_modal_consultar_empresa_select')} --
-          </option>
-          {this.state.dataCompany.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-// ------------------------------------------- //
-class SelectHeadquarter extends React.Component {
-  state = {
-    dataHeadquarter: [],
-    id: this.props.audit_empresa,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.audit_empresa !== state.id) {
-      return {
-        id: props.audit_empresa
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.audit_empresa !== prevProps.audit_empresa) {
-      this.getDataHeadquarter();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataHeadquarter();
-  }
-
-  getDataHeadquarter = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.audit_empresa}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataHeadquarter: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-        >
-          <option value={''}>
-            -- {this.props.t('app_auditoria_modal_consultar_sede_select')} --
-          </option>
-          {this.state.dataHeadquarter.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-// ------------------------------------------ //
-
-class SelectDependence extends React.Component {
-  state = {
-    dataDependence: [],
-    id: this.props.audit_sede,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.audit_sede !== state.id) {
-      return {
-        id: props.audit_sede
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.audit_sede !== prevProps.audit_sede) {
-      this.getDataDependence();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDependence();
-  }
-
-  getDataDependence = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.audit_sede}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataDependence: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          onChange={this.props.onChange}
-          className={this.props.className}
-        >
-          <option value={''}>
-            --{' '}
-            {this.props.t('app_auditoria_modal_consultar_dependencia_select')}{' '}
-            --
-          </option>
-          {this.state.dataDependence.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}

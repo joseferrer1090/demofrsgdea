@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { Formik, withFormik, ErrorMessage, Field, From } from 'formik';
+import { Formik } from 'formik';
 
 class ModalChangePasswordUser extends React.Component {
   state = {
@@ -57,9 +57,8 @@ class ModalChangePasswordUser extends React.Component {
   };
 
   render() {
-    const dataInitial = {};
     console.log(this.state.id);
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
@@ -106,17 +105,7 @@ class ModalChangePasswordUser extends React.Component {
             validationSchema={Yup.object().shape({})}
           >
             {props => {
-              const {
-                values,
-                touched,
-                errors,
-                dirty,
-                isSubmitting,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                handleReset
-              } = props;
+              const { values, handleChange, handleBlur, handleSubmit } = props;
               return (
                 <Fragment>
                   <form className="form">
@@ -125,24 +114,17 @@ class ModalChangePasswordUser extends React.Component {
                         color="danger"
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
-                      >
-                        Error, al eliminar el usuario {values.identificacion}
-                      </Alert>
+                      ></Alert>
                       <Alert
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        Se elimino de manera satisfactoria el usuario
+                        {t(
+                          'app_usuarios_modal_cambiar_contraseña_alert_success'
+                        )}
                       </Alert>
-                      <Alert
-                        color="danger"
-                        isOpen={this.state.alertCode}
-                        toggle={this.onDismiss}
-                      >
-                        La identificacion {values.identificacion} para eliminar
-                        no corresponde a usuario.
-                      </Alert>
+                      {t('app_usuarios_modal_cambiar_contraseña_alert_error')}
                       <p
                         className="text-muted"
                         style={{ textAlign: 'justify' }}

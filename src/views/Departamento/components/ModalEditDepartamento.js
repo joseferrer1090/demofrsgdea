@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 import IMGDEPARTAMENTO from './../../../assets/img/map-marker.svg';
 import { DEPARTMENTS, CONTRIES_STATUS } from './../../../services/EndPoints';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 
 class ModalEditDepartamento extends React.Component {
@@ -99,12 +99,13 @@ class ModalEditDepartamento extends React.Component {
         </option>
       );
     });
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            {this.props.t('app_departamento_modal_actualizar_titulo')}{' '}
+            {t('app_departamento_modal_actualizar_titulo')}{' '}
             {dataResult.department_name}{' '}
           </ModalHeader>
           <Formik
@@ -200,30 +201,21 @@ class ModalEditDepartamento extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {this.props.t(
-                        'app_departamento_modal_actualizar_alert_error'
-                      )}
+                      {t('app_departamento_modal_actualizar_alert_error')}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t(
-                        'app_departamento_modal_actualizar_alert_success'
-                      )}
+                      {t('app_departamento_modal_actualizar_alert_success')}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {this.props.t(
-                        'app_departamento_modal_actualizar_alert_error400'
-                      )}
+                      {t('app_departamento_modal_actualizar_alert_error400')}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -237,7 +229,7 @@ class ModalEditDepartamento extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            {this.props.t(
+                            {t(
                               'app_departamento_modal_actualizar_titulo_2'
                             )}{' '}
                           </h5>{' '}
@@ -247,7 +239,7 @@ class ModalEditDepartamento extends React.Component {
                             <div className="form-group">
                               <label>
                                 {' '}
-                                {this.props.t(
+                                {t(
                                   'app_departamento_modal_actualizar_pais'
                                 )}{' '}
                                 <span className="text-danger">*</span>{' '}
@@ -263,7 +255,7 @@ class ModalEditDepartamento extends React.Component {
                               >
                                 <option value={''} disabled>
                                   --{' '}
-                                  {this.props.t(
+                                  {t(
                                     'app_departamento_modal_actualizar_select_pais'
                                   )}{' '}
                                   --
@@ -283,7 +275,7 @@ class ModalEditDepartamento extends React.Component {
                             <div className="form-group">
                               <label>
                                 {' '}
-                                {this.props.t(
+                                {t(
                                   'app_departamento_modal_actualizar_codigo'
                                 )}{' '}
                                 <span className="text-danger">*</span>{' '}
@@ -313,7 +305,7 @@ class ModalEditDepartamento extends React.Component {
                             <div className="form-group">
                               <label>
                                 {' '}
-                                {this.props.t(
+                                {t(
                                   'app_departamento_modal_actualizar_nombre'
                                 )}{' '}
                                 <span className="text-danger">*</span>{' '}
@@ -342,7 +334,7 @@ class ModalEditDepartamento extends React.Component {
                             <div className="form-group">
                               <label>
                                 {' '}
-                                {this.props.t(
+                                {t(
                                   'app_departamento_modal_actualizar_estado'
                                 )}{' '}
                                 <span className="text-danger">*</span>{' '}
@@ -355,7 +347,7 @@ class ModalEditDepartamento extends React.Component {
                                       <CustomInput
                                         type="checkbox"
                                         id="CheckboxEditCiudad"
-                                        label={this.props.t(
+                                        label={t(
                                           'app_departamento_modal_actualizar_estado_descripcion'
                                         )}
                                         {...field}
@@ -388,9 +380,7 @@ class ModalEditDepartamento extends React.Component {
                     >
                       {' '}
                       <i className="fa fa-pencil" />{' '}
-                      {this.props.t(
-                        'app_departamento_modal_actualizar_button_actualizar'
-                      )}{' '}
+                      {t('app_departamento_modal_actualizar_button_actualizar')}{' '}
                     </button>
                     <button
                       className="btn btn-secondary btn-sm"
@@ -400,9 +390,7 @@ class ModalEditDepartamento extends React.Component {
                     >
                       {' '}
                       <i className="fa fa-times" />{' '}
-                      {this.props.t(
-                        'app_departamento_modal_actualizar_button_cerrar'
-                      )}{' '}
+                      {t('app_departamento_modal_actualizar_button_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

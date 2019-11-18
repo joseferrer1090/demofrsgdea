@@ -1,20 +1,20 @@
-import React from "react";
-import PropTypes from "prop-types";
-import CargoForm from "./Forms/CargoForm";
+import React from 'react';
+import PropTypes from 'prop-types';
+import CargoForm from './Forms/CargoForm';
 
 const dataCargo = {
-  conglomerateId: "",
-  conglomerado_responsable: "",
-  companyId: "",
-  empresa_responsable: "",
-  headquarterId: "",
-  sede_responsable: "",
-  dependencyId: "",
-  dependencia_responsable: "",
-  code: "",
-  name: "",
-  description: "",
-  status: ""
+  conglomerateId: '',
+  conglomerado_responsable: '',
+  companyId: '',
+  empresa_responsable: '',
+  headquarterId: '',
+  sede_responsable: '',
+  dependencyId: '',
+  dependencia_responsable: '',
+  code: '',
+  name: '',
+  description: '',
+  status: ''
 };
 
 const FormCreateCargo = () => {
@@ -25,6 +25,8 @@ const FormCreateCargo = () => {
   );
 };
 
-FormCreateCargo.propTypes = {};
+FormCreateCargo.propTypes = {
+  cargo: PropTypes.object.isRequired
+};
 
 export default FormCreateCargo;

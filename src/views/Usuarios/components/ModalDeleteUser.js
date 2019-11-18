@@ -1,9 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from 'reactstrap';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
-import { Formik, withFormik, ErrorMessage, Field, From } from 'formik';
-import { Trans } from 'react-i18next';
+import { Formik, ErrorMessage } from 'formik';
 
 class ModalDeleteUser extends React.Component {
   state = {
@@ -58,7 +57,7 @@ class ModalDeleteUser extends React.Component {
       identificacion: ''
     };
     console.log(this.state.id);
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
@@ -124,12 +123,9 @@ class ModalDeleteUser extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
@@ -140,9 +136,7 @@ class ModalDeleteUser extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_usuarios_modal_eliminar_alert_error'
-                        )}{' '}
+                        {t('app_usuarios_modal_eliminar_alert_error')}{' '}
                         {values.identificacion}
                       </Alert>
                       <Alert
@@ -150,20 +144,18 @@ class ModalDeleteUser extends React.Component {
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_usuarios_modal_eliminar_alert_success'
-                        )}
+                        {t('app_usuarios_modal_eliminar_alert_success')}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
+                        {t(
                           'app_usuarios_modal_eliminar_alert_errorCode_parte_1'
                         )}{' '}
                         {values.identificacion}{' '}
-                        {this.props.t(
+                        {t(
                           'app_usuarios_modal_eliminar_alert_errorCode_parte_2'
                         )}
                       </Alert>
@@ -236,7 +228,8 @@ class ModalDeleteUser extends React.Component {
 }
 
 ModalDeleteUser.propTypes = {
-  modaldeletestate: PropTypes.bool.isRequired
+  modaldeletestate: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalDeleteUser;

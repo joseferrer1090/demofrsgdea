@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import classnames from 'classnames';
 import { withTranslation } from 'react-i18next';
 
 class CustomImageInput extends Component {
@@ -38,8 +37,7 @@ class CustomImageInput extends Component {
   }
 
   showPreloadImage() {
-    const { errorMessage, classes } = this.props;
-    const { name } = this.props.field;
+    const { errorMessage } = this.props;
     const { file, imagePreviewUrl } = this.state;
 
     let comp = null;
@@ -50,7 +48,6 @@ class CustomImageInput extends Component {
       comp = (
         <img
           className="img"
-          // src={`data:base64,${imagePreviewUrl}`}
           src={imagePreviewUrl}
           alt="..."
           className={'img-thumbnail'}
@@ -66,15 +63,9 @@ class CustomImageInput extends Component {
     return comp;
   }
 
-  // componentDidMount() {
-  //   console.log(this.fileUpload.current);
-  // }
-
   render() {
-    const { errorMessage, title, classes } = this.props;
-    const { name, onBlur } = this.props.field;
-    // console.log(this.state.file);
-    //  console.log(this.state.imagePreviewUrl);
+    const { name } = this.props.field;
+    const { t } = this.props;
     return (
       <div className={'container'}>
         <div style={{ marginTop: '-20px' }}>
@@ -96,8 +87,6 @@ class CustomImageInput extends Component {
           type="file"
           onChange={this.handleImageChange}
           ref={this.fileUpload}
-          // onBlur={onBlur}
-          //className="form-control"
         />
 
         <button
@@ -106,7 +95,7 @@ class CustomImageInput extends Component {
           className={'btn btn-secondary btn-sm'}
         >
           <i className={'fa fa-camera'} />{' '}
-          {this.props.t('app_usuarios_form_registrar_boton_cargar_imagen')}{' '}
+          {t('app_usuarios_form_registrar_boton_cargar_imagen')}{' '}
         </button>
       </div>
     );

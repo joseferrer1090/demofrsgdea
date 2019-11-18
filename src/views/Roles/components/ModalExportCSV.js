@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { Table } from 'reactstrap';
-import { CSVLink, CSVDownload } from 'react-csv';
+import { CSVLink } from 'react-csv';
 import { Parser } from 'json2csv';
 
 class ModalExportCSV extends Component {
@@ -66,13 +65,11 @@ class ModalExportCSV extends Component {
 
     const json2csvParser = new Parser({ fields, quote: '' });
     const csv = json2csvParser.parse(data);
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>
-            {this.props.t('app_roles_modal_export_titulo')}
-          </ModalHeader>
+          <ModalHeader>{t('app_roles_modal_export_titulo')}</ModalHeader>
           <ModalBody>
             <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
               <thead className="">
@@ -112,10 +109,6 @@ class ModalExportCSV extends Component {
               <i className="fa fa-times" />{' '}
               {t('app_roles_modal_export_boton_cerrar')}
             </button>
-            {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
-              {" "}
-              <i className="fa fa-download" /> Exportar CSV{" "}
-            </CSVDownload> */}
           </ModalFooter>
         </Modal>
       </Fragment>

@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useState } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import {
@@ -6,18 +6,15 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  FormGroup,
-  Label,
-  Input,
   Row,
   Col,
-  Card,
-  CardTitle,
-  CardText,
   UncontrolledAlert
 } from 'reactstrap';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
+import SelectModulo from './SelectModuloModalEdit';
+import MySelectEntidades from './SelectEntidadModalEdit';
+import PermisosAsignados from './AsignarPermisosModalEdit';
 
 class ModalEditPermissionRoles extends Component {
   constructor(props) {
@@ -84,13 +81,7 @@ class ModalEditPermissionRoles extends Component {
   };
 
   render() {
-    const dataPreview = this.state.dataPermisosId.map((aux, id) => {
-      return {
-        label: aux.name,
-        value: aux.id
-      };
-    });
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -149,12 +140,7 @@ class ModalEditPermissionRoles extends Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
-                handleChange,
-                handleBlur,
                 handleSubmit,
-                handleReset,
                 setFieldTouched,
                 setFieldValue
               } = props;
@@ -187,7 +173,7 @@ class ModalEditPermissionRoles extends Component {
                                           'app_roles_modal_editar_permisos_codigo'
                                         )}
                                       </dt>
-                                      {/* <dd>{values.codigo}</dd> */}
+
                                       <input
                                         type="text"
                                         className="form-control form-control-sm"
@@ -204,7 +190,7 @@ class ModalEditPermissionRoles extends Component {
                                           'app_roles_modal_editar_permisos_nombre'
                                         )}
                                       </dt>
-                                      {/* <dd>{values.nombre}</dd> */}
+
                                       <input
                                         type="text"
                                         className="form-control form-control-sm"
@@ -284,8 +270,6 @@ class ModalEditPermissionRoles extends Component {
                                   value={values.permisos}
                                   onChange={setFieldValue}
                                   onBlur={setFieldTouched}
-                                  // error={errors.permisos}
-                                  // touched={touched.permisos}
                                 />
                               </div>
                             </Col>
@@ -338,220 +322,3 @@ ModalEditPermissionRoles.propTypes = {
 };
 
 export default ModalEditPermissionRoles;
-
-class SelectModulo extends React.Component {
-  state = {
-    dataModule: []
-  };
-
-  componentDidMount() {
-    this.getDataModulos();
-  }
-
-  getDataModulos = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/module/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'Application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataModule: data
-        });
-      })
-      .catch(err => console.log('', err));
-  };
-
-  handleChange = value => {
-    this.props.onChange('modulos', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('modulos', true);
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          className="form-control form-control-sm"
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-          name={this.props.name}
-          value={this.props.value}
-        >
-          <option value={0}> -- seleccione -- </option>
-          {this.state.dataModule.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-class MySelectEntidades extends React.Component {
-  state = {
-    dataEntidades: [],
-    id: this.props.modulo
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.modulo !== state.id) {
-      return {
-        id: props.modulo
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.modulo !== prevProps.modulo) {
-      this.getDataEntity();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataEntity();
-  }
-
-  getDataEntity = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/entity/module/${this.state.id}/active`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataEntidades: data
-        });
-        console.log(data);
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  handleChange = value => {
-    this.props.onChange('entidad', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('entidad', true);
-  };
-
-  render() {
-    // console.log(this.state.id);
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-          className={this.props.className}
-          value={this.props.value}
-        >
-          <option value={''}>-- seleccione --</option>
-          {this.state.dataEntidades.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-class PermisosAsignados extends React.Component {
-  state = {
-    dataPermisos: [],
-    id: this.props.entidad
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.entidad !== state.id) {
-      return {
-        id: props.entidad
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.entidad !== prevProps.entidad) {
-      this.getPermissionById();
-    }
-  }
-
-  componentDidMount() {
-    this.getPermissionById();
-  }
-
-  getPermissionById = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataPermisos: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  handleChange = value => {
-    this.props.onChange('permisos', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('permisos', true);
-  };
-  render() {
-    console.log(this.state.id);
-    const aux = this.state.dataPermisos.map((aux, id) => {
-      return {
-        id: id,
-        label: aux.name,
-        value: aux.id
-      };
-    });
-    return (
-      <div>
-        <div>
-          <Select
-            name={this.props.name}
-            options={this.state.dataPermisos.map((aux, id) => {
-              return { label: aux.name, value: aux.id };
-            })}
-            isMulti
-            onChange={this.handleChange}
-            onBlur={this.handleBlur}
-            value={this.props.value}
-            placeholder={'Asignar permisos'}
-          />
-        </div>
-      </div>
-    );
-  }
-}

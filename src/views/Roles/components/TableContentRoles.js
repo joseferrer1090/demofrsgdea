@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import data from './../../../data/data';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Row, Col } from 'reactstrap';
 import ModalView from './ModalViewRoles';
@@ -50,19 +49,20 @@ class TableContentRoles extends Component {
   };
 
   EstadoRoles(cell, row) {
+    const { t } = this.props;
     let status;
     if (row.status === 1) {
       status = (
         <p className="text-success">
           {' '}
-          <b>{this.props.t('app_tablas_estado_activo')}</b>{' '}
+          <b>{t('app_tablas_estado_activo')}</b>{' '}
         </p>
       );
     } else if (row.status !== 1) {
       status = (
         <p className="text-danger">
           {' '}
-          <b>{this.props.t('app_tablas_estado_inactivo')}</b>{' '}
+          <b>{t('app_tablas_estado_inactivo')}</b>{' '}
         </p>
       );
     }
@@ -144,6 +144,7 @@ class TableContentRoles extends Component {
   }
 
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
@@ -151,7 +152,7 @@ class TableContentRoles extends Component {
         onClick={() => this.openModalExport()}
       >
         <i className="fa fa-download" />{' '}
-        {this.props.t('app_roles_table_administrar_boton_exportar')}
+        {t('app_roles_table_administrar_boton_exportar')}
       </button>
     );
   };
@@ -162,7 +163,7 @@ class TableContentRoles extends Component {
       pagination: true,
       exportCSV: true
     };
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -172,9 +173,7 @@ class TableContentRoles extends Component {
                 options={options}
                 data={this.state.dataRoles}
                 search
-                searchPlaceholder={this.props.t(
-                  'app_roles_table_administrar_placeholder'
-                )}
+                searchPlaceholder={t('app_roles_table_administrar_placeholder')}
                 pagination
                 bordered={false}
                 hover

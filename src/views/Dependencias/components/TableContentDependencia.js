@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Row, Col } from 'reactstrap';
+import { Col } from 'reactstrap';
 import ModalView from './ModalViewDependencia';
 import ModalEdit from './ModalEditDependencia';
 import ModalDelete from './ModalDeleteDependencia';
@@ -88,19 +87,12 @@ class TableContentDependencia extends Component {
   }
 
   StatusDependencia(cell, row) {
+    const { t } = this.props;
     let status;
     if (row.status === 1) {
-      status = (
-        <b className="text-success">
-          {this.props.t('app_tablas_estado_activo')}
-        </b>
-      );
+      status = <b className="text-success">{t('app_tablas_estado_activo')}</b>;
     } else if (row.status === 0) {
-      status = (
-        <b className="text-danger">
-          {this.props.t('app_tablas_estado_inactivo')}
-        </b>
-      );
+      status = <b className="text-danger">{t('app_tablas_estado_inactivo')}</b>;
     }
     return status;
   }
@@ -134,6 +126,7 @@ class TableContentDependencia extends Component {
   };
 
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
@@ -141,7 +134,7 @@ class TableContentDependencia extends Component {
         onClick={() => this.openModalExport()}
       >
         <i className="fa fa-download" />{' '}
-        {this.props.t('app_dependencia_administrar_table_button_exportar')}
+        {t('app_dependencia_administrar_table_button_exportar')}
       </button>
     );
   };
@@ -160,7 +153,7 @@ class TableContentDependencia extends Component {
             data={dataDependence}
             pagination
             search
-            searchPlaceholder={this.props.t(
+            searchPlaceholder={t(
               'app_dependencia_administrar_table_placeholder'
             )}
             exportCSV

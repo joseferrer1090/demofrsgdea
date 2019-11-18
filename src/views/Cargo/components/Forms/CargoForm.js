@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Formik, withFormik, ErrorMessage, yupToFormErrors } from 'formik';
+import React from 'react';
+import { withFormik, ErrorMessage } from 'formik';
 import {
   Row,
   Col,
@@ -15,18 +15,17 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
+
 const CargoForm = props => {
   const {
     values,
     touched,
     errors,
-    dirty,
     isSubmitting,
     handleChange,
     setFieldValue,
     handleBlur,
     handleSubmit,
-    handleReset,
     t
   } = props;
   return (
@@ -130,24 +129,6 @@ const CargoForm = props => {
                           errors.status && touched.status && 'invalid-feedback'
                         }
                       />
-                      {/* <label
-                        className="form-check-label"
-                        htmlFor="exampleCheck1"
-                      >
-                        Activar
-                      </label> */}
-                      {/* <p
-                        className="text-muted"
-                        style={{ textAlign: "justify" }}
-                      >
-                        Si esta opción se encuentra activada, representa
-                        que el cargo es visible en el sistema y se podrán
-                        realizar operaciones entre cada uno de los módulos
-                        correspondientes de la aplicación. En caso
-                        contrario el cargo no se elimina del sistema solo
-                        quedará inactivo e invisibles para cada uno de los
-                        módulos correspondiente del sistema.
-                      </p> */}
                     </div>
                   </div>
                 </div>

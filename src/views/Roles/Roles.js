@@ -5,10 +5,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
   Col
 } from 'reactstrap';
@@ -16,7 +12,6 @@ import classnames from 'classnames';
 import FormCreate from './components/FormCreateRoles';
 import TableContent from './components/TableContentRoles';
 import FormImport from './components/FormUploadRoles';
-
 import data from '../../data/data';
 import { withTranslation } from 'react-i18next';
 

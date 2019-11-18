@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
-import { Table } from 'reactstrap';
 import './styles/table_fixed.css';
-import { CSVLink, CSVDownload } from 'react-csv';
+import { CSVLink } from 'react-csv';
 import { Parser } from 'json2csv';
 
 class ModalExportCSV extends Component {
@@ -23,10 +22,6 @@ class ModalExportCSV extends Component {
     });
     this.getDataExportCSV();
   };
-
-  // componentDidMount() {
-  //   this.getDataExportCSV();
-  // }
 
   getDataExportCSV = () => {
     fetch(
@@ -50,22 +45,6 @@ class ModalExportCSV extends Component {
   };
   render() {
     const data = this.state.dataExport;
-    const headers = [
-      { label: 'code', key: 'code' },
-      { label: 'name', key: 'name' },
-      { label: 'description', key: 'description' },
-      { label: 'status', key: 'status' }
-    ];
-
-    const records = data.map(aux => {
-      return {
-        code: aux.code,
-        name: aux.name,
-        description: aux.description,
-        status: aux.status
-      };
-    });
-
     const fields = [
       {
         label: 'Code',
@@ -87,30 +66,21 @@ class ModalExportCSV extends Component {
 
     const json2csvParser = new Parser({ fields, quote: '' });
     const csv = json2csvParser.parse(data);
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>
-            {this.props.t('app_tipoTerecero_modal_export_titulo')}
-          </ModalHeader>
+          <ModalHeader>{t('app_tipoTerecero_modal_export_titulo')}</ModalHeader>
           <ModalBody>
             <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
               <thead className="">
                 <tr>
+                  <th>{t('app_tipoTerecero_modal_export_table_codigo')}</th>
+                  <th>{t('app_tipoTerecero_modal_export_table_nombre')}</th>
                   <th>
-                    {this.props.t('app_tipoTerecero_modal_export_table_codigo')}
+                    {t('app_tipoTerecero_modal_export_table_descripcion')}
                   </th>
-                  <th>
-                    {this.props.t('app_tipoTerecero_modal_export_table_nombre')}
-                  </th>
-                  <th>
-                    {this.props.t(
-                      'app_tipoTerecero_modal_export_table_descripcion'
-                    )}
-                  </th>
-                  <th>
-                    {this.props.t('app_tipoTerecero_modal_export_table_estado')}
-                  </th>
+                  <th>{t('app_tipoTerecero_modal_export_table_estado')}</th>
                 </tr>
               </thead>
               <tbody className="">
@@ -136,21 +106,13 @@ class ModalExportCSV extends Component {
             >
               {' '}
               <i className="fa fa-times" />{' '}
-              {this.props.t(
-                'app_tipoTerecero_modal_export_table_button_cerrar'
-              )}{' '}
+              {t('app_tipoTerecero_modal_export_table_button_cerrar')}{' '}
             </button>
 
             <CSVLink data={csv} className="btn btn-secondary btn-sm">
               <i className="fa fa-download" />{' '}
-              {this.props.t(
-                'app_tipoTerecero_modal_export_table_button_exportar'
-              )}
+              {t('app_tipoTerecero_modal_export_table_button_exportar')}
             </CSVLink>
-            {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
-              {" "}
-              <i className="fa fa-download" /> Exportar CSV{" "}
-            </CSVDownload> */}
           </ModalFooter>
         </Modal>
       </Fragment>
@@ -158,8 +120,8 @@ class ModalExportCSV extends Component {
   }
 }
 
-// ModalExportCSV.propTypes = {
-//   modal: PropTypes.bool.isRequired
-// };
+ModalExportCSV.propTypes = {
+  modal: PropTypes.bool.isRequired
+};
 
 export default ModalExportCSV;

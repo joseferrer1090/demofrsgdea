@@ -1,13 +1,6 @@
-import React, { useState, useEffect, Fragment, Component } from 'react';
-import { Formik, withFormik, ErrorMessage, Field, Form } from 'formik';
-import {
-  CONGLOMERATES,
-  COUNTRIES,
-  DEPARTMENTS,
-  CITYS,
-  CHARGES,
-  COMPANY
-} from './../../../../services/EndPoints';
+import React, { useState, useEffect, Fragment } from 'react';
+import { withFormik, ErrorMessage, Field } from 'formik';
+import { CONGLOMERATES } from './../../../../services/EndPoints';
 import * as Yup from 'yup';
 import axios from 'axios';
 import {
@@ -19,25 +12,27 @@ import {
   CustomInput,
   CardFooter
 } from 'reactstrap';
-import Select from 'react-select';
 import CustonImageInput from './CustonImageInput';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
+import MySelect from './components/SelectRoles';
+import SelectConglomerado from './components/SelectConglomerado';
+import SelectCompany from './components/SelectCompany';
+import SelectHeadquarter from './components/SelectHeadquarter';
+import SelectDependence from './components/SelectDependence';
 
 const UserForm = props => {
   const {
     values,
     touched,
     errors,
-    dirty,
     isSubmitting,
     handleChange,
     setFieldValue,
     handleBlur,
     handleSubmit,
-    handleReset,
     setFieldTouched,
     t
   } = props;
@@ -57,19 +52,6 @@ const UserForm = props => {
     dataCharge();
     deteRoles();
   }, []);
-
-  // useEffect(async () => {
-  //   const result = await axios.get(
-  //     "http://192.168.10.180:7000/api/sgdea/role/status/1",
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: "Basic " + window.btoa("sgdea:123456")
-  //       }
-  //     }
-  //   );
-  //   setRoleOptions(result.data);
-  // }, []);
 
   const deteRoles = data => {
     fetch('http://192.168.10.180:7000/api/sgdea/role/active', {
@@ -161,38 +143,6 @@ const UserForm = props => {
       .catch(Error => console.log(' ' + Error));
   };
 
-  const selectConglomerate = conglomerateOptions.map((aux, id) => {
-    return (
-      <option key={id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
-  const selectCompany = companyOptions.map((aux, id) => {
-    return (
-      <option key={id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
-  const selectSede = sedeOptions.map((aux, id) => {
-    return (
-      <option key={id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
-  const selectDependencia = dependenciaOptions.map((aux, id) => {
-    return (
-      <option key={id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
   const selectCargo = cargoOptions.map((aux, id) => {
     return (
       <option key={id} value={aux.id}>
@@ -210,38 +160,13 @@ const UserForm = props => {
             <Row>
               <Col sm="3">
                 <div className="text-center">
-                  {/* <img
-                  src={"/assets/img/avatar2.png"}
-                  className="img-thumbnail"
-                /> */}
                   <br />
                   <br />
                   <Field
                     name={'foto'}
                     component={CustonImageInput}
                     setFieldValue={setFieldValue}
-                    // onChange={event => {
-                    //   setFieldValue("foto", event.currentTarget.files[0]);
-                    // }}
                   />
-
-                  {/* <input
-                    type="file"
-                    style={{ display: "none" }}
-                    // ref={this.inputOpenFileRef}
-                    value={values.imageUser}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  /> */}
-                  {/* <button
-                  type="button"
-                  className="btn btn-secondary btn-sm "
-                  style={{ width: "160px" }}
-                  onClick={showOpenFileDlg}
-                >
-                  {" "}
-                  <i className="fa fa-camera" /> Cambiar imagen{" "}
-                </button> */}
                 </div>
               </Col>
 
@@ -373,7 +298,6 @@ const UserForm = props => {
                       />
                     </div>
                   </div>
-
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
@@ -406,8 +330,6 @@ const UserForm = props => {
                       <SelectConglomerado
                         t={props.t}
                         name={'conglomeradoID'}
-                        // onChange={setFieldValue}
-                        // onBlur={setFieldTouched}
                         onChange={e =>
                           setFieldValue('conglomeradoID', e.target.value)
                         }
@@ -416,22 +338,6 @@ const UserForm = props => {
                           touched.conglomeradoID &&
                           'is-invalid'}`}
                       ></SelectConglomerado>
-                      {/* <select
-                        name={"conglomeradoID"}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.conglomeradoID}
-                        className={`form-control form-control-sm ${errors.conglomeradoID &&
-                          touched.conglomeradoID &&
-                          "is-invalid"}`}
-                      >
-                        {" "}
-                        <option disabled value={""}>
-                          {" "}
-                          -- Seleccione --{" "}
-                        </option>{" "}
-                        {selectConglomerate}
-                      </select> */}
                       {touched ? (
                         <div style={{ color: 'red' }}>
                           {' '}
@@ -464,19 +370,6 @@ const UserForm = props => {
                           touched.empresaID &&
                           'is-invalid'}`}
                       ></SelectCompany>
-                      {/* <select
-                        name={"empresaID"}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.empresaID}
-                        className={`form-control form-control-sm ${errors.empresaID &&
-                          touched.empresaID &&
-                          "is-invalid"}`}
-                      >
-                        {" "}
-                        <option value={""}> -- Seleccione -- </option>{" "}
-                        {selectCompany}
-                      </select> */}
                       <div style={{ color: '#D54B4B' }}>
                         {errors.empresaID && touched.empresaID ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -501,19 +394,6 @@ const UserForm = props => {
                           touched.sedeID &&
                           'is-invalid'}`}
                       ></SelectHeadquarter>
-                      {/* <select
-                        name={"sedeID"}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.sedeID}
-                        className={`form-control form-control-sm ${errors.sedeID &&
-                          touched.sedeID &&
-                          "is-invalid"}`}
-                      >
-                        {" "}
-                        <option value={""}> -- Seleccione -- </option>{" "}
-                        {selectSede}
-                      </select> */}
                       <div style={{ color: '#D54B4B' }}>
                         {errors.sedeID && touched.sedeID ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -541,18 +421,6 @@ const UserForm = props => {
                           touched.dependenciaID &&
                           'is-invalid'}`}
                       ></SelectDependence>
-                      {/* <select
-                        name={"dependenciaID"}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.dependenciaID}
-                        className={`form-control form-control-sm ${errors.dependenciaID &&
-                          touched.dependenciaID &&
-                          "is-invalid"}`}
-                      >
-                        <option value={""}> -- Seleccione -- </option>
-                        {selectDependencia}
-                        </select>*/}
                       <div style={{ color: '#D54B4B' }}>
                         {errors.dependenciaID && touched.dependenciaID ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -707,17 +575,6 @@ const UserForm = props => {
                           </div>
                         </div>
                       ) : null}
-                      {/* <select
-                        name={"roles"}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values.roles}
-                        className={`form-control form-control-sm ${errors.roles &&
-                          touched.roles &&
-                          "is-invalid"}`}
-                      >
-                        <option>--Seleccione--</option>
-                      </select> */}
                     </div>
                   </div>
                   <div className="col-md-12">
@@ -744,25 +601,6 @@ const UserForm = props => {
                             'invalid-feedback'
                           }
                         />
-                        {/* <label
-                                  className="form-check-label"
-                                  htmlFor="exampleCheck1"
-                                >
-                                  Activar
-                                </label> */}
-                        {/* <p
-                                  className="text-muted"
-                                  style={{ textAlign: "justify" }}
-                                >
-                                  Si esta opción se encuentra activada,
-                                  representa que el usuario es visible en el
-                                  sistema y se podrán realizar operaciones entre
-                                  cada uno de los módulos correspondientes de la
-                                  aplicación. En caso contrario el usuario no se
-                                  elimina del sistema solo quedará inactivo e
-                                  invisibles para cada uno de los módulos
-                                  correspondiente del sistema.
-                                </p> */}
                       </div>
                     </div>
                   </div>
@@ -944,368 +782,3 @@ export default withTranslation('translations')(
     }
   })(UserForm)
 );
-//---------------------------------------//
-
-class MySelect extends React.Component {
-  state = {
-    dataRoles: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  handleChange = value => {
-    this.props.onChange('rolesID', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('rolesID', true);
-  };
-
-  getData = async () => {
-    let url = 'http://192.168.10.180:7000/api/sgdea/role/active';
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    });
-    const data = await response.json();
-    this.setState({
-      dataRoles: data
-    });
-  };
-
-  render() {
-    //console.log(this.state.dataRoles);
-    const aux = this.state.dataRoles.map((aux, id) => {
-      return {
-        label: aux.name,
-        value: aux.id
-      };
-    });
-
-    return (
-      <div style={{ margin: '0' }}>
-        <Select
-          name={this.props.name}
-          options={aux}
-          isMulti
-          onChange={this.handleChange}
-          onBlur={this.handleBlur}
-          value={this.props.value}
-          placeholder={
-            '-- ' +
-            this.props.t('app_usuarios_form_registrar_roles_select') +
-            ' --'
-          }
-        />
-      </div>
-    );
-  }
-}
-// ------------------------------------------------------------------------------ //
-class SelectConglomerado extends React.Component {
-  state = {
-    dataConglomerate: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataConglomerate: data
-        });
-      });
-  };
-
-  // handleChange = value => {
-  //   this.props.onChange('conglomeradoID', value);
-  // };
-
-  // handleBlur = () => {
-  //   this.props.onBlur('conglomeradoID', true);
-  // };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          // onChange={e => setFieldValue("conglomerado", e)}
-          value={this.props.value}
-          // onBlur={this.handleBlur}
-          className={this.props.className}
-        >
-          <option value={''}>
-            -- {this.props.t('app_usuarios_form_registrar_conglomerado_select')}{' '}
-            --
-          </option>
-          {this.state.dataConglomerate.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-
-        {/* <div style={{ color: "#D54B4B" }}>
-          {error.conglomeradoID && touched.conglomeradoID ? (
-            <i className="fa fa-exclamation-triangle" />
-          ) : null}
-          <ErrorMessage name="conglomeradoID" />
-        </div> */}
-      </div>
-    );
-  }
-}
-
-// --------------------------------------------------------------------------- //
-
-class SelectCompany extends React.Component {
-  state = {
-    dataCompany: [],
-    id: this.props.conglomerate,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.conglomerate !== state.id) {
-      return {
-        id: props.conglomerate
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.conglomerate !== prevProps.conglomerate) {
-      this.getDataCompany();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataCompany();
-  }
-
-  getDataCompany = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCompany: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-        >
-          <option value={''}>
-            {' '}
-            -- {this.props.t(
-              'app_usuarios_form_registrar_empresa_select'
-            )} --{' '}
-          </option>
-          {this.state.dataCompany.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-        {/* <select
-          name={this.props.name}
-          value={this.props.value}
-          className="form-control form-control-sm"
-          onChange={this.props.onChange}
-        >
-          {this.dataCompany.map((aux, id) => {
-            return <option value={aux.id}>{aux.name}</option>;
-          })}
-        </select> */}
-      </div>
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------- //
-
-class SelectHeadquarter extends React.Component {
-  state = {
-    dataHeadquarter: [],
-    id: this.props.company,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.company !== state.id) {
-      return {
-        company: props.company
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.company !== prevProps.company) {
-      // metodo del fetch()
-      this.getDataHeadquarter();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataHeadquarter();
-  }
-
-  getDataHeadquarter = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.company}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataHeadquarter: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-        >
-          <option value={''}>
-            -- {this.props.t('app_usuarios_form_registrar_sede_select')} --{' '}
-          </option>
-          {this.state.dataHeadquarter.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-//--------------------------------------------------------------------------//
-class SelectDependence extends React.Component {
-  state = {
-    dataDependence: [],
-    id: this.props.headquarter,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.headquarter !== state.id) {
-      return {
-        headquarter: props.headquarter
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.headquarter !== prevProps.headquarter) {
-      // metodo del fetch()
-      this.getDataDependence();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDependence();
-  }
-
-  getDataDependence = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.headquarter}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataDependence: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          onChange={this.props.onChange}
-          className={this.props.className}
-        >
-          <option value={''}>
-            -- {this.props.t('app_usuarios_form_registrar_dependencia_select')}{' '}
-            --
-          </option>
-          {this.state.dataDependence.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}

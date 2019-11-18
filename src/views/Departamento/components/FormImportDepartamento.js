@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Formik, Field, ErrorMessage, withFormik } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Row, Col, CustomInput } from 'reactstrap';
 import axios from 'axios';
-import { CsvToHtmlTable } from 'react-csv-to-table';
+import PreviewFile from './PreviewFile';
 import { ToastContainer, toast } from 'react-toastify';
 import { css } from 'glamor';
 import { withTranslation } from 'react-i18next';
@@ -25,6 +25,7 @@ class FormImportDepartamento extends React.Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <Fragment>
         <Row>
@@ -34,39 +35,35 @@ class FormImportDepartamento extends React.Component {
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">
-                    {this.props.t('app_departamento_import_step_1')}
+                    {t('app_departamento_import_step_1')}
                   </h5>
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  {this.props.t('app_departamento_import_step_1_descripcion')}
+                  {t('app_departamento_import_step_1_descripcion')}
                   <br />
                   <a href={fileDepartment} download="department.csv">
-                    <b>
-                      {this.props.t(
-                        'app_tab_importar_plantilla_formato_importacion'
-                      )}
-                    </b>
+                    <b>{t('app_tab_importar_plantilla_formato_importacion')}</b>
                   </a>
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">
-                    {this.props.t('app_departamento_import_step_2')}
+                    {t('app_departamento_import_step_2')}
                   </h5>
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  {this.props.t('app_departamento_import_step_2_descripcion')}
+                  {t('app_departamento_import_step_2_descripcion')}
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
                   <h5 className="mb-1">
-                    {this.props.t('app_departamento_import_step_3')}
+                    {t('app_departamento_import_step_3')}
                   </h5>
                 </div>
                 <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  {this.props.t('app_departamento_import_step_3_descripcion')}
+                  {t('app_departamento_import_step_3_descripcion')}
                 </p>
               </a>
             </div>
@@ -85,7 +82,6 @@ class FormImportDepartamento extends React.Component {
                 };
                 const formData = new FormData();
                 const file = this.state.file;
-                const separador = values.separador_csv;
                 formData.append('file', file);
                 formData.append('separator', separator(values.separador_csv));
                 setTimeout(() => {
@@ -146,13 +142,9 @@ class FormImportDepartamento extends React.Component {
                   values,
                   touched,
                   errors,
-                  dirty,
-                  isSubmitting,
                   handleChange,
                   handleBlur,
-                  handleSubmit,
-                  handleReset,
-                  t
+                  handleSubmit
                 } = props;
                 return (
                   <Fragment>
@@ -164,7 +156,7 @@ class FormImportDepartamento extends React.Component {
                               <div className="form-group">
                                 <label>
                                   {' '}
-                                  {this.props.t(
+                                  {t(
                                     'app_departamento_import_form_separador'
                                   )}{' '}
                                   <span className="text-danger">*</span>
@@ -191,9 +183,7 @@ class FormImportDepartamento extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {this.props.t(
-                                    'app_departamento_import_form_titulos'
-                                  )}
+                                  {t('app_departamento_import_form_titulos')}
                                 </label>
                                 <CustomInput
                                   name={'titulos'}
@@ -202,7 +192,7 @@ class FormImportDepartamento extends React.Component {
                                   value={values.titulos}
                                   type="checkbox"
                                   id="ExampleInputCheckbox3"
-                                  label={this.props.t(
+                                  label={t(
                                     'app_departamento_import_form_titulos_label'
                                   )}
                                   className={
@@ -218,9 +208,7 @@ class FormImportDepartamento extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {this.props.t(
-                                    'app_departamento_import_form_archivo'
-                                  )}{' '}
+                                  {t('app_departamento_import_form_archivo')}{' '}
                                   <b>CSV</b>{' '}
                                   <span className="text-danger"> * </span>
                                 </label>
@@ -229,9 +217,7 @@ class FormImportDepartamento extends React.Component {
                                   name={'archivo'}
                                   onBlur={handleBlur}
                                   onChange={e => this.onChange(e)}
-                                  label={this.props.t(
-                                    'app_departamento_import_form_file'
-                                  )}
+                                  label={t('app_departamento_import_form_file')}
                                   className={`form-control ${errors.archivo &&
                                     touched.archivo &&
                                     'is-invalid'}`}
@@ -252,7 +238,7 @@ class FormImportDepartamento extends React.Component {
                             }}
                           >
                             <i className="fa fa-save" />{' '}
-                            {this.props.t('app_departamento_import_from_boton')}
+                            {t('app_departamento_import_from_boton')}
                           </button>
                         </div>
                       </div>
@@ -278,48 +264,3 @@ class FormImportDepartamento extends React.Component {
 }
 
 export default withTranslation('translations')(FormImportDepartamento);
-
-class PreviewFile extends React.Component {
-  state = {
-    loading: false,
-    thumb: undefined
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.file) {
-      return;
-    }
-    this.setState(
-      {
-        loading: true
-      },
-      () => {
-        let reader = new FileReader();
-
-        reader.onloadend = () => {
-          this.setState({ loading: false, thumb: reader.result });
-        };
-
-        reader.readAsBinaryString(nextProps.file);
-      }
-    );
-  }
-  render() {
-    const { file } = this.props;
-    const { loading } = this.state;
-    const thumb = this.state.thumb;
-
-    if (!file) {
-      return null;
-    }
-
-    if (loading) {
-      return <p>loading...</p>;
-    }
-
-    // console.log(thumb.toString());
-    // console.log(file.type);
-
-    return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
-  }
-}

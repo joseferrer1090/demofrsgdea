@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import PropTypes from 'prop-types';
 import ImgMensajero from './../../../assets/img/courier.svg';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
 import { MESSENGERS } from './../../../services/EndPoints';
 
@@ -61,20 +61,14 @@ class ModalActualizarMensajero extends React.Component {
       .catch(error => console.log(error));
   };
 
-  // handleSubmit = (values, { props = this.props, setSubmitting }) => {
-  //   alert(JSON.stringify(values, null, 2));
-  //   setSubmitting(false);
-  //   return;
-  // };
-
   render() {
     const dataResult = this.state.dataResult;
-
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {this.props.t('app_mensajero_modal_actualizar_titulo')}{' '}
+            {t('app_mensajero_modal_actualizar_titulo')}{' '}
             {dataResult.messenger_name}
           </ModalHeader>
           <Formik
@@ -172,30 +166,23 @@ class ModalActualizarMensajero extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
+
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset
+                t
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {this.props.t(
-                        'app_mensajero_modal_actualizar_alert_error'
-                      )}
+                      {t('app_mensajero_modal_actualizar_alert_error')}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t(
-                        'app_mensajero_modal_actualizar_alert_success'
-                      )}
+                      {t('app_mensajero_modal_actualizar_alert_success')}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {this.props.t(
-                        'app_mensajero_modal_actualizar_alert_error400'
-                      )}
+                      {t('app_mensajero_modal_actualizar_alert_error400')}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -209,16 +196,14 @@ class ModalActualizarMensajero extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            {this.props.t(
-                              'app_mensajero_modal_actualizar_titulo_2'
-                            )}{' '}
+                            {t('app_mensajero_modal_actualizar_titulo_2')}{' '}
                           </h5>{' '}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {this.props.t(
+                                {t(
                                   'app_mensajero_modal_actualizar_identificacion'
                                 )}{' '}
                                 <span className="text-danger">*</span>{' '}
@@ -247,9 +232,7 @@ class ModalActualizarMensajero extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {this.props.t(
-                                  'app_mensajero_modal_actualizar_nombre'
-                                )}{' '}
+                                {t('app_mensajero_modal_actualizar_nombre')}{' '}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -277,7 +260,7 @@ class ModalActualizarMensajero extends React.Component {
                           <div className="col-md-12">
                             <div className="form-group">
                               <dl className="param">
-                                {this.props.t(
+                                {t(
                                   'app_mensajero_modal_actualizar_descripción'
                                 )}
                                 <dd>
@@ -298,7 +281,7 @@ class ModalActualizarMensajero extends React.Component {
                               <dl className="param">
                                 <label>
                                   {' '}
-                                  {this.props.t(
+                                  {t(
                                     'app_mensajero_modal_actualizar_estado'
                                   )}{' '}
                                   <span className="text-danger">*</span>{' '}
@@ -311,7 +294,7 @@ class ModalActualizarMensajero extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="CheckBoxEditRoles"
-                                          label={this.props.t(
+                                          label={t(
                                             'app_mensajero_modal_actualizar_estado_descripcion'
                                           )}
                                           {...field}
@@ -344,9 +327,7 @@ class ModalActualizarMensajero extends React.Component {
                       className="btn btn-sm btn-outline-success"
                     >
                       <i className="fa fa-pencil" />{' '}
-                      {this.props.t(
-                        'app_mensajero_modal_actualizar_boton_actualizar'
-                      )}
+                      {t('app_mensajero_modal_actualizar_boton_actualizar')}
                     </button>
                     <button
                       className="btn btn-sm btn-secondary "
@@ -356,9 +337,7 @@ class ModalActualizarMensajero extends React.Component {
                     >
                       {' '}
                       <i className="fa fa-times" />{' '}
-                      {this.props.t(
-                        'app_mensajero_modal_actualizar_boton_cerrar'
-                      )}{' '}
+                      {t('app_mensajero_modal_actualizar_boton_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

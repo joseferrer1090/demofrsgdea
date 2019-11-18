@@ -32,7 +32,7 @@ class TipoTercero extends Component {
   };
 
   render() {
-    const { t } = this.props.t;
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -43,8 +43,7 @@ class TipoTercero extends Component {
                 this.toggle('1');
               }}
             >
-              <i className="fa fa-plus " />{' '}
-              {this.props.t('app_tipoTerecero_tab')}
+              <i className="fa fa-plus " /> {t('app_tipoTerecero_tab')}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -54,8 +53,7 @@ class TipoTercero extends Component {
                 this.toggle('2');
               }}
             >
-              <i className={'fa fa-gear'} />{' '}
-              {this.props.t('app_tipoTerecero_tab_2')}
+              <i className={'fa fa-gear'} /> {t('app_tipoTerecero_tab_2')}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -65,8 +63,7 @@ class TipoTercero extends Component {
                 this.toggle('3');
               }}
             >
-              <i className={'fa fa-upload'} />{' '}
-              {this.props.t('app_tipoTerecero_tab_3')}
+              <i className={'fa fa-upload'} /> {t('app_tipoTerecero_tab_3')}
             </NavLink>
           </NavItem>
         </Nav>

@@ -61,12 +61,13 @@ class ModalDeleteEmpresa extends React.Component {
       code: ''
     };
     const nameCompany = this.state.nameCompany;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            {this.props.t('app_empresa_modal_eliminar_titulo')} {nameCompany}{' '}
+            {t('app_empresa_modal_eliminar_titulo')} {nameCompany}{' '}
           </ModalHeader>
           <Formik
             initialValues={dataInitial}
@@ -121,12 +122,10 @@ class ModalDeleteEmpresa extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
+
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
@@ -137,29 +136,27 @@ class ModalDeleteEmpresa extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {this.props.t('app_empresa_modal_eliminar_alert_error')}
+                      {t('app_empresa_modal_eliminar_alert_error')}
                     </Alert>
                     <Alert
                       color="danger"
                       isOpen={this.state.alertCode}
                       toggle={this.onDismiss}
                     >
-                      {this.props.t(
-                        'app_empresa_modal_eliminar_alert_errorCode'
-                      )}
+                      {t('app_empresa_modal_eliminar_alert_errorCode')}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t('app_empresa_modal_eliminar_alert_success')}
+                      {t('app_empresa_modal_eliminar_alert_success')}
                     </Alert>
                     <form className="form">
                       <p className="text-center">
                         {' '}
-                        {this.props.t('app_empresa_modal_eliminar_titulo_2')}
+                        {t('app_empresa_modal_eliminar_titulo_2')}
                       </p>
 
                       <input
                         type="text"
-                        placeholder={this.props.t(
+                        placeholder={t(
                           'app_empresa_modal_eliminar_placeholder'
                         )}
                         style={{ textAlign: 'center' }}
@@ -177,13 +174,11 @@ class ModalDeleteEmpresa extends React.Component {
                         ) : null}
                         <ErrorMessage name="code" />
                       </div>
-                      {/* <div className="text-center">
-                        <ErrorMessage name={"code"} />
-                      </div> */}
+
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        {this.props.t('app_empresa_modal_eliminar_titulo_3')}
+                        {t('app_empresa_modal_eliminar_titulo_3')}
                       </p>
                     </form>
                   </ModalBody>
@@ -197,9 +192,7 @@ class ModalDeleteEmpresa extends React.Component {
                       }}
                     >
                       <i className="fa fa-trash" />{' '}
-                      {this.props.t(
-                        'app_empresa_modal_eliminar_boton_eliminar'
-                      )}
+                      {t('app_empresa_modal_eliminar_boton_eliminar')}
                     </button>
                     <button
                       type="button"
@@ -213,7 +206,7 @@ class ModalDeleteEmpresa extends React.Component {
                       }}
                     >
                       <i className="fa fa-times" />{' '}
-                      {this.props.t('app_empresa_modal_eliminar_boton_cerrar')}{' '}
+                      {t('app_empresa_modal_eliminar_boton_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

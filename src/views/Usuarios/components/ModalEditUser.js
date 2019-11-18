@@ -5,28 +5,27 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  Button,
   Card,
-  CardBody,
   Col,
   Row,
   TabContent,
   TabPane,
   Nav,
   NavItem,
-  CardTitle,
-  CardText,
   NavLink,
   CustomInput,
   Alert
 } from 'reactstrap';
-import Select from 'react-select';
 import classnames from 'classnames';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
-import { USERS } from '../../../services/EndPoints';
 import axios from 'axios';
 import moment from 'moment';
+import MySelect from './SelectRolesModalEdit';
+import SelectConglomerado from './SelectConglomeradoModalEdit';
+import SelectCompany from './SelectCompanyModalEdit';
+import SelectHeadquarter from './SelectHeadquarterModalEdit';
+import SelectDependence from './SelectDependenceModalEdit';
 
 class ModalEditUser extends React.Component {
   constructor(props) {
@@ -51,10 +50,6 @@ class ModalEditUser extends React.Component {
   }
 
   componentDidMount() {
-    //this.getDataConglomerate();
-    // this.getDataCompany();
-    // this.getDataHeadquarter();
-    // this.getDataDependence();
     this.getDataCharge();
   }
 
@@ -122,60 +117,6 @@ class ModalEditUser extends React.Component {
       .catch(err => console.log('Error', err));
   };
 
-  // getDataCompany = () => {
-  //   fetch(`http://192.168.10.180:7000/api/sgdea/company/active`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Basic " + window.btoa("sgdea:123456")
-  //     }
-  //   })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data);
-  //       this.setState({
-  //         dataCompany: data
-  //       });
-  //     })
-  //     .catch(err => console.log("Error ", err));
-  // };
-
-  // getDataHeadquarter = () => {
-  //   fetch(`http://192.168.10.180:7000/api/sgdea/headquarter/active`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Basic " + window.btoa("sgdea:123456")
-  //     }
-  //   })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data);
-  //       this.setState({
-  //         dataHeadquarter: data
-  //       });
-  //     })
-  //     .catch(err => console.log("Error", err));
-  // };
-
-  // getDataDependence = () => {
-  //   fetch(`http://192.168.10.180:7000/api/sgdea/dependence/active`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Basic " + window.btoa("sgdea:123456")
-  //     }
-  //   })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data);
-  //       this.setState({
-  //         dataDependence: data
-  //       });
-  //     })
-  //     .catch(err => console.log("Error", err));
-  // };
-
   getDataCharge = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/charge/active`, {
       method: 'GET',
@@ -217,7 +158,7 @@ class ModalEditUser extends React.Component {
     const selectOptionsCharge = this.state.dataCharge.map((aux, id) => {
       return <option value={aux.id}>{aux.name}</option>;
     });
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -230,7 +171,6 @@ class ModalEditUser extends React.Component {
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
               const formData = new FormData();
-              // formData.append('photo', values.foto);
               formData.append(
                 'user',
                 new Blob(
@@ -361,12 +301,9 @@ class ModalEditUser extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset,
                 setFieldValue,
                 setFieldTouched
               } = props;
@@ -374,19 +311,13 @@ class ModalEditUser extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {this.props.t(
-                        'app_usuarios_modal_actualizar_alert_error'
-                      )}
+                      {t('app_usuarios_modal_actualizar_alert_error')}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t(
-                        'app_usuarios_modal_actualizar_alert_success'
-                      )}
+                      {t('app_usuarios_modal_actualizar_alert_success')}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {this.props.t(
-                        'app_usuarios_modal_actualizar_alert_error400'
-                      )}
+                      {t('app_usuarios_modal_actualizar_alert_error400')}
                     </Alert>
                     <form className="form">
                       <div className="row">
@@ -562,7 +493,6 @@ class ModalEditUser extends React.Component {
                                     <input
                                       name={'usuario_birthDate'}
                                       onChange={handleChange}
-                                      // onChange={(e)=> console.log(e.target.value)}
                                       onBlur={handleBlur}
                                       value={values.usuario_birthDate}
                                       type="date"
@@ -986,372 +916,3 @@ ModalEditUser.propTypes = {
 };
 
 export default ModalEditUser;
-
-// -------------------------------------------------------------------------------------------------------- //
-
-// const options = [
-//   { value: "Food", label: "Food" },
-//   { value: "Being Fabulous", label: "Being Fabulous" },
-//   { value: "Ken Wheeler", label: "Ken Wheeler" },
-//   { value: "ReasonML", label: "ReasonML" },
-//   { value: "Unicorns", label: "Unicorns" },
-//   { value: "Kittens", label: "Kittens" }
-// ];
-
-class MySelect extends React.Component {
-  state = {
-    dataRoles: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = async () => {
-    let url = 'http://192.168.10.180:7000/api/sgdea/role/active';
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    });
-    const data = await response.json();
-    this.setState({
-      dataRoles: data
-    });
-  };
-
-  handleChange = value => {
-    this.props.onChange('roles', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('roles', true);
-  };
-
-  render() {
-    const aux = this.state.dataRoles.map((aux, id) => {
-      return {
-        label: aux.name,
-        value: aux.id
-      };
-    });
-    return (
-      <div style={{ margin: '0' }}>
-        <Select
-          name={this.props.name}
-          options={aux}
-          isMulti
-          onChange={this.handleChange}
-          onBlur={this.props.onBlur}
-          value={this.props.value}
-          placeholder={`-- ${this.props.t(
-            'app_usuarios_modal_editar_roles_select'
-          )} --`}
-        />
-      </div>
-    );
-  }
-}
-
-// ------------------------------------------------------------------------------------------------------ //
-class SelectConglomerado extends React.Component {
-  state = {
-    dataConglomerate: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataConglomerate: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('usuario_conglomerate', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('usuario_conglomerate', true);
-  };
-
-  render() {
-    // const selectOptionsConglomerate = this.state.dataConglomerate.map(
-    //   (aux, id) => {
-    //     return <option value={aux.id}>{aux.name}</option>;
-    //   }
-    // );
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-          value={this.props.value}
-          className={this.props.className}
-        >
-          <option value={''}>
-            -- {this.props.t('app_usuarios_modal_editar_conglomerado_select')}{' '}
-            --
-          </option>
-          {this.state.dataConglomerate.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-// ----------------------------------------------------------------------------------------------------//
-
-class SelectCompany extends React.Component {
-  state = {
-    dataCompany: [],
-    id: this.props.usuario_conglomerate,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.usuario_conglomerate !== state.id) {
-      return {
-        id: props.usuario_conglomerate
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.usuario_conglomerate !== prevProps.usuario_conglomerate) {
-      this.getDataCompany();
-    }
-  }
-
-  //edf39040-6f53-4f4e-b348-ef279819051a => no borrar
-
-  componentDidMount() {
-    this.getDataCompany();
-  }
-
-  getDataCompany = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCompany: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_usuarios_modal_editar_empresa_select')} --
-          </option>
-          {this.state.dataCompany.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-        {/* <select
-          name={this.props.name}
-          value={this.props.value}
-          className="form-control form-control-sm"
-          onChange={this.props.onChange}
-        >
-          {this.dataCompany.map((aux, id) => {
-            return <option value={aux.id}>{aux.name}</option>;
-          })}
-        </select> */}
-      </div>
-    );
-  }
-}
-
-// ------------------------------------------------------------------------------------- //
-class SelectHeadquarter extends React.Component {
-  state = {
-    dataHeadquarter: [],
-    id: this.props.usuario_company,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.usuario_company !== state.id) {
-      return {
-        id: props.usuario_company
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.usuario_company !== prevProps.usuario_company) {
-      // metodo del fetch()
-      this.getDataHeadquarter();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataHeadquarter();
-  }
-
-  getDataHeadquarter = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.usuario_company}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataHeadquarter: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_usuarios_modal_editar_sede_select')} --
-          </option>
-          {this.state.dataHeadquarter.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------- //
-
-class SelectDependence extends React.Component {
-  state = {
-    dataDependence: [],
-    id: this.props.usuario_headquarter,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.usuario_headquarter !== state.id) {
-      return {
-        id: props.usuario_headquarter
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.usuario_headquarter !== prevProps.usuario_headquarter) {
-      // metodo del fetch()
-      this.getDataDependence();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDependence();
-  }
-
-  getDataDependence = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.usuario_headquarter}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataDependence: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          onChange={this.props.onChange}
-          className={this.props.className}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_usuarios_modal_editar_dependencia_select')} --
-          </option>
-          {this.state.dataDependence.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}

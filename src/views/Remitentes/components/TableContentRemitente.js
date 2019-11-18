@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Row, Col } from 'reactstrap';
+import { Col } from 'reactstrap';
 import ModalView from './ModalViewRemitente';
 import ModalUpdate from './ModalUpdateRemitente';
 import ModalDel from './ModalDeleteRemitente';
@@ -10,6 +10,7 @@ import './../../../css/styleTableRemitente.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
+
 class TableContentRemitente extends Component {
   constructor(props) {
     super(props);
@@ -87,20 +88,15 @@ class TableContentRemitente extends Component {
   }
 
   EstadoRemitente(cell, row) {
+    const { t } = this.props;
     let status;
     if (row.status === 1) {
       status = (
-        <b className="text-success">
-          {' '}
-          {this.props.t('app_tablas_estado_activo')}{' '}
-        </b>
+        <b className="text-success"> {t('app_tablas_estado_activo')} </b>
       );
     } else if (row.status === 0) {
       status = (
-        <b className="text-danger">
-          {' '}
-          {this.props.t('app_tablas_estado_inactivo')}{' '}
-        </b>
+        <b className="text-danger"> {t('app_tablas_estado_inactivo')} </b>
       );
     }
     return status;
@@ -129,6 +125,7 @@ class TableContentRemitente extends Component {
     return !typeThirdParty ? null : `<div>${typeThirdParty.name}</div>`;
   };
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
@@ -136,7 +133,7 @@ class TableContentRemitente extends Component {
         onClick={() => this.openModalExport()}
       >
         <i className="fa fa-download" />{' '}
-        {this.props.t('app_tercero_administrar_tabla_boton_exportar')}
+        {t('app_tercero_administrar_tabla_boton_exportar')}
       </button>
     );
   };
@@ -146,7 +143,6 @@ class TableContentRemitente extends Component {
       btnGroup: this.createCustomButtonGroup
     };
     const dataTerceros = this.state.dataTercero;
-    const tipoTercero = this.state.tipoTercero;
     const { t } = this.props;
     return (
       <div className="animated fadeIn">

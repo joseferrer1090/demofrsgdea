@@ -1,26 +1,16 @@
-import React from "react";
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  CardHeader,
-  Button,
-  Row,
-  Col,
-  Buttom,
-  CustomInput
-} from "reactstrap";
-import DependenciaForm from "./Forms/DependenciasForm";
+import React from 'react';
+import PropTypes from 'prop-types';
+import DependenciaForm from './Forms/DependenciasForm';
 
 const dataDependencia = {
-  conglomerateId: "",
-  companyId: "",
-  headquarterId: "",
-  code: "",
-  name: "",
-  description: "",
-  chargeId: "",
-  status: ""
+  conglomerateId: '',
+  companyId: '',
+  headquarterId: '',
+  code: '',
+  name: '',
+  description: '',
+  chargeId: '',
+  status: ''
 };
 
 const FromCreateDependencia = () => {
@@ -31,6 +21,10 @@ const FromCreateDependencia = () => {
       </div>
     </div>
   );
+};
+
+FromCreateDependencia.propTypes = {
+  dependencia: PropTypes.object.isRequired
 };
 
 export default FromCreateDependencia;

@@ -1,18 +1,5 @@
 import React, { Component } from 'react';
-import DatePicker from 'react-datepicker';
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardFooter,
-  Col,
-  Row,
-  CardTitle,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from 'reactstrap';
+import { Card } from 'reactstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import ModalViewAditoria from './components/ModalViewAuditoria';
 import ModalSearch from './components/ModalSearchAuditoria';
@@ -22,7 +9,6 @@ import './../../css/custom_calendar.css';
 import './../../css/table_data.css';
 import './components/customstyle.css';
 import './../../css/styleTableAuditoria.css';
-import styled from 'styled-components';
 import moment from 'moment';
 import { withTranslation } from 'react-i18next';
 
@@ -87,6 +73,7 @@ class Auditoria extends Component {
   }
 
   createButtonCustom = props => {
+    const { t } = this.props;
     return (
       <div className="btn-group btn-group-sm">
         {props.exportCSVBtn}
@@ -99,7 +86,7 @@ class Auditoria extends Component {
         >
           {' '}
           <i className="fa fa-pencil" />{' '}
-          {this.props.t('app_auditoria_tabla_consulta_boton_consultar')}{' '}
+          {t('app_auditoria_tabla_consulta_boton_consultar')}{' '}
         </button>
       </div>
     );
@@ -145,6 +132,7 @@ class Auditoria extends Component {
     const options = {
       btnGroup: this.createButtonCustom
     };
+    const { t } = this.props;
 
     return (
       <div className="animated fadeIn">
@@ -162,14 +150,7 @@ class Auditoria extends Component {
                 pagination
                 striped
                 className="tableAuditoria texto-Auditoria"
-                // headerStyle={{ height: "39px" }}
               >
-                {/* <TableHeaderColumn
-                  export={false}
-                  isKey={true}
-                  dataField={'id'}
-                  hidden={this.state.hiddenColumnId}
-                /> */}
                 <TableHeaderColumn
                   isKey={true}
                   dataField="date"
@@ -178,7 +159,7 @@ class Auditoria extends Component {
                   width={'180'}
                 >
                   {' '}
-                  {this.props.t('app_auditoria_tabla_fecha_auditoria')}{' '}
+                  {t('app_auditoria_tabla_fecha_auditoria')}{' '}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataFormat={this.ModuloInfo}
@@ -187,7 +168,7 @@ class Auditoria extends Component {
                   width={'180'}
                 >
                   {' '}
-                  {this.props.t('app_auditoria_tabla_modulo')}{' '}
+                  {t('app_auditoria_tabla_modulo')}{' '}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataFormat={this.EntidadInfo}
@@ -196,7 +177,7 @@ class Auditoria extends Component {
                   width={'180'}
                 >
                   {' '}
-                  {this.props.t('app_auditoria_tabla_entidad')}{' '}
+                  {t('app_auditoria_tabla_entidad')}{' '}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataFormat={this.AccionInfo}
@@ -205,7 +186,7 @@ class Auditoria extends Component {
                   width={'180'}
                 >
                   {' '}
-                  {this.props.t('app_auditoria_tabala_accion')}{' '}
+                  {t('app_auditoria_tabala_accion')}{' '}
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
@@ -214,7 +195,7 @@ class Auditoria extends Component {
                   dataAlign="center"
                 >
                   {' '}
-                  {this.props.t('app_auditoria_tabla_usuario')}{' '}
+                  {t('app_auditoria_tabla_usuario')}{' '}
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
@@ -223,7 +204,7 @@ class Auditoria extends Component {
                   dataAlign="center"
                   dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
                 >
-                  {this.props.t('app_auditoria_tabla_acciones')}{' '}
+                  {t('app_auditoria_tabla_acciones')}{' '}
                 </TableHeaderColumn>
               </BootstrapTable>
             </Card>

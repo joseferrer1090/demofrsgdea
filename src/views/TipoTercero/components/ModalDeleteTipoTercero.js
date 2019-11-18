@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap';
 import * as Yup from 'yup';
-import { Formik, withFormik, ErrorMessage, Field, From } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 
 class ModalDeleteTipoTercero extends Component {
   constructor(props) {
@@ -60,12 +60,12 @@ class ModalDeleteTipoTercero extends Component {
       code: ''
     };
     const nameTipoTercero = this.state.nameTipoTercero;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
-            {this.props.t('app_tipoTercero_modal_eliminar_titulo')}{' '}
-            {nameTipoTercero}{' '}
+            {t('app_tipoTercero_modal_eliminar_titulo')} {nameTipoTercero}{' '}
           </ModalHeader>
           <Formik
             initialValues={dataInitial}
@@ -117,15 +117,11 @@ class ModalDeleteTipoTercero extends Component {
           >
             {props => {
               const {
-                values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
@@ -137,29 +133,21 @@ class ModalDeleteTipoTercero extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_tipoTercero_modal_eliminar_alert_error'
-                        )}
+                        {t('app_tipoTercero_modal_eliminar_alert_error')}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_tipoTercero_modal_eliminar_alert_errorCode'
-                        )}
+                        {t('app_tipoTercero_modal_eliminar_alert_errorCode')}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
-                        {this.props.t(
-                          'app_tipoTercero_modal_eliminar_alert_success'
-                        )}
+                        {t('app_tipoTercero_modal_eliminar_alert_success')}
                       </Alert>
                       <p className="text-center">
                         {' '}
-                        {this.props.t(
-                          'app_tipoTercero_modal_eliminar_titulo_2'
-                        )}
+                        {t('app_tipoTercero_modal_eliminar_titulo_2')}
                       </p>
 
                       <input
@@ -168,7 +156,7 @@ class ModalDeleteTipoTercero extends Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder={this.props.t(
+                        placeholder={t(
                           'app_tipoTercero_modal_eliminar_placeholder'
                         )}
                         style={{ textAlign: 'center' }}
@@ -185,9 +173,7 @@ class ModalDeleteTipoTercero extends Component {
                       <br />
                       <p className="text-center text-danger">
                         {' '}
-                        {this.props.t(
-                          'app_tipoTercero_modal_eliminar_titulo_3'
-                        )}
+                        {t('app_tipoTercero_modal_eliminar_titulo_3')}
                       </p>
                     </form>
                   </ModalBody>
@@ -201,9 +187,7 @@ class ModalDeleteTipoTercero extends Component {
                       }}
                     >
                       <i className="fa fa-trash" />{' '}
-                      {this.props.t(
-                        'app_tipoTercero_modal_eliminar_button_eliminar'
-                      )}
+                      {t('app_tipoTercero_modal_eliminar_button_eliminar')}
                     </button>
                     <button
                       type="button"
@@ -218,9 +202,7 @@ class ModalDeleteTipoTercero extends Component {
                       }}
                     >
                       <i className="fa fa-times" />{' '}
-                      {this.props.t(
-                        'app_tipoTercero_modal_eliminar_button_cerrar'
-                      )}{' '}
+                      {t('app_tipoTercero_modal_eliminar_button_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

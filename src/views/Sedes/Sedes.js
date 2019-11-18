@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import {
   TabContent,
   TabPane,
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
-  Col,
-  CardBody,
-  CardFooter,
-  CardHeader
+  Col
 } from 'reactstrap';
 import classnames from 'classnames';
 import FormCreateSedes from './components/FormCreateSedes';

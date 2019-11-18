@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'reactstrap';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import ModalView from './ModalViewCiudad';
 import ModalEdit from './ModalEditCiudad';
@@ -112,23 +111,17 @@ class TableContentCiudad extends Component {
   }
 
   EstadoEmpresa(cell, row) {
+    const { t } = this.props;
     let status;
     if (row.status === 1) {
-      status = (
-        <b className="text-success">
-          {this.props.t('app_tablas_estado_activo')}
-        </b>
-      );
+      status = <b className="text-success">{t('app_tablas_estado_activo')}</b>;
     } else if (row.status === 0) {
-      status = (
-        <b className="text-danger">
-          {this.props.t('app_tablas_estado_inactivo')}
-        </b>
-      );
+      status = <b className="text-danger">{t('app_tablas_estado_inactivo')}</b>;
     }
     return status;
   }
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
@@ -136,7 +129,7 @@ class TableContentCiudad extends Component {
         onClick={() => this.openModalExport()}
       >
         <i className="fa fa-download" />{' '}
-        {this.props.t('app_ciudad_administrar_table_button_exportar')}
+        {t('app_ciudad_administrar_table_button_exportar')}
       </button>
     );
   };

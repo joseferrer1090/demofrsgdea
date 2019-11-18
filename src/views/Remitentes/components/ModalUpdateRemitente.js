@@ -8,25 +8,22 @@ import {
   Button,
   Row,
   Col,
-  Collapse,
-  Card,
-  CardHeader,
-  CardBody,
   TabContent,
   TabPane,
   Nav,
   NavItem,
-  CardTitle,
-  CardText,
   NavLink,
   CustomInput,
   Alert
 } from "reactstrap";
 import classnames from "classnames";
 import IMGPROFILE from "./../../../assets/img/profile.svg";
-import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
+import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
-import { THIRDPARTYS, TYPETHIRDPARTYS_STATUS, CONTRIES_STATUS, DEPARTMENTS_STATUS, CITIES_STATUS } from './../../../services/EndPoints';
+import { THIRDPARTYS, TYPETHIRDPARTYS_STATUS, CONTRIES_STATUS, DEPARTMENTS_STATUS, CITIES_STATUS } from '../../../services/EndPoints';
+import SelectCountry from './SelectCountryModalEdit';
+import SelectDepartment from './SelectDepartmentModalEdit';
+import SelectCity from './SelectCityModalEdit';
 
 class ModalUpdateRemitente extends React.Component {
   state = {
@@ -180,31 +177,11 @@ class ModalUpdateRemitente extends React.Component {
         </option>
       );
     });
-    const mapOptionsCountries= this.state.optionsCountries.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
-    const mapOptionsDepartments = this.state.optionsDepartments.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
-    const mapOptionsCities = this.state.optionsCities.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
+    const {t} = this.props;
     return (
       <Fragment>
       <Modal className="modal-lg" isOpen={this.state.modal}>
-      <ModalHeader> {this.props.t("app_tercero_modal_actualizar_titulo")} {this.state.dataResult.tercero_nombre} </ModalHeader>
+      <ModalHeader> {t("app_tercero_modal_actualizar_titulo")} {this.state.dataResult.tercero_nombre} </ModalHeader>
       <Formik
       enableReinitialize={true}
         initialValues={dataResult}
@@ -343,12 +320,11 @@ class ModalUpdateRemitente extends React.Component {
           values,
           touched,
           errors,
-          dirty,
-          isSubmitting,
+      
           handleChange,
           handleBlur,
           handleSubmit,
-          handleReset,
+
           setFieldValue,
           setFieldTouched
         } = props;
@@ -356,13 +332,13 @@ class ModalUpdateRemitente extends React.Component {
           <Fragment>
           <ModalBody>
           <Alert color="danger" isOpen={this.state.alertError}>
-             {this.props.t("app_tercero_modal_actualizar_alert_error")}
+             {t("app_tercero_modal_actualizar_alert_error")}
           </Alert>
           <Alert color="success" isOpen={this.state.alertSuccess}>
-              {this.props.t("app_tercero_modal_actualizar_alert_success")}
+              {t("app_tercero_modal_actualizar_alert_success")}
            </Alert>
            <Alert color="danger" isOpen={this.state.alertError400}>
-              {this.props.t("app_tercero_modal_actualizar_alert_error400")}
+              {t("app_tercero_modal_actualizar_alert_error400")}
             </Alert>
           <Row>
             <Col sm="3">
@@ -373,7 +349,7 @@ class ModalUpdateRemitente extends React.Component {
                 {" "}
                 <h5 className="" style={{ borderBottom: "1px solid black" }}>
                   {" "}
-                  {this.props.t("app_tercero_modal_actualizar_titulo_2")}{" "}
+                  {t("app_tercero_modal_actualizar_titulo_2")}{" "}
                 </h5>{" "}
               </div>
               <div className="row">
@@ -381,7 +357,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          {this.props.t("app_tercero_modal_actualizar_tipoTercero")}{" "}
+                          {t("app_tercero_modal_actualizar_tipoTercero")}{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <select
@@ -394,7 +370,7 @@ class ModalUpdateRemitente extends React.Component {
                               "is-invalid"}`}
                         >
                           <option value={''} disabled>
-                                  -- {this.props.t("app_tercero_modal_actualizar_select_tipoTercero")} --
+                                  -- {t("app_tercero_modal_actualizar_select_tipoTercero")} --
                                 </option>
                         {mapOptionsTipoTercero}
                         </select>
@@ -412,7 +388,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          {this.props.t("app_tercero_modal_actualizar_ElementoComunicacion")}{" "}
+                          {t("app_tercero_modal_actualizar_ElementoComunicacion")}{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <select
@@ -425,11 +401,11 @@ class ModalUpdateRemitente extends React.Component {
                             "is-invalid"}`}
                         >
                          <option disabled value={''}>
-                            -- {this.props.t("app_tercero_modal_actualizar_select_ElementoComunicacion")} --
+                            -- {t("app_tercero_modal_actualizar_select_ElementoComunicacion")} --
                           </option>
-                          <option value={1}>{this.props.t("app_tercero_form_registrar_option_remitente")}</option>
-                          <option value={2}>{this.props.t("app_tercero_form_registrar_option_destinatario")} </option>
-                          <option value={3}>{this.props.t("app_tercero_form_registrar_option_mixto")} </option>
+                          <option value={1}>{t("app_tercero_form_registrar_option_remitente")}</option>
+                          <option value={2}>{t("app_tercero_form_registrar_option_destinatario")} </option>
+                          <option value={3}>{t("app_tercero_form_registrar_option_mixto")} </option>
                         </select>
                         <div style={{ color: '#D54B4B' }}>
                         {
@@ -443,7 +419,7 @@ class ModalUpdateRemitente extends React.Component {
                       </div>
                 <div className="col-md-6">
                   <div className="form-group ">
-                    <label> {this.props.t("app_tercero_modal_actualizar_identificacion")} <span className="text-danger">*</span>{" "} </label>
+                    <label> {t("app_tercero_modal_actualizar_identificacion")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
                       name={"tercero_identificacion"}
@@ -466,7 +442,7 @@ class ModalUpdateRemitente extends React.Component {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label> {this.props.t("app_tercero_modal_actualizar_nombre")} <span className="text-danger">*</span>{" "} </label>
+                    <label> {t("app_tercero_modal_actualizar_nombre")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
                       name={"tercero_nombre"}
@@ -489,7 +465,7 @@ class ModalUpdateRemitente extends React.Component {
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
-                    <label> {this.props.t("app_tercero_modal_actualizar_email")} <span className="text-danger">*</span>{" "}  </label>
+                    <label> {this.t("app_tercero_modal_actualizar_email")} <span className="text-danger">*</span>{" "}  </label>
                     <input
                       type="text"
                       name={"tercero_email"}
@@ -523,7 +499,7 @@ class ModalUpdateRemitente extends React.Component {
                       this.toggleTab("1");
                     }}
                   >
-                    {this.props.t("app_tercero_modal_actualizar_collapse")}
+                    {this.t("app_tercero_modal_actualizar_collapse")}
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -532,7 +508,7 @@ class ModalUpdateRemitente extends React.Component {
                   <Row>
                   <Col sm="6">
                   <div className="form-group">
-                    <label> {this.props.t("app_tercero_modal_actualizar_telFijo")} </label>
+                    <label> {this.t("app_tercero_modal_actualizar_telFijo")} </label>
                     <input
                       type="text"
                       name={"tercero_telFijo"}
@@ -555,7 +531,7 @@ class ModalUpdateRemitente extends React.Component {
                 </Col>
                 <Col sm="6">
                   <div className="form-group">
-                    <label> {this.props.t("app_tercero_modal_actualizar_telCelular")} <span className="text-danger">*</span>{" "} </label>
+                    <label> {this.t("app_tercero_modal_actualizar_telCelular")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
                       name={"tercero_telCel"}
@@ -578,7 +554,7 @@ class ModalUpdateRemitente extends React.Component {
                 </Col>
                 <Col sm="12">
                   <div className="form-group">
-                    <label> {this.props.t("app_tercero_modal_actualizar_direccion")} <span className="text-danger">*</span>{" "} </label>
+                    <label> {this.t("app_tercero_modal_actualizar_direccion")} <span className="text-danger">*</span>{" "} </label>
                     <input
                       type="text"
                       name={"tercero_direccion"}
@@ -601,7 +577,7 @@ class ModalUpdateRemitente extends React.Component {
                 </Col>
                     <Col sm="4">
                       <div className="form-group">
-                        <label> {this.props.t("app_tercero_modal_actualizar_pais")} <span className="text-danger">*</span>{" "} </label>
+                        <label> {this.t("app_tercero_modal_actualizar_pais")} <span className="text-danger">*</span>{" "} </label>
                         <SelectCountry
                         t={this.state.t}
                     name={'tercero_pais'}
@@ -612,21 +588,6 @@ class ModalUpdateRemitente extends React.Component {
                       touched.tercero_pais &&
                       'is-invalid'}`}
                   />
-                        {/* <select
-                          name={"tercero_pais"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.tercero_pais}
-                          className={`form-control form-control-sm ${errors.tercero_pais &&
-                            touched.tercero_pais &&
-                            "is-invalid"}`}
-                        >
-                          <option disabled value={''}>
-                            {' '}
-                            -- {this.props.t("app_tercero_modal_actualizar_select_pais")} --
-                          </option>
-                          {mapOptionsCountries}
-                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.tercero_pais && touched.tercero_pais ?
@@ -639,7 +600,7 @@ class ModalUpdateRemitente extends React.Component {
                     </Col>
                     <Col sm="4">
                       <div className="form-group">
-                        <label> {this.props.t("app_tercero_modal_actualizar_departamento")} <span className="text-danger">*</span>{" "} </label>
+                        <label> {this.t("app_tercero_modal_actualizar_departamento")} <span className="text-danger">*</span>{" "} </label>
                         <SelectDepartment
                         t={this.state.t}
                     tercero_pais={props.values.tercero_pais}
@@ -653,23 +614,6 @@ class ModalUpdateRemitente extends React.Component {
                       touched.tercero_departamento &&
                       'is-invalid'}`}
                   />
-                        {/* <select
-                           name={"tercero_departamento"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.tercero_departamento}
-                          className={`form-control form-control-sm ${errors.tercero_departamento &&
-                            touched.tercero_departamento &&
-                            "is-invalid"}`}
-                        >
-                          {" "}
-                          <option disabled value={''}>
-                            {' '}
-                            -- {this.props.t("app_tercero_modal_actualizar_select_departamento")} --
-                          </option>
-                          {mapOptionsDepartments}
-                          {" "}
-                        </select> */}
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.tercero_departamento && touched.tercero_departamento ?
@@ -682,7 +626,7 @@ class ModalUpdateRemitente extends React.Component {
                     </Col>
                     <Col sm="4">
                     <div className="form-group">
-                      <label> {this.props.t("app_tercero_modal_actualizar_ciudad")} <span className="text-danger">*</span>{" "} </label>
+                      <label> {this.t("app_tercero_modal_actualizar_ciudad")} <span className="text-danger">*</span>{" "} </label>
                       <SelectCity
                       t={this.state.t}
                           tercero_departamento={props.values.tercero_departamento}
@@ -696,22 +640,6 @@ class ModalUpdateRemitente extends React.Component {
                             touched.tercero_ciudad &&
                             'is-invalid'}`}
                         />
-                      {/* <select
-                      name={"tercero_ciudad"}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.tercero_ciudad}
-                      className={`form-control form-control-sm ${errors.tercero_ciudad &&
-                        touched.tercero_ciudad &&
-                        "is-invalid"}`}
-                        >
-                          <option disabled value={''}>
-                            {' '}
-                            -- {this.props.t("app_tercero_modal_actualizar_select_ciudad")} --
-                          </option>
-                          
-                        {mapOptionsCities}
-                      </select> */}
                       <div style={{ color: '#D54B4B' }}>
                         {
                           errors.tercero_ciudad && touched.tercero_ciudad ?
@@ -724,7 +652,7 @@ class ModalUpdateRemitente extends React.Component {
                   </Col>
                     <Col sm="6">
                       <div className="form-group">
-                        <label> {this.props.t("app_tercero_modal_actualizar_referencia")} </label>
+                        <label> {this.t("app_tercero_modal_actualizar_referencia")} </label>
                         <textarea
                           type="text"
                           name={"tercero_referencia"}
@@ -747,7 +675,7 @@ class ModalUpdateRemitente extends React.Component {
                     </Col>
                     <Col sm="6">
                       <div className="form-group">
-                        <label> {this.props.t("app_tercero_modal_actualizar_observacion")} </label>
+                        <label> {this.t("app_tercero_modal_actualizar_observacion")} </label>
                         <textarea
                           type="text"
                           name={"tercero_observacion"}
@@ -772,7 +700,7 @@ class ModalUpdateRemitente extends React.Component {
                       <div className="form-group">
                         <label>
                           {" "}
-                          {this.props.t("app_tercero_modal_actualizar_estado")} <span className="text-danger">*</span>{" "}
+                          {this.t("app_tercero_modal_actualizar_estado")} <span className="text-danger">*</span>{" "}
                         </label>
                         <div className="text-justify">
                         <Field
@@ -782,7 +710,7 @@ class ModalUpdateRemitente extends React.Component {
                             <CustomInput
                             type="checkbox"
                             id="CheckboxEditTerceros"
-                            label={this.props.t("app_tercero_modal_actualizar_estado_descripcion")}
+                            label={this.t("app_tercero_modal_actualizar_estado_descripcion")}
                             {...field}
                               checked={field.value}
                               className={
@@ -812,7 +740,7 @@ class ModalUpdateRemitente extends React.Component {
           }}
           className="btn btn-outline-success btn-sm">
             {" "}
-            <i className="fa fa-pencil" /> {this.props.t("app_tercero_modal_actualizar_boton_actualizar")}{" "}
+            <i className="fa fa-pencil" /> {this.t("app_tercero_modal_actualizar_boton_actualizar")}{" "}
           </button>
           <Button
             className="btn btn-secodary btn-sm"
@@ -821,7 +749,7 @@ class ModalUpdateRemitente extends React.Component {
             }}
           >
             {" "}
-            <i className="fa fa-times" /> {this.props.t("app_tercero_modal_actualizar_boton_cerrar")}{" "}
+            <i className="fa fa-times" /> {this.t("app_tercero_modal_actualizar_boton_cerrar")}{" "}
           </Button>
         </ModalFooter>
         </Fragment>
@@ -842,199 +770,3 @@ ModalUpdateRemitente.propTypes = {
 
 export default ModalUpdateRemitente;
 
-//--------------------//
-class SelectCountry extends React.Component {
-  state = {
-    dataCountry: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCountry: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('tercero_pais', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('tercero_pais', true);
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          value={this.props.value}
-          className={this.props.className}
-          onBlur={this.props.onBlur}
-        >
-          <option value={""}>-- {this.props.t("app_tercero_modal_actualizar_select_pais")} --</option>
-          {this.state.dataCountry.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectDepartment extends React.Component {
-  state = {
-    dataDepartment: [],
-    id: this.props.tercero_pais,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.tercero_pais !== state.id) {
-      return {
-        id: props.tercero_pais
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.tercero_pais !== prevProps.tercero_pais) {
-      this.getDataDepartment();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDepartment();
-  }
-
-  getDataDepartment = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataDepartment: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={""}>-- {this.props.t("app_tercero_modal_actualizar_select_departamento")} --</option>
-          {this.state.dataDepartment.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectCity extends React.Component {
-  state = {
-    dataCity: [],
-    id: this.props.tercero_departamento,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.tercero_departamento !== state.id) {
-      return {
-        id: props.tercero_departamento
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.tercero_departamento !== prevProps.tercero_departamento) {
-      this.getDataCitys();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataCitys();
-  }
-
-  getDataCitys = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/city/department/${this.props.tercero_departamento}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCity: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}        >
-          <option value={""}>-- {this.props.t("app_tercero_modal_actualizar_select_ciudad")} --</option>
-          {this.state.dataCity.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}

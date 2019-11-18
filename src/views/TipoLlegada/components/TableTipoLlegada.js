@@ -88,20 +88,15 @@ class TableTipoLlegada extends Component {
   }
 
   estadoTipoLlegada = (cell, row) => {
+    const { t } = this.props;
     let status;
     if (row.status === 1) {
       status = (
-        <b className="text-success">
-          {' '}
-          {this.props.t('app_tablas_estado_activo')}{' '}
-        </b>
+        <b className="text-success"> {t('app_tablas_estado_activo')} </b>
       );
     } else if (row.status === 0) {
       status = (
-        <b className="text-danger">
-          {' '}
-          {this.props.t('app_tablas_estado_inactivo')}{' '}
-        </b>
+        <b className="text-danger"> {t('app_tablas_estado_inactivo')} </b>
       );
     }
     return status;
@@ -128,6 +123,7 @@ class TableTipoLlegada extends Component {
   }
 
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
@@ -135,7 +131,7 @@ class TableTipoLlegada extends Component {
         onClick={() => this.openModalExport()}
       >
         <i className="fa fa-download" />{' '}
-        {this.props.t('app_tipoLlegada_administrar_table_button_exportar')}
+        {t('app_tipoLlegada_administrar_table_button_exportar')}
       </button>
     );
   };

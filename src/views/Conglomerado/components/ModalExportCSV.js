@@ -126,10 +126,6 @@ class ModalExportCSV extends Component {
               <i className="fa fa-download" />{' '}
               {t('app_conglomerado_modal_export_boton')}
             </CSVLink>
-            {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
-              {" "}
-              <i className="fa fa-download" /> Exportar CSV{" "}
-            </CSVDownload> */}
           </ModalFooter>
         </Modal>
       </Fragment>
@@ -138,6 +134,7 @@ class ModalExportCSV extends Component {
 }
 
 ModalExportCSV.propTypes = {
+  modalexport: PropTypes.bool.isRequired,
   t: PropTypes.any
 };
 

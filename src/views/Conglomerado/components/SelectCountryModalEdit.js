@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 class SelectCountry extends React.Component {
   state = {
     dataCountry: [],
@@ -59,4 +61,8 @@ class SelectCountry extends React.Component {
     );
   }
 }
+
+SelectCountry.propTypes = {
+  t: PropTypes.any
+};
 export default SelectCountry;

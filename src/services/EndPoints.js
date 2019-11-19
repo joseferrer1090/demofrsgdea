@@ -106,7 +106,7 @@ export const CHARGE =
 
 /* GET */
 export const CHARGES_STATUS =
-  'http://192.168.10.180:7000/api/sgdea/charge/active';
+  'http:///192.168.20.187:7000/api/sgdea/charge/active';
 
 /* GET */
 export const CHARGE_EXPORT =
@@ -349,7 +349,7 @@ export const CONTRY =
 
 /* GET */
 export const CONTRIES_STATUS =
-  'http://192.168.10.180:7000/api/sgdea/country/active';
+  'http://192.168.20.187:7000/api/sgdea/country/active';
 
 /* GET */
 export const COUNTRIES_EXPORT =

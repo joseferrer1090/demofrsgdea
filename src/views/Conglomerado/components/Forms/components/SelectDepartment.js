@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 class SelectDepartment extends React.Component {
   state = {
     dataDepartment: [],
@@ -23,7 +25,6 @@ class SelectDepartment extends React.Component {
 
   componentDidMount() {
     this.getDataDepartment();
-    console.log(this.state.countryId);
   }
 
   getDataDepartment = () => {
@@ -71,5 +72,9 @@ class SelectDepartment extends React.Component {
     );
   }
 }
+
+SelectDepartment.propTypes = {
+  t: PropTypes.any
+};
 
 export default SelectDepartment;

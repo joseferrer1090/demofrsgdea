@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class SelectDepartment extends React.Component {
   state = {
@@ -39,7 +40,6 @@ class SelectDepartment extends React.Component {
     )
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataDepartment: data
         });
@@ -73,4 +73,13 @@ class SelectDepartment extends React.Component {
   }
 }
 
+SelectDepartment.propTypes = {
+  id: PropTypes.string.isRequired,
+  t: PropTypes.any
+};
+
 export default SelectDepartment;
+
+/*
+No quieres respuesta no? 
+*/

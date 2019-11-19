@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 class SelectCity extends React.Component {
   state = {
     dataCity: [],
@@ -71,5 +73,8 @@ class SelectCity extends React.Component {
     );
   }
 }
+SelectCity.propTypes = {
+  t: PropTypes.any
+};
 
 export default SelectCity;

@@ -28,14 +28,12 @@ const ConglomeradorForm = props => {
     values,
     touched,
     errors,
-    dirty,
     isSubmitting,
     handleChange,
     setFieldValue,
     setFieldTouched,
     handleBlur,
     handleSubmit,
-    handleReset,
     t
   } = props;
 
@@ -66,14 +64,6 @@ const ConglomeradorForm = props => {
       .catch(Error => console.log(' ', Error));
   };
 
-  const mapOptionsCountries = optionsCountries.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
   const getDataDepartments = data => {
     fetch(DEPARTMENTS_STATUS, {
       method: 'GET',
@@ -89,14 +79,6 @@ const ConglomeradorForm = props => {
       .catch(Error => console.log(' ', Error));
   };
 
-  const mapOptionsDepartments = optionsDepartment.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
   const getDataCitys = data => {
     fetch(CITIES_STATUS, {
       method: 'GET',
@@ -111,14 +93,6 @@ const ConglomeradorForm = props => {
       })
       .catch(Error => console.log(' ', Error));
   };
-
-  const mapOptionsCitys = optionsCitys.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   const getDataCharges = data => {
     fetch(CHARGES_STATUS, {

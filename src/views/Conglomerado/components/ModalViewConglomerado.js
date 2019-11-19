@@ -55,7 +55,6 @@ class ModalViewConglomerado extends Component {
     )
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataConglomerado: data,
           dataPais: data.city.department.country,
@@ -75,7 +74,6 @@ class ModalViewConglomerado extends Component {
   FechaModificacionConglomerado(data) {
     let updatedAt;
     updatedAt = new Date(data);
-    // moment.locale(es);
     return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
   }
 
@@ -297,6 +295,7 @@ class ModalViewConglomerado extends Component {
 
 ModalViewConglomerado.propTypes = {
   modalviewstate: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
   t: PropTypes.any
 };
 

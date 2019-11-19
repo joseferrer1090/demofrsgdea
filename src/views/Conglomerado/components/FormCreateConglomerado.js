@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ConglomeradoForm from './Forms/ConglomeradoForm';
 
 const dataConglomerado = {
@@ -24,6 +25,10 @@ const FormCreateConglomerado = props => {
       </div>
     </div>
   );
+};
+
+FormCreateConglomerado.propTypes = {
+  conglomerado: PropTypes.object.isRequired
 };
 
 export default FormCreateConglomerado;

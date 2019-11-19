@@ -223,6 +223,7 @@ class ModalDeleteConglomerado extends React.Component {
 
 ModalDeleteConglomerado.propTypes = {
   modaldeletestate: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
   t: PropTypes.any
 };
 

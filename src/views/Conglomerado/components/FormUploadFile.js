@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { Row, Col, CustomInput } from 'reactstrap';
@@ -26,7 +27,6 @@ class FormUploadFile extends React.Component {
   };
 
   render() {
-    console.log(this.state.file);
     const { t } = this.props;
     return (
       <Fragment>
@@ -292,4 +292,7 @@ class FormUploadFile extends React.Component {
   }
 }
 
+FormUploadFile.propTypes = {
+  t: PropTypes.any
+};
 export default withTranslation('translations')(FormUploadFile);

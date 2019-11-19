@@ -54,10 +54,12 @@ class FormImportTipoTramite extends React.Component {
               <div className="list-group">
                 <a className="list-group-item list-group-item-action flex-column align-items-start">
                   <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{t('app_ciudad_import_step_1')}</h5>
+                    <h5 className="mb-1">
+                      {t('app_tipoTramite_import_step_1')}
+                    </h5>
                   </div>
                   <p className="mb-1" style={{ textAlign: 'justify' }}>
-                    {t('app_ciudad_import_step_1_descripcion')}
+                    {t('app_tipoTramite_import_step_1_descripcion')}
                     <br />
                     <a href={fileTypeProcedure} download="typeprocedure.csv">
                       <b>
@@ -68,18 +70,22 @@ class FormImportTipoTramite extends React.Component {
                 </a>
                 <a className="list-group-item list-group-item-action flex-column align-items-start">
                   <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{t('app_ciudad_import_step_2')}</h5>
+                    <h5 className="mb-1">
+                      {t('app_tipoTramite_import_step_2')}
+                    </h5>
                   </div>
                   <p className="mb-1" style={{ textAlign: 'justify' }}>
-                    {t('app_ciudad_import_step_2_descripcion')}
+                    {t('app_tipoTramite_import_step_2_descripcion')}
                   </p>
                 </a>
                 <a className="list-group-item list-group-item-action flex-column align-items-start">
                   <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{t('app_ciudad_import_step_3')}</h5>
+                    <h5 className="mb-1">
+                      {t('app_tipoTramite_import_step_3')}
+                    </h5>
                   </div>
                   <p className="mb-1" style={{ textAlign: 'justify' }}>
-                    {t('app_ciudad_import_step_3_descripcion')}
+                    {t('app_tipoTramite_import_step_3_descripcion')}
                   </p>
                 </a>
               </div>
@@ -87,16 +93,20 @@ class FormImportTipoTramite extends React.Component {
               <div className="list-group">
                 <a className="list-group-item list-group-item-action flex-column align-items-start">
                   <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{t('app_ciudad_import_step_1')}</h5>
+                    <h5 className="mb-1">
+                      {t('app_tipoTramite_import_step_1')}
+                    </h5>
                   </div>
                   <p className="mb-1" style={{ textAlign: 'justify' }}>
-                    {t('app_ciudad_import_step_1_descripcion')}
+                    {t('app_tipoTramite_import_step_1_descripcion')}
                     <br />
                     <a
                       href={fileTypeProcedureUsers}
                       download="typeprocedure_users.csv"
                     >
-                      <b>Plantilla de formato de importación</b>
+                      <b>
+                        {t('app_tab_importar_plantilla_formato_importacion')}
+                      </b>
                     </a>
                   </p>
                 </a>
@@ -114,7 +124,7 @@ class FormImportTipoTramite extends React.Component {
                     this.toogleTab('1');
                   }}
                 >
-                  Importar tipo de trámite
+                  {t('app_tipoTramite_import_title_tab_1')}
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -126,7 +136,7 @@ class FormImportTipoTramite extends React.Component {
                     this.toogleTab('2');
                   }}
                 >
-                  Importar usuarios al tipo de trámite
+                  {t('app_tipoTramite_import_title_tab_2')}
                 </NavLink>
               </NavItem>
             </Nav>
@@ -145,7 +155,6 @@ class FormImportTipoTramite extends React.Component {
                     };
                     const formData = new FormData();
                     const file = this.state.file;
-                    const separador = values.separador_csv;
                     formData.append('file', file);
                     formData.append(
                       'separator',
@@ -213,12 +222,9 @@ class FormImportTipoTramite extends React.Component {
                       values,
                       touched,
                       errors,
-                      dirty,
-                      isSubmitting,
                       handleChange,
                       handleBlur,
-                      handleSubmit,
-                      handleReset
+                      handleSubmit
                     } = props;
                     return (
                       <Fragment>
@@ -231,7 +237,7 @@ class FormImportTipoTramite extends React.Component {
                                     <label>
                                       {' '}
                                       {t(
-                                        'app_ciudad_import_form_separador'
+                                        'app_tipoTramite_import_form_separador'
                                       )}{' '}
                                       <span className="text-danger">*</span>
                                     </label>
@@ -260,7 +266,7 @@ class FormImportTipoTramite extends React.Component {
                                 <div className="col-md-6">
                                   <div className="form-group">
                                     <label>
-                                      {t('app_ciudad_import_form_titulos')}
+                                      {t('app_tipoTramite_import_form_titulos')}
                                     </label>
                                     <CustomInput
                                       name={'titulos'}
@@ -270,7 +276,7 @@ class FormImportTipoTramite extends React.Component {
                                       type="checkbox"
                                       id="ExampleInputCheckbox3"
                                       label={t(
-                                        'app_ciudad_import_form_titulos_label'
+                                        'app_tipoTramite_import_form_titulos_label'
                                       )}
                                       className={
                                         errors.titulos &&
@@ -285,7 +291,7 @@ class FormImportTipoTramite extends React.Component {
                                 <div className="col-md-12">
                                   <div className="form-group">
                                     <label>
-                                      {t('app_ciudad_import_form_archivo')}{' '}
+                                      {t('app_tipoTramite_import_form_archivo')}{' '}
                                       <b>CSV</b>{' '}
                                       <span className="text-danger"> * </span>
                                     </label>
@@ -295,7 +301,7 @@ class FormImportTipoTramite extends React.Component {
                                       onBlur={handleBlur}
                                       onChange={e => this.onChange(e)}
                                       label={this.props.t(
-                                        'app_ciudad_import_form_file'
+                                        'app_tipoTramite_import_form_file'
                                       )}
                                       className={`form-control ${errors.archivo &&
                                         touched.archivo &&
@@ -317,7 +323,7 @@ class FormImportTipoTramite extends React.Component {
                                 }}
                               >
                                 <i className="fa fa-save" />{' '}
-                                {t('app_ciudad_import_from_boton')}
+                                {t('app_tipoTramite_import_from_boton')}
                               </button>
                             </div>
                           </div>
@@ -341,7 +347,6 @@ class FormImportTipoTramite extends React.Component {
                     };
                     const formData = new FormData();
                     const file = this.state.file;
-                    const separador = values.separador_csv_users;
                     formData.append('file', file);
                     formData.append(
                       'separator',
@@ -456,7 +461,7 @@ class FormImportTipoTramite extends React.Component {
                                 <div className="col-md-6">
                                   <div className="form-group">
                                     <label>
-                                      {t('app_ciudad_import_form_titulos')}
+                                      {t('app_tipoTramite_import_form_titulos')}
                                     </label>
                                     <CustomInput
                                       name={'titulos_users'}
@@ -466,7 +471,7 @@ class FormImportTipoTramite extends React.Component {
                                       type="checkbox"
                                       id="ExampleInputCheckbox3"
                                       label={t(
-                                        'app_ciudad_import_form_titulos_label'
+                                        'app_tipoTramite_import_form_titulos_label'
                                       )}
                                       className={
                                         errors.titulos_users &&
@@ -481,7 +486,7 @@ class FormImportTipoTramite extends React.Component {
                                 <div className="col-md-12">
                                   <div className="form-group">
                                     <label>
-                                      {t('app_ciudad_import_form_archivo')}{' '}
+                                      {t('app_tipoTramite_import_form_archivo')}{' '}
                                       <b>CSV</b>{' '}
                                       <span className="text-danger"> * </span>
                                     </label>
@@ -491,7 +496,7 @@ class FormImportTipoTramite extends React.Component {
                                       onBlur={handleBlur}
                                       onChange={e => this.onChange(e)}
                                       label={this.props.t(
-                                        'app_ciudad_import_form_file'
+                                        'app_tipoTramite_import_form_file'
                                       )}
                                       className={`form-control ${errors.archivo_users &&
                                         touched.archivo_users &&
@@ -513,7 +518,7 @@ class FormImportTipoTramite extends React.Component {
                                 }}
                               >
                                 <i className="fa fa-save" />{' '}
-                                {t('app_ciudad_import_from_boton')}
+                                {t('app_tipoTramite_import_from_boton')}
                               </button>
                             </div>
                           </div>

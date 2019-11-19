@@ -11,10 +11,10 @@ import {
   TabPane
 } from 'reactstrap';
 import axios from 'axios';
-import { CsvToHtmlTable } from 'react-csv-to-table';
+import PreviewFile from './PreviewFile';
 import { ToastContainer, toast } from 'react-toastify';
 import { css } from 'glamor';
-import { Formik, Field, ErrorMessage, withFormik } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { withTranslation } from 'react-i18next';
 import classnames from 'classnames';
@@ -55,10 +55,12 @@ class FormImportTipoDocumental extends React.Component {
               <div className="list-group">
                 <a className="list-group-item list-group-item-action flex-column align-items-start">
                   <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{t('app_ciudad_import_step_1')}</h5>
+                    <h5 className="mb-1">
+                      {t('app_documentalRadicacion_import_step_1')}
+                    </h5>
                   </div>
                   <p className="mb-1" style={{ textAlign: 'justify' }}>
-                    {t('app_ciudad_import_step_1_descripcion')}
+                    {t('app_documentalRadicacion_import_step_1_descripcion')}
                     <br />
                     <a
                       href={fileTypeDocumentary}
@@ -72,18 +74,22 @@ class FormImportTipoDocumental extends React.Component {
                 </a>
                 <a className="list-group-item list-group-item-action flex-column align-items-start">
                   <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{t('app_ciudad_import_step_2')}</h5>
+                    <h5 className="mb-1">
+                      {t('app_documentalRadicacion_import_step_2')}
+                    </h5>
                   </div>
                   <p className="mb-1" style={{ textAlign: 'justify' }}>
-                    {t('app_ciudad_import_step_2_descripcion')}
+                    {t('app_documentalRadicacion_import_step_2_descripcion')}
                   </p>
                 </a>
                 <a className="list-group-item list-group-item-action flex-column align-items-start">
                   <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{t('app_ciudad_import_step_3')}</h5>
+                    <h5 className="mb-1">
+                      {t('app_documentalRadicacion_import_step_3')}
+                    </h5>
                   </div>
                   <p className="mb-1" style={{ textAlign: 'justify' }}>
-                    {t('app_ciudad_import_step_3_descripcion')}
+                    {t('app_documentalRadicacion_import_step_3_descripcion')}
                   </p>
                 </a>
               </div>
@@ -91,16 +97,20 @@ class FormImportTipoDocumental extends React.Component {
               <div className="list-group">
                 <a className="list-group-item list-group-item-action flex-column align-items-start">
                   <div className="d-flex w-100 justify-content-between">
-                    <h5 className="mb-1">{t('app_ciudad_import_step_1')}</h5>
+                    <h5 className="mb-1">
+                      {t('app_documentalRadicacion_import_step_1')}
+                    </h5>
                   </div>
                   <p className="mb-1" style={{ textAlign: 'justify' }}>
-                    {t('app_ciudad_import_step_1_descripcion')}
+                    {t('app_documentalRadicacion_import_step_1_descripcion')}
                     <br />
                     <a
                       href={fileTypeDocumentaryUsers}
                       download="typedocumentary_users.csv"
                     >
-                      <b>Plantilla de formato de importación</b>
+                      <b>
+                        {t('app_tab_importar_plantilla_formato_importacion')}
+                      </b>
                     </a>
                   </p>
                 </a>
@@ -118,7 +128,7 @@ class FormImportTipoDocumental extends React.Component {
                     this.toogleTab('1');
                   }}
                 >
-                  Importar tipo documental
+                  {t('app_documentalRadicacion_import_title_tab_1')}
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -130,7 +140,7 @@ class FormImportTipoDocumental extends React.Component {
                     this.toogleTab('2');
                   }}
                 >
-                  Importar usuarios al tipo de documental
+                  {t('app_documentalRadicacion_import_title_tab_2')}
                 </NavLink>
               </NavItem>
             </Nav>
@@ -149,7 +159,6 @@ class FormImportTipoDocumental extends React.Component {
                     };
                     const formData = new FormData();
                     const file = this.state.file;
-                    const separador = values.separador_csv;
                     formData.append('file', file);
                     formData.append(
                       'separator',
@@ -217,12 +226,9 @@ class FormImportTipoDocumental extends React.Component {
                       values,
                       touched,
                       errors,
-                      dirty,
-                      isSubmitting,
                       handleChange,
                       handleBlur,
-                      handleSubmit,
-                      handleReset
+                      handleSubmit
                     } = props;
                     return (
                       <Fragment>
@@ -235,7 +241,7 @@ class FormImportTipoDocumental extends React.Component {
                                     <label>
                                       {' '}
                                       {t(
-                                        'app_ciudad_import_form_separador'
+                                        'app_documentalRadicacion_import_form_separador'
                                       )}{' '}
                                       <span className="text-danger">*</span>
                                     </label>
@@ -264,7 +270,9 @@ class FormImportTipoDocumental extends React.Component {
                                 <div className="col-md-6">
                                   <div className="form-group">
                                     <label>
-                                      {t('app_ciudad_import_form_titulos')}
+                                      {t(
+                                        'app_documentalRadicacion_import_form_titulos'
+                                      )}
                                     </label>
                                     <CustomInput
                                       name={'titulos'}
@@ -274,7 +282,7 @@ class FormImportTipoDocumental extends React.Component {
                                       type="checkbox"
                                       id="ExampleInputCheckbox3"
                                       label={t(
-                                        'app_ciudad_import_form_titulos_label'
+                                        'app_documentalRadicacion_import_form_titulos_label'
                                       )}
                                       className={
                                         errors.titulos &&
@@ -289,7 +297,9 @@ class FormImportTipoDocumental extends React.Component {
                                 <div className="col-md-12">
                                   <div className="form-group">
                                     <label>
-                                      {t('app_ciudad_import_form_archivo')}{' '}
+                                      {t(
+                                        'app_documentalRadicacion_import_form_archivo'
+                                      )}{' '}
                                       <b>CSV</b>{' '}
                                       <span className="text-danger"> * </span>
                                     </label>
@@ -299,7 +309,7 @@ class FormImportTipoDocumental extends React.Component {
                                       onBlur={handleBlur}
                                       onChange={e => this.onChange(e)}
                                       label={this.props.t(
-                                        'app_ciudad_import_form_file'
+                                        'app_documentalRadicacion_import_form_file'
                                       )}
                                       className={`form-control ${errors.archivo &&
                                         touched.archivo &&
@@ -321,7 +331,9 @@ class FormImportTipoDocumental extends React.Component {
                                 }}
                               >
                                 <i className="fa fa-save" />{' '}
-                                {t('app_ciudad_import_from_boton')}
+                                {t(
+                                  'app_documentalRadicacion_import_from_boton'
+                                )}
                               </button>
                             </div>
                           </div>
@@ -431,7 +443,7 @@ class FormImportTipoDocumental extends React.Component {
                                     <label>
                                       {' '}
                                       {t(
-                                        'app_ciudad_import_form_separador'
+                                        'app_documentalRadicacion_import_form_separador'
                                       )}{' '}
                                       <span className="text-danger">*</span>
                                     </label>
@@ -460,7 +472,9 @@ class FormImportTipoDocumental extends React.Component {
                                 <div className="col-md-6">
                                   <div className="form-group">
                                     <label>
-                                      {t('app_ciudad_import_form_titulos')}
+                                      {t(
+                                        'app_documentalRadicacion_import_form_titulos'
+                                      )}
                                     </label>
                                     <CustomInput
                                       name={'titulos_users'}
@@ -470,7 +484,7 @@ class FormImportTipoDocumental extends React.Component {
                                       type="checkbox"
                                       id="ExampleInputCheckbox3"
                                       label={t(
-                                        'app_ciudad_import_form_titulos_label'
+                                        'app_documentalRadicacion_import_form_titulos_label'
                                       )}
                                       className={
                                         errors.titulos_users &&
@@ -485,7 +499,9 @@ class FormImportTipoDocumental extends React.Component {
                                 <div className="col-md-12">
                                   <div className="form-group">
                                     <label>
-                                      {t('app_ciudad_import_form_archivo')}{' '}
+                                      {t(
+                                        'app_documentalRadicacion_import_form_archivo'
+                                      )}{' '}
                                       <b>CSV</b>{' '}
                                       <span className="text-danger"> * </span>
                                     </label>
@@ -495,7 +511,7 @@ class FormImportTipoDocumental extends React.Component {
                                       onBlur={handleBlur}
                                       onChange={e => this.onChange(e)}
                                       label={this.props.t(
-                                        'app_ciudad_import_form_file'
+                                        'app_documentalRadicacion_import_form_file'
                                       )}
                                       className={`form-control ${errors.archivo_users &&
                                         touched.archivo_users &&
@@ -545,48 +561,3 @@ class FormImportTipoDocumental extends React.Component {
 }
 
 export default withTranslation('translations')(FormImportTipoDocumental);
-
-class PreviewFile extends React.Component {
-  state = {
-    loading: false,
-    thumb: undefined
-  };
-
-  componentWillReceiveProps(nextProps) {
-    if (!nextProps.file) {
-      return;
-    }
-    this.setState(
-      {
-        loading: true
-      },
-      () => {
-        let reader = new FileReader();
-
-        reader.onloadend = () => {
-          this.setState({ loading: false, thumb: reader.result });
-        };
-
-        reader.readAsBinaryString(nextProps.file);
-      }
-    );
-  }
-  render() {
-    const { file } = this.props;
-    const { loading } = this.state;
-    const thumb = this.state.thumb;
-
-    if (!file) {
-      return null;
-    }
-
-    if (loading) {
-      return <p>loading...</p>;
-    }
-
-    // console.log(thumb.toString());
-    // console.log(file.type);
-
-    return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
-  }
-}

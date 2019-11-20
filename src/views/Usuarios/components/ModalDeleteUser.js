@@ -56,7 +56,6 @@ class ModalDeleteUser extends React.Component {
     const dataInitial = {
       identificacion: ""
     };
-    console.log(this.state.id);
     const { t } = this.props;
     return (
       <Fragment>

@@ -92,7 +92,6 @@ class ModalViewUser extends Component {
   }
 
   render() {
-    console.log(this.state.id);
     const dataRoles = this.state.dataRoles.map((aux, id) => {
       return <div key={id}>{aux.name}</div>;
     });

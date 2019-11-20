@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment } from "react";
 import {
   Modal,
   ModalHeader,
@@ -6,22 +6,22 @@ import {
   ModalBody,
   CustomInput,
   Alert
-} from 'reactstrap';
-import PropTypes from 'prop-types';
-import IMGCONGLOMERADO from './../../../assets/img/puzzle.svg';
-import { Formik, ErrorMessage, Field } from 'formik';
-import * as Yup from 'yup';
+} from "reactstrap";
+import PropTypes from "prop-types";
+import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
+import { Formik, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
 import {
   CONGLOMERATES,
   CONTRIES_STATUS,
   DEPARTMENTS_STATUS,
   CITIES_STATUS,
   CHARGES_STATUS
-} from './../../../services/EndPoints';
-import { Trans } from 'react-i18next';
-import SelectCity from './SelectCityModalEdit';
-import SelectDepartment from './SelectDepartmentModalEdit';
-import SelectCountry from './SelectCountryModalEdit';
+} from "./../../../services/EndPoints";
+import { Trans } from "react-i18next";
+import SelectCity from "./SelectCityModalEdit";
+import SelectDepartment from "./SelectDepartmentModalEdit";
+import SelectCountry from "./SelectCountryModalEdit";
 
 class ModalEditConglomerado extends React.Component {
   state = {
@@ -37,7 +37,7 @@ class ModalEditConglomerado extends React.Component {
     optionsCitys: [0],
     optionsCharges: [0],
     status: 0,
-    username: 'ccuartas'
+    username: "ccuartas"
   };
 
   componentDidMount() {
@@ -64,10 +64,10 @@ class ModalEditConglomerado extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/conglomerate/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -83,7 +83,7 @@ class ModalEditConglomerado extends React.Component {
             code: data.code,
             description: data.description,
             status: data.status,
-            conglomerate_charge: data.charge === null ? ' ' : data.charge.id
+            conglomerate_charge: data.charge === null ? " " : data.charge.id
           }
         });
       })
@@ -104,10 +104,10 @@ class ModalEditConglomerado extends React.Component {
   };
   getDataCountries = data => {
     fetch(CONTRIES_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -116,14 +116,14 @@ class ModalEditConglomerado extends React.Component {
           optionsCountries: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
   getDataDepartments = data => {
     fetch(DEPARTMENTS_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -132,15 +132,15 @@ class ModalEditConglomerado extends React.Component {
           optionsDepartment: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   getDataCitys = data => {
     fetch(CITIES_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -149,14 +149,14 @@ class ModalEditConglomerado extends React.Component {
           optionsCitys: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
   getDataCharges = data => {
     fetch(CHARGES_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -165,11 +165,10 @@ class ModalEditConglomerado extends React.Component {
           optionsCharges: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   render() {
-    console.log(this.state.dataResult);
     const mapOptionsCharges = this.state.optionsCharges.map((aux, idx) => {
       return (
         <option key={aux.id} value={aux.id}>
@@ -183,7 +182,7 @@ class ModalEditConglomerado extends React.Component {
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            <Trans>{t('app_conglomerado_modal_actualizar_titulo')}</Trans>
+            <Trans>{t("app_conglomerado_modal_actualizar_titulo")}</Trans>
             &nbsp;{this.state.dataResult.conglomerate_name}
           </ModalHeader>
           <Formik
@@ -201,10 +200,10 @@ class ModalEditConglomerado extends React.Component {
               };
               setTimeout(() => {
                 fetch(CONGLOMERATES, {
-                  method: 'PUT',
+                  method: "PUT",
                   headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
                   },
                   body: JSON.stringify({
                     id: this.state.idConglomerado,
@@ -214,7 +213,7 @@ class ModalEditConglomerado extends React.Component {
                     status: tipoEstado(values.status),
                     cityId: values.conglomerate_city,
                     chargeId: values.conglomerate_charge,
-                    userName: 'jferrer'
+                    userName: "jferrer"
                   })
                 })
                   .then(response => {
@@ -253,33 +252,33 @@ class ModalEditConglomerado extends React.Component {
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log('', error));
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string()
-                .required(' Por favor introduzca un código alfanumérico.')
-                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
-                .min(2, ' Mínimo 2 caracteres.')
-                .max(15, ' Máximo 15 caracteres.'),
+                .required(" Por favor introduzca un código alfanumérico.")
+                .matches(/^[0-9a-zA-Z]+$/, " No es un código alfanumérico.")
+                .min(2, " Mínimo 2 caracteres.")
+                .max(15, " Máximo 15 caracteres."),
               conglomerate_name: Yup.string().required(
-                ' Por favor introduzca un nombre.'
+                " Por favor introduzca un nombre."
               ),
               conglomerate_country: Yup.string()
-                .required(' Por favor seleccione un país.')
+                .required(" Por favor seleccione un país.")
                 .ensure(),
               conglomerate_department: Yup.string()
-                .required(' Por favor seleccione un departamento.')
+                .required(" Por favor seleccione un departamento.")
                 .ensure(),
               conglomerate_city: Yup.string()
-                .required(' Por favor seleccione una ciudad.')
+                .required(" Por favor seleccione una ciudad.")
                 .ensure(),
               conglomerate_charge: Yup.string().ensure(),
               description: Yup.string()
                 .nullable()
-                .max(250, ' Máximo 250 caracteres.'),
-              status: Yup.bool().test('Activo', '', value => value === true)
+                .max(250, " Máximo 250 caracteres."),
+              status: Yup.bool().test("Activo", "", value => value === true)
             })}
           >
             {props => {
@@ -304,13 +303,13 @@ class ModalEditConglomerado extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {t('app_conglomerado_modal_actualizar_alert_error')}
+                      {t("app_conglomerado_modal_actualizar_alert_error")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t('app_conglomerado_modal_Actualizar_alert_error400')}
+                      {t("app_conglomerado_modal_Actualizar_alert_error400")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {t('app_conglomerado_modal_actualizar_alert_success')}
+                      {t("app_conglomerado_modal_actualizar_alert_success")}
                     </Alert>
                     <form className="form">
                       <div className="row">
@@ -322,59 +321,59 @@ class ModalEditConglomerado extends React.Component {
                         </div>
                         <div className="col-md-9">
                           <div className="">
-                            {' '}
+                            {" "}
                             <h5
                               className=""
-                              style={{ borderBottom: '1px solid black' }}
+                              style={{ borderBottom: "1px solid black" }}
                             >
-                              {' '}
+                              {" "}
                               <Trans>
                                 {t(
-                                  'app_conglomerado_modal_actualizar_titulo_2'
+                                  "app_conglomerado_modal_actualizar_titulo_2"
                                 )}
-                              </Trans>{' '}
-                            </h5>{' '}
+                              </Trans>{" "}
+                            </h5>{" "}
                           </div>
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   <Trans>
                                     {t(
-                                      'app_conglomerado_modal_actualizar_codigo'
+                                      "app_conglomerado_modal_actualizar_codigo"
                                     )}
-                                  </Trans>{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                  </Trans>{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <input
                                   type="text"
-                                  name={'code'}
+                                  name={"code"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.code}
                                   className={`form-control form-control-sm ${errors.code &&
                                     touched.code &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.code && touched.code ? (
                                     <i className="fa fa-exclamation-triangle" />
                                   ) : null}
-                                  <ErrorMessage name={'code'} />
+                                  <ErrorMessage name={"code"} />
                                 </div>
                               </div>
                             </div>
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   <Trans>
                                     {t(
-                                      'app_conglomerado_modal_actualizar_nombre'
+                                      "app_conglomerado_modal_actualizar_nombre"
                                     )}
-                                  </Trans>{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                  </Trans>{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <input
                                   type="text"
@@ -384,44 +383,44 @@ class ModalEditConglomerado extends React.Component {
                                   value={values.conglomerate_name}
                                   className={`form-control form-control-sm ${errors.conglomerate_name &&
                                     touched.conglomerate_name &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.conglomerate_name &&
                                   touched.conglomerate_name ? (
                                     <i className="fa fa-exclamation-triangle" />
                                   ) : null}
-                                  <ErrorMessage name={'conglomerate_name'} />
+                                  <ErrorMessage name={"conglomerate_name"} />
                                 </div>
                               </div>
                             </div>
                             <div className="col-md-4">
                               <div className="form-group">
                                 <label>
-                                  {t('app_conglomerado_modal_actualizar_pais')}
+                                  {t("app_conglomerado_modal_actualizar_pais")}
                                 </label>
-                                <span className="text-danger">*</span>{' '}
+                                <span className="text-danger">*</span>{" "}
                                 <SelectCountry
                                   t={this.state.t}
-                                  name={'conglomerate_country'}
+                                  name={"conglomerate_country"}
                                   onChange={e =>
                                     setFieldValue(
-                                      'conglomerate_country',
+                                      "conglomerate_country",
                                       e.target.value
                                     )
                                   }
                                   onBlur={() => {
                                     setFieldTouched(
-                                      'conglomerate_country',
+                                      "conglomerate_country",
                                       true
                                     );
                                   }}
                                   value={values.conglomerate_country}
                                   className={`form-control form-control-sm ${errors.conglomerate_country &&
                                     touched.conglomerate_country &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.conglomerate_country &&
                                   touched.conglomerate_country ? (
                                     <i className="fa fa-exclamation-triangle" />
@@ -433,12 +432,12 @@ class ModalEditConglomerado extends React.Component {
                             <div className="col-md-4">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_conglomerado_modal_actualizar_departamento'
-                                  )}{' '}
+                                    "app_conglomerado_modal_actualizar_departamento"
+                                  )}{" "}
                                 </label>
-                                <span className="text-danger">*</span>{' '}
+                                <span className="text-danger">*</span>{" "}
                                 <SelectDepartment
                                   t={this.state.t}
                                   conglomerate_country={
@@ -448,21 +447,21 @@ class ModalEditConglomerado extends React.Component {
                                   value={values.conglomerate_department}
                                   onChange={e =>
                                     setFieldValue(
-                                      'conglomerate_department',
+                                      "conglomerate_department",
                                       e.target.value
                                     )
                                   }
                                   onBlur={() => {
                                     setFieldTouched(
-                                      'conglomerate_department',
+                                      "conglomerate_department",
                                       false
                                     );
                                   }}
                                   className={`form-control form-control-sm ${errors.conglomerate_department &&
                                     touched.conglomerate_department &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.conglomerate_department &&
                                   touched.conglomerate_department ? (
                                     <i class="fa fa-exclamation-triangle" />
@@ -474,34 +473,34 @@ class ModalEditConglomerado extends React.Component {
                             <div className="col-md-4">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_conglomerado_modal_actualizar_ciudad'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                    "app_conglomerado_modal_actualizar_ciudad"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectCity
                                   t={this.state.t}
                                   conglomerate_department={
                                     props.values.conglomerate_department
                                   }
-                                  name={'conglomerate_city'}
+                                  name={"conglomerate_city"}
                                   value={values.conglomerate_city}
                                   onChange={e =>
                                     setFieldValue(
-                                      'conglomerate_city',
+                                      "conglomerate_city",
                                       e.target.value
                                     )
                                   }
                                   onBlur={() =>
-                                    setFieldTouched('conglomerate_city')
+                                    setFieldTouched("conglomerate_city")
                                   }
                                   className={`form-control form-control-sm ${errors.conglomerate_city &&
                                     touched.conglomerate_city &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
 
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.conglomerate_city &&
                                   touched.conglomerate_city ? (
                                     <i class="fa fa-exclamation-triangle" />
@@ -513,10 +512,10 @@ class ModalEditConglomerado extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_conglomerado_modal_actualizar_cargo_responsable'
-                                  )}{' '}
+                                    "app_conglomerado_modal_actualizar_cargo_responsable"
+                                  )}{" "}
                                 </label>
                                 <select
                                   name="conglomerate_charge"
@@ -525,14 +524,14 @@ class ModalEditConglomerado extends React.Component {
                                   value={values.conglomerate_charge}
                                   className="form-control form-control-sm"
                                 >
-                                  {' '}
-                                  <option value={' '}>
-                                    {' '}
+                                  {" "}
+                                  <option value={" "}>
+                                    {" "}
                                     --
                                     {t(
-                                      'app_conglomerado_form_select_cargo_responsable'
-                                    )}{' '}
-                                    --{' '}
+                                      "app_conglomerado_form_select_cargo_responsable"
+                                    )}{" "}
+                                    --{" "}
                                   </option>
                                   {mapOptionsCharges}
                                 </select>
@@ -543,7 +542,7 @@ class ModalEditConglomerado extends React.Component {
                                 <label>
                                   <Trans>
                                     {t(
-                                      'app_conglomerado_modal_actualizar_descripcion'
+                                      "app_conglomerado_modal_actualizar_descripcion"
                                     )}
                                   </Trans>
                                 </label>
@@ -561,13 +560,13 @@ class ModalEditConglomerado extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   <Trans>
                                     {t(
-                                      'app_conglomerado_modal_actualizar_estado'
+                                      "app_conglomerado_modal_actualizar_estado"
                                     )}
-                                  </Trans>{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                  </Trans>{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <div className="text-justify ">
                                   <Field
@@ -579,14 +578,14 @@ class ModalEditConglomerado extends React.Component {
                                           type="checkbox"
                                           id="conglomeradoModalEdit"
                                           label={t(
-                                            'app_conglomerado_modal_actualizar_estado_descripcion'
+                                            "app_conglomerado_modal_actualizar_estado_descripcion"
                                           )}
                                           {...field}
                                           checked={field.value}
                                           className={
                                             errors.status &&
                                             touched.status &&
-                                            'invalid-feedback'
+                                            "invalid-feedback"
                                           }
                                         />
                                       );
@@ -605,24 +604,24 @@ class ModalEditConglomerado extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={'btn btn-outline-success btn-sm'}
+                      className={"btn btn-outline-success btn-sm"}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" />{' '}
-                      {t('app_conglomerado_modal_actualizar_botom_actualizar')}
+                      <i className="fa fa-pencil" />{" "}
+                      {t("app_conglomerado_modal_actualizar_botom_actualizar")}
                     </button>
                     <button
-                      className={'btn btn-outline-secondary btn-sm'}
+                      className={"btn btn-outline-secondary btn-sm"}
                       type="button"
                       onClick={() => {
                         this.setState({ modal: false });
                       }}
                     >
-                      <i className="fa fa-times" />{' '}
-                      {t('app_conglomerado_modal_actualizar_botom_cerrar')}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_conglomerado_modal_actualizar_botom_cerrar")}
                     </button>
                   </ModalFooter>
                 </Fragment>

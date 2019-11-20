@@ -57,7 +57,6 @@ class ModalChangePasswordUser extends React.Component {
   };
 
   render() {
-    console.log(this.state.id);
     const { t } = this.props;
     return (
       <Fragment>

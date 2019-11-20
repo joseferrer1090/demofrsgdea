@@ -174,8 +174,6 @@ class TableContentUser extends Component {
     const chargeFormatter = data => {
       return !data ? null : `<div>${data.name}</div>`;
     };
-
-    console.log(this.state.dataUsers);
     const t = this.props.t;
     return (
       <div className="animated fadeIn">

@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Col } from 'reactstrap';
-import ModalView from './ModalViewDependencia';
-import ModalEdit from './ModalEditDependencia';
-import ModalDelete from './ModalDeleteDependencia';
-import ModalExport from './ModalExportCSV';
-import './../../../css/styleTableDependencia.css';
-import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import moment from 'moment';
-import { withTranslation } from 'react-i18next';
+import React, { Component } from "react";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import { Col } from "reactstrap";
+import ModalView from "./ModalViewDependencia";
+import ModalEdit from "./ModalEditDependencia";
+import ModalDelete from "./ModalDeleteDependencia";
+import ModalExport from "./ModalExportCSV";
+import "./../../../css/styleTableDependencia.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import moment from "moment";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class TableContentDependencia extends Component {
   constructor(props) {
@@ -29,10 +30,10 @@ class TableContentDependencia extends Component {
 
   getDataDependence = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/dependence`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
       }
     })
       .then(response => response.json())
@@ -41,16 +42,16 @@ class TableContentDependencia extends Component {
           dataDependence: data
         });
       })
-      .catch(Error => console.log('', Error));
+      .catch(Error => console.log("", Error));
   };
   FechaCreacionDependencia(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format('YYYY-MM-DD');
+    return moment(createdAt).format("YYYY-MM-DD");
   }
   accionesDependencias(cell, row) {
     return (
-      <div className="table-actionMenuDep" style={{ marginRight: '49px' }}>
+      <div className="table-actionMenuDep" style={{ marginRight: "49px" }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -58,8 +59,8 @@ class TableContentDependencia extends Component {
             this.openModalView(row.id);
           }}
         >
-          {' '}
-          <i className="fa fa-eye" />{' '}
+          {" "}
+          <i className="fa fa-eye" />{" "}
         </button>
         &nbsp;
         <button
@@ -79,8 +80,8 @@ class TableContentDependencia extends Component {
             this.openModalDelete(row.id);
           }}
         >
-          {' '}
-          <i className="fa fa-trash" />{' '}
+          {" "}
+          <i className="fa fa-trash" />{" "}
         </button>
       </div>
     );
@@ -90,9 +91,9 @@ class TableContentDependencia extends Component {
     const { t } = this.props;
     let status;
     if (row.status === 1) {
-      status = <b className="text-success">{t('app_tablas_estado_activo')}</b>;
+      status = <b className="text-success">{t("app_tablas_estado_activo")}</b>;
     } else if (row.status === 0) {
-      status = <b className="text-danger">{t('app_tablas_estado_inactivo')}</b>;
+      status = <b className="text-danger">{t("app_tablas_estado_inactivo")}</b>;
     }
     return status;
   }
@@ -133,8 +134,8 @@ class TableContentDependencia extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" />{' '}
-        {t('app_dependencia_administrar_table_button_exportar')}
+        <i className="fa fa-download" />{" "}
+        {t("app_dependencia_administrar_table_button_exportar")}
       </button>
     );
   };
@@ -154,7 +155,7 @@ class TableContentDependencia extends Component {
             pagination
             search
             searchPlaceholder={t(
-              'app_dependencia_administrar_table_placeholder'
+              "app_dependencia_administrar_table_placeholder"
             )}
             exportCSV
             bordered={false}
@@ -165,80 +166,80 @@ class TableContentDependencia extends Component {
             <TableHeaderColumn
               export={false}
               isKey
-              dataField={'id'}
+              dataField={"id"}
               hidden={this.state.hiddenColumnID}
             />
             <TableHeaderColumn
               dataSort={true}
-              dataField={'id'}
-              width={'30'}
+              dataField={"id"}
+              width={"30"}
               dataFormat={this.indexN}
               dataAlign="center"
             >
               #
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'120'}
+              width={"120"}
               dataField="headquarter"
               dataFormat={this.headquarter}
               dataAlign="center"
               dataSort={true}
             >
-              {t('app_dependencia_administrar_table_sede')}
+              {t("app_dependencia_administrar_table_sede")}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'100'}
+              width={"100"}
               dataField="code"
               dataAlign="center"
               dataSort={true}
             >
-              {t('app_dependencia_administrar_table_codigo')}
+              {t("app_dependencia_administrar_table_codigo")}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'170'}
+              width={"170"}
               dataField="name"
               dataSort={true}
               dataAlign="center"
             >
-              {t('app_dependencia_administrar_table_nombre')}
+              {t("app_dependencia_administrar_table_nombre")}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'120'}
+              width={"120"}
               dataField="charge"
               dataFormat={this.charge}
               dataAlign="center"
               dataSort={true}
             >
-              {t('app_dependencia_administrar_table_cargo_responsable')}
+              {t("app_dependencia_administrar_table_cargo_responsable")}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
-              dataField={'createdAt'}
+              dataField={"createdAt"}
               dataFormat={(cell, row) =>
                 this.FechaCreacionDependencia(cell, row)
               }
               dataAlign="center"
-              width={'140'}
+              width={"140"}
             >
-              {t('app_dependencia_administrar_table_fecha_creacion')}
+              {t("app_dependencia_administrar_table_fecha_creacion")}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'70'}
+              width={"70"}
               dataField="Estado"
               dataAlign="center"
               dataSort={true}
               dataFormat={(cell, row) => this.StatusDependencia(cell, row)}
             >
-              {' '}
-              {t('app_dependencia_administrar_table_estado')}{' '}
+              {" "}
+              {t("app_dependencia_administrar_table_estado")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'120'}
+              width={"120"}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesDependencias(cell, row)}
             >
-              {t('app_dependencia_administrar_table_acciones')}
+              {t("app_dependencia_administrar_table_acciones")}
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
@@ -262,13 +263,15 @@ class TableContentDependencia extends Component {
         <ModalExport
           t={this.props.t}
           modalExport={this.state.modalexport}
-          ref={'child4'}
+          ref={"child4"}
         />
       </div>
     );
   }
 }
 
-TableContentDependencia.propTypes = {};
+TableContentDependencia.propTypes = {
+  t: PropTypes.any
+};
 
-export default withTranslation('translations')(TableContentDependencia);
+export default withTranslation("translations")(TableContentDependencia);

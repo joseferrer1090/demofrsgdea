@@ -1,4 +1,7 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
+import { privateName } from "@babel/types";
+
 class SelectConglomerado extends React.Component {
   state = {
     dataConglomerado: [],
@@ -11,10 +14,10 @@ class SelectConglomerado extends React.Component {
 
   getDataConglomerado = () => {
     fetch(`http://192.168.20.187:7000/api/sgdea/conglomerate`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -23,15 +26,15 @@ class SelectConglomerado extends React.Component {
           dataConglomerado: data
         });
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
   };
 
   handleChange = value => {
-    this.props.onChange('conglomerado', value);
+    this.props.onChange("conglomerado", value);
   };
 
   handleBlur = () => {
-    this.props.onBlur('conglomerado', true);
+    this.props.onBlur("conglomerado", true);
   };
 
   render() {
@@ -46,8 +49,8 @@ class SelectConglomerado extends React.Component {
           value={this.props.value}
           className={this.props.className}
         >
-          <option value={' '}>
-            -- {t('app_tipoTramite_form_registrar_select_conglomerado')} --
+          <option value={" "}>
+            -- {t("app_tipoTramite_form_registrar_select_conglomerado")} --
           </option>
           {data.map((aux, id) => {
             return (
@@ -61,4 +64,7 @@ class SelectConglomerado extends React.Component {
     );
   }
 }
+SelectConglomerado.propTypes = {
+  t: PropTypes.any
+};
 export default SelectConglomerado;

@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import {
   Modal,
   ModalHeader,
@@ -7,25 +7,20 @@ import {
   ModalFooter,
   CustomInput,
   Alert
-} from 'reactstrap';
-import {
-  CONGLOMERATES_STATUS,
-  COMPANYS_STATUS,
-  HEADQUARTERS_STATUS,
-  CHARGES_STATUS
-} from './../../../services/EndPoints';
-import IMGDEPENDENCIA from './../../../assets/img/settings-work-tool.svg';
-import { Formik, ErrorMessage, Field } from 'formik';
-import * as Yup from 'yup';
-import SelectConglomerado from './SelectConglomeradoModalEdit';
-import SelectCompany from './SelectCompanyModalEdit';
-import SelectHeadquarter from './SelectHeadquarterModalEdit';
+} from "reactstrap";
+import { CHARGES_STATUS } from "./../../../services/EndPoints";
+import IMGDEPENDENCIA from "./../../../assets/img/settings-work-tool.svg";
+import { Formik, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
+import SelectConglomerado from "./SelectConglomeradoModalEdit";
+import SelectCompany from "./SelectCompanyModalEdit";
+import SelectHeadquarter from "./SelectHeadquarterModalEdit";
 
 class ModalEditDependencia extends React.Component {
   state = {
     modal: this.props.modaledit,
     id: this.props.id,
-    userLogged: 'jferrer',
+    userLogged: "jferrer",
     dataDependence: {},
     dataCharge: {},
     dataDependenceConglomerate: {},
@@ -41,14 +36,11 @@ class ModalEditDependencia extends React.Component {
     alertError400: false,
     t: this.props.t,
     status: 0,
-    username: 'ccuartas'
+    username: "ccuartas"
   };
 
   componentDidMount() {
-    this.getDataConglomerate();
-    this.getDataCompany();
     this.getDataCharge();
-    this.getDataHeadquarterList();
   }
 
   toggle = id => {
@@ -63,10 +55,10 @@ class ModalEditDependencia extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/dependence/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -80,51 +72,15 @@ class ModalEditDependencia extends React.Component {
           dataDependenceSede: data.headquarter
         });
       })
-      .catch(Error => console.log(' ', Error));
-  };
-
-  getDataConglomerate = () => {
-    fetch(CONGLOMERATES_STATUS, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataConglomerate: data
-        });
-      })
-      .catch(Error => {
-        console.log('', Error);
-      });
-  };
-
-  getDataCompany = () => {
-    fetch(COMPANYS_STATUS, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCompany: data
-        });
-      })
-      .catch(Error => console.log('Error', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   getDataCharge = () => {
     fetch(CHARGES_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
       }
     })
       .then(response => response.json())
@@ -133,29 +89,11 @@ class ModalEditDependencia extends React.Component {
           dataChargeList: data
         });
       })
-      .catch(Error => console.log('Error', Error));
-  };
-
-  getDataHeadquarterList = () => {
-    fetch(HEADQUARTERS_STATUS, {
-      method: 'GET',
-      headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataHeadquarterList: data
-        });
-      })
-      .catch(Error => console.log('', Error));
+      .catch(Error => console.log("Error", Error));
   };
 
   render() {
     const { t } = this.props;
-
     const result = {
       conglomerate: this.state.dataDependenceConglomerate.id,
       company: this.state.dataDependenceCompany.id,
@@ -178,7 +116,7 @@ class ModalEditDependencia extends React.Component {
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {t('app_dependencia_modal_actualizar_titulo')}{' '}
+            {t("app_dependencia_modal_actualizar_titulo")}{" "}
             {this.state.dataDependence.name}
           </ModalHeader>
           <Formik
@@ -197,10 +135,10 @@ class ModalEditDependencia extends React.Component {
 
               setTimeout(() => {
                 fetch(`http://192.168.10.180:7000/api/sgdea/dependence`, {
-                  method: 'PUT',
+                  method: "PUT",
                   headers: {
-                    Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-                    'Content-Type': 'application/json'
+                    Authorization: "Basic " + window.btoa("sgdea:123456"),
+                    "Content-Type": "application/json"
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -248,30 +186,30 @@ class ModalEditDependencia extends React.Component {
                       }, 3000);
                     }
                   })
-                  .catch(Error => console.log('Error', Error));
+                  .catch(Error => console.log("Error", Error));
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               conglomerate: Yup.string()
                 .ensure()
-                .required(' Por favor seleccione un conglomerado.'),
+                .required(" Por favor seleccione un conglomerado."),
               company: Yup.string()
                 .ensure()
-                .required(' Por favor seleccione una empresa.'),
+                .required(" Por favor seleccione una empresa."),
               headquarter: Yup.string()
                 .ensure()
-                .required(' Por favor seleccione una sede.'),
+                .required(" Por favor seleccione una sede."),
               code: Yup.string()
-                .required(' Por favor introduzca un código alfanumérico.')
-                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
-                .min(2, ' Mínimo 2 caracteres.')
-                .max(15, ' Máximo 15 caracteres.'),
-              name: Yup.string().required(' Por favor introduzca un código.'),
-              description: Yup.string().max(250, 'Máximo 250 caracteres.'),
+                .required(" Por favor introduzca un código alfanumérico.")
+                .matches(/^[0-9a-zA-Z]+$/, " No es un código alfanumérico.")
+                .min(2, " Mínimo 2 caracteres.")
+                .max(15, " Máximo 15 caracteres."),
+              name: Yup.string().required(" Por favor introduzca un código."),
+              description: Yup.string().max(250, "Máximo 250 caracteres."),
               charge: Yup.string()
                 .ensure()
-                .required(' Por favor seleccione el cargo.'),
-              status: Yup.bool().test('Activado', '', value => value === true)
+                .required(" Por favor seleccione el cargo."),
+              status: Yup.bool().test("Activado", "", value => value === true)
             })}
           >
             {props => {
@@ -290,21 +228,21 @@ class ModalEditDependencia extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t('app_dependencia_modal_actualizar_alert_error400')}
+                      {t("app_dependencia_modal_actualizar_alert_error400")}
                     </Alert>
                     <Alert
                       color="danger"
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {t('app_dependencia_modal_actualizar_alert_error')}
+                      {t("app_dependencia_modal_actualizar_alert_error")}
                     </Alert>
                     <Alert
                       color="success"
                       isOpen={this.state.alertSuccess}
                       toggle={this.onDismiss}
                     >
-                      {t('app_dependencia_modal_actualizar_alert_success')}
+                      {t("app_dependencia_modal_actualizar_alert_success")}
                     </Alert>
                     <form className="form">
                       <div className="row">
@@ -315,42 +253,42 @@ class ModalEditDependencia extends React.Component {
                           <div className="">
                             <h5
                               className=""
-                              style={{ borderBottom: '1px solid black' }}
+                              style={{ borderBottom: "1px solid black" }}
                             >
-                              {' '}
+                              {" "}
                               {t(
-                                'app_dependencia_modal_actualizar_titulo_2'
-                              )}{' '}
-                            </h5>{' '}
+                                "app_dependencia_modal_actualizar_titulo_2"
+                              )}{" "}
+                            </h5>{" "}
                           </div>
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {this.state.t(
-                                    'app_dependencia_form_actualizar_conglomerado'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                    "app_dependencia_form_actualizar_conglomerado"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectConglomerado
                                   t={this.state.t}
-                                  name={'conglomerate'}
+                                  name={"conglomerate"}
                                   onChange={e =>
                                     setFieldValue(
-                                      'conglomerate',
+                                      "conglomerate",
                                       e.target.value
                                     )
                                   }
                                   onBlur={() =>
-                                    setFieldTouched('conglomerate', true)
+                                    setFieldTouched("conglomerate", true)
                                   }
                                   value={values.conglomerate}
                                   className={`form-control form-control-sm ${errors.conglomerate &&
                                     touched.conglomerate &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.conglomerate &&
                                   touched.conglomerate ? (
                                     <i className="fa fa-exclamation-triangle" />
@@ -362,11 +300,11 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_dependencia_form_actualizar_empresa'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                    "app_dependencia_form_actualizar_empresa"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectCompany
                                   t={this.state.t}
@@ -374,16 +312,16 @@ class ModalEditDependencia extends React.Component {
                                   name="company"
                                   value={values.company}
                                   onChange={e =>
-                                    setFieldValue('company', e.target.value)
+                                    setFieldValue("company", e.target.value)
                                   }
                                   onBlur={() =>
-                                    setFieldTouched('company', true)
+                                    setFieldTouched("company", true)
                                   }
                                   className={`form-control form-control-sm ${errors.company &&
                                     touched.company &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 ></SelectCompany>
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.company && touched.company ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -394,28 +332,28 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_dependencia_form_actualizar_sede'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                    "app_dependencia_form_actualizar_sede"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectHeadquarter
                                   t={this.state.t}
                                   company={props.values.company}
-                                  name={'headquarter'}
+                                  name={"headquarter"}
                                   value={values.headquarter}
                                   onChange={e =>
-                                    setFieldValue('headquarter', e.target.value)
+                                    setFieldValue("headquarter", e.target.value)
                                   }
                                   onBlur={() =>
-                                    setFieldTouched('headquarter', true)
+                                    setFieldTouched("headquarter", true)
                                   }
                                   className={`form-control form-control-sm ${errors.headquarter &&
                                     touched.headquarter &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 ></SelectHeadquarter>
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.headquarter && touched.headquarter ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -426,21 +364,21 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_dependencia_form_actualizar_codigo'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                    "app_dependencia_form_actualizar_codigo"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <input
-                                  name={'code'}
+                                  name={"code"}
                                   type="text"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.code}
                                   className="form-control form-control-sm"
                                 />
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.code && touched.code ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -453,23 +391,23 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_dependencia_form_actualizar_nombre'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                    "app_dependencia_form_actualizar_nombre"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <input
                                   type="text"
-                                  name={'name'}
+                                  name={"name"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.name}
                                   className={`form-control form-control-sm ${errors.name &&
                                     touched.name &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.name && touched.name ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -480,29 +418,29 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_dependencia_form_actualizar_cargo_responsable'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                    "app_dependencia_form_actualizar_cargo_responsable"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <select
-                                  name={'charge'}
+                                  name={"charge"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.charge}
                                   className="form-control form-control-sm"
                                 >
                                   <option value="">
-                                    --{' '}
+                                    --{" "}
                                     {t(
-                                      'app_dependencia_form_actualizar_select_cargo_responsable'
-                                    )}{' '}
+                                      "app_dependencia_form_actualizar_select_cargo_responsable"
+                                    )}{" "}
                                     --
                                   </option>
                                   {chargeList}
                                 </select>
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.charge && touched.charge ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -513,19 +451,19 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_dependencia_form_actualizar_descripcion'
-                                  )}{' '}
+                                    "app_dependencia_form_actualizar_descripcion"
+                                  )}{" "}
                                 </label>
                                 <textarea
-                                  name={'description'}
+                                  name={"description"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.description}
                                   className="form-control"
                                 />
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.description && touched.description ? (
                                     <i class="fa fa-exclamation-triangle" />
                                   ) : null}
@@ -536,7 +474,7 @@ class ModalEditDependencia extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {t('app_dependencia_form_actualizar_estado')}{' '}
+                                  {t("app_dependencia_form_actualizar_estado")}{" "}
                                   <span className="text-danger">*</span>
                                 </label>
                                 <div className="text-justify">
@@ -548,14 +486,14 @@ class ModalEditDependencia extends React.Component {
                                           type="checkbox"
                                           id="dependenciaModalEdit"
                                           label={t(
-                                            'app_dependencia_form_actualizar_estado_descripcion'
+                                            "app_dependencia_form_actualizar_estado_descripcion"
                                           )}
                                           {...field}
                                           checked={field.value}
                                           className={
                                             errors.status &&
                                             touched.status &&
-                                            'invalid-feedback'
+                                            "invalid-feedback"
                                           }
                                         />
                                       );
@@ -572,14 +510,14 @@ class ModalEditDependencia extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={'btn btn-outline-success btn-sm'}
+                      className={"btn btn-outline-success btn-sm"}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" />{' '}
-                      {t('app_dependencia_form_actualizar_boton_actualizar')}
+                      <i className="fa fa-pencil" />{" "}
+                      {t("app_dependencia_form_actualizar_boton_actualizar")}
                     </button>
                     <button
                       type="button"
@@ -588,9 +526,9 @@ class ModalEditDependencia extends React.Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      {' '}
-                      <i className="fa fa-times" />{' '}
-                      {t('app_dependencia_form_actualizar_boton_cerrar')}{' '}
+                      {" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_dependencia_form_actualizar_boton_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -605,7 +543,8 @@ class ModalEditDependencia extends React.Component {
 
 ModalEditDependencia.propTypes = {
   modalEdit: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  id: PropTypes.string.isRequired
 };
 
 export default ModalEditDependencia;

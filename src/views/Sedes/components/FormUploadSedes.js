@@ -1,19 +1,19 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Row, Col, CustomInput } from 'reactstrap';
-import axios from 'axios';
-import PreviewFile from './PreviewFile';
-import { ToastContainer, toast } from 'react-toastify';
-import { css } from 'glamor';
-import { Formik, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { withTranslation } from 'react-i18next';
-import fileHeadquarter from './../../../assets/files/FilesImportCSV/headquarters.csv';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+import { Row, Col, CustomInput } from "reactstrap";
+import axios from "axios";
+import PreviewFile from "./PreviewFile";
+import { ToastContainer, toast } from "react-toastify";
+import { css } from "glamor";
+import { Formik, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { withTranslation } from "react-i18next";
+import fileHeadquarter from "./../../../assets/files/FilesImportCSV/headquarters.csv";
 
 class FormUploadSedes extends React.Component {
   state = {
     file: null,
-    username: 'ccuartas'
+    username: "ccuartas"
   };
   onChange = e => {
     this.setState({
@@ -21,7 +21,6 @@ class FormUploadSedes extends React.Component {
     });
   };
   render() {
-    console.log(this.state.file);
     const { t } = this.props;
     return (
       <Fragment>
@@ -31,30 +30,30 @@ class FormUploadSedes extends React.Component {
             <div className="list-group">
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">{t('app_sedes_import_step_1')}</h5>
+                  <h5 className="mb-1">{t("app_sedes_import_step_1")}</h5>
                 </div>
-                <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  {t('app_sedes_import_step_1_descripcion')}
+                <p className="mb-1" style={{ textAlign: "justify" }}>
+                  {t("app_sedes_import_step_1_descripcion")}
                   <br />
                   <a href={fileHeadquarter} download="headquarter.csv">
-                    <b>{t('app_tab_importar_plantilla_formato_importacion')}</b>
+                    <b>{t("app_tab_importar_plantilla_formato_importacion")}</b>
                   </a>
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">{t('app_sedes_import_step_2')}</h5>
+                  <h5 className="mb-1">{t("app_sedes_import_step_2")}</h5>
                 </div>
-                <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  {t('app_sedes_import_step_2_descripcion')}
+                <p className="mb-1" style={{ textAlign: "justify" }}>
+                  {t("app_sedes_import_step_2_descripcion")}
                 </p>
               </a>
               <a className="list-group-item list-group-item-action flex-column align-items-start">
                 <div className="d-flex w-100 justify-content-between">
-                  <h5 className="mb-1">{t('app_sedes_import_step_3')}</h5>
+                  <h5 className="mb-1">{t("app_sedes_import_step_3")}</h5>
                 </div>
-                <p className="mb-1" style={{ textAlign: 'justify' }}>
-                  {t('app_sedes_import_step_3_descripcion')}
+                <p className="mb-1" style={{ textAlign: "justify" }}>
+                  {t("app_sedes_import_step_3_descripcion")}
                 </p>
               </a>
             </div>
@@ -63,7 +62,7 @@ class FormUploadSedes extends React.Component {
             <Formik
               onSubmit={(values, { setSubmitting }) => {
                 const separator = separador => {
-                  let separador_empty = '';
+                  let separador_empty = "";
                   if (separador === undefined) {
                     separador = separador_empty;
                     return separador_empty;
@@ -74,8 +73,8 @@ class FormUploadSedes extends React.Component {
                 const formData = new FormData();
                 const file = this.state.file;
 
-                formData.append('file', file);
-                formData.append('separator', separator(values.separador_csv));
+                formData.append("file", file);
+                formData.append("separator", separator(values.separador_csv));
                 setTimeout(() => {
                   axios
                     .post(
@@ -83,28 +82,28 @@ class FormUploadSedes extends React.Component {
                       formData,
                       {
                         headers: {
-                          'Content-Type': 'multipart/form-data'
+                          "Content-Type": "multipart/form-data"
                         }
                       }
                     )
                     .then(response => {
                       if (response.status === 200) {
                         toast.success(
-                          'La importación de conglomerado se hizo satisfactoriamente.',
+                          "La importación de conglomerado se hizo satisfactoriamente.",
                           {
                             position: toast.POSITION.TOP_RIGHT,
                             className: css({
-                              marginTop: '60px'
+                              marginTop: "60px"
                             })
                           }
                         );
                       } else if (response === 500) {
                         toast(
-                          'No se pudo realizar la importación, por favor verifique el archivo CSV.',
+                          "No se pudo realizar la importación, por favor verifique el archivo CSV.",
                           {
                             position: toast.POSITION.TOP_RIGHT,
                             className: css({
-                              marginTop: '60px'
+                              marginTop: "60px"
                             })
                           }
                         );
@@ -114,7 +113,7 @@ class FormUploadSedes extends React.Component {
                       toast.error(`${error}`, {
                         position: toast.POSITION.TOP_RIGHT,
                         className: css({
-                          marginTop: '60px'
+                          marginTop: "60px"
                         })
                       });
                     });
@@ -123,9 +122,9 @@ class FormUploadSedes extends React.Component {
               validationSchema={Yup.object().shape({
                 separador_csv: Yup.string()
                   // .required(' Por favor introduzca un separador.')
-                  .max(1, ' Máximo 1 carácter')
-                  .min(1, ' Por favor introduzca un separador.'),
-                titulos: Yup.bool().test('Activo', '', value => value === true)
+                  .max(1, " Máximo 1 carácter")
+                  .min(1, " Por favor introduzca un separador."),
+                titulos: Yup.bool().test("Activo", "", value => value === true)
                 // archivo: Yup.mixed(),
               })}
             >
@@ -134,12 +133,9 @@ class FormUploadSedes extends React.Component {
                   values,
                   touched,
                   errors,
-                  dirty,
-                  isSubmitting,
                   handleChange,
                   handleBlur,
-                  handleSubmit,
-                  handleReset
+                  handleSubmit
                 } = props;
                 return (
                   <Fragment>
@@ -150,21 +146,21 @@ class FormUploadSedes extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
-                                  {t('app_sedes_import_form_separador')}{' '}
+                                  {" "}
+                                  {t("app_sedes_import_form_separador")}{" "}
                                   <span className="text-danger">*</span>
                                 </label>
                                 <input
-                                  name={'separador_csv'}
+                                  name={"separador_csv"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.separador_csv}
                                   type="text"
                                   className={`form-control form-control-sm ${errors.separador_csv &&
                                     touched.separador_csv &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
-                                <div className="" style={{ color: '#D54B4B' }}>
+                                <div className="" style={{ color: "#D54B4B" }}>
                                   {errors.separador_csv &&
                                   touched.separador_csv ? (
                                     <i class="fa fa-exclamation-triangle" />
@@ -176,24 +172,24 @@ class FormUploadSedes extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {t('app_sedes_import_form_titulos')}
+                                  {t("app_sedes_import_form_titulos")}
                                 </label>
                                 <CustomInput
-                                  name={'titulos'}
+                                  name={"titulos"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.titulos}
                                   type="checkbox"
                                   id="ExampleInputCheckbox3"
                                   label={t(
-                                    'app_sedes_import_form_titulos_label'
+                                    "app_sedes_import_form_titulos_label"
                                   )}
                                   className={
                                     errors.titulos &&
                                     touched.titulos &&
-                                    'invalid-feedback'
+                                    "invalid-feedback"
                                   }
-                                />{' '}
+                                />{" "}
                               </div>
                             </div>
                           </div>
@@ -201,21 +197,21 @@ class FormUploadSedes extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {t('app_sedes_import_form_archivo')}{' '}
-                                  <b>CSV</b>{' '}
+                                  {t("app_sedes_import_form_archivo")}{" "}
+                                  <b>CSV</b>{" "}
                                   <span className="text-danger"> * </span>
                                 </label>
                                 <CustomInput
                                   type="file"
-                                  name={'archivo'}
+                                  name={"archivo"}
                                   onBlur={handleBlur}
                                   onChange={e => this.onChange(e)}
                                   label={this.props.t(
-                                    'app_sedes_import_form_file'
+                                    "app_sedes_import_form_file"
                                   )}
                                   className={`form-control ${errors.archivo &&
                                     touched.archivo &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
                               </div>
                             </div>
@@ -226,14 +222,14 @@ class FormUploadSedes extends React.Component {
                         <div className="text-right">
                           <button
                             type="button"
-                            className={'btn btn-outline-secondary btn-sm'}
+                            className={"btn btn-outline-secondary btn-sm"}
                             onClick={e => {
                               e.preventDefault();
                               handleSubmit();
                             }}
                           >
-                            <i className="fa fa-save" />{' '}
-                            {t('app_sedes_import_from_boton')}
+                            <i className="fa fa-save" />{" "}
+                            {t("app_sedes_import_from_boton")}
                           </button>
                         </div>
                       </div>
@@ -249,7 +245,7 @@ class FormUploadSedes extends React.Component {
           <Col md={12}>
             <PreviewFile
               file={this.state.file}
-              estilos={'table table-striped table-hover table-bordered'}
+              estilos={"table table-striped table-hover table-bordered"}
             />
           </Col>
         </Row>
@@ -258,4 +254,8 @@ class FormUploadSedes extends React.Component {
   }
 }
 
-export default withTranslation('translations')(FormUploadSedes);
+FormUploadSedes.propTypes = {
+  t: PropTypes.any
+};
+
+export default withTranslation("translations")(FormUploadSedes);

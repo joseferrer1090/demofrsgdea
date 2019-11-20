@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 class SelectCountry extends React.Component {
   state = {
     dataCountry: [],
@@ -11,10 +12,10 @@ class SelectCountry extends React.Component {
 
   getData = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -26,11 +27,11 @@ class SelectCountry extends React.Component {
   };
 
   handleChange = value => {
-    this.props.onChange('countryId', value);
+    this.props.onChange("countryId", value);
   };
 
   handleBlur = () => {
-    this.props.onBlur('countryId', true);
+    this.props.onBlur("countryId", true);
   };
 
   render() {
@@ -44,8 +45,8 @@ class SelectCountry extends React.Component {
           className={this.props.className}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>
-            -- {t('app_ciudad_form_registrar_pais')} --
+          <option value={""}>
+            -- {t("app_ciudad_form_registrar_pais")} --
           </option>
           {this.state.dataCountry.map((aux, id) => {
             return (
@@ -59,4 +60,7 @@ class SelectCountry extends React.Component {
     );
   }
 }
+SelectCountry.propTypes = {
+  t: PropTypes.any
+};
 export default SelectCountry;

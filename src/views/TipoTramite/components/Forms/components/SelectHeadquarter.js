@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
+
 class SelectSede extends React.Component {
   state = {
     dataSede: [],
@@ -30,10 +32,10 @@ class SelectSede extends React.Component {
     fetch(
       `http://192.168.20.187:7000/api/sgdea/headquarter/company/${this.props.idEmpresa}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -43,7 +45,7 @@ class SelectSede extends React.Component {
           dataSede: data
         });
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
   };
 
   render() {
@@ -58,7 +60,7 @@ class SelectSede extends React.Component {
           className={this.props.className}
         >
           <option>
-            -- {t('app_tipoTramite_form_registrar_select_sede')} --
+            -- {t("app_tipoTramite_form_registrar_select_sede")} --
           </option>
           {this.state.dataSede.map((aux, id) => {
             return (
@@ -72,4 +74,8 @@ class SelectSede extends React.Component {
     );
   }
 }
+SelectSede.propTypes = {
+  id: PropTypes.string.isRequired,
+  t: PropTypes.any
+};
 export default SelectSede;

@@ -1,6 +1,7 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import Select from 'react-select';
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
+import Select from "react-select";
+
 import {
   Modal,
   ModalHeader,
@@ -9,12 +10,12 @@ import {
   Row,
   Col,
   UncontrolledAlert
-} from 'reactstrap';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
-import SelectModulo from './SelectModuloModalEdit';
-import MySelectEntidades from './SelectEntidadModalEdit';
-import PermisosAsignados from './AsignarPermisosModalEdit';
+} from "reactstrap";
+import { Formik } from "formik";
+import * as Yup from "yup";
+import SelectModulo from "./SelectModuloModalEdit";
+import MySelectEntidades from "./SelectEntidadModalEdit";
+import PermisosAsignados from "./AsignarPermisosModalEdit";
 
 class ModalEditPermissionRoles extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class ModalEditPermissionRoles extends Component {
       dataRolById: {},
       modulos: [],
       entidades: [],
-      userName: 'jferrer',
+      userName: "jferrer",
       t: this.props.t
     };
   }
@@ -44,10 +45,10 @@ class ModalEditPermissionRoles extends Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/role/${id}?username=${this.state.userName}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -57,17 +58,17 @@ class ModalEditPermissionRoles extends Component {
           dataRolById: data
         });
       })
-      .catch(err => console.log('Err', err));
+      .catch(err => console.log("Err", err));
   };
 
   getDataPermissionById = id => {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/role/permissions/${id}?username=${this.state.userName}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Cotent-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Cotent-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -77,7 +78,7 @@ class ModalEditPermissionRoles extends Component {
           dataPermisosId: data
         });
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
   };
 
   render() {
@@ -86,7 +87,7 @@ class ModalEditPermissionRoles extends Component {
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {t('app_roles_modal_editar_permisos_titulo')}{' '}
+            {t("app_roles_modal_editar_permisos_titulo")}{" "}
             {this.state.dataRolById.name}
           </ModalHeader>
           <Formik
@@ -101,10 +102,10 @@ class ModalEditPermissionRoles extends Component {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 fetch(`http://192.168.10.180:7000/api/sgdea/role/permissions`, {
-                  method: 'PUT',
+                  method: "PUT",
                   headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -114,14 +115,14 @@ class ModalEditPermissionRoles extends Component {
                 })
                   .then(response => {
                     if (response === 200) {
-                      console.log('Se hizo el put con los nuevos permisos');
+                      console.log("Se hizo el put con los nuevos permisos");
                     } else if (response.status === 400) {
-                      console.log('Error se enviaron mal los datos');
+                      console.log("Error se enviaron mal los datos");
                     } else if (response === 500) {
-                      console.log('Error en el Servidor');
+                      console.log("Error en el Servidor");
                     }
                   })
-                  .catch(err => console.log('error'));
+                  .catch(err => console.log("error"));
                 // alert(JSON.stringify(values, "", 2));
               }, 1000);
               setSubmitting(false);
@@ -152,8 +153,8 @@ class ModalEditPermissionRoles extends Component {
                         <Col sm="12">
                           <UncontrolledAlert color="warning">
                             <div className="text-center">
-                              <i className="fa fa-exclamation-triangle" />{' '}
-                              {t('app_roles_modal_editar_permisos_alert')}{' '}
+                              <i className="fa fa-exclamation-triangle" />{" "}
+                              {t("app_roles_modal_editar_permisos_alert")}{" "}
                               <i className="fa fa-exclamation-triangle" />
                             </div>
                           </UncontrolledAlert>
@@ -170,7 +171,7 @@ class ModalEditPermissionRoles extends Component {
                                     <div className="form-group">
                                       <dt>
                                         {t(
-                                          'app_roles_modal_editar_permisos_codigo'
+                                          "app_roles_modal_editar_permisos_codigo"
                                         )}
                                       </dt>
 
@@ -187,7 +188,7 @@ class ModalEditPermissionRoles extends Component {
                                     <div className="form-group">
                                       <dt>
                                         {t(
-                                          'app_roles_modal_editar_permisos_nombre'
+                                          "app_roles_modal_editar_permisos_nombre"
                                         )}
                                       </dt>
 
@@ -206,51 +207,51 @@ class ModalEditPermissionRoles extends Component {
                             <Col sm="6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_roles_modal_editar_permisos_modulo'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                    "app_roles_modal_editar_permisos_modulo"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectModulo
                                   t={this.props.t}
                                   name="modulos"
                                   value={values.modulos}
                                   onChange={e => {
-                                    setFieldValue('modulos', e.target.value);
+                                    setFieldValue("modulos", e.target.value);
                                   }}
                                   onBlur={() => {
-                                    setFieldTouched('modulos', true);
+                                    setFieldTouched("modulos", true);
                                   }}
                                   className={`form-control form-control-sm ${errors.modulos &&
                                     touched.modulos &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
                               </div>
                             </Col>
                             <Col sm="6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_roles_modal_editar_permisos_entidades'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                    "app_roles_modal_editar_permisos_entidades"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <MySelectEntidades
                                   t={this.props.t}
                                   modulo={props.values.modulos}
-                                  name={'entidad'}
+                                  name={"entidad"}
                                   value={values.entidad}
                                   onChange={e => {
-                                    setFieldValue('entidad', e.target.value);
+                                    setFieldValue("entidad", e.target.value);
                                   }}
                                   onBlur={() => {
-                                    setFieldTouched('entidad', true);
+                                    setFieldTouched("entidad", true);
                                   }}
                                   className={`form-control form-control-sm ${errors.entidad &&
                                     touched.entidad &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
                               </div>
                             </Col>
@@ -259,14 +260,14 @@ class ModalEditPermissionRoles extends Component {
                               <div className="form-group">
                                 <label>
                                   {t(
-                                    'app_roles_modal_editar_permisos_asignar_permisos'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                    "app_roles_modal_editar_permisos_asignar_permisos"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <PermisosAsignados
                                   t={this.props.t}
                                   entidad={props.values.entidad}
-                                  name={'permisos'}
+                                  name={"permisos"}
                                   value={values.permisos}
                                   onChange={setFieldValue}
                                   onBlur={setFieldTouched}
@@ -288,11 +289,11 @@ class ModalEditPermissionRoles extends Component {
                       }}
                       className="btn btn-outline-warning btn-sm"
                     >
-                      {' '}
-                      <i className="fa fa-lock" />{' '}
+                      {" "}
+                      <i className="fa fa-lock" />{" "}
                       {t(
-                        'app_roles_modal_editar_permisos_boton_editar_permisos'
-                      )}{' '}
+                        "app_roles_modal_editar_permisos_boton_editar_permisos"
+                      )}{" "}
                     </button>
                     <button
                       type="button"
@@ -301,9 +302,9 @@ class ModalEditPermissionRoles extends Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      {' '}
-                      <i className="fa fa-times" />{' '}
-                      {t('app_roles_modal_editar_permisos_boton_cerrar')}{' '}
+                      {" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_roles_modal_editar_permisos_boton_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -318,7 +319,8 @@ class ModalEditPermissionRoles extends Component {
 
 ModalEditPermissionRoles.propTypes = {
   id: PropTypes.string.isRequired,
-  modal: PropTypes.bool.isRequired
+  modal: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalEditPermissionRoles;

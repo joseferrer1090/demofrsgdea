@@ -1,27 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { withFormik, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React, { useEffect, useState } from "react";
+import { withFormik, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import {
   CustomInput,
   CardBody,
   CardFooter,
   CardHeader,
   Card
-} from 'reactstrap';
+} from "reactstrap";
 import {
   CONGLOMERATES,
   CITIES_STATUS,
   CHARGES_STATUS,
   DEPARTMENTS_STATUS,
   CONTRIES_STATUS
-} from './../../../../services/EndPoints';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { css } from 'glamor';
-import { withTranslation } from 'react-i18next';
-import SelectCity from './components/SelectCity';
-import SelectDepartment from './components/SelectDepartment';
-import SelectCountry from './components/SelectCountry';
+} from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
+import { withTranslation } from "react-i18next";
+import SelectCity from "./components/SelectCity";
+import SelectDepartment from "./components/SelectDepartment";
+import SelectCountry from "./components/SelectCountry";
 
 const ConglomeradorForm = props => {
   const {
@@ -37,76 +37,25 @@ const ConglomeradorForm = props => {
     t
   } = props;
 
-  const [optionsDepartment, setOptionsDepartment] = useState([]);
-  const [optionsCountries, setOptionsCountries] = useState([]);
-  const [optionsCitys, setOptionsCitys] = useState([]);
   const [optionsCharges, setOptionsCharges] = useState([]);
 
   useEffect(() => {
-    getDataCountries();
-    getDataDepartments();
-    getDataCitys();
     getDataCharges();
   }, []);
 
-  const getDataCountries = data => {
-    fetch(CONTRIES_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsCountries(data);
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-
-  const getDataDepartments = data => {
-    fetch(DEPARTMENTS_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsDepartment(data);
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-
-  const getDataCitys = data => {
-    fetch(CITIES_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsCitys(data);
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-
   const getDataCharges = data => {
     fetch(CHARGES_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
       .then(data => {
         setOptionsCharges(data);
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   const mapOptionsCharges = optionsCharges.map((aux, idx) => {
@@ -120,31 +69,31 @@ const ConglomeradorForm = props => {
     <div>
       <Card>
         <ToastContainer />
-        <CardHeader> {t('app_conglomerado_tab_title')} </CardHeader>
+        <CardHeader> {t("app_conglomerado_tab_title")} </CardHeader>
         <CardBody>
           <form className="form" noValidate>
             <div className="row">
               <div className="col-md-6">
                 <div className="form-group">
                   <label>
-                    {' '}
-                    {t('app_conglomerado_form_registrar_codigo')}{' '}
-                    <span className="text-danger">*</span>{' '}
+                    {" "}
+                    {t("app_conglomerado_form_registrar_codigo")}{" "}
+                    <span className="text-danger">*</span>{" "}
                   </label>
                   <input
                     name="codigo"
                     onChange={e => {
-                      setFieldValue('codigo', e.target.value.toUpperCase());
+                      setFieldValue("codigo", e.target.value.toUpperCase());
                     }}
                     onBlur={handleBlur}
                     type="text"
                     className={`form-control form-control-sm ${errors.codigo &&
                       touched.codigo &&
-                      'is-invalid'}`}
+                      "is-invalid"}`}
                     placeholder=""
                     value={values.codigo}
                   />
-                  <div className="" style={{ color: '#D54B4B' }}>
+                  <div className="" style={{ color: "#D54B4B" }}>
                     {errors.codigo && touched.codigo ? (
                       <i className="fa fa-exclamation-triangle" />
                     ) : null}
@@ -155,29 +104,29 @@ const ConglomeradorForm = props => {
               <div className="col-md-6">
                 <div className="form-group">
                   <label>
-                    {' '}
-                    {t('app_conglomerado_form_registrar_nombre')}{' '}
-                    <span className="text-danger">*</span>{' '}
+                    {" "}
+                    {t("app_conglomerado_form_registrar_nombre")}{" "}
+                    <span className="text-danger">*</span>{" "}
                   </label>
                   <input
                     name="nombre"
                     onChange={e => {
-                      setFieldValue('nombre', e.target.value.toUpperCase());
+                      setFieldValue("nombre", e.target.value.toUpperCase());
                     }}
                     onBlur={handleBlur}
                     type="text"
                     className={`form-control form-control-sm ${errors.nombre &&
                       touched.nombre &&
-                      'is-invalid'}`}
+                      "is-invalid"}`}
                     value={values.nombre}
                     placeholder=""
                   />
-                  <div className="" style={{ color: '#D54B4B' }}>
+                  <div className="" style={{ color: "#D54B4B" }}>
                     {errors.nombre && touched.nombre ? (
                       <i className="fa fa-exclamation-triangle" />
                     ) : null}
                     <ErrorMessage name="nombre" />
-                  </div>{' '}
+                  </div>{" "}
                 </div>
               </div>
             </div>
@@ -185,25 +134,25 @@ const ConglomeradorForm = props => {
               <div className="col-md-4">
                 <div className="form-group">
                   <label>
-                    {t('app_conglomerado_form_registrar_pais')}
-                    <span className="text-danger">*</span>{' '}
+                    {t("app_conglomerado_form_registrar_pais")}
+                    <span className="text-danger">*</span>{" "}
                   </label>
 
                   <SelectCountry
                     t={props.t}
-                    name={'countryId'}
-                    onChange={e => setFieldValue('countryId', e.target.value)}
+                    name={"countryId"}
+                    onChange={e => setFieldValue("countryId", e.target.value)}
                     onBlur={() => {
-                      setFieldTouched('countryId', true);
+                      setFieldTouched("countryId", true);
                     }}
                     value={values.countryId}
                     className={`form-control form-control-sm ${errors.countryId &&
                       touched.countryId &&
-                      'is-invalid'}`}
+                      "is-invalid"}`}
                   />
 
                   {touched ? (
-                    <div style={{ color: '#D54B4B' }}>
+                    <div style={{ color: "#D54B4B" }}>
                       {errors.countryId && touched.countryId ? (
                         <i class="fa fa-exclamation-triangle" />
                       ) : null}
@@ -215,8 +164,8 @@ const ConglomeradorForm = props => {
               <div className="col-md-4">
                 <div className="form-group">
                   <label>
-                    {t('app_conglomerado_form_registrar_departamento')}
-                    <span className="text-danger">*</span>{' '}
+                    {t("app_conglomerado_form_registrar_departamento")}
+                    <span className="text-danger">*</span>{" "}
                   </label>
                   <SelectDepartment
                     t={props.t}
@@ -224,17 +173,17 @@ const ConglomeradorForm = props => {
                     name="departmentId"
                     value={values.departmentId}
                     onChange={e =>
-                      setFieldValue('departmentId', e.target.value)
+                      setFieldValue("departmentId", e.target.value)
                     }
                     onBlur={() => {
-                      setFieldTouched('departmentId', true);
+                      setFieldTouched("departmentId", true);
                     }}
                     className={`form-control form-control-sm ${errors.departmentId &&
                       touched.departmentId &&
-                      'is-invalid'}`}
+                      "is-invalid"}`}
                   />
 
-                  <div style={{ color: '#D54B4B' }}>
+                  <div style={{ color: "#D54B4B" }}>
                     {errors.departmentId && touched.departmentId ? (
                       <i class="fa fa-exclamation-triangle" />
                     ) : null}
@@ -245,23 +194,23 @@ const ConglomeradorForm = props => {
               <div className="col-md-4">
                 <div className="form-group">
                   <label>
-                    {t('app_conglomerado_form_registrar_ciudad')}{' '}
+                    {t("app_conglomerado_form_registrar_ciudad")}{" "}
                     <span className="text-danger">*</span>
                   </label>
                   <SelectCity
                     t={props.t}
                     departmentId={props.values.departmentId}
-                    name={'cityId'}
-                    onChange={e => setFieldValue('cityId', e.target.value)}
+                    name={"cityId"}
+                    onChange={e => setFieldValue("cityId", e.target.value)}
                     onBlur={e => {
-                      setFieldTouched('cityId', true);
+                      setFieldTouched("cityId", true);
                     }}
                     className={`form-control form-control-sm ${errors.cityId &&
                       touched.cityId &&
-                      'is-invalid'}`}
+                      "is-invalid"}`}
                   />
 
-                  <div style={{ color: '#D54B4B' }}>
+                  <div style={{ color: "#D54B4B" }}>
                     {errors.cityId && touched.cityId ? (
                       <i class="fa fa-exclamation-triangle" />
                     ) : null}
@@ -272,10 +221,10 @@ const ConglomeradorForm = props => {
               <div className="col-md-12">
                 <div className="form-group">
                   <label>
-                    {' '}
+                    {" "}
                     {t(
-                      'app_conglomerado_form_registrar_cargo_responsable'
-                    )}{' '}
+                      "app_conglomerado_form_registrar_cargo_responsable"
+                    )}{" "}
                   </label>
                   <select
                     name="chargeId"
@@ -284,13 +233,13 @@ const ConglomeradorForm = props => {
                     value={values.chargeId}
                     className="form-control form-control-sm"
                   >
-                    {' '}
-                    <option value={''} disabled>
-                      {' '}
+                    {" "}
+                    <option value={""} disabled>
+                      {" "}
                       -- {t(
-                        'app_conglomerado_form_select_cargo_responsable'
-                      )}{' '}
-                      --{' '}
+                        "app_conglomerado_form_select_cargo_responsable"
+                      )}{" "}
+                      --{" "}
                     </option>
                     {mapOptionsCharges}
                   </select>
@@ -301,7 +250,7 @@ const ConglomeradorForm = props => {
               <div className="col-md-12">
                 <div className="form-group">
                   <label>
-                    {t('app_conglomerado_form_registrar_descripcion')}
+                    {t("app_conglomerado_form_registrar_descripcion")}
                   </label>
                   <textarea
                     name="descripcion"
@@ -311,7 +260,7 @@ const ConglomeradorForm = props => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                   />
-                  <div className="" style={{ color: '#D54B4B' }}>
+                  <div className="" style={{ color: "#D54B4B" }}>
                     {errors.descripcion && touched.descripcion ? (
                       <i className="fa fa-exclamation-triangle" />
                     ) : null}
@@ -325,9 +274,9 @@ const ConglomeradorForm = props => {
               <div className="col-md-12">
                 <div className="form-group">
                   <label>
-                    {' '}
-                    {t('app_conglomerado_form_registrar_estado')}{' '}
-                    <span className="text-danger">*</span>{' '}
+                    {" "}
+                    {t("app_conglomerado_form_registrar_estado")}{" "}
+                    <span className="text-danger">*</span>{" "}
                   </label>
                   <div className="text-justify">
                     <CustomInput
@@ -336,12 +285,12 @@ const ConglomeradorForm = props => {
                       type="checkbox"
                       id="ExampleInputCheckbox"
                       label={t(
-                        'app_conglomerado_form_registrar_estado_descripcion'
+                        "app_conglomerado_form_registrar_estado_descripcion"
                       )}
                       onChange={handleChange}
                       onBlur={handleBlur}
                       className={
-                        errors.estado && touched.estado && 'invalid-feedback'
+                        errors.estado && touched.estado && "invalid-feedback"
                       }
                     />
                   </div>
@@ -362,8 +311,8 @@ const ConglomeradorForm = props => {
                 <i className=" fa fa-spinner fa-spin" />
               ) : (
                 <div>
-                  <i className="fa fa-save" />{' '}
-                  {t('app_conglomerado_from_button_guardar')}
+                  <i className="fa fa-save" />{" "}
+                  {t("app_conglomerado_from_button_guardar")}
                 </div>
               )}
             </button>
@@ -374,7 +323,7 @@ const ConglomeradorForm = props => {
   );
 };
 
-export default withTranslation('translations')(
+export default withTranslation("translations")(
   withFormik({
     mapPropsToValues: props => ({
       codigo: props.conglomerado.codigo,
@@ -388,29 +337,29 @@ export default withTranslation('translations')(
     }),
     validationSchema: Yup.object().shape({
       codigo: Yup.string()
-        .required(' Por favor introduzca un código alfanumérico.')
-        .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
-        .min(2, ' Mínimo 2 caracteres.')
-        .max(15, ' Máximo 15 caracteres.'),
+        .required(" Por favor introduzca un código alfanumérico.")
+        .matches(/^[0-9a-zA-Z]+$/, " No es un código alfanumérico.")
+        .min(2, " Mínimo 2 caracteres.")
+        .max(15, " Máximo 15 caracteres."),
       nombre: Yup.string()
-        .required(' Por favor introduzca un nombre.')
+        .required(" Por favor introduzca un nombre.")
         .max(100),
-      descripcion: Yup.string().max(250, ' Máximo 250 caracteres.'),
+      descripcion: Yup.string().max(250, " Máximo 250 caracteres."),
       estado: Yup.bool()
         .test(
-          'Activo',
-          ' Es necesario activar el conglomerado.',
+          "Activo",
+          " Es necesario activar el conglomerado.",
           value => value === true
         )
-        .required(' Es necesario activar el conglomerado.'),
+        .required(" Es necesario activar el conglomerado."),
       countryId: Yup.string()
-        .required(' Por favor seleccione un país.')
+        .required(" Por favor seleccione un país.")
         .ensure(),
       departmentId: Yup.string()
-        .required(' Por favor seleccione un departamento.')
+        .required(" Por favor seleccione un departamento.")
         .ensure(),
       cityId: Yup.string()
-        .required(' Por favor seleccione una ciudad.')
+        .required(" Por favor seleccione una ciudad.")
         .ensure(),
       chargeId: Yup.string().ensure()
     }),
@@ -426,10 +375,10 @@ export default withTranslation('translations')(
       };
       setTimeout(() => {
         fetch(CONGLOMERATES, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Basic ' + window.btoa('sgdea:123456')
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa("sgdea:123456")
           },
           body: JSON.stringify({
             code: values.codigo,
@@ -438,23 +387,23 @@ export default withTranslation('translations')(
             status: tipoEstado(values.estado),
             chargeId: values.chargeId,
             cityId: values.cityId,
-            userName: 'jferrer'
+            userName: "jferrer"
           })
         })
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success('Se creo el conglomerado con éxito.', {
+                toast.success("Se creo el conglomerado con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: '60px'
+                    marginTop: "60px"
                   })
                 });
               } else if (response.status === 500) {
-                toast.error('El conglomerado ya existe.', {
+                toast.error("El conglomerado ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: '60px'
+                    marginTop: "60px"
                   })
                 });
               }
@@ -464,7 +413,7 @@ export default withTranslation('translations')(
             toast.error(`Error ${error}.`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: '60px'
+                marginTop: "60px"
               })
             });
           });

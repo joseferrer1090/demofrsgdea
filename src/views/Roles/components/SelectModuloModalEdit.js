@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
+
 class SelectModulo extends React.Component {
   state = {
     dataModule: [],
@@ -11,10 +13,10 @@ class SelectModulo extends React.Component {
 
   getDataModulos = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/module/active`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'Application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "Application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -23,15 +25,15 @@ class SelectModulo extends React.Component {
           dataModule: data
         });
       })
-      .catch(err => console.log('', err));
+      .catch(err => console.log("", err));
   };
 
   handleChange = value => {
-    this.props.onChange('modulos', value);
+    this.props.onChange("modulos", value);
   };
 
   handleBlur = () => {
-    this.props.onBlur('modulos', true);
+    this.props.onBlur("modulos", true);
   };
 
   render() {
@@ -46,8 +48,8 @@ class SelectModulo extends React.Component {
           value={this.props.value}
         >
           <option value={0}>
-            {' '}
-            -- {t('app_roles_form_registrar_modulo_select')} --{' '}
+            {" "}
+            -- {t("app_roles_form_registrar_modulo_select")} --{" "}
           </option>
           {this.state.dataModule.map((aux, id) => {
             return (
@@ -61,4 +63,7 @@ class SelectModulo extends React.Component {
     );
   }
 }
+SelectModulo.porpTypes = {
+  t: PropTypes.any
+};
 export default SelectModulo;

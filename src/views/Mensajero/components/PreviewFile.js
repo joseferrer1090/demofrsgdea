@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { CsvToHtmlTable } from 'react-csv-to-table';
+import React from "react";
+import PropTypes from "prop-types";
+import { CsvToHtmlTable } from "react-csv-to-table";
 
 class PreviewFile extends React.Component {
   state = {
@@ -39,11 +39,11 @@ class PreviewFile extends React.Component {
     if (loading) {
       return <p>loading...</p>;
     }
-
-    // console.log(thumb.toString());
-    // console.log(file.type);
-
     return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
   }
 }
+
+PreviewFile.propTypes = {
+  file: PropTypes.any
+};
 export default PreviewFile;

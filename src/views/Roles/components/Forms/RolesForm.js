@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { withFormik, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React, { useState } from "react";
+import { withFormik, ErrorMessage } from "formik";
+import * as Yup from "yup";
 import {
   Row,
   Col,
@@ -15,18 +15,19 @@ import {
   Nav,
   NavItem,
   NavLink
-} from 'reactstrap';
-import classnames from 'classnames';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { css } from 'glamor';
-import { withTranslation } from 'react-i18next';
-import MySelectModulos from './components/SelectModulos';
-import MySelectEntidades from './components/SelectEntidades';
-import Assignedpermissions from './components/AsignarPermisos';
+} from "reactstrap";
+import classnames from "classnames";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
+import { withTranslation } from "react-i18next";
+import MySelectModulos from "./components/SelectModulos";
+import MySelectEntidades from "./components/SelectEntidades";
+import Assignedpermissions from "./components/AsignarPermisos";
+import PropTypes from "prop-types";
 
 const RolesForm = props => {
-  const [activeTab, toggleTab] = useState('1');
+  const [activeTab, toggleTab] = useState("1");
   const toggle = tab => {
     if (activeTab !== tab) {
       toggleTab(tab);
@@ -52,84 +53,84 @@ const RolesForm = props => {
         <div className="col-md-8 offset-md-2">
           <form className="form" noValidate>
             <Card>
-              <CardHeader>{t('app_roles_tab_title')}</CardHeader>
+              <CardHeader>{t("app_roles_tab_title")}</CardHeader>
               <CardBody>
                 <div className="row">
                   <Col sm="6">
                     <div className="form-group">
                       <label>
-                        {' '}
-                        {t('app_roles_form_registrar_codigo')}{' '}
-                        <span className="text-danger">*</span>{' '}
+                        {" "}
+                        {t("app_roles_form_registrar_codigo")}{" "}
+                        <span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        name={'codigo'}
+                        name={"codigo"}
                         onChange={e => {
-                          setFieldValue('codigo', e.target.value.toUpperCase());
+                          setFieldValue("codigo", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.codigo}
                         type="text"
                         className={`form-control form-control-sm ${errors.codigo &&
                           touched.codigo &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
-                      <div style={{ color: '#D54B4B' }}>
+                      <div style={{ color: "#D54B4B" }}>
                         {errors.codigo && touched.codigo ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
-                        <ErrorMessage name={'codigo'} />
+                        <ErrorMessage name={"codigo"} />
                       </div>
                     </div>
                   </Col>
                   <Col sm="6">
                     <div className="form-group">
                       <label>
-                        {' '}
-                        {t('app_roles_form_registrar_nombre')}{' '}
-                        <span className="text-danger">*</span>{' '}
+                        {" "}
+                        {t("app_roles_form_registrar_nombre")}{" "}
+                        <span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        name={'nombre'}
+                        name={"nombre"}
                         onChange={e => {
-                          setFieldValue('nombre', e.target.value.toUpperCase());
+                          setFieldValue("nombre", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.nombre}
                         type="text"
                         className={`form-control form-control-sm ${errors.nombre &&
                           touched.nombre &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
-                      <div style={{ color: '#D54B4B' }}>
+                      <div style={{ color: "#D54B4B" }}>
                         {errors.nombre && touched.nombre ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
-                        <ErrorMessage name={'nombre'} />
+                        <ErrorMessage name={"nombre"} />
                       </div>
                     </div>
                   </Col>
                   <Col sm="12">
                     <div className="form-group">
                       <label>
-                        {' '}
-                        {t('app_roles_form_registrar_descripción')}{' '}
-                        <span className="text-danger">*</span>{' '}
+                        {" "}
+                        {t("app_roles_form_registrar_descripción")}{" "}
+                        <span className="text-danger">*</span>{" "}
                       </label>
                       <textarea
-                        name={'descripcion'}
+                        name={"descripcion"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.descripcion}
                         className={`form-control form-control-sm ${errors.descripcion &&
                           touched.descripcion &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
-                      <div style={{ color: '#D54B4B' }}>
+                      <div style={{ color: "#D54B4B" }}>
                         {errors.descripcion && touched.descripcion ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
-                        <ErrorMessage name={'descripcion'} />
+                        <ErrorMessage name={"descripcion"} />
                       </div>
                     </div>
                   </Col>
@@ -138,59 +139,59 @@ const RolesForm = props => {
                   <Col sm="12">
                     <Card body>
                       <CardTitle>
-                        {' '}
+                        {" "}
                         <h4>
-                          {' '}
-                          {t('app_roles_form_registrar_title')} <hr />{' '}
+                          {" "}
+                          {t("app_roles_form_registrar_title")} <hr />{" "}
                         </h4>
                       </CardTitle>
                       <Nav tabs>
                         <NavItem>
                           <NavLink
                             className={classnames({
-                              active: activeTab === '1'
+                              active: activeTab === "1"
                             })}
                             onClick={() => {
-                              toggle('1');
+                              toggle("1");
                             }}
                           >
-                            <i className="fa fa-search" />{' '}
-                            {t('app_roles_form_registrar_title_tab')}
+                            <i className="fa fa-search" />{" "}
+                            {t("app_roles_form_registrar_title_tab")}
                           </NavLink>
                         </NavItem>
                       </Nav>
                       <TabContent activeTab={activeTab}>
-                        <TabPane tabId={'1'}>
+                        <TabPane tabId={"1"}>
                           <div className="row">
                             <Col sm="6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
-                                  {t('app_roles_form_registrar_modulo')}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                  {" "}
+                                  {t("app_roles_form_registrar_modulo")}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <MySelectModulos
                                   t={props.t}
-                                  name={'modulos'}
+                                  name={"modulos"}
                                   value={values.modulos}
                                   onChange={e => {
-                                    setFieldValue('modulos', e.target.value);
+                                    setFieldValue("modulos", e.target.value);
                                   }}
                                   onBlur={() => {
-                                    setFieldTouched('modulos', true);
+                                    setFieldTouched("modulos", true);
                                   }}
                                   className={`form-control form-control-sm ${errors.modulos &&
                                     touched.modulos &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
                                 {touched ? (
-                                  <div style={{ color: 'red' }}>
-                                    {' '}
-                                    <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "red" }}>
+                                    {" "}
+                                    <div style={{ color: "#D54B4B" }}>
                                       {errors.modulos && touched.modulos ? (
                                         <i className="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name={'modulos'} />
+                                      <ErrorMessage name={"modulos"} />
                                     </div>
                                   </div>
                                 ) : null}
@@ -199,33 +200,33 @@ const RolesForm = props => {
                             <Col sm="6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
-                                  {t('app_roles_form_registrar_entidades')}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                  {" "}
+                                  {t("app_roles_form_registrar_entidades")}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <MySelectEntidades
                                   t={props.t}
                                   modulo={props.values.modulos}
-                                  name={'entidades'}
+                                  name={"entidades"}
                                   value={values.entidades}
                                   onChange={e => {
-                                    setFieldValue('entidades', e.target.value);
+                                    setFieldValue("entidades", e.target.value);
                                   }}
                                   onBlur={() => {
-                                    setFieldTouched('entidades', true);
+                                    setFieldTouched("entidades", true);
                                   }}
                                   className={`form-control form-control-sm ${errors.entidades &&
                                     touched.entidades &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
                                 {touched ? (
-                                  <div style={{ color: 'red' }}>
-                                    {' '}
-                                    <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "red" }}>
+                                    {" "}
+                                    <div style={{ color: "#D54B4B" }}>
                                       {errors.entidades && touched.entidades ? (
                                         <i className="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name={'entidades'} />
+                                      <ErrorMessage name={"entidades"} />
                                     </div>
                                   </div>
                                 ) : null}
@@ -239,13 +240,13 @@ const RolesForm = props => {
                         <Col sm="12">
                           <div className="form-group">
                             <label>
-                              {t('app_roles_form_registrar_asignar_permisos')}{' '}
-                              <span className="text-danger">*</span>{' '}
+                              {t("app_roles_form_registrar_asignar_permisos")}{" "}
+                              <span className="text-danger">*</span>{" "}
                             </label>
                             <Assignedpermissions
                               t={props.t}
                               entidad={props.values.entidades}
-                              name={'permisos'}
+                              name={"permisos"}
                               value={values.permisos}
                               onChange={setFieldValue}
                               onBlur={setFieldTouched}
@@ -253,13 +254,13 @@ const RolesForm = props => {
                               touched={touched.permisos}
                             />
                             {touched ? (
-                              <div style={{ color: 'red' }}>
-                                {' '}
-                                <div style={{ color: '#D54B4B' }}>
+                              <div style={{ color: "red" }}>
+                                {" "}
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.permisos && touched.permisos ? (
                                     <i className="fa fa-exclamation-triangle" />
                                   ) : null}
-                                  <ErrorMessage name={'permisos'} />
+                                  <ErrorMessage name={"permisos"} />
                                 </div>
                               </div>
                             ) : null}
@@ -273,25 +274,25 @@ const RolesForm = props => {
                   <Col sm="12">
                     <div className="form-group">
                       <label>
-                        {' '}
-                        {t('app_roles_form_registrar_estado')}{' '}
-                        <span className="text-danger">*</span>{' '}
+                        {" "}
+                        {t("app_roles_form_registrar_estado")}{" "}
+                        <span className="text-danger">*</span>{" "}
                       </label>
                       <div className="">
                         <CustomInput
-                          name={'estado'}
+                          name={"estado"}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.estado}
                           type="checkbox"
                           id="ExampleCheckBoxInput"
                           label={t(
-                            'app_roles_form_registrar_estado_descripcion'
+                            "app_roles_form_registrar_estado_descripcion"
                           )}
                           className={
                             errors.estado &&
                             touched.estado &&
-                            'invalid-feedback'
+                            "invalid-feedback"
                           }
                         />
                       </div>
@@ -311,8 +312,8 @@ const RolesForm = props => {
                       <i className=" fa fa-spinner fa-spin" />
                     ) : (
                       <div>
-                        <i className="fa fa-save" />{' '}
-                        {t('app_roles_form_registrar_boton_guardar')}
+                        <i className="fa fa-save" />{" "}
+                        {t("app_roles_form_registrar_boton_guardar")}
                       </div>
                     )}
                   </button>
@@ -326,7 +327,11 @@ const RolesForm = props => {
   );
 };
 
-export default withTranslation('translations')(
+RolesForm.propTypes = {
+  t: PropTypes.any
+};
+
+export default withTranslation("translations")(
   withFormik({
     mapPropsToValues: props => ({
       codigo: props.roles.codigo,
@@ -340,23 +345,23 @@ export default withTranslation('translations')(
     }),
     validationSchema: Yup.object().shape({
       codigo: Yup.string()
-        .required(' Por favor introduzca un código.')
-        .matches(/^[0-9a-zA-Z]+$/, ' Codigo no es alfanumerico')
-        .min(2, ' minimo 2 caracteres para el codigo')
-        .max(15, ' maximo 15 caracteres para el codigo'),
-      nombre: Yup.string().required(' Por favor introduzca un nombre.'),
+        .required(" Por favor introduzca un código.")
+        .matches(/^[0-9a-zA-Z]+$/, " Codigo no es alfanumerico")
+        .min(2, " minimo 2 caracteres para el codigo")
+        .max(15, " maximo 15 caracteres para el codigo"),
+      nombre: Yup.string().required(" Por favor introduzca un nombre."),
       descripcion: Yup.string().required(
-        ' Por favor introduzca una descripción.'
+        " Por favor introduzca una descripción."
       ),
       estado: Yup.bool()
-        .test('Activo', ' Necesario activar el rol.', value => value === true)
-        .required(' Necesario activar el rol.'),
+        .test("Activo", " Necesario activar el rol.", value => value === true)
+        .required(" Necesario activar el rol."),
       modulos: Yup.string()
         .ensure()
-        .required('Se requiere el modulo para filtrar'),
+        .required("Se requiere el modulo para filtrar"),
       entidades: Yup.string()
         .ensure()
-        .required('Se requiere la entidad para filtrar'),
+        .required("Se requiere la entidad para filtrar"),
       permisos: Yup.array()
         .of(
           Yup.object().shape({
@@ -364,7 +369,7 @@ export default withTranslation('translations')(
             value: Yup.string().required()
           })
         )
-        .required('Es necesario asignar permisos')
+        .required("Es necesario asignar permisos")
     }),
     handleSubmit: (values, { setSubmitting, resetForm }) => {
       const tipoEstado = data => {
@@ -379,10 +384,10 @@ export default withTranslation('translations')(
       setTimeout(() => {
         // alert(JSON.stringify(values, null, 2));
         fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Basic ' + window.btoa('sgdea:123456')
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa("sgdea:123456")
           },
           body: JSON.stringify({
             code: values.codigo,
@@ -390,24 +395,24 @@ export default withTranslation('translations')(
             descripcion: values.descripcion,
             permissions: values.permisos,
             status: tipoEstado(values.estado),
-            userName: 'jferrer'
+            userName: "jferrer"
           })
         }).then(response => {
           response
             .json()
             .then(data => {
               if (response.status === 201) {
-                toast.success('Se creo el rol con exito.', {
+                toast.success("Se creo el rol con exito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: '60px'
+                    marginTop: "60px"
                   })
                 });
               } else if (response.status === 500) {
-                toast.error('El rol ya existe.', {
+                toast.error("El rol ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: '60px'
+                    marginTop: "60px"
                   })
                 });
               }
@@ -416,7 +421,7 @@ export default withTranslation('translations')(
               toast.error(`Error ${err}.`, {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
-                  marginTop: '60px'
+                  marginTop: "60px"
                 })
               });
             });

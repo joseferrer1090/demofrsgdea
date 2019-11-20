@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
-import { Card } from 'reactstrap';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import ModalViewAditoria from './components/ModalViewAuditoria';
-import ModalSearch from './components/ModalSearchAuditoria';
-import './../../../node_modules/react-datepicker/dist/react-datepicker.css';
-import './../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import './../../css/custom_calendar.css';
-import './../../css/table_data.css';
-import './components/customstyle.css';
-import './../../css/styleTableAuditoria.css';
-import moment from 'moment';
-import { withTranslation } from 'react-i18next';
+import React, { Component } from "react";
+import { Card } from "reactstrap";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import ModalViewAditoria from "./components/ModalViewAuditoria";
+import ModalSearch from "./components/ModalSearchAuditoria";
+import "./../../../node_modules/react-datepicker/dist/react-datepicker.css";
+import "./../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import "./../../css/custom_calendar.css";
+import "./../../css/table_data.css";
+import "./components/customstyle.css";
+import "./../../css/styleTableAuditoria.css";
+import moment from "moment";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class Auditoria extends Component {
   constructor(props) {
@@ -23,8 +24,8 @@ class Auditoria extends Component {
       dataAuditoria: [],
       dataProps: [],
       hiddenColumnId: true,
-      page: '0',
-      size: '10'
+      page: "0",
+      size: "10"
     };
   }
 
@@ -36,10 +37,10 @@ class Auditoria extends Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/audit/pagination?page=${this.state.page}&size=${this.state.size}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -49,14 +50,14 @@ class Auditoria extends Component {
           dataAuditoria: data.content
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   accionVerAuditoria(cel, row) {
     return (
       <div
         className="table-actionMenuAuditoria"
-        style={{ marginRight: '60px' }}
+        style={{ marginRight: "60px" }}
       >
         <button
           className="btn btn-secondary btn-sm "
@@ -65,8 +66,8 @@ class Auditoria extends Component {
             this.openModalView(row.id);
           }}
         >
-          {' '}
-          <i className="fa fa-eye" />{' '}
+          {" "}
+          <i className="fa fa-eye" />{" "}
         </button>
       </div>
     );
@@ -84,9 +85,9 @@ class Auditoria extends Component {
             this.openModalSearch();
           }}
         >
-          {' '}
-          <i className="fa fa-pencil" />{' '}
-          {t('app_auditoria_tabla_consulta_boton_consultar')}{' '}
+          {" "}
+          <i className="fa fa-pencil" />{" "}
+          {t("app_auditoria_tabla_consulta_boton_consultar")}{" "}
         </button>
       </div>
     );
@@ -103,7 +104,7 @@ class Auditoria extends Component {
   FechaAuditoria(cell, row) {
     let date;
     date = new Date(row.date);
-    return moment(date).format('YYYY-MM-DD');
+    return moment(date).format("YYYY-MM-DD");
   }
 
   indexN(cell, row, enumObject, index) {
@@ -156,55 +157,55 @@ class Auditoria extends Component {
                   dataField="date"
                   dataAlign="center"
                   dataFormat={(cell, row) => this.FechaAuditoria(cell, row)}
-                  width={'180'}
+                  width={"180"}
                 >
-                  {' '}
-                  {t('app_auditoria_tabla_fecha_auditoria')}{' '}
+                  {" "}
+                  {t("app_auditoria_tabla_fecha_auditoria")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataFormat={this.ModuloInfo}
                   dataField="pageAction"
                   dataAlign="center"
-                  width={'180'}
+                  width={"180"}
                 >
-                  {' '}
-                  {t('app_auditoria_tabla_modulo')}{' '}
+                  {" "}
+                  {t("app_auditoria_tabla_modulo")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataFormat={this.EntidadInfo}
                   dataField="pageAction"
                   dataAlign="center"
-                  width={'180'}
+                  width={"180"}
                 >
-                  {' '}
-                  {t('app_auditoria_tabla_entidad')}{' '}
+                  {" "}
+                  {t("app_auditoria_tabla_entidad")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataFormat={this.AccionInfo}
                   dataField="pageAction"
                   dataAlign="center"
-                  width={'180'}
+                  width={"180"}
                 >
-                  {' '}
-                  {t('app_auditoria_tabala_accion')}{' '}
+                  {" "}
+                  {t("app_auditoria_tabala_accion")}{" "}
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
-                  width={'180'}
+                  width={"180"}
                   dataField="username"
                   dataAlign="center"
                 >
-                  {' '}
-                  {t('app_auditoria_tabla_usuario')}{' '}
+                  {" "}
+                  {t("app_auditoria_tabla_usuario")}{" "}
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
-                  width={'100'}
+                  width={"100"}
                   export={false}
                   dataAlign="center"
                   dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
                 >
-                  {t('app_auditoria_tabla_acciones')}{' '}
+                  {t("app_auditoria_tabla_acciones")}{" "}
                 </TableHeaderColumn>
               </BootstrapTable>
             </Card>
@@ -213,17 +214,19 @@ class Auditoria extends Component {
         <ModalViewAditoria
           t={this.props.t}
           modalview={this.state.modalviewauditoria}
-          ref={'child1'}
+          ref={"child1"}
         />
         <ModalSearch
           t={this.props.t}
           onDataFetch={this.onDataFetch}
           modalSearch={this.state.modalSearch}
-          ref={'child2'}
+          ref={"child2"}
         />
       </div>
     );
   }
 }
-
-export default withTranslation('translations')(Auditoria);
+Auditoria.propTypes = {
+  t: PropTypes.any
+};
+export default withTranslation("translations")(Auditoria);

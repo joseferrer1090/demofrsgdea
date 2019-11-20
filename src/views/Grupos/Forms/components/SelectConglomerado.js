@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
+
 class SelectConglomerado extends React.Component {
   state = {
     dataConglomerado: [],
@@ -11,10 +13,10 @@ class SelectConglomerado extends React.Component {
 
   getData = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -37,8 +39,8 @@ class SelectConglomerado extends React.Component {
           // onBlur={this.handleBlur}
           className={this.props.className}
         >
-          <option value={''}>
-            -- {t('app_grupoUsuarios_form_registrar_select_conglomerado')} --
+          <option value={""}>
+            -- {t("app_grupoUsuarios_form_registrar_select_conglomerado")} --
           </option>
           {this.state.dataConglomerado.map((aux, id) => {
             return (
@@ -52,4 +54,7 @@ class SelectConglomerado extends React.Component {
     );
   }
 }
+SelectConglomerado.propTypes = {
+  t: PropTypes.any
+};
 export default SelectConglomerado;

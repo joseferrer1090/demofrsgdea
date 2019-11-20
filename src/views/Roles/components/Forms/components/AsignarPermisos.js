@@ -1,5 +1,7 @@
-import React from 'react';
-import Select from 'react-select';
+import React from "react";
+import Select from "react-select";
+import PropTypes from "prop-types";
+
 class Assignedpermissions extends React.Component {
   state = {
     dataPermission: [],
@@ -30,10 +32,10 @@ class Assignedpermissions extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.state.id}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -43,15 +45,15 @@ class Assignedpermissions extends React.Component {
           dataPermission: data
         });
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
   };
 
   handleChange = value => {
-    this.props.onChange('permisos', value);
+    this.props.onChange("permisos", value);
   };
 
   handleBlur = () => {
-    this.props.onBlur('permisos', true);
+    this.props.onBlur("permisos", true);
   };
 
   render() {
@@ -67,10 +69,14 @@ class Assignedpermissions extends React.Component {
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           value={this.props.value}
-          placeholder={t('app_roles_form_registrar_asiganar_permisos_select')}
+          placeholder={t("app_roles_form_registrar_asiganar_permisos_select")}
         />
       </div>
     );
   }
 }
+Assignedpermissions.propTypes = {
+  t: PropTypes.any,
+  id: PropTypes.string.isRequired
+};
 export default Assignedpermissions;

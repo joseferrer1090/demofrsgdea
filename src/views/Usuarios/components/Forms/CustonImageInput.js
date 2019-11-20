@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
-import { withTranslation } from 'react-i18next';
+import React, { Component } from "react";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class CustomImageInput extends Component {
   constructor(props) {
@@ -50,7 +51,7 @@ class CustomImageInput extends Component {
           className="img"
           src={imagePreviewUrl}
           alt="..."
-          className={'img-thumbnail'}
+          className={"img-thumbnail"}
         />
       );
     } else {
@@ -67,21 +68,21 @@ class CustomImageInput extends Component {
     const { name } = this.props.field;
     const { t } = this.props;
     return (
-      <div className={'container'}>
-        <div style={{ marginTop: '-20px' }}>
+      <div className={"container"}>
+        <div style={{ marginTop: "-20px" }}>
           {this.state.imagePreviewUrl ? (
             this.showPreloadImage()
           ) : (
             <img
-              src={'https://via.placeholder.com/550?text=sgdea+perfil'}
+              src={"https://via.placeholder.com/550?text=sgdea+perfil"}
               className="img-thumbnail img-fluid"
             />
           )}
         </div>
         <br />
         <input
-          style={{ display: 'none' }}
-          className={''}
+          style={{ display: "none" }}
+          className={""}
           id={name}
           name={name}
           type="file"
@@ -92,14 +93,18 @@ class CustomImageInput extends Component {
         <button
           type="button"
           onClick={this.showFileUpload}
-          className={'btn btn-secondary btn-sm'}
+          className={"btn btn-secondary btn-sm"}
         >
-          <i className={'fa fa-camera'} />{' '}
-          {t('app_usuarios_form_registrar_boton_cargar_imagen')}{' '}
+          <i className={"fa fa-camera"} />{" "}
+          {t("app_usuarios_form_registrar_boton_cargar_imagen")}{" "}
         </button>
       </div>
     );
   }
 }
 
-export default withTranslation('translations')(CustomImageInput);
+CustomImageInput.propTypes = {
+  t: PropTypes.any
+};
+
+export default withTranslation("translations")(CustomImageInput);

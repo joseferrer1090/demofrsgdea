@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 class SelectDependencia extends React.Component {
   state = {
     dataDependencia: [],
@@ -31,10 +32,10 @@ class SelectDependencia extends React.Component {
     fetch(
       `http://192.168.20.187:7000/api/sgdea/dependence/headquarter/${this.props.idSede}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -44,7 +45,7 @@ class SelectDependencia extends React.Component {
           dataDependencia: data
         });
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
   };
 
   render() {
@@ -59,8 +60,8 @@ class SelectDependencia extends React.Component {
           className={this.props.className}
         >
           <option>
-            {' '}
-            -- {t('app_tipoTramite_form_registrar_select_dependecia')} --{' '}
+            {" "}
+            -- {t("app_tipoTramite_form_registrar_select_dependecia")} --{" "}
           </option>
           {this.state.dataDependencia.map((aux, id) => {
             return (
@@ -74,4 +75,8 @@ class SelectDependencia extends React.Component {
     );
   }
 }
+SelectDependencia.propTypes = {
+  id: PropTypes.string.isRequired,
+  t: PropTypes.any
+};
 export default SelectDependencia;

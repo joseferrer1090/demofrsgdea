@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   Modal,
   ModalFooter,
@@ -7,9 +7,10 @@ import {
   ModalHeader,
   Row,
   Col
-} from 'reactstrap';
-import IMGPAIS from './../../../assets/img/flag.svg';
-import moment from 'moment';
+} from "reactstrap";
+import IMGPAIS from "./../../../assets/img/flag.svg";
+import moment from "moment";
+
 class ModalViewPais extends Component {
   constructor(props) {
     super(props);
@@ -18,7 +19,7 @@ class ModalViewPais extends Component {
       dataPais: {},
       id: this.props.id,
       t: this.props.t,
-      username: 'ccuartas'
+      username: "ccuartas"
     };
   }
 
@@ -30,10 +31,10 @@ class ModalViewPais extends Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/country/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-          'Content-Type': 'application/json'
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
         }
       }
     )
@@ -43,18 +44,18 @@ class ModalViewPais extends Component {
           dataPais: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   FechaCreacionPais(data) {
     let createdAt;
     createdAt = new Date(data);
-    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
+    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
   }
   FechaModificacionPais(data) {
     let updatedAt;
     updatedAt = new Date(data);
-    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
+    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
   }
 
   render() {
@@ -63,11 +64,11 @@ class ModalViewPais extends Component {
       let status;
       if (data === 1) {
         status = (
-          <b className="text-success"> {t('app_tablas_estado_activo')} </b>
+          <b className="text-success"> {t("app_tablas_estado_activo")} </b>
         );
       } else if (data === 0) {
         status = (
-          <b className="text-danger"> {t('app_tablas_estado_inactivo')} </b>
+          <b className="text-danger"> {t("app_tablas_estado_inactivo")} </b>
         );
       }
       return status;
@@ -81,8 +82,8 @@ class ModalViewPais extends Component {
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {' '}
-            {t('app_pais_modal_ver_titulo')} {name}{' '}
+            {" "}
+            {t("app_pais_modal_ver_titulo")} {name}{" "}
           </ModalHeader>
           <ModalBody>
             <Row>
@@ -91,17 +92,17 @@ class ModalViewPais extends Component {
               </Col>
               <Col sm="9">
                 <div className="">
-                  {' '}
-                  <h5 className="" style={{ borderBottom: '1px solid black' }}>
-                    {' '}
-                    {t('app_pais_modal_ver_titulo_2')}{' '}
-                  </h5>{' '}
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    {t("app_pais_modal_ver_titulo_2")}{" "}
+                  </h5>{" "}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> {t('app_pais_modal_ver_codigo')} </dt>
+                        <dt> {t("app_pais_modal_ver_codigo")} </dt>
                         <dd> {code} </dd>
                       </dl>
                     </div>
@@ -109,7 +110,7 @@ class ModalViewPais extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> {t('app_pais_modal_ver_nombre')} </dt>
+                        <dt> {t("app_pais_modal_ver_nombre")} </dt>
                         <dd> {name} </dd>
                       </dl>
                     </div>
@@ -117,7 +118,7 @@ class ModalViewPais extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> {t('app_pais_modal_ver_estado')} </dt>
+                        <dt> {t("app_pais_modal_ver_estado")} </dt>
                         <dd> {statusCountry(status)} </dd>
                       </dl>
                     </div>
@@ -125,7 +126,7 @@ class ModalViewPais extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> {t('app_pais_modal_ver_fecha_creacion')} </dt>
+                        <dt> {t("app_pais_modal_ver_fecha_creacion")} </dt>
                         <dd> {this.FechaCreacionPais(createdAt)} </dd>
                       </dl>
                     </div>
@@ -133,7 +134,7 @@ class ModalViewPais extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> {t('app_pais_modal_ver_fecha_modificacion')} </dt>
+                        <dt> {t("app_pais_modal_ver_fecha_modificacion")} </dt>
                         <dd> {this.FechaModificacionPais(updatedAt)} </dd>
                       </dl>
                     </div>
@@ -149,9 +150,9 @@ class ModalViewPais extends Component {
                 this.setState({ modal: false });
               }}
             >
-              {' '}
-              <i className="fa fa-times" />{' '}
-              {t('app_pais_modal_ver_button_cerrar')}{' '}
+              {" "}
+              <i className="fa fa-times" />{" "}
+              {t("app_pais_modal_ver_button_cerrar")}{" "}
             </button>
           </ModalFooter>
         </Modal>
@@ -162,7 +163,8 @@ class ModalViewPais extends Component {
 
 ModalViewPais.propTypes = {
   modalview: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  id: PropTypes.string.isRequired
 };
 
 export default ModalViewPais;

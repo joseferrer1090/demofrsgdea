@@ -6,12 +6,8 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  Row,
-  Col,
   Card,
   CardBody,
-  CardFooter,
-  CardTitle,
   CustomInput, 
   Alert
 } from "reactstrap";

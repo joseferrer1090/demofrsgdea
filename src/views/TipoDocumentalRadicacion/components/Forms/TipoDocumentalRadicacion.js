@@ -1,8 +1,9 @@
-import React from 'react';
-import { Formik, withFormik, ErrorMessage } from 'formik';
-import { Row, Col, CustomInput } from 'reactstrap';
-import * as Yup from 'yup';
-import { withTranslation } from 'react-i18next';
+import React from "react";
+import { withFormik, ErrorMessage } from "formik";
+import { Col, CustomInput } from "reactstrap";
+import * as Yup from "yup";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 const TipoDocumentalRadicacion = props => {
   const {
@@ -24,7 +25,7 @@ const TipoDocumentalRadicacion = props => {
             <div className="col-md-6">
               <div className="card">
                 <div className="p-2 mb-1 bg-light text-dark">
-                  {t('app_documentalRadicacion_form_registrar_titulo_1')}
+                  {t("app_documentalRadicacion_form_registrar_titulo_1")}
                 </div>
                 <div className="card-body">
                   <form className="form">
@@ -33,52 +34,52 @@ const TipoDocumentalRadicacion = props => {
                         <div className="form-group">
                           <label>
                             {t(
-                              'app_documentalRadicacion_form_registrar_tipo_correspondencia'
-                            )}{' '}
+                              "app_documentalRadicacion_form_registrar_tipo_correspondencia"
+                            )}{" "}
                             <span className="text-danger">* </span>
                           </label>
                           <select
-                            name={'tipo_correspondencia'}
+                            name={"tipo_correspondencia"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.tipo_correspondencia}
                             className={`form-control form-control-sm ${errors.tipo_correspondencia &&
                               touched.tipo_correspondencia &&
-                              'is-invalid'}`}
+                              "is-invalid"}`}
                           >
-                            <option disabled value={''}>
-                              {' '}
-                              --{' '}
+                            <option disabled value={""}>
+                              {" "}
+                              --{" "}
                               {t(
-                                'app_documentalRadicacion_form_registrar_select_tipo_correspondencia'
-                              )}{' '}
-                              --{' '}
+                                "app_documentalRadicacion_form_registrar_select_tipo_correspondencia"
+                              )}{" "}
+                              --{" "}
                             </option>
-                            <option value={'1'}>
-                              {' '}
+                            <option value={"1"}>
+                              {" "}
                               {t(
-                                'app_documentalRadicacion_form_registrar_select_tipo_correspondencia_recibida'
-                              )}{' '}
+                                "app_documentalRadicacion_form_registrar_select_tipo_correspondencia_recibida"
+                              )}{" "}
                             </option>
-                            <option value={'2'}>
-                              {' '}
+                            <option value={"2"}>
+                              {" "}
                               {t(
-                                'app_documentalRadicacion_form_registrar_select_tipo_correspondencia_despachada'
-                              )}{' '}
+                                "app_documentalRadicacion_form_registrar_select_tipo_correspondencia_despachada"
+                              )}{" "}
                             </option>
-                            <option value={'3'}>
-                              {' '}
+                            <option value={"3"}>
+                              {" "}
                               {t(
-                                'app_documentalRadicacion_form_registrar_select_tipo_correspondencia_interna'
-                              )}{' '}
+                                "app_documentalRadicacion_form_registrar_select_tipo_correspondencia_interna"
+                              )}{" "}
                             </option>
                           </select>
-                          <div style={{ color: '#D54B4B' }}>
+                          <div style={{ color: "#D54B4B" }}>
                             {errors.tipo_correspondencia &&
                             touched.tipo_correspondencia ? (
                               <i className="fa fa-exclamation-triangle" />
                             ) : null}
-                            <ErrorMessage name={'tipo_correspondencia'} />
+                            <ErrorMessage name={"tipo_correspondencia"} />
                           </div>
                         </div>
                       </div>
@@ -86,15 +87,15 @@ const TipoDocumentalRadicacion = props => {
                         <div className="form-group">
                           <label>
                             {t(
-                              'app_documentalRadicacion_form_registrar_codigo'
-                            )}{' '}
-                            <span className="text-danger">*</span>{' '}
+                              "app_documentalRadicacion_form_registrar_codigo"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            name={'codigo'}
+                            name={"codigo"}
                             onChange={e => {
                               setFieldValue(
-                                'codigo',
+                                "codigo",
                                 e.target.value.toUpperCase()
                               );
                             }}
@@ -103,13 +104,13 @@ const TipoDocumentalRadicacion = props => {
                             type="text"
                             className={`form-control form-control-sm ${errors.codigo &&
                               touched.codigo &&
-                              'is-invalid'}`}
+                              "is-invalid"}`}
                           />
-                          <div style={{ color: '#D54B4B' }}>
+                          <div style={{ color: "#D54B4B" }}>
                             {errors.codigo && touched.codigo ? (
                               <i className="fa fa-exclamation-triangle" />
                             ) : null}
-                            <ErrorMessage name={'codigo'} />
+                            <ErrorMessage name={"codigo"} />
                           </div>
                         </div>
                       </div>
@@ -117,16 +118,16 @@ const TipoDocumentalRadicacion = props => {
                         <div className="form-group">
                           <label>
                             {t(
-                              'app_documentalRadicacion_form_registrar_nombre'
-                            )}{' '}
-                            <span className="text-danger">*</span>{' '}
+                              "app_documentalRadicacion_form_registrar_nombre"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <input
                             type="text"
-                            name={'nombre'}
+                            name={"nombre"}
                             onChange={e => {
                               setFieldValue(
-                                'nombre',
+                                "nombre",
                                 e.target.value.toUpperCase()
                               );
                             }}
@@ -134,13 +135,13 @@ const TipoDocumentalRadicacion = props => {
                             value={values.nombre}
                             className={`form-control form-control-sm ${errors.nombre &&
                               touched.nombre &&
-                              'is-invalid'}`}
+                              "is-invalid"}`}
                           />
-                          <div style={{ color: '#D54B4B' }}>
+                          <div style={{ color: "#D54B4B" }}>
                             {errors.nombre && touched.nombre ? (
                               <i className="fa fa-exclamation-triangle" />
                             ) : null}
-                            <ErrorMessage name={'nombre'} />
+                            <ErrorMessage name={"nombre"} />
                           </div>
                         </div>
                       </div>
@@ -148,25 +149,25 @@ const TipoDocumentalRadicacion = props => {
                         <div className="form-group">
                           <label>
                             {t(
-                              'app_documentalRadicacion_form_registrar_descripcion'
-                            )}{' '}
-                            <span className="text-danger">*</span>{' '}
+                              "app_documentalRadicacion_form_registrar_descripcion"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            name={'descripcion'}
+                            name={"descripcion"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.descripcion}
                             type="text"
                             className={`form-control form-control-sm ${errors.descripcion &&
                               touched.descripcion &&
-                              'is-invalid'}`}
+                              "is-invalid"}`}
                           />
-                          <div style={{ color: '#D54B4B' }}>
+                          <div style={{ color: "#D54B4B" }}>
                             {errors.descripcion && touched.descripcion ? (
                               <i className="fa fa-exclamation-triangle" />
                             ) : null}
-                            <ErrorMessage name={'descripcion'} />
+                            <ErrorMessage name={"descripcion"} />
                           </div>
                         </div>
                       </div>
@@ -174,12 +175,12 @@ const TipoDocumentalRadicacion = props => {
                         <div className="form-group">
                           <label>
                             {t(
-                              'app_documentalRadicacion_form_registrar_dias_respuesta'
-                            )}{' '}
-                            <span className="text-danger">*</span>{' '}
+                              "app_documentalRadicacion_form_registrar_dias_respuesta"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            name={'d_maximos_respuesta'}
+                            name={"d_maximos_respuesta"}
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.d_maximos_respuesta}
@@ -187,41 +188,41 @@ const TipoDocumentalRadicacion = props => {
                             min={0}
                             className={`form-control form-control-sm ${errors.d_maximos_respuesta &&
                               touched.d_maximos_respuesta &&
-                              'is-invalid'}`}
+                              "is-invalid"}`}
                           />
-                          <div style={{ color: '#D54B4B' }}>
+                          <div style={{ color: "#D54B4B" }}>
                             {errors.d_maximos_respuesta &&
                             touched.d_maximos_respuesta ? (
                               <i className="fa fa-exclamation-triangle" />
                             ) : null}
-                            <ErrorMessage name={'d_maximos_respuesta'} />
+                            <ErrorMessage name={"d_maximos_respuesta"} />
                           </div>
                         </div>
                       </div>
                       <Col sm="12">
                         <div className="form-group">
                           <label>
-                            {' '}
+                            {" "}
                             {t(
-                              'app_documentalRadicacion_form_registrar_estado'
-                            )}{' '}
-                            <span className="text-danger">*</span>{' '}
+                              "app_documentalRadicacion_form_registrar_estado"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <div className="text-justify">
                             <CustomInput
-                              name={'estado'}
+                              name={"estado"}
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={values.estados}
                               type="checkbox"
                               id="ExampleInputCheckbox"
                               label={t(
-                                'app_documentalRadicacion_form_registrar_descripcion_estado'
+                                "app_documentalRadicacion_form_registrar_descripcion_estado"
                               )}
                               className={
                                 errors.estado &&
                                 touched.estado &&
-                                'invalid-feedback'
+                                "invalid-feedback"
                               }
                             />
                           </div>
@@ -235,7 +236,7 @@ const TipoDocumentalRadicacion = props => {
             <div className="col-md-6">
               <div className="card">
                 <div className="p-2 mb-1 bg-light text-dark">
-                  {t('app_documentalRadicacion_form_registrar_titulo_2')}
+                  {t("app_documentalRadicacion_form_registrar_titulo_2")}
                 </div>
                 <div className="card-body">
                   <form>
@@ -243,17 +244,17 @@ const TipoDocumentalRadicacion = props => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>
-                            {' '}
+                            {" "}
                             {t(
-                              'app_documentalRadicacion_form_registrar_conglomerado'
-                            )}{' '}
+                              "app_documentalRadicacion_form_registrar_conglomerado"
+                            )}{" "}
                           </label>
                           <select className="form-control form-control-sm">
                             <option>
-                              --{' '}
+                              --{" "}
                               {t(
-                                'app_documentalRadicacion_form_registrar_select_conglomerado'
-                              )}{' '}
+                                "app_documentalRadicacion_form_registrar_select_conglomerado"
+                              )}{" "}
                               --
                             </option>
                           </select>
@@ -263,15 +264,15 @@ const TipoDocumentalRadicacion = props => {
                         <div className="form-group">
                           <label>
                             {t(
-                              'app_documentalRadicacion_form_registrar_empresa'
-                            )}{' '}
+                              "app_documentalRadicacion_form_registrar_empresa"
+                            )}{" "}
                           </label>
                           <select className="form-control form-control-sm">
                             <option>
-                              --{' '}
+                              --{" "}
                               {t(
-                                'app_documentalRadicacion_form_registrar_select_empresa'
-                              )}{' '}
+                                "app_documentalRadicacion_form_registrar_select_empresa"
+                              )}{" "}
                               --
                             </option>
                           </select>
@@ -280,17 +281,17 @@ const TipoDocumentalRadicacion = props => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>
-                            {' '}
+                            {" "}
                             {t(
-                              'app_documentalRadicacion_form_registrar_sede'
-                            )}{' '}
+                              "app_documentalRadicacion_form_registrar_sede"
+                            )}{" "}
                           </label>
                           <select className="form-control form-control-sm">
                             <option>
-                              --{' '}
+                              --{" "}
                               {t(
-                                'app_documentalRadicacion_form_registrar_select_sede'
-                              )}{' '}
+                                "app_documentalRadicacion_form_registrar_select_sede"
+                              )}{" "}
                               --
                             </option>
                           </select>
@@ -299,17 +300,17 @@ const TipoDocumentalRadicacion = props => {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label>
-                            {' '}
+                            {" "}
                             {t(
-                              'app_documentalRadicacion_form_registrar_dependencia'
-                            )}{' '}
+                              "app_documentalRadicacion_form_registrar_dependencia"
+                            )}{" "}
                           </label>
                           <select className="form-control form-control-sm">
                             <option>
-                              --{' '}
+                              --{" "}
                               {t(
-                                'app_documentalRadicacion_form_registrar_select_dependecia'
-                              )}{' '}
+                                "app_documentalRadicacion_form_registrar_select_dependecia"
+                              )}{" "}
                               --
                             </option>
                           </select>
@@ -318,10 +319,10 @@ const TipoDocumentalRadicacion = props => {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label>
-                            {' '}
+                            {" "}
                             {t(
-                              'app_documentalRadicacion_form_registrar_select_buscar_usuario'
-                            )}{' '}
+                              "app_documentalRadicacion_form_registrar_select_buscar_usuario"
+                            )}{" "}
                           </label>
                           <div className="input-group input-group-sm">
                             <input
@@ -343,9 +344,9 @@ const TipoDocumentalRadicacion = props => {
                                 className="btn btn-secondary"
                                 type="button"
                               >
-                                <i className="fa fa-plus" />{' '}
+                                <i className="fa fa-plus" />{" "}
                                 {t(
-                                  'app_documentalRadicacion_form_registrar_select_buscar_usuario_agregar'
+                                  "app_documentalRadicacion_form_registrar_select_buscar_usuario_agregar"
                                 )}
                               </button>
                             </div>
@@ -355,7 +356,7 @@ const TipoDocumentalRadicacion = props => {
                           className="form-control form-control-sm"
                           disabled
                           placeholder={t(
-                            'app_documentalRadicacion_form_registrar_placeholder_select'
+                            "app_documentalRadicacion_form_registrar_placeholder_select"
                           )}
                           rows={8}
                         />
@@ -370,7 +371,7 @@ const TipoDocumentalRadicacion = props => {
             <div className="col-md-12">
               <div className="card">
                 <div className="p-2 mb-1 bg-light text-dark">
-                  {t('app_documentalRadicacion_form_registrar_titulo_3')}
+                  {t("app_documentalRadicacion_form_registrar_titulo_3")}
                 </div>
                 <div className="card-body">
                   <form>
@@ -381,27 +382,27 @@ const TipoDocumentalRadicacion = props => {
                             <tr className="text-center">
                               <th scope="col">
                                 {t(
-                                  'app_documentalRadicacion_form_registrar_table_usuarios_disponibles_usuario'
+                                  "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_usuario"
                                 )}
                               </th>
                               <th scope="col">
                                 {t(
-                                  'app_documentalRadicacion_form_registrar_table_usuarios_disponibles_sede'
+                                  "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_sede"
                                 )}
                               </th>
                               <th scope="col">
                                 {t(
-                                  'app_documentalRadicacion_form_registrar_table_usuarios_disponibles_dependencia'
+                                  "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_dependencia"
                                 )}
                               </th>
                               <th scope="col">
                                 {t(
-                                  'app_documentalRadicacion_form_registrar_table_usuarios_disponibles_original'
+                                  "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_original"
                                 )}
                               </th>
                               <th scope="col">
                                 {t(
-                                  'app_documentalRadicacion_form_registrar_table_usuarios_disponibles_eliminar'
+                                  "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_eliminar"
                                 )}
                               </th>
                             </tr>
@@ -415,16 +416,16 @@ const TipoDocumentalRadicacion = props => {
                                 <CustomInput
                                   type="radio"
                                   id="exampleCustomCheckbox2"
-                                />{' '}
+                                />{" "}
                               </td>
                               <td>
-                                {' '}
+                                {" "}
                                 <button
                                   type="button"
                                   className="btn btn-sm btn-danger"
                                 >
                                   <i className="fa fa-trash" />
-                                </button>{' '}
+                                </button>{" "}
                               </td>
                             </tr>
                           </tbody>
@@ -440,7 +441,7 @@ const TipoDocumentalRadicacion = props => {
             <div className="col-md-4">
               <div className="card">
                 <div className="p-2 mb-1 bg-light text-dark">
-                  {t('app_documentalRadicacion_form_registrar_titulo_4')}
+                  {t("app_documentalRadicacion_form_registrar_titulo_4")}
                 </div>
                 <div className="card-body">
                   <form>
@@ -449,7 +450,7 @@ const TipoDocumentalRadicacion = props => {
                         <div className="form-group">
                           <label>
                             {t(
-                              'app_documentalRadicacion_form_registrar_asunto'
+                              "app_documentalRadicacion_form_registrar_asunto"
                             )}
                           </label>
                           <textarea className="form-control form-control-sm" />
@@ -463,7 +464,7 @@ const TipoDocumentalRadicacion = props => {
             <div className="col-md-4">
               <div className="card">
                 <div className="p-2 mb-1 bg-light text-dark">
-                  {t('app_documentalRadicacion_form_registrar_titulo_5')}
+                  {t("app_documentalRadicacion_form_registrar_titulo_5")}
                 </div>
                 <div className="card-body">
                   <form>
@@ -472,14 +473,14 @@ const TipoDocumentalRadicacion = props => {
                         <div className="form-group">
                           <label>
                             {t(
-                              'app_documentalRadicacion_form_registrar_plantilla'
+                              "app_documentalRadicacion_form_registrar_plantilla"
                             )}
                           </label>
                           <select className="form-control form-control-sm">
                             <option>
                               --
                               {t(
-                                'app_documentalRadicacion_form_registrar_select_plantilla'
+                                "app_documentalRadicacion_form_registrar_select_plantilla"
                               )}
                               --
                             </option>
@@ -494,7 +495,7 @@ const TipoDocumentalRadicacion = props => {
             <div className="col-md-4">
               <div className="card">
                 <div className="p-2 mb-1 bg-light text-dark">
-                  {t('app_documentalRadicacion_form_registrar_titulo_6')}
+                  {t("app_documentalRadicacion_form_registrar_titulo_6")}
                 </div>
                 <div className="card-body">
                   <form>
@@ -503,14 +504,14 @@ const TipoDocumentalRadicacion = props => {
                         <div className="form-group">
                           <label>
                             {t(
-                              'app_documentalRadicacion_form_registrar_workflow'
+                              "app_documentalRadicacion_form_registrar_workflow"
                             )}
                           </label>
                           <select className="form-control form-control-sm">
                             <option>
                               --
                               {t(
-                                'app_documentalRadicacion_form_registrar_select_workflow'
+                                "app_documentalRadicacion_form_registrar_select_workflow"
                               )}
                               --
                             </option>
@@ -536,8 +537,8 @@ const TipoDocumentalRadicacion = props => {
                 <i className=" fa fa-spinner fa-spin" />
               ) : (
                 <div>
-                  <i className="fa fa-save" />{' '}
-                  {t('app_documentalRadicacion_form_registrar_boton_guardar')}
+                  <i className="fa fa-save" />{" "}
+                  {t("app_documentalRadicacion_form_registrar_boton_guardar")}
                 </div>
               )}
             </button>
@@ -548,7 +549,7 @@ const TipoDocumentalRadicacion = props => {
   );
 };
 
-export default withTranslation('translations')(
+export default withTranslation("translations")(
   withFormik({
     mapPropsToValues: props => ({
       tipo_correspondencia: props.tdocumentalradicacion.tipo_correspondencia,
@@ -565,19 +566,19 @@ export default withTranslation('translations')(
     validationSchema: Yup.object().shape({
       tipo_correspondencia: Yup.string()
         .ensure()
-        .required(' Por favor seleccione el tipo de correspondencia.'),
-      codigo: Yup.string().required(' Por favor introduzca un código. '),
-      nombre: Yup.string().required(' Por favor introduzca un nombre.'),
+        .required(" Por favor seleccione el tipo de correspondencia."),
+      codigo: Yup.string().required(" Por favor introduzca un código. "),
+      nombre: Yup.string().required(" Por favor introduzca un nombre."),
       descripcion: Yup.string().required(
-        ' Por favor introduzca una descripción.'
+        " Por favor introduzca una descripción."
       ),
       d_maximos_respuesta: Yup.number()
         .positive()
         .integer()
-        .required(' Por favor introduzca el número de días de respuesta.'),
+        .required(" Por favor introduzca el número de días de respuesta."),
       estado: Yup.bool().test(
-        'Activo',
-        'Se necesita activar el tipo documental de radicacion',
+        "Activo",
+        "Se necesita activar el tipo documental de radicacion",
         value => value === true
       ),
       user_enabled: Yup.array().of(
@@ -598,3 +599,6 @@ export default withTranslation('translations')(
     }
   })(TipoDocumentalRadicacion)
 );
+TipoDocumentalRadicacion.propTypes = {
+  t: PropTypes.any
+};

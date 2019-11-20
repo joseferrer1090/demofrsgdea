@@ -1,19 +1,21 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Formik, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import { Col, CustomInput, Button, Alert } from 'reactstrap';
+import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Formik, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { Col, CustomInput, Button, Alert } from "reactstrap";
 import {
   agregarUserAction,
   borrarUserAction,
   agregarOriginal
-} from './../../../../actions/usersActions';
-import 'react-toastify/dist/ReactToastify.css';
-import { withTranslation } from 'react-i18next';
-import SelectConglomerado from './components/SelectConglomerado';
-import SelectDependencia from './components/SelectDependence';
-import SelectEmpresa from './components/SelectDependence';
-import SelectSede from './components/SelectHeadquarter';
+} from "./../../../../actions/usersActions";
+import "react-toastify/dist/ReactToastify.css";
+import { withTranslation } from "react-i18next";
+import SelectConglomerado from "./components/SelectConglomerado";
+import SelectDependencia from "./components/SelectDependence";
+import SelectEmpresa from "./components/SelectDependence";
+import SelectSede from "./components/SelectHeadquarter";
+import PropTypes from "prop-types";
+import { privateName } from "@babel/types";
 
 const TipoTramiteForm = props => {
   const { t } = props;
@@ -23,41 +25,41 @@ const TipoTramiteForm = props => {
   return (
     <Formik
       initialValues={{
-        tipocorrespondencia: '',
-        codigo: '',
-        nombre: '',
-        descripcion: '',
-        d_maximos: '',
-        conglomerado: '',
-        empresa: '',
-        sede: '',
-        dependencia: '',
+        tipocorrespondencia: "",
+        codigo: "",
+        nombre: "",
+        descripcion: "",
+        d_maximos: "",
+        conglomerado: "",
+        empresa: "",
+        sede: "",
+        dependencia: "",
         estado: false
       }}
       validationSchema={Yup.object().shape({
         tipocorrespondencia: Yup.string()
           .ensure()
-          .required(' Por favor seleccione el tipo de correspondencia.'),
+          .required(" Por favor seleccione el tipo de correspondencia."),
         codigo: Yup.string()
-          .required(' Por favor introduzca un código.')
-          .matches(/^[0-9a-zA-Z]+$/, ' No es un codigo alfanumerico')
-          .min(2, ' minimo 2 caracteres para el codigo')
-          .max(15, ' maximo 15 caracteres para el codigo'),
-        nombre: Yup.string().required(' Por favor introduzca un nombre.'),
+          .required(" Por favor introduzca un código.")
+          .matches(/^[0-9a-zA-Z]+$/, " No es un codigo alfanumerico")
+          .min(2, " minimo 2 caracteres para el codigo")
+          .max(15, " maximo 15 caracteres para el codigo"),
+        nombre: Yup.string().required(" Por favor introduzca un nombre."),
         descripcion: Yup.string().required(
-          ' Por favor introduzca una descripción.'
+          " Por favor introduzca una descripción."
         ),
         d_maximos: Yup.number()
           .integer()
           .positive()
-          .required(' Por favor introduzca los días máximos de respuesta.'),
+          .required(" Por favor introduzca los días máximos de respuesta."),
         estado: Yup.bool()
           .test(
-            'Activo',
-            'Es necesario activar el tipo de trámite',
+            "Activo",
+            "Es necesario activar el tipo de trámite",
             value => value === true
           )
-          .required(' Es necesario activar el tipo de trámite.')
+          .required(" Es necesario activar el tipo de trámite.")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
@@ -79,15 +81,15 @@ const TipoTramiteForm = props => {
           );
           setSubmitting(false);
           resetForm({
-            tipocorrespondencia: '',
-            codigo: '',
-            nombre: '',
-            descripcion: '',
-            d_maximos: '',
-            conglomerado: '',
-            empresa: '',
-            sede: '',
-            dependencia: ''
+            tipocorrespondencia: "",
+            codigo: "",
+            nombre: "",
+            descripcion: "",
+            d_maximos: "",
+            conglomerado: "",
+            empresa: "",
+            sede: "",
+            dependencia: ""
           });
         }, 1000);
       }}
@@ -112,7 +114,7 @@ const TipoTramiteForm = props => {
                   <div className="col-md-6">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
-                        {t('app_tipoTramite_form_registrar_titulo_1')}
+                        {t("app_tipoTramite_form_registrar_titulo_1")}
                       </div>
                       <div className="card-body">
                         <div className="row">
@@ -120,8 +122,8 @@ const TipoTramiteForm = props => {
                             <div className="form-group">
                               <label>
                                 {t(
-                                  'app_tipoTramite_form_registrar_tipo_correspondencia'
-                                )}{' '}
+                                  "app_tipoTramite_form_registrar_tipo_correspondencia"
+                                )}{" "}
                                 <span className="text-danger">* </span>
                               </label>
                               <select
@@ -131,36 +133,36 @@ const TipoTramiteForm = props => {
                                 onBlur={handleBlur}
                                 className={`form-control form-control-sm ${errors.tipocorrespondencia &&
                                   touched.tipocorrespondencia &&
-                                  'is-invalid'}`}
+                                  "is-invalid"}`}
                               >
-                                <option value={''}>
-                                  {' '}
+                                <option value={""}>
+                                  {" "}
                                   --
                                   {t(
-                                    'app_tipoTramite_form_registrar_select_tipo_correspondencia'
+                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia"
                                   )}
-                                  --{' '}
+                                  --{" "}
                                 </option>
-                                <option value={'1'}>
-                                  {' '}
+                                <option value={"1"}>
+                                  {" "}
                                   {t(
-                                    'app_tipoTramite_form_registrar_select_tipo_correspondencia_recibida'
-                                  )}{' '}
+                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia_recibida"
+                                  )}{" "}
                                 </option>
-                                <option value={'2'}>
-                                  {' '}
+                                <option value={"2"}>
+                                  {" "}
                                   {t(
-                                    'app_tipoTramite_form_registrar_select_tipo_correspondencia_despachada'
-                                  )}{' '}
+                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia_despachada"
+                                  )}{" "}
                                 </option>
-                                <option value={'3'}>
-                                  {' '}
+                                <option value={"3"}>
+                                  {" "}
                                   {t(
-                                    'app_tipoTramite_form_registrar_select_tipo_correspondencia_interna'
-                                  )}{' '}
+                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia_interna"
+                                  )}{" "}
                                 </option>
                               </select>
-                              <div style={{ color: '#D54B4B' }}>
+                              <div style={{ color: "#D54B4B" }}>
                                 {errors.tipocorrespondencia &&
                                 touched.tipocorrespondencia ? (
                                   <i className="fa fa-exclamation-triangle" />
@@ -172,14 +174,14 @@ const TipoTramiteForm = props => {
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {t('app_tipoTramite_form_registrar_codigo')}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                {t("app_tipoTramite_form_registrar_codigo")}{" "}
+                                <span className="text-danger">*</span>{" "}
                               </label>
                               <input
                                 name="codigo"
                                 onChange={e => {
                                   setFieldValue(
-                                    'codigo',
+                                    "codigo",
                                     e.target.value.toUpperCase()
                                   );
                                 }}
@@ -188,9 +190,9 @@ const TipoTramiteForm = props => {
                                 type="text"
                                 className={`form-control form-control-sm ${errors.codigo &&
                                   touched.codigo &&
-                                  'is-invalid'}`}
+                                  "is-invalid"}`}
                               />
-                              <div style={{ color: '#D54B4B' }}>
+                              <div style={{ color: "#D54B4B" }}>
                                 {errors.codigo && touched.codigo ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
@@ -201,14 +203,14 @@ const TipoTramiteForm = props => {
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {t('app_tipoTramite_form_registrar_nombre')}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                {t("app_tipoTramite_form_registrar_nombre")}{" "}
+                                <span className="text-danger">*</span>{" "}
                               </label>
                               <input
-                                name={'nombre'}
+                                name={"nombre"}
                                 onChange={e => {
                                   setFieldValue(
-                                    'nombre',
+                                    "nombre",
                                     e.target.value.toUpperCase()
                                   );
                                 }}
@@ -217,13 +219,13 @@ const TipoTramiteForm = props => {
                                 type="text"
                                 className={`form-control form-control-sm ${errors.nombre &&
                                   touched.nombre &&
-                                  'is-invalid'}`}
+                                  "is-invalid"}`}
                               />
-                              <div style={{ color: '#D54B4B' }}>
+                              <div style={{ color: "#D54B4B" }}>
                                 {errors.nombre && touched.nombre ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
-                                <ErrorMessage name={'nombre'} />
+                                <ErrorMessage name={"nombre"} />
                               </div>
                             </div>
                           </div>
@@ -231,9 +233,9 @@ const TipoTramiteForm = props => {
                             <div className="form-group">
                               <label>
                                 {t(
-                                  'app_tipoTramite_form_registrar_descripcion'
-                                )}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                  "app_tipoTramite_form_registrar_descripcion"
+                                )}{" "}
+                                <span className="text-danger">*</span>{" "}
                               </label>
                               <input
                                 name="descripcion"
@@ -243,9 +245,9 @@ const TipoTramiteForm = props => {
                                 type="text"
                                 className={`form-control form-control-sm ${errors.descripcion &&
                                   touched.descripcion &&
-                                  'is-invalid'}`}
+                                  "is-invalid"}`}
                               />
-                              <div style={{ color: '#D54B4B' }}>
+                              <div style={{ color: "#D54B4B" }}>
                                 {errors.descripcion && touched.descripcion ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
@@ -257,53 +259,53 @@ const TipoTramiteForm = props => {
                             <div className="form-group">
                               <label>
                                 {t(
-                                  'app_tipoTramite_form_registrar_dias_respuesta'
-                                )}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                  "app_tipoTramite_form_registrar_dias_respuesta"
+                                )}{" "}
+                                <span className="text-danger">*</span>{" "}
                               </label>
                               <input
-                                name={'d_maximos'}
+                                name={"d_maximos"}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.d_maximos}
                                 type="number"
                                 className={`form-control form-control-sm ${errors.d_maximos &&
                                   touched.d_maximos &&
-                                  'is-invalid'}`}
+                                  "is-invalid"}`}
                                 min={0}
                               />
-                              <div style={{ color: '#D54B4B' }}>
+                              <div style={{ color: "#D54B4B" }}>
                                 {errors.d_maximos && touched.d_maximos ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
-                                <ErrorMessage name={'d_maximos'} />
+                                <ErrorMessage name={"d_maximos"} />
                               </div>
                             </div>
                           </div>
                           <Col sm="12">
                             <div className="form-group">
                               <label>
-                                {' '}
+                                {" "}
                                 {t(
-                                  'app_tipoTramite_form_registrar_estado'
-                                )}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                  "app_tipoTramite_form_registrar_estado"
+                                )}{" "}
+                                <span className="text-danger">*</span>{" "}
                               </label>
                               <div className="text-justify">
                                 <CustomInput
-                                  name={'estado'}
+                                  name={"estado"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.estado}
                                   type="checkbox"
                                   id="ExampleInputCheckbox"
                                   label={t(
-                                    'app_tipoTramite_form_registrar_descripcion_estado'
+                                    "app_tipoTramite_form_registrar_descripcion_estado"
                                   )}
                                   className={
                                     errors.estado &&
                                     touched.estado &&
-                                    'invalid-feedback'
+                                    "invalid-feedback"
                                   }
                                 />
                               </div>
@@ -316,7 +318,7 @@ const TipoTramiteForm = props => {
                   <div className="col-md-6">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
-                        {t('app_tipoTramite_form_registrar_titulo_2')}
+                        {t("app_tipoTramite_form_registrar_titulo_2")}
                       </div>
                       <div className="card-body">
                         <div>
@@ -324,10 +326,10 @@ const TipoTramiteForm = props => {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_tipoTramite_form_registrar_conglomerado'
-                                  )}{' '}
+                                    "app_tipoTramite_form_registrar_conglomerado"
+                                  )}{" "}
                                 </label>
                                 <SelectConglomerado
                                   t={props.t}
@@ -335,12 +337,12 @@ const TipoTramiteForm = props => {
                                   value={values.conglomerado}
                                   onChange={e => {
                                     setFieldValue(
-                                      'conglomerado',
+                                      "conglomerado",
                                       e.target.value
                                     );
                                   }}
                                   onBlur={() => {
-                                    setFieldTouched('conglomerado', true);
+                                    setFieldTouched("conglomerado", true);
                                   }}
                                   className="form-control form-control-sm"
                                 />
@@ -352,7 +354,7 @@ const TipoTramiteForm = props => {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {t('app_tipoTramite_form_registrar_empresa')}{' '}
+                                  {t("app_tipoTramite_form_registrar_empresa")}{" "}
                                 </label>
                                 <SelectEmpresa
                                   idConglomerado={values.conglomerado}
@@ -360,12 +362,12 @@ const TipoTramiteForm = props => {
                                   name="empresa"
                                   value={values.empresa}
                                   onChange={e => {
-                                    setFieldValue('empresa', e.target.value);
+                                    setFieldValue("empresa", e.target.value);
                                   }}
                                   onBlur={() => {
-                                    setFieldTouched('empresa', true);
+                                    setFieldTouched("empresa", true);
                                   }}
-                                  className={'form-control form-control-sm'}
+                                  className={"form-control form-control-sm"}
                                 />
                                 {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
@@ -375,10 +377,10 @@ const TipoTramiteForm = props => {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_tipoTramite_form_registrar_sede'
-                                  )}{' '}
+                                    "app_tipoTramite_form_registrar_sede"
+                                  )}{" "}
                                 </label>
                                 <SelectSede
                                   t={props.t}
@@ -386,10 +388,10 @@ const TipoTramiteForm = props => {
                                   name="sede"
                                   value={values.sede}
                                   onChange={e => {
-                                    setFieldValue('sede', e.target.value);
+                                    setFieldValue("sede", e.target.value);
                                   }}
                                   onBlur={() => {
-                                    setFieldTouched('sede', true);
+                                    setFieldTouched("sede", true);
                                   }}
                                   className="form-control form-control-sm"
                                 />
@@ -401,10 +403,10 @@ const TipoTramiteForm = props => {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_tipoTramite_form_registrar_dependencia'
-                                  )}{' '}
+                                    "app_tipoTramite_form_registrar_dependencia"
+                                  )}{" "}
                                 </label>
                                 <SelectDependencia
                                   t={props.t}
@@ -413,14 +415,14 @@ const TipoTramiteForm = props => {
                                   value={values.dependencia}
                                   onChange={e => {
                                     setFieldValue(
-                                      'dependencia',
+                                      "dependencia",
                                       e.target.value
                                     );
                                   }}
                                   onBlur={() => {
-                                    setFieldTouched('dependencia', true);
+                                    setFieldTouched("dependencia", true);
                                   }}
-                                  className={'form-control form-control-sm'}
+                                  className={"form-control form-control-sm"}
                                 />
                               </div>
                             </div>
@@ -440,7 +442,7 @@ const TipoTramiteForm = props => {
                   <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
-                        {t('app_tipoTramite_form_registrar_titulo_4')}
+                        {t("app_tipoTramite_form_registrar_titulo_4")}
                       </div>
                       <div className="card-body">
                         <div>
@@ -448,10 +450,10 @@ const TipoTramiteForm = props => {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {t('app_tipoTramite_form_registrar_asunto')}
+                                  {t("app_tipoTramite_form_registrar_asunto")}
                                 </label>
                                 <textarea
-                                  name={'asunto'}
+                                  name={"asunto"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.asunto}
@@ -467,7 +469,7 @@ const TipoTramiteForm = props => {
                   <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
-                        {t('app_tipoTramite_form_registrar_titulo_5')}
+                        {t("app_tipoTramite_form_registrar_titulo_5")}
                       </div>
                       <div className="card-body">
                         <div>
@@ -476,11 +478,11 @@ const TipoTramiteForm = props => {
                               <div className="form-group">
                                 <label>
                                   {t(
-                                    'app_tipoTramite_form_registrar_plantilla'
+                                    "app_tipoTramite_form_registrar_plantilla"
                                   )}
                                 </label>
                                 <select
-                                  name={'plantilla'}
+                                  name={"plantilla"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.plantilla}
@@ -489,7 +491,7 @@ const TipoTramiteForm = props => {
                                   <option>
                                     --
                                     {t(
-                                      'app_tipoTramite_form_registrar_select_plantilla'
+                                      "app_tipoTramite_form_registrar_select_plantilla"
                                     )}
                                     --
                                   </option>
@@ -507,7 +509,7 @@ const TipoTramiteForm = props => {
                   <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
-                        {t('app_tipoTramite_form_registrar_titulo_6')}
+                        {t("app_tipoTramite_form_registrar_titulo_6")}
                       </div>
                       <div className="card-body">
                         <div>
@@ -515,20 +517,20 @@ const TipoTramiteForm = props => {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {t('app_tipoTramite_form_registrar_workflow')}
+                                  {t("app_tipoTramite_form_registrar_workflow")}
                                 </label>
                                 <select
-                                  name={'workflow'}
+                                  name={"workflow"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.workflow}
                                   className="form-control form-control-sm"
                                 >
                                   <option>
-                                    --{' '}
+                                    --{" "}
                                     {t(
-                                      'app_tipoTramite_form_registrar_select_workflow'
-                                    )}{' '}
+                                      "app_tipoTramite_form_registrar_select_workflow"
+                                    )}{" "}
                                     --
                                   </option>
                                   <option>Workflow1</option>
@@ -556,8 +558,8 @@ const TipoTramiteForm = props => {
                       <i className=" fa fa-spinner fa-spin" />
                     ) : (
                       <div>
-                        <i className="fa fa-save" />{' '}
-                        {t('app_tipoTramite_form_registrar_boton_guardar')}
+                        <i className="fa fa-save" />{" "}
+                        {t("app_tipoTramite_form_registrar_boton_guardar")}
                       </div>
                     )}
                   </button>
@@ -599,10 +601,10 @@ function UserList(props) {
       return;
     }
     fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -610,7 +612,7 @@ function UserList(props) {
         setdata(data);
         // console.log(data);
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
     //console.log("componentDidUpdate");
   }, [id]);
 
@@ -642,12 +644,12 @@ function UserList(props) {
           </div> */}
       <div
         style={{
-          height: '140px',
-          overflow: 'scroll',
-          overflowX: 'hidden',
-          border: '1px solid #e3e3e3',
-          background: '#e3e3e3',
-          padding: '10px'
+          height: "140px",
+          overflow: "scroll",
+          overflowX: "hidden",
+          border: "1px solid #e3e3e3",
+          background: "#e3e3e3",
+          padding: "10px"
         }}
       >
         {data.length > 0 ? (
@@ -663,8 +665,8 @@ function UserList(props) {
                   <div className="media-body">
                     <p className="mt-0 mb-1">{aux.name}</p>
                     <Button
-                      style={{ marginTop: '-13px', marginLeft: '-12px' }}
-                      color={'link'}
+                      style={{ marginTop: "-13px", marginLeft: "-12px" }}
+                      color={"link"}
                       onClick={() =>
                         AgregarUsuario({ id: aux.id, name: aux.name })
                       }
@@ -677,7 +679,7 @@ function UserList(props) {
             );
           })
         ) : (
-          <p>{t('app_tipoTramite_form_registrar_placeholder_select')}</p>
+          <p>{t("app_tipoTramite_form_registrar_placeholder_select")}</p>
         )}
       </div>
     </div>
@@ -714,7 +716,7 @@ const UserListEnabled = props => {
       {notificacion({ x })}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
-          {t('app_tipoTramite_form_registrar_titulo_3')}
+          {t("app_tipoTramite_form_registrar_titulo_3")}
         </div>
         <div className="card-body">
           <div>
@@ -722,10 +724,10 @@ const UserListEnabled = props => {
               <div className="col-md-12">
                 {Object.keys(users.users).length === 0 ? (
                   <p className="text-center">
-                    {' '}
+                    {" "}
                     <b>
-                      {t('app_tipoTramite_form_registrar_usuarios_disponibles')}{' '}
-                    </b>{' '}
+                      {t("app_tipoTramite_form_registrar_usuarios_disponibles")}{" "}
+                    </b>{" "}
                   </p>
                 ) : (
                   <table className="table table-bordered table-sm">
@@ -748,12 +750,12 @@ const UserListEnabled = props => {
                                   dispatch(agregarOriginal(aux.id))
                                 }
                               >
-                                {' '}
-                                asignar original{' '}
+                                {" "}
+                                asignar original{" "}
                               </button>
                             </td>
                             <td>
-                              {' '}
+                              {" "}
                               <button
                                 type="button"
                                 className="btn btn-sm btn-outline-danger"
@@ -762,7 +764,7 @@ const UserListEnabled = props => {
                                 }
                               >
                                 <i className="fa fa-trash" />
-                              </button>{' '}
+                              </button>{" "}
                             </td>
                           </tr>
                         );
@@ -778,4 +780,8 @@ const UserListEnabled = props => {
     </div>
   );
 };
-export default withTranslation('translations')(TipoTramiteForm);
+
+TipoTramiteForm.propTypes = {
+  t: PropTypes.any
+};
+export default withTranslation("translations")(TipoTramiteForm);

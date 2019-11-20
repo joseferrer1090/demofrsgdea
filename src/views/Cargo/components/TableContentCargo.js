@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import { Col } from 'reactstrap';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import ModalView from './ViewCargoModal';
-import ModalEdit from './ModalEditCargo';
-import ModalDel from './ModalDeleteCargo';
-import ModalExport from './ModalExportCSV';
-import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import './../../../css/styleTableCargo.css';
-import moment from 'moment';
-import { withTranslation } from 'react-i18next';
+import React, { Component } from "react";
+import { Col } from "reactstrap";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import ModalView from "./ViewCargoModal";
+import ModalEdit from "./ModalEditCargo";
+import ModalDel from "./ModalDeleteCargo";
+import ModalExport from "./ModalExportCSV";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import "./../../../css/styleTableCargo.css";
+import moment from "moment";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class TableContentCargo extends Component {
   constructor(props) {
@@ -29,10 +30,10 @@ class TableContentCargo extends Component {
 
   getDataCharge = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/charge/`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-        'Content-Type': 'application/json'
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
       }
     })
       .then(response => response.json())
@@ -41,16 +42,16 @@ class TableContentCargo extends Component {
           dataCharge: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   CargoStatus = (cell, row) => {
     const { t } = this.props;
     let status;
     if (row.status === 1) {
-      status = <b className="text-success">{t('app_tablas_estado_activo')}</b>;
+      status = <b className="text-success">{t("app_tablas_estado_activo")}</b>;
     } else if (row.status === 0) {
-      status = <b className="text-danger">{t('app_tablas_estado_inactivo')}</b>;
+      status = <b className="text-danger">{t("app_tablas_estado_inactivo")}</b>;
     }
     return status;
   };
@@ -58,14 +59,14 @@ class TableContentCargo extends Component {
   FechaCreacionCargo(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format('YYYY-MM-DD');
+    return moment(createdAt).format("YYYY-MM-DD");
   }
 
   accionesCargo(cell, row) {
     return (
       <div
         className="table-actionMenuCargo"
-        style={{ textAlign: 'center', padding: '0', marginRight: '60px' }}
+        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -74,8 +75,8 @@ class TableContentCargo extends Component {
             this.openModalView(row.id);
           }}
         >
-          {' '}
-          <i className="fa fa-eye" />{' '}
+          {" "}
+          <i className="fa fa-eye" />{" "}
         </button>
         &nbsp;
         <button
@@ -95,8 +96,8 @@ class TableContentCargo extends Component {
             this.openModalDelete(row.id);
           }}
         >
-          {' '}
-          <i className="fa fa-trash" />{' '}
+          {" "}
+          <i className="fa fa-trash" />{" "}
         </button>
       </div>
     );
@@ -130,8 +131,8 @@ class TableContentCargo extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" />{' '}
-        {t('app_cargo_administrar_table_button_exportar')}
+        <i className="fa fa-download" />{" "}
+        {t("app_cargo_administrar_table_button_exportar")}
       </button>
     );
   };
@@ -149,7 +150,7 @@ class TableContentCargo extends Component {
             striped
             hover
             search
-            searchPlaceholder={t('app_cargo_administrar_table_placeholder')}
+            searchPlaceholder={t("app_cargo_administrar_table_placeholder")}
             data={this.state.dataCharge}
             exportCSV
             pagination
@@ -158,7 +159,7 @@ class TableContentCargo extends Component {
           >
             <TableHeaderColumn
               dataAlign="center"
-              dataField={'id'}
+              dataField={"id"}
               isKey
               width={50}
               hidden={this.state.HiddenColumn}
@@ -167,40 +168,40 @@ class TableContentCargo extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
-              dataField={'id'}
+              dataField={"id"}
               dataFormat={this.indexN}
               width={50}
             >
               #
             </TableHeaderColumn>
             <TableHeaderColumn dataAlign="center" dataField="code" width={120}>
-              {' '}
-              {t('app_cargo_administrar_table_codigo')}{' '}
+              {" "}
+              {t("app_cargo_administrar_table_codigo")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
               dataField="name"
-              width={'170'}
+              width={"170"}
             >
-              {t('app_cargo_administrar_table_nombre')}
+              {t("app_cargo_administrar_table_nombre")}
             </TableHeaderColumn>
 
             <TableHeaderColumn
               dataAlign="center"
               dataField="description"
-              width={'200'}
+              width={"200"}
             >
-              {' '}
-              {t('app_cargo_administrar_table_descripcion')}{' '}
+              {" "}
+              {t("app_cargo_administrar_table_descripcion")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
-              dataField={'createdAt'}
+              dataField={"createdAt"}
               dataFormat={(cell, row) => this.FechaCreacionCargo(cell, row)}
               dataAlign="center"
-              width={'140'}
+              width={"140"}
             >
-              {t('app_cargo_administrar_table_fecha_creacion')}
+              {t("app_cargo_administrar_table_fecha_creacion")}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign="center"
@@ -208,17 +209,17 @@ class TableContentCargo extends Component {
               dataFormat={(cell, row) => this.CargoStatus(cell, row)}
               width="100"
             >
-              {' '}
-              {t('app_cargo_administrar_table_estado')}{' '}
+              {" "}
+              {t("app_cargo_administrar_table_estado")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={'150'}
+              width={"150"}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesCargo(cell, row)}
             >
-              {' '}
-              {t('app_cargo_administrar_table_acciones')}{' '}
+              {" "}
+              {t("app_cargo_administrar_table_acciones")}{" "}
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
@@ -248,5 +249,7 @@ class TableContentCargo extends Component {
     );
   }
 }
-
-export default withTranslation('translations')(TableContentCargo);
+TableContentCargo.propTypes = {
+  t: PropTypes.any
+};
+export default withTranslation("translations")(TableContentCargo);

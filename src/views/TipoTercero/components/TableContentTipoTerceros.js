@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import ModalViewTipoTercero from './ModalViewTipoTercero';
-import ModalDeleteTipoTercero from './ModalDeleteTipoTercero';
-import ModalUpdateTipoTercero from './ModalEditTipoTercero';
-import ModalExport from './ModalExportCSV';
-import { Row, Col } from 'reactstrap';
-import './../../../css/styleTableTTercero.css';
-import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import { TYPETHIRDPARTYS } from './../../../services/EndPoints';
-import moment from 'moment';
-import { withTranslation } from 'react-i18next';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import ModalViewTipoTercero from "./ModalViewTipoTercero";
+import ModalDeleteTipoTercero from "./ModalDeleteTipoTercero";
+import ModalUpdateTipoTercero from "./ModalEditTipoTercero";
+import ModalExport from "./ModalExportCSV";
+import { Row, Col } from "reactstrap";
+import "./../../../css/styleTableTTercero.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import { TYPETHIRDPARTYS } from "./../../../services/EndPoints";
+import moment from "moment";
+import { withTranslation } from "react-i18next";
 
 class TableContentTipoTerceros extends Component {
   constructor(props) {
@@ -31,10 +31,10 @@ class TableContentTipoTerceros extends Component {
 
   getDataTipoTercero = () => {
     fetch(TYPETHIRDPARTYS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -43,7 +43,7 @@ class TableContentTipoTerceros extends Component {
           dataTipoTercero: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   estadoTipoTercero = (cell, row) => {
@@ -51,11 +51,11 @@ class TableContentTipoTerceros extends Component {
     let status;
     if (row.status === 1) {
       status = (
-        <b className="text-success"> {t('app_tablas_estado_activo')} </b>
+        <b className="text-success"> {t("app_tablas_estado_activo")} </b>
       );
     } else if (row.status === 0) {
       status = (
-        <b className="text-danger"> {t('app_tablas_estado_inactivo')} </b>
+        <b className="text-danger"> {t("app_tablas_estado_inactivo")} </b>
       );
     }
     return status;
@@ -64,14 +64,14 @@ class TableContentTipoTerceros extends Component {
   FechaCreacionTipoTercero(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format('YYYY-MM-DD');
+    return moment(createdAt).format("YYYY-MM-DD");
   }
 
   accionesTipoTercer = (cell, row) => {
     return (
       <div
         className="table-actionMenuTTercero"
-        style={{ textAlign: 'center', padding: '0', marginRight: '50px' }}
+        style={{ textAlign: "center", padding: "0", marginRight: "50px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -129,8 +129,8 @@ class TableContentTipoTerceros extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" />{' '}
-        {t('app_tipoTerecero_administrar_table_button_exportar')}
+        <i className="fa fa-download" />{" "}
+        {t("app_tipoTerecero_administrar_table_button_exportar")}
       </button>
     );
   };
@@ -153,7 +153,7 @@ class TableContentTipoTerceros extends Component {
               search
               striped
               searchPlaceholder={t(
-                'app_tipoTerecero_administrar_table_placeholder'
+                "app_tipoTerecero_administrar_table_placeholder"
               )}
               exportCSV
               className="texto-TLlegada"
@@ -161,69 +161,69 @@ class TableContentTipoTerceros extends Component {
               <TableHeaderColumn
                 export={false}
                 isKey
-                dataField={'id'}
+                dataField={"id"}
                 hidden={this.state.hiddenColumnID}
               />
               <TableHeaderColumn
                 dataSort={true}
                 dataFormat={this.indexN}
-                width={'50'}
-                dataField={'id'}
+                width={"50"}
+                dataField={"id"}
                 dataAlign="center"
               >
                 #
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField={'code'}
+                dataField={"code"}
                 dataAlign="center"
-                width={'150'}
+                width={"150"}
               >
-                {' '}
-                {t('app_tipoTerecero_administrar_table_codigo')}{' '}
+                {" "}
+                {t("app_tipoTerecero_administrar_table_codigo")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField={'name'}
+                dataField={"name"}
                 dataAlign="center"
-                width={'230'}
+                width={"230"}
               >
-                {' '}
-                {t('app_tipoTerecero_administrar_table_nombre')}{' '}
+                {" "}
+                {t("app_tipoTerecero_administrar_table_nombre")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField={'description'}
+                dataField={"description"}
                 dataAlign="center"
-                width={'230'}
+                width={"230"}
               >
-                {' '}
-                {t('app_tipoTerecero_administrar_table_descripcion')}{' '}
+                {" "}
+                {t("app_tipoTerecero_administrar_table_descripcion")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataSort={true}
-                dataField={'createdAt'}
+                dataField={"createdAt"}
                 dataFormat={(cell, row) =>
                   this.FechaCreacionTipoTercero(cell, row)
                 }
                 dataAlign="center"
-                width={'150'}
+                width={"150"}
               >
-                {t('app_tipoTerecero_administrar_table_fecha_creacion')}
+                {t("app_tipoTerecero_administrar_table_fecha_creacion")}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField={'status'}
+                dataField={"status"}
                 dataAlign="center"
-                width={'120'}
+                width={"120"}
                 dataFormat={(cell, row) => this.estadoTipoTercero(cell, row)}
               >
-                {' '}
-                {t('app_tipoTerecero_administrar_table_estado')}{' '}
+                {" "}
+                {t("app_tipoTerecero_administrar_table_estado")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField={''}
+                dataField={""}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesTipoTercer(cell, row)}
               >
-                {' '}
-                {t('app_tipoTerecero_administrar_table_acciones')}{' '}
+                {" "}
+                {t("app_tipoTerecero_administrar_table_acciones")}{" "}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
@@ -231,30 +231,32 @@ class TableContentTipoTerceros extends Component {
         <ModalViewTipoTercero
           t={this.props.t}
           modalview={this.state.modalView}
-          ref={'child'}
+          ref={"child"}
         />
         <ModalUpdateTipoTercero
           t={this.props.t}
           modalupdate={this.state.modaluptate}
           updateTable={this.getDataTipoTercero}
-          ref={'child2'}
+          ref={"child2"}
         />
         <ModalDeleteTipoTercero
           t={this.props.t}
           modaldelete={this.state.modaldelete}
           updateTable={this.getDataTipoTercero}
-          ref={'child3'}
+          ref={"child3"}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref={'child4'}
+          ref={"child4"}
         />
       </div>
     );
   }
 }
 
-TableContentTipoTerceros.propTypes = {};
+TableContentTipoTerceros.propTypes = {
+  t: PropTypes.any
+};
 
-export default withTranslation('translations')(TableContentTipoTerceros);
+export default withTranslation("translations")(TableContentTipoTerceros);

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment } from "react";
 import {
   Modal,
   ModalHeader,
@@ -8,12 +8,12 @@ import {
   Col,
   CustomInput,
   Alert
-} from 'reactstrap';
-import PropTypes from 'prop-types';
-import IMGTERCERO from './../../../assets/img/supply.svg';
-import { TYPETHIRDPARTYS } from './../../../services/EndPoints';
-import { Formik, ErrorMessage, Field } from 'formik';
-import * as Yup from 'yup';
+} from "reactstrap";
+import PropTypes from "prop-types";
+import IMGTERCERO from "./../../../assets/img/supply.svg";
+import { TYPETHIRDPARTYS } from "./../../../services/EndPoints";
+import { Formik, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
 
 class ModalEditTipoTercero extends React.Component {
   state = {
@@ -25,7 +25,7 @@ class ModalEditTipoTercero extends React.Component {
     alertError400: false,
     t: this.props,
     typethirdparty_status: 0,
-    username: 'ccuartas'
+    username: "ccuartas"
   };
 
   toggle = id => {
@@ -40,10 +40,10 @@ class ModalEditTipoTercero extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -67,7 +67,7 @@ class ModalEditTipoTercero extends React.Component {
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {t('app_tipoTerecero_modal_actualizar_titulo')}{' '}
+            {t("app_tipoTerecero_modal_actualizar_titulo")}{" "}
             {dataResult.typethirdparty_name}
           </ModalHeader>
           <Formik
@@ -86,10 +86,10 @@ class ModalEditTipoTercero extends React.Component {
 
               setTimeout(() => {
                 fetch(TYPETHIRDPARTYS, {
-                  method: 'PUT',
+                  method: "PUT",
                   headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
                   },
                   body: JSON.stringify({
                     id: this.state.idTipoTerceros,
@@ -97,7 +97,7 @@ class ModalEditTipoTercero extends React.Component {
                     name: values.typethirdparty_name,
                     description: values.typethirdparty_description,
                     status: tipoEstado(values.typethirdparty_status),
-                    userName: 'ccuartas'
+                    userName: "ccuartas"
                   })
                 })
                   .then(response => {
@@ -135,25 +135,25 @@ class ModalEditTipoTercero extends React.Component {
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log('', error));
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               typethirdparty_code: Yup.string()
-                .required(' Por favor introduzca un código alfanumérico.')
-                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
-                .min(2, ' Mínimo 2 caracteres.')
-                .max(15, ' Máximo 15 caracteres.'),
+                .required(" Por favor introduzca un código alfanumérico.")
+                .matches(/^[0-9a-zA-Z]+$/, " No es un código alfanumérico.")
+                .min(2, " Mínimo 2 caracteres.")
+                .max(15, " Máximo 15 caracteres."),
               typethirdparty_name: Yup.string()
-                .required(' Por favor introduzca un nombre.')
-                .max(100, ' Máximo 100 caracteres.'),
+                .required(" Por favor introduzca un nombre.")
+                .max(100, " Máximo 100 caracteres."),
               typethirdparty_description: Yup.string().required(
-                ' Por favor introduzca una descripción.'
+                " Por favor introduzca una descripción."
               ),
               typethirdparty_status: Yup.bool().test(
-                'Activado',
-                '',
+                "Activado",
+                "",
                 value => value === true
               )
             })}
@@ -175,107 +175,107 @@ class ModalEditTipoTercero extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {t('app_tipoTerecero_modal_actualizar_alert_error')}
+                      {t("app_tipoTerecero_modal_actualizar_alert_error")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {t('app_tipoTerecero_modal_actualizar_alert_success')}
+                      {t("app_tipoTerecero_modal_actualizar_alert_success")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t('app_tipoTerecero_modal_actualizar_alert_error400')}
+                      {t("app_tipoTerecero_modal_actualizar_alert_error400")}
                     </Alert>
                     <Row>
                       <Col sm={3}>
-                        <img src={IMGTERCERO} className={'img-thumbnail'} />
+                        <img src={IMGTERCERO} className={"img-thumbnail"} />
                       </Col>
                       <Col sm={9}>
                         <div className="">
-                          {' '}
+                          {" "}
                           <h5
                             className=""
-                            style={{ borderBottom: '1px solid black' }}
+                            style={{ borderBottom: "1px solid black" }}
                           >
-                            {' '}
+                            {" "}
                             {t(
-                              'app_tipoTerecero_modal_actualizar_titulo_2'
-                            )}{' '}
-                          </h5>{' '}
+                              "app_tipoTerecero_modal_actualizar_titulo_2"
+                            )}{" "}
+                          </h5>{" "}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {t('app_tipoTerecero_modal_actualizar_codigo')}{' '}
+                                {t("app_tipoTerecero_modal_actualizar_codigo")}{" "}
                                 <span className="text-danger">*</span>
-                              </label>{' '}
+                              </label>{" "}
                               <input
-                                name={'typethirdparty_code'}
+                                name={"typethirdparty_code"}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.typethirdparty_code}
                                 type="text"
                                 className={`form-control form-control-sm ${errors.typethirdparty_code &&
                                   touched.typethirdparty_code &&
-                                  'is-invalid'}`}
+                                  "is-invalid"}`}
                               />
-                              <div style={{ color: '#D54B4B' }}>
+                              <div style={{ color: "#D54B4B" }}>
                                 {errors.typethirdparty_code &&
                                 touched.typethirdparty_code ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
-                                <ErrorMessage name={'typethirdparty_code'} />
+                                <ErrorMessage name={"typethirdparty_code"} />
                               </div>
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {t('app_tipoTerecero_modal_actualizar_nombre')}{' '}
+                                {t("app_tipoTerecero_modal_actualizar_nombre")}{" "}
                                 <span className="text-danger">*</span>
                               </label>
                               <input
-                                name={'typethirdparty_name'}
+                                name={"typethirdparty_name"}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.typethirdparty_name}
                                 type="text"
                                 className={`form-control form-control-sm ${errors.typethirdparty_name &&
                                   touched.typethirdparty_name &&
-                                  'is-invalid'}`}
+                                  "is-invalid"}`}
                               />
-                              <div style={{ color: '#D54B4B' }}>
+                              <div style={{ color: "#D54B4B" }}>
                                 {errors.typethirdparty_name &&
                                 touched.typethirdparty_name ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
-                                <ErrorMessage name={'typethirdparty_name'} />
+                                <ErrorMessage name={"typethirdparty_name"} />
                               </div>
                             </div>
                           </div>
                           <div className="col-md-12">
                             <div className="form-group">
                               <label>
-                                {' '}
+                                {" "}
                                 {t(
-                                  'app_tipoTerecero_modal_actualizar_descripcion'
-                                )}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                  "app_tipoTerecero_modal_actualizar_descripcion"
+                                )}{" "}
+                                <span className="text-danger">*</span>{" "}
                               </label>
                               <textarea
-                                name={'typethirdparty_description'}
+                                name={"typethirdparty_description"}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.typethirdparty_description}
                                 className={`form-control form-control-sm ${errors.typethirdparty_description &&
                                   touched.typethirdparty_description &&
-                                  'is-invalid'}`}
+                                  "is-invalid"}`}
                               />
-                              <div style={{ color: '#D54B4B' }}>
+                              <div style={{ color: "#D54B4B" }}>
                                 {errors.typethirdparty_description &&
                                 touched.typethirdparty_description ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
                                 <ErrorMessage
-                                  name={'typethirdparty_description'}
+                                  name={"typethirdparty_description"}
                                 />
                               </div>
                             </div>
@@ -283,11 +283,11 @@ class ModalEditTipoTercero extends React.Component {
                           <div className="col-md-12">
                             <div className="form-group">
                               <label>
-                                {' '}
+                                {" "}
                                 {t(
-                                  'app_tipoTerecero_modal_actualizar_estado'
-                                )}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                  "app_tipoTerecero_modal_actualizar_estado"
+                                )}{" "}
+                                <span className="text-danger">*</span>{" "}
                               </label>
                               <div className="text-justify">
                                 <Field
@@ -298,14 +298,14 @@ class ModalEditTipoTercero extends React.Component {
                                         type="checkbox"
                                         id="CheckBoxEditRoles"
                                         label={t(
-                                          'app_tipoTerecero_modal_actualizar_estado_descripcion'
+                                          "app_tipoTerecero_modal_actualizar_estado_descripcion"
                                         )}
                                         {...field}
                                         checked={field.value}
                                         className={
                                           errors.typethirdparty_status &&
                                           touched.typethirdparty_status &&
-                                          'invalid-feedback'
+                                          "invalid-feedback"
                                         }
                                       />
                                     );
@@ -328,9 +328,9 @@ class ModalEditTipoTercero extends React.Component {
                       }}
                       className="btn btn-outline-success btn-sm"
                     >
-                      {' '}
-                      <i className="fa fa-pencil" />{' '}
-                      {t('app_tipoTerecero_modal_actualizar_button_actualizar')}{' '}
+                      {" "}
+                      <i className="fa fa-pencil" />{" "}
+                      {t("app_tipoTerecero_modal_actualizar_button_actualizar")}{" "}
                     </button>
                     <button
                       type="button"
@@ -339,9 +339,9 @@ class ModalEditTipoTercero extends React.Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      {' '}
-                      <i className="fa fa-times" />{' '}
-                      {t('app_tipoTerecero_modal_actualizar_button_cerrar')}{' '}
+                      {" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_tipoTerecero_modal_actualizar_button_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -357,7 +357,8 @@ class ModalEditTipoTercero extends React.Component {
 ModalEditTipoTercero.propTypes = {
   modalupdate: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  updateTable: PropTypes.func.isRequired
+  updateTable: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired
 };
 
 export default ModalEditTipoTercero;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   TabContent,
   TabPane,
@@ -7,13 +7,14 @@ import {
   NavLink,
   Row,
   Col
-} from 'reactstrap';
-import classnames from 'classnames';
-import FormCreate from './components/FormCreateRoles';
-import TableContent from './components/TableContentRoles';
-import FormImport from './components/FormUploadRoles';
-import data from '../../data/data';
-import { withTranslation } from 'react-i18next';
+} from "reactstrap";
+import classnames from "classnames";
+import FormCreate from "./components/FormCreateRoles";
+import TableContent from "./components/TableContentRoles";
+import FormImport from "./components/FormUploadRoles";
+import data from "../../data/data";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class Roles extends React.Component {
   constructor(props) {
@@ -21,7 +22,7 @@ class Roles extends React.Component {
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: '1',
+      activeTab: "1",
       t: this.props.t
     };
   }
@@ -35,38 +36,38 @@ class Roles extends React.Component {
   }
 
   render() {
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <div>
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '1' })}
+              className={classnames({ active: this.state.activeTab === "1" })}
               onClick={() => {
-                this.toggle('1');
+                this.toggle("1");
               }}
             >
-              <i className="fa fa-plus" /> {t('app_roles_tab')}
+              <i className="fa fa-plus" /> {t("app_roles_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '2' })}
+              className={classnames({ active: this.state.activeTab === "2" })}
               onClick={() => {
-                this.toggle('2');
+                this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> {t('app_roles_tab_2')}
+              <i className="fa fa-gear" /> {t("app_roles_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '3' })}
+              className={classnames({ active: this.state.activeTab === "3" })}
               onClick={() => {
-                this.toggle('3');
+                this.toggle("3");
               }}
             >
-              <i className="fa fa-upload" /> {t('app_roles_tab_3')}
+              <i className="fa fa-upload" /> {t("app_roles_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -93,4 +94,7 @@ class Roles extends React.Component {
     );
   }
 }
-export default withTranslation('translations')(Roles);
+Roles.propTypes = {
+  t: PropTypes.any
+};
+export default withTranslation("translations")(Roles);

@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from 'reactstrap';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { Formik, ErrorMessage } from 'formik';
+import React, { Component, Fragment } from "react";
+import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { Formik, ErrorMessage } from "formik";
 
 class ModalDeleteTipoLlegada extends Component {
   constructor(props) {
@@ -10,14 +10,14 @@ class ModalDeleteTipoLlegada extends Component {
     this.state = {
       modal: this.props.modaldelete,
       idTipoLlegada: this.props.id,
-      code: '',
-      useLogged: '',
+      code: "",
+      useLogged: "",
       alertSuccess: false,
       alertError: false,
       alertCode: false,
-      nameTipoLlegada: '',
+      nameTipoLlegada: "",
       t: this.props.t,
-      username: 'ccuartas'
+      username: "ccuartas"
     };
   }
 
@@ -25,16 +25,16 @@ class ModalDeleteTipoLlegada extends Component {
     this.setState(prevState => ({
       modal: !prevState.modal,
       idTipoLlegada: id,
-      nombre: '',
-      useLogged: 'ccuartas'
+      nombre: "",
+      useLogged: "ccuartas"
     }));
     fetch(
       `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-          'Content-Type': 'application/json'
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
         }
       }
     )
@@ -44,7 +44,7 @@ class ModalDeleteTipoLlegada extends Component {
           nameTipoLlegada: data.name
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   onDismiss = () => {
@@ -57,7 +57,7 @@ class ModalDeleteTipoLlegada extends Component {
 
   render() {
     const dataInitial = {
-      code: ''
+      code: ""
     };
     const nameTipoLlegada = this.state.nameTipoLlegada;
     const { t } = this.props;
@@ -65,7 +65,7 @@ class ModalDeleteTipoLlegada extends Component {
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
-            {t('app_tipoLlegada_modal_eliminar_titulo')} {nameTipoLlegada}
+            {t("app_tipoLlegada_modal_eliminar_titulo")} {nameTipoLlegada}
           </ModalHeader>
           <Formik
             initialValues={dataInitial}
@@ -74,10 +74,10 @@ class ModalDeleteTipoLlegada extends Component {
                 fetch(
                   `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/${this.state.idTipoLlegada}?code=${values.code}&username=${this.state.useLogged}`,
                   {
-                    method: 'DELETE',
+                    method: "DELETE",
                     headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: 'BASIC ' + window.btoa('sgdea:123456')
+                      "Content-Type": "application/json",
+                      Authorization: "BASIC " + window.btoa("sgdea:123456")
                     }
                   }
                 )
@@ -105,13 +105,13 @@ class ModalDeleteTipoLlegada extends Component {
                       });
                     }
                   })
-                  .catch(error => console.log(' ', error));
+                  .catch(error => console.log(" ", error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required(
-                ' Por favor introduzca el código del tipo de envío / llegada.'
+                " Por favor introduzca el código del tipo de envío / llegada."
               )
             })}
           >
@@ -133,42 +133,42 @@ class ModalDeleteTipoLlegada extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {t('app_tipoLlegada_modal_eliminar_alert_error')}
+                        {t("app_tipoLlegada_modal_eliminar_alert_error")}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {t('app_tipoLlegada_modal_eliminar_alert_errorCode')}
+                        {t("app_tipoLlegada_modal_eliminar_alert_errorCode")}
                       </Alert>
                       <Alert
                         className="text-center"
                         color="success"
                         isOpen={this.state.alertSuccess}
                       >
-                        {t('app_tipoLlegada_modal_eliminar_alert_success')}
+                        {t("app_tipoLlegada_modal_eliminar_alert_success")}
                       </Alert>
                       <p className="text-center">
-                        {' '}
-                        {t('app_tipoLlegada_modal_eliminar_titulo_2')}
+                        {" "}
+                        {t("app_tipoLlegada_modal_eliminar_titulo_2")}
                       </p>
 
                       <input
                         input
-                        name={'code'}
+                        name={"code"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
                         placeholder={t(
-                          'app_tipoLlegada_modal_eliminar_placeholder'
+                          "app_tipoLlegada_modal_eliminar_placeholder"
                         )}
-                        style={{ textAlign: 'center' }}
+                        style={{ textAlign: "center" }}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
                           touched.code &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
-                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                      <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
@@ -176,22 +176,22 @@ class ModalDeleteTipoLlegada extends Component {
                       </div>
                       <br />
                       <p className="text-center text-danger">
-                        {' '}
-                        {t('app_tipoLlegada_modal_eliminar_titulo_3')}
+                        {" "}
+                        {t("app_tipoLlegada_modal_eliminar_titulo_3")}
                       </p>
                     </form>
                   </ModalBody>
                   <ModalFooter>
                     <button
                       type="button"
-                      className={'btn btn-outline-danger btn-sm'}
+                      className={"btn btn-outline-danger btn-sm"}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" />{' '}
-                      {t('app_tipoLlegada_modal_eliminar_button_eliminar')}
+                      <i className="fa fa-trash" />{" "}
+                      {t("app_tipoLlegada_modal_eliminar_button_eliminar")}
                     </button>
                     <button
                       type="button"
@@ -205,8 +205,8 @@ class ModalDeleteTipoLlegada extends Component {
                         });
                       }}
                     >
-                      <i className="fa fa-times" />{' '}
-                      {t('app_tipoLlegada_modal_eliminar_button_cerrar')}{' '}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_tipoLlegada_modal_eliminar_button_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -221,7 +221,8 @@ class ModalDeleteTipoLlegada extends Component {
 
 ModalDeleteTipoLlegada.propTypes = {
   modaldelete: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  id: PropTypes.string.isRequired
 };
 
 export default ModalDeleteTipoLlegada;

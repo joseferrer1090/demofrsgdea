@@ -766,6 +766,8 @@ class ModalUpdateRemitente extends React.Component {
 ModalUpdateRemitente.propTypes = {
   modalupdate: PropTypes.bool.isRequired,
   updateTable: PropTypes.func.isRequired,
+  id:PropTypes.string.isRequired,
+  t:PropTypes.any,
 };
 
 export default ModalUpdateRemitente;

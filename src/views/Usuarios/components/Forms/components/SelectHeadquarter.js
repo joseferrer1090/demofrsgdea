@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
+
 class SelectHeadquarter extends React.Component {
   state = {
     dataHeadquarter: [],
@@ -29,10 +31,10 @@ class SelectHeadquarter extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.company}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -42,7 +44,7 @@ class SelectHeadquarter extends React.Component {
           dataHeadquarter: data
         });
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
   };
 
   render() {
@@ -55,8 +57,8 @@ class SelectHeadquarter extends React.Component {
           className={this.props.className}
           onChange={this.props.onChange}
         >
-          <option value={''}>
-            -- {t('app_usuarios_form_registrar_sede_select')} --{' '}
+          <option value={""}>
+            -- {t("app_usuarios_form_registrar_sede_select")} --{" "}
           </option>
           {this.state.dataHeadquarter.map((aux, id) => {
             return (
@@ -70,4 +72,9 @@ class SelectHeadquarter extends React.Component {
     );
   }
 }
+
+SelectHeadquarter.propTypes = {
+  id: PropTypes.string.isRequired,
+  t: PropTypes.array
+};
 export default SelectHeadquarter;

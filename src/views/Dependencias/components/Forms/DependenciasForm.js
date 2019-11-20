@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { withFormik, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React, { useState, useEffect } from "react";
+import { withFormik, ErrorMessage } from "formik";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
 import {
   Card,
   CardBody,
@@ -9,21 +10,15 @@ import {
   Row,
   Col,
   CustomInput
-} from 'reactstrap';
-import {
-  DEPENDENCIES,
-  CONGLOMERATES_STATUS,
-  COMPANYS_STATUS,
-  HEADQUARTERS_STATUS,
-  CHARGES_STATUS
-} from './../../../../services/EndPoints';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { css } from 'glamor';
-import { withTranslation } from 'react-i18next';
-import SelectConglomerado from './components/SelectConglomerado';
-import SelectCompany from './components/SelectCompany';
-import SelectHeadquarter from './components/SelectHeadquarter';
+} from "reactstrap";
+import { DEPENDENCIES, CHARGES_STATUS } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
+import { withTranslation } from "react-i18next";
+import SelectConglomerado from "./components/SelectConglomerado";
+import SelectCompany from "./components/SelectCompany";
+import SelectHeadquarter from "./components/SelectHeadquarter";
 
 const DependenciaForm = props => {
   const {
@@ -39,76 +34,25 @@ const DependenciaForm = props => {
     t
   } = props;
 
-  const [optionsConglomerate, setOptionsConglomerate] = useState([]);
-  const [optionsCompanys, setOptionsCompanys] = useState([]);
-  const [optionsHeadquarters, setOptionsHeadquarters] = useState([]);
   const [optionsCharges, setOptionsCharges] = useState([]);
 
   useEffect(() => {
-    getDataConglomerates();
-    getDataCompanys();
-    getDataHeadquarters();
     getDataCharges();
   }, []);
 
-  const getDataConglomerates = data => {
-    fetch(CONGLOMERATES_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsConglomerate(data);
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-
-  const getDataCompanys = data => {
-    fetch(COMPANYS_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsCompanys(data);
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-
-  const getDataHeadquarters = data => {
-    fetch(HEADQUARTERS_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsHeadquarters(data);
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-
   const getDataCharges = data => {
     fetch(CHARGES_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
       .then(data => {
         setOptionsCharges(data);
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   const mapOptionsCharges = optionsCharges.map((aux, idx) => {
@@ -125,31 +69,31 @@ const DependenciaForm = props => {
         <Col sm={{ size: 8, offset: 2 }}>
           <Card>
             <ToastContainer />
-            <CardHeader>{t('app_dependencia_tab_title')}</CardHeader>
+            <CardHeader>{t("app_dependencia_tab_title")}</CardHeader>
             <CardBody>
               <form className="form" role="form">
                 <div className="row">
                   <div className="col-md-4">
                     <div className="form-group">
                       <label>
-                        {' '}
-                        {t('app_dependencia_form_registrar_conglomerado')}{' '}
-                        <span className="text-danger">*</span>{' '}
+                        {" "}
+                        {t("app_dependencia_form_registrar_conglomerado")}{" "}
+                        <span className="text-danger">*</span>{" "}
                       </label>
                       <SelectConglomerado
                         t={props.t}
-                        name={'conglomerateId'}
+                        name={"conglomerateId"}
                         onChange={e =>
-                          setFieldValue('conglomerateId', e.target.value)
+                          setFieldValue("conglomerateId", e.target.value)
                         }
-                        onBlur={() => setFieldTouched('conglomerateId', true)}
+                        onBlur={() => setFieldTouched("conglomerateId", true)}
                         value={values.conglomerateId}
                         className={`form-control form-control-sm ${errors.conglomerateId &&
                           touched.conglomerateId &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
 
-                      <div style={{ color: '#D54B4B' }}>
+                      <div style={{ color: "#D54B4B" }}>
                         {errors.conglomerateId && touched.conglomerateId ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -160,9 +104,9 @@ const DependenciaForm = props => {
                   <div className="col-md-4">
                     <div className="form-group">
                       <label>
-                        {' '}
-                        {t('app_dependencia_form_registrar_empresa')}{' '}
-                        <span className="text-danger">*</span>{' '}
+                        {" "}
+                        {t("app_dependencia_form_registrar_empresa")}{" "}
+                        <span className="text-danger">*</span>{" "}
                       </label>
                       <SelectCompany
                         t={props.t}
@@ -170,15 +114,15 @@ const DependenciaForm = props => {
                         name="companyId"
                         value={values.companyId}
                         onChange={e =>
-                          setFieldValue('companyId', e.target.value)
+                          setFieldValue("companyId", e.target.value)
                         }
-                        onBlur={() => setFieldTouched('companyId', true)}
+                        onBlur={() => setFieldTouched("companyId", true)}
                         className={`form-control form-control-sm ${errors.companyId &&
                           touched.companyId &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       ></SelectCompany>
 
-                      <div style={{ color: '#D54B4B' }}>
+                      <div style={{ color: "#D54B4B" }}>
                         {errors.companyId && touched.companyId ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -189,24 +133,24 @@ const DependenciaForm = props => {
                   <div className="col-md-4">
                     <div className="form-group">
                       <label>
-                        {' '}
-                        {t('app_dependencia_form_registrar_sede')}{' '}
-                        <span className="text-danger">*</span>{' '}
+                        {" "}
+                        {t("app_dependencia_form_registrar_sede")}{" "}
+                        <span className="text-danger">*</span>{" "}
                       </label>
                       <SelectHeadquarter
                         t={props.t}
                         companyId={props.values.companyId}
-                        name={'headquarterId'}
+                        name={"headquarterId"}
                         onChange={e =>
-                          setFieldValue('headquarterId', e.target.value)
+                          setFieldValue("headquarterId", e.target.value)
                         }
-                        onBlur={() => setFieldTouched('headquarterId', true)}
+                        onBlur={() => setFieldTouched("headquarterId", true)}
                         className={`form-control form-control-sm ${errors.headquarterId &&
                           touched.headquarterId &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       ></SelectHeadquarter>
 
-                      <div style={{ color: '#D54B4B' }}>
+                      <div style={{ color: "#D54B4B" }}>
                         {errors.headquarterId && touched.headquarterId ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -217,24 +161,24 @@ const DependenciaForm = props => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {' '}
-                        {t('app_dependencia_form_registrar_codigo')}{' '}
-                        <span className="text-danger">*</span>{' '}
+                        {" "}
+                        {t("app_dependencia_form_registrar_codigo")}{" "}
+                        <span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        name={'code'}
+                        name={"code"}
                         type="text"
                         placeholder=""
                         onChange={e => {
-                          setFieldValue('code', e.target.value.toUpperCase());
+                          setFieldValue("code", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.code}
                         className={`form-control form-control-sm ${errors.code &&
                           touched.code &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
-                      <div style={{ color: '#D54B4B' }}>
+                      <div style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -245,14 +189,14 @@ const DependenciaForm = props => {
                   <div className="col-md-6">
                     <div className="form-group">
                       <label>
-                        {' '}
-                        {t('app_dependencia_form_registrar_nombre')}{' '}
-                        <span className="text-danger">*</span>{' '}
+                        {" "}
+                        {t("app_dependencia_form_registrar_nombre")}{" "}
+                        <span className="text-danger">*</span>{" "}
                       </label>
                       <input
-                        name={'name'}
+                        name={"name"}
                         onChange={e => {
-                          setFieldValue('name', e.target.value.toUpperCase());
+                          setFieldValue("name", e.target.value.toUpperCase());
                         }}
                         onBlur={handleBlur}
                         value={values.name}
@@ -260,9 +204,9 @@ const DependenciaForm = props => {
                         placeholder=""
                         className={`form-control form-control-sm ${errors.name &&
                           touched.name &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
-                      <div style={{ color: '#D54B4B' }}>
+                      <div style={{ color: "#D54B4B" }}>
                         {errors.name && touched.name ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -273,17 +217,17 @@ const DependenciaForm = props => {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>
-                        {' '}
-                        {t('app_dependencia_form_registrar_descripcion')}{' '}
+                        {" "}
+                        {t("app_dependencia_form_registrar_descripcion")}{" "}
                       </label>
                       <textarea
-                        name={'description'}
+                        name={"description"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.description}
                         className="form-control form-control-sm"
                       />
-                      <div style={{ color: '#D54B4B' }}>
+                      <div style={{ color: "#D54B4B" }}>
                         {errors.description && touched.description ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -297,32 +241,32 @@ const DependenciaForm = props => {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>
-                        {' '}
+                        {" "}
                         {t(
-                          'app_dependencia_form_registrar_cargo_responsable'
-                        )}{' '}
-                        <span className="text-danger">*</span>{' '}
+                          "app_dependencia_form_registrar_cargo_responsable"
+                        )}{" "}
+                        <span className="text-danger">*</span>{" "}
                       </label>
                       <select
-                        name={'chargeId'}
+                        name={"chargeId"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.chargeId}
                         className={`form-control form-control-sm ${errors.chargeId &&
                           touched.chargeId &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       >
-                        {' '}
-                        <option value={''}>
-                          --{' '}
+                        {" "}
+                        <option value={""}>
+                          --{" "}
                           {t(
-                            'app_dependencia_form_registrar_select_cargo_responsable'
-                          )}{' '}
+                            "app_dependencia_form_registrar_select_cargo_responsable"
+                          )}{" "}
                           --
                         </option>
-                        {mapOptionsCharges}{' '}
+                        {mapOptionsCharges}{" "}
                       </select>
-                      <div style={{ color: '#D54B4B' }}>
+                      <div style={{ color: "#D54B4B" }}>
                         {errors.chargeId && touched.chargeId ? (
                           <i className="fa fa-exclamation-triangle" />
                         ) : null}
@@ -333,25 +277,25 @@ const DependenciaForm = props => {
                   <div className="col-md-12">
                     <div className="form-group">
                       <label>
-                        {' '}
-                        {t('app_dependencia_form_registrar_estado')}{' '}
-                        <span className="text-danger">*</span>{' '}
+                        {" "}
+                        {t("app_dependencia_form_registrar_estado")}{" "}
+                        <span className="text-danger">*</span>{" "}
                       </label>
                       <div className="text-justify">
                         <CustomInput
-                          name={'status'}
+                          name={"status"}
                           onChange={handleChange}
                           onBlur={handleBlur}
                           value={values.status}
                           type="checkbox"
                           id="CheckboxEditDependencia"
                           label={t(
-                            'app_dependencia_form_registrar_estado_descripcion'
+                            "app_dependencia_form_registrar_estado_descripcion"
                           )}
                           className={
                             errors.status &&
                             touched.status &&
-                            'invalid-feedback'
+                            "invalid-feedback"
                           }
                         />
                       </div>
@@ -372,8 +316,8 @@ const DependenciaForm = props => {
                     <i className=" fa fa-spinner fa-spin" />
                   ) : (
                     <div>
-                      <i className="fa fa-save" />{' '}
-                      {t('app_dependencia_form_registrar_boton_guardar')}
+                      <i className="fa fa-save" />{" "}
+                      {t("app_dependencia_form_registrar_boton_guardar")}
                     </div>
                   )}
                 </button>
@@ -386,7 +330,11 @@ const DependenciaForm = props => {
   );
 };
 
-export default withTranslation('translations')(
+DependenciaForm.propTypes = {
+  t: PropTypes.any
+};
+
+export default withTranslation("translations")(
   withFormik({
     mapPropsToValues: props => ({
       conglomerateId: props.dependencia.conglomerateId,
@@ -401,26 +349,26 @@ export default withTranslation('translations')(
     validationSchema: Yup.object().shape({
       conglomerateId: Yup.string()
         .ensure()
-        .required(' Por favor seleccione un conglomerado.'),
+        .required(" Por favor seleccione un conglomerado."),
       companyId: Yup.string()
         .ensure()
-        .required(' Por favor seleccione una empresa.'),
+        .required(" Por favor seleccione una empresa."),
       headquarterId: Yup.string()
         .ensure()
-        .required(' Por favor seleccione una sede.'),
+        .required(" Por favor seleccione una sede."),
       code: Yup.string()
-        .required(' Por favor introduzca un código alfanumérico.')
-        .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
-        .min(2, ' Mínimo 2 caracteres.')
-        .max(15, ' Máximo 15 caracteres.'),
-      name: Yup.string().required(' Por favor introduzca un nombre.'),
+        .required(" Por favor introduzca un código alfanumérico.")
+        .matches(/^[0-9a-zA-Z]+$/, " No es un código alfanumérico.")
+        .min(2, " Mínimo 2 caracteres.")
+        .max(15, " Máximo 15 caracteres."),
+      name: Yup.string().required(" Por favor introduzca un nombre."),
       description: Yup.string(),
       chargeId: Yup.string()
-        .required(' Por favor seleccione un cargo.')
+        .required(" Por favor seleccione un cargo.")
         .ensure(),
       status: Yup.bool().test(
-        'Activo',
-        'Es necesario activar el conglomerado.',
+        "Activo",
+        "Es necesario activar el conglomerado.",
         value => value === true
       )
     }),
@@ -436,10 +384,10 @@ export default withTranslation('translations')(
       };
       setTimeout(() => {
         fetch(DEPENDENCIES, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Basic ' + window.btoa('sgdea:123456')
+            "Content-Type": "application/json",
+            Authorization: "Basic " + window.btoa("sgdea:123456")
           },
           body: JSON.stringify({
             description: values.description,
@@ -448,30 +396,30 @@ export default withTranslation('translations')(
             headquarterId: values.headquarterId,
             chargeId: values.chargeId,
             status: tipoEstado(values.status),
-            userName: 'jferrer'
+            userName: "jferrer"
           })
         })
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success('Se creo la dependencia con éxito.', {
+                toast.success("Se creo la dependencia con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: '60px'
+                    marginTop: "60px"
                   })
                 });
               } else if (response.status === 400) {
-                toast.error('Error, la dependencia  ya existe.', {
+                toast.error("Error, la dependencia  ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: '60px'
+                    marginTop: "60px"
                   })
                 });
               } else if (response.status === 500) {
-                toast.error('Error, no se pudo crear la dependencia.', {
+                toast.error("Error, no se pudo crear la dependencia.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
-                    marginTop: '60px'
+                    marginTop: "60px"
                   })
                 });
               }
@@ -481,7 +429,7 @@ export default withTranslation('translations')(
             toast.error(`Error ${error}`, {
               position: toast.POSITION.TOP_RIGHT,
               className: css({
-                marginTop: '60px'
+                marginTop: "60px"
               })
             });
           });

@@ -1,16 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import {
-  Row,
-  Col,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Alert
-} from 'reactstrap';
-import * as Yup from 'yup';
-import { Formik, withFormik, ErrorMessage } from 'formik';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
+import * as Yup from "yup";
+import { Formik, ErrorMessage } from "formik";
 
 class ModalDeleteEmpresa extends React.Component {
   state = {
@@ -19,9 +11,9 @@ class ModalDeleteEmpresa extends React.Component {
     alertSuccess: false,
     alertError: false,
     alertCode: false,
-    username: 'jferrer',
-    code: '',
-    nameCompany: '',
+    username: "jferrer",
+    code: "",
+    nameCompany: "",
     t: this.props.t
   };
 
@@ -33,10 +25,10 @@ class ModalDeleteEmpresa extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/company/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-          'Content-Type': 'application/json'
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
         }
       }
     )
@@ -58,7 +50,7 @@ class ModalDeleteEmpresa extends React.Component {
 
   render() {
     const dataInitial = {
-      code: ''
+      code: ""
     };
     const nameCompany = this.state.nameCompany;
     const { t } = this.props;
@@ -66,8 +58,8 @@ class ModalDeleteEmpresa extends React.Component {
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
-            {' '}
-            {t('app_empresa_modal_eliminar_titulo')} {nameCompany}{' '}
+            {" "}
+            {t("app_empresa_modal_eliminar_titulo")} {nameCompany}{" "}
           </ModalHeader>
           <Formik
             initialValues={dataInitial}
@@ -76,10 +68,10 @@ class ModalDeleteEmpresa extends React.Component {
                 fetch(
                   `http://192.168.10.180:7000/api/sgdea/company/${this.state.idCompany}?code=${values.code}&username=${this.state.username}`,
                   {
-                    method: 'DELETE',
+                    method: "DELETE",
                     headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                      "Content-Type": "application/json",
+                      Authorization: "Basic " + window.btoa("sgdea:123456")
                     }
                   }
                 )
@@ -107,13 +99,13 @@ class ModalDeleteEmpresa extends React.Component {
                       });
                     }
                   })
-                  .catch(error => console.log('', error));
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 1000);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required(
-                ' Por favor introduzca el código de la empresa.'
+                " Por favor introduzca el código de la empresa."
               )
             })}
           >
@@ -136,39 +128,39 @@ class ModalDeleteEmpresa extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {t('app_empresa_modal_eliminar_alert_error')}
+                      {t("app_empresa_modal_eliminar_alert_error")}
                     </Alert>
                     <Alert
                       color="danger"
                       isOpen={this.state.alertCode}
                       toggle={this.onDismiss}
                     >
-                      {t('app_empresa_modal_eliminar_alert_errorCode')}
+                      {t("app_empresa_modal_eliminar_alert_errorCode")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {t('app_empresa_modal_eliminar_alert_success')}
+                      {t("app_empresa_modal_eliminar_alert_success")}
                     </Alert>
                     <form className="form">
                       <p className="text-center">
-                        {' '}
-                        {t('app_empresa_modal_eliminar_titulo_2')}
+                        {" "}
+                        {t("app_empresa_modal_eliminar_titulo_2")}
                       </p>
 
                       <input
                         type="text"
                         placeholder={t(
-                          'app_empresa_modal_eliminar_placeholder'
+                          "app_empresa_modal_eliminar_placeholder"
                         )}
-                        style={{ textAlign: 'center' }}
+                        style={{ textAlign: "center" }}
                         name="code"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.code}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
                           touched.code &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
-                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                      <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
@@ -177,22 +169,22 @@ class ModalDeleteEmpresa extends React.Component {
 
                       <br />
                       <p className="text-center text-danger">
-                        {' '}
-                        {t('app_empresa_modal_eliminar_titulo_3')}
+                        {" "}
+                        {t("app_empresa_modal_eliminar_titulo_3")}
                       </p>
                     </form>
                   </ModalBody>
                   <ModalFooter>
                     <button
                       type="button"
-                      className={'btn btn-outline-danger btn-sm'}
+                      className={"btn btn-outline-danger btn-sm"}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" />{' '}
-                      {t('app_empresa_modal_eliminar_boton_eliminar')}
+                      <i className="fa fa-trash" />{" "}
+                      {t("app_empresa_modal_eliminar_boton_eliminar")}
                     </button>
                     <button
                       type="button"
@@ -205,8 +197,8 @@ class ModalDeleteEmpresa extends React.Component {
                         });
                       }}
                     >
-                      <i className="fa fa-times" />{' '}
-                      {t('app_empresa_modal_eliminar_boton_cerrar')}{' '}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_empresa_modal_eliminar_boton_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -221,7 +213,8 @@ class ModalDeleteEmpresa extends React.Component {
 
 ModalDeleteEmpresa.propTypes = {
   t: PropTypes.any,
-  modaldelempresa: PropTypes.bool.isRequired
+  modaldelempresa: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired
 };
 
 export default ModalDeleteEmpresa;

@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
+
 class MySelectEntidades extends React.Component {
   state = {
     dataEntidades: [],
@@ -29,10 +31,10 @@ class MySelectEntidades extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/entity/module/${this.state.id}/active`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -43,15 +45,15 @@ class MySelectEntidades extends React.Component {
         });
         console.log(data);
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
   };
 
   handleChange = value => {
-    this.props.onChange('entidades', value);
+    this.props.onChange("entidades", value);
   };
 
   handleBlur = () => {
-    this.props.onBlur('entidades', true);
+    this.props.onBlur("entidades", true);
   };
 
   render() {
@@ -65,8 +67,8 @@ class MySelectEntidades extends React.Component {
           className={this.props.className}
           value={this.props.value}
         >
-          <option value={''}>
-            -- {t('app_roles_form_registrar_entidades_select')} --
+          <option value={""}>
+            -- {t("app_roles_form_registrar_entidades_select")} --
           </option>
           {this.state.dataEntidades.map((aux, id) => {
             return (
@@ -80,4 +82,8 @@ class MySelectEntidades extends React.Component {
     );
   }
 }
+MySelectEntidades.propTypes = {
+  t: PropTypes.any,
+  id: PropTypes.string.isRequired
+};
 export default MySelectEntidades;

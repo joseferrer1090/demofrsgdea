@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   TabContent,
   TabPane,
@@ -7,21 +7,20 @@ import {
   NavLink,
   Row,
   Col
-} from 'reactstrap';
-import classnames from 'classnames';
-import FormCreate from './components/FormCreateGrupos';
-import FormImport from './components/FormImportGrupos';
-import Tablecontent from './components/TableContent';
-import { withTranslation } from 'react-i18next';
+} from "reactstrap";
+import classnames from "classnames";
+import FormCreate from "./components/FormCreateGrupos";
+import FormImport from "./components/FormImportGrupos";
+import Tablecontent from "./components/TableContent";
+import { withTranslation } from "react-i18next";
 
-export default withTranslation('translations')(
+export default withTranslation("translations")(
   class GrupoUsuarios extends React.Component {
     constructor(props) {
       super(props);
-
       this.toggle = this.toggle.bind(this);
       this.state = {
-        activeTab: '1'
+        activeTab: "1"
       };
     }
 
@@ -39,32 +38,32 @@ export default withTranslation('translations')(
           <Nav tabs>
             <NavItem>
               <NavLink
-                className={classnames({ active: this.state.activeTab === '1' })}
+                className={classnames({ active: this.state.activeTab === "1" })}
                 onClick={() => {
-                  this.toggle('1');
+                  this.toggle("1");
                 }}
               >
-                <i className="fa fa-plus" /> {t('app_grupoUsuarios_tab')}
+                <i className="fa fa-plus" /> {t("app_grupoUsuarios_tab")}
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
-                className={classnames({ active: this.state.activeTab === '2' })}
+                className={classnames({ active: this.state.activeTab === "2" })}
                 onClick={() => {
-                  this.toggle('2');
+                  this.toggle("2");
                 }}
               >
-                <i className="fa fa-gear" /> {t('app_grupoUsuarios_tab_2')}
+                <i className="fa fa-gear" /> {t("app_grupoUsuarios_tab_2")}
               </NavLink>
             </NavItem>
             <NavItem>
               <NavLink
-                className={classnames({ active: this.state.activeTab === '3' })}
+                className={classnames({ active: this.state.activeTab === "3" })}
                 onClick={() => {
-                  this.toggle('3');
+                  this.toggle("3");
                 }}
               >
-                <i className="fa fa-upload" /> {t('app_grupoUsuarios_tab_3')}
+                <i className="fa fa-upload" /> {t("app_grupoUsuarios_tab_3")}
               </NavLink>
             </NavItem>
           </Nav>

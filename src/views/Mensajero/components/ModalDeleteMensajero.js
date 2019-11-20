@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from 'reactstrap';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { Formik, ErrorMessage } from 'formik';
+import React, { Component, Fragment } from "react";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { Formik, ErrorMessage } from "formik";
 
 class ModalDeleteMensajero extends Component {
   constructor(props) {
@@ -10,31 +10,31 @@ class ModalDeleteMensajero extends Component {
     this.state = {
       modal: this.props.modaldelete,
       idMessenger: this.props.id,
-      identification: '',
-      useLogged: '',
+      identification: "",
+      useLogged: "",
       alertSuccess: false,
       alertError: false,
       alertIdentification: false,
-      nameMessenger: '',
+      nameMessenger: "",
       t: this.props.t,
-      username: 'ccuartas'
+      username: "ccuartas"
     };
   }
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      nombre: '',
+      nombre: "",
       idMessenger: id,
-      useLogged: 'jferrer'
+      useLogged: "jferrer"
     });
     fetch(
       `http://192.168.10.180:7000/api/sgdea/messenger/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-          'Content-Type': 'application/json'
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
         }
       }
     )
@@ -44,7 +44,7 @@ class ModalDeleteMensajero extends Component {
           nameMessenger: data.name
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   onDismiss = () => {
@@ -57,7 +57,7 @@ class ModalDeleteMensajero extends Component {
 
   render() {
     const dataInitial = {
-      identification: ''
+      identification: ""
     };
     const nameMessenger = this.state.nameMessenger;
     const { t } = this.props;
@@ -65,7 +65,7 @@ class ModalDeleteMensajero extends Component {
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
-            {t('app_mensajero_modal_eliminar_titulo')} {nameMessenger}{' '}
+            {t("app_mensajero_modal_eliminar_titulo")} {nameMessenger}{" "}
           </ModalHeader>
           <Formik
             initialValues={dataInitial}
@@ -74,10 +74,10 @@ class ModalDeleteMensajero extends Component {
                 fetch(
                   `http://192.168.10.180:7000/api/sgdea/messenger/${this.state.idMessenger}?identification=${values.identification}&username=${this.state.useLogged}`,
                   {
-                    method: 'DELETE',
+                    method: "DELETE",
                     headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: 'BASIC ' + window.btoa('sgdea:123456')
+                      "Content-Type": "application/json",
+                      Authorization: "BASIC " + window.btoa("sgdea:123456")
                     }
                   }
                 )
@@ -105,13 +105,13 @@ class ModalDeleteMensajero extends Component {
                       });
                     }
                   })
-                  .catch(error => console.log(' ', error));
+                  .catch(error => console.log(" ", error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               identification: Yup.string().required(
-                ' Por favor introduzca el número de identificación del mensajero.'
+                " Por favor introduzca el número de identificación del mensajero."
               )
             })}
           >
@@ -133,42 +133,42 @@ class ModalDeleteMensajero extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {t('app_mensajero_modal_eliminar_alert_error')}
+                        {t("app_mensajero_modal_eliminar_alert_error")}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertIdentification}
                         toggle={this.onDismiss}
                       >
-                        {t('app_mensajero_modal_eliminar_alert_errorId')}
+                        {t("app_mensajero_modal_eliminar_alert_errorId")}
                       </Alert>
                       <Alert
                         className="text-center"
                         color="success"
                         isOpen={this.state.alertSuccess}
                       >
-                        {t('app_mensajero_modal_eliminar_alert_success')}
+                        {t("app_mensajero_modal_eliminar_alert_success")}
                       </Alert>
                       <p className="text-center">
-                        {' '}
-                        {t('app_mensajero_modal_eliminar_titulo_2')}
+                        {" "}
+                        {t("app_mensajero_modal_eliminar_titulo_2")}
                       </p>
 
                       <input
                         input
-                        name={'identification'}
+                        name={"identification"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
                         placeholder={t(
-                          'app_mensajero_modal_eliminar_placeholder'
+                          "app_mensajero_modal_eliminar_placeholder"
                         )}
-                        style={{ textAlign: 'center' }}
+                        style={{ textAlign: "center" }}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.identification &&
                           touched.identification &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
-                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                      <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.identification && touched.identification ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
@@ -176,22 +176,22 @@ class ModalDeleteMensajero extends Component {
                       </div>
                       <br />
                       <p className="text-center text-danger">
-                        {' '}
-                        {t('app_mensajero_modal_eliminar_titulo_3')}
+                        {" "}
+                        {t("app_mensajero_modal_eliminar_titulo_3")}
                       </p>
                     </form>
                   </ModalBody>
                   <ModalFooter>
                     <button
                       type="button"
-                      className={'btn btn-outline-danger btn-sm'}
+                      className={"btn btn-outline-danger btn-sm"}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" />{' '}
-                      {t('app_mensajero_modal_eliminar_boton_eliminar')}
+                      <i className="fa fa-trash" />{" "}
+                      {t("app_mensajero_modal_eliminar_boton_eliminar")}
                     </button>
                     <button
                       type="button"
@@ -205,8 +205,8 @@ class ModalDeleteMensajero extends Component {
                         });
                       }}
                     >
-                      <i className="fa fa-times" />{' '}
-                      {t('app_mensajero_modal_eliminar_boton_cerrar')}{' '}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_mensajero_modal_eliminar_boton_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -221,7 +221,8 @@ class ModalDeleteMensajero extends Component {
 
 ModalDeleteMensajero.propTypes = {
   modaldelete: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  id: PropTypes.string.isRequired
 };
 
 export default ModalDeleteMensajero;

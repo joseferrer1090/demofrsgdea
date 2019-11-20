@@ -1,15 +1,16 @@
-import React, { Component } from 'react';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Row, Col } from 'reactstrap';
-import ModalView from './ModalViewRoles';
-import ModalDelete from './ModalDeleteRoles';
-import ModalEdit from './ModalEditRoles';
-import ModalPermission from './ModalEditPermissionRoles';
-import ModalExport from './ModalExportCSV';
-import '../../../css/styleTableRoles.css';
-import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import moment from 'moment';
-import { withTranslation } from 'react-i18next';
+import React, { Component } from "react";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import { Row, Col } from "reactstrap";
+import ModalView from "./ModalViewRoles";
+import ModalDelete from "./ModalDeleteRoles";
+import ModalEdit from "./ModalEditRoles";
+import ModalPermission from "./ModalEditPermissionRoles";
+import ModalExport from "./ModalExportCSV";
+import "../../../css/styleTableRoles.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import moment from "moment";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class TableContentRoles extends Component {
   constructor(props) {
@@ -32,10 +33,10 @@ class TableContentRoles extends Component {
 
   getDataRoles = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -45,7 +46,7 @@ class TableContentRoles extends Component {
         });
         console.log(this.state.dataRoles);
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
   };
 
   EstadoRoles(cell, row) {
@@ -54,15 +55,15 @@ class TableContentRoles extends Component {
     if (row.status === 1) {
       status = (
         <p className="text-success">
-          {' '}
-          <b>{t('app_tablas_estado_activo')}</b>{' '}
+          {" "}
+          <b>{t("app_tablas_estado_activo")}</b>{" "}
         </p>
       );
     } else if (row.status !== 1) {
       status = (
         <p className="text-danger">
-          {' '}
-          <b>{t('app_tablas_estado_inactivo')}</b>{' '}
+          {" "}
+          <b>{t("app_tablas_estado_inactivo")}</b>{" "}
         </p>
       );
     }
@@ -71,14 +72,14 @@ class TableContentRoles extends Component {
   FechaCreacionRoles(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format('YYYY-MM-DD');
+    return moment(createdAt).format("YYYY-MM-DD");
   }
 
   accionesRoles(cel, row) {
     return (
       <div
         className="table-actionMenuRP"
-        style={{ textAlign: 'center', padding: '0', marginRight: '100px' }}
+        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -151,8 +152,8 @@ class TableContentRoles extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" />{' '}
-        {t('app_roles_table_administrar_boton_exportar')}
+        <i className="fa fa-download" />{" "}
+        {t("app_roles_table_administrar_boton_exportar")}
       </button>
     );
   };
@@ -173,7 +174,7 @@ class TableContentRoles extends Component {
                 options={options}
                 data={this.state.dataRoles}
                 search
-                searchPlaceholder={t('app_roles_table_administrar_placeholder')}
+                searchPlaceholder={t("app_roles_table_administrar_placeholder")}
                 pagination
                 bordered={false}
                 hover
@@ -186,7 +187,7 @@ class TableContentRoles extends Component {
                   isKey
                   dataField="id"
                   dataAlign="center"
-                  width={'20'}
+                  width={"20"}
                   hidden={this.state.hiddenColumnID}
                 >
                   #
@@ -196,7 +197,7 @@ class TableContentRoles extends Component {
                   dataFormat={this.indexN}
                   dataField="id"
                   dataAlign="center"
-                  width={'20'}
+                  width={"20"}
                 >
                   #
                 </TableHeaderColumn>
@@ -204,57 +205,57 @@ class TableContentRoles extends Component {
                   dataSort={true}
                   dataField="code"
                   dataAlign="center"
-                  width={'50'}
+                  width={"50"}
                 >
-                  {t('app_roles_table_administrar_codigo')}
+                  {t("app_roles_table_administrar_codigo")}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataSort={true}
                   dataField="name"
                   dataAlign="center"
-                  width={'80'}
+                  width={"80"}
                 >
-                  {' '}
-                  {t('app_roles_table_administrar_nombre')}{' '}
+                  {" "}
+                  {t("app_roles_table_administrar_nombre")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataSort={true}
                   dataField="description"
                   dataAlign="center"
-                  width={'80'}
+                  width={"80"}
                 >
-                  {' '}
-                  {t('app_roles_table_administrar_descripcion')}{' '}
+                  {" "}
+                  {t("app_roles_table_administrar_descripcion")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  width={'50'}
+                  width={"50"}
                   dataSort={true}
                   dataField="status"
                   dataAlign="center"
                   dataFormat={(cell, row) => this.EstadoRoles(cell, row)}
                 >
-                  {' '}
-                  {t('app_roles_table_administrar_estado')}{' '}
+                  {" "}
+                  {t("app_roles_table_administrar_estado")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  width={'80'}
+                  width={"80"}
                   dataSort={true}
                   dataField="createdAt"
                   dataAlign="center"
                   dataFormat={(cell, row) => this.FechaCreacionRoles(cell, row)}
                 >
-                  {' '}
-                  {t('app_roles_table_administrar_fecha_creacion')}{' '}
+                  {" "}
+                  {t("app_roles_table_administrar_fecha_creacion")}{" "}
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
-                  width={'200'}
+                  width={"200"}
                   export={false}
                   dataAlign="center"
                   dataFormat={(cell, row) => this.accionesRoles(cell, row)}
                 >
-                  {' '}
-                  {t('app_roles_table_administrar_acciones')}{' '}
+                  {" "}
+                  {t("app_roles_table_administrar_acciones")}{" "}
                 </TableHeaderColumn>
               </BootstrapTable>
             </div>
@@ -293,5 +294,7 @@ class TableContentRoles extends Component {
     );
   }
 }
-
-export default withTranslation('translations')(TableContentRoles);
+TableContentRoles.propTypes = {
+  t: PropTypes.any
+};
+export default withTranslation("translations")(TableContentRoles);

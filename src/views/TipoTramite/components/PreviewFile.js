@@ -40,14 +40,10 @@ class PreviewFile extends React.Component {
       return <p>loading...</p>;
     }
 
-    PreviewFile.propTypes = {
-      file: PropTypes.any
-    };
-
     return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
   }
 }
 PreviewFile.propTypes = {
-  file: PropTypes.any
+  t: PropTypes.any
 };
 export default PreviewFile;

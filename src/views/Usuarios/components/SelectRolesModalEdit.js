@@ -1,5 +1,7 @@
-import React from 'react';
-import Select from 'react-select';
+import React from "react";
+import Select from "react-select";
+import PropTypes from "prop-types";
+
 class MySelect extends React.Component {
   state = {
     dataRoles: [],
@@ -11,11 +13,11 @@ class MySelect extends React.Component {
   }
 
   getData = async () => {
-    let url = 'http://192.168.10.180:7000/api/sgdea/role/active';
+    let url = "http://192.168.10.180:7000/api/sgdea/role/active";
     const response = await fetch(url, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     });
     const data = await response.json();
@@ -25,11 +27,11 @@ class MySelect extends React.Component {
   };
 
   handleChange = value => {
-    this.props.onChange('roles', value);
+    this.props.onChange("roles", value);
   };
 
   handleBlur = () => {
-    this.props.onBlur('roles', true);
+    this.props.onBlur("roles", true);
   };
 
   render() {
@@ -41,7 +43,7 @@ class MySelect extends React.Component {
     });
     const { t } = this.props;
     return (
-      <div style={{ margin: '0' }}>
+      <div style={{ margin: "0" }}>
         <Select
           name={this.props.name}
           options={aux}
@@ -49,10 +51,13 @@ class MySelect extends React.Component {
           onChange={this.handleChange}
           onBlur={this.props.onBlur}
           value={this.props.value}
-          placeholder={`-- ${t('app_usuarios_modal_editar_roles_select')} --`}
+          placeholder={`-- ${t("app_usuarios_modal_editar_roles_select")} --`}
         />
       </div>
     );
   }
 }
+MySelect.propTypes = {
+  t: PropTypes.any
+};
 export default MySelect;

@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   Nav,
   NavItem,
@@ -8,18 +8,18 @@ import {
   TabContent,
   Row,
   Col
-} from 'reactstrap';
-import classnames from 'classnames';
-import FormCreate from './components/FormCreateTipoTercero';
-import TableContent from './components/TableContentTipoTerceros';
-import FormUpload from './components/FormUploadTipoTercero';
-import { withTranslation } from 'react-i18next';
+} from "reactstrap";
+import classnames from "classnames";
+import FormCreate from "./components/FormCreateTipoTercero";
+import TableContent from "./components/TableContentTipoTerceros";
+import FormUpload from "./components/FormUploadTipoTercero";
+import { withTranslation } from "react-i18next";
 
 class TipoTercero extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: '1'
+      activeTab: "1"
     };
   }
 
@@ -38,32 +38,32 @@ class TipoTercero extends Component {
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '1' })}
+              className={classnames({ active: this.state.activeTab === "1" })}
               onClick={() => {
-                this.toggle('1');
+                this.toggle("1");
               }}
             >
-              <i className="fa fa-plus " /> {t('app_tipoTerecero_tab')}
+              <i className="fa fa-plus " /> {t("app_tipoTerecero_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '2' })}
+              className={classnames({ active: this.state.activeTab === "2" })}
               onClick={() => {
-                this.toggle('2');
+                this.toggle("2");
               }}
             >
-              <i className={'fa fa-gear'} /> {t('app_tipoTerecero_tab_2')}
+              <i className={"fa fa-gear"} /> {t("app_tipoTerecero_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '3' })}
+              className={classnames({ active: this.state.activeTab === "3" })}
               onClick={() => {
-                this.toggle('3');
+                this.toggle("3");
               }}
             >
-              <i className={'fa fa-upload'} /> {t('app_tipoTerecero_tab_3')}
+              <i className={"fa fa-upload"} /> {t("app_tipoTerecero_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -95,6 +95,8 @@ class TipoTercero extends Component {
   }
 }
 
-TipoTercero.propTypes = {};
+TipoTercero.propTypes = {
+  t: PropTypes.any
+};
 
-export default withTranslation('translations')(TipoTercero);
+export default withTranslation("translations")(TipoTercero);

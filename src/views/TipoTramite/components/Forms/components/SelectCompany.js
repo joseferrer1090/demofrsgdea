@@ -1,4 +1,6 @@
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
+
 class SelectEmpresa extends React.Component {
   state = {
     dataEmpresa: [],
@@ -30,10 +32,10 @@ class SelectEmpresa extends React.Component {
     fetch(
       `http://192.168.20.187:7000/api/sgdea/company/conglomerate/${this.props.idConglomerado}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -43,7 +45,7 @@ class SelectEmpresa extends React.Component {
           dataEmpresa: data
         });
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
   };
 
   render() {
@@ -57,9 +59,9 @@ class SelectEmpresa extends React.Component {
           onBlur={this.props.onBlur}
           className={this.props.className}
         >
-          <option value={' '}>
-            {' '}
-            -- {t('app_tipoTramite_form_registrar_select_empresa')} --{' '}
+          <option value={" "}>
+            {" "}
+            -- {t("app_tipoTramite_form_registrar_select_empresa")} --{" "}
           </option>
           {this.state.dataEmpresa.map((aux, id) => {
             return (
@@ -73,4 +75,8 @@ class SelectEmpresa extends React.Component {
     );
   }
 }
+
+SelectEmpresa.propTypes = {
+  t: PropTypes.any
+};
 export default SelectEmpresa;

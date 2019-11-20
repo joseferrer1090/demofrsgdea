@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
 import {
   Modal,
   ModalHeader,
@@ -12,8 +13,7 @@ import {
   TabContent,
   TabPane,
   Alert
-} from 'reactstrap';
-import PropTypes from 'prop-types';
+} from "reactstrap";
 import {
   MODULES,
   ACTIONS,
@@ -23,14 +23,14 @@ import {
   HEADQUARTERS_STATUS,
   DEPENDENCIES_STATUS,
   USERS_STATUS
-} from './../../../services/EndPoints';
-import { Formik, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
-import classnames from 'classnames';
-import SelectConglomerado from './components/SelectConglomerado';
-import SelectCompany from './components/SelectCompany';
-import SelectHeadquarter from './components/SelectHeadquarter';
-import SelectDependence from './components/SelectDependence';
+} from "./../../../services/EndPoints";
+import { Formik, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import classnames from "classnames";
+import SelectConglomerado from "./components/SelectConglomerado";
+import SelectCompany from "./components/SelectCompany";
+import SelectHeadquarter from "./components/SelectHeadquarter";
+import SelectDependence from "./components/SelectDependence";
 
 class ModalSearchAuditoria extends Component {
   constructor(props) {
@@ -38,8 +38,8 @@ class ModalSearchAuditoria extends Component {
     this.state = {
       t: this.props.t,
       modal: this.props.modalSearch,
-      acciones: '',
-      usuarios: '',
+      acciones: "",
+      usuarios: "",
       dataModules: [],
       dataEntities: [],
       dataActions: [],
@@ -48,7 +48,7 @@ class ModalSearchAuditoria extends Component {
       dataSede: [],
       dataDependencias: [],
       dataUsers: [],
-      activeTab: '1',
+      activeTab: "1",
       alertSucces: false
     };
   }
@@ -83,10 +83,10 @@ class ModalSearchAuditoria extends Component {
 
   getDataModule = data => {
     fetch(MODULES, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -95,15 +95,15 @@ class ModalSearchAuditoria extends Component {
           dataModules: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   getDataEntity = data => {
     fetch(ENTITIES, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -112,15 +112,15 @@ class ModalSearchAuditoria extends Component {
           dataEntities: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   getDataActions = data => {
     fetch(ACTIONS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -129,15 +129,15 @@ class ModalSearchAuditoria extends Component {
           dataActions: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   getDataConglomerates = data => {
     fetch(CONGLOMERATES_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -146,15 +146,15 @@ class ModalSearchAuditoria extends Component {
           dataConglomerado: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   getDataCompanys = data => {
     fetch(COMPANYS_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -163,15 +163,15 @@ class ModalSearchAuditoria extends Component {
           dataEmpresa: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   getDataHeadquarters = data => {
     fetch(HEADQUARTERS_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -180,15 +180,15 @@ class ModalSearchAuditoria extends Component {
           dataSede: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   getDataDependence = data => {
     fetch(DEPENDENCIES_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -197,15 +197,15 @@ class ModalSearchAuditoria extends Component {
           dataDependencias: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   getDataUsers = data => {
     fetch(USERS_STATUS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -214,7 +214,7 @@ class ModalSearchAuditoria extends Component {
           dataUsers: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
   render() {
     const { t } = this.props;
@@ -250,25 +250,25 @@ class ModalSearchAuditoria extends Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>{t('app_auditoria_modal_consultar_titulo')}</ModalHeader>
+          <ModalHeader>{t("app_auditoria_modal_consultar_titulo")}</ModalHeader>
           <Formik
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 fetch(`http://192.168.10.180:7000/api/sgdea/audit/consult`, {
-                  method: 'POST',
+                  method: "POST",
                   headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
                   },
                   body: JSON.stringify({
                     actionId: values.audit_accciones,
                     from: values.audit_fechaDesde,
-                    ip: '',
+                    ip: "",
                     page: 0,
                     size: 50,
                     to: values.audit_fechaHasta,
-                    userNameAuthenticate: 'ccuartas',
-                    username: 'ccuartas'
+                    userNameAuthenticate: "ccuartas",
+                    username: "ccuartas"
                   })
                 })
                   .then(response => response.json())
@@ -287,16 +287,16 @@ class ModalSearchAuditoria extends Component {
                     this.props.onDataFetch(data.content);
                     console.log(data.content);
                   })
-                  .catch(error => console.log('', error));
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               audit_fechaDesde: Yup.string().required(
-                ' Por favor introduzca la fecha desde.'
+                " Por favor introduzca la fecha desde."
               ),
               audit_fechaHasta: Yup.string().required(
-                ' Por favor introduzca la fecha hasta.'
+                " Por favor introduzca la fecha hasta."
               ),
               audit_modulo: Yup.string().ensure(),
               audit_entidad: Yup.string().ensure(),
@@ -333,25 +333,25 @@ class ModalSearchAuditoria extends Component {
                           <NavItem>
                             <NavLink
                               className={classnames({
-                                active: this.state.activeTab === '1'
+                                active: this.state.activeTab === "1"
                               })}
                               onClick={() => {
-                                this.toogleTab('1');
+                                this.toogleTab("1");
                               }}
                             >
-                              {t('app_auditoria_modal_consultar_tab_1')}
+                              {t("app_auditoria_modal_consultar_tab_1")}
                             </NavLink>
                           </NavItem>
                           <NavItem>
                             <NavLink
                               className={classnames({
-                                active: this.state.activeTab === '2'
+                                active: this.state.activeTab === "2"
                               })}
                               onClick={() => {
-                                this.toogleTab('2');
+                                this.toogleTab("2");
                               }}
                             >
-                              {t('app_auditoria_modal_consultar_tab_2')}
+                              {t("app_auditoria_modal_consultar_tab_2")}
                             </NavLink>
                           </NavItem>
                         </Nav>
@@ -361,7 +361,7 @@ class ModalSearchAuditoria extends Component {
                               <div className="col-sm-6  ">
                                 <label>
                                   {t(
-                                    'app_auditoria_modal_consultar_fecha_desde'
+                                    "app_auditoria_modal_consultar_fecha_desde"
                                   )}
                                 </label>
                                 <input
@@ -373,9 +373,9 @@ class ModalSearchAuditoria extends Component {
                                   value={values.audit_fechaDesde}
                                   className={`form-control form-control-sm ${errors.audit_fechaDesde &&
                                     touched.audit_fechaDesde &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                 />
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.audit_fechaDesde &&
                                   touched.audit_fechaDesde ? (
                                     <i className="fa fa-exclamation-triangle" />
@@ -386,21 +386,21 @@ class ModalSearchAuditoria extends Component {
                               <div className="col-sm-6">
                                 <label>
                                   {t(
-                                    'app_auditoria_modal_consultar_fecha_hasta'
+                                    "app_auditoria_modal_consultar_fecha_hasta"
                                   )}
                                 </label>
                                 <input
                                   type="date"
                                   className={`form-control form-control-sm ${errors.audit_fechaHasta &&
                                     touched.audit_fechaHasta &&
-                                    'is-invalid'}`}
+                                    "is-invalid"}`}
                                   placeholder="Hasta"
                                   name="audit_fechaHasta"
                                   onChange={handleChange}
                                   onBlur={handleBlur}
                                   value={values.audit_fechaHasta}
                                 />
-                                <div style={{ color: '#D54B4B' }}>
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.audit_fechaHasta &&
                                   touched.audit_fechaHasta ? (
                                     <i className="fa fa-exclamation-triangle" />
@@ -416,20 +416,20 @@ class ModalSearchAuditoria extends Component {
                                 <div className="col-sm-6  ">
                                   <label>
                                     {t(
-                                      'app_auditoria_modal_consultar_fecha_desde'
+                                      "app_auditoria_modal_consultar_fecha_desde"
                                     )}
                                   </label>
                                   <input
                                     type="date"
                                     className={`form-control form-control-sm ${errors.audit_fechaDesde &&
                                       touched.audit_fechaDesde &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                     name="audit_fechaDesde"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.audit_fechaDesde}
                                   />
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.audit_fechaDesde &&
                                     touched.audit_fechaDesde ? (
                                       <i className="fa fa-exclamation-triangle" />
@@ -440,20 +440,20 @@ class ModalSearchAuditoria extends Component {
                                 <div className="col-sm-6">
                                   <label>
                                     {t(
-                                      'app_auditoria_modal_consultar_fecha_hasta'
+                                      "app_auditoria_modal_consultar_fecha_hasta"
                                     )}
                                   </label>
                                   <input
                                     type="date"
                                     className={`form-control form-control-sm ${errors.audit_fechaHasta &&
                                       touched.audit_fechaHasta &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                     name="audit_fechaHasta"
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.audit_fechaHasta}
                                   />
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.audit_fechaHasta &&
                                     touched.audit_fechaHasta ? (
                                       <i className="fa fa-exclamation-triangle" />
@@ -466,7 +466,7 @@ class ModalSearchAuditoria extends Component {
                               <div className="row">
                                 <div className="col-sm-6">
                                   <label>
-                                    {t('app_auditoria_modal_consultar_modulo')}
+                                    {t("app_auditoria_modal_consultar_modulo")}
                                   </label>
                                   <select
                                     name="audit_modulo"
@@ -475,13 +475,13 @@ class ModalSearchAuditoria extends Component {
                                     value={values.audit_modulo}
                                     className={`form-control form-control-sm ${errors.audit_modulo &&
                                       touched.audit_modulo &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   >
-                                    <option value={''}>
-                                      --{' '}
+                                    <option value={""}>
+                                      --{" "}
                                       {t(
-                                        'app_auditoria_modal_consultar_modulo_select'
-                                      )}{' '}
+                                        "app_auditoria_modal_consultar_modulo_select"
+                                      )}{" "}
                                       --
                                     </option>
                                     {mapOptionsModules}
@@ -489,7 +489,7 @@ class ModalSearchAuditoria extends Component {
                                 </div>
                                 <div className="col-sm-6">
                                   <label>
-                                    {t('app_auditoria_modal_consultar_entidad')}
+                                    {t("app_auditoria_modal_consultar_entidad")}
                                   </label>
                                   <select
                                     name="audit_entidad"
@@ -498,13 +498,13 @@ class ModalSearchAuditoria extends Component {
                                     value={values.audit_entidad}
                                     className={`form-control form-control-sm ${errors.audit_entidad &&
                                       touched.audit_entidad &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   >
-                                    <option value={''}>
-                                      --{' '}
+                                    <option value={""}>
+                                      --{" "}
                                       {t(
-                                        'app_auditoria_modal_consultar_entidad_select'
-                                      )}{' '}
+                                        "app_auditoria_modal_consultar_entidad_select"
+                                      )}{" "}
                                       --
                                     </option>
                                     {mapOptionsEntities}
@@ -516,7 +516,7 @@ class ModalSearchAuditoria extends Component {
                                 <div className="col-sm-12">
                                   <label>
                                     {t(
-                                      'app_auditoria_modal_consultar_acciones'
+                                      "app_auditoria_modal_consultar_acciones"
                                     )}
                                   </label>
                                   <select
@@ -526,13 +526,13 @@ class ModalSearchAuditoria extends Component {
                                     value={values.audit_accciones}
                                     className={`form-control form-control-sm ${errors.audit_accciones &&
                                       touched.audit_accciones &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   >
-                                    <option value={''}>
-                                      --{' '}
+                                    <option value={""}>
+                                      --{" "}
                                       {t(
-                                        'app_auditoria_modal_consultar_acciones_select'
-                                      )}{' '}
+                                        "app_auditoria_modal_consultar_acciones_select"
+                                      )}{" "}
                                       --
                                     </option>
                                     {mapOptionsActions}
@@ -544,27 +544,27 @@ class ModalSearchAuditoria extends Component {
                                 <div className="col-sm-6">
                                   <label>
                                     {t(
-                                      'app_auditoria_modal_consultar_conglomerado'
+                                      "app_auditoria_modal_consultar_conglomerado"
                                     )}
                                   </label>
                                   <SelectConglomerado
                                     t={this.state.t}
-                                    name={'audit_conglomerado'}
+                                    name={"audit_conglomerado"}
                                     onChange={e =>
                                       setFieldValue(
-                                        'audit_conglomerado',
+                                        "audit_conglomerado",
                                         e.target.value
                                       )
                                     }
                                     value={values.audit_conglomerado}
                                     className={`form-control form-control-sm ${errors.audit_conglomerado &&
                                       touched.audit_conglomerado &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   />
                                 </div>
                                 <div className="col-sm-6">
                                   <label>
-                                    {t('app_auditoria_modal_consultar_empresa')}
+                                    {t("app_auditoria_modal_consultar_empresa")}
                                   </label>
                                   <SelectCompany
                                     t={this.state.t}
@@ -575,13 +575,13 @@ class ModalSearchAuditoria extends Component {
                                     value={values.audit_empresa}
                                     onChange={e =>
                                       setFieldValue(
-                                        'audit_empresa',
+                                        "audit_empresa",
                                         e.target.value
                                       )
                                     }
                                     className={`form-control form-control-sm ${errors.audit_empresa &&
                                       touched.audit_empresa &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   ></SelectCompany>
                                 </div>
                               </div>
@@ -589,43 +589,43 @@ class ModalSearchAuditoria extends Component {
                               <div className="row">
                                 <div className="col-sm-6">
                                   <label>
-                                    {t('app_auditoria_modal_consultar_sede')}
+                                    {t("app_auditoria_modal_consultar_sede")}
                                   </label>
                                   <SelectHeadquarter
                                     t={this.state.t}
                                     audit_empresa={props.values.audit_empresa}
-                                    name={'audit_sede'}
+                                    name={"audit_sede"}
                                     onChange={e =>
                                       setFieldValue(
-                                        'audit_sede',
+                                        "audit_sede",
                                         e.target.value
                                       )
                                     }
                                     className={`form-control form-control-sm ${errors.audit_sede &&
                                       touched.audit_sede &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   ></SelectHeadquarter>
                                 </div>
                                 <div className="col-sm-6">
                                   <label>
                                     {t(
-                                      'app_auditoria_modal_consultar_dependencia'
+                                      "app_auditoria_modal_consultar_dependencia"
                                     )}
                                   </label>
                                   <SelectDependence
                                     t={this.state.t}
                                     audit_sede={props.values.audit_sede}
-                                    name={'audit_dependencia'}
+                                    name={"audit_dependencia"}
                                     value={values.audit_dependencia}
                                     onChange={e =>
                                       setFieldValue(
-                                        'audit_dependencia',
+                                        "audit_dependencia",
                                         e.target.value
                                       )
                                     }
                                     className={`form-control form-control-sm ${errors.audit_dependencia &&
                                       touched.audit_dependencia &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   ></SelectDependence>
                                 </div>
                               </div>
@@ -634,7 +634,7 @@ class ModalSearchAuditoria extends Component {
                                 <div className="col-sm-12">
                                   <label>
                                     {t(
-                                      'app_auditoria_modal_consultar_usuarios'
+                                      "app_auditoria_modal_consultar_usuarios"
                                     )}
                                   </label>
                                   <select
@@ -644,13 +644,13 @@ class ModalSearchAuditoria extends Component {
                                     value={values.audit_usuarios}
                                     className={`form-control form-control-sm ${errors.audit_usuarios &&
                                       touched.audit_usuarios &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   >
-                                    <option value={''}>
-                                      --{' '}
+                                    <option value={""}>
+                                      --{" "}
                                       {t(
-                                        'app_auditoria_modal_consultar_usuarios_select'
-                                      )}{' '}
+                                        "app_auditoria_modal_consultar_usuarios_select"
+                                      )}{" "}
                                       --
                                     </option>
                                     {mapOptionsUsers}
@@ -672,9 +672,9 @@ class ModalSearchAuditoria extends Component {
                       type="button"
                       className="btn btn-success btn-sm"
                     >
-                      {' '}
-                      <i className="fa fa-filter" />{' '}
-                      {t('app_auditoria_modal_consultar_boton_consultar')}{' '}
+                      {" "}
+                      <i className="fa fa-filter" />{" "}
+                      {t("app_auditoria_modal_consultar_boton_consultar")}{" "}
                     </button>
                     <button
                       type="button"
@@ -683,9 +683,9 @@ class ModalSearchAuditoria extends Component {
                         this.setState({ modal: !this.state.modal });
                       }}
                     >
-                      {' '}
-                      <i className="fa fa-times" />{' '}
-                      {t('app_auditoria_modal_consultar_boton_cerrar')}{' '}
+                      {" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_auditoria_modal_consultar_boton_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -701,7 +701,8 @@ class ModalSearchAuditoria extends Component {
 // Aca se valida que el props que se va a pasar sea un bool y no cualquier valor
 
 ModalSearchAuditoria.propTypes = {
-  modalSearch: PropTypes.bool.isRequired
+  modalSearch: PropTypes.bool.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalSearchAuditoria;

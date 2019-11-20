@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
 class SelectCity extends React.Component {
   state = {
@@ -31,10 +31,10 @@ class SelectCity extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/city/department/${this.props.departmentId}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -44,7 +44,7 @@ class SelectCity extends React.Component {
           dataCity: data
         });
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
   };
 
   render() {
@@ -58,8 +58,8 @@ class SelectCity extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>
-            -- {t('app_conglomerado_form_select_ciudad')} --
+          <option value={""}>
+            -- {t("app_conglomerado_form_select_ciudad")} --
           </option>
           {this.state.dataCity.map((aux, id) => {
             return (
@@ -74,6 +74,7 @@ class SelectCity extends React.Component {
   }
 }
 SelectCity.propTypes = {
+  id: PropTypes.string.isRequired,
   t: PropTypes.any
 };
 

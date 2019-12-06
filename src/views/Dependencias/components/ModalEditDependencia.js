@@ -221,8 +221,7 @@ class ModalEditDependencia extends React.Component {
                 handleBlur,
                 handleSubmit,
                 setFieldValue,
-                setFieldTouched,
-                t
+                setFieldTouched
               } = props;
               return (
                 <Fragment>

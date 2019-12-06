@@ -39,7 +39,7 @@ class ModalViewEmpresa extends Component {
       id: id
     });
     fetch(
-      `http://192.168.20.187:7000/api/sgdea/company/${id}?username=${this.state.username}`,
+      `http://192.168.10.180:7000/api/sgdea/company/${id}?username=${this.state.username}`,
       {
         method: 'GET',
         headers: {

@@ -2,7 +2,7 @@
 
 /* GET / POST / PUT */
 export const CONGLOMERATES =
-  "http://192.168.20.187:7000/api/sgdea/conglomerate";
+  "http://192.168.10.180:7000/api/sgdea/conglomerate";
 
 /* GET / DELETE */
 export const CONGLOMERATE =
@@ -10,7 +10,7 @@ export const CONGLOMERATE =
 
 /* GET */
 export const CONGLOMERATES_STATUS =
-  "http://192.168.20.187:7000/api/sgdea/conglomerate/active";
+  "http://192.168.10.180:7000/api/sgdea/conglomerate/active";
 
 /* GET */
 export const CONGLOMERATE_EXPORT =
@@ -26,7 +26,7 @@ export const CONGLOMERATE_PAGINATION = () => {
 //---------------------------------------------EMPRESA--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const COMPANYS = "http://192.168.20.187:7000/api/sgdea/company";
+export const COMPANYS = "http://192.168.10.180:7000/api/sgdea/company";
 
 /* GET / DELETE */
 export const COMPANY =
@@ -34,7 +34,7 @@ export const COMPANY =
 
 /* GET */
 export const COMPANYS_STATUS =
-  "http://192.168.20.187:7000/api/sgdea/company/active";
+  "http://192.168.10.180:7000/api/sgdea/company/active";
 
 /* GET */
 export const COMPANY_EXPORT =
@@ -58,7 +58,7 @@ export const HEADQUARTER =
 
 /* GET */
 export const HEADQUARTERS_STATUS =
-  "http://192.168.20.187:7000/api/sgdea/headquarter/active";
+  "http://192.168.10.180:7000/api/sgdea/headquarter/active";
 
 /* GET */
 export const HEADQUARTER_EXPORT =
@@ -82,7 +82,7 @@ export const DEPENDENCE =
 
 /* GET */
 export const DEPENDENCIES_STATUS =
-  "http://192.168.20.187:7000/api/sgdea/dependence/active";
+  "http://192.168.10.180:7000/api/sgdea/dependence/active";
 
 /* GET */
 export const DEPENDENCE_EXPORT =
@@ -203,7 +203,7 @@ export const USER =
   "http://192.168.10.180:7000/api/sgdea/user/689bfff8-4fa1-490f-96e0-c5092c7a8aad/ccuartas";
 
 /* GET */
-export const USERS_STATUS = "http://192.168.20.187:7000/api/sgdea/user/active";
+export const USERS_STATUS = "http://192.168.10.180:7000/api/sgdea/user/active";
 
 /* GET */
 export const USERS_EXPORT =
@@ -349,7 +349,7 @@ export const CONTRY =
 
 /* GET */
 export const CONTRIES_STATUS =
-  "http://192.168.20.187:7000/api/sgdea/country/active";
+  "http://192.168.10.180:7000/api/sgdea/country/active";
 
 /* GET */
 export const COUNTRIES_EXPORT =
@@ -373,7 +373,7 @@ export const DEPARTMENT =
 
 /* GET */
 export const DEPARTMENTS_STATUS =
-  "http://192.168.20.187:7000/api/sgdea/department/active";
+  "http://192.168.10.180:7000/api/sgdea/department/active";
 
 /* GET */
 export const DEPARTMENTS_EXPORT =
@@ -396,7 +396,7 @@ export const CITY =
   "http://192.168.10.180:7000/api/sgdea/city/23ed762d-ae48-44af-a6cc-82b2430fc33b/ccuartas";
 
 /* GET */
-export const CITIES_STATUS = "http://192.168.20.187:7000/api/sgdea/city/active";
+export const CITIES_STATUS = "http://192.168.10.180:7000/api/sgdea/city/active";
 
 /* GET */
 export const CITIES_EXPORT =
@@ -436,7 +436,7 @@ export const TEMPLATES_PAGINATION = () => {
 //---------------------------------------------MÓDULOS--------------------------------------------------//
 
 /* GET */
-export const MODULES = "http://192.168.20.187:7000/api/sgdea/module";
+export const MODULES = "http://192.168.10.180:7000/api/sgdea/module";
 
 /* GET */
 export const MODULE = "http://192.168.10.180:7000/api/sgdea/module/1";
@@ -448,7 +448,7 @@ export const MODULES_STATUS =
 //---------------------------------------------ENTIDADES--------------------------------------------------//
 
 /* GET */
-export const ENTITIES = "http://192.168.20.187:7000/api/sgdea/entity";
+export const ENTITIES = "http://192.168.10.180:7000/api/sgdea/entity";
 
 /* GET */
 export const ENTITY = "http://192.168.10.180:7000/api/sgdea/entity/1";
@@ -460,7 +460,7 @@ export const ENTITY_MODULE_STATUS =
 //---------------------------------------------ACCIONES--------------------------------------------------//
 
 /* GET */
-export const ACTIONS = "http://192.168.20.187:7000/api/sgdea/action";
+export const ACTIONS = "http://192.168.10.180:7000/api/sgdea/action";
 
 /* GET */
 export const ACTION = "http://192.168.10.180:7000/api/sgdea/action/1";

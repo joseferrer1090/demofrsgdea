@@ -19,8 +19,8 @@ import {
   Button
 } from 'reactstrap';
 import PropTypes from 'prop-types';
-import Moment from 'react-moment';
 import classnames from 'classnames';
+import moment from "moment";
 
 class ModalViewUser extends Component {
   constructor(props) {
@@ -33,7 +33,8 @@ class ModalViewUser extends Component {
       data: [],
       dataRoles: [],
       userlogged: 'ccuartas',
-      activeTab: '1'
+      activeTab: '1',
+      t: this.props.t
     };
   }
 
@@ -98,16 +99,36 @@ class ModalViewUser extends Component {
     this.setState({ collapse2: !this.state.collapse2, collapse: false });
   };
 
+  FechaCreacionUsuario(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
+  FechaModificacionActualizacion(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    // moment.locale(es);
+    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
+  }
+
+  FechaNacimiento(data){
+    let birthDate;
+    birthDate = new Date(data);
+    return moment(birthDate).format('YYYY-MM-DD');
+  }
+
   render() {
     console.log(this.state.id);
     const dataUser = this.state.data;
     const dataRoles = this.state.dataRoles.map((aux, id) => {
       return <div key={id}>{aux.name}</div>;
     });
-
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader> Ver usuario {this.state.data.name} </ModalHeader>
+        <ModalHeader>
+          {' '}
+          {this.props.t('app_usuarios_modal_ver_titulo')} {this.state.data.name}{' '}
+        </ModalHeader>
         <ModalBody role="document">
           <Row>
             <Col sm="3">
@@ -121,14 +142,16 @@ class ModalViewUser extends Component {
                 {' '}
                 <h5 className="" style={{ borderBottom: '1px solid black' }}>
                   {' '}
-                  Datos personales{' '}
+                  {this.props.t('app_usuarios_modal_ver_titulo_2')}{' '}
                 </h5>{' '}
               </div>
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Identificación </dt>
+                      <dt>
+                        {this.props.t('app_usuarios_modal_ver_identificacion')}{' '}
+                      </dt>
                       <dd>{this.state.data.identification} </dd>
                     </dl>
                   </div>
@@ -136,7 +159,7 @@ class ModalViewUser extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Nombre </dt>
+                      <dt>{this.props.t('app_usuarios_modal_ver_nombre')} </dt>
                       <dd>{this.state.data.name}</dd>
                     </dl>
                   </div>
@@ -144,7 +167,7 @@ class ModalViewUser extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>E-mail </dt>
+                      <dt>{this.props.t('app_usuarios_modal_ver_email')} </dt>
                       <dd>{this.state.data.email}</dd>
                     </dl>
                   </div>
@@ -152,7 +175,9 @@ class ModalViewUser extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Teléfono </dt>
+                      <dt>
+                        {this.props.t('app_usuarios_modal_ver_telefono')}{' '}
+                      </dt>
                       <dd>{this.state.data.phone} </dd>
                     </dl>
                   </div>
@@ -160,7 +185,9 @@ class ModalViewUser extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Dirección </dt>
+                      <dt>
+                        {this.props.t('app_usuarios_modal_ver_direccion')}{' '}
+                      </dt>
                       <dd>{this.state.data.address}</dd>
                     </dl>
                   </div>
@@ -168,12 +195,14 @@ class ModalViewUser extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Fecha de nacimiento </dt>
+                      <dt>
+                        {this.props.t(
+                          'app_usuarios_modal_ver_fecha_nacimiento'
+                        )}{' '}
+                      </dt>
                       <dd>
                         {
-                          <Moment format="YYYY/MM/DD">
-                            {this.state.data.birthDate}
-                          </Moment>
+                          this.FechaCreacionUsuario(this.state.data.birthDate)
                         }
                       </dd>
                     </dl>
@@ -191,7 +220,7 @@ class ModalViewUser extends Component {
                   this.toggleTab('1');
                 }}
               >
-                Datos laborales
+                {this.props.t('app_usuarios_modal_ver_tab')}
               </NavLink>
             </NavItem>
             <NavItem>
@@ -201,7 +230,7 @@ class ModalViewUser extends Component {
                   this.toggleTab('2');
                 }}
               >
-                Datos de seguridad
+                {this.props.t('app_usuarios_modal_ver_tab_2')}
               </NavLink>
             </NavItem>
           </Nav>
@@ -213,7 +242,11 @@ class ModalViewUser extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          <dt>Conglomerado </dt>
+                          <dt>
+                            {this.props.t(
+                              'app_usuarios_modal_ver_conglomerado'
+                            )}{' '}
+                          </dt>
                           <dd>{this.state.data.conglomerateName} </dd>
                         </dl>
                       </div>
@@ -221,7 +254,9 @@ class ModalViewUser extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          <dt>Empresa </dt>
+                          <dt>
+                            {this.props.t('app_usuarios_modal_ver_empresa')}{' '}
+                          </dt>
                           <dd> {this.state.data.companyName} </dd>
                         </dl>
                       </div>
@@ -229,7 +264,9 @@ class ModalViewUser extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          <dt>Sede </dt>
+                          <dt>
+                            {this.props.t('app_usuarios_modal_ver_sede')}{' '}
+                          </dt>
                           <dd> {this.state.data.headquarterName} </dd>
                         </dl>
                       </div>
@@ -237,7 +274,9 @@ class ModalViewUser extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          <dt>Dependencia </dt>
+                          <dt>
+                            {this.props.t('app_usuarios_modal_ver_dependencia')}{' '}
+                          </dt>
                           <dd> {this.state.data.dependenceName} </dd>
                         </dl>
                       </div>
@@ -245,7 +284,9 @@ class ModalViewUser extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          <dt>Cargo </dt>
+                          <dt>
+                            {this.props.t('app_usuarios_modal_ver_cargo')}{' '}
+                          </dt>
                           <dd>{this.state.data.chargeName} </dd>
                         </dl>
                       </div>
@@ -259,7 +300,7 @@ class ModalViewUser extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Usuario </dt>
+                      <dt>{this.props.t('app_usuarios_modal_ver_usuario')} </dt>
                       <dd>{this.state.data.username}</dd>
                     </dl>
                   </div>
@@ -267,7 +308,7 @@ class ModalViewUser extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Roles </dt>
+                      <dt>{this.props.t('app_usuarios_modal_ver_roles')} </dt>
                       <dd>
                         {dataRoles}
                         {/* {this.state.data.listRoleResponses !==null ? (
@@ -283,15 +324,15 @@ class ModalViewUser extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Estado </dt>
+                      <dt>{this.props.t('app_usuarios_modal_ver_estado')} </dt>
                       <dd>
                         {this.state.data.enabled ? (
                           <p className="text-success">
-                            <b>Activo</b>
+                            <b>{this.props.t('app_tablas_estado_activo')}</b>
                           </p>
                         ) : (
                           <p className="text-danger">
-                            <b>Inactivo</b>
+                            <b>{this.props.t('app_tablas_estado_inactivo')}</b>
                           </p>
                         )}{' '}
                       </dd>
@@ -301,13 +342,11 @@ class ModalViewUser extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Fecha de creación </dt>
+                      <dt>
+                        {this.props.t('app_usuarios_modal_ver_fecha_creacion')}{' '}
+                      </dt>
                       <dd>
-                        {
-                          <Moment format="YYYY/MM/DD">
-                            {this.state.data.createdAt}
-                          </Moment>
-                        }{' '}
+                        {this.FechaCreacionUsuario(this.state.data.createdAt)}
                       </dd>
                     </dl>
                   </div>
@@ -315,13 +354,13 @@ class ModalViewUser extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt>Fecha de modificación </dt>
+                      <dt>
+                        {this.props.t(
+                          'app_usuarios_modal_ver_fecha_modificacion'
+                        )}{' '}
+                      </dt>
                       <dd>
-                        {
-                          <Moment format="YYYY/MM/DD">
-                            {this.state.data.updatedAt}
-                          </Moment>
-                        }{' '}
+                       {this.FechaModificacionActualizacion(this.state.data.updatedAt)}
                       </dd>
                     </dl>
                   </div>
@@ -339,7 +378,8 @@ class ModalViewUser extends Component {
               }}
             >
               {' '}
-              <i className="fa fa-times" /> Cerrar{' '}
+              <i className="fa fa-times" />{' '}
+              {this.props.t('app_usuarios_modal_ver_boton_cerrar')}{' '}
             </button>
           </div>
         </ModalFooter>

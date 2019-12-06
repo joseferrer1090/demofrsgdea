@@ -2,8 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { Table } from 'reactstrap';
+//import './styles/table_fixed.css';
 import { CSVLink, CSVDownload } from 'react-csv';
 import { Parser } from 'json2csv';
+import { Trans } from 'react-i18next';
 
 class ModalExportCSV extends Component {
   constructor(props) {
@@ -11,8 +13,8 @@ class ModalExportCSV extends Component {
     this.state = {
       modal: this.props.modalexport,
       dataExport: [],
-      username: 'ccuartas',
-      t: this.props.t
+      t: this.props.t,
+      username: 'ccuartas'
     };
   }
 
@@ -23,9 +25,13 @@ class ModalExportCSV extends Component {
     this.getDataExportCSV();
   };
 
+  // componentDidMount() {
+  //   this.getDataExportCSV();
+  // }
+
   getDataExportCSV = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/role/export/data?username=${this.state.username}`,
+      `http://192.168.20.187:7000/api/sgdea/typeprocedure/export/data?username=${this.state.username}`,
       {
         method: 'GET',
         headers: {
@@ -43,6 +49,7 @@ class ModalExportCSV extends Component {
       )
       .catch(error => console.log(' ', error));
   };
+
   render() {
     const data = this.state.dataExport;
     const fields = [
@@ -59,28 +66,64 @@ class ModalExportCSV extends Component {
         value: 'description'
       },
       {
+        label: 'answerDays',
+        value: 'answerDays'
+      },
+      {
+        label: 'issue',
+        value: 'issue'
+      },
+      {
         label: 'status',
         value: 'status'
+      },
+      {
+          label: 'typeCorrespondence',
+          value: 'typeCorrespondence'
+      }, 
+      {
+          label: 'codeTemplate',
+          value: 'codeTemplate'
       }
     ];
 
     const json2csvParser = new Parser({ fields, quote: '' });
     const csv = json2csvParser.parse(data);
-    const t = this.state.t;
+    // console.log(csv);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {this.props.t('app_roles_modal_export_titulo')}
+           Exportar tipo de tramites
           </ModalHeader>
           <ModalBody>
             <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
               <thead className="">
                 <tr className="">
-                  <th>{t('app_roles_modal_export_codigo')}</th>
-                  <th>{t('app_roles_modal_export_nombre')}</th>
-                  <th>{t('app_roles_modal_export_descripcion')}</th>
-                  <th>{t('app_roles_modal_export_estado')}</th>
+                  <th>
+                   código
+                  </th>
+                  <th>
+                    nombre
+                  </th>
+                  <th>
+                   descripción
+                  </th>
+                  <th>
+                   respuesta
+                  </th>
+                  <th>
+                   Asunto
+                  </th>
+                  <th>
+                    Estado
+                  </th>
+                  <th>
+                      tipo de correspondecia
+                  </th>
+                  <th>
+                      codigo template
+                  </th>
                 </tr>
               </thead>
               <tbody className="text-justify">
@@ -90,7 +133,11 @@ class ModalExportCSV extends Component {
                       <td>{aux.code}</td>
                       <td>{aux.name}</td>
                       <td>{aux.description}</td>
+                      <td>{aux.answerDays}</td>
+                      <td>{aux.issue}</td>
                       <td>{aux.status}</td>
+                      <td>{aux.typeCorrespondence}</td>
+                      <td>{aux.codeTemplate}</td>
                     </tr>
                   ];
                 })}
@@ -98,10 +145,6 @@ class ModalExportCSV extends Component {
             </table>
           </ModalBody>
           <ModalFooter>
-            <CSVLink data={csv} className="btn btn-secondary btn-sm">
-              <i className="fa fa-download" />{' '}
-              {t('app_roles_modal_export_boton_exportar')}
-            </CSVLink>
             <button
               className="btn btn-secondary btn-sm"
               onClick={() => {
@@ -110,8 +153,13 @@ class ModalExportCSV extends Component {
             >
               {' '}
               <i className="fa fa-times" />{' '}
-              {t('app_roles_modal_export_boton_cerrar')}
+              cerrar{' '}
             </button>
+
+            <CSVLink data={csv} className="btn btn-secondary btn-sm">
+              <i className="fa fa-download" />{' '}
+              Exportar csv
+            </CSVLink>
             {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
               {" "}
               <i className="fa fa-download" /> Exportar CSV{" "}
@@ -122,5 +170,9 @@ class ModalExportCSV extends Component {
     );
   }
 }
+
+ModalExportCSV.propTypes = {
+  t: PropTypes.any
+};
 
 export default ModalExportCSV;

@@ -36,7 +36,7 @@ class FormUploadSedes extends React.Component {
                   {t('app_tercero_import_step_1_descripcion')}
                   <br />
                   <a href={fileThirdParty} download="thirdparty.csv">
-                    <b>Plantilla de formato de importación</b>
+                    <b>{t('app_tab_importar_plantilla_formato_importacion')}</b>
                   </a>
                 </p>
               </a>

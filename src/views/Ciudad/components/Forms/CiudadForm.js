@@ -112,6 +112,7 @@ const CiudadForm = props => {
                       <span className="text-danger">*</span>{' '}
                     </label>
                     <SelectCountry
+                      t={props.t}
                       name={'countryId'}
                       onChange={e => setFieldValue('countryId', e.target.value)}
                       onBlur={() => setFieldTouched('countryId', true)}
@@ -151,6 +152,7 @@ const CiudadForm = props => {
                       <span className="text-danger">*</span>{' '}
                     </label>
                     <SelectDepartment
+                      t={props.t}
                       countryId={props.values.countryId}
                       name="departmentId"
                       value={values.departmentId}
@@ -413,7 +415,8 @@ export default withTranslation('translations')(
 
 class SelectCountry extends React.Component {
   state = {
-    dataCountry: []
+    dataCountry: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -454,7 +457,9 @@ class SelectCountry extends React.Component {
           className={this.props.className}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_ciudad_form_registrar_pais')} --
+          </option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -471,7 +476,8 @@ class SelectCountry extends React.Component {
 class SelectDepartment extends React.Component {
   state = {
     dataDepartment: [],
-    id: this.props.countryId
+    id: this.props.countryId,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -522,7 +528,9 @@ class SelectDepartment extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_ciudad_form_registrar_departamento')} --
+          </option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

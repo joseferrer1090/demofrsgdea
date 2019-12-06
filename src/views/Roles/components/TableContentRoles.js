@@ -1,15 +1,16 @@
-import React, { Component } from "react";
-import data from "./../../../data/data";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col } from "reactstrap";
-import ModalView from "./ModalViewRoles";
-import ModalDelete from "./ModalDeleteRoles";
-import ModalEdit from "./ModalEditRoles";
-import ModalPermission from "./ModalEditPermissionRoles";
-import ModalExport from "./ModalExportCSV";
-import "../../../css/styleTableRoles.css";
-import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import moment from "moment";
+import React, { Component } from 'react';
+import data from './../../../data/data';
+import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import { Row, Col } from 'reactstrap';
+import ModalView from './ModalViewRoles';
+import ModalDelete from './ModalDeleteRoles';
+import ModalEdit from './ModalEditRoles';
+import ModalPermission from './ModalEditPermissionRoles';
+import ModalExport from './ModalExportCSV';
+import '../../../css/styleTableRoles.css';
+import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
+import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class TableContentRoles extends Component {
   constructor(props) {
@@ -21,7 +22,8 @@ class TableContentRoles extends Component {
       modalpermission: false,
       modalexport: false,
       dataRoles: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      t: this.props.t
     };
   }
 
@@ -31,10 +33,10 @@ class TableContentRoles extends Component {
 
   getDataRoles = () => {
     fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
-      method: "GET",
+      method: 'GET',
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
       }
     })
       .then(response => response.json())
@@ -44,29 +46,39 @@ class TableContentRoles extends Component {
         });
         console.log(this.state.dataRoles);
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   EstadoRoles(cell, row) {
     let status;
     if (row.status === 1) {
-      status = <p className="text-success"> Activo </p>;
+      status = (
+        <p className="text-success">
+          {' '}
+          <b>{this.props.t('app_tablas_estado_activo')}</b>{' '}
+        </p>
+      );
     } else if (row.status !== 1) {
-      status = <p className="text-danger"> Inactivo </p>;
+      status = (
+        <p className="text-danger">
+          {' '}
+          <b>{this.props.t('app_tablas_estado_inactivo')}</b>{' '}
+        </p>
+      );
     }
     return status;
   }
   FechaCreacionRoles(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format('YYYY-MM-DD');
   }
 
   accionesRoles(cel, row) {
     return (
       <div
         className="table-actionMenuRP"
-        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
+        style={{ textAlign: 'center', padding: '0', marginRight: '100px' }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -138,7 +150,8 @@ class TableContentRoles extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar
+        <i className="fa fa-download" />{' '}
+        {this.props.t('app_roles_table_administrar_boton_exportar')}
       </button>
     );
   };
@@ -149,6 +162,7 @@ class TableContentRoles extends Component {
       pagination: true,
       exportCSV: true
     };
+    const t = this.state.t;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -158,7 +172,9 @@ class TableContentRoles extends Component {
                 options={options}
                 data={this.state.dataRoles}
                 search
-                searchPlaceholder="Buscar"
+                searchPlaceholder={this.props.t(
+                  'app_roles_table_administrar_placeholder'
+                )}
                 pagination
                 bordered={false}
                 hover
@@ -171,7 +187,7 @@ class TableContentRoles extends Component {
                   isKey
                   dataField="id"
                   dataAlign="center"
-                  width={"20"}
+                  width={'20'}
                   hidden={this.state.hiddenColumnID}
                 >
                   #
@@ -181,7 +197,7 @@ class TableContentRoles extends Component {
                   dataFormat={this.indexN}
                   dataField="id"
                   dataAlign="center"
-                  width={"20"}
+                  width={'20'}
                 >
                   #
                 </TableHeaderColumn>
@@ -189,79 +205,94 @@ class TableContentRoles extends Component {
                   dataSort={true}
                   dataField="code"
                   dataAlign="center"
-                  width={"50"}
+                  width={'50'}
                 >
-                  Código
+                  {t('app_roles_table_administrar_codigo')}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataSort={true}
                   dataField="name"
                   dataAlign="center"
-                  width={"80"}
+                  width={'80'}
                 >
-                  {" "}
-                  Nombre{" "}
+                  {' '}
+                  {t('app_roles_table_administrar_nombre')}{' '}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataSort={true}
                   dataField="description"
                   dataAlign="center"
-                  width={"80"}
+                  width={'80'}
                 >
-                  {" "}
-                  Descripción{" "}
+                  {' '}
+                  {t('app_roles_table_administrar_descripcion')}{' '}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  width={"50"}
+                  width={'50'}
                   dataSort={true}
                   dataField="status"
                   dataAlign="center"
                   dataFormat={(cell, row) => this.EstadoRoles(cell, row)}
                 >
-                  {" "}
-                  Estado{" "}
+                  {' '}
+                  {t('app_roles_table_administrar_estado')}{' '}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  width={"80"}
+                  width={'80'}
                   dataSort={true}
                   dataField="createdAt"
                   dataAlign="center"
                   dataFormat={(cell, row) => this.FechaCreacionRoles(cell, row)}
                 >
-                  {" "}
-                  Fecha de creacion{" "}
+                  {' '}
+                  {t('app_roles_table_administrar_fecha_creacion')}{' '}
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
-                  width={"200"}
+                  width={'200'}
                   export={false}
                   dataAlign="center"
                   dataFormat={(cell, row) => this.accionesRoles(cell, row)}
                 >
-                  {" "}
-                  Acciones{" "}
+                  {' '}
+                  {t('app_roles_table_administrar_acciones')}{' '}
                 </TableHeaderColumn>
               </BootstrapTable>
             </div>
           </Col>
         </Row>
 
-        <ModalView modalviewroles={this.state.modalview} ref="child" />
+        <ModalView
+          t={this.props.t}
+          modalviewroles={this.state.modalview}
+          ref="child"
+        />
         <ModalEdit
+          t={this.props.t}
           modaledit={this.state.modaledit}
           ref="child2"
           updateTable={this.getDataRoles}
         />
-        <ModalDelete modaldelete={this.state.modaldel} ref="child3" />
+        <ModalDelete
+          t={this.props.t}
+          modaldelete={this.state.modaldel}
+          ref="child3"
+          updateTable={this.getDataRoles}
+        />
         <ModalPermission
+          t={this.props.t}
           datamodal={this.state.data}
           modaleditpermission={this.state.modalpermission}
           ref="child4"
         />
-        <ModalExport modalexport={this.state.modalexport} ref="child5" />
+        <ModalExport
+          t={this.props.t}
+          modalexport={this.state.modalexport}
+          ref="child5"
+        />
       </div>
     );
   }
 }
 
-export default TableContentRoles;
+export default withTranslation('translations')(TableContentRoles);

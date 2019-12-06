@@ -236,14 +236,14 @@ const GrupoUsuariosForm = props => {
                         </div>
                       </div>
                       <div className="form-group">
-                        <label>Usuarios disponibles</label>
-                        <select
+                        {/* <label>Usuarios disponibles</label> */}
+                        {/* <select
                           className="form-control form-control-sm"
                           multiple
                           disabled
                         >
                           <option>Usuarios disponibles de la consulta</option>
-                        </select>
+                        </select> */}
                       </div>
 
                       {/*dataOk ? (
@@ -255,7 +255,7 @@ const GrupoUsuariosForm = props => {
                                 </div>
                             ) : null*/}
                     </CardBody>
-                    <CardFooter>
+                    {/* <CardFooter>
                       <div className="float-right">
                         <button
                           type="button"
@@ -268,7 +268,7 @@ const GrupoUsuariosForm = props => {
                           <i className="fa fa-search" /> Buscar
                         </button>{" "}
                       </div>
-                    </CardFooter>
+                    </CardFooter> */}
                   </Card>
                 </div>
               </div>

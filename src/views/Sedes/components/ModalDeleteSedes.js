@@ -146,7 +146,7 @@ class ModalDeleteSedes extends Component {
                         color="success"
                         isOpen={this.state.alertSuccess}
                       >
-                        La sede ha sido eliminada con éxito.
+                        {this.props.t('app_sedes_modal_eliminar_alert_success')}
                       </Alert>
                       <Alert
                         className="text-center"
@@ -154,15 +154,16 @@ class ModalDeleteSedes extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        La sede que va a eliminar, esta asociado a otras
-                        entidades.
+                        {this.props.t('app_sedes_modal_eliminar_alert_error')}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un código valido.
+                        {this.props.t(
+                          'app_sedes_modal_eliminar_alert_errorCode'
+                        )}
                       </Alert>
                       <p className="text-center">
                         {' '}

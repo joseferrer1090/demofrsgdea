@@ -137,22 +137,27 @@ class ModalDeleteMensajero extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        El mensajero que va a eliminar, esta asociado a otras
-                        entidades.
+                        {this.props.t(
+                          'app_mensajero_modal_eliminar_alert_error'
+                        )}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertIdentification}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca un código válido.
+                        {this.props.t(
+                          'app_mensajero_modal_eliminar_alert_errorId'
+                        )}
                       </Alert>
                       <Alert
                         className="text-center"
                         color="success"
                         isOpen={this.state.alertSuccess}
                       >
-                        El mensajero ha sido eliminado con éxito.
+                        {this.props.t(
+                          'app_mensajero_modal_eliminar_alert_success'
+                        )}
                       </Alert>
                       <p className="text-center">
                         {' '}

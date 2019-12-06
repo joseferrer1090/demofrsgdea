@@ -9,7 +9,8 @@ import ModalChangePassword from './FormChangePasswordUser';
 import ModalExportCSV from './ModalExportUser';
 import './../../../css/styleTableUsuarios.css';
 import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import Moment from 'react-moment';
+import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class TableContentUser extends Component {
   constructor(props) {
@@ -102,13 +103,13 @@ class TableContentUser extends Component {
     if (row.enabled === true) {
       status = (
         <p className="text-success">
-          <b>Activo</b>
+          <b>{this.props.t('app_tablas_estado_activo')}</b>
         </p>
       );
     } else if (row.enabled !== true) {
       status = (
         <p className="text-danger">
-          <b>Inactivo</b>
+          <b>{this.props.t('app_tablas_estado_inactivo')}</b>
         </p>
       );
     }
@@ -142,10 +143,17 @@ class TableContentUser extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" /> Exportar CSV
+        <i className="fa fa-download" />{' '}
+        {this.props.t('app_usuarios_administrar_table_boton_exportar')}
       </button>
     );
   };
+
+  FechaCreacionUsuario(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format('YYYY-MM-DD');
+  }
 
   render() {
     const options = {
@@ -165,19 +173,19 @@ class TableContentUser extends Component {
       return !data ? null : `<div>${data.name}</div>`;
     };
 
-    const DateFormat = data => {
-      return <Moment format="YYYY/MM/DD">{data}</Moment>;
-    };
+    // const DateFormat = data => {
+    //   return <Moment format="YYYY/MM/DD">{data}</Moment>;
+    // };
 
     console.log(this.state.dataUsers);
-
+    const t = this.props.t;
     return (
       <div className="animated fadeIn">
         <Col sm="12">
           <BootstrapTable
             pagination
             search
-            searchPlaceholder="Buscar"
+            searchPlaceholder={t('app_usuarios_administrar_table_placeholder')}
             data={this.state.dataUsers}
             options={options}
             hover
@@ -205,21 +213,21 @@ class TableContentUser extends Component {
               dataAlign={'center'}
               width={'120'}
             >
-              Identificacion
+              {t('app_usuarios_administrar_table_identificacion')}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField={'name'}
               dataAlign="center"
               width={'100'}
             >
-              Nombre
+              {t('app_usuarios_administrar_table_nombre')}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField={'username'}
               dataAlign="center"
               width={'90'}
             >
-              Usuario
+              {t('app_usuarios_administrar_table_usuario')}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField={'dependence'}
@@ -228,7 +236,7 @@ class TableContentUser extends Component {
               dataFormat={dependenceFormatter}
             >
               {' '}
-              Dependencia{' '}
+              {t('app_usuarios_administrar_table_dependencia')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField={'charge'}
@@ -236,16 +244,16 @@ class TableContentUser extends Component {
               width={'130'}
               dataFormat={chargeFormatter}
             >
-              Cargo
+              {t('app_usuarios_administrar_table_cargo')}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'150'}
               dataField={'createdAt'}
               dataAlign="center"
-              dataFormat={DateFormat}
+              dataFormat={(cell, row) => this.FechaCreacionUsuario(cell, row)}
             >
               {' '}
-              Fecha de creación{' '}
+              {t('app_usuarios_administrar_table_fecha_creacion')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'70'}
@@ -254,7 +262,7 @@ class TableContentUser extends Component {
               dataFormat={(cell, row) => this.UsuarioStatus(cell, row)}
             >
               {' '}
-              Estado{' '}
+              {t('app_usuarios_administrar_table_estado')}{' '}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={'150'}
@@ -263,27 +271,35 @@ class TableContentUser extends Component {
               dataFormat={(cell, row) => this.accionesUsuario(cell, row)}
               style={{ border: 'none' }}
             >
-              Acciones
+              {t('app_usuarios_administrar_table_acciones')}
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
 
-        <ModalView modalview={this.state.modalviewuserstate} ref="child" />
+        <ModalView
+          t={this.props.t}
+          modalview={this.state.modalviewuserstate}
+          ref="child"
+        />
         <ModalDelete
+          t={this.props.t}
           modaldel={this.state.modaldeluserstate}
           updateTable={this.getDataUsers}
           ref="child2"
         />
         <ModalUpdate
+          t={this.props.t}
           updateTable={this.getDataUsers}
           modaledit={this.state.modaledituserstate}
           ref="child3"
         />
         <ModalChangePassword
+          t={this.props.t}
           modalpassword={this.state.modalchangepassword}
           ref="child4"
         />
         <ModalExportCSV
+          t={this.props.t}
           modalexport={this.state.modalexport}
           ref={'child5'}
         ></ModalExportCSV>
@@ -294,4 +310,4 @@ class TableContentUser extends Component {
 
 TableContentUser.propTypes = {};
 
-export default TableContentUser;
+export default withTranslation('translations')(TableContentUser);

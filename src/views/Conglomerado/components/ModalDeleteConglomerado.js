@@ -86,7 +86,7 @@ class ModalDeleteConglomerado extends React.Component {
                       this.setState({
                         alertError: true
                       });
-                    } else if (response.status === 200) {
+                    } else if (response.status === 204) {
                       setTimeout(() => {
                         this.setState(
                           {
@@ -133,21 +133,28 @@ class ModalDeleteConglomerado extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        Error, al eliminar el conglomerado {values.code}
+                        {this.props.t(
+                          'app_conglomerado_modal_eliminar_alert_error'
+                        )}{' '}
+                        {values.code}.
                       </Alert>
                       <Alert
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        Se elimino de manera satisfactoria el conglomerado
+                        {this.props.t(
+                          'app_conglomerado_modal_eliminar_alert_success'
+                        )}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        El codigo para eliminar no corresponde
+                        {this.props.t(
+                          'app_conglomerado_modal_eliminar_alert_errorCode'
+                        )}
                       </Alert>
                       <p className="text-center">
                         {' '}
@@ -186,7 +193,7 @@ class ModalDeleteConglomerado extends React.Component {
                     <ModalFooter>
                       <button
                         type="submit"
-                        className="btn btn-outline-danger"
+                        className="btn btn-outline-danger btn-sm"
                         onClick={e => {
                           e.preventDefault();
                           handleSubmit();

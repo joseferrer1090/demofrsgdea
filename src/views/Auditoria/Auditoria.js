@@ -24,6 +24,7 @@ import './components/customstyle.css';
 import './../../css/styleTableAuditoria.css';
 import styled from 'styled-components';
 import moment from 'moment';
+import { withTranslation } from 'react-i18next';
 
 class Auditoria extends Component {
   constructor(props) {
@@ -97,7 +98,8 @@ class Auditoria extends Component {
           }}
         >
           {' '}
-          <i className="fa fa-pencil" /> Consultar auditoría{' '}
+          <i className="fa fa-pencil" />{' '}
+          {this.props.t('app_auditoria_tabla_consulta_boton_consultar')}{' '}
         </button>
       </div>
     );
@@ -176,7 +178,7 @@ class Auditoria extends Component {
                   width={'180'}
                 >
                   {' '}
-                  Fecha de la auditoría{' '}
+                  {this.props.t('app_auditoria_tabla_fecha_auditoria')}{' '}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataFormat={this.ModuloInfo}
@@ -185,7 +187,7 @@ class Auditoria extends Component {
                   width={'180'}
                 >
                   {' '}
-                  Módulo{' '}
+                  {this.props.t('app_auditoria_tabla_modulo')}{' '}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataFormat={this.EntidadInfo}
@@ -194,7 +196,7 @@ class Auditoria extends Component {
                   width={'180'}
                 >
                   {' '}
-                  Entidad{' '}
+                  {this.props.t('app_auditoria_tabla_entidad')}{' '}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataFormat={this.AccionInfo}
@@ -203,7 +205,7 @@ class Auditoria extends Component {
                   width={'180'}
                 >
                   {' '}
-                  Acción{' '}
+                  {this.props.t('app_auditoria_tabala_accion')}{' '}
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
@@ -212,7 +214,7 @@ class Auditoria extends Component {
                   dataAlign="center"
                 >
                   {' '}
-                  Usuario{' '}
+                  {this.props.t('app_auditoria_tabla_usuario')}{' '}
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
@@ -221,17 +223,19 @@ class Auditoria extends Component {
                   dataAlign="center"
                   dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
                 >
-                  Acciones{' '}
+                  {this.props.t('app_auditoria_tabla_acciones')}{' '}
                 </TableHeaderColumn>
               </BootstrapTable>
             </Card>
           </div>
         </div>
         <ModalViewAditoria
+          t={this.props.t}
           modalview={this.state.modalviewauditoria}
           ref={'child1'}
         />
         <ModalSearch
+          t={this.props.t}
           onDataFetch={this.onDataFetch}
           modalSearch={this.state.modalSearch}
           ref={'child2'}
@@ -241,4 +245,4 @@ class Auditoria extends Component {
   }
 }
 
-export default Auditoria;
+export default withTranslation('translations')(Auditoria);

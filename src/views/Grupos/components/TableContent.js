@@ -4,6 +4,7 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ModalViewGrupo";
 import ModalDelete from "./ModalDeleteGrupo";
 import ModalEdit from "./ModalEditGrupo";
+import ModalExport from "./ModalExportCSV";
 import "./../../../css/styleTableGrupoUsuarios.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import moment from "moment";
@@ -15,6 +16,7 @@ class TableContent extends Component {
       modalview: false,
       modaledit: false,
       modaldelete: false,
+      modalexport: false,
       dataGroup: [],
       hiddenColumnID: true
     };
@@ -72,11 +74,22 @@ class TableContent extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           {" "}
           <i className="fa fa-trash" />{" "}
+        </button>
+          &nbsp;
+        <button
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.opneModalExport(row.id);
+          }}
+        >
+          {" "}
+          <i className="fa fa-download" aria-hidden="true"></i>
         </button>
       </div>
     );
@@ -84,9 +97,9 @@ class TableContent extends Component {
 
   EstadoGrupo(cell, row) {
     let status;
-    if (row.estado === true) {
+    if (row.status === 1) {
       status = <p className="text-success"> Activo </p>;
-    } else if (row.estado !== true) {
+    } else if (row.status === 0 ) {
       status = <p className="text-danger"> Inactivo </p>;
     }
     return status;
@@ -100,9 +113,13 @@ class TableContent extends Component {
     this.refs.child3.toggle(id);
   };
 
-  openModalDelete = () => {
-    this.refs.child2.toggle();
+  openModalDelete = (id) => {
+    this.refs.child2.toggle(id);
   };
+
+  opneModalExport = (id) => {
+    this.refs.child4.toggle(id);
+  }
 
   FechaCreacionRoles(cell, row) {
     let createdAt;
@@ -125,7 +142,6 @@ class TableContent extends Component {
             striped
             search
             searchPlaceholder="Buscar"
-            exportCSV
             pagination
             className="tableGUsu texto-GUsu"
           >
@@ -190,8 +206,9 @@ class TableContent extends Component {
           </BootstrapTable>
         </Col>
         <ModalView modalview={this.state.modalview} ref="child" />
-        <ModalDelete modaldel={this.state.modaldelete} ref="child2" />
-        <ModalEdit modaledit={this.state.modaledit} ref="child3" />
+        <ModalDelete updateTable={this.getDataGroup}  modaldel={this.state.modaldelete} ref="child2" />
+        <ModalEdit updateTable={this.getDataGroup} modaledit={this.state.modaledit} ref="child3" />
+        <ModalExport modalexport={this.state.modalexport} ref="child4" />
       </div>
     );
   }

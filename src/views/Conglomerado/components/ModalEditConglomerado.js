@@ -172,28 +172,6 @@ class ModalEditConglomerado extends React.Component {
 
   render() {
     console.log(this.state.dataResult);
-    const mapOptionsCountries = this.state.optionsCountries.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
-
-    const mapOptionsDepartments = this.state.optionsDepartment.map(
-      (aux, idx) => {
-        return <option value={aux.id}>{aux.name}</option>;
-      }
-    );
-
-    const mapOptionsCitys = this.state.optionsCitys.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
-
     const mapOptionsCharges = this.state.optionsCharges.map((aux, idx) => {
       return (
         <option key={aux.id} value={aux.id}>
@@ -203,6 +181,7 @@ class ModalEditConglomerado extends React.Component {
     });
     const dataResult = this.state.dataResult;
     const auxID = this.state.idConglomerado;
+
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -330,13 +309,19 @@ class ModalEditConglomerado extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      Error al actualizar el conglomerado.
+                      {this.props.t(
+                        'app_conglomerado_modal_actualizar_alert_error'
+                      )}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, el conglomerado ya esta asignado.
+                      {this.props.t(
+                        'app_conglomerado_modal_Actualizar_alert_error400'
+                      )}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      Se actualizo el conglomerado con éxito.
+                      {this.props.t(
+                        'app_conglomerado_modal_actualizar_alert_success'
+                      )}
                     </Alert>
                     <form className="form">
                       <div className="row">
@@ -430,6 +415,7 @@ class ModalEditConglomerado extends React.Component {
                                 </label>
                                 <span className="text-danger">*</span>{' '}
                                 <SelectCountry
+                                  t={this.state.t}
                                   name={'conglomerate_country'}
                                   onChange={e =>
                                     setFieldValue(
@@ -467,6 +453,7 @@ class ModalEditConglomerado extends React.Component {
                                 </label>
                                 <span className="text-danger">*</span>{' '}
                                 <SelectDepartment
+                                  t={this.state.t}
                                   conglomerate_country={
                                     props.values.conglomerate_country
                                   }
@@ -507,6 +494,7 @@ class ModalEditConglomerado extends React.Component {
                                   <span className="text-danger">*</span>{' '}
                                 </label>
                                 <SelectCity
+                                  t={this.state.t}
                                   conglomerate_department={
                                     props.values.conglomerate_department
                                   }
@@ -675,7 +663,8 @@ export default ModalEditConglomerado;
 //--------------------//
 class SelectCountry extends React.Component {
   state = {
-    dataCountry: []
+    dataCountry: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -716,7 +705,10 @@ class SelectCountry extends React.Component {
           className={this.props.className}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_conglomerado_modal_actualizar_pais_select')}{' '}
+            --
+          </option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -733,7 +725,8 @@ class SelectCountry extends React.Component {
 class SelectDepartment extends React.Component {
   state = {
     dataDepartment: [],
-    id: this.props.conglomerate_country
+    id: this.props.conglomerate_country,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -785,7 +778,13 @@ class SelectDepartment extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            --{' '}
+            {this.props.t(
+              'app_conglomerado_modal_actualizar_departamento_select'
+            )}{' '}
+            --
+          </option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -802,7 +801,8 @@ class SelectDepartment extends React.Component {
 class SelectCity extends React.Component {
   state = {
     dataCity: [],
-    id: this.props.conglomerate_department
+    id: this.props.conglomerate_department,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -856,7 +856,10 @@ class SelectCity extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_conglomerado_modal_actualizar_ciudad_select')}{' '}
+            --
+          </option>
           {this.state.dataCity.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

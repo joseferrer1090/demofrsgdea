@@ -44,7 +44,8 @@ class ModalEditUser extends React.Component {
       dataCharge: [],
       alertError400: false,
       alertSuccess: false,
-      alertError: false
+      alertError: false,
+      t: this.props.t
     };
     this.inputOpenFileRef = React.createRef();
   }
@@ -216,13 +217,13 @@ class ModalEditUser extends React.Component {
     const selectOptionsCharge = this.state.dataCharge.map((aux, id) => {
       return <option value={aux.id}>{aux.name}</option>;
     });
-
+    const t = this.state.t;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            Actualizar usuario {this.state.dataUser.name}{' '}
+            {t('app_usuarios_modal_editar_titulo')} {this.state.dataUser.name}{' '}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -373,13 +374,19 @@ class ModalEditUser extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      Error al actualizar el usuario.
+                      {this.props.t(
+                        'app_usuarios_modal_actualizar_alert_error'
+                      )}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      Se actualizo el usuario con éxito.
+                      {this.props.t(
+                        'app_usuarios_modal_actualizar_alert_success'
+                      )}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, el usuario ya esta asignado.
+                      {this.props.t(
+                        'app_usuarios_modal_actualizar_alert_error400'
+                      )}
                     </Alert>
                     <form className="form">
                       <div className="row">
@@ -398,7 +405,8 @@ class ModalEditUser extends React.Component {
                             onClick={this.showOpenFileDlg}
                             style={{ width: '160px' }}
                           >
-                            <i className="fa fa-camera" /> Cambiar imagen{' '}
+                            <i className="fa fa-camera" />{' '}
+                            {t('app_usuarios_modal_editar_boton_cargar_imagen')}{' '}
                           </button>
                         </Col>
                         <Col sm="9">
@@ -409,14 +417,16 @@ class ModalEditUser extends React.Component {
                               style={{ borderBottom: '1px solid black' }}
                             >
                               {' '}
-                              Datos personales{' '}
+                              {t('app_usuarios_modal_editar_titulo_2')}{' '}
                             </h5>{' '}
                           </div>
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  Identificación{' '}
+                                  {t(
+                                    'app_usuarios_modal_editar_identificacion'
+                                  )}{' '}
                                   <span className="text-danger">*</span>{' '}
                                   <dd>
                                     <input
@@ -443,7 +453,8 @@ class ModalEditUser extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  Nombre <span className="text-danger">*</span>{' '}
+                                  {t('app_usuarios_modal_editar_nombre')}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                   <dd>
                                     {' '}
                                     <input
@@ -470,7 +481,8 @@ class ModalEditUser extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  E-mail <span className="text-danger">*</span>{' '}
+                                  {t('app_usuarios_modal_editar_email')}{' '}
+                                  <span className="text-danger">*</span>{' '}
                                   <dd>
                                     <input
                                       name={'usuario_email'}
@@ -496,7 +508,7 @@ class ModalEditUser extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  Teléfono{' '}
+                                  {t('app_usuarios_modal_editar_telefono')}{' '}
                                   <span className="text-danger">*</span>{' '}
                                   <dd>
                                     {' '}
@@ -524,7 +536,7 @@ class ModalEditUser extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  Dirección
+                                  {t('app_usuarios_modal_editar_direccion')}
                                   <dd>
                                     {' '}
                                     <input
@@ -542,7 +554,9 @@ class ModalEditUser extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  Fecha de nacimiento
+                                  {t(
+                                    'app_usuarios_modal_editar_fecha_nacimiento'
+                                  )}
                                   <dd>
                                     {' '}
                                     <input
@@ -561,6 +575,7 @@ class ModalEditUser extends React.Component {
                           </div>
                         </Col>
                       </div>
+                      <br />
                       <div className="row">
                         <Col sm="12">
                           <Nav tabs>
@@ -573,7 +588,7 @@ class ModalEditUser extends React.Component {
                                   this.toogleTab('1');
                                 }}
                               >
-                                Datos laborales
+                                {t('app_usuarios_modal_editar_tab')}
                               </NavLink>
                             </NavItem>
                             <NavItem>
@@ -585,7 +600,7 @@ class ModalEditUser extends React.Component {
                                   this.toogleTab('2');
                                 }}
                               >
-                                Datos de seguridad
+                                {t('app_usuarios_modal_editar_tab_2')}
                               </NavLink>
                             </NavItem>
                           </Nav>
@@ -600,12 +615,15 @@ class ModalEditUser extends React.Component {
                                           <div className="form-group">
                                             <label>
                                               {' '}
-                                              Conglomerado{' '}
+                                              {t(
+                                                'app_usuarios_modal_editar_conglomerado'
+                                              )}{' '}
                                               <span className="text-danger">
                                                 *
                                               </span>{' '}
                                             </label>
                                             <SelectConglomerado
+                                              t={this.state.t}
                                               name={'usuario_conglomerate'}
                                               onChange={e =>
                                                 setFieldValue(
@@ -639,12 +657,15 @@ class ModalEditUser extends React.Component {
                                           <div className="form-group">
                                             <label>
                                               {' '}
-                                              Empresa{' '}
+                                              {t(
+                                                'app_usuarios_modal_editar_empresa'
+                                              )}{' '}
                                               <span className="text-danger">
                                                 *
                                               </span>{' '}
                                             </label>
                                             <SelectCompany
+                                              t={this.state.t}
                                               usuario_conglomerate={
                                                 props.values
                                                   .usuario_conglomerate
@@ -680,12 +701,15 @@ class ModalEditUser extends React.Component {
                                           <div className="form-group">
                                             <label>
                                               {' '}
-                                              Sede{' '}
+                                              {t(
+                                                'app_usuarios_modal_editar_sede'
+                                              )}{' '}
                                               <span className="text-danger">
                                                 *
                                               </span>{' '}
                                             </label>
                                             <SelectHeadquarter
+                                              t={this.state.t}
                                               usuario_company={
                                                 props.values.usuario_company
                                               }
@@ -722,12 +746,15 @@ class ModalEditUser extends React.Component {
                                           <div className="form-group">
                                             <label>
                                               {' '}
-                                              Dependencia{' '}
+                                              {t(
+                                                'app_usuarios_modal_editar_dependencia'
+                                              )}{' '}
                                               <span className="text-danger">
                                                 *
                                               </span>{' '}
                                             </label>
                                             <SelectDependence
+                                              t={this.state.t}
                                               usuario_headquarter={
                                                 props.values.usuario_headquarter
                                               }
@@ -762,7 +789,9 @@ class ModalEditUser extends React.Component {
                                           <div className="form-group">
                                             <label>
                                               {' '}
-                                              Cargo{' '}
+                                              {t(
+                                                'app_usuarios_modal_editar_cargo'
+                                              )}{' '}
                                               <span className="text-danger">
                                                 *
                                               </span>{' '}
@@ -777,7 +806,11 @@ class ModalEditUser extends React.Component {
                                                 'is-invalid'}`}
                                             >
                                               <option value={''}>
-                                                -- Seleccione --
+                                                --{' '}
+                                                {t(
+                                                  'app_usuarios_modal_editar_cargo_select'
+                                                )}{' '}
+                                                --
                                               </option>
                                               {selectOptionsCharge}
                                             </select>
@@ -804,7 +837,9 @@ class ModalEditUser extends React.Component {
                                       <div className="col-md-6">
                                         <div className="form-group">
                                           <label>
-                                            Usuario{' '}
+                                            {t(
+                                              'app_usuarios_modal_editar_username'
+                                            )}{' '}
                                             <span className="text-danger">
                                               *
                                             </span>
@@ -833,12 +868,15 @@ class ModalEditUser extends React.Component {
                                         <div className="form-group">
                                           <label>
                                             {' '}
-                                            Roles{' '}
+                                            {t(
+                                              'app_usuarios_modal_editar_roles'
+                                            )}{' '}
                                             <span className="text-danger">
                                               *
                                             </span>{' '}
                                           </label>
                                           <MySelect
+                                            t={this.state.t}
                                             name={'roles'}
                                             value={values.roles}
                                             onChange={setFieldValue}
@@ -866,7 +904,9 @@ class ModalEditUser extends React.Component {
                                         <div className="form-group">
                                           <label>
                                             {' '}
-                                            Estado{' '}
+                                            {t(
+                                              'app_usuarios_modal_editar_estado'
+                                            )}{' '}
                                             <span className="text-danger">
                                               *
                                             </span>{' '}
@@ -879,13 +919,9 @@ class ModalEditUser extends React.Component {
                                                   <CustomInput
                                                     type="checkbox"
                                                     id="CheckBoxEditRoles"
-                                                    label="Si esta opción se encuentra activada, representa
-                                  que el rol es visible en el sistema y se podrán
-                                  realizar operaciones entre cada uno de los módulos
-                                  correspondientes de la aplicación. En caso
-                                  contrario el rol no se elimina del sistema solo
-                                  quedará inactivo e invisibles para cada uno de los
-                                  módulos correspondiente del sistema."
+                                                    label={t(
+                                                      'app_usuarios_modal_editar_estado_descripcion'
+                                                    )}
                                                     {...field}
                                                     checked={field.value}
                                                     className={
@@ -920,7 +956,8 @@ class ModalEditUser extends React.Component {
                       type="button"
                       className="btn btn-outline-success btn-sm"
                     >
-                      <i className="fa fa-pencil" /> Actualizar{' '}
+                      <i className="fa fa-pencil" />{' '}
+                      {t('app_usuarios_modal_editar_boton_actualizar')}{' '}
                     </button>
                     <button
                       className="btn btn-secondary btn-sm"
@@ -928,7 +965,8 @@ class ModalEditUser extends React.Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{' '}
+                      <i className="fa fa-times" />{' '}
+                      {t('app_usuarios_modal_editar_boton_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -962,7 +1000,8 @@ export default ModalEditUser;
 
 class MySelect extends React.Component {
   state = {
-    dataRoles: []
+    dataRoles: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -1007,7 +1046,9 @@ class MySelect extends React.Component {
           onChange={this.handleChange}
           onBlur={this.props.onBlur}
           value={this.props.value}
-          placeholder={'-- seleccione rol --'}
+          placeholder={`-- ${this.props.t(
+            'app_usuarios_modal_editar_roles_select'
+          )} --`}
         />
       </div>
     );
@@ -1017,7 +1058,8 @@ class MySelect extends React.Component {
 // ------------------------------------------------------------------------------------------------------ //
 class SelectConglomerado extends React.Component {
   state = {
-    dataConglomerate: []
+    dataConglomerate: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -1063,7 +1105,10 @@ class SelectConglomerado extends React.Component {
           value={this.props.value}
           className={this.props.className}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_usuarios_modal_editar_conglomerado_select')}{' '}
+            --
+          </option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1082,7 +1127,8 @@ class SelectConglomerado extends React.Component {
 class SelectCompany extends React.Component {
   state = {
     dataCompany: [],
-    id: this.props.usuario_conglomerate
+    id: this.props.usuario_conglomerate,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -1135,7 +1181,9 @@ class SelectCompany extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_usuarios_modal_editar_empresa_select')} --
+          </option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1163,7 +1211,8 @@ class SelectCompany extends React.Component {
 class SelectHeadquarter extends React.Component {
   state = {
     dataHeadquarter: [],
-    id: this.props.usuario_company
+    id: this.props.usuario_company,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -1216,7 +1265,9 @@ class SelectHeadquarter extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_usuarios_modal_editar_sede_select')} --
+          </option>
           {this.state.dataHeadquarter.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -1235,7 +1286,8 @@ class SelectHeadquarter extends React.Component {
 class SelectDependence extends React.Component {
   state = {
     dataDependence: [],
-    id: this.props.usuario_headquarter
+    id: this.props.usuario_headquarter,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -1288,7 +1340,9 @@ class SelectDependence extends React.Component {
           className={this.props.className}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_usuarios_modal_editar_dependencia_select')} --
+          </option>
           {this.state.dataDependence.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

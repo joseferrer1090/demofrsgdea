@@ -249,13 +249,17 @@ class ModalEditCiudad extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      Error al actualizar la ciudad.
+                      {this.props.t('app_ciudad_modal_actualizar_alert_error')}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      Se actualizo la ciudad con éxito.
+                      {this.props.t(
+                        'app_ciudad_modal_actualizar_alert_success'
+                      )}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, la ciudad ya esta asignada.
+                      {this.props.t(
+                        'app_ciudad_modal_actualizar_alert_error400'
+                      )}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -285,6 +289,7 @@ class ModalEditCiudad extends React.Component {
                                 <dd>
                                   {' '}
                                   <SelectCountry
+                                    t={this.state.t}
                                     name={'city_country'}
                                     onChange={e =>
                                       setFieldValue(
@@ -340,6 +345,7 @@ class ModalEditCiudad extends React.Component {
                                 <dd>
                                   {' '}
                                   <SelectDepartment
+                                    t={this.state.t}
                                     city_country={props.values.city_country}
                                     name="city_department"
                                     value={values.city_department}
@@ -536,7 +542,8 @@ export default ModalEditCiudad;
 
 class SelectCountry extends React.Component {
   state = {
-    dataCountry: []
+    dataCountry: [],
+    t: this.props.t
   };
 
   componentDidMount() {
@@ -577,7 +584,9 @@ class SelectCountry extends React.Component {
           className={this.props.className}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_ciudad_modal_actualizar_select_pais')} --
+          </option>
           {this.state.dataCountry.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -594,7 +603,8 @@ class SelectCountry extends React.Component {
 class SelectDepartment extends React.Component {
   state = {
     dataDepartment: [],
-    id: this.props.city_country
+    id: this.props.city_country,
+    t: this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -645,7 +655,9 @@ class SelectDepartment extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={''}>-- Seleccione --</option>
+          <option value={''}>
+            -- {this.props.t('app_ciudad_modal_actualizar_departamento')} --
+          </option>
           {this.state.dataDepartment.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

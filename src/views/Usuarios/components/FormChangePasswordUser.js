@@ -20,7 +20,8 @@ class ModalChangePasswordUser extends React.Component {
     nameUser: '',
     alertSuccess: false,
     alertError: false,
-    alertCode: false
+    alertCode: false,
+    t: this.props.t
   };
 
   toggle = id => {
@@ -58,10 +59,14 @@ class ModalChangePasswordUser extends React.Component {
   render() {
     const dataInitial = {};
     console.log(this.state.id);
+    const t = this.state.t;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
-          <ModalHeader>Cambiar la contraseña {this.state.nameUser}</ModalHeader>
+          <ModalHeader>
+            {t('app_usuarios_modal_cambiar_contraseña_titulo')}{' '}
+            {this.state.nameUser}
+          </ModalHeader>
           <Formik
             onSubmit={(values, setSubmitting) => {
               setTimeout(() => {
@@ -142,19 +147,22 @@ class ModalChangePasswordUser extends React.Component {
                         className="text-muted"
                         style={{ textAlign: 'justify' }}
                       >
-                        Tener en cuenta que previamente se debe notificar al
-                        usuario
-                        <code> {this.state.nameUser}</code>, que la contraseña
-                        se va a actualizar. En caso contrario se le pueden
-                        borrar las operaciones que se estén realizando en el
-                        sistema
+                        {t(
+                          'app_usuarios_modal_cambiar_contraseña_enunciado_parte_1'
+                        )}
+                        <code> {this.state.nameUser}</code>
+                        {t(
+                          'app_usuarios_modal_cambiar_contraseña_enunciado_parte_2'
+                        )}
                       </p>
                       <Card>
                         <CardBody>
                           <div className="form-group">
                             <label>
                               {' '}
-                              Nueva contraseña{' '}
+                              {t(
+                                'app_usuarios_modal_cambiar_contraseña_nueva_contraseña'
+                              )}{' '}
                               <span className="text-danger">*</span>{' '}
                             </label>
                             <input
@@ -170,7 +178,9 @@ class ModalChangePasswordUser extends React.Component {
                           <div className="form-group">
                             <label>
                               {' '}
-                              Confirmar contraseña{' '}
+                              {t(
+                                'app_usuarios_modal_cambiar_contraseña_confirmar_contraseña'
+                              )}{' '}
                               <span className="text-danger">*</span>{' '}
                             </label>
                             <input
@@ -196,7 +206,10 @@ class ModalChangePasswordUser extends React.Component {
                         }}
                       >
                         {' '}
-                        <i className="fa fa-trash" /> Cambiar la contraseña
+                        <i className="fa fa-trash" />{' '}
+                        {t(
+                          'app_usuarios_modal_cambiar_contraseña_boton_cambiar_contraseña'
+                        )}
                       </button>
                       <button
                         type="button"
@@ -210,7 +223,8 @@ class ModalChangePasswordUser extends React.Component {
                           });
                         }}
                       >
-                        <i className="fa fa-times" /> Cerrar
+                        <i className="fa fa-times" />{' '}
+                        {t('app_usuarios_modal_cambiar_contraseña_cerrar')}
                       </button>
                     </ModalFooter>
                   </form>

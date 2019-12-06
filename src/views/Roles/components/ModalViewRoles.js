@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Modal,
   ModalHeader,
@@ -10,10 +10,10 @@ import {
   Card,
   CardHeader,
   Table
-} from "reactstrap";
-import PropTypes from "prop-types";
-import IMGROLES from "./../../../assets/img/shield.svg";
-import moment from "moment";
+} from 'reactstrap';
+import PropTypes from 'prop-types';
+import IMGROLES from './../../../assets/img/shield.svg';
+import moment from 'moment';
 
 class ModalViewRoles extends Component {
   constructor(props) {
@@ -22,7 +22,8 @@ class ModalViewRoles extends Component {
       modal: this.props.modalviewroles,
       id: this.props.id,
       data: [],
-      userName: "jferrer"
+      userName: 'jferrer',
+      t: this.props.t
     };
   }
   toggleCollapse = () => {
@@ -39,10 +40,10 @@ class ModalViewRoles extends Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/role/${id}?username=${this.state.userName}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
+          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
+          'Content-Type': 'application/json'
         }
       }
     )
@@ -52,34 +53,47 @@ class ModalViewRoles extends Component {
           data: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   FechaCreacionRol(data) {
     let createdAt;
     createdAt = new Date(data);
-    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
   }
   FechaModificacionRol(data) {
     let updatedAt;
     updatedAt = new Date(data);
     // moment.locale(es);
-    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
   }
 
   render() {
     const statusRol = data => {
       let status;
       if (data === 1) {
-        status = <b className="text-success">Activo</b>;
+        status = (
+          <b className="text-success">
+            {this.props.t('app_tablas_estado_activo')}
+          </b>
+        );
       } else if (data === 0) {
-        status = <b className="text-danger">Inactivo</b>;
+        status = (
+          <b className="text-danger">
+            {' '}
+            {this.props.t('app_tablas_estado_inactivo')}
+          </b>
+        );
       }
       return status;
     };
+    const t = this.state.t;
     return (
       <Modal className="modal-lg" isOpen={this.state.modal}>
-        <ModalHeader> Ver Rol {this.state.data.name}</ModalHeader>
+        <ModalHeader>
+          {' '}
+          {t('app_roles_modal_ver_titulo')} {this.state.data.name}
+        </ModalHeader>
         <ModalBody>
           <Row>
             <Col sm="3">
@@ -87,17 +101,17 @@ class ModalViewRoles extends Component {
             </Col>
             <Col sm="9">
               <div className="">
-                {" "}
-                <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                  {" "}
-                  Datos{" "}
-                </h5>{" "}
+                {' '}
+                <h5 className="" style={{ borderBottom: '1px solid black' }}>
+                  {' '}
+                  {t('app_roles_modal_ver_titulo_2')}{' '}
+                </h5>{' '}
               </div>
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Código </dt>
+                      <dt> {t('app_roles_modal_ver_codigo')} </dt>
                       <dd> {this.state.data.code} </dd>
                     </dl>
                   </div>
@@ -105,7 +119,7 @@ class ModalViewRoles extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Nombre </dt>
+                      <dt> {t('app_roles_modal_ver_nombre')} </dt>
                       <dd> {this.state.data.name} </dd>
                     </dl>
                   </div>
@@ -113,7 +127,7 @@ class ModalViewRoles extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Descripción </dt>
+                      <dt> {t('app_roles_modal_ver_descripcion')} </dt>
                       <dd> {this.state.data.description} </dd>
                     </dl>
                   </div>
@@ -121,7 +135,7 @@ class ModalViewRoles extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Estado </dt>
+                      <dt> {t('app_roles_modal_ver_estado')} </dt>
                       <dd> {statusRol(this.state.data.status)} </dd>
                     </dl>
                   </div>
@@ -129,9 +143,9 @@ class ModalViewRoles extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Fecha de creación </dt>
+                      <dt> {t('app_roles_modal_ver_fecha_creacion')} </dt>
                       <dd>
-                        {this.FechaCreacionRol(this.state.data.createdAt)}{" "}
+                        {this.FechaCreacionRol(this.state.data.createdAt)}{' '}
                       </dd>
                     </dl>
                   </div>
@@ -139,12 +153,12 @@ class ModalViewRoles extends Component {
                 <div className="col-md-6">
                   <div className="form-group">
                     <dl className="param">
-                      <dt> Fecha de modificación </dt>
+                      <dt> {t('app_roles_modal_ver_fecha_modificacion')} </dt>
                       <dd>
-                        {" "}
+                        {' '}
                         {this.FechaModificacionRol(
                           this.state.data.updatedAt
-                        )}{" "}
+                        )}{' '}
                       </dd>
                     </dl>
                   </div>
@@ -226,13 +240,14 @@ class ModalViewRoles extends Component {
         </ModalBody>
         <ModalFooter>
           <button
-            className="btn btn-secondary"
+            className="btn btn-secondary btn-sm"
             onClick={() => {
               this.setState({ modal: false });
             }}
           >
-            {" "}
-            <i className="fa fa-times" /> Cerrar{" "}
+            {' '}
+            <i className="fa fa-times" />{' '}
+            {t('app_roles_modal_ver_boton_cerrar')}{' '}
           </button>
         </ModalFooter>
       </Modal>

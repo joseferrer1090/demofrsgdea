@@ -12,129 +12,63 @@ import {
   CardBody,
   CardFooter,
   CardTitle,
-  CustomInput
+  CustomInput, 
+  Alert
 } from "reactstrap";
-import {
-  GRUPO_USUARIOS_EDIT,
-  CONGLOMERADO_SELECTED,
-  EMPRESA_SELECTED,
-  SEDE_SELECTED,
-  DEPENDENCIA_SELECTED
-} from './../../../data/JSON-SERVER';
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 
-class ModalEditPais extends React.Component {
+class ModalEditGrupos extends React.Component {
     state = {
       // items: dataGrupoUsuarios,
       modal: this.props.modalgitedit,
       dataOk: false,
-      selectedOptionUserAsigandos: null,
-      codigo: "",
-      nombre: "",
-      conglomerado: "",
-      conglomerado_selected:[],
-      empresa: "",
-      empresa_selected:[],
-      sede: "",
-      sede_selected:[],
-      dependencia: "",
-      dependencia_selected:[],
-      roles: "",
-      estado: "",
-      descripcion: "", 
-      id: this.props.id
+      id: this.props.id, 
+      datagroup:{}, 
+      datagroupUsers: [], 
+      username: "jferrer", 
+      alertError: false,
+      alertError400: false,
+      alertSuccess: false,
     };
-
 
   toggle = (id) => {
     this.setState({
       modal: !this.state.modal, 
       id:id
     });
+    this.getDataGroup(id);
   };
 
-  handleSubmit = (values, { props = this.props, setSubmitting }) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    return;
-  };
+  //  handleSubmit = (values, { props = this.props, setSubmitting }) => {
+  //    alert(JSON.stringify(values, null, 2));
+  //     setSubmitting(false);
+  //     return;
+  //  };
 
-  componentDidMount() {
-    this.getGrupoInformation();
-    this.getConglomeradoData();
-    this.getEmpresaData();
-    this.getSedeData();
-    this.getDependenciaData();
+  getDataGroup = (id) => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/groupuser/${id}?username=${this.state.username}`, {
+      method: "GET", 
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: "Basic " + window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        datagroup: data, 
+        datagroupUsers: data.users
+
+      })
+     // console.log(data);
+    }).catch(err => console.log("Error", err));
   }
-
-  getGrupoInformation() {
-    fetch(GRUPO_USUARIOS_EDIT)
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.setState({
-          codigo: data.codigo,
-          nombre: data.nombre,
-          descripcion: data.descripcion,
-          conglomerado: data.conglomerado,
-          empresa: data.empresa,
-          sede: data.sede,
-          dependencia: data.dependencia,
-          roles: data.roles,
-          estado: data.estado
-        });
-        console.log(this.state);
-      })
-      .catch(error => console.log("Error", error));
-  }
-  getConglomeradoData = () => {
-    fetch(CONGLOMERADO_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          conglomerado_selected: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-  getEmpresaData = () => {
-    fetch(EMPRESA_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          empresa_selected: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-  getSedeData = () => {
-    fetch(SEDE_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          sede_selected: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-  getDependenciaData = () => {
-    fetch(DEPENDENCIA_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dependencia_selected: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
-
 
   // handleChangeSelectedOptionUsers = selectedOptionUserAsigandos => {
   //   this.setState({ selectedOptionUserAsigandos });
   //   console.log(this.state.selectedOptionUserAsigandos);
   // };
 
+ 
   render() {
     // const {dataOk, items, selectedOptionUserAsigandos} = this.state;
     // const buscarOpciones = items.map(item => (
@@ -153,138 +87,180 @@ class ModalEditPais extends React.Component {
     // </option>
     //     ));
     // console.log(filtraritems);
-    const dataPreview = {
-      codigo: this.state.codigo,
-      nombre: this.state.nombre,
-      descripcion: this.state.descripcion,
-      conglomerado: this.state.conglomerado,
-      empresa: this.state.empresa,
-      sede: this.state.sede,
-      dependencia: this.state.dependencia,
-      roles: this.state.roles,
-      estado: this.state.estado
+    const tipoEstado = data => {
+      let tipo;
+      if (data === true || data === 1) {
+        return (tipo = 1);
+      } else if (data === false || data === 0) {
+        return (tipo = 0);
+      }
+      return 0;
     };
-    const auxSelectedConglomerado = this.state.conglomerado_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
-    const auxSelectedEmpresa = this.state.empresa_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
-    const auxSelectedSede = this.state.sede_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
-    const auxSelectedDependencia = this.state.dependencia_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
+    const dataPreview = {
+      codigo: this.state.datagroup.code, 
+      nombre: this.state.datagroup.name, 
+      descripcion: this.state.datagroup.description, 
+      usuarios: this.state.datagroupUsers.map((aux, id) => {return { label: aux.name, value: aux.id}}),
+      estado: this.state.datagroup.status
+    }
+    console.log(this.state.id);
     return (
       <Fragment>
-      <Modal className="modal-lg" isOpen={this.state.modal}>
-      <ModalHeader> Actualizar grupo de usuarios </ModalHeader>
-      <Formik
-      initialValues={dataPreview}
+        <Modal className="modal-lg" isOpen={this.state.modal}>
+          <ModalHeader>Editar Grupo de usuario {this.state.datagroup.name}</ModalHeader>
+          <Formik
+          enableReinitialize={true}
+            initialValues={{
+              codigo: this.state.datagroup.code, 
+              nombre: this.state.datagroup.name,
+              descripcion: dataPreview.descripcion,
+              usuarios: this.state.datagroupUsers.map((aux, id) => {return { label: aux.name, value: aux.id}}),
+              estado: this.state.datagroup.status
+            }}
             onSubmit={(values, {setSubmitting}) =>{
+               
               setTimeout(()=>{
-                alert(JSON.stringify(values, null, 2));
-                setSubmitting(false)
-              },500)
+                // alert(JSON.stringify(values, null, 2));
+                fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
+                  method: "PUT", 
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa('sgdea:123456')
+                  }, 
+                  body: JSON.stringify({
+                    id: this.state.id,
+                    code: values.codigo,
+                    name: values.nombre, 
+                    description: values.descripcion, 
+                    userName: "jferrer",
+                    users: values.usuarios, 
+                    status: values.estado
+                  })
+                }).then(response => {
+                  console.log(response.status);
+                  if (response.status === 200) {
+                    this.setState({
+                      alertSuccess: true
+                    });
+                    setTimeout(() => {
+                      this.setState(
+                        {
+                          alertSuccess: false,
+                          modal: false
+                        },
+                        this.props.updateTable()
+                      );
+                    }, 3000);
+                  } else if (response.status === 400) {
+                    this.setState({
+                      alertError400: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError400: false
+                      });
+                    }, 3000);
+                  } else if (response.status === 500) {
+                    this.setState({
+                      alertError: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError: false,
+                        modal: !this.state.modal
+                      });
+                    }, 3000);
+                  }
+                }).catch(err => console.log("Error", err));
+              },1000)
+              setSubmitting(false);
             }}
             validationSchema={Yup.object().shape({
               codigo: Yup.string()
-                .min(6, " Mínimo 6 caracteres.")
-                .max(6, " Máximo 6 caracteres.")
-                .required(" Por favor introduzca un código."),
+              .required("Por favor introduzca un código")
+              .min(6, "Mínimo 6 caracteres .")
+              .max(6, "Máximo 6 caracteres"), 
               nombre: Yup.string()
-              .required(" Por favor introduzca un nombre.")
-              .max(100),
+              .required("Por favor introduzca un nombre")
+              .max(100), 
               descripcion: Yup.string()
-              .max(250, " Máximo 250 para la descripción del conglomerado"),
+              .nullable()
+              .max(250, "Máximo 250 para la descripción del grupo"),
               conglomerado: Yup.string()
-                .ensure()
-                .required(" Por favor seleccione un conglomerado."),
+              .ensure()
+              .required("Por favor seleccione un conglomerado para filtrar"), 
               empresa: Yup.string()
-                .ensure()
-                .required(" Por favor seleccione una empresa."),
+              .ensure()
+              .required("Por favor selecciones uan empresa para filtrar"), 
               sede: Yup.string()
-                .ensure()
-                .required(" Por favor seleccione una sede."),
+              .ensure()
+              .required("Por favor Seleccione una sede para filtrar "), 
               dependencia: Yup.string()
-                .ensure()
-                .required(" Por favor seleccione una dependencia."),
-              roles: Yup.array()
-                .of(
-                  Yup.object().shape({
-                    label: Yup.string().required(),
-                    value: Yup.string().required()
-                  })
-                )
-                .required(" Por favor seleccione al menos un rol."),
+              .ensure()
+              .required("Por favor seleccione la dependencia para filtrar"),
+              usuarios: Yup.array()
+              .of(
+                Yup.object().shape({
+                  label: Yup.string().required(),
+                  value: Yup.string().required()
+                })
+              )
+              .required("Por favor asignar usuarios al grupo"), 
               estado: Yup.bool()
-                .test(
-                  "Activado",
-                  "",
-                  value=> value === true
-                ),
+              .test("Activado", "", value => value === true)
             })}
-      >
-      {props => {
-        const {
-          values,
-          touched,
-          errors,
-          dirty,
-          isSubmitting,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          handleReset,
-          setFieldValue,
-          setFieldTouched
-        } = props;
-        return(
-          <Fragment>
-          <ModalBody>
-          <form className="form">
-            <div className="container">
-              <div className="row">
-                <div className="col-sm-6">
+          >
+            {props => {
+              const {
+                values,
+                touched,
+                errors,
+                dirty,
+                isSubmitting,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                handleReset,
+                setFieldValue,
+                setFieldTouched
+              } = props;
+              return (
+                <Fragment>
+                  <ModalBody>
+                  <Alert
+                      color="danger"
+                      isOpen={this.state.alertError}
+                      toggle={this.onDismiss}
+                    >
+                      Error al actualizar el gruoo de usuarios.
+                    </Alert>
+                    <Alert color="danger" isOpen={this.state.alertError400}>
+                      Error, grupo de usuarios ya asignados.
+                    </Alert>
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                      Se actualizo el grupo de usuarios  con éxito.
+                    </Alert>
+                    <form className="form">
+                     <div className="container">
+                     <div className="row">
+                     <div className="col-sm-6">
                   <div className="form-group">
                     <label>
                       {" "}
                       Código <span className="text-danger">*</span>{" "}
                     </label>
-                    <input
-                      name={"codigo"}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      type="text"
-                      className={`form-control form-control-sm ${errors.codigo &&
-                        touched.codigo &&
-                        "is-invalid"}`}
-                      value={values.codigo}
-                    />
+                    <input 
+                    type="text" 
+                    name="codigo" 
+                    value={values.codigo} 
+                    onChange={handleChange} 
+                    onBlur={handleBlur}
+                    className="form-control form-control-sm"/>
                     <div style={{ color: '#D54B4B' }}>
-                      {
-                        errors.codigo && touched.codigo ?
-                        <i className="fa fa-exclamation-triangle"/> :
-                        null
-                      }
-                    <ErrorMessage name="codigo" />
+                      {errors.codigo && touched.codigo ? (
+                        <i className="fa fa-exclamation-triangle" />
+                      ) : null}
+                      <ErrorMessage name='codigo' />
                     </div>
                   </div>
                 </div>
@@ -295,14 +271,11 @@ class ModalEditPais extends React.Component {
                       Nombre <span className="text-danger">*</span>{" "}
                     </label>
                     <input
-                      name={"nombre"}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      type="text"
-                      className={`form-control form-control-sm ${errors.nombre &&
-                        touched.nombre &&
-                        "is-invalid"}`}
-                      value={values.nombre}
+                     type="text"
+                     name="nombre"
+                     onChange={handleChange}
+                     value={values.nombre}
+                     className="form-control form-control-sm"
                     />
                     <div style={{ color: '#D54B4B' }}>
                       {
@@ -314,17 +287,16 @@ class ModalEditPais extends React.Component {
                     </div>
                   </div>
                 </div>
-
                 <div className="col-md-12">
                   <div className="form-group">
                     <label> Descripción </label>
                     <textarea
-                            name={"descripcion"}
-                            value={values.descripcion}
-                            className="form-control form-control-sm"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                          />
+                      name="descripcion"
+                      value={values.descripcion}
+                      className="form-control form-control-sm"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
                           <div style={{ color: '#D54B4B' }}>
                             {
                               errors.descripcion && touched.descripcion ?
@@ -335,34 +307,43 @@ class ModalEditPais extends React.Component {
                           </div>
                   </div>
                 </div>
-              </div>
-              <div className="row">
-                <div className="col-sm-12">
-                <Card>
-                <CardBody>
-                  <h5 className=""> Búsqueda de usuarios </h5>
-                  <hr />
-                  <br />
-                  <form className="form">
-                    <div className="row">
-                      <div className="col-md-3">
+                  </div>
+                  <div className="row">
+                    <div className="col-sm-12">
+                      <Card>
+                        <CardBody>
+                        <h5 className=""> Búsqueda de usuarios </h5>
+                        <hr />
+                        <br />
+                        <div className="row">
+                        <div className="col-md-3">
                         <div className="form-group">
                           <label>
                             {" "}
                             Conglomerado{" "}
                             <span className="text-danger">*</span>{" "}
                           </label>
-                          <select
-                          name="conglomerado"
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                          className={`form-control form-control-sm ${errors.conglomerado &&
-                            touched.conglomerado &&
-                            "is-invalid"}`}
-                          value={values.conglomerado}
-                        >
-                        {auxSelectedConglomerado}
-                      </select>
+                          <SelectConglomerado
+                            name={'conglomerado'}
+                            onChange={e =>
+                              setFieldValue(
+                                'conglomerado',
+                                e.target.value
+                              )
+                            }
+                            onBlur={() =>
+                              setFieldTouched(
+                                'conglomerado',
+                                true
+                              )
+                            }
+                            value={
+                              values.conglomerado
+                            }
+                            className={`form-control form-control-sm ${errors.conglomerado &&
+                              touched.conglomerado &&
+                              'is-invalid'}`}
+                          />
                       <div style={{ color: '#D54B4B' }}>
                       {
                         errors.conglomerado && touched.conglomerado ?
@@ -380,18 +361,30 @@ class ModalEditPais extends React.Component {
                             Empresa{" "}
                             <span className="text-danger">*</span>{" "}
                           </label>
-                          <select
+                           <SelectCompany
+                            usuario_conglomerate={
+                              props.values
+                                .conglomerado
+                            }
                             name="empresa"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            className={`form-control form-control-sm
-                            ${errors.empresa &&
-                              touched.empresa &&
-                              "is-invalid"}`}
                             value={values.empresa}
-                          >
-                          {auxSelectedEmpresa}
-                        </select>
+                            onChange={e =>
+                              setFieldValue(
+                                'empresa',
+                                e.target.value
+                              )
+                            }
+                            onBlur={() =>
+                              setFieldTouched(
+                                'empresa',
+                                true
+                              )
+                            }
+                            className={`form-control form-control-sm ${errors.empresa &&
+                              touched.empresa &&
+                            'is-invalid'}`}
+                              ></SelectCompany>
+                         
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.empresa && touched.empresa ?
@@ -402,6 +395,7 @@ class ModalEditPais extends React.Component {
                         </div>
                         </div>
                       </div>
+
                       <div className="col-md-3">
                         <div className="form-group">
                           <label>
@@ -410,18 +404,29 @@ class ModalEditPais extends React.Component {
                               *
                             </span>{" "}
                           </label>
-                          <select
-                            name="sede"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            className={`form-control form-control-sm
-                            ${errors.sede &&
-                              touched.sede &&
-                              "is-invalid"}`}
+                          <SelectHeadquarter
+                            usuario_company={
+                              props.values.empresa
+                            }
+                            name={'sede'}
+                            onChange={e =>
+                              setFieldValue(
+                                'sede',
+                                e.target.value
+                              )
+                            }
+                            onBlur={() =>
+                              setFieldTouched(
+                                'sede',
+                                true
+                              )
+                            }
                             value={values.sede}
-                          >
-                          {auxSelectedSede}
-                        </select>
+                            className={`form-control form-control-sm ${errors.sede &&
+                              touched.sede &&
+                              'is-invalid'}`}
+                          ></SelectHeadquarter>
+                          
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.sede && touched.sede ?
@@ -432,6 +437,7 @@ class ModalEditPais extends React.Component {
                         </div>
                         </div>
                       </div>
+
                       <div className="col-md-3">
                         <div className="form-group">
                           <label>
@@ -439,18 +445,29 @@ class ModalEditPais extends React.Component {
                             Dependencia{" "}
                             <span className="text-danger">*</span>{" "}
                           </label>
-                          <select
-                            name="dependencia"
-                            onBlur={handleBlur}
-                            onChange={handleChange}
-                            className={`form-control form-control-sm
-                              ${errors.dependencia &&
-                                touched.dependencia &&
-                                "is-invalid"}`}
+                          <SelectDependence
+                            usuario_headquarter={
+                              props.values.sede
+                            }
+                            name={'dependencia'}
                             value={values.dependencia}
-                            >
-                            {auxSelectedDependencia}
-                          </select>
+                            onChange={e =>
+                              setFieldValue(
+                                'dependencia',
+                                e.target.value
+                              )
+                            }
+                            onBlur={() =>
+                              setFieldTouched(
+                                'dependencia',
+                                true
+                              )
+                            }
+                            className={`form-control form-control-sm ${errors.dependencia &&
+                              touched.dependencia &&
+                              'is-invalid'}`}
+                          ></SelectDependence>
+                          
                           <div style={{ color: '#D54B4B' }}>
                           {
                             errors.dependencia && touched.dependencia ?
@@ -461,185 +478,472 @@ class ModalEditPais extends React.Component {
                           </div>
                         </div>
                       </div>
-                    </div>
-
-
-                        <div className="form-group">
-                          <label>Usuarios disponibles</label>
-                          <select className="form-control form-control-sm"  multiple>
-                            <option>Usuarios disponibles de la consulta </option>
-                          </select>
-
+                    
                         </div>
-
-
-                  </form>
-                </CardBody>
-                <CardFooter>
-                  <div className="float-right">
-                    <button
-                      type="button"
-                      className="btn btn-secondary btn-sm"
-                      onClick={() => {
-                        this.setState({ dataOk: !this.state.dataOk });
-                      }}
-                    >
-                      {" "}
-                      <i className="fa fa-search" /> Buscar
-                    </button>{" "}
+                        </CardBody>
+                      </Card>
+                    </div>
                   </div>
-                </CardFooter>
-              </Card>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-sm-12">
-                  <div className="form-group">
+                  <div className="row">
+                    <div className="col-sm-12">
+                    <div className="form-group">
                     <label>
                       {" "}
                       Seleccione usuario(s) asignados{" "}
                       <span className="text-danger">*</span>{" "}
                     </label>
-                    <MySelect
-                          name={"roles"}
-                          value={values.roles}
-                          onChange={setFieldValue}
-                          onBlur={setFieldTouched}
-                          error={errors.roles}
-                          touched={touched.roles}
-                        />
+                    <UsuariosAsignados 
+                      dependencia={props.values.dependencia}
+                      name="usuarios"
+                      onChange={setFieldValue}
+                      onBlur={setFieldTouched}
+                      value={values.usuarios}
+                    />
+                   
                         {touched ? (
                           <div style={{ color: "red" }}>
                             {" "}
                             <div style={{ color: '#D54B4B' }}>
                             {
-                              errors.roles && touched.roles ?
+                              errors.usuarios && touched.usuarios ?
                               <i className="fa fa-exclamation-triangle"/> :
                               null
                             }
-                            <ErrorMessage name={"roles"} />
+                            <ErrorMessage name={"usuarios"} />
                             </div>
                           </div>
                         ) : null}
                   </div>
                 </div>
-                <div className="col-sm-12">
-                <div className="form-group">
-                <label>
-                {" "}
-                Estado <span className="text-danger">*</span>{" "}
-              </label>
-              <div className="text-justify">
-              <Field
-                name="estado"
-                render={({field, form})=>{
-                  return(
-                    <CustomInput
-                    type="checkbox"
-                    id="CheckBoxEditGrupos"
-                    label="Si esta opción se encuentra activada, Representa
-                    que el grupo es visible en el sistema y se
-                    podrán realizar operaciones entre cada uno de
-                    los módulos correspondientes de la aplicación.
-                    En caso contrario el grupo no se elimina del
-                    sistema solo quedará inactiva e invisibles para
-                    cada uno de los módulos correspondiente del
-                    sistema."
-                    {...field}
-                    checked={field.value}
-                    className={
-                      errors.estado &&
-                      touched.estado &&
-                      "invalid-feedback"
-                    }
-                  />
-                  );
+                    <div className="col-sm-12">
+                      <div className="form-group">
+                      <label>
+                      {" "}
+                      Estado <span className="text-danger">*</span>{" "}
+                      </label>
+                      <div className="text-justify">
+                      <Field
+                        name="estado"
+                        render={({field, form})=>{
+                          return(
+                            <CustomInput
+                            type="checkbox"
+                            id="CheckBoxEditGrupos"
+                            label="Si esta opción se encuentra activada, Representa
+                            que el grupo es visible en el sistema y se
+                            podrán realizar operaciones entre cada uno de
+                            los módulos correspondientes de la aplicación.
+                            En caso contrario el grupo no se elimina del
+                            sistema solo quedará inactiva e invisibles para
+                            cada uno de los módulos correspondiente del
+                            sistema."
+                            {...field}
+                            checked={field.value}
+                            className={
+                              errors.estado &&
+                              touched.estado &&
+                              "invalid-feedback"
+                            }
+                          />
+                          );
 
-                }}
-              />
-                <ErrorMessage name="estado"/>
-                </div>
-                </div>
-              </div>
-              </div>
-            </div>
-          </form>
-        </ModalBody>
-        <ModalFooter>
-          <button
-            type="button"
-            className="btn btn-outline-success btn-sm"
-            onClick={e=>{
-              e.preventDefault();
-              handleSubmit();
+                        }}
+                      />
+                        <ErrorMessage name="estado"/>
+                      </div>
+                      </div>
+                    </div>
+                  </div> 
+                     </div>
+                    </form>
+                  </ModalBody>
+                  <ModalFooter>
+                    <button type="button" 
+                      className="btn btn-outline-success btn-sm"
+                      onClick={(e) => { 
+                        e.preventDefault(); 
+                        handleSubmit();
+                        }}
+                      > <i className="fa fa-pencil"/> Actualizar grupo </button>
+                       <button type="button" 
+                      className="btn btn-secondary   btn-sm"
+                      onClick={()=> {this.setState({ modal: false  })}}
+                      > <i className="fa fa-times"/> Cerrar </button>
+                  </ModalFooter>
+                </Fragment>
+              );
             }}
-            >
-            {" "}
-            <i className="fa fa-pencil" /> Actualizar{" "}
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary btn-sm"
-            onClick={() => {
-              this.setState({ modal: false });
-            }}
-          >
-            {" "}
-            <i className="fa fa-times" /> Cerrar{" "}
-          </button>
-        </ModalFooter>
-      </Fragment>);}}
-      </Formik>
-    </Modal>
+          </Formik>
+        </Modal>
       </Fragment>
     );
   }
 }
 
-ModalEditPais.propTypes = {
+ModalEditGrupos.propTypes = {
   modaledit: PropTypes.bool.isRequired
 };
 
-export default ModalEditPais;
+export default ModalEditGrupos;
 
-const options = [
-  { value: "Food", label: "Food" },
-  { value: "Being Fabulous", label: "Being Fabulous" },
-  { value: "Ken Wheeler", label: "Ken Wheeler" },
-  { value: "ReasonML", label: "ReasonML" },
-  { value: "Unicorns", label: "Unicorns" },
-  { value: "Kittens", label: "Kittens" }
-];
 
-class MySelect extends React.Component {
+//--------------------------------------------------------------------------------------------//
+
+class SelectConglomerado extends React.Component {
+  state = {
+    dataConglomerate: []
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataConglomerate: data
+        });
+      });
+  };
+
   handleChange = value => {
-    this.props.onChange("roles", value);
+    this.props.onChange('usuario_conglomerate', value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("roles", true);
+    this.props.onBlur('usuario_conglomerate', true);
+  };
+
+  render() {
+    // const selectOptionsConglomerate = this.state.dataConglomerate.map(
+    //   (aux, id) => {
+    //     return <option value={aux.id}>{aux.name}</option>;
+    //   }
+    // );
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          value={this.props.value}
+          className={this.props.className}
+        >
+          <option value={''}>-- Seleccione --</option>
+          {this.state.dataConglomerate.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+// --------------------------------------------------------------------------------------------- //
+class SelectCompany extends React.Component {
+  state = {
+    dataCompany: [],
+    id: this.props.usuario_conglomerate
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.usuario_conglomerate !== state.id) {
+      return {
+        id: props.usuario_conglomerate
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.usuario_conglomerate !== prevProps.usuario_conglomerate) {
+      this.getDataCompany();
+    }
+  }
+
+  //edf39040-6f53-4f4e-b348-ef279819051a => no borrar
+
+  componentDidMount() {
+    this.getDataCompany();
+  }
+
+  getDataCompany = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataCompany: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+        >
+          <option value={''}>-- Seleccione --</option>
+          {this.state.dataCompany.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+        {/* <select
+          name={this.props.name}
+          value={this.props.value}
+          className="form-control form-control-sm"
+          onChange={this.props.onChange}
+        >
+          {this.dataCompany.map((aux, id) => {
+            return <option value={aux.id}>{aux.name}</option>;
+          })}
+        </select> */}
+      </div>
+    );
+  }
+}
+ // ---------------------------------------------------------------------------------------------------- //
+
+ class SelectHeadquarter extends React.Component {
+  state = {
+    dataHeadquarter: [],
+    id: this.props.usuario_company
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.usuario_company !== state.id) {
+      return {
+        id: props.usuario_company
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.usuario_company !== prevProps.usuario_company) {
+      // metodo del fetch()
+      this.getDataHeadquarter();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataHeadquarter();
+  }
+
+  getDataHeadquarter = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.usuario_company}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataHeadquarter: data
+        });
+      })
+      .catch(err => console.log('Error', err));
   };
 
   render() {
     return (
-      <div style={{ margin: "0" }}>
-        <Select
+      <div>
+        <select
           name={this.props.name}
-          options={options}
+          value={this.props.value}
+          className={this.props.className}
+          onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+        >
+          <option value={''}>-- Seleccione --</option>
+          {this.state.dataHeadquarter.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+
+// -------------------------------------------------------------------------------------------------------------- //
+
+class SelectDependence extends React.Component {
+  state = {
+    dataDependence: [],
+    id: this.props.usuario_headquarter
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.usuario_headquarter !== state.id) {
+      return {
+        id: props.usuario_headquarter
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.usuario_headquarter !== prevProps.usuario_headquarter) {
+      // metodo del fetch()
+      this.getDataDependence();
+    }
+  }
+
+  componentDidMount() {
+    this.getDataDependence();
+  }
+
+  getDataDependence = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.usuario_headquarter}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDependence: data
+        });
+      })
+      .catch(err => console.log('Error', err));
+  };
+
+  render() {
+    return (
+      <div>
+        <select
+          name={this.props.name}
+          value={this.props.value}
+          onChange={this.props.onChange}
+          className={this.props.className}
+          onBlur={this.props.onBlur}
+        >
+          <option value={''}>-- Seleccione --</option>
+          {this.state.dataDependence.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    );
+  }
+}
+// -------------------------------------------------------------------------------------- //
+
+class UsuariosAsignados extends React.Component {
+  state = {
+    dataUsers: [], 
+    id: this.props.dependencia
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.dependencia !== state.id) {
+      return {
+        id: props.dependencia
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.dependencia !== prevProps.dependencia) {
+      this.getDataUserDependenceList();
+    }
+  }
+
+ getDataUserDependenceList = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/user/dependence/${this.props.dependencia}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataUsers: data
+        });
+        //console.log(data);
+      })
+      .catch(err => console.log("Error", err));
+  };
+
+  componentDidMount() {
+    this.getDataUserDependenceList();
+  }
+
+   handleChange = value => {
+    this.props.onChange("usuarios", value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur("usuarios", true);
+  };
+
+  render() {
+    return (
+      <div>
+         <Select
+          name={this.props.name}
+          options={this.state.dataUsers.map((aux, id) => {
+            return { label: aux.name, value: aux.id };
+          })}
           isMulti
           onChange={this.handleChange}
           onBlur={this.handleBlur}
           value={this.props.value}
-          placeholder={"-- seleccione rol --"}
+          placeholder={"Asignar usuarios"}
         />
-        {/* {!!this.props.error && this.props.touched && (
-          <div
-            style={{ color: "red", marginTop: ".5rem" }}
-            className="invalid-feedback"
-          >
-            {this.props.error}
-          </div>
-        )} */}
       </div>
     );
   }

@@ -173,13 +173,15 @@ class ModalEditCargo extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      Error al actualizar el cargo.
+                      {this.props.t('app_cargo_modal_actualizar_alert_error')}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, el cargo ya esta asignado.
+                      {this.props.t(
+                        'app_cargo_modal_actualizar_alert_error400'
+                      )}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      Se actualizo el cargo con éxito.
+                      {this.props.t('app_cargo_modal_actualizar_alert_success')}
                     </Alert>
                     <form className="form">
                       <Row>

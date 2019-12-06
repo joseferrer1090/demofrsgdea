@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
-import PropType from "prop-types";
-import * as Yup from "yup";
-import { Formik, ErrorMessage } from "formik";
+import React, { Component, Fragment } from 'react';
+import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from 'reactstrap';
+import PropType from 'prop-types';
+import * as Yup from 'yup';
+import { Formik, ErrorMessage } from 'formik';
 
 class ModalDeleteRoles extends Component {
   constructor(props) {
@@ -10,8 +10,12 @@ class ModalDeleteRoles extends Component {
     this.state = {
       modal: this.props.modaldelete,
       id: this.props.id,
-      userName: "jferrer",
-      dataRolById: {}
+      userName: 'jferrer',
+      dataRolById: {},
+      t: this.props.t,
+      alertError: false,
+      alertSuccess: false,
+      alertCode: false
     };
   }
 
@@ -27,10 +31,10 @@ class ModalDeleteRoles extends Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/role/${id}?username=${this.state.userName}`,
       {
-        method: "GET",
+        method: 'GET',
         headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          'Content-Type': 'application/json',
+          Authorization: 'Basic ' + window.btoa('sgdea:123456')
         }
       }
     )
@@ -40,19 +44,20 @@ class ModalDeleteRoles extends Component {
           dataRolById: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => console.log('Error', err));
   };
 
   render() {
     const dataInitial = {
-      codigo: ""
+      codigo: ''
     };
+    const t = this.state.t;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
-            {" "}
-            Eliminar rol {this.state.dataRolById.name}{" "}
+            {' '}
+            {t('app_roles_modal_eliminar_titulo')} {this.state.dataRolById.name}{' '}
           </ModalHeader>
           <Formik
             initialValues={dataInitial}
@@ -62,28 +67,43 @@ class ModalDeleteRoles extends Component {
                 fetch(
                   `http://192.168.10.180:7000/api/sgdea/role/${this.state.id}?code=${values.codigo}&username=${this.state.userName}`,
                   {
-                    method: "DELETE",
+                    method: 'DELETE',
                     headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                      'Content-Type': 'application/json',
+                      Authorization: 'Basic ' + window.btoa('sgdea:123456')
                     }
                   }
                 )
                   .then(response => {
                     if (response.status === 500) {
-                      console.log("Error 500");
-                    } else if (response.status === 200) {
-                      console.log("Se Elimino");
+                      this.setState({
+                        alertError: true
+                      });
+                    } else if (response.status === 204) {
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
+                      setTimeout(() => {
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false
+                        });
+                      }, 3000);
                     } else if (response.status === 400) {
-                      console.log("SE enviaron mal los datos");
+                      this.setState({
+                        alertCode: true
+                      });
                     }
                   })
-                  .catch(err => console.log("Error", err));
+                  .catch(err => console.log('Error', err));
               }, 1000);
             }}
             validationSchema={Yup.object().shape({
               codigo: Yup.string().required(
-                " Por favor introduzca el codigo del rol a eliminar"
+                ' Por favor introduzca el codigo del rol a eliminar'
               )
             })}
           >
@@ -102,25 +122,52 @@ class ModalDeleteRoles extends Component {
               return (
                 <Fragment>
                   <ModalBody>
+                    <Alert
+                      className="text-center"
+                      color="danger"
+                      isOpen={this.state.alertError}
+                      toggle={this.onDismiss}
+                    >
+                      {this.props.t('app_roles_modal_eliminar_alert_error')}
+                    </Alert>
+                    <Alert
+                      color="danger"
+                      isOpen={this.state.alertCode}
+                      toggle={this.onDismiss}
+                    >
+                      {this.props.t('app_roles_modal_eliminar_alert_errorCode')}
+                    </Alert>
+                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                      {this.props.t('app_roles_modal_eliminar_alert_success')}
+                    </Alert>
                     <form className="form">
                       <p className="text-center">
-                        {" "}
-                        Confirmar el <code> Codigo </code> para eliminar el rol{" "}
+                        {' '}
+                        {t('app_roles_modal_eliminar_titulo_2')}{' '}
                       </p>
                       <input
                         name="codigo"
                         value={values.codigo}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        className="form-control col-sm-6 offset-sm-3 form-control-sm"
+                        className={`form-control col-sm-6 offset-sm-3 form-control-sm ${errors.codigo &&
+                          touched.codigo &&
+                          'is-invalid'}`}
                         type="text"
-                        placeholder=""
-                        style={{ textAlign: "center" }}
+                        placeholder={t('app_roles_modal_eliminar_placeholder')}
+                        style={{ textAlign: 'center' }}
                       />
+                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                        {errors.codigo && touched.codigo ? (
+                          <i class="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="codigo" />
+                      </div>
+
                       <br />
                       <p className="text-center text-danger">
-                        {" "}
-                        El rol quedará eliminado de manera permanente.{" "}
+                        {' '}
+                        {t('app_roles_modal_eliminar_titulo_3')}{' '}
                       </p>
                     </form>
                   </ModalBody>
@@ -133,8 +180,9 @@ class ModalDeleteRoles extends Component {
                         handleSubmit();
                       }}
                     >
-                      {" "}
-                      <i className="fa fa-trash" /> Eliminar
+                      {' '}
+                      <i className="fa fa-trash" />{' '}
+                      {t('app_roles_modal_eliminar_boton_eliminar')}
                     </button>
                     <button
                       type="button"
@@ -143,7 +191,8 @@ class ModalDeleteRoles extends Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      <i className="fa fa-times" />{' '}
+                      {t('app_roles_modal_eliminar_boton_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>

@@ -1,0 +1,100 @@
+class UserList extends React{
+ 
+  state={
+    dataUsersDependence: [], 
+    id: this.props.idDependence
+  }
+
+  static getDerivedStateFormProps(props, state){
+    if(props.idDependence !== state.id){
+      return{
+        id: props.idDependence
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.idDependence !== prevProps.idDependence){
+      // Metodo para actualizar
+      this.getDataUsers();
+    }
+  }
+
+  componentDidMount() {
+    // metodo para refrezcer el compomente
+    this.getDataUsers();
+  }
+
+  getDataUsers = () => {
+    fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${this.props.idDependence}`, {
+      method: "GET", 
+      headers: {
+        "Content-Type": "application/json", 
+        Authorization: "Basic " + window.btoa('sgdea:123456')
+      }
+    }).then(response => response.json()).then(data => {
+      this.setState({
+        dataUsersDependence: data
+      })
+    }).catch(err => console.log("Error", err));
+  }
+
+
+  render() {
+
+    const [usuario, setUsuarios] = useState({});
+    const dispatch = useDispatch();
+    const AgregarUsuario = (user) => dispatch(agregarUserAction(user));
+
+    const data = this.state.dataUsersDependence;
+    console.log(data);
+
+    return (
+      <div>
+        {/* <div className="form-group">
+            <label> Buscar usuario <span className="text-danger">*</span> </label>
+            <div className="input-group input-group-sm">
+              <input
+                type="text"
+                className="form-control form-control-sm"
+                aria-label="Dollar amount (with dot and two decimal places)"
+              />
+              <div
+                className="input-group-append"
+                id="button-addon4"
+              >
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                >
+                  <i className="fa fa-search" />
+                </button>
+                
+              </div>
+            </div>
+          </div> */}
+         <div style={{ height: "140px", overflow: "scroll", overflowX: "hidden", border: "1px solid #e3e3e3", background: "#e3e3e3", padding: "10px"}}>
+            {data.length > 0 ? (this.state.dataUsersDependence.map((aux, id) => {
+            return(
+              <ul className="list-unstyled">
+               <li className="media">
+                <img className="mr-2" src="https://via.placeholder.com/40" alt="Generic placeholder image"/> 
+                <div className="media-body">
+                  <p className="mt-0 mb-1">{aux.name}</p>
+                  <Button 
+                    style={{marginTop: "-13px", marginLeft: "-12px"}}  
+                    color={"link"} 
+                    onClick={AgregarUsuario({id: aux.id})}>
+                      <h6 className="badge badge-secondary">agregar</h6>   
+                  </Button>
+                </div>
+              </li>
+              </ul>
+            )
+          })): <p>Seleccione los usuarios asignar</p>  }
+         </div>
+      </div>
+    );
+  }
+}

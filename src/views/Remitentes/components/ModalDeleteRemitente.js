@@ -142,7 +142,7 @@ class ModalDeleteRemitente extends Component {
                         color="success"
                         isOpen={this.state.alertSuccess}
                       >
-                        El tercero ha sido eliminada con éxito.
+                        {this.props.t("app_tercero_modal_eliminar_alert_success")}
                       </Alert>
                       <Alert
                         className="text-center"
@@ -150,15 +150,14 @@ class ModalDeleteRemitente extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        El tercero que va a eliminar, esta asociado a otras
-                        entidades.
+                        {this.props.t("app_tercero_modal_eliminar_alert_error")}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        Por favor introduzca una identificación valida.
+                        {this.props.t("app_tercero_modal_eliminar_alert_errorCode")}
                       </Alert>
                       <p className="text-center">
                         {' '}

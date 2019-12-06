@@ -91,7 +91,7 @@ class ViewMiddleware extends Component {
               </Link>
             </div>
             <div className="col-md-3">
-              <a href={`${url.defaultServer}3001`} className="hvr-grow">
+              <a href={`${url.defaultLocal}3001`} className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOCORRESPONDENCIA} width="200" />

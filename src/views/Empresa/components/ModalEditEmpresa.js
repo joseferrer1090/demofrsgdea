@@ -98,7 +98,7 @@ class ModalEditEmpresa extends React.Component {
   };
   getCompanyById = id => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/company/${id}?username=${this.state.username}`,
+      `http://192.168.20.187:7000/api/sgdea/company/${id}?username=${this.state.username}`,
       {
         method: "GET",
         headers: {
@@ -129,7 +129,7 @@ class ModalEditEmpresa extends React.Component {
   };
 
   getCharge = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/charge/`, {
+    fetch(`http://192.168.20.187:7000/api/sgdea/charge/`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -243,7 +243,7 @@ class ModalEditEmpresa extends React.Component {
               };
 
               setTimeout(() => {
-                fetch(`http://192.168.10.180:7000/api/sgdea/company`, {
+                fetch(`http://192.168.20.187:7000/api/sgdea/company`, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
@@ -349,8 +349,7 @@ class ModalEditEmpresa extends React.Component {
                 handleBlur,
                 handleSubmit,
                 setFieldValue,
-                setFieldTouched,
-                t
+                setFieldTouched
               } = props;
               return (
                 <Fragment>

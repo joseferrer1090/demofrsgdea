@@ -254,7 +254,7 @@ class ModalSearchAuditoria extends Component {
           <Formik
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                fetch(`http://192.168.10.180:7000/api/sgdea/audit/consult`, {
+                fetch(`http://192.168.20.187:7000/api/sgdea/audit/consult`, {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",

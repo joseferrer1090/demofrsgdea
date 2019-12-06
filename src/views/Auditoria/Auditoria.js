@@ -35,7 +35,7 @@ class Auditoria extends Component {
 
   getDataAudit = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/audit/pagination?page=${this.state.page}&size=${this.state.size}`,
+      `http://192.168.20.187:7000/api/sgdea/audit/pagination?page=${this.state.page}&size=${this.state.size}`,
       {
         method: "GET",
         headers: {

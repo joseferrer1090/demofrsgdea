@@ -29,7 +29,7 @@ class SelectDependence extends React.Component {
 
   getDataDependence = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/headquarter/${this.props.audit_sede}`,
+      `http://192.168.20.187:7000/api/sgdea/dependence/headquarter/${this.props.audit_sede}`,
       {
         method: "GET",
         headers: {

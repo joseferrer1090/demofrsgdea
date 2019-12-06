@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
-import { Row, Col } from 'reactstrap';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import ModalViewTramite from './ModalViewTramite';
-import ModalDeleteTramite from './ModalDeleteTramite';
-import PropTypes from 'prop-types';
-import moment from 'moment';
-import { withTranslation } from 'react-i18next';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { Row, Col } from "reactstrap";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import ModalViewTramite from "./ModalViewTramite";
+import ModalDeleteTramite from "./ModalDeleteTramite";
+import ModalExport from "./ModalExportCSV";
+import ModalExport2 from "./ModalExportCSVTipoTramiteUser";
+import moment from "moment";
+import { withTranslation } from "react-i18next";
 
 class TableContentTramite extends Component {
   constructor(props) {
@@ -14,6 +16,8 @@ class TableContentTramite extends Component {
       dataTipoTramite: [],
       modalview: false,
       modaldel: false,
+      modalexport: false,
+      modalexport2: false,
       hiddenColumnID: true
     };
   }
@@ -24,10 +28,10 @@ class TableContentTramite extends Component {
 
   getDataTipoTramite = () => {
     fetch(`http://192.168.20.187:7000/api/sgdea/typeprocedure`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -36,14 +40,14 @@ class TableContentTramite extends Component {
           dataTipoTramite: data
         });
       })
-      .catch(err => console.log('Error', err));
+      .catch(err => console.log("Error", err));
   };
 
   accionesTramite = (cell, row) => {
     return (
       <div
         className="table-actionMenuTLlegada"
-        style={{ textAlign: 'center', padding: '0', marginRight: '80px' }}
+        style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -66,7 +70,7 @@ class TableContentTramite extends Component {
         <button
           className="btn btn-danger btn-sm"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           <i className="fa fa-trash" />
@@ -78,7 +82,7 @@ class TableContentTramite extends Component {
   FechaCreacionTipoTramite(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format('YYYY-MM-DD');
+    return moment(createdAt).format("YYYY-MM-DD");
   }
 
   estadotramite = (cell, row) => {
@@ -100,17 +104,52 @@ class TableContentTramite extends Component {
     window.location.replace(path);
   };
 
-  openModalDelete() {
-    this.refs.child2.toggle();
+  openModalDelete(id) {
+    this.refs.child2.toggle(id);
+  }
+
+  openModalExport() {
+    this.refs.child3.toggle();
+  }
+
+  openModalExportUsers() {
+    this.refs.child4.toggle();
   }
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
+  createCustomButtonGroup = props => {
+    return (
+      <div>
+        <button
+          type="button"
+          className={`btn btn-secondary btn-sm`}
+          onClick={() => this.openModalExport()}
+        >
+          <i className="fa fa-download" /> Exportar
+        </button>
+        &nbsp;
+        <button
+          type="button"
+          className={`btn btn-secondary btn-sm`}
+          onClick={() => this.openModalExportUsers()}
+        >
+          <i className="fa fa-download" /> Exportar usuarios por tramite
+        </button>
+      </div>
+    );
+  };
+
   render() {
     const { t } = this.props;
 
+    const options = {
+      btnGroup: this.createCustomButtonGroup,
+      pagination: true,
+      exportCSV: true
+    };
     return (
       <div className="animated fadeIn">
         <Row>
@@ -118,80 +157,87 @@ class TableContentTramite extends Component {
             <BootstrapTable
               data={this.state.dataTipoTramite}
               bordered={false}
+              options={options}
               hover
               pagination
               search
               striped
               searchPlaceholder={t(
-                'app_tipoTramite_table_administrar_placeholder'
+                "app_tipoTramite_table_administrar_placeholder"
               )}
               exportCSV
               className="texto-TLlegada"
             >
               <TableHeaderColumn
                 isKey
-                dataField={'id'}
+                dataField={"id"}
                 width="50"
                 hidden={this.state.hiddenColumnID}
               />
               <TableHeaderColumn
-                dataField={'id'}
+                dataField={"id"}
                 width="50"
                 dataFormat={this.indexN}
               >
-                {' '}
-                #{' '}
+                {" "}
+                #{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'code'} dataAlign="center">
-                {' '}
-                {t('app_tipoTramite_table_administrar_codigo')}{' '}
+              <TableHeaderColumn dataField={"code"} dataAlign="center">
+                {" "}
+                {t("app_tipoTramite_table_administrar_codigo")}{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'name'} dataAlign="center">
-                {' '}
-                {t('app_tipoTramite_table_administrar_nombre')}{' '}
+              <TableHeaderColumn dataField={"name"} dataAlign="center">
+                {" "}
+                {t("app_tipoTramite_table_administrar_nombre")}{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'description'} dataAlign="center">
-                {' '}
-                {t('app_tipoTramite_table_administrar_descripcion')}{' '}
+              <TableHeaderColumn dataField={"description"} dataAlign="center">
+                {" "}
+                {t("app_tipoTramite_table_administrar_descripcion")}{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={'answerDays'} dataAlign={'center'}>
-                {' '}
-                {t('app_tipoTramite_table_administrar_tiempo_respuesta')}{' '}
+              <TableHeaderColumn dataField={"answerDays"} dataAlign={"center"}>
+                {" "}
+                {t("app_tipoTramite_table_administrar_tiempo_respuesta")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField={'createdAt'}
-                dataAlign={'center'}
+                dataField={"createdAt"}
+                dataAlign={"center"}
                 dataFormat={(cell, row) =>
                   this.FechaCreacionTipoTramite(cell, row)
                 }
               >
-                {' '}
-                {t('app_tipoTramite_table_administrar_fecha_creacion')}
+                {" "}
+                {t("app_tipoTramite_table_administrar_fecha_creacion")}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.estadotramite(cell, row)}
               >
-                {' '}
-                {t('app_tipoTramite_table_administrar_estado')}{' '}
+                {" "}
+                {t("app_tipoTramite_table_administrar_estado")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
                 export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesTramite(cell, row)}
               >
-                {' '}
-                {t('app_tipoTramite_table_administrar_acciones')}{' '}
+                {" "}
+                {t("app_tipoTramite_table_administrar_acciones")}{" "}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>
         <ModalViewTramite
           modalviewtramit={this.state.modalview}
-          ref={'child1'}
+          ref={"child1"}
         />
-        <ModalDeleteTramite modaldelete={this.state.modaldel} ref={'child2'} />
+        <ModalDeleteTramite
+          updateTable={this.getDataConglomerates}
+          modaldelete={this.state.modaldel}
+          ref={"child2"}
+        />
+        <ModalExport modalexport={this.state.modalexport} ref={"child3"} />
+        <ModalExport2 modalexport2={this.state.modalexport2} ref={"child4"} />
       </div>
     );
   }
@@ -199,4 +245,4 @@ class TableContentTramite extends Component {
 
 TableContentTramite.propTypes = {};
 
-export default withTranslation('translations')(TableContentTramite);
+export default withTranslation("translations")(TableContentTramite);

@@ -5,19 +5,15 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
   Col
 } from "reactstrap";
 import classnames from "classnames";
 import PropTypes from "prop-types";
-import FromCreate from "./components/FormCreateTipoTramite";
 import FormCreateTipoTramite from "./components/FormCreateTipoTramite";
 import TableContent from "./components/TableContentTramite";
 import FormUpload from "./components/FormUploadTramite";
+import { withTranslation } from "react-i18next";
 
 class TipoTramite extends Component {
   constructor(props) {
@@ -35,6 +31,7 @@ class TipoTramite extends Component {
     }
   };
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -45,7 +42,7 @@ class TipoTramite extends Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus " /> Registrar
+              <i className="fa fa-plus " /> {t("app_tipoTramite_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -55,7 +52,7 @@ class TipoTramite extends Component {
                 this.toggle("2");
               }}
             >
-              <i className={"fa fa-gear"} /> Administrar
+              <i className={"fa fa-gear"} /> {t("app_tipoTramite_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -65,7 +62,7 @@ class TipoTramite extends Component {
                 this.toggle("3");
               }}
             >
-              <i className={"fa fa-upload"} /> Importar
+              <i className={"fa fa-upload"} /> {t("app_tipoTramite_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -96,5 +93,7 @@ class TipoTramite extends Component {
     );
   }
 }
-
-export default TipoTramite;
+TipoTramite.propTypes = {
+  t: PropTypes.any
+};
+export default withTranslation("translations")(TipoTramite);

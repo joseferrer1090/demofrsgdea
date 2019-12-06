@@ -1,17 +1,18 @@
-import React from "react";
-import RolesForm from "./Forms/RolesForm";
+import React from 'react';
+import PropTypes from 'prop-types';
+import RolesForm from './Forms/RolesForm';
 
 // import ListaRoles from "./../componentsPermission/ListaRoles";
 // import NuevaListaRoles from "./../componentsPermission/NuevaListaRoles";
 
 const dataRoles = {
-  codigo: "",
-  nombre: "",
-  descripcion: "",
+  codigo: '',
+  nombre: '',
+  descripcion: '',
   modulos: [],
   entidades: [],
   entidades_search: [],
-  estado: "",
+  estado: '',
   permisos: []
 };
 
@@ -43,6 +44,10 @@ const FormCreateRoles = props => {
       </div>
     </div>
   );
+};
+
+FormCreateRoles.propTypes = {
+  roles: PropTypes.object.isRequired
 };
 
 export default FormCreateRoles;

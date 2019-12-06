@@ -1,6 +1,9 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
+import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { Formik, ErrorMessage, Field } from 'formik';
+import * as Yup from 'yup';
+import SIGNIN from './../../../assets/img/favicon.ico';
 import {
   Button,
   Card,
@@ -13,64 +16,267 @@ import {
   InputGroup,
   InputGroupAddon,
   InputGroupText,
-  Row
-} from "reactstrap";
+  Row,
+  Alert
+} from 'reactstrap';
 
 class Forgot extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: ""
+      email: '',
+      alertError: false,
+      failed: false,
+      alertError404: false,
+      alertError400: false,
+      alertSuccess: false
     };
   }
 
+  onDismiss = () => {
+    this.setState({
+      alertError: false,
+      failed: false
+    });
+  };
   handleChangeInput = e => {
     this.setState({
       [e.target.name]: e.target.value
     });
+    // console.log(this.state.username);
   };
 
+  showEmail = email => {
+    console.log(email);
+  };
   render() {
+    const email = this.state.email;
     return (
-      <div className="app flex-row align-items-center">
-        <Container>
-          <Row className="justify-content-center">
-            <Col md="7">
-              <CardGroup>
-                <Card className="p-4">
-                  <CardBody>
-                    <Form>
-                      <h1 className="text-center">Recuperar contraseña</h1>
-                      <p className="text-center text-muted">
-                        Se enviará un correo al administrador del sistema para
-                        generar una nueva contraseña.
-                      </p>
-                      <InputGroup className="mb-3">
-                        <InputGroupAddon addonType="prepend">
-                          <InputGroupText>
-                            <i className="icon-user" />
-                          </InputGroupText>
-                        </InputGroupAddon>
-                        <Input
-                          id="username"
-                          name="username"
-                          type="text"
-                          placeholder="usuario"
-                          onChange={e => this.handleChangeInput(e)}
-                        />
-                      </InputGroup>
+      <Fragment>
+        <div className="app flex-row align-items-center">
+          <Formik
+            validationSchema={Yup.object().shape({
+              user_email: Yup.string()
+                .email(' Por favor introduzca un email valido.')
+                .required(' Por favor introduzca un email.')
+            })}
+            onSubmit={(values, { setSubmitting, resetForm }) => {
+              setTimeout(() => {
+                fetch(
+                  `http://192.168.10.180:8090/api/sgdea/service/configuration/user/password-reset-request`,
+                  {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'Access-Control-Allow-Origin': '*'
+                    },
+                    body: JSON.stringify({
+                      email: values.user_email
+                    })
+                  }
+                )
+                  .then(response => {
+                    if (response.status === 200) {
+                      this.setState({
+                        alertSuccess: false
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertSuccess: true
+                        });
+                      }, 1000);
+                      console.log(response.status);
+                    } else if (response.status === 404) {
+                      this.setState({
+                        alertError404: false
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError404: true
+                        });
+                      }, 1000);
+                      console.log(response.status);
+                    } else if (response.status === 500) {
+                      this.setState({
+                        alertError: false
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError: true
+                        });
+                      }, 1000);
+                      console.log(response.status);
+                    } else if (response.status === 400) {
+                      this.setState({
+                        alertError400: false
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError400: true
+                        });
+                      }, 1000);
+                      console.log(response.status);
+                    }
+                  })
+                  .catch(error => {
+                    console.log('', error);
+                    this.setState({
+                      failed: false
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        failed: true
+                      });
+                    }, 1000);
+                  });
+                setSubmitting(false);
+              }, 500);
+            }}
+          >
+            {props => {
+              const {
+                values,
+                touched,
+                errors,
+                handleChange,
+                handleBlur,
+                handleSubmit
+              } = props;
+              return (
+                <Fragment>
+                  <Container>
+                    <Row className="justify-content-center">
+                      <Col md="7">
+                        <CardGroup>
+                          <Card className="p-4">
+                            <CardBody>
+                              <Form>
+                                <h1 className="text-center">
+                                  Recuperar contraseña
+                                </h1>
+                                <p className="text-center text-muted">
+                                  Se enviará un correo electrónico para generar
+                                  una nueva contraseña.
+                                </p>
+                                <Alert
+                                  toggle={this.onDismiss}
+                                  color="danger"
+                                  isOpen={this.state.alertError}
+                                >
+                                  Error no se ha podido recuperar la contraseña.
+                                  Inténtelo más tarde.
+                                </Alert>
+                                <Alert
+                                  className="alert-dismissible"
+                                  color="info"
+                                  isOpen={this.state.alertSuccess}
+                                >
+                                  <i className="fa fa-envelope-square" />
+                                  &nbsp; Se ha enviado satisfactoriamente un
+                                  correo electrónico para la recuperación de la
+                                  contraseña. Por favor revise su bandeja de
+                                  entrada.
+                                </Alert>
+                                <Alert
+                                  className="alert-dismissible"
+                                  color="danger"
+                                  isOpen={this.state.alertError400}
+                                >
+                                  Error no se ha podido recuperar la contraseña.
+                                  Inténtelo nuevamente.
+                                </Alert>
+                                <Alert
+                                  className="alert-dismissible"
+                                  color="danger"
+                                  isOpen={this.state.alertError404}
+                                >
+                                  El correo electrónico ingresado no se
+                                  encuentra asociado a ningún usuario. Por favor
+                                  inténtelo nuevamente.
+                                </Alert>
+                                <Alert
+                                  toggle={this.onDismiss}
+                                  color="danger"
+                                  isOpen={this.state.failed}
+                                >
+                                  <i className="fa fa-exclamation-circle" />
+                                  &nbsp; Error, por favor inténtelo más tarde.
+                                </Alert>
+                                <InputGroup className="mb-3">
+                                  <InputGroupAddon addonType="prepend">
+                                    <InputGroupText>
+                                      <i className="fa fa-envelope-square" />
 
-                      <Row>
-                        <Col xs="12">
-                          <Link to="/" className="btn btn-secondary btn-block">
-                            <i className="fa fa-send" /> Recuperar contraseña
-                          </Link>
-                        </Col>
-                      </Row>
-                    </Form>
-                  </CardBody>
-                </Card>
-                {/* <Card
+                                      {/* <i className="icon-user" /> */}
+                                    </InputGroupText>
+                                  </InputGroupAddon>
+                                  <Input
+                                    id="email"
+                                    name={'user_email'}
+                                    type="text"
+                                    placeholder="Email"
+                                    // onChange={e => this.handleChangeInput(e)}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.user_email}
+                                    className={`form-control form-control-md ${errors.user_email &&
+                                      touched.user_email &&
+                                      'is-invalid'}`}
+                                    /*
+                                    name={'usuario_email'}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.usuario_email}
+                                    type="text"
+                                    className={`form-control form-control-sm ${errors.usuario_email &&
+                                      touched.usuario_email &&
+                                      'is-invalid'}`}*/
+                                  />
+                                </InputGroup>
+                                <div className="text-center">
+                                  <div style={{ color: '#D54B4B' }}>
+                                    {errors.user_email && touched.user_email ? (
+                                      <i className="fa fa-exclamation-triangle" />
+                                    ) : null}
+                                    <ErrorMessage name="user_email" />
+                                  </div>
+                                </div>
+                                <br />
+                                <Row>
+                                  <Col xs="12">
+                                    <Button
+                                      onClick={e => {
+                                        e.preventDefault();
+                                        handleSubmit();
+                                      }}
+                                      type="button"
+                                      className="btn btn-secondary btn-block"
+                                    >
+                                      <i className="fa fa-send" />
+                                      &nbsp; Recuperar contraseña
+                                    </Button>
+                                  </Col>
+                                </Row>
+                                <br />
+                                <Row>
+                                  <Col xs="12">
+                                    <Link
+                                      to="/"
+                                      className="btn btn-dark btn-block"
+                                    >
+                                      <img
+                                        src={SIGNIN}
+                                        width={20}
+                                        height={20}
+                                      />
+                                      &nbsp; Iniciar sesión
+                                    </Link>
+                                  </Col>
+                                </Row>
+                              </Form>
+                            </CardBody>
+                          </Card>
+                          {/* <Card
                   className="text-black bg-secondary py-5 d-md-down-none"
                   style={{ width: "44%" }}
                 >
@@ -91,11 +297,16 @@ class Forgot extends Component {
                     </div>
                   </CardBody>
                 </Card> */}
-              </CardGroup>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+                        </CardGroup>
+                      </Col>
+                    </Row>
+                  </Container>
+                </Fragment>
+              );
+            }}
+          </Formik>
+        </div>
+      </Fragment>
     );
   }
 }

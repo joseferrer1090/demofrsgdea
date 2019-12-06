@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Row, Col } from "reactstrap";
+import { Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalView from "./ModalViewGrupo";
 import ModalDelete from "./ModalDeleteGrupo";
@@ -8,6 +8,8 @@ import ModalExport from "./ModalExportCSV";
 import "./../../../css/styleTableGrupoUsuarios.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import moment from "moment";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class TableContent extends Component {
   constructor(props) {
@@ -80,7 +82,7 @@ class TableContent extends Component {
           {" "}
           <i className="fa fa-trash" />{" "}
         </button>
-          &nbsp;
+        &nbsp;
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -99,7 +101,7 @@ class TableContent extends Component {
     let status;
     if (row.status === 1) {
       status = <p className="text-success"> Activo </p>;
-    } else if (row.status === 0 ) {
+    } else if (row.status === 0) {
       status = <p className="text-danger"> Inactivo </p>;
     }
     return status;
@@ -113,13 +115,13 @@ class TableContent extends Component {
     this.refs.child3.toggle(id);
   };
 
-  openModalDelete = (id) => {
+  openModalDelete = id => {
     this.refs.child2.toggle(id);
   };
 
-  opneModalExport = (id) => {
+  opneModalExport = id => {
     this.refs.child4.toggle(id);
-  }
+  };
 
   FechaCreacionRoles(cell, row) {
     let createdAt;
@@ -132,6 +134,7 @@ class TableContent extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Col md="12">
@@ -141,7 +144,9 @@ class TableContent extends Component {
             hover
             striped
             search
-            searchPlaceholder="Buscar"
+            searchPlaceholder={t(
+              "app_grupoUsuarios_table_administrar_placeholder"
+            )}
             pagination
             className="tableGUsu texto-GUsu"
           >
@@ -165,7 +170,7 @@ class TableContent extends Component {
             </TableHeaderColumn>
             <TableHeaderColumn dataField="code" dataAlign="center" width={"80"}>
               {" "}
-              Codigo{" "}
+              {t("app_grupoUsuarios_table_administrar_codigo")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
@@ -173,7 +178,7 @@ class TableContent extends Component {
               width={"100"}
             >
               {" "}
-              Nombre{" "}
+              {t("app_grupoUsuarios_table_administrar_nombre")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={"80"}
@@ -182,7 +187,7 @@ class TableContent extends Component {
               dataFormat={(cell, row) => this.EstadoGrupo(cell, row)}
             >
               {" "}
-              Estado{" "}
+              {t("app_grupoUsuarios_table_administrar_estado")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
               width={"80"}
@@ -192,7 +197,7 @@ class TableContent extends Component {
               dataFormat={(cell, row) => this.FechaCreacionRoles(cell, row)}
             >
               {" "}
-              Fecha de creacion{" "}
+              {t("app_grupoUsuarios_table_administrar_fecha_creacion")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
               export={false}
@@ -201,17 +206,27 @@ class TableContent extends Component {
               width={"200"}
             >
               {" "}
-              Acciones{" "}
+              {t("app_grupoUsuarios_table_administrar_acciones")}{" "}
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
         <ModalView modalview={this.state.modalview} ref="child" />
-        <ModalDelete updateTable={this.getDataGroup}  modaldel={this.state.modaldelete} ref="child2" />
-        <ModalEdit updateTable={this.getDataGroup} modaledit={this.state.modaledit} ref="child3" />
+        <ModalDelete
+          updateTable={this.getDataGroup}
+          modaldel={this.state.modaldelete}
+          ref="child2"
+        />
+        <ModalEdit
+          updateTable={this.getDataGroup}
+          modaledit={this.state.modaledit}
+          ref="child3"
+        />
         <ModalExport modalexport={this.state.modalexport} ref="child4" />
       </div>
     );
   }
 }
-
-export default TableContent;
+TableContent.propTypes = {
+  t: PropTypes.any
+};
+export default withTranslation("translations")(TableContent);

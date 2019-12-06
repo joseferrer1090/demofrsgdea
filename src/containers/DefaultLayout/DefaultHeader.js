@@ -5,23 +5,16 @@ import Select from "react-select";
 import { options } from "./../../config/options";
 import { withTranslation } from "react-i18next";
 import {
-  Badge,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   Nav,
   NavItem,
-  NavLink,
   UncontrolledDropdown
 } from "reactstrap";
 import PropTypes from "prop-types";
-
-import {
-  AppAsideToggler,
-  AppHeaderDropdown,
-  AppNavbarBrand,
-  AppSidebarToggler
-} from "@coreui/react";
+import language from "./../../assets/img/language.png";
+import { AppNavbarBrand, AppSidebarToggler } from "@coreui/react";
 
 import logo from "../../assets/img/sevenet_ori.svg";
 import sygnet from "../../assets/img/sevenet_ori.svg";
@@ -47,20 +40,25 @@ class DefaultHeader extends Component {
   //   browserHistory.push("/path");
   // };
 
-  changeLang = lang => {
+  changeLanguaje = lang => {
     const { i18n } = this.props;
-    const { value } = lang;
     this.setState({
       lang
     });
-    i18n.changeLanguage(value);
+    i18n.changeLanguage(lang);
   };
 
   render() {
-    // eslint-disable-next-line
     const { children, ...attributes } = this.props;
     const { t } = this.props;
     const { lang } = this.state.lang;
+    const optionlanguage = options.map((aux, idx) => {
+      return (
+        <option key={idx} value={aux.value}>
+          {aux.label}
+        </option>
+      );
+    });
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -79,41 +77,26 @@ class DefaultHeader extends Component {
           }}
         />
         <AppSidebarToggler className="d-md-down-none" display="lg" />
-
         <Nav className="d-md-down-none" navbar>
-          {/* <NavItem className="px-3">
-            <NavLink href="/">Dashboard</NavLink>
-          </NavItem> */}
-          <NavItem className="px-4">
-            <Select
-              defaultValue={options[0]}
-              options={options}
-              value={lang}
-              onChange={this.changeLang}
-              className=""
-            />
+          <NavItem className="">
+            <img src={language} style={{ width: 20, height: 20 }} />
           </NavItem>
-          {/* <NavItem className="px-3">
-            <NavLink href="#">Settings</NavLink>
-          </NavItem> */}
+          <NavItem className="">
+            <select
+              className="form-control form-control-sm"
+              style={{ borderColor: "#9CAEB2" }}
+              defaultValue={options[0].value}
+              value={lang}
+              onChange={e => this.changeLanguaje(e.target.value)}
+            >
+              <option value={""} disabled style={{ background: "#D8E3E6" }}>
+                -- &nbsp; {t("language")} &nbsp; --
+              </option>
+              {optionlanguage}
+            </select>
+          </NavItem>
         </Nav>
         <Nav className="ml-auto" navbar>
-          {/* <NavItem className="d-md-down-none">
-            <NavLink href="#">
-              <i className="icon-bell"></i>
-              <Badge pill color="danger">
-                5
-              </Badge>
-            </NavLink>
-          </NavItem> */}
-          {/* <NavItem className="d-md-down-none">
-            <NavLink href="#"><i className="icon-list"></i></NavLink>
-          </NavItem> */}
-          {/* <NavItem className="d-md-down-none">
-            <NavLink href="#">
-              <i className="icon-location-pin" />
-            </NavLink>
-          </NavItem> */}
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav style={{ marginRight: "4px !important" }}>
               {t("userLogged")}
@@ -159,8 +142,6 @@ class DefaultHeader extends Component {
             </DropdownMenu>
           </UncontrolledDropdown>
         </Nav>
-        {/* <AppAsideToggler className="d-md-down-none" />
-        <AppAsideToggler className="d-lg-none" mobile /> */}
       </React.Fragment>
     );
   }

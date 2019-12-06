@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Formik, withFormik, ErrorMessage, Field } from "formik";
+import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { RadioButtonSi, RadioButtonNo } from './radio-buttons';
 import {
@@ -8,8 +8,7 @@ import {
   CardFooter,
   CardBody,
   Col,
-  Row,
-  Collapse
+  Row
 } from "reactstrap";
 
 const SI = { label: 'Si', value: 'true' };
@@ -20,13 +19,10 @@ const AutomaticoForm = props =>{
     values,
     touched,
     errors,
-    dirty,
     isSubmitting,
     handleChange,
-    setFieldValue,
     handleBlur,
     handleSubmit,
-    handleReset
   } = props;
   const [inputs, setInputs] = useState(null);
   const [collapse, setCollapse] = useState(false);

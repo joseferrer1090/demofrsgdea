@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import NamePermission from "./NamePermission";
+import React from 'react';
+import NamePermission from './NamePermission';
 
 export default ({ favourites, data, deleteFavourite }) => {
   const hasFavourites = favourites.length > 0;
@@ -16,7 +16,7 @@ export default ({ favourites, data, deleteFavourite }) => {
   return (
     <div className="favourites">
       <h4>
-        {hasFavourites ? "Your Shortlist" : "Click on a name to shortlist it.."}
+        {hasFavourites ? 'Your Shortlist' : 'Click on a name to shortlist it..'}
       </h4>
       <ul>{favList}</ul>
       {hasFavourites && <hr />}

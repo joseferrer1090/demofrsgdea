@@ -1,32 +1,25 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
 import {
   TabContent,
   TabPane,
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
-  Col,
-  CardBody,
-  CardFooter,
-  CardHeader
-} from 'reactstrap';
-import classnames from 'classnames';
-import FormCreateSedes from './components/FormCreateSedes';
-import TableContent from './components/TableContentSedes';
-import FormImport from './components/FormUploadSedes';
-import { withTranslation } from 'react-i18next';
+  Col
+} from "reactstrap";
+import classnames from "classnames";
+import FormCreateSedes from "./components/FormCreateSedes";
+import TableContent from "./components/TableContentSedes";
+import FormImport from "./components/FormUploadSedes";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class Sedes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: '1'
+      activeTab: "1"
     };
   }
 
@@ -45,32 +38,32 @@ class Sedes extends Component {
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '1' })}
+              className={classnames({ active: this.state.activeTab === "1" })}
               onClick={() => {
-                this.toggle('1');
+                this.toggle("1");
               }}
             >
-              <i className="fa fa-plus" /> {t('app_sedes_tab')}
+              <i className="fa fa-plus" /> {t("app_sedes_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '2' })}
+              className={classnames({ active: this.state.activeTab === "2" })}
               onClick={() => {
-                this.toggle('2');
+                this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> {t('app_sedes_tab_2')}
+              <i className="fa fa-gear" /> {t("app_sedes_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '3' })}
+              className={classnames({ active: this.state.activeTab === "3" })}
               onClick={() => {
-                this.toggle('3');
+                this.toggle("3");
               }}
             >
-              <i className="fa fa-upload" /> {t('app_sedes_tab_3')}
+              <i className="fa fa-upload" /> {t("app_sedes_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -102,6 +95,8 @@ class Sedes extends Component {
   }
 }
 
-Sedes.propTypes = {};
+Sedes.propTypes = {
+  t: PropTypes.any
+};
 
-export default withTranslation('translations')(Sedes);
+export default withTranslation("translations")(Sedes);

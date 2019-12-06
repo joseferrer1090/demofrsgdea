@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from "reactstrap";
-import { CSVLink, CSVDownload } from "react-csv";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { CSVLink } from "react-csv";
 import { Parser } from "json2csv";
 
 class ModalExportCSV extends Component {
@@ -10,7 +10,8 @@ class ModalExportCSV extends Component {
     this.state = {
       modal: this.props.modalexport,
       dataExport: [],
-      username: "ccuartas"
+      username: "ccuartas",
+      t: this.props.t
     };
   }
   toggle = () => {
@@ -86,25 +87,25 @@ class ModalExportCSV extends Component {
 
     const json2csvParser = new Parser({ fields, quote: "" });
     const csv = json2csvParser.parse(data);
-    // console.log(csv);
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Exportar usuarios</ModalHeader>
+          <ModalHeader>{t("app_usuarios_modal_exportar_titulo")}</ModalHeader>
           <ModalBody>
             <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
               <thead className="">
                 <tr className="">
-                  <th>identificacion</th>
-                  <th>nombre</th>
-                  <th>email</th>
-                  <th>telefono</th>
-                  <th>direccion</th>
-                  <th>fecha de nacimiento</th>
-                  <th>usuario</th>
-                  <th>estado</th>
-                  <th>dependencia</th>
-                  <th>cargo</th>
+                  <th>{t("app_usuarios_modal_exportar_identificacion")}</th>
+                  <th>{t("app_usuarios_modal_exportar_nombre")}</th>
+                  <th>{t("app_usuarios_modal_exportar_email")}</th>
+                  <th>{t("app_usuarios_modal_exportar_telefono")}</th>
+                  <th>{t("app_usuarios_modal_exportar_direccion")}</th>
+                  <th>{t("app_usuarios_modal_exportar_fecha_nacimiento")}</th>
+                  <th>{t("app_usuarios_modal_exportar_usuario")}</th>
+                  <th>{t("app_usuarios_modal_exportar_estado")}</th>
+                  <th>{t("app_usuarios_modal_exportar_dependencia")}</th>
+                  <th>{t("app_usuarios_modal_exportar_cargo")}</th>
                 </tr>
               </thead>
               <tbody className="text-justify">
@@ -135,21 +136,23 @@ class ModalExportCSV extends Component {
               }}
             >
               {" "}
-              <i className="fa fa-times" /> Cerrar
+              <i className="fa fa-times" />{" "}
+              {t("app_usuarios_modal_exportar_boton_cerrar")}
             </button>
-
             <CSVLink data={csv} className="btn btn-secondary btn-sm">
-              <i className="fa fa-download" /> Descargar CSV
+              <i className="fa fa-download" />{" "}
+              {t("app_usuarios_modal_exportar_descargar_CSV")}
             </CSVLink>
-            {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
-              {" "}
-              <i className="fa fa-download" /> Exportar CSV{" "}
-            </CSVDownload> */}
           </ModalFooter>
         </Modal>
       </Fragment>
     );
   }
 }
+
+ModalExportCSV.propTypes = {
+  modalexport: PropTypes.bool.isRequired,
+  t: PropTypes.any
+};
 
 export default ModalExportCSV;

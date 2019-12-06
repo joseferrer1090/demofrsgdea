@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   Nav,
   NavItem,
@@ -8,18 +8,18 @@ import {
   TabPane,
   Row,
   Col
-} from 'reactstrap';
-import classnames from 'classnames';
-import FormCreateUsers from './components/FormCreateUser';
-import UploadUsers from './components/FormUploadUser';
-import TableContent from './components/TableContentUser';
-import { withTranslation } from 'react-i18next';
+} from "reactstrap";
+import classnames from "classnames";
+import FormCreateUsers from "./components/FormCreateUser";
+import UploadUsers from "./components/FormUploadUser";
+import TableContent from "./components/TableContentUser";
+import { withTranslation } from "react-i18next";
 
 class Usuarios extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: '1'
+      activeTab: "1"
     };
   }
 
@@ -32,38 +32,38 @@ class Usuarios extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '1' })}
+              className={classnames({ active: this.state.activeTab === "1" })}
               onClick={() => {
-                this.toggle('1');
+                this.toggle("1");
               }}
             >
-              <i className="fa fa-plus" /> {this.props.t('app_usuarios_tab')}
+              <i className="fa fa-plus" /> {t("app_usuarios_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '2' })}
+              className={classnames({ active: this.state.activeTab === "2" })}
               onClick={() => {
-                this.toggle('2');
+                this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> {this.props.t('app_usuarios_tab_2')}
+              <i className="fa fa-gear" /> {t("app_usuarios_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === '3' })}
+              className={classnames({ active: this.state.activeTab === "3" })}
               onClick={() => {
-                this.toggle('3');
+                this.toggle("3");
               }}
             >
-              <i className="fa fa-upload" />{' '}
-              {this.props.t('app_usuarios_tab_3')}
+              <i className="fa fa-upload" /> {t("app_usuarios_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -95,6 +95,8 @@ class Usuarios extends Component {
   }
 }
 
-Usuarios.propTypes = {};
+Usuarios.propTypes = {
+  t: PropTypes.any
+};
 
-export default withTranslation('translations')(Usuarios);
+export default withTranslation("translations")(Usuarios);

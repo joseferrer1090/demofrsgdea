@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Row, Col } from 'reactstrap';
-import ModalViewMensajero from './ModalViewMensajero';
-import ModalUpdate from './ModalActualizarMensajero';
-import Modaldelete from './ModalDeleteMensajero';
-import ModalExport from './ModalExportCSV';
-import './../../../css/styleTableMensajero.css';
-import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import { MESSENGERS } from './../../../services/EndPoints';
-import moment from 'moment';
-import { withTranslation } from 'react-i18next';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import { Row, Col } from "reactstrap";
+import ModalViewMensajero from "./ModalViewMensajero";
+import ModalUpdate from "./ModalActualizarMensajero";
+import Modaldelete from "./ModalDeleteMensajero";
+import ModalExport from "./ModalExportCSV";
+import "./../../../css/styleTableMensajero.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import { MESSENGERS } from "./../../../services/EndPoints";
+import moment from "moment";
+import { withTranslation } from "react-i18next";
 
 class TableContentMensajero extends Component {
   constructor(props) {
@@ -31,10 +31,10 @@ class TableContentMensajero extends Component {
 
   getDataMessenger = () => {
     fetch(MESSENGERS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -43,12 +43,12 @@ class TableContentMensajero extends Component {
           dataMessengers: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   accionesMensajero(cell, row) {
     return (
-      <div className="table-actionMenuMensj" style={{ marginRight: '60px' }}>
+      <div className="table-actionMenuMensj" style={{ marginRight: "60px" }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -56,8 +56,8 @@ class TableContentMensajero extends Component {
             this.openModalView(row.id);
           }}
         >
-          {' '}
-          <i className="fa fa-eye" />{' '}
+          {" "}
+          <i className="fa fa-eye" />{" "}
         </button>
         &nbsp;
         <button
@@ -84,19 +84,13 @@ class TableContentMensajero extends Component {
   }
 
   EstadoMensajero = (cell, row) => {
+    const { t } = this.props;
     let status;
     if (row.status === 1) {
-      status = (
-        <b className="text-success">
-          {this.props.t('app_tablas_estado_activo')}
-        </b>
-      );
+      status = <b className="text-success">{t("app_tablas_estado_activo")}</b>;
     } else if (row.status === 0) {
       status = (
-        <b className="text-danger">
-          {' '}
-          {this.props.t('app_tablas_estado_inactivo')}{' '}
-        </b>
+        <b className="text-danger"> {t("app_tablas_estado_inactivo")} </b>
       );
     }
     return status;
@@ -105,7 +99,7 @@ class TableContentMensajero extends Component {
   FechaCreacionMensajero(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format('YYYY-MM-DD');
+    return moment(createdAt).format("YYYY-MM-DD");
   }
 
   openModalView = id => {
@@ -129,14 +123,15 @@ class TableContentMensajero extends Component {
   }
 
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" />{' '}
-        {this.props.t('app_mensajero_administrar_table_boton_exportar')}
+        <i className="fa fa-download" />{" "}
+        {t("app_mensajero_administrar_table_boton_exportar")}
       </button>
     );
   };
@@ -160,21 +155,21 @@ class TableContentMensajero extends Component {
               search={true}
               exportCSV
               searchPlaceholder={t(
-                'app_mensajero_administrar_table_placeholder'
+                "app_mensajero_administrar_table_placeholder"
               )}
               className="tableMensj texto-Mensj"
             >
               <TableHeaderColumn
                 export={false}
                 isKey
-                dataField={'id'}
+                dataField={"id"}
                 hidden={this.state.hiddenColumnID}
               />
               <TableHeaderColumn
                 dataSort={true}
                 dataFormat={this.indexN}
-                width={'50'}
-                dataField={'id'}
+                width={"50"}
+                dataField={"id"}
                 dataAlign="center"
               >
                 #
@@ -182,52 +177,52 @@ class TableContentMensajero extends Component {
               <TableHeaderColumn
                 dataField="identification"
                 dataAlign="center"
-                width={'140'}
+                width={"140"}
               >
-                {t('app_mensajero_administrar_table_identificacion')}
+                {t("app_mensajero_administrar_table_identificacion")}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="name"
                 dataAlign="center"
-                width={'120'}
+                width={"120"}
               >
-                {t('app_mensajero_administrar_table_nombre')}{' '}
+                {t("app_mensajero_administrar_table_nombre")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="description"
                 dataAlign="center"
-                width={'200'}
+                width={"200"}
               >
-                {t('app_mensajero_administrar_table_descripción')}{' '}
+                {t("app_mensajero_administrar_table_descripción")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataSort={true}
-                dataField={'createdAt'}
+                dataField={"createdAt"}
                 dataFormat={(cell, row) =>
                   this.FechaCreacionMensajero(cell, row)
                 }
                 dataAlign="center"
-                width={'150'}
+                width={"150"}
               >
-                {t('app_mensajero_administrar_table_fecha_creacion')}
+                {t("app_mensajero_administrar_table_fecha_creacion")}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={'100'}
+                width={"100"}
                 dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.EstadoMensajero(cell, row)}
               >
-                {' '}
-                {t('app_mensajero_administrar_table_estado')}{' '}
+                {" "}
+                {t("app_mensajero_administrar_table_estado")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={'120'}
+                width={"120"}
                 export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesMensajero(cell, row)}
               >
-                {' '}
-                {t('app_mensajero_administrar_table_acciones')}{' '}
+                {" "}
+                {t("app_mensajero_administrar_table_acciones")}{" "}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
@@ -235,30 +230,32 @@ class TableContentMensajero extends Component {
         <ModalViewMensajero
           t={this.props.t}
           modalview={this.state.modalView}
-          ref={'child'}
+          ref={"child"}
         />
         <ModalUpdate
           t={this.props.t}
           modalupdate={this.state.modalUpdate}
           updateTable={this.getDataMessenger}
-          ref={'child2'}
+          ref={"child2"}
         />
         <Modaldelete
           t={this.props.t}
           modaldelete={this.state.modaldelte}
           updateTable={this.getDataMessenger}
-          ref={'child3'}
+          ref={"child3"}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref={'child4'}
+          ref={"child4"}
         />
       </div>
     );
   }
 }
 
-TableContentMensajero.propTypes = {};
+TableContentMensajero.propTypes = {
+  t: PropTypes.any
+};
 
-export default withTranslation('translations')(TableContentMensajero);
+export default withTranslation("translations")(TableContentMensajero);

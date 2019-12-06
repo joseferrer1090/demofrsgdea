@@ -14,7 +14,6 @@ import {
 } from "reactstrap";
 import IMGGROUPOS from "./../../../assets/img/multiple-users-silhouette.svg";
 import moment from "moment";
-import Select from "react-select";
 
 class ModalViewPais extends Component {
   constructor(props) {
@@ -233,7 +232,9 @@ class ModalViewPais extends Component {
 }
 
 ModalViewPais.propTypes = {
-  modalview: PropTypes.bool.isRequired
+  modalview: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalViewPais;

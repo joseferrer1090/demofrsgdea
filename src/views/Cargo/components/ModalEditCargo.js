@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import {
   Row,
   Col,
@@ -7,31 +7,26 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Card,
-  CardBody,
-  CardHeader,
-  CardFooter,
   CustomInput,
-  Table,
   Alert
-} from 'reactstrap';
-import { Formik, withFormik, ErrorMessage, Field } from 'formik';
-import * as Yup from 'yup';
-import IMGCARGO from './../../../assets/img/employee.svg';
-import { CHARGE, CHARGES } from '../../../services/EndPoints';
+} from "reactstrap";
+import { Formik, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
+import IMGCARGO from "./../../../assets/img/employee.svg";
+import { CHARGES } from "../../../services/EndPoints";
 
 class ModalEditCargo extends React.Component {
   state = {
     modal: this.props.modaledit,
     id: this.props.id,
     dataCharge: {},
-    userName: 'jferrer',
+    userName: "jferrer",
     alertError: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
     status: 0,
-    username: 'ccuartas'
+    username: "ccuartas"
   };
 
   toggle = id => {
@@ -46,10 +41,10 @@ class ModalEditCargo extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/charge/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -59,7 +54,7 @@ class ModalEditCargo extends React.Component {
           dataCharge: data
         });
       })
-      .catch(Error, console.log('Error', Error));
+      .catch(Error, console.log("Error", Error));
   };
   onDismiss = () => {
     this.setState({
@@ -70,25 +65,26 @@ class ModalEditCargo extends React.Component {
 
   render() {
     const datainit = this.state.dataCharge;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {this.props.t('app_cargo_modal_actualizar_titulo')}{' '}
-            {this.state.dataCharge.name}{' '}
+            {t("app_cargo_modal_actualizar_titulo")}{" "}
+            {this.state.dataCharge.name}{" "}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
             initialValues={datainit}
             validationSchema={Yup.object().shape({
               code: Yup.string()
-                .required(' Por favor introduzca un código alfanumérico.')
-                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
-                .min(2, ' Mínimo 2 caracteres.')
-                .max(15, ' Máximo 15 caracteres.'),
-              name: Yup.string().required(' Por favor introduzca un nombre.'),
-              description: Yup.string().max(250, ' Máximo 250 caracteres.'),
-              status: Yup.bool().test('Activado', '', value => value === true)
+                .required(" Por favor introduzca un código alfanumérico.")
+                .matches(/^[0-9a-zA-Z]+$/, " No es un código alfanumérico.")
+                .min(2, " Mínimo 2 caracteres.")
+                .max(15, " Máximo 15 caracteres."),
+              name: Yup.string().required(" Por favor introduzca un nombre."),
+              description: Yup.string().max(250, " Máximo 250 caracteres."),
+              status: Yup.bool().test("Activado", "", value => value === true)
             })}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
@@ -103,10 +99,10 @@ class ModalEditCargo extends React.Component {
                 };
 
                 fetch(CHARGES, {
-                  method: 'PUT',
+                  method: "PUT",
                   headers: {
-                    Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-                    'Content-Type': 'application/json'
+                    Authorization: "Basic " + window.btoa("sgdea:123456"),
+                    "Content-Type": "application/json"
                   },
                   body: JSON.stringify({
                     code: values.code,
@@ -152,7 +148,7 @@ class ModalEditCargo extends React.Component {
                       }, 500);
                     }
                   })
-                  .catch(error => console.log('', error));
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 1000);
             }}
@@ -162,26 +158,22 @@ class ModalEditCargo extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset
+                t
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {this.props.t('app_cargo_modal_actualizar_alert_error')}
+                      {t("app_cargo_modal_actualizar_alert_error")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {this.props.t(
-                        'app_cargo_modal_actualizar_alert_error400'
-                      )}
+                      {t("app_cargo_modal_actualizar_alert_error400")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t('app_cargo_modal_actualizar_alert_success')}
+                      {t("app_cargo_modal_actualizar_alert_success")}
                     </Alert>
                     <form className="form">
                       <Row>
@@ -190,29 +182,25 @@ class ModalEditCargo extends React.Component {
                         </Col>
                         <Col sm="9">
                           <div className="">
-                            {' '}
+                            {" "}
                             <h5
                               className=""
-                              style={{ borderBottom: '1px solid black' }}
+                              style={{ borderBottom: "1px solid black" }}
                             >
-                              {' '}
-                              {this.props.t(
-                                'app_cargo_modal_actualizar_titulo_2'
-                              )}{' '}
-                            </h5>{' '}
+                              {" "}
+                              {t("app_cargo_modal_actualizar_titulo_2")}{" "}
+                            </h5>{" "}
                           </div>
                           <div className="row">
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  {this.props.t(
-                                    'app_cargo_modal_actualizar_codigo'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                  {t("app_cargo_modal_actualizar_codigo")}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                   <dd>
-                                    {' '}
+                                    {" "}
                                     <input
-                                      name={'code'}
+                                      name={"code"}
                                       type="text"
                                       placeholder=""
                                       onChange={handleChange}
@@ -220,13 +208,13 @@ class ModalEditCargo extends React.Component {
                                       value={values.code}
                                       className={`form-control form-control-sm ${errors.code &&
                                         touched.code &&
-                                        'is-invalid'}`}
+                                        "is-invalid"}`}
                                     />
-                                    <div style={{ color: '#D54B4B' }}>
+                                    <div style={{ color: "#D54B4B" }}>
                                       {errors.code && touched.code ? (
                                         <i className="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name={'code'} />
+                                      <ErrorMessage name={"code"} />
                                     </div>
                                   </dd>
                                 </dl>
@@ -235,13 +223,11 @@ class ModalEditCargo extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <dl className="param">
-                                  {this.props.t(
-                                    'app_cargo_modal_actualizar_nombre'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                  {t("app_cargo_modal_actualizar_nombre")}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                   <dd>
                                     <input
-                                      name={'name'}
+                                      name={"name"}
                                       type="text"
                                       placeholder=""
                                       onChange={handleChange}
@@ -249,13 +235,13 @@ class ModalEditCargo extends React.Component {
                                       value={values.name}
                                       className={`form-control form-control-sm ${errors.name &&
                                         touched.name &&
-                                        'is-invalid'}`}
+                                        "is-invalid"}`}
                                     />
-                                    <div style={{ color: '#D54B4B' }}>
+                                    <div style={{ color: "#D54B4B" }}>
                                       {errors.name && touched.name ? (
                                         <i className="fa fa-exclamation-triangle" />
                                       ) : null}
-                                      <ErrorMessage name={'name'} />
+                                      <ErrorMessage name={"name"} />
                                     </div>
                                   </dd>
                                 </dl>
@@ -264,13 +250,11 @@ class ModalEditCargo extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <dl className="param">
-                                  {this.props.t(
-                                    'app_cargo_modal_actualizar_descripcion'
-                                  )}
+                                  {t("app_cargo_modal_actualizar_descripcion")}
                                   <dd>
-                                    {' '}
+                                    {" "}
                                     <textarea
-                                      name={'description'}
+                                      name={"description"}
                                       className="form-control form-control-sm"
                                       placeholder=""
                                       onChange={handleChange}
@@ -285,11 +269,11 @@ class ModalEditCargo extends React.Component {
                               <div className="form-group">
                                 <dl className="param">
                                   <label>
-                                    {' '}
-                                    {this.props.t(
-                                      'app_cargo_modal_actualizar_estado'
-                                    )}{' '}
-                                    <span className="text-danger">*</span>{' '}
+                                    {" "}
+                                    {t(
+                                      "app_cargo_modal_actualizar_estado"
+                                    )}{" "}
+                                    <span className="text-danger">*</span>{" "}
                                   </label>
                                   <div className="text-justify">
                                     <Field
@@ -299,15 +283,15 @@ class ModalEditCargo extends React.Component {
                                           <CustomInput
                                             type="checkbox"
                                             id="CheckBoxEditRoles"
-                                            label={this.props.t(
-                                              'app_cargo_modal_actualizar_estado_descripcion'
+                                            label={t(
+                                              "app_cargo_modal_actualizar_estado_descripcion"
                                             )}
                                             {...field}
                                             checked={field.value}
                                             className={
                                               errors.status &&
                                               touched.status &&
-                                              'invalid-feedback'
+                                              "invalid-feedback"
                                             }
                                           />
                                         );
@@ -326,26 +310,24 @@ class ModalEditCargo extends React.Component {
                   <ModalFooter>
                     <button
                       type="button"
-                      className={'btn btn-outline-success btn-sm'}
+                      className={"btn btn-outline-success btn-sm"}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-pencil" />{' '}
-                      {this.props.t(
-                        'app_cargo_modal_actualizar_button_actualizar'
-                      )}
+                      <i className="fa fa-pencil" />{" "}
+                      {t("app_cargo_modal_actualizar_button_actualizar")}
                     </button>
                     <button
-                      className={'btn btn-outline-secondary btn-sm'}
+                      className={"btn btn-outline-secondary btn-sm"}
                       type="button"
                       onClick={() => {
                         this.setState({ modal: false });
                       }}
                     >
-                      <i className="fa fa-times" />{' '}
-                      {this.props.t('app_cargo_modal_actualizar_button_cerrar')}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_cargo_modal_actualizar_button_cerrar")}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -357,5 +339,9 @@ class ModalEditCargo extends React.Component {
     );
   }
 }
+ModalEditCargo.propTypes = {
+  modaledit: PropTypes.bool.isRequired,
+  t: PropTypes.any
+};
 
 export default ModalEditCargo;

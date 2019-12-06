@@ -1,11 +1,12 @@
-import React from "react";
-import MensajeroForm from "./Forms/MensajeroForm";
+import React from 'react';
+import PropTypes from 'prop-types';
+import MensajeroForm from './Forms/MensajeroForm';
 
 const dataMensajero = {
-  identification: "",
-  name: "",
-  description: "",
-  status: ""
+  identification: '',
+  name: '',
+  description: '',
+  status: ''
 };
 
 const FormCreateMensajero = () => {
@@ -16,6 +17,8 @@ const FormCreateMensajero = () => {
   );
 };
 
-FormCreateMensajero.propType = {};
+FormCreateMensajero.propType = {
+  mensajero: PropTypes.object.isRequired
+};
 
 export default FormCreateMensajero;

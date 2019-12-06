@@ -1,5 +1,5 @@
-import React, { useState, Fragment, useEffect } from "react";
-import { Formik, withFormik, ErrorMessage, Field } from "formik";
+import React, { Fragment } from "react";
+import { withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Row, Col, CustomInput } from "reactstrap";
 import { CsvToHtmlTable } from "react-csv-to-table";
@@ -12,7 +12,6 @@ const UploadFormGrupoUsuarios = props => {
     handleChange,
     handleBlur,
     handleSubmit,
-    handleReset,
     isSubmitting,
     setFieldValue
   } = props;
@@ -117,7 +116,6 @@ const UploadFormGrupoUsuarios = props => {
                       <input
                         name="archivo"
                         type="file"
-
                         onChange={event => {
                           setFieldValue(
                             event.target.name,
@@ -273,4 +271,4 @@ class PreviewFile extends React.Component {
 
     return <CsvToHtmlTable data={thumb} tableClassName={this.props.estilos} />;
   }
-};
+}

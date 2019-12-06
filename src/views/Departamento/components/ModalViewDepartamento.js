@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   Modal,
   ModalFooter,
@@ -7,9 +7,9 @@ import {
   ModalHeader,
   Row,
   Col
-} from 'reactstrap';
-import IMGDEPARTAMENTO from './../../../assets/img/map-marker.svg';
-import moment from 'moment';
+} from "reactstrap";
+import IMGDEPARTAMENTO from "./../../../assets/img/map-marker.svg";
+import moment from "moment";
 
 class ModalViewDepartamento extends Component {
   constructor(props) {
@@ -20,7 +20,7 @@ class ModalViewDepartamento extends Component {
       dataDepartamento: {},
       dataPais: {},
       t: this.props.t,
-      username: 'ccuartas'
+      username: "ccuartas"
     };
   }
 
@@ -32,10 +32,10 @@ class ModalViewDepartamento extends Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/department/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-          'Content-Type': 'application/json'
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
         }
       }
     )
@@ -46,18 +46,17 @@ class ModalViewDepartamento extends Component {
           dataDepartamento: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
   FechaCreacionDeparment(data) {
     let createdAt;
     createdAt = new Date(data);
-    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
+    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
   }
   FechaModificacionDeparment(data) {
     let updatedAt;
     updatedAt = new Date(data);
-    // moment.locale(es);
-    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
+    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
   }
 
   render() {
@@ -68,27 +67,22 @@ class ModalViewDepartamento extends Component {
       let status;
       if (data === 1) {
         status = (
-          <b className="text-success">
-            {this.props.t('app_tablas_estado_activo')}
-          </b>
+          <b className="text-success">{t("app_tablas_estado_activo")}</b>
         );
       } else if (data === 0) {
         status = (
-          <b className="text-danger">
-            {this.props.t('app_tablas_estado_inactivo')}
-          </b>
+          <b className="text-danger">{t("app_tablas_estado_inactivo")}</b>
         );
       }
       return status;
     };
-
+    const { t } = this.props;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {' '}
-            {this.props.t('app_departamento_modal_ver_titulo')}{' '}
-            {department.name}{' '}
+            {" "}
+            {t("app_departamento_modal_ver_titulo")} {department.name}{" "}
           </ModalHeader>
           <ModalBody>
             <Row>
@@ -97,76 +91,59 @@ class ModalViewDepartamento extends Component {
               </Col>
               <Col sm="9">
                 <div className="">
-                  {' '}
-                  <h5 className="" style={{ borderBottom: '1px solid black' }}>
-                    {' '}
-                    {this.props.t('app_departamento_modal_ver_titulo_2')}{' '}
-                  </h5>{' '}
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    {t("app_departamento_modal_ver_titulo_2")}{" "}
+                  </h5>{" "}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt>
-                        {' '}
-                        {this.props.t('app_departamento_modal_ver_pais')}{' '}
-                      </dt>
+                      <dt> {t("app_departamento_modal_ver_pais")} </dt>
                       <dd> {country.name} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt>
-                        {' '}
-                        {this.props.t('app_departamento_modal_ver_codigo')}{' '}
-                      </dt>
+                      <dt> {t("app_departamento_modal_ver_codigo")} </dt>
                       <dd> {department.code} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt>
-                        {' '}
-                        {this.props.t('app_departamento_modal_ver_nombre')}{' '}
-                      </dt>
+                      <dt> {t("app_departamento_modal_ver_nombre")} </dt>
                       <dd> {department.name} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt>
-                        {' '}
-                        {this.props.t('app_departamento_modal_ver_estado')}{' '}
-                      </dt>
+                      <dt> {t("app_departamento_modal_ver_estado")} </dt>
                       <dd> {statusDepartamento(department.status)} </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
-                      <dt>
-                        {' '}
-                        {this.props.t(
-                          'app_departamento_modal_ver_fecha_creacion'
-                        )}
-                      </dt>
+                      <dt> {t("app_departamento_modal_ver_fecha_creacion")}</dt>
                       <dd>
-                        {' '}
-                        {this.FechaCreacionDeparment(department.createdAt)}{' '}
+                        {" "}
+                        {this.FechaCreacionDeparment(department.createdAt)}{" "}
                       </dd>
                     </dl>
                   </div>
                   <div className="col-md-6">
                     <dl className="param">
                       <dt>
-                        {' '}
-                        {this.props.t(
-                          'app_departamento_modal_ver_fecha_modificacion'
-                        )}{' '}
+                        {" "}
+                        {t(
+                          "app_departamento_modal_ver_fecha_modificacion"
+                        )}{" "}
                       </dt>
                       <dd>
-                        {' '}
+                        {" "}
                         {this.FechaModificacionDeparment(
                           department.updatedAt
-                        )}{' '}
+                        )}{" "}
                       </dd>
                     </dl>
                   </div>
@@ -181,9 +158,9 @@ class ModalViewDepartamento extends Component {
                 this.setState({ modal: false });
               }}
             >
-              {' '}
-              <i className="fa fa-times" />{' '}
-              {this.props.t('app_departamento_modal_ver_cerrar')}{' '}
+              {" "}
+              <i className="fa fa-times" />{" "}
+              {t("app_departamento_modal_ver_cerrar")}{" "}
             </button>
           </ModalFooter>
         </Modal>
@@ -194,7 +171,8 @@ class ModalViewDepartamento extends Component {
 
 ModalViewDepartamento.propTypes = {
   modalview: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  id: PropTypes.string.isRequired
 };
 
 export default ModalViewDepartamento;

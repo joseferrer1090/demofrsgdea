@@ -1,16 +1,17 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Row, Col, Badge } from 'reactstrap';
-import ModalEdit from './ModalEditSedes';
-import ModalView from './ModalViewSedes';
-import ModalDelete from './ModalDeleteSedes';
-import ModalExport from './ModalExportCSV';
-import './../../../css/styleTableSedes.css';
-import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import { HEADQUARTERS } from './../../../services/EndPoints';
-import moment from 'moment';
-import { withTranslation } from 'react-i18next';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import { Row, Col } from "reactstrap";
+import ModalEdit from "./ModalEditSedes";
+import ModalView from "./ModalViewSedes";
+import ModalDelete from "./ModalDeleteSedes";
+import ModalExport from "./ModalExportCSV";
+import "./../../../css/styleTableSedes.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import { HEADQUARTERS } from "./../../../services/EndPoints";
+import moment from "moment";
+import { withTranslation } from "react-i18next";
+
 class TableContentSedes extends Component {
   constructor(props) {
     super(props);
@@ -30,10 +31,10 @@ class TableContentSedes extends Component {
 
   getDataHeadquarters = () => {
     fetch(HEADQUARTERS, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
     })
       .then(response => response.json())
@@ -42,30 +43,23 @@ class TableContentSedes extends Component {
           dataHeadquarters: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   SedesStatus = (cell, row) => {
+    const { t } = this;
     let status;
     if (row.status === 1)
-      status = (
-        <b className="text-success">
-          {this.props.t('app_tablas_estado_activo')}
-        </b>
-      );
+      status = <b className="text-success">{t("app_tablas_estado_activo")}</b>;
     else if (row.status === 0) {
-      status = (
-        <b className="text-danger">
-          {this.props.t('app_tablas_estado_inactivo')}
-        </b>
-      );
+      status = <b className="text-danger">{t("app_tablas_estado_inactivo")}</b>;
     }
     return status;
   };
 
   accionesSedes = (cell, row) => {
     return (
-      <div className="table-actionMenuSedes" style={{ marginRight: '60px' }}>
+      <div className="table-actionMenuSedes" style={{ marginRight: "60px" }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -73,8 +67,8 @@ class TableContentSedes extends Component {
             this.openModalView(row.id);
           }}
         >
-          {' '}
-          <i className="fa fa-eye" />{' '}
+          {" "}
+          <i className="fa fa-eye" />{" "}
         </button>
         &nbsp;
         <button
@@ -94,8 +88,8 @@ class TableContentSedes extends Component {
             this.openModalDelete(row.id);
           }}
         >
-          {' '}
-          <i className="fa fa-trash" />{' '}
+          {" "}
+          <i className="fa fa-trash" />{" "}
         </button>
       </div>
     );
@@ -124,18 +118,19 @@ class TableContentSedes extends Component {
   FechaCreacionSede(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format('YYYY-MM-DD');
+    return moment(createdAt).format("YYYY-MM-DD");
   }
 
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <button
         type="button"
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" />{' '}
-        {this.props.t('app_sedes_administrar_table_button_exportar')}
+        <i className="fa fa-download" />{" "}
+        {t("app_sedes_administrar_table_button_exportar")}
       </button>
     );
   };
@@ -162,21 +157,20 @@ class TableContentSedes extends Component {
                 pagination
                 bordered={false}
                 striped
-                searchPlaceholder={t('app_sedes_administrar_table_placeholder')}
+                searchPlaceholder={t("app_sedes_administrar_table_placeholder")}
                 exportCSV
                 className="tableSedes tableSedes1 texto-Sedes"
-                // headerStyle={{ height: "55px" }}
               >
                 <TableHeaderColumn
                   export={false}
                   isKey
-                  dataField={'id'}
+                  dataField={"id"}
                   hidden={this.state.hiddenColumnId}
                 />
                 <TableHeaderColumn
-                  dataField={'id'}
+                  dataField={"id"}
                   dataFormat={this.indexN}
-                  width={'50'}
+                  width={"50"}
                   dataAlign="center"
                   dataSort={true}
                 >
@@ -184,58 +178,58 @@ class TableContentSedes extends Component {
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
-                  dataField={'company'}
+                  dataField={"company"}
                   dataFormat={this.EmpresaInfo}
-                  dataAlign={'center'}
-                  width={'200'}
+                  dataAlign={"center"}
+                  width={"200"}
                   dataSort={true}
                 >
-                  {' '}
-                  {t('app_sedes_administrar_table_empresa')}{' '}
+                  {" "}
+                  {t("app_sedes_administrar_table_empresa")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  dataField={'code'}
+                  dataField={"code"}
                   dataAlign="center"
-                  width={'120'}
+                  width={"120"}
                   dataSort={true}
                 >
-                  {t('app_sedes_administrar_table_codigo')}
+                  {t("app_sedes_administrar_table_codigo")}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  dataField={'name'}
+                  dataField={"name"}
                   dataAlign="center"
-                  width={'250'}
+                  width={"250"}
                   dataSort={true}
                 >
-                  {t('app_sedes_administrar_table_nombre')}
+                  {t("app_sedes_administrar_table_nombre")}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   dataSort={true}
-                  dataField={'createdAt'}
+                  dataField={"createdAt"}
                   dataFormat={(cell, row) => this.FechaCreacionSede(cell, row)}
                   dataAlign="center"
-                  width={'140'}
+                  width={"140"}
                 >
-                  {t('app_sedes_administrar_table_fecha_creacion')}
+                  {t("app_sedes_administrar_table_fecha_creacion")}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  dataField={'status'}
+                  dataField={"status"}
                   dataFormat={(cell, row) => this.SedesStatus(cell, row)}
-                  dataAlign={'center'}
-                  width={'120'}
+                  dataAlign={"center"}
+                  width={"120"}
                   dataSort={true}
                 >
-                  {' '}
-                  {t('app_sedes_administrar_table_estado')}{' '}
+                  {" "}
+                  {t("app_sedes_administrar_table_estado")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   export={false}
                   dataAlign="center"
                   dataFormat={(cell, row) => this.accionesSedes(cell, row)}
-                  style={{ border: 'none' }}
+                  style={{ border: "none" }}
                 >
-                  {' '}
-                  {t('app_sedes_administrar_table_acciones')}{' '}
+                  {" "}
+                  {t("app_sedes_administrar_table_acciones")}{" "}
                 </TableHeaderColumn>
               </BootstrapTable>
             </div>
@@ -268,6 +262,8 @@ class TableContentSedes extends Component {
   }
 }
 
-TableContentSedes.propTypes = {};
+TableContentSedes.propTypes = {
+  t: PropTypes.any
+};
 
-export default withTranslation('translations')(TableContentSedes);
+export default withTranslation("translations")(TableContentSedes);

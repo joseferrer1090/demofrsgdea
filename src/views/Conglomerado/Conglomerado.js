@@ -1,31 +1,25 @@
-import React from "react";
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   TabContent,
   TabPane,
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
-  Col,
-  CardBody,
-  CardFooter,
-  CardHeader
-} from "reactstrap";
-import classnames from "classnames";
-import FormCreate from "./components/FormCreateConglomerado";
-import TableContent from "./components/TableContentConglomerado";
-import ImportFile from "./components/FormUploadFile";
-import { withTranslation } from "react-i18next";
+  Col
+} from 'reactstrap';
+import classnames from 'classnames';
+import FormCreate from './components/FormCreateConglomerado';
+import TableContent from './components/TableContentConglomerado';
+import ImportFile from './components/FormUploadFile';
+import { withTranslation } from 'react-i18next';
 
 class Conglomerado extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1"
+      activeTab: '1'
     };
   }
 
@@ -44,32 +38,32 @@ class Conglomerado extends React.Component {
         <Nav tabs>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "1" })}
+              className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
-                this.toggle("1");
+                this.toggle('1');
               }}
             >
-              <i className="fa fa-plus" /> {t("app_conglomerado_tab")}
+              <i className="fa fa-plus" /> {t('app_conglomerado_tab')}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "2" })}
+              className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => {
-                this.toggle("2");
+                this.toggle('2');
               }}
             >
-              <i className="fa fa-gear" /> {t("app_conglomerado_tab_2")}
+              <i className="fa fa-gear" /> {t('app_conglomerado_tab_2')}
             </NavLink>
           </NavItem>
           <NavItem>
             <NavLink
-              className={classnames({ active: this.state.activeTab === "3" })}
+              className={classnames({ active: this.state.activeTab === '3' })}
               onClick={() => {
-                this.toggle("3");
+                this.toggle('3');
               }}
             >
-              <i className="fa fa-upload" /> {t("app_conglomerado_tab_3")}
+              <i className="fa fa-upload" /> {t('app_conglomerado_tab_3')}
             </NavLink>
           </NavItem>
         </Nav>
@@ -101,4 +95,8 @@ class Conglomerado extends React.Component {
   }
 }
 
-export default withTranslation("translations")(Conglomerado);
+Conglomerado.propTypes = {
+  t: PropTypes.any
+};
+
+export default withTranslation('translations')(Conglomerado);

@@ -1,14 +1,13 @@
 import React, { Component } from "react";
-import { WithRouter } from "react-router-dom";
+import PropTypes from "prop-types";
 import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewTramite from "./ModalViewTramite";
 import ModalDeleteTramite from "./ModalDeleteTramite";
 import ModalExport from "./ModalExportCSV";
 import ModalExport2 from "./ModalExportCSVTipoTramiteUser";
-import PropTypes from "prop-types";
-import moment from 'moment';
-
+import moment from "moment";
+import { withTranslation } from "react-i18next";
 
 class TableContentTramite extends Component {
   constructor(props) {
@@ -16,7 +15,7 @@ class TableContentTramite extends Component {
     this.state = {
       dataTipoTramite: [],
       modalview: false,
-      modaldel: false, 
+      modaldel: false,
       modalexport: false,
       modalexport2: false,
       hiddenColumnID: true
@@ -29,17 +28,20 @@ class TableContentTramite extends Component {
 
   getDataTipoTramite = () => {
     fetch(`http://192.168.20.187:7000/api/sgdea/typeprocedure`, {
-      method: "GET", 
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa('sgdea:123456')
+        Authorization: "Basic " + window.btoa("sgdea:123456")
       }
-    }).then(response => response.json()).then(data => {
-      this.setState({
-        dataTipoTramite: data
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataTipoTramite: data
+        });
       })
-    }).catch(err => console.log("Error", err));
-  }
+      .catch(err => console.log("Error", err));
+  };
 
   accionesTramite = (cell, row) => {
     return (
@@ -80,7 +82,7 @@ class TableContentTramite extends Component {
   FechaCreacionTipoTramite(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format('YYYY-MM-DD');
+    return moment(createdAt).format("YYYY-MM-DD");
   }
 
   estadotramite = (cell, row) => {
@@ -106,11 +108,11 @@ class TableContentTramite extends Component {
     this.refs.child2.toggle(id);
   }
 
-  openModalExport(){
+  openModalExport() {
     this.refs.child3.toggle();
   }
 
-  openModalExportUsers(){
+  openModalExportUsers() {
     this.refs.child4.toggle();
   }
 
@@ -118,32 +120,31 @@ class TableContentTramite extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-   createCustomButtonGroup = props => {
+  createCustomButtonGroup = props => {
     return (
-     <div>
+      <div>
         <button
-        type="button"
-        className={`btn btn-secondary btn-sm`}
-        onClick={() => this.openModalExport()}
-      >
-        <i className="fa fa-download" />{' '}
-        Exportar
-      </button>
-      &nbsp;
-       <button
-        type="button"
-        className={`btn btn-secondary btn-sm`}
-        onClick={() => this.openModalExportUsers()}
-      >
-        <i className="fa fa-download" />{' '}
-        Exportar usuarios por tramite
-      </button>
-     </div>
-      
+          type="button"
+          className={`btn btn-secondary btn-sm`}
+          onClick={() => this.openModalExport()}
+        >
+          <i className="fa fa-download" /> Exportar
+        </button>
+        &nbsp;
+        <button
+          type="button"
+          className={`btn btn-secondary btn-sm`}
+          onClick={() => this.openModalExportUsers()}
+        >
+          <i className="fa fa-download" /> Exportar usuarios por tramite
+        </button>
+      </div>
     );
   };
 
   render() {
+    const { t } = this.props;
+
     const options = {
       btnGroup: this.createCustomButtonGroup,
       pagination: true,
@@ -161,37 +162,59 @@ class TableContentTramite extends Component {
               pagination
               search
               striped
-              searchPlaceholder="Buscar"
+              searchPlaceholder={t(
+                "app_tipoTramite_table_administrar_placeholder"
+              )}
               exportCSV
               className="texto-TLlegada"
             >
-             
-              <TableHeaderColumn isKey dataField={"id"} width="50" hidden={this.state.hiddenColumnID}/>
-              <TableHeaderColumn  dataField={"id"} width="50"  dataFormat={this.indexN} >
+              <TableHeaderColumn
+                isKey
+                dataField={"id"}
+                width="50"
+                hidden={this.state.hiddenColumnID}
+              />
+              <TableHeaderColumn
+                dataField={"id"}
+                width="50"
+                dataFormat={this.indexN}
+              >
                 {" "}
                 #{" "}
               </TableHeaderColumn>
               <TableHeaderColumn dataField={"code"} dataAlign="center">
                 {" "}
-                Código{" "}
+                {t("app_tipoTramite_table_administrar_codigo")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn dataField={"name"} dataAlign="center">
                 {" "}
-                Nombre{" "}
+                {t("app_tipoTramite_table_administrar_nombre")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn dataField={"description"} dataAlign="center">
                 {" "}
-                Descripción{" "}
+                {t("app_tipoTramite_table_administrar_descripcion")}{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"answerDays"} dataAlign={"center"}> Tiempo de respuesta  </TableHeaderColumn>
-              <TableHeaderColumn dataField={"createdAt"} dataAlign={"center"} dataFormat={(cell, row) => this.FechaCreacionTipoTramite(cell, row)}> Fecha de creacion</TableHeaderColumn>
+              <TableHeaderColumn dataField={"answerDays"} dataAlign={"center"}>
+                {" "}
+                {t("app_tipoTramite_table_administrar_tiempo_respuesta")}{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField={"createdAt"}
+                dataAlign={"center"}
+                dataFormat={(cell, row) =>
+                  this.FechaCreacionTipoTramite(cell, row)
+                }
+              >
+                {" "}
+                {t("app_tipoTramite_table_administrar_fecha_creacion")}
+              </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.estadotramite(cell, row)}
               >
                 {" "}
-                Estado{" "}
+                {t("app_tipoTramite_table_administrar_estado")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
                 export={false}
@@ -199,7 +222,7 @@ class TableContentTramite extends Component {
                 dataFormat={(cell, row) => this.accionesTramite(cell, row)}
               >
                 {" "}
-                Acciones{" "}
+                {t("app_tipoTramite_table_administrar_acciones")}{" "}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
@@ -208,9 +231,13 @@ class TableContentTramite extends Component {
           modalviewtramit={this.state.modalview}
           ref={"child1"}
         />
-        <ModalDeleteTramite updateTable={this.getDataConglomerates} modaldelete={this.state.modaldel} ref={"child2"} />
-        <ModalExport modalexport={this.state.modalexport} ref={"child3"}  />
-        <ModalExport2 modalexport2={this.state.modalexport2} ref={"child4"}/>
+        <ModalDeleteTramite
+          updateTable={this.getDataConglomerates}
+          modaldelete={this.state.modaldel}
+          ref={"child2"}
+        />
+        <ModalExport modalexport={this.state.modalexport} ref={"child3"} />
+        <ModalExport2 modalexport2={this.state.modalexport2} ref={"child4"} />
       </div>
     );
   }
@@ -218,4 +245,4 @@ class TableContentTramite extends Component {
 
 TableContentTramite.propTypes = {};
 
-export default TableContentTramite;
+export default withTranslation("translations")(TableContentTramite);

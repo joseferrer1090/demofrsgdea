@@ -1,23 +1,23 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Row } from "reactstrap";
-import SedesForm from "./Forms/SedesForm";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Row } from 'reactstrap';
+import SedesForm from './Forms/SedesForm';
 
 const dataSede = {
-  conglomerateId: "",
-  companyId: "",
-  code: "",
-  name: "",
-  description: "",
-  prefix: "",
-  sequence: "",
-  countryId: "",
-  departmentId: "",
-  cityId: "",
-  address: "",
-  phone: "",
-  chargeId: "",
-  status: ""
+  conglomerateId: '',
+  companyId: '',
+  code: '',
+  name: '',
+  description: '',
+  prefix: '',
+  sequence: '',
+  countryId: '',
+  departmentId: '',
+  cityId: '',
+  address: '',
+  phone: '',
+  chargeId: '',
+  status: ''
 };
 const FormCreateSedes = () => {
   return (
@@ -33,6 +33,8 @@ const FormCreateSedes = () => {
   );
 };
 
-FormCreateSedes.propTypes = {};
+FormCreateSedes.propTypes = {
+  sede: PropTypes.object.isRequired
+};
 
 export default FormCreateSedes;

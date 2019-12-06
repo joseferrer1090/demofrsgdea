@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from 'reactstrap';
-import * as Yup from 'yup';
-import { Formik, withFormik, ErrorMessage, Field, From } from 'formik';
+import React, { Component, Fragment } from "react";
+import PropTypes from "prop-types";
+import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
+import * as Yup from "yup";
+import { Formik, ErrorMessage } from "formik";
 
 class ModalDeleteDepartamento extends Component {
   constructor(props) {
@@ -10,14 +10,14 @@ class ModalDeleteDepartamento extends Component {
     this.state = {
       modal: this.props.modaldel,
       idDepartment: this.props.id,
-      code: '',
-      useLogged: '',
+      code: "",
+      useLogged: "",
       alertCode: false,
       alertError: false,
       alertSuccess: false,
-      nameDepartment: '',
+      nameDepartment: "",
       t: this.props.t,
-      username: 'ccuartas'
+      username: "ccuartas"
     };
   }
 
@@ -25,16 +25,16 @@ class ModalDeleteDepartamento extends Component {
     this.setState({
       modal: !this.state.modal,
       idDepartment: id,
-      nombre: '',
-      useLogged: 'ccuartas'
+      nombre: "",
+      useLogged: "ccuartas"
     });
     fetch(
       `http://192.168.10.180:7000/api/sgdea/department/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-          'Content-Type': 'application/json'
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
         }
       }
     )
@@ -44,7 +44,7 @@ class ModalDeleteDepartamento extends Component {
           nameDepartment: data.name
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   onDismiss = () => {
@@ -57,16 +57,16 @@ class ModalDeleteDepartamento extends Component {
 
   render() {
     const dataInitial = {
-      code: ''
+      code: ""
     };
     const nameDepartment = this.state.nameDepartment;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
-            {' '}
-            {this.props.t('app_departamento_modal_eliminar_titulo')}{' '}
-            {nameDepartment}{' '}
+            {" "}
+            {t("app_departamento_modal_eliminar_titulo")} {nameDepartment}{" "}
           </ModalHeader>
           <Formik
             initialValues={dataInitial}
@@ -75,10 +75,10 @@ class ModalDeleteDepartamento extends Component {
                 fetch(
                   `http://192.168.10.180:7000/api/sgdea/department/${this.state.idDepartment}?code=${values.code}&username=${this.state.useLogged}`,
                   {
-                    method: 'DELETE',
+                    method: "DELETE",
                     headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: 'BASIC ' + window.btoa('sgdea:123456')
+                      "Content-Type": "application/json",
+                      Authorization: "BASIC " + window.btoa("sgdea:123456")
                     }
                   }
                 )
@@ -112,21 +112,18 @@ class ModalDeleteDepartamento extends Component {
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required(
-                ' Por favor introduzca el código del departamento.'
+                " Por favor introduzca el código del departamento."
               )
             })}
           >
             {props => {
               const {
-                values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
+
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
@@ -138,46 +135,38 @@ class ModalDeleteDepartamento extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_departamento_modal_eliminar_alert_error'
-                        )}
+                        {t("app_departamento_modal_eliminar_alert_error")}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_departamento_modal_eliminar_alert_errorCode'
-                        )}
+                        {t("app_departamento_modal_eliminar_alert_errorCode")}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
-                        {this.props.t(
-                          'app_departamento_modal_eliminar_alert_success'
-                        )}
+                        {t("app_departamento_modal_eliminar_alert_success")}
                       </Alert>
                       <p className="text-center">
-                        {' '}
-                        {this.props.t(
-                          'app_departamento_modal_eliminar_titulo_2'
-                        )}
+                        {" "}
+                        {t("app_departamento_modal_eliminar_titulo_2")}
                       </p>
 
                       <input
                         input
-                        name={'code'}
+                        name={"code"}
                         onChange={handleChange}
                         onBlur={handleBlur}
                         type="text"
-                        placeholder={this.props.t(
-                          'app_departamento_modal_eliminar_placeholder'
+                        placeholder={t(
+                          "app_departamento_modal_eliminar_placeholder"
                         )}
-                        style={{ textAlign: 'center' }}
+                        style={{ textAlign: "center" }}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
                           touched.code &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
-                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                      <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
@@ -185,26 +174,22 @@ class ModalDeleteDepartamento extends Component {
                       </div>
                       <br />
                       <p className="text-center text-danger">
-                        {' '}
-                        {this.props.t(
-                          'app_departamento_modal_eliminar_titulo_3'
-                        )}{' '}
+                        {" "}
+                        {t("app_departamento_modal_eliminar_titulo_3")}{" "}
                       </p>
                     </form>
                   </ModalBody>
                   <ModalFooter>
                     <button
                       type="button"
-                      className={'btn btn-outline-danger btn-sm'}
+                      className={"btn btn-outline-danger btn-sm"}
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
                       }}
                     >
-                      <i className="fa fa-trash" />{' '}
-                      {this.props.t(
-                        'app_departamento_modal_eliminar_button_eliminar'
-                      )}
+                      <i className="fa fa-trash" />{" "}
+                      {t("app_departamento_modal_eliminar_button_eliminar")}
                     </button>
                     <button
                       type="button"
@@ -213,10 +198,8 @@ class ModalDeleteDepartamento extends Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      <i className="fa fa-times" />{' '}
-                      {this.props.t(
-                        'app_departamento_modal_eliminar_button_cerrar'
-                      )}{' '}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_departamento_modal_eliminar_button_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -230,7 +213,9 @@ class ModalDeleteDepartamento extends Component {
 }
 
 ModalDeleteDepartamento.propTypes = {
-  modaldel: PropTypes.bool.isRequired
+  modaldel: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalDeleteDepartamento;

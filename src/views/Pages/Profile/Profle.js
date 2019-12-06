@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Row, Col, Card, CardTitle } from "reactstrap";
 import PropTypes from "prop-types";
+import { Row, Col, CardTitle } from "reactstrap";
 import Tabinformaction from "./components/TabProfile";
 import { withTranslation } from "react-i18next";
 
@@ -35,7 +35,6 @@ class Profle extends Component {
   };
   render() {
     const { t } = this.props;
-    console.log(this.state.image);
     return (
       <div className="animated fadeIn">
         <Row>

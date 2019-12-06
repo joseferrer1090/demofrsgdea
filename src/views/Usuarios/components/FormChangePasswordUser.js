@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment } from "react";
 import {
   Modal,
   ModalHeader,
@@ -7,17 +7,17 @@ import {
   Alert,
   Card,
   CardBody
-} from 'reactstrap';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { Formik, withFormik, ErrorMessage, Field, From } from 'formik';
+} from "reactstrap";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { Formik } from "formik";
 
 class ModalChangePasswordUser extends React.Component {
   state = {
     modal: this.props.modalpassword,
     id: this.props.id,
-    userLogged: 'ccuartas',
-    nameUser: '',
+    userLogged: "ccuartas",
+    nameUser: "",
     alertSuccess: false,
     alertError: false,
     alertCode: false,
@@ -32,10 +32,10 @@ class ModalChangePasswordUser extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/user/${id}?username=${this.state.userLogged}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-          'Content-Type': 'application/json'
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
         }
       }
     )
@@ -57,14 +57,12 @@ class ModalChangePasswordUser extends React.Component {
   };
 
   render() {
-    const dataInitial = {};
-    console.log(this.state.id);
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
-            {t('app_usuarios_modal_cambiar_contraseña_titulo')}{' '}
+            {t("app_usuarios_modal_cambiar_contraseña_titulo")}{" "}
             {this.state.nameUser}
           </ModalHeader>
           <Formik
@@ -73,10 +71,10 @@ class ModalChangePasswordUser extends React.Component {
                 fetch(
                   `http://192.168.10.180:7000/api/sgdea/user/change/password`,
                   {
-                    method: 'POST',
+                    method: "POST",
                     headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                      "Content-Type": "application/json",
+                      Authorization: "Basic " + window.btoa("sgdea:123456")
                     },
                     body: JSON.stringify({
                       id: this.state.id,
@@ -106,17 +104,7 @@ class ModalChangePasswordUser extends React.Component {
             validationSchema={Yup.object().shape({})}
           >
             {props => {
-              const {
-                values,
-                touched,
-                errors,
-                dirty,
-                isSubmitting,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                handleReset
-              } = props;
+              const { values, handleChange, handleBlur, handleSubmit } = props;
               return (
                 <Fragment>
                   <form className="form">
@@ -125,48 +113,41 @@ class ModalChangePasswordUser extends React.Component {
                         color="danger"
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
-                      >
-                        Error, al eliminar el usuario {values.identificacion}
-                      </Alert>
+                      ></Alert>
                       <Alert
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        Se elimino de manera satisfactoria el usuario
+                        {t(
+                          "app_usuarios_modal_cambiar_contraseña_alert_success"
+                        )}
                       </Alert>
-                      <Alert
-                        color="danger"
-                        isOpen={this.state.alertCode}
-                        toggle={this.onDismiss}
-                      >
-                        La identificacion {values.identificacion} para eliminar
-                        no corresponde a usuario.
-                      </Alert>
+                      {t("app_usuarios_modal_cambiar_contraseña_alert_error")}
                       <p
                         className="text-muted"
-                        style={{ textAlign: 'justify' }}
+                        style={{ textAlign: "justify" }}
                       >
                         {t(
-                          'app_usuarios_modal_cambiar_contraseña_enunciado_parte_1'
+                          "app_usuarios_modal_cambiar_contraseña_enunciado_parte_1"
                         )}
                         <code> {this.state.nameUser}</code>
                         {t(
-                          'app_usuarios_modal_cambiar_contraseña_enunciado_parte_2'
+                          "app_usuarios_modal_cambiar_contraseña_enunciado_parte_2"
                         )}
                       </p>
                       <Card>
                         <CardBody>
                           <div className="form-group">
                             <label>
-                              {' '}
+                              {" "}
                               {t(
-                                'app_usuarios_modal_cambiar_contraseña_nueva_contraseña'
-                              )}{' '}
-                              <span className="text-danger">*</span>{' '}
+                                "app_usuarios_modal_cambiar_contraseña_nueva_contraseña"
+                              )}{" "}
+                              <span className="text-danger">*</span>{" "}
                             </label>
                             <input
-                              name={'newpassword'}
+                              name={"newpassword"}
                               value={values.newpassword}
                               onChange={handleChange}
                               onBlur={handleBlur}
@@ -177,14 +158,14 @@ class ModalChangePasswordUser extends React.Component {
                           </div>
                           <div className="form-group">
                             <label>
-                              {' '}
+                              {" "}
                               {t(
-                                'app_usuarios_modal_cambiar_contraseña_confirmar_contraseña'
-                              )}{' '}
-                              <span className="text-danger">*</span>{' '}
+                                "app_usuarios_modal_cambiar_contraseña_confirmar_contraseña"
+                              )}{" "}
+                              <span className="text-danger">*</span>{" "}
                             </label>
                             <input
-                              name={'confirmpassword'}
+                              name={"confirmpassword"}
                               value={values.confirmpassword}
                               onChange={handleChange}
                               onBlur={handleBlur}
@@ -205,10 +186,10 @@ class ModalChangePasswordUser extends React.Component {
                           handleSubmit();
                         }}
                       >
-                        {' '}
-                        <i className="fa fa-trash" />{' '}
+                        {" "}
+                        <i className="fa fa-trash" />{" "}
                         {t(
-                          'app_usuarios_modal_cambiar_contraseña_boton_cambiar_contraseña'
+                          "app_usuarios_modal_cambiar_contraseña_boton_cambiar_contraseña"
                         )}
                       </button>
                       <button
@@ -223,8 +204,8 @@ class ModalChangePasswordUser extends React.Component {
                           });
                         }}
                       >
-                        <i className="fa fa-times" />{' '}
-                        {t('app_usuarios_modal_cambiar_contraseña_cerrar')}
+                        <i className="fa fa-times" />{" "}
+                        {t("app_usuarios_modal_cambiar_contraseña_cerrar")}
                       </button>
                     </ModalFooter>
                   </form>
@@ -239,7 +220,9 @@ class ModalChangePasswordUser extends React.Component {
 }
 
 ModalChangePasswordUser.propTypes = {
-  modalpassword: PropTypes.bool.isRequired
+  modalpassword: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalChangePasswordUser;

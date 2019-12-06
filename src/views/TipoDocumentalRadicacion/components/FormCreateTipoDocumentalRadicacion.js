@@ -1,6 +1,6 @@
 import React from "react";
-import { Row, Col, CustomInput } from "reactstrap";
 import TipoDocumentalRadicacion from "./Forms/TipoDocumentalRadicacion";
+import PropTypes from "prop-types";
 
 const dataTipoDocumental = {
   tipo_correspondencia: "",
@@ -23,6 +23,10 @@ const FormCreateTipoTramite = props => {
       </div>
     </div>
   );
+};
+
+FormCreateTipoTramite.propTypes = {
+  tdocumentalradicacion: PropTypes.object.isRequired
 };
 
 export default FormCreateTipoTramite;

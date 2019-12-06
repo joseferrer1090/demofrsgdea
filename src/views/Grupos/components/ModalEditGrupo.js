@@ -6,12 +6,8 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  Row,
-  Col,
   Card,
   CardBody,
-  CardFooter,
-  CardTitle,
   CustomInput, 
   Alert
 } from "reactstrap";
@@ -103,7 +99,7 @@ class ModalEditGrupos extends React.Component {
       usuarios: this.state.datagroupUsers.map((aux, id) => {return { label: aux.name, value: aux.id}}),
       estado: this.state.datagroup.status
     }
-    console.log(this.state.id);
+    
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>

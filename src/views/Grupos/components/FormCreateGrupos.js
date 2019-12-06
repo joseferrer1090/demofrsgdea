@@ -1,5 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import GrupoUsuariosForm from "../Forms/GrupoUsuariosForm";
+import PropTypes from "prop-types";
+
 const dataGrupoUsers = {
   codigo: "",
   nombre: "",
@@ -9,8 +11,7 @@ const dataGrupoUsers = {
   sede: "",
   dependencia: "",
   estado: "",
-  roles: [],
-
+  roles: []
 };
 // class FormCreateGrupos extends Component {
 //   render() {
@@ -24,13 +25,16 @@ const dataGrupoUsers = {
 //   }
 // }
 // export default FormCreateGrupos;
-const FormCreateGrupos =()=> {
+const FormCreateGrupos = () => {
   return (
     <div className="animated fadeIn">
       <div className="container">
-        <GrupoUsuariosForm grupoUsuarios={dataGrupoUsers}/>
+        <GrupoUsuariosForm grupoUsuarios={dataGrupoUsers} />
       </div>
     </div>
   );
-}
+};
+FormCreateGrupos.propTypes = {
+  grupoUsuarios: PropTypes.object.isRequired
+};
 export default FormCreateGrupos;

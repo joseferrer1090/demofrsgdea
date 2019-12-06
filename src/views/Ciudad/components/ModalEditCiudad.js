@@ -16,8 +16,10 @@ import {
   CONTRIES_STATUS,
   DEPARTMENTS_STATUS
 } from './../../../services/EndPoints';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
+import { Formik, ErrorMessage, Field } from 'formik';
 import * as Yup from 'yup';
+import SelectCountry from './SelectCountryModalEdit';
+import SelectDepartment from './SelectDepartmentModalEdit';
 
 class ModalEditCiudad extends React.Component {
   state = {
@@ -113,27 +115,13 @@ class ModalEditCiudad extends React.Component {
 
   render() {
     const dataResult = this.state.dataResult;
-
-    const mapOptionsCountries = this.state.optionsCountries.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
-
-    const mapOptionsDepartments = this.state.optionsDepartment.map(
-      (aux, idx) => {
-        return <option value={aux.id}>{aux.name}</option>;
-      }
-    );
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             {' '}
-            {this.props.t('app_ciudad_modal_actualizar_titulo')}{' '}
-            {dataResult.city_name}{' '}
+            {t('app_ciudad_modal_actualizar_titulo')} {dataResult.city_name}{' '}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -232,12 +220,9 @@ class ModalEditCiudad extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset,
                 setFieldValue,
                 setFieldTouched
               } = props;
@@ -249,17 +234,13 @@ class ModalEditCiudad extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {this.props.t('app_ciudad_modal_actualizar_alert_error')}
+                      {t('app_ciudad_modal_actualizar_alert_error')}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t(
-                        'app_ciudad_modal_actualizar_alert_success'
-                      )}
+                      {t('app_ciudad_modal_actualizar_alert_success')}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {this.props.t(
-                        'app_ciudad_modal_actualizar_alert_error400'
-                      )}
+                      {t('app_ciudad_modal_actualizar_alert_error400')}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -273,18 +254,14 @@ class ModalEditCiudad extends React.Component {
                             style={{ borderBottom: '1px solid black' }}
                           >
                             {' '}
-                            {this.props.t(
-                              'app_ciudad_modal_actualizar_titulo_2'
-                            )}{' '}
+                            {t('app_ciudad_modal_actualizar_titulo_2')}{' '}
                           </h5>{' '}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {this.props.t(
-                                  'app_ciudad_modal_actualizar_pais'
-                                )}{' '}
+                                {t('app_ciudad_modal_actualizar_pais')}{' '}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -305,25 +282,6 @@ class ModalEditCiudad extends React.Component {
                                       touched.city_country &&
                                       'is-invalid'}`}
                                   />
-                                  {/* <select
-                                    name={'city_country'}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.city_country}
-                                    className={`form-control form-control-sm ${errors.city_country &&
-                                      touched.city_country &&
-                                      'is-invalid'}`}
-                                  >
-                                    {' '}
-                                    <option value={''} disabled>
-                                      --{' '}
-                                      {this.props.t(
-                                        'app_ciudad_modal_actualizar_select_pais'
-                                      )}{' '}
-                                      --
-                                    </option>
-                                    {mapOptionsCountries}{' '}
-                                  </select>{' '} */}
                                   <div style={{ color: '#D54B4B' }}>
                                     {errors.city_country &&
                                     touched.city_country ? (
@@ -338,7 +296,7 @@ class ModalEditCiudad extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {this.props.t(
+                                {t(
                                   'app_ciudad_modal_actualizar_select_departamento'
                                 )}{' '}
                                 <span className="text-danger">*</span>{' '}
@@ -362,25 +320,6 @@ class ModalEditCiudad extends React.Component {
                                       touched.city_department &&
                                       'is-invalid'}`}
                                   />
-                                  {/* <select
-                                    name={'city_department'}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.city_department}
-                                    className={`form-control form-control-sm ${errors.city_department &&
-                                      touched.city_department &&
-                                      'is-invalid'}`}
-                                  >
-                                    {' '}
-                                    <option value={''} disabled>
-                                      --{' '}
-                                      {this.props.t(
-                                        'app_ciudad_modal_actualizar_departamento'
-                                      )}{' '}
-                                      --
-                                    </option>
-                                    {mapOptionsDepartments}{' '}
-                                  </select>{' '} */}
                                   <div style={{ color: '#D54B4B' }}>
                                     {errors.city_department &&
                                     touched.city_department ? (
@@ -395,9 +334,7 @@ class ModalEditCiudad extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {this.props.t(
-                                  'app_ciudad_modal_actualizar_codigo'
-                                )}{' '}
+                                {t('app_ciudad_modal_actualizar_codigo')}{' '}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -421,13 +358,10 @@ class ModalEditCiudad extends React.Component {
                               </dl>
                             </div>
                           </div>
-
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {this.props.t(
-                                  'app_ciudad_modal_actualizar_nombre'
-                                )}{' '}
+                                {t('app_ciudad_modal_actualizar_nombre')}{' '}
                                 <span className="text-danger">*</span>{' '}
                                 <dd>
                                   {' '}
@@ -456,9 +390,7 @@ class ModalEditCiudad extends React.Component {
                               <dl className="param">
                                 <label>
                                   {' '}
-                                  {this.props.t(
-                                    'app_ciudad_modal_actualizar_estado'
-                                  )}{' '}
+                                  {t('app_ciudad_modal_actualizar_estado')}{' '}
                                   <span className="text-danger">*</span>{' '}
                                 </label>
                                 <div className="text-justify">
@@ -469,7 +401,7 @@ class ModalEditCiudad extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="CheckboxEditCiudad"
-                                          label={this.props.t(
+                                          label={t(
                                             'app_ciudad_modal_actualizar_estado_descripcion'
                                           )}
                                           {...field}
@@ -503,9 +435,7 @@ class ModalEditCiudad extends React.Component {
                     >
                       {' '}
                       <i className="fa fa-pencil" />{' '}
-                      {this.props.t(
-                        'app_ciudad_modal_actualizar_button_actualizar'
-                      )}{' '}
+                      {t('app_ciudad_modal_actualizar_button_actualizar')}{' '}
                     </button>
                     <button
                       type="button"
@@ -516,9 +446,7 @@ class ModalEditCiudad extends React.Component {
                     >
                       {' '}
                       <i className="fa fa-times" />{' '}
-                      {this.props.t(
-                        'app_ciudad_modal_actualizar_button_cerrar'
-                      )}{' '}
+                      {t('app_ciudad_modal_actualizar_button_cerrar')}{' '}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -539,135 +467,3 @@ ModalEditCiudad.propTypes = {
 };
 
 export default ModalEditCiudad;
-
-class SelectCountry extends React.Component {
-  state = {
-    dataCountry: [],
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCountry: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange('city_country', value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur('city_country', true);
-  };
-
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          value={this.props.value}
-          className={this.props.className}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_ciudad_modal_actualizar_select_pais')} --
-          </option>
-          {this.state.dataCountry.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//
-class SelectDepartment extends React.Component {
-  state = {
-    dataDepartment: [],
-    id: this.props.city_country,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.city_country !== state.id) {
-      return {
-        id: props.city_country
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.city_country !== prevProps.city_country) {
-      this.getDataDepartment();
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDepartment();
-  }
-
-  getDataDepartment = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/department/country/${this.state.id}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
-      }
-    )
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataDepartment: data
-        });
-      })
-      .catch(err => console.log('Error', err));
-  };
-  render() {
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={''}>
-            -- {this.props.t('app_ciudad_modal_actualizar_departamento')} --
-          </option>
-          {this.state.dataDepartment.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-//--------------------//

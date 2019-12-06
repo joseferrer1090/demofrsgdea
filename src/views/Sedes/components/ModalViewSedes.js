@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   Modal,
   ModalHeader,
@@ -11,9 +11,9 @@ import {
   CardHeader,
   CardBody,
   Collapse
-} from 'reactstrap';
-import IMGSEDE from './../../../assets/img/teamwork.svg';
-import moment from 'moment';
+} from "reactstrap";
+import IMGSEDE from "./../../../assets/img/teamwork.svg";
+import moment from "moment";
 
 class ModalViewSedes extends Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class ModalViewSedes extends Component {
       dataCargo: {},
       t: this.props.t,
       dataPais: {},
-      username: 'ccuartas'
+      username: "ccuartas"
     };
   }
 
@@ -42,10 +42,10 @@ class ModalViewSedes extends Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/headquarter/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-          'Content-Type': 'application/json'
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
         }
       }
     )
@@ -61,7 +61,7 @@ class ModalViewSedes extends Component {
           dataCargo: data.charge
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   toggleCollapse = () => {
@@ -71,13 +71,12 @@ class ModalViewSedes extends Component {
   FechaCreacionSede(data) {
     let createdAt;
     createdAt = new Date(data);
-    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
+    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
   }
   FechaModificacionSede(data) {
     let updatedAt;
     updatedAt = new Date(data);
-    // moment.locale(es);
-    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
+    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
   }
 
   render() {
@@ -89,12 +88,11 @@ class ModalViewSedes extends Component {
     const dataCiudad = this.state.dataCiudad;
 
     const CargoInfo = () => {
+      const { t } = this.props;
       const data = this.state.dataCargo;
       let status;
       if (data === null)
-        status = (
-          <b className="text-danger">{this.props.t('app_modals_sin_cargo')}</b>
-        );
+        status = <b className="text-danger">{t("app_modals_sin_cargo")}</b>;
       else if (data !== null) {
         status = <div>{data.name}</div>;
       }
@@ -102,31 +100,26 @@ class ModalViewSedes extends Component {
     };
 
     const statusHeadquarter = data => {
+      const { t } = this.props;
       let status;
       if (data === 1) {
         status = (
-          <b className="text-success">
-            {' '}
-            {this.props.t('app_tablas_estado_activo')}{' '}
-          </b>
+          <b className="text-success"> {t("app_tablas_estado_activo")} </b>
         );
       } else if (data === 0) {
         status = (
-          <b className="text-danger">
-            {' '}
-            {this.props.t('app_tablas_estado_inactivo')}{' '}
-          </b>
+          <b className="text-danger"> {t("app_tablas_estado_inactivo")} </b>
         );
       }
       return status;
     };
+    const { t } = this.props;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {' '}
-            {this.props.t('app_sedes_modal_ver_titulo')}{' '}
-            {this.state.dataSedes.name}{' '}
+            {" "}
+            {t("app_sedes_modal_ver_titulo")} {this.state.dataSedes.name}{" "}
           </ModalHeader>
           <ModalBody>
             <Row>
@@ -135,19 +128,17 @@ class ModalViewSedes extends Component {
               </Col>
               <Col sm="9">
                 <div className="">
-                  {' '}
-                  <h5 className="" style={{ borderBottom: '1px solid black' }}>
-                    {' '}
-                    {this.props.t('app_sedes_modal_ver_titulo_2')}{' '}
-                  </h5>{' '}
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    {t("app_sedes_modal_ver_titulo_2")}{" "}
+                  </h5>{" "}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          {this.props.t('app_sedes_modal_ver_conglomerado')}{' '}
-                        </dt>
+                        <dt>{t("app_sedes_modal_ver_conglomerado")} </dt>
                         <dd>{dataConglomerado.name}</dd>
                       </dl>
                     </div>
@@ -155,7 +146,7 @@ class ModalViewSedes extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>{this.props.t('app_sedes_modal_ver_empresa')} </dt>
+                        <dt>{t("app_sedes_modal_ver_empresa")} </dt>
                         <dd>{dataEmpresa.name}</dd>
                       </dl>
                     </div>
@@ -163,7 +154,7 @@ class ModalViewSedes extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>{this.props.t('app_sedes_modal_ver_codigo')} </dt>
+                        <dt>{t("app_sedes_modal_ver_codigo")} </dt>
                         <dd> {dataSede.code}</dd>
                       </dl>
                     </div>
@@ -172,7 +163,7 @@ class ModalViewSedes extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>{this.props.t('app_sedes_modal_ver_nombre')} </dt>
+                        <dt>{t("app_sedes_modal_ver_nombre")} </dt>
                         <dd> {dataSede.name}</dd>
                       </dl>
                     </div>
@@ -180,9 +171,7 @@ class ModalViewSedes extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          {this.props.t('app_sedes_modal_ver_descripcion')}{' '}
-                        </dt>
+                        <dt>{t("app_sedes_modal_ver_descripcion")} </dt>
                         <dd> {dataSede.description}</dd>
                       </dl>
                     </div>
@@ -191,11 +180,7 @@ class ModalViewSedes extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          {this.props.t(
-                            'app_sedes_modal_ver_prefij_radicacion'
-                          )}{' '}
-                        </dt>
+                        <dt>{t("app_sedes_modal_ver_prefij_radicacion")} </dt>
                         <dd> {dataSede.prefix}</dd>
                       </dl>
                     </div>
@@ -203,9 +188,7 @@ class ModalViewSedes extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>
-                          {this.props.t('app_sedes_modal_ver_sec_radicacion')}{' '}
-                        </dt>
+                        <dt>{t("app_sedes_modal_ver_sec_radicacion")} </dt>
                         <dd>{dataSede.sequence} </dd>
                       </dl>
                     </div>
@@ -213,7 +196,7 @@ class ModalViewSedes extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>{this.props.t('app_sedes_modal_ver_estado')} </dt>
+                        <dt>{t("app_sedes_modal_ver_estado")} </dt>
                         <dd> {statusHeadquarter(dataSede.status)}</dd>
                       </dl>
                     </div>
@@ -226,16 +209,16 @@ class ModalViewSedes extends Component {
               <Col sm="12">
                 <Card>
                   <CardHeader>
-                    {' '}
+                    {" "}
                     <a
                       onClick={() => {
                         this.toggleCollapse();
                       }}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: "pointer" }}
                     >
-                      {' '}
-                      {this.props.t('app_sedes_modal_ver_collapse')}{' '}
-                    </a>{' '}
+                      {" "}
+                      {t("app_sedes_modal_ver_collapse")}{" "}
+                    </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapse}>
                     <CardBody>
@@ -243,9 +226,7 @@ class ModalViewSedes extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>
-                                {this.props.t('app_sedes_modal_ver_pais')}{' '}
-                              </dt>
+                              <dt>{t("app_sedes_modal_ver_pais")} </dt>
                               <dd> {dataPais.name}</dd>
                             </dl>
                           </div>
@@ -253,11 +234,7 @@ class ModalViewSedes extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>
-                                {this.props.t(
-                                  'app_sedes_modal_ver_departamento'
-                                )}{' '}
-                              </dt>
+                              <dt>{t("app_sedes_modal_ver_departamento")} </dt>
                               <dd> {dataDepartamento.name}</dd>
                             </dl>
                           </div>
@@ -265,9 +242,7 @@ class ModalViewSedes extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>
-                                {this.props.t('app_sedes_modal_ver_ciudad')}{' '}
-                              </dt>
+                              <dt>{t("app_sedes_modal_ver_ciudad")} </dt>
                               <dd> {dataCiudad.name}</dd>
                             </dl>
                           </div>
@@ -275,9 +250,7 @@ class ModalViewSedes extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>
-                                {this.props.t('app_sedes_modal_ver_direccion')}{' '}
-                              </dt>
+                              <dt>{t("app_sedes_modal_ver_direccion")} </dt>
                               <dd> {dataSede.address}</dd>
                             </dl>
                           </div>
@@ -285,9 +258,7 @@ class ModalViewSedes extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>
-                                {this.props.t('app_sedes_modal_ver_telefono')}{' '}
-                              </dt>
+                              <dt>{t("app_sedes_modal_ver_telefono")} </dt>
                               <dd> {dataSede.phone}</dd>
                             </dl>
                           </div>
@@ -296,9 +267,7 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>
-                                {this.props.t(
-                                  'app_sedes_modal_ver_cargo_responsable'
-                                )}{' '}
+                                {t("app_sedes_modal_ver_cargo_responsable")}{" "}
                               </dt>
                               <dd> {CargoInfo()}</dd>
                             </dl>
@@ -309,13 +278,11 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>
-                                {' '}
-                                {this.props.t(
-                                  'app_sedes_modal_ver_fecha_creacion'
-                                )}{' '}
+                                {" "}
+                                {t("app_sedes_modal_ver_fecha_creacion")}{" "}
                               </dt>
                               <dd>
-                                {this.FechaCreacionSede(dataSede.createdAt)}{' '}
+                                {this.FechaCreacionSede(dataSede.createdAt)}{" "}
                               </dd>
                             </dl>
                           </div>
@@ -324,12 +291,10 @@ class ModalViewSedes extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt>
-                                {this.props.t(
-                                  'app_sedes_modal_ver_fecha_modificacion'
-                                )}{' '}
+                                {t("app_sedes_modal_ver_fecha_modificacion")}{" "}
                               </dt>
                               <dd>
-                                {' '}
+                                {" "}
                                 {this.FechaModificacionSede(dataSede.updatedAt)}
                               </dd>
                             </dl>
@@ -349,9 +314,9 @@ class ModalViewSedes extends Component {
                 this.setState({ modal: false });
               }}
             >
-              {' '}
-              <i className="fa fa-times" />{' '}
-              {this.props.t('app_sedes_modal_ver_boton_cerrar')}{' '}
+              {" "}
+              <i className="fa fa-times" />{" "}
+              {t("app_sedes_modal_ver_boton_cerrar")}{" "}
             </button>
           </ModalFooter>
         </Modal>
@@ -362,7 +327,8 @@ class ModalViewSedes extends Component {
 
 ModalViewSedes.propTypes = {
   modalview: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  id: PropTypes.string.isRequired
 };
 
 export default ModalViewSedes;

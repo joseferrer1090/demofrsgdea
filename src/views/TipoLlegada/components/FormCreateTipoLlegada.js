@@ -1,10 +1,12 @@
-import React from "react";
-import TipoLlegadaForm from "./Forms/TipoLlegadaForm";
+import React from 'react';
+import PropTypes from 'prop-types';
+import TipoLlegadaForm from './Forms/TipoLlegadaForm';
+
 const dataTipollegada = {
-  code: "",
-  name: "",
-  description: "",
-  status: ""
+  code: '',
+  name: '',
+  description: '',
+  status: ''
 };
 const FormCreateTipoLlegada = () => {
   return (
@@ -12,6 +14,9 @@ const FormCreateTipoLlegada = () => {
       <TipoLlegadaForm tipollegada={dataTipollegada} />
     </div>
   );
+};
+FormCreateTipoLlegada.propTypes = {
+  tipollegada: PropTypes.object.isRequired
 };
 
 export default FormCreateTipoLlegada;

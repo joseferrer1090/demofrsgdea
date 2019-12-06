@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import {
   Modal,
   ModalHeader,
@@ -9,12 +9,12 @@ import {
   Col,
   CustomInput,
   Alert
-} from 'reactstrap';
-import { PAIS_EDIT } from './../../../data/JSON-SERVER';
-import IMGCOUNTRY from './../../../assets/img/flag.svg';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
-import * as Yup from 'yup';
-import { COUNTRIES } from './../../../services/EndPoints';
+} from "reactstrap";
+import { PAIS_EDIT } from "./../../../data/JSON-SERVER";
+import IMGCOUNTRY from "./../../../assets/img/flag.svg";
+import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
+import * as Yup from "yup";
+import { COUNTRIES } from "./../../../services/EndPoints";
 
 class ModalEditPais extends React.Component {
   state = {
@@ -26,7 +26,7 @@ class ModalEditPais extends React.Component {
     alertError400: false,
     t: this.props.t,
     country_status: 0,
-    username: 'ccuartas'
+    username: "ccuartas"
   };
 
   toggle = id => {
@@ -41,10 +41,10 @@ class ModalEditPais extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/country/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -63,13 +63,13 @@ class ModalEditPais extends React.Component {
 
   render() {
     const dataResult = this.state.dataResult;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {' '}
-            {this.props.t('app_pais_modal_actualizar_titulo')}{' '}
-            {dataResult.country_name}{' '}
+            {" "}
+            {t("app_pais_modal_actualizar_titulo")} {dataResult.country_name}{" "}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -86,17 +86,17 @@ class ModalEditPais extends React.Component {
               };
               setTimeout(() => {
                 fetch(COUNTRIES, {
-                  method: 'PUT',
+                  method: "PUT",
                   headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
                   },
                   body: JSON.stringify({
                     id: this.state.idPais,
                     code: values.country_code,
                     name: values.country_name,
                     status: tipoEstado(values.country_status),
-                    userName: 'ccuartas'
+                    userName: "ccuartas"
                   })
                 })
                   .then(response => {
@@ -134,22 +134,22 @@ class ModalEditPais extends React.Component {
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log('', error));
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               country_code: Yup.string()
-                .required(' Por favor introduzca un código alfanumérico.')
-                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
-                .min(2, ' Mínimo 2 caracteres.')
-                .max(15, ' Máximo 15 caracteres.'),
+                .required(" Por favor introduzca un código alfanumérico.")
+                .matches(/^[0-9a-zA-Z]+$/, " No es un código alfanumérico.")
+                .min(2, " Mínimo 2 caracteres.")
+                .max(15, " Máximo 15 caracteres."),
               country_name: Yup.string()
-                .required(' Por favor introduzca un nombre.')
-                .max(100, 'Máximo 100 caracteres.'),
+                .required(" Por favor introduzca un nombre.")
+                .max(100, "Máximo 100 caracteres."),
               country_status: Yup.bool().test(
-                'Activado',
-                '',
+                "Activado",
+                "",
                 value => value === true
               )
             })}
@@ -159,24 +159,21 @@ class ModalEditPais extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {this.props.t('app_pais_modal_actualizar_alert_error')}
+                      {t("app_pais_modal_actualizar_alert_error")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {this.props.t('app_pais_modal_actualizar_alert_success')}
+                      {t("app_pais_modal_actualizar_alert_success")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {this.props.t('app_pais_modal_actualizar_alert_error400')}
+                      {t("app_pais_modal_actualizar_alert_error400")}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -184,38 +181,34 @@ class ModalEditPais extends React.Component {
                       </Col>
                       <Col sm="9">
                         <div className="">
-                          {' '}
+                          {" "}
                           <h5
                             className=""
-                            style={{ borderBottom: '1px solid black' }}
+                            style={{ borderBottom: "1px solid black" }}
                           >
-                            {' '}
-                            {this.props.t(
-                              'app_pais_modal_actualizar_titulo_2'
-                            )}{' '}
-                          </h5>{' '}
+                            {" "}
+                            {t("app_pais_modal_actualizar_titulo_2")}{" "}
+                          </h5>{" "}
                         </div>
                         <form className="form">
                           <div className="row">
                             <div className="col-md-6">
                               <label>
-                                {' '}
-                                {this.props.t(
-                                  'app_pais_modal_actualizar_codigo'
-                                )}{' '}
+                                {" "}
+                                {t("app_pais_modal_actualizar_codigo")}{" "}
                                 <span className="text-danger">*</span>
                               </label>
                               <input
                                 type="text"
-                                name={'country_code'}
+                                name={"country_code"}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.country_code}
                                 className={`form-control form-control-sm ${errors.country_code &&
                                   touched.country_code &&
-                                  'is-invalid'}`}
+                                  "is-invalid"}`}
                               />
-                              <div style={{ color: '#D54B4B' }}>
+                              <div style={{ color: "#D54B4B" }}>
                                 {errors.country_code && touched.country_code ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
@@ -225,11 +218,9 @@ class ModalEditPais extends React.Component {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {' '}
-                                  {this.props.t(
-                                    'app_pais_modal_actualizar_nombre'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                  {" "}
+                                  {t("app_pais_modal_actualizar_nombre")}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <input
                                   type="text"
@@ -239,9 +230,9 @@ class ModalEditPais extends React.Component {
                                   value={values.country_name}
                                   className={`form-control form-control-sm ${errors.country_name &&
                                     touched.country_name &&
-                                    'is-invalid'}`}
-                                />{' '}
-                                <div style={{ color: '#D54B4B' }}>
+                                    "is-invalid"}`}
+                                />{" "}
+                                <div style={{ color: "#D54B4B" }}>
                                   {errors.country_name &&
                                   touched.country_name ? (
                                     <i className="fa fa-exclamation-triangle" />
@@ -253,11 +244,9 @@ class ModalEditPais extends React.Component {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {' '}
-                                  {this.props.t(
-                                    'app_pais_modal_actualizar_estado'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                  {" "}
+                                  {t("app_pais_modal_actualizar_estado")}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <div className="text-justify">
                                   <Field
@@ -267,15 +256,15 @@ class ModalEditPais extends React.Component {
                                         <CustomInput
                                           type="checkbox"
                                           id="CheckboxEditPais"
-                                          label={this.props.t(
-                                            'app_pais_modal_actualizar_estado_descripcion'
+                                          label={t(
+                                            "app_pais_modal_actualizar_estado_descripcion"
                                           )}
                                           {...field}
                                           checked={field.value}
                                           className={
                                             errors.country_status &&
                                             touched.country_status &&
-                                            'invalid-feedback'
+                                            "invalid-feedback"
                                           }
                                         />
                                       );
@@ -299,11 +288,9 @@ class ModalEditPais extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      {' '}
-                      <i className="fa fa-pencil" />{' '}
-                      {this.props.t(
-                        'app_pais_modal_actualizar_button_actualizar'
-                      )}{' '}
+                      {" "}
+                      <i className="fa fa-pencil" />{" "}
+                      {t("app_pais_modal_actualizar_button_actualizar")}{" "}
                     </button>
                     <button
                       type="button"
@@ -312,9 +299,9 @@ class ModalEditPais extends React.Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      {' '}
-                      <i className="fa fa-times" />{' '}
-                      {this.props.t('app_pais_modal_actualizar_button_cerrar')}{' '}
+                      {" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_pais_modal_actualizar_button_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -329,7 +316,9 @@ class ModalEditPais extends React.Component {
 
 ModalEditPais.propTypes = {
   modaledit: PropTypes.bool.isRequired,
-  updateTable: PropTypes.func.isRequired
+  updateTable: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalEditPais;

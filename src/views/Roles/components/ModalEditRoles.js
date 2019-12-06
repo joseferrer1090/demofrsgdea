@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import {
   Modal,
   ModalHeader,
@@ -9,21 +9,20 @@ import {
   Col,
   CustomInput,
   Alert
-} from 'reactstrap';
-import IMGROLES from './../../../assets/img/shield.svg';
-import { ROLES_EDIT } from './../../../data/JSON-SERVER';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from 'formik';
-import * as Yup from 'yup';
+} from "reactstrap";
+import IMGROLES from "./../../../assets/img/shield.svg";
+import { Formik, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
 
 class ModalEditRoles extends React.Component {
   state = {
     modal: this.props.modaledit,
     dataResult: {},
     id: this.props.id,
-    userName: 'jferrer',
+    userName: "jferrer",
     alertSuccess: false,
     alertError: false,
-    alertError400: '',
+    alertError400: "",
     t: this.props.t
   };
 
@@ -39,10 +38,10 @@ class ModalEditRoles extends React.Component {
     fetch(
       `http://192.168.10.180:7000/api/sgdea/role/${id}?username=${this.state.userName}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
         }
       }
     )
@@ -67,13 +66,13 @@ class ModalEditRoles extends React.Component {
       descripcion: this.state.dataResult.description,
       estado: this.state.dataResult.status
     };
-    const t = this.state.t;
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {' '}
-            {t('app_roles_modal_editar_titulo')} {dataPreview.nombre}
+            {" "}
+            {t("app_roles_modal_editar_titulo")} {dataPreview.nombre}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -89,12 +88,11 @@ class ModalEditRoles extends React.Component {
                 return 0;
               };
               setTimeout(() => {
-                // alert(JSON.stringify(values, null, 2));
                 fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
-                  method: 'PUT',
+                  method: "PUT",
                   headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + window.btoa("sgdea:123456")
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -106,7 +104,7 @@ class ModalEditRoles extends React.Component {
                   })
                 }).then(response => {
                   if (response.status === 200) {
-                    console.log('Se realizo el put');
+                    console.log("Se realizo el put");
                     this.setState(
                       {
                         alertSuccess: true
@@ -120,7 +118,7 @@ class ModalEditRoles extends React.Component {
                       });
                     }, 3000);
                   } else if (response.status === 400) {
-                    console.log('Se envio mal un dato');
+                    console.log("Se envio mal un dato");
                     this.setState({
                       alertError400: true
                     });
@@ -130,7 +128,7 @@ class ModalEditRoles extends React.Component {
                       });
                     }, 3000);
                   } else if (response.status === 500) {
-                    console.log('Error en algo');
+                    console.log("Error en algo");
                     this.setState({
                       alertError: true
                     });
@@ -146,12 +144,12 @@ class ModalEditRoles extends React.Component {
               }, 500);
             }}
             validationSchema={Yup.object().shape({
-              codigo: Yup.string().required(' Por favor introduzca un código.'),
-              nombre: Yup.string().required(' Por favor introduzca un nombre.'),
+              codigo: Yup.string().required(" Por favor introduzca un código."),
+              nombre: Yup.string().required(" Por favor introduzca un nombre."),
               descripcion: Yup.string().required(
-                ' Por favor introduzca una descripción.'
+                " Por favor introduzca una descripción."
               ),
-              estado: Yup.bool().test('Activado', '', value => value === true)
+              estado: Yup.bool().test("Activado", "", value => value === true)
             })}
           >
             {props => {
@@ -159,24 +157,21 @@ class ModalEditRoles extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {t('app_roles_modal_actualizar_alert_error')}
+                      {t("app_roles_modal_actualizar_alert_error")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {t('app_roles_modal_actualizar_alert_success')}
+                      {t("app_roles_modal_actualizar_alert_success")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t('app_roles_modal_actualizar_alert_error400')}
+                      {t("app_roles_modal_actualizar_alert_error400")}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -184,38 +179,38 @@ class ModalEditRoles extends React.Component {
                       </Col>
                       <Col sm="9">
                         <div className="">
-                          {' '}
+                          {" "}
                           <h5
                             className=""
-                            style={{ borderBottom: '1px solid black' }}
+                            style={{ borderBottom: "1px solid black" }}
                           >
-                            {' '}
-                            {t('app_roles_modal_editar_titulo_2')}{' '}
-                          </h5>{' '}
+                            {" "}
+                            {t("app_roles_modal_editar_titulo_2")}{" "}
+                          </h5>{" "}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {t('app_roles_modal_editar_codigo')}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                {t("app_roles_modal_editar_codigo")}{" "}
+                                <span className="text-danger">*</span>{" "}
                                 <dd>
-                                  {' '}
+                                  {" "}
                                   <input
-                                    name={'codigo'}
+                                    name={"codigo"}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.codigo}
                                     type="text"
                                     className={`form-control form-control-sm ${errors.codigo &&
                                       touched.codigo &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   />
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.codigo && touched.codigo ? (
                                       <i className="fa fa-exclamation-triangle" />
                                     ) : null}
-                                    <ErrorMessage name={'codigo'} />
+                                    <ErrorMessage name={"codigo"} />
                                   </div>
                                 </dd>
                               </dl>
@@ -224,25 +219,25 @@ class ModalEditRoles extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {t('app_roles_modal_editar_nombre')}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                {t("app_roles_modal_editar_nombre")}{" "}
+                                <span className="text-danger">*</span>{" "}
                                 <dd>
-                                  {' '}
+                                  {" "}
                                   <input
-                                    name={'nombre'}
+                                    name={"nombre"}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.nombre}
                                     type="text"
                                     className={`form-control form-control-sm ${errors.nombre &&
                                       touched.nombre &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   />
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.nombre && touched.nombre ? (
                                       <i className="fa fa-exclamation-triangle" />
                                     ) : null}
-                                    <ErrorMessage name={'nombre'} />
+                                    <ErrorMessage name={"nombre"} />
                                   </div>
                                 </dd>
                               </dl>
@@ -251,24 +246,24 @@ class ModalEditRoles extends React.Component {
                           <div className="col-md-12">
                             <div className="form-group">
                               <dl className="param">
-                                {t('app_roles_modal_editar_descripcion')}
+                                {t("app_roles_modal_editar_descripcion")}
                                 <dd>
-                                  {' '}
+                                  {" "}
                                   <textarea
-                                    name={'descripcion'}
+                                    name={"descripcion"}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.descripcion}
                                     className={`form-control form-control-sm ${errors.descripcion &&
                                       touched.descripcion &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   />
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.descripcion &&
                                     touched.descripcion ? (
                                       <i className="fa fa-exclamation-triangle" />
                                     ) : null}
-                                    <ErrorMessage name={'descripcion'} />
+                                    <ErrorMessage name={"descripcion"} />
                                   </div>
                                 </dd>
                               </dl>
@@ -278,9 +273,9 @@ class ModalEditRoles extends React.Component {
                             <div className="form-group">
                               <dl className="param">
                                 <label>
-                                  {' '}
-                                  {t('app_roles_modal_editar_estado')}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                  {" "}
+                                  {t("app_roles_modal_editar_estado")}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <div className="text-justify">
                                   <Field
@@ -291,14 +286,14 @@ class ModalEditRoles extends React.Component {
                                           type="checkbox"
                                           id="CheckBoxEditRoles"
                                           label={t(
-                                            'app_roles_modal_editar_estado_descripcion'
+                                            "app_roles_modal_editar_estado_descripcion"
                                           )}
                                           {...field}
                                           checked={field.value}
                                           className={
                                             errors.estado &&
                                             touched.estado &&
-                                            'invalid-feedback'
+                                            "invalid-feedback"
                                           }
                                         />
                                       );
@@ -321,9 +316,9 @@ class ModalEditRoles extends React.Component {
                       }}
                       className="btn btn-outline-success btn-sm"
                     >
-                      {' '}
-                      <i className="fa fa-pencil" />{' '}
-                      {t('app_roles_modal_editar_boton_actualizar')}{' '}
+                      {" "}
+                      <i className="fa fa-pencil" />{" "}
+                      {t("app_roles_modal_editar_boton_actualizar")}{" "}
                     </button>
                     <button
                       type="button"
@@ -332,9 +327,9 @@ class ModalEditRoles extends React.Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      {' '}
-                      <i className="fa fa-times" />{' '}
-                      {t('app_roles_modal_editar_boton_cerrar')}{' '}
+                      {" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_roles_modal_editar_boton_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -348,7 +343,9 @@ class ModalEditRoles extends React.Component {
 }
 
 ModalEditRoles.propTypes = {
-  modaledit: PropTypes.bool.isRequired
+  modaledit: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalEditRoles;

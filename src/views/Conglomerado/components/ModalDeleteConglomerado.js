@@ -1,9 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from 'reactstrap';
-import PropTypes from 'prop-types';
-import * as Yup from 'yup';
-import { Formik, withFormik, ErrorMessage, Field, From } from 'formik';
-import { Trans } from 'react-i18next';
+import React, { Fragment } from "react";
+import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
+import PropTypes from "prop-types";
+import * as Yup from "yup";
+import { Formik, ErrorMessage } from "formik";
 
 class ModalDeleteConglomerado extends React.Component {
   state = {
@@ -13,9 +12,9 @@ class ModalDeleteConglomerado extends React.Component {
     alertError: false,
     alertCode: false,
     t: this.props.t,
-    code: '',
-    nameCompany: '',
-    username: 'ccuartas'
+    code: "",
+    nameCompany: "",
+    username: "ccuartas"
   };
 
   toggle = id => {
@@ -23,17 +22,17 @@ class ModalDeleteConglomerado extends React.Component {
       {
         modal: !this.state.modal,
         idConglomerado: id,
-        useLogged: 'jferrer'
+        useLogged: "jferrer"
       },
       () => this.props.updateTable()
     );
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/conglomerate/${id}?username=${this.state.username}`,
+      `http://192.168.20.187:7000/api/sgdea/conglomerate/${id}?username=${this.state.username}`,
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          Authorization: 'Basic ' + window.btoa('sgdea:123456'),
-          'Content-Type': 'application/json'
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
         }
       }
     )
@@ -56,14 +55,15 @@ class ModalDeleteConglomerado extends React.Component {
 
   render() {
     const dataInitial = {
-      code: ''
+      code: ""
     };
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
-            {' '}
-            {this.props.t('app_conglomerado_modal_eliminar_titulo')}{' '}
+            {" "}
+            {t("app_conglomerado_modal_eliminar_titulo")}{" "}
             {this.state.nameCompany}
           </ModalHeader>
 
@@ -74,10 +74,10 @@ class ModalDeleteConglomerado extends React.Component {
                 fetch(
                   `http://192.168.10.180:7000/api/sgdea/conglomerate/${this.state.idConglomerado}?code=${values.code}&username=${this.state.useLogged}`,
                   {
-                    method: 'DELETE',
+                    method: "DELETE",
                     headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: 'BASIC ' + window.btoa('sgdea:123456')
+                      "Content-Type": "application/json",
+                      Authorization: "BASIC " + window.btoa("sgdea:123456")
                     }
                   }
                 )
@@ -102,13 +102,13 @@ class ModalDeleteConglomerado extends React.Component {
                       });
                     }
                   })
-                  .catch(Error => console.log('', Error));
+                  .catch(Error => console.log("", Error));
                 // alert(JSON.stringify(values, "", 2))
               }, 3000);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required(
-                ' Por favor introduzca el codigo del conglomerado.'
+                " Por favor introduzca el codigo del conglomerado."
               )
             })}
           >
@@ -117,12 +117,9 @@ class ModalDeleteConglomerado extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
@@ -133,9 +130,7 @@ class ModalDeleteConglomerado extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_conglomerado_modal_eliminar_alert_error'
-                        )}{' '}
+                        {t("app_conglomerado_modal_eliminar_alert_error")}{" "}
                         {values.code}.
                       </Alert>
                       <Alert
@@ -143,40 +138,34 @@ class ModalDeleteConglomerado extends React.Component {
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_conglomerado_modal_eliminar_alert_success'
-                        )}
+                        {t("app_conglomerado_modal_eliminar_alert_success")}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {this.props.t(
-                          'app_conglomerado_modal_eliminar_alert_errorCode'
-                        )}
+                        {t("app_conglomerado_modal_eliminar_alert_errorCode")}
                       </Alert>
                       <p className="text-center">
-                        {' '}
-                        {this.props.t(
-                          'app_conglomerado_modal_eliminar_informacion'
-                        )}
+                        {" "}
+                        {t("app_conglomerado_modal_eliminar_informacion")}
                       </p>
                       <input
                         type="text"
-                        placeholder={this.props.t(
-                          'app_conglomerado_modal_eliminar_placeholder'
+                        placeholder={t(
+                          "app_conglomerado_modal_eliminar_placeholder"
                         )}
-                        style={{ textAlign: 'center' }}
+                        style={{ textAlign: "center" }}
                         name="code"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.code}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
                           touched.code &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
-                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                      <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
@@ -184,10 +173,10 @@ class ModalDeleteConglomerado extends React.Component {
                       </div>
                       <br />
                       <p className="text-center text-danger">
-                        {' '}
-                        {this.props.t(
-                          'app_conglomerado_modal_eliminar_informacion_2'
-                        )}{' '}
+                        {" "}
+                        {t(
+                          "app_conglomerado_modal_eliminar_informacion_2"
+                        )}{" "}
                       </p>
                     </ModalBody>
                     <ModalFooter>
@@ -199,7 +188,7 @@ class ModalDeleteConglomerado extends React.Component {
                           handleSubmit();
                         }}
                       >
-                        {' '}
+                        {" "}
                         <i className="fa fa-trash" /> Eliminar
                       </button>
                       <button
@@ -214,10 +203,8 @@ class ModalDeleteConglomerado extends React.Component {
                           });
                         }}
                       >
-                        <i className="fa fa-times" />{' '}
-                        {this.props.t(
-                          'app_conglomerado_modal_eliminar_boton_2'
-                        )}{' '}
+                        <i className="fa fa-times" />{" "}
+                        {t("app_conglomerado_modal_eliminar_boton_2")}{" "}
                       </button>
                     </ModalFooter>
                   </form>
@@ -233,6 +220,7 @@ class ModalDeleteConglomerado extends React.Component {
 
 ModalDeleteConglomerado.propTypes = {
   modaldeletestate: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
   t: PropTypes.any
 };
 

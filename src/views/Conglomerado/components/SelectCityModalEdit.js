@@ -31,7 +31,7 @@ class SelectCity extends React.Component {
 
   getDataCitys = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/city/department/${this.state.id}`,
+      `http://192.168.20.187:7000/api/sgdea/city/department/${this.state.id}`,
       {
         method: 'GET',
         headers: {

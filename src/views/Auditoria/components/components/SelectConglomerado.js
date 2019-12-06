@@ -12,7 +12,7 @@ class SelectConglomerado extends React.Component {
   }
 
   getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
+    fetch(`http://192.168.20.187:7000/api/sgdea/conglomerate/active`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

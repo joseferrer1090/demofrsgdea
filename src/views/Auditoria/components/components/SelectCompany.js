@@ -29,7 +29,7 @@ class SelectCompany extends React.Component {
 
   getDataCompany = () => {
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
+      `http://192.168.20.187:7000/api/sgdea/company/conglomerate/${this.state.id}`,
       {
         method: "GET",
         headers: {

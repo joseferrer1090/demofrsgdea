@@ -1,4 +1,4 @@
 export const options = [
-  { value: "en", label: "English" },
-  { value: "es", label: "Español" }
+  { value: "es", label: "Español" },
+  { value: "en", label: "English" }
 ];

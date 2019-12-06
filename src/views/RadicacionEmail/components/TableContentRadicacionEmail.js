@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
-import { Row, Col } from 'reactstrap';
-import './../../../css/styleTableRadicacionEmail.css';
-import './../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css';
-import ModalViewRadicacionEmail from './ModalViewRadicacionEmail';
-import ModalUpdateRadicacionEmail from './ModalUpdateRadicacionEmail';
-import ModalDeleteRadicacionEmail from './ModalDeleteRadicacionEmail';
-import ModalExportCSV from './ModalExportCSV';
-import moment from 'moment';
-import { withTranslation } from 'react-i18next';
+import React, { Component } from "react";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import { Row, Col } from "reactstrap";
+import "./../../../css/styleTableRadicacionEmail.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import ModalViewRadicacionEmail from "./ModalViewRadicacionEmail";
+import ModalUpdateRadicacionEmail from "./ModalUpdateRadicacionEmail";
+import ModalDeleteRadicacionEmail from "./ModalDeleteRadicacionEmail";
+import ModalExportCSV from "./ModalExportCSV";
+import moment from "moment";
+import { withTranslation } from "react-i18next";
 
 class TableContentRadicacionEmail extends Component {
   constructor(props) {
@@ -29,14 +29,14 @@ class TableContentRadicacionEmail extends Component {
 
   getDataRadicacionEmail = () => {
     fetch(
-      'http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing',
+      "http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing",
       {
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
           Authorization:
-            'Bearer ' +
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzM4MzExOTQsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6IjlmODRhMTYwLTJmYzUtNDQ4MC04YjdlLWNkYmE2YjU2NWE3NiIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.yhrzith-pTcRnaUWZ655-ATmuvfWmZ3nIiUcGDrrN2c'
+            "Bearer " +
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
         }
       }
     )
@@ -46,12 +46,12 @@ class TableContentRadicacionEmail extends Component {
           dataRadicacionEmail: data
         });
       })
-      .catch(Error => console.log(' ', Error));
+      .catch(Error => console.log(" ", Error));
   };
 
   accionesRadicacionEmail(cell, row) {
     return (
-      <div className="table-actionMenuMensj" style={{ marginRight: '40px' }}>
+      <div className="table-actionMenuMensj" style={{ marginRight: "40px" }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -59,8 +59,8 @@ class TableContentRadicacionEmail extends Component {
             this.openModalView(row.id);
           }}
         >
-          {' '}
-          <i className="fa fa-eye" />{' '}
+          {" "}
+          <i className="fa fa-eye" />{" "}
         </button>
         &nbsp;
         <button
@@ -92,11 +92,11 @@ class TableContentRadicacionEmail extends Component {
     console.log(row.status);
     if (row.status === true) {
       status = (
-        <b className="text-success"> {t('app_tablas_estado_activo')} </b>
+        <b className="text-success"> {t("app_tablas_estado_activo")} </b>
       );
     } else if (row.status === false) {
       status = (
-        <b className="text-danger"> {t('app_tablas_estado_inactivo')} </b>
+        <b className="text-danger"> {t("app_tablas_estado_inactivo")} </b>
       );
     }
     return status;
@@ -105,7 +105,7 @@ class TableContentRadicacionEmail extends Component {
   FechaCreacionRadicacionEmail(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format('YYYY-MM-DD');
+    return moment(createdAt).format("YYYY-MM-DD");
   }
 
   openModalView = id => {
@@ -136,8 +136,8 @@ class TableContentRadicacionEmail extends Component {
         className={`btn btn-secondary btn-sm`}
         onClick={() => this.openModalExport()}
       >
-        <i className="fa fa-download" />{' '}
-        {t('app_radicacion_email_administrar_table_boton_exportar')}
+        <i className="fa fa-download" />{" "}
+        {t("app_radicacion_email_administrar_table_boton_exportar")}
       </button>
     );
   };
@@ -161,21 +161,21 @@ class TableContentRadicacionEmail extends Component {
               search={true}
               exportCSV
               searchPlaceholder={t(
-                'app_radicacion_email_administrar_table_placeholder'
+                "app_radicacion_email_administrar_table_placeholder"
               )}
               className="tableMensj texto-Mensj"
             >
               <TableHeaderColumn
                 export={false}
                 isKey
-                dataField={'id'}
+                dataField={"id"}
                 hidden={this.state.hiddenColumnID}
               />
               <TableHeaderColumn
                 dataSort={true}
                 dataFormat={this.indexN}
-                width={'50'}
-                dataField={'id'}
+                width={"50"}
+                dataField={"id"}
                 dataAlign="center"
               >
                 #
@@ -183,63 +183,63 @@ class TableContentRadicacionEmail extends Component {
               <TableHeaderColumn
                 dataField="protocol"
                 dataAlign="center"
-                width={'100'}
+                width={"100"}
               >
-                {t('app_radicacion_email_administrar_table_protocol')}
+                {t("app_radicacion_email_administrar_table_protocol")}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="host"
                 dataAlign="center"
-                width={'120'}
+                width={"120"}
               >
-                {t('app_radicacion_email_administrar_table_host')}
+                {t("app_radicacion_email_administrar_table_host")}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="port"
                 dataAlign="center"
-                width={'100'}
+                width={"100"}
               >
-                {t('app_radicacion_email_administrar_table_puerto')}
+                {t("app_radicacion_email_administrar_table_puerto")}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="email"
                 dataAlign="center"
-                width={'200'}
+                width={"200"}
               >
-                {t('app_radicacion_email_administrar_registrar_email')}
+                {t("app_radicacion_email_administrar_registrar_email")}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataSort={true}
-                dataField={'createdAt'}
+                dataField={"createdAt"}
                 dataFormat={(cell, row) =>
                   this.FechaCreacionRadicacionEmail(cell, row)
                 }
                 dataAlign="center"
-                width={'150'}
+                width={"150"}
               >
-                {t('app_radicacion_email_administrar_table_fecha_creacion')}
+                {t("app_radicacion_email_administrar_table_fecha_creacion")}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={'100'}
+                width={"100"}
                 dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) =>
                   this.EstadoRadicacionEmail(cell, row)
                 }
               >
-                {' '}
-                {t('app_radicacion_email_administrar_table_estado')}
+                {" "}
+                {t("app_radicacion_email_administrar_table_estado")}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={'120'}
+                width={"120"}
                 export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) =>
                   this.accionesRadicacionEmail(cell, row)
                 }
               >
-                {' '}
-                {t('app_radicacion_email_administrar_table_acciones')}
+                {" "}
+                {t("app_radicacion_email_administrar_table_acciones")}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
@@ -247,25 +247,25 @@ class TableContentRadicacionEmail extends Component {
         <ModalViewRadicacionEmail
           t={this.props.t}
           modalview={this.state.modalView}
-          ref={'child'}
+          ref={"child"}
         />
         <ModalUpdateRadicacionEmail
           t={this.props.t}
           modalupdate={this.state.modalUpdate}
           updateTable={this.getDataRadicacionEmail}
-          ref={'child2'}
+          ref={"child2"}
         />
 
         <ModalDeleteRadicacionEmail
           t={this.props.t}
           modaldelete={this.state.modaldelte}
           updateTable={this.getDataRadicacionEmail}
-          ref={'child3'}
+          ref={"child3"}
         />
         <ModalExportCSV
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref={'child4'}
+          ref={"child4"}
         />
       </div>
     );
@@ -274,4 +274,4 @@ class TableContentRadicacionEmail extends Component {
 
 TableContentRadicacionEmail.propTypes = {};
 
-export default withTranslation('translations')(TableContentRadicacionEmail);
+export default withTranslation("translations")(TableContentRadicacionEmail);

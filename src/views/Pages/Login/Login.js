@@ -2,13 +2,27 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Formik, ErrorMessage, Form, Field } from "formik";
 import * as Yup from "yup";
-import { Card, CardBody, Container, Col, CardGroup, Row } from "reactstrap";
+import {
+  Card,
+  CardBody,
+  Container,
+  Col,
+  CardGroup,
+  Row,
+  Alert
+} from "reactstrap";
 
 export default props => {
+  const [visible, setVisible] = useState(true);
+  const [visiblepassword, setVisiblePassword] = useState(true);
+
   const validationSchema = Yup.object().shape({
-    username: Yup.string().required(" nombre de usuario invalido"),
+    name: Yup.string().required(" nombre de usuario invalido"),
     password: Yup.string().required(" contraseña es requerida")
   });
+
+  const onDismiss = () => setVisible(false);
+  const onDismissPassword = () => setVisiblePassword(false);
 
   return (
     <Formik
@@ -16,6 +30,7 @@ export default props => {
         name: "",
         password: ""
       }}
+      validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
@@ -24,7 +39,7 @@ export default props => {
         }, 400);
       }}
     >
-      {({ error, touched, isSubmitting }) => (
+      {({ errors, touched, isSubmitting }) => (
         <div className="app flex-row align-items-center">
           <Container>
             <Row className="justify-content-center">
@@ -48,6 +63,27 @@ export default props => {
                         <p className="text-muted text-center">
                           Ingresa al administrador general SGDEA
                         </p>
+                        {errors.name && touched.name ? (
+                          <Alert
+                            color="danger"
+                            isOpen={visible}
+                            toggle={onDismiss}
+                            fade
+                          >
+                            <i className="fa fa-exclamation-triangle" />
+                            <ErrorMessage name="name" />
+                          </Alert>
+                        ) : null}
+                        {errors.password && touched.password ? (
+                          <Alert
+                            color="danger"
+                            isOpen={visiblepassword}
+                            toggle={onDismissPassword}
+                          >
+                            <i className="fa fa-exclamation-triangle" />{" "}
+                            <ErrorMessage name="password" />
+                          </Alert>
+                        ) : null}
                         <div className="form-group">
                           <div className="input-group input-group mb-3">
                             <div className="input-group-prepend">
@@ -63,15 +99,8 @@ export default props => {
                               type="text"
                               placeholder="usuario"
                               name="name"
+                              autoFocus
                             />
-                            {/* <input
-                                  name="username"
-                                  type="text"
-                                  placeholder="usuario"
-                                  className="form-control"
-                                  aria-label="Sizing example input"
-                                  aria-describedby="inputGroup-sizing-sm"
-                                /> */}
                           </div>
                         </div>
                         <div className="input-group input-group mb-3">

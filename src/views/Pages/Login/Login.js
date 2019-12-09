@@ -11,10 +11,13 @@ import {
   Row,
   Alert
 } from "reactstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { userActions } from "./../../../actions/authenticationActions";
 
 export default props => {
   const [visible, setVisible] = useState(true);
   const [visiblepassword, setVisiblePassword] = useState(true);
+  const dispatch = useDispatch();
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required(" nombre de usuario invalido"),
@@ -28,12 +31,14 @@ export default props => {
     <Formik
       initialValues={{
         name: "",
-        password: ""
+        password: "",
+        grant_type: "password"
       }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          //alert(JSON.stringify(values, null, 2));
+          dispatch(userActions.login(values));
           setSubmitting(false);
           resetForm();
         }, 400);
@@ -106,7 +111,7 @@ export default props => {
                         <div className="input-group input-group mb-3">
                           <div className="input-group-prepend">
                             <span
-                              class="input-group-text"
+                              className="input-group-text"
                               id="inputGroup-sizing-sm"
                             >
                               <i className="fa fa-lock" />

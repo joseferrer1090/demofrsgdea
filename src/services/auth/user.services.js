@@ -8,37 +8,31 @@ export const userService = {
 const url = `http://192.168.10.180:8090`;
 
 function login(username, password, grant_type) {
-  const data = {
-    username,
-    password,
-    grant_type
-  };
   const formData = new FormData();
-  formData.append("username", data.username);
-  formData.append("password", data.password);
-  formData.append("grant_type", data.grant_type);
-
-  //   for (const x in data) {
-  //     formData.append(x, data[x]);
-  //   }
+  formData.append("username", username);
+  formData.append("password", password);
+  formData.append("grant_type", grant_type);
 
   const requestOptions = {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: "Basic " + window.btoa("frontendapp:12345")
     },
     body: formData
   };
 
-  console.log(formData);
+  console.log("por este lado el serive", formData);
 
-  return axios
-    .post(`${url}/api/security/oauth/token`, requestOptions)
-    .then(response => response.json)
+  return fetch(`${url}/api/security/oauth/token`, requestOptions)
+    .then(response => response.json())
     .then(user => {
-      //ver que trajo
       console.log(user);
-      localStorage.setItem("user", JSON.stringify(user));
+      //localStorage.setItem("user", JSON.stringify(user));
       return user;
     });
+}
+
+function logout() {
+  localStorage.removeItem("user");
 }

@@ -12,7 +12,6 @@ function login(username, password, grant_type) {
   formData.append("username", username);
   formData.append("password", password);
   formData.append("grant_type", grant_type);
-  1;
 
   const requestOptions = {
     method: "POST",

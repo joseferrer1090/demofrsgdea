@@ -1,7 +1,6 @@
 import { autHeader } from "./../../helpers/authHeader";
 import axios from "axios";
 import qs from "qs";
-import { request } from "https";
 
 export const userService = {
   login
@@ -16,16 +15,6 @@ function login(username, password, grant_type) {
     password,
     grant_type
   };
-  // const data = {
-  //   username,
-  //   password,
-  //   grant_type
-  // };
-  // for (var key in data) {
-  //   formData.append(key, data[key]);
-  //   console.log(formData);
-  // }
-  //const data = `username=${username}&password=${password}6&grant_type=&{grant_type}`;
   const requestOptions = {
     method: "POST",
     headers: {
@@ -37,14 +26,31 @@ function login(username, password, grant_type) {
   };
 
   return axios(requestOptions)
-    .then(response => response.json())
+    .then(handleResponse)
     .then(user => {
-      console.log(user);
-      //localStorage.setItem("user", JSON.stringify(user));
+      // store user details and jwt token in local storage to keep user logged in between page refreshes
+      localStorage.setItem("user", JSON.stringify(user));
+
       return user;
     });
 }
 
 function logout() {
   localStorage.removeItem("user");
+}
+
+function handleResponse(response) {
+  return response.text().then(text => {
+    const data = text && JSON.parse(text);
+    if (!response.ok) {
+      if (response.status === 401) {
+        // auto logout if 401 response returned from api
+        logout();
+        this.location.reload(true);
+      }
+      const error = (data && data.message) || response.statusText;
+      return Promise.reject(error);
+    }
+    return data;
+  });
 }

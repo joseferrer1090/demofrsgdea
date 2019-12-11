@@ -14,11 +14,12 @@ function login(username, password, grant_type) {
     userService.login(username, password, grant_type).then(
       user => {
         console.log(user);
-        dispatch(success(user));
+        dispatch(success(JSON.parse(user)));
         history.push("/#/middleware");
       },
       error => {
         console.log(error);
+        dispatch(failure(error));
       }
     );
   };

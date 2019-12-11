@@ -7,7 +7,7 @@ import thunk from "redux-thunk";
 const store = createStore(
   reducer,
   applyMiddleware(thunk)
-  // initialState,
+  //initialState,
   //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 

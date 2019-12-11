@@ -45,7 +45,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { logginIn } = this.props;
+    // const { logginIn } = this.props;
     const { username, password, grant_type } = this.state;
     return (
       <div className="app flex-row align-items-center">
@@ -55,7 +55,7 @@ class Login extends React.Component {
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>
-                    <Form>
+                    <form name="form" onSubmit={this.handleSubmit}>
                       <div className="row">
                         <div className="col-md-12">
                           <div className="text-center">
@@ -133,7 +133,7 @@ class Login extends React.Component {
                           </Link>
                         </Col>
                       </Row>
-                    </Form>
+                    </form>
                   </CardBody>
                 </Card>
               </CardGroup>
@@ -144,15 +144,15 @@ class Login extends React.Component {
     );
   }
 }
-
-function mapState(state) {
-  const { logginIn } = state.authentication;
-  return { logginIn };
+function mapStateToProps(state) {
+  // const { loggingIn } = state.authentication;
+  console.log(state);
+  return { state };
 }
+
 const actionCreators = {
   login: userActions.login,
   logout: userActions.logout
 };
-const connectedLoginPage = connect(mapState, actionCreators)(Login);
 
-export default Login;
+export default connect(mapStateToProps, actionCreators)(Login);

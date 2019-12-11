@@ -11,22 +11,16 @@ export const userActions = {
 function login(username, password, grant_type) {
   return dispatch => {
     dispatch(request({ username, password, grant_type }));
-    userService
-      .login({
-        username: username,
-        password: password,
-        grant_type: grant_type
-      })
-      .then(
-        user => {
-          console.log(user);
-          dispatch(success(user));
-          // history.push("/#/middleware");
-        },
-        error => {
-          console.log(error);
-        }
-      );
+    userService.login(username, password, grant_type).then(
+      user => {
+        console.log(user);
+        dispatch(success(user));
+        history.push("/#/middleware");
+      },
+      error => {
+        console.log(error);
+      }
+    );
   };
   function request(user) {
     return { type: userConstants.LOGIN_REQUEST, user };

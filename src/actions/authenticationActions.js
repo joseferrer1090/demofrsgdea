@@ -14,12 +14,14 @@ function login(username, password, grant_type) {
     userService.login(username, password, grant_type).then(
       user => {
         console.log(user);
-        dispatch(success(JSON.parse(user)));
+        localStorage.setItem("auth_token", user.data.access_token);
+        dispatch(success(user));
         history.push("/#/middleware");
+        window.location.reload(true);
       },
       error => {
         console.log(error);
-        dispatch(failure(error));
+        //dispatch(failure(error));
       }
     );
   };
@@ -34,4 +36,8 @@ function login(username, password, grant_type) {
   }
 }
 
-function logout() {}
+function logout() {
+  localStorage.removeItem("auth_token");
+  history.push("/");
+  window.location.reload(true);
+}

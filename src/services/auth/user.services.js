@@ -26,7 +26,7 @@ function login(username, password, grant_type) {
   };
 
   return axios(requestOptions)
-    .then(handleResponse)
+    .then()
     .then(user => {
       // store user details and jwt token in local storage to keep user logged in between page refreshes
       localStorage.setItem("user", JSON.stringify(user));
@@ -36,21 +36,24 @@ function login(username, password, grant_type) {
 }
 
 function logout() {
-  localStorage.removeItem("user");
+  localStorage.removeItem("auth_token");
 }
 
 function handleResponse(response) {
-  return response.text().then(text => {
+  return response.json().then(text => {
     const data = text && JSON.parse(text);
     if (!response.ok) {
       if (response.status === 401) {
+        console.log("por este lado services ", response);
         // auto logout if 401 response returned from api
         logout();
-        this.location.reload(true);
+        //location.reload(true);
       }
+
       const error = (data && data.message) || response.statusText;
       return Promise.reject(error);
     }
+
     return data;
   });
 }

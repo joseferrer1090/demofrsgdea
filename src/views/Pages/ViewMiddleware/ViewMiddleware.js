@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { userActions } from "./../../../actions/";
 import {
   Collapse,
   Navbar,
@@ -32,6 +34,10 @@ class ViewMiddleware extends Component {
     this.state = { isOpen: false };
   }
 
+  logout = () => {
+    this.props.logout();
+  };
+
   toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
@@ -58,7 +64,7 @@ class ViewMiddleware extends Component {
                 <DropdownMenu right>
                   <DropdownItem>
                     {" "}
-                    <a href="/" onClick={() => {}}>
+                    <a onClick={this.logout}>
                       <i className="fa fa-times" /> Cerrar session
                     </a>
                   </DropdownItem>{" "}
@@ -142,4 +148,10 @@ class ViewMiddleware extends Component {
 
 ViewMiddleware.propTypes = {};
 
-export default ViewMiddleware;
+function mapStateToProps(state) {
+  return { state };
+}
+
+function mapDispatchToProps(dispatch) {}
+
+export default connect(mapDispatchToProps, mapStateToProps)(ViewMiddleware);

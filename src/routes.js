@@ -9,6 +9,40 @@ import Tema from "./views/Tema/Tema";
 import EditTramite from "./views/TipoTramite/components/ViewEditTramite";
 import EditPlantilla from "./views/Plantilla/components/EditPlantilla";
 import AddIndexPlantilla from "./views/Plantilla/components/AddIndexPlantilla";
+import { Route, Redirect } from "react-router-dom";
+
+const isAuthenticated = () => {
+  const token = sessionStorage.getItem("access_token");
+  try {
+    if (token != null) {
+      return true;
+    } else {
+      return false;
+    }
+    // decode(token);
+    // console.log(decode(token));
+  } catch (error) {
+    return false;
+  }
+  return true;
+};
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/"
+          }}
+        />
+      )
+    }
+  />
+);
 
 const Configuracion = React.lazy(() =>
   import("./views/Configuracion/Configuracion")
@@ -256,7 +290,7 @@ const routes = [
 
 {
   routes.map((route, idx) => {
-    return console.log(route);
+    console.log(route);
   });
 }
 

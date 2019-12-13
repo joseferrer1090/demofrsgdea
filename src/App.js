@@ -119,8 +119,8 @@ class App extends Component {
             name="Middleware security"
             component={ViewMiddleware}
           />
-          {/* <Route path="/" name="Inicio" component={DefaultLayout} /> */}
-          <Route path="*" component={Page404} />
+          <PrivateRoute path="/" name="Inicio" component={DefaultLayout} />
+          {/* <Route path="*" component={Page404} /> */}
         </Switch>
       </HashRouter>
     );

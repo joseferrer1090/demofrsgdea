@@ -37,7 +37,6 @@ function login(username, password, grant_type) {
 }
 
 function logout() {
-  localStorage.removeItem("auth_token");
-  history.push("/");
-  window.location.reload(true);
+  userService.logout();
+  return { type: userConstants.LOGOUT };
 }

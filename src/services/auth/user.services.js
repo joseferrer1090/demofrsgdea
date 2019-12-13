@@ -3,7 +3,8 @@ import axios from "axios";
 import qs from "qs";
 
 export const userService = {
-  login
+  login,
+  logout
 };
 
 const url = `http://192.168.10.180:8090`;
@@ -37,6 +38,8 @@ function login(username, password, grant_type) {
 
 function logout() {
   localStorage.removeItem("auth_token");
+  localStorage.removeItem("user");
+  window.location.replace("/");
 }
 
 function handleResponse(response) {

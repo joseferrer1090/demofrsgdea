@@ -17,7 +17,8 @@ import {
   DropdownItem,
   Card,
   Col,
-  Row
+  Row,
+  Button
 } from "reactstrap";
 
 import "./../../../css/custom_footer.css";
@@ -34,10 +35,6 @@ class ViewMiddleware extends Component {
     this.state = { isOpen: false };
   }
 
-  logout = () => {
-    this.props.logout();
-  };
-
   toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
@@ -47,6 +44,10 @@ class ViewMiddleware extends Component {
   redirectCorrespondencia = () => {
     window.location = "http://localhost:3001/";
     return null;
+  };
+
+  logout = () => {
+    this.props.logout();
   };
 
   render() {
@@ -64,9 +65,9 @@ class ViewMiddleware extends Component {
                 <DropdownMenu right>
                   <DropdownItem>
                     {" "}
-                    <a onClick={this.logout}>
+                    <Button color="link" onClick={this.logout}>
                       <i className="fa fa-times" /> Cerrar session
-                    </a>
+                    </Button>
                   </DropdownItem>{" "}
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -149,9 +150,13 @@ class ViewMiddleware extends Component {
 ViewMiddleware.propTypes = {};
 
 function mapStateToProps(state) {
+  //const { loggingIn } = state.authentication;
+  console.log(state);
   return { state };
 }
 
-function mapDispatchToProps(dispatch) {}
+const actionCreators = {
+  logout: userActions.logout
+};
 
-export default connect(mapDispatchToProps, mapStateToProps)(ViewMiddleware);
+export default connect(mapStateToProps, actionCreators)(ViewMiddleware);

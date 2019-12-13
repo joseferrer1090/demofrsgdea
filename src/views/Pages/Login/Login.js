@@ -151,8 +151,7 @@ function mapStateToProps(state) {
 }
 
 const actionCreators = {
-  login: userActions.login,
-  logout: userActions.logout
+  login: userActions.login
 };
 
 export default connect(mapStateToProps, actionCreators)(Login);

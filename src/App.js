@@ -32,7 +32,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
       isAuthenticate() ? (
         <Component {...props} />
       ) : (
-        <Redirect to={{ pathname: "/" }} />
+        <Redirect to={{ pathname: "/404" }} />
       )
     }
   />
@@ -112,7 +112,6 @@ class App extends Component {
             component={ResetPassword}
           />
           <Route path="/404" name="Page 404" component={Page404} />
-          <Route path="/500" name="Page 500" component={Page500} />
           <PrivateRoute
             exact
             path="/middleware"
@@ -120,6 +119,8 @@ class App extends Component {
             component={ViewMiddleware}
           />
           <PrivateRoute path="/" name="Inicio" component={DefaultLayout} />
+          {/* <Route path="/404" name="Page 404" component={Page404} />
+          <Route path="/500" name="Page 500" component={Page500} /> */}
           {/* <Route path="*" component={Page404} /> */}
         </Switch>
       </HashRouter>

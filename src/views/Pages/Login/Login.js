@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { userActions } from "./../../../actions";
+import { Formik, withFormik } from "formik";
+import * as Yup from "yup";
 import {
   Row,
   Col,
@@ -11,42 +10,23 @@ import {
   Container,
   Form
 } from "reactstrap";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { userActions } from "./../../../actions";
 
-class Login extends React.Component {
-  constructor(props) {
-    super(props);
-    //this.props.logout();
-    this.state = {
-      username: "",
-      password: "",
-      grant_type: "password",
-      submitted: false
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(e) {
-    const { name, value } = e.target;
-    this.setState({
-      [name]: value
-    });
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    this.setState({
-      submitted: true
-    });
-    const { username, password, grant_type } = this.state;
-    if (username && password) {
-      this.props.login(username, password, grant_type);
-    }
-  }
-
+class LoginForm extends React.Component {
   render() {
-    // const { logginIn } = this.props;
-    const { username, password, grant_type } = this.state;
+    const {
+      values,
+      touched,
+      errors,
+      dirty,
+      handleChange,
+      handleBlur,
+      handleSubmit,
+      handleReset,
+      isSubmitting
+    } = this.props;
     return (
       <div className="app flex-row align-items-center">
         <Container>
@@ -55,7 +35,7 @@ class Login extends React.Component {
               <CardGroup>
                 <Card className="p-4">
                   <CardBody>
-                    <form name="form" onSubmit={this.handleSubmit}>
+                    <form name="form" onSubmit={handleSubmit}>
                       <div className="row">
                         <div className="col-md-12">
                           <div className="text-center">
@@ -85,10 +65,12 @@ class Login extends React.Component {
                           <input
                             type="text"
                             className="form-control form-control-sm"
-                            name="username"
-                            value={username}
-                            onChange={this.handleChange}
-                            placeholder="Usuarios"
+                            // name="username"
+                            id="username"
+                            placeholder="Usuario"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.username}
                           />
                         </div>
                       </div>
@@ -104,20 +86,30 @@ class Login extends React.Component {
                         <input
                           type="password"
                           className="form-control form-control-sm"
-                          name="password"
-                          value={password}
-                          onChange={this.handleChange}
+                          // name="password"
+                          id="password"
+                          value={values.password}
                           placeholder="Contraseña"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         />
                       </div>
-                      <input type="hidden" value={grant_type} />
+                      {/* <input type="hidden" value={grant_type} /> */}
                       <Row>
                         <Col xs="6">
                           <button
                             type="submit"
                             className="btn btn-outline-secondary btn-block"
+                            disabled={this.props.isSubmitting}
                           >
-                            Ingresar <i className="fa fa-arrow-circle-right" />
+                            {isSubmitting ? (
+                              <i className=" fa fa-spinner fa-spin" />
+                            ) : (
+                              <div>
+                                Login <i className="fa fa-arrow-circle-right" />
+                              </div>
+                            )}
+                            {/* Ingresar <i className="fa fa-arrow-circle-right" /> */}
                           </button>
                           {/* <Link
                                 to="/middleware"
@@ -144,6 +136,30 @@ class Login extends React.Component {
     );
   }
 }
+
+const formikEnhancer = withFormik({
+  validationSchema: Yup.object().shape({
+    username: Yup.string().required("Usuario es requerido"),
+    password: Yup.string().required("Password es requerida")
+  }),
+  mapPropsToValues: () => ({
+    username: "",
+    password: "",
+    grant_type: "password"
+  }),
+  handleSubmit: (values, { props, setSubmitting, resetForm }) => {
+    setTimeout(() => {
+      const username = values.username;
+      const password = values.password;
+      const grant_type = values.grant_type;
+      // alert(JSON.stringify(values, null, 2));
+      props.login(username, password, grant_type);
+      setSubmitting(true);
+      resetForm();
+    }, 1500);
+  }
+})(LoginForm);
+
 function mapStateToProps(state) {
   //const { loggingIn } = state.authentication;
   console.log(state);
@@ -154,4 +170,6 @@ const actionCreators = {
   login: userActions.login
 };
 
-export default connect(mapStateToProps, actionCreators)(Login);
+const Login = connect(mapStateToProps, actionCreators)(formikEnhancer);
+
+export default Login;

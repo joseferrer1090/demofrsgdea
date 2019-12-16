@@ -19,6 +19,8 @@ import { AppNavbarBrand, AppSidebarToggler } from "@coreui/react";
 import logo from "../../assets/img/sevenet_ori.svg";
 import sygnet from "../../assets/img/sevenet_ori.svg";
 import { useTranslation, Trans } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { userActions } from "./../../actions/authenticationActions";
 
 const propTypes = {
   children: PropTypes.node
@@ -48,6 +50,11 @@ class DefaultHeader extends Component {
     i18n.changeLanguage(lang);
   };
 
+  logout = dispatch => {
+    dispatch = useDispatch();
+    dispatch(userActions.userlogout());
+  };
+
   render() {
     const { children, ...attributes } = this.props;
     const { t } = this.props;
@@ -59,6 +66,7 @@ class DefaultHeader extends Component {
         </option>
       );
     });
+
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -136,7 +144,7 @@ class DefaultHeader extends Component {
                   <i className="fa fa-wrench" /> {t("homePage")}{" "}
                 </Link>
               </DropdownItem>
-              <DropdownItem onClick={e => this.props.onLogout(e)}>
+              <DropdownItem onClick={() => this.logout}>
                 <i className="fa fa-lock" /> {t("goOut")}
               </DropdownItem>
             </DropdownMenu>

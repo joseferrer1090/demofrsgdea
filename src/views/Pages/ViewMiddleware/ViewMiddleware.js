@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { userActions } from "./../../../actions/";
 import {
   Collapse,
   Navbar,
@@ -15,7 +17,8 @@ import {
   DropdownItem,
   Card,
   Col,
-  Row
+  Row,
+  Button
 } from "reactstrap";
 
 import "./../../../css/custom_footer.css";
@@ -43,6 +46,10 @@ class ViewMiddleware extends Component {
     return null;
   };
 
+  logout = () => {
+    this.props.logout();
+  };
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -58,9 +65,9 @@ class ViewMiddleware extends Component {
                 <DropdownMenu right>
                   <DropdownItem>
                     {" "}
-                    <a href="/" onClick={() => {}}>
+                    <Button color="link" onClick={this.logout}>
                       <i className="fa fa-times" /> Cerrar session
-                    </a>
+                    </Button>
                   </DropdownItem>{" "}
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -142,4 +149,14 @@ class ViewMiddleware extends Component {
 
 ViewMiddleware.propTypes = {};
 
-export default ViewMiddleware;
+function mapStateToProps(state) {
+  //const { loggingIn } = state.authentication;
+  console.log(state);
+  return { state };
+}
+
+const actionCreators = {
+  logout: userActions.logout
+};
+
+export default connect(mapStateToProps, actionCreators)(ViewMiddleware);

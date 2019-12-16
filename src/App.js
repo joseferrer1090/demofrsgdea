@@ -1,20 +1,54 @@
-import React, { Component } from 'react';
-import { HashRouter, Route, Switch } from 'react-router-dom';
-import Loadable from 'react-loadable';
-import './App.scss';
-import Conglomerado from './views/Conglomerado/Conglomerado';
+import React, { Component } from "react";
+import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
+import Loadable from "react-loadable";
+import "./App.scss";
+import Conglomerado from "./views/Conglomerado/Conglomerado";
+import { decode } from "jwt-decode";
+
+// isAuthenticate
+const isAuthenticate = () => {
+  const token = localStorage.getItem("auth_token");
+  try {
+    if (token !== null) {
+      return true;
+    } else {
+      return false;
+    }
+    // Aqui tengo descomponer el token y guardar los datos
+    // para crear el HOC de los permisos
+    // por el momento esta asi
+    // toca optimizar el redux para el login
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+  return true;
+};
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticate() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{ pathname: "/" }} />
+      )
+    }
+  />
+);
 
 const loading = () => (
   // <div className="animated fadeIn pt-3 text-center">Loading...</div>
   <div
     className=""
     style={{
-      margin: '0',
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)'
+      margin: "0",
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)"
     }}
   >
     <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
@@ -24,43 +58,43 @@ const loading = () => (
 
 // Containers
 const DefaultLayout = Loadable({
-  loader: () => import('./containers/DefaultLayout'),
+  loader: () => import("./containers/DefaultLayout"),
   loading
 });
 
 // Pages
 const Login = Loadable({
-  loader: () => import('./views/Pages/Login'),
+  loader: () => import("./views/Pages/Login"),
   loading
 });
 
 const Register = Loadable({
-  loader: () => import('./views/Pages/Register'),
+  loader: () => import("./views/Pages/Register"),
   loading
 });
 
 const Page404 = Loadable({
-  loader: () => import('./views/Pages/Page404'),
+  loader: () => import("./views/Pages/Page404"),
   loading
 });
 
 const Page500 = Loadable({
-  loader: () => import('./views/Pages/Page500'),
+  loader: () => import("./views/Pages/Page500"),
   loading
 });
 
 const Forgot = Loadable({
-  loader: () => import('./views/Pages/Forgot/Forgot'),
+  loader: () => import("./views/Pages/Forgot/Forgot"),
   loading
 });
 
 const ResetPassword = Loadable({
-  loader: () => import('./views/Pages/Forgot/ResetPassword/ResetPassword'),
+  loader: () => import("./views/Pages/Forgot/ResetPassword/ResetPassword"),
   loading
 });
 
 const ViewMiddleware = Loadable({
-  loader: () => import('./views/Pages/ViewMiddleware/ViewMiddleware'),
+  loader: () => import("./views/Pages/ViewMiddleware/ViewMiddleware"),
   loading
 });
 
@@ -77,15 +111,16 @@ class App extends Component {
             name="Reset Password"
             component={ResetPassword}
           />
-          <Route exact path="/404" name="Page 404" component={Page404} />
-          <Route exact path="/500" name="Page 500" component={Page500} />
-          <Route
+          <Route path="/404" name="Page 404" component={Page404} />
+          <Route path="/500" name="Page 500" component={Page500} />
+          <PrivateRoute
             exact
             path="/middleware"
             name="Middleware security"
             component={ViewMiddleware}
           />
-          <Route path="/" name="Inicio" component={DefaultLayout} />
+          <PrivateRoute path="/" name="Inicio" component={DefaultLayout} />
+          {/* <Route path="*" component={Page404} /> */}
         </Switch>
       </HashRouter>
     );

@@ -14,6 +14,16 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { userActions } from "./../../../actions";
 
+const ErrorMessage = ({ errorValue }) => (
+  <div style={{ margin: 0, color: "red" }}>
+    {errorValue ? (
+      <p>
+        <i className="fa fa-exclamation-triangle" /> {errorValue}
+      </p>
+    ) : null}
+  </div>
+);
+
 class LoginForm extends React.Component {
   render() {
     const {
@@ -73,6 +83,7 @@ class LoginForm extends React.Component {
                             value={values.username}
                           />
                         </div>
+                        <ErrorMessage errorValue={errors.username} />
                       </div>
                       <div className="input-group input-group mb-3">
                         <div className="input-group-prepend">
@@ -94,6 +105,8 @@ class LoginForm extends React.Component {
                           onBlur={handleBlur}
                         />
                       </div>
+                      <ErrorMessage errorValue={errors.password} />
+
                       {/* <input type="hidden" value={grant_type} /> */}
                       <Row>
                         <Col xs="6">
@@ -139,8 +152,8 @@ class LoginForm extends React.Component {
 
 const formikEnhancer = withFormik({
   validationSchema: Yup.object().shape({
-    username: Yup.string().required("Usuario es requerido"),
-    password: Yup.string().required("Password es requerida")
+    username: Yup.string().required("usuario no puede ir en blanco"),
+    password: Yup.string().required("constraseña invalida")
   }),
   mapPropsToValues: () => ({
     username: "",

@@ -22,11 +22,24 @@ import { useTranslation, Trans } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { userActions } from "./../../actions/authenticationActions";
 
+import decode from "jwt-decode";
+
 const propTypes = {
   children: PropTypes.node
 };
 
 const defaultProps = {};
+
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
 
 class DefaultHeader extends Component {
   constructor(props) {
@@ -34,13 +47,24 @@ class DefaultHeader extends Component {
     this.state = {
       logoFull: logo,
       logoMin: sygnet,
-      lang: options[1]
+      lang: options[1],
+      resp: {}
     };
   }
 
   // pagePrincipal = () => {
   //   browserHistory.push("/path");
   // };
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    asyncLocalStorage.getItem("user").then(res => {
+      return console.log(res);
+    });
+  };
 
   changeLanguaje = lang => {
     const { i18n } = this.props;
@@ -66,7 +90,7 @@ class DefaultHeader extends Component {
         </option>
       );
     });
-
+    console.log(this.state.resp.access_token);
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />

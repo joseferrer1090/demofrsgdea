@@ -288,10 +288,10 @@ const routes = [
   }
 ];
 
-{
-  routes.map((route, idx) => {
-    console.log(route);
-  });
-}
+// {
+//   routes.map((route, idx) => {
+//     // console.log(route);
+//   });
+// }
 
 export default routes;

@@ -1,16 +1,16 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ConglomeradoForm from './Forms/ConglomeradoForm';
+import React from "react";
+import PropTypes from "prop-types";
+import ConglomeradoForm from "./Forms/ConglomeradoForm";
 
 const dataConglomerado = {
-  codigo: '',
-  nombre: '',
-  descripcion: '',
-  estado: '',
-  countryId: '',
-  departmentId: '',
-  cityId: '',
-  chargeId: ''
+  codigo: "",
+  nombre: "",
+  descripcion: "",
+  estado: "",
+  countryId: "",
+  departmentId: "",
+  cityId: "",
+  chargeId: ""
 };
 
 const FormCreateConglomerado = props => {
@@ -19,7 +19,10 @@ const FormCreateConglomerado = props => {
       <div className="container">
         <div className="row">
           <div className="col-md-8 offset-md-2">
-            <ConglomeradoForm conglomerado={dataConglomerado} />
+            <ConglomeradoForm
+              conglomerado={dataConglomerado}
+              authorization={props.authorization}
+            />
           </div>
         </div>
       </div>
@@ -28,7 +31,8 @@ const FormCreateConglomerado = props => {
 };
 
 FormCreateConglomerado.propTypes = {
-  conglomerado: PropTypes.object.isRequired
+  conglomerado: PropTypes.object.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default FormCreateConglomerado;

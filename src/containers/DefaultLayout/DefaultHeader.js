@@ -61,9 +61,17 @@ class DefaultHeader extends Component {
   }
 
   getData = () => {
-    asyncLocalStorage.getItem("user").then(res => {
-      return console.log(res);
-    });
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          resp: decode(resp.data.access_token)
+        });
+        //console.log(resp.data.access_token);
+      });
   };
 
   changeLanguaje = lang => {
@@ -90,7 +98,6 @@ class DefaultHeader extends Component {
         </option>
       );
     });
-    console.log(this.state.resp.access_token);
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -131,7 +138,8 @@ class DefaultHeader extends Component {
         <Nav className="ml-auto" navbar>
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav style={{ marginRight: "4px !important" }}>
-              {t("userLogged")}
+              {/* {t("userLogged")} */}
+              {this.state.resp.user_name}
               <img
                 src={"../../assets/img/avatars/user2.jpg"}
                 className="img-avatar"

@@ -83,7 +83,7 @@ class FormUpload extends React.Component {
                 setTimeout(() => {
                   axios
                     .post(
-                      `http://192.168.20.187:7002/api/sgdea/company/import/?username=${this.state.username}`,
+                      `http://192.168.10.180:7002/api/sgdea/company/import/?username=${this.state.username}`,
                       formData,
                       { headers: { "Content-Type": "multipart/form-data" } }
                     )

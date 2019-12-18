@@ -28,6 +28,7 @@ class FormUploadFile extends React.Component {
 
   render() {
     const { t } = this.props;
+    //
     return (
       <Fragment>
         <Row>
@@ -54,6 +55,7 @@ class FormUploadFile extends React.Component {
                     {t("app_conglomerado_import_step_2")}
                   </h5>
                 </div>
+
                 <p className="mb-1" style={{ textAlign: "justify" }}>
                   {t("app_conglomerado_import_step_2_descripcion")}
                 </p>
@@ -89,7 +91,7 @@ class FormUploadFile extends React.Component {
                 setTimeout(() => {
                   axios
                     .post(
-                      `http://192.168.20.187:7001/api/sgdea/conglomerate/import/?username=${this.state.username}`,
+                      `http://192.168.10.180:7001/api/sgdea/conglomerate/import/?username=${this.state.username}`,
                       formData,
                       {
                         headers: {

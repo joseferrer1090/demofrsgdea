@@ -29,7 +29,7 @@ class SelectHeadquarter extends React.Component {
 
   getDataHeadquarter = () => {
     fetch(
-      `http://192.168.20.187:7000/api/sgdea/headquarter/company/${this.props.audit_empresa}`,
+      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.audit_empresa}`,
       {
         method: "GET",
         headers: {

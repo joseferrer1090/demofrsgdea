@@ -62,7 +62,7 @@ class ModalEditConglomerado extends React.Component {
 
   getConglomeradoByID = id => {
     fetch(
-      `http://192.168.20.187:7000/api/sgdea/conglomerate/${id}?username=${this.state.username}`,
+      `http://192.168.10.180:7000/api/sgdea/conglomerate/${id}?username=${this.state.username}`,
       {
         method: "GET",
         headers: {
@@ -286,12 +286,9 @@ class ModalEditConglomerado extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset,
                 setFieldValue,
                 setFieldTouched
               } = props;

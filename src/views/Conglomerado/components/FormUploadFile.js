@@ -28,6 +28,7 @@ class FormUploadFile extends React.Component {
 
   render() {
     const { t } = this.props;
+    //
     return (
       <Fragment>
         <Row>
@@ -54,6 +55,7 @@ class FormUploadFile extends React.Component {
                     {t("app_conglomerado_import_step_2")}
                   </h5>
                 </div>
+
                 <p className="mb-1" style={{ textAlign: "justify" }}>
                   {t("app_conglomerado_import_step_2_descripcion")}
                 </p>

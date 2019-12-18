@@ -286,12 +286,9 @@ class ModalEditConglomerado extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset,
                 setFieldValue,
                 setFieldTouched
               } = props;

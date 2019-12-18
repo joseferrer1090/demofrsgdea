@@ -135,7 +135,7 @@ class DefaultHeader extends Component {
             </select>
           </NavItem>
         </Nav>
-        <Nav className="ml-auto" navbar>
+        <Nav className="ml-auto" navbar style={{ marginRight: "31px" }}>
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav style={{ marginRight: "4px !important" }}>
               {/* {t("userLogged")} */}

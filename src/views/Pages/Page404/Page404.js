@@ -11,6 +11,9 @@ import {
 } from "reactstrap";
 
 class Page404 extends Component {
+  goBack = () => {
+    this.props.history.push("/");
+  };
   render() {
     return (
       <div className="app flex-row align-items-center">
@@ -22,7 +25,12 @@ class Page404 extends Component {
                 <h4 className="pt-3">Ups! Estas perdido.</h4>
                 <p className="text-muted float-left">
                   No se encontro la pagina que buscas
+                  <br />
+                  <Button color="secondary" onClick={this.goBack}>
+                    <i className="fa fa-arrow-circle-o-left" /> Atras{" "}
+                  </Button>
                 </p>
+                <br />
               </div>
               <InputGroup className="input-prepend">
                 <InputGroupAddon addonType="prepend" />

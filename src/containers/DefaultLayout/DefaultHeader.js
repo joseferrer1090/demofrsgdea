@@ -19,6 +19,10 @@ import { AppNavbarBrand, AppSidebarToggler } from "@coreui/react";
 import logo from "../../assets/img/sevenet_ori.svg";
 import sygnet from "../../assets/img/sevenet_ori.svg";
 import { useTranslation, Trans } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { userActions } from "./../../actions/authenticationActions";
+
+import decode from "jwt-decode";
 
 const propTypes = {
   children: PropTypes.node
@@ -26,13 +30,25 @@ const propTypes = {
 
 const defaultProps = {};
 
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
+
 class DefaultHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
       logoFull: logo,
       logoMin: sygnet,
-      lang: options[1]
+      lang: options[1],
+      resp: {}
     };
   }
 
@@ -40,12 +56,35 @@ class DefaultHeader extends Component {
   //   browserHistory.push("/path");
   // };
 
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          resp: decode(resp.data.access_token)
+        });
+        //console.log(resp.data.access_token);
+      });
+  };
+
   changeLanguaje = lang => {
     const { i18n } = this.props;
     this.setState({
       lang
     });
     i18n.changeLanguage(lang);
+  };
+
+  logout = dispatch => {
+    dispatch = useDispatch();
+    dispatch(userActions.userlogout());
   };
 
   render() {
@@ -99,7 +138,8 @@ class DefaultHeader extends Component {
         <Nav className="ml-auto" navbar>
           <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav style={{ marginRight: "4px !important" }}>
-              {t("userLogged")}
+              {/* {t("userLogged")} */}
+              {this.state.resp.user_name}
               <img
                 src={"../../assets/img/avatars/user2.jpg"}
                 className="img-avatar"
@@ -136,7 +176,7 @@ class DefaultHeader extends Component {
                   <i className="fa fa-wrench" /> {t("homePage")}{" "}
                 </Link>
               </DropdownItem>
-              <DropdownItem onClick={e => this.props.onLogout(e)}>
+              <DropdownItem onClick={() => this.logout}>
                 <i className="fa fa-lock" /> {t("goOut")}
               </DropdownItem>
             </DropdownMenu>

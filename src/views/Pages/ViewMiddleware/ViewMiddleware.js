@@ -28,11 +28,27 @@ import MODULOCORRESPONDENCIA from "./../../../assets/img/close-envelope.svg";
 import MODULOARCHIVO from "./../../../assets/img/archive.svg";
 import MODULOWORKFLOW from "./../../../assets/img/workflow2.svg";
 import url from "./../../../services/deploymentdata";
+import { decode } from "jsonwebtoken";
+
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
 
 class ViewMiddleware extends Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false };
+    this.state = { isOpen: false, datalocal: {} };
+  }
+
+  componentDidMount() {
+    this.getDataLocalStorage();
   }
 
   toggle = () => {
@@ -50,6 +66,19 @@ class ViewMiddleware extends Component {
     this.props.logout();
   };
 
+  getDataLocalStorage = () => {
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          datalocal: decode(resp.data.access_token)
+        });
+      });
+  };
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -60,13 +89,13 @@ class ViewMiddleware extends Component {
             <Nav className="ml-auto" navbar>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  Usuario
+                  {this.state.datalocal.user_name}{" "}
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
                     {" "}
                     <Button color="link" onClick={this.logout}>
-                      <i className="fa fa-times" /> Cerrar session
+                      <i className="fa fa-times" /> Cerrar sesion
                     </Button>
                   </DropdownItem>{" "}
                 </DropdownMenu>

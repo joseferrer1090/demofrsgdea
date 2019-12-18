@@ -1,3 +1,4 @@
+import config from "./configRequest/config";
 //---------------------------------------------CONGLOMERADO--------------------------------------------------//
 
 /* GET / POST / PUT */
@@ -98,7 +99,7 @@ export const DEPENDENCE_PAGINATION = () => {
 //---------------------------------------------CARGO--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const CHARGES = "http://192.168.10.180:7000/api/sgdea/charge";
+export const CHARGES = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges`;
 
 /* GET / DELETE */
 export const CHARGE =

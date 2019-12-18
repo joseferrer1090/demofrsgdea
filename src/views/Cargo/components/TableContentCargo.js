@@ -10,6 +10,7 @@ import "./../../../css/styleTableCargo.css";
 import moment from "moment";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { CHARGES } from "./../../../services/EndPoints";
 
 class TableContentCargo extends Component {
   constructor(props) {
@@ -20,7 +21,9 @@ class TableContentCargo extends Component {
       modaldelete: false,
       modalexport: false,
       dataCharge: [],
-      HiddenColumn: true
+      HiddenColumn: true,
+      authorization:
+        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzY2ODgwMTEsInVzZXJfbmFtZSI6ImpmZXJyZXIiLCJhdXRob3JpdGllcyI6WyJBU0lTVEVOVEUgQURNSU5JU1RSQVRJVk8iXSwianRpIjoiMzAyOGZiZmMtYWU5My00MzhhLTk5ODctMGNiMDdkODFjNGEzIiwiY2xpZW50X2lkIjoiZnJvbnRlbmRhcHAiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.EoRB0gGPH_qCxOqsFbQ2lhaVNwSjThowbPG-A4JmL7SX8FE8tdBee4_QTZ2WvlWaPVoSTJF8XmsY9V4iEB65remcBNA1WhhyUnWzNYRpsD2rs7b-G0Q8bPekLNcR4mHcnjZ78vmuGoEpSAb64EOiIwSmFFVJ8N8Uqtz1cCFAPKA-BR7lQx68nBarai-zqIQ1uV5TQldzG4Qg9NpzUdLkKTb0CGe4vCY8OepoDtBjkgQk2PuvxplzxwUq3MuyZQfkCzC0UT0e2PfglzQIeQOkeRZmaidcwPjMo9V0LENo2EebDh15p8ce2Xp6S9x7CDptmcQaA1Gml1UJt5ukM_-d3g"
     };
   }
 
@@ -29,10 +32,10 @@ class TableContentCargo extends Component {
   }
 
   getDataCharge = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/charge/`, {
+    fetch(CHARGES, {
       method: "GET",
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        Authorization: "Bearer " + this.state.authorization,
         "Content-Type": "application/json"
       }
     })
@@ -250,6 +253,7 @@ class TableContentCargo extends Component {
   }
 }
 TableContentCargo.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(TableContentCargo);

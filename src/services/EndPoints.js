@@ -102,8 +102,7 @@ export const DEPENDENCE_PAGINATION = () => {
 export const CHARGES = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges`;
 
 /* GET / DELETE */
-export const CHARGE =
-  "http://192.168.10.180:7000/api/sgdea/charge/134be0a4-0237-4418-9a04-8a58ea651aa2/ccuartas";
+export const CHARGE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/`;
 
 /* GET */
 export const CHARGES_STATUS =

@@ -22,20 +22,32 @@ class TableContentCargo extends Component {
       modalexport: false,
       dataCharge: [],
       HiddenColumn: true,
-      authorization:
-        "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzY2ODgwMTEsInVzZXJfbmFtZSI6ImpmZXJyZXIiLCJhdXRob3JpdGllcyI6WyJBU0lTVEVOVEUgQURNSU5JU1RSQVRJVk8iXSwianRpIjoiMzAyOGZiZmMtYWU5My00MzhhLTk5ODctMGNiMDdkODFjNGEzIiwiY2xpZW50X2lkIjoiZnJvbnRlbmRhcHAiLCJzY29wZSI6WyJyZWFkIiwid3JpdGUiXX0.EoRB0gGPH_qCxOqsFbQ2lhaVNwSjThowbPG-A4JmL7SX8FE8tdBee4_QTZ2WvlWaPVoSTJF8XmsY9V4iEB65remcBNA1WhhyUnWzNYRpsD2rs7b-G0Q8bPekLNcR4mHcnjZ78vmuGoEpSAb64EOiIwSmFFVJ8N8Uqtz1cCFAPKA-BR7lQx68nBarai-zqIQ1uV5TQldzG4Qg9NpzUdLkKTb0CGe4vCY8OepoDtBjkgQk2PuvxplzxwUq3MuyZQfkCzC0UT0e2PfglzQIeQOkeRZmaidcwPjMo9V0LENo2EebDh15p8ce2Xp6S9x7CDptmcQaA1Gml1UJt5ukM_-d3g"
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataCharge();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataCharge();
+    }
   }
 
   getDataCharge = () => {
     fetch(CHARGES, {
       method: "GET",
       headers: {
-        Authorization: "Bearer " + this.state.authorization,
+        Authorization: "Bearer " + this.props.authorization,
         "Content-Type": "application/json"
       }
     })
@@ -227,14 +239,16 @@ class TableContentCargo extends Component {
           </BootstrapTable>
         </Col>
         <ModalView
-          t={this.props.t}
+          t={t}
           modalviewcargo={this.state.modalview}
+          authorization={this.state.auth}
           ref="child1"
         />
         <ModalEdit
           t={this.props.t}
           modaleditcargo={this.state.modaledit}
           updateTable={this.getDataCharge}
+          authorization={this.state.auth}
           ref="child2"
         />
         <ModalDel

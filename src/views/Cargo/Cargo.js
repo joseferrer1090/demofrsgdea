@@ -33,7 +33,8 @@ class Cargo extends Component {
     this.state = {
       activeTab: "1",
       dataTextArea: data,
-      authToken: ""
+      authToken: "",
+      userToken: ""
     };
   }
 
@@ -110,7 +111,7 @@ class Cargo extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <TableContent />
+                <TableContent authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

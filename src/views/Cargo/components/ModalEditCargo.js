@@ -160,8 +160,7 @@ class ModalEditCargo extends React.Component {
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                t
+                handleSubmit
               } = props;
               return (
                 <Fragment>

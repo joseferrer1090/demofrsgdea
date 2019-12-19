@@ -145,6 +145,11 @@ class DefaultHeader extends Component {
                 className="img-avatar"
                 alt="administratos@image"
               />
+              {/*
+              
+
+                
+              */}
             </DropdownToggle>
             <DropdownMenu style={{ marginLeft: "-45px" }}>
               <DropdownItem header tag="div" className="text-center">

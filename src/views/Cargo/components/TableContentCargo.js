@@ -255,6 +255,7 @@ class TableContentCargo extends Component {
           t={this.props.t}
           modaldelete={this.state.modaldelete}
           updateTable={this.getDataCharge}
+          authorization={this.state.auth}
           ref="child3"
         />
         <ModalExport

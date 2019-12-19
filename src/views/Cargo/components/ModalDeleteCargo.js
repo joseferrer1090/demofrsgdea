@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import * as Yup from "yup";
 import { Formik, ErrorMessage } from "formik";
+import { CHARGE, CHARGES } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalDeleteCargo extends React.Component {
   state = {
@@ -15,25 +17,41 @@ class ModalDeleteCargo extends React.Component {
     nameCharge: "",
     code: "",
     t: this.props.t,
-    username: "ccuartas"
+    username: "ccuartas",
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      id: id,
-      useLogged: "jferrer"
+      id: id
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/charge/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${CHARGE}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -68,13 +86,18 @@ class ModalDeleteCargo extends React.Component {
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
+                const user = () => {
+                  const data = this.state.auth;
+                  const user = decode(data);
+                  return user.user_name;
+                };
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/charge/${this.state.id}?code=${values.code}&username=${this.state.useLogged}`,
+                  `${CHARGES}${this.state.id}?code=${values.code}?username=${user}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                      Authorization: "Bearer " + this.state.auth
                     }
                   }
                 )

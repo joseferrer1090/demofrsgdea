@@ -120,11 +120,11 @@ export const CHARGE_PAGINATION = () => {
 //---------------------------------------------MENSAJERO--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const MESSENGERS = "http://192.168.10.180:7000/api/sgdea/messenger";
+export const MESSENGERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers`;
 
 /* GET / DELETE */
-export const MESSENGER =
-  "http://192.168.10.180:7000/api/sgdea/messenger/be31eb45-fa5b-4b15-bd32-c4adf9ff4376/ccuartas";
+
+export const MESSENGER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers`;
 
 /* GET */
 export const MESSENGERS_STATUS =

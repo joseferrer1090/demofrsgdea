@@ -1,91 +1,109 @@
 import config from "./configRequest/config";
 //---------------------------------------------CONGLOMERADO--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const CONGLOMERATES =
-  "http://192.168.10.180:7000/api/sgdea/conglomerate";
+/* GET */
+export const CONGLOMERATES = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/conglomerates`;
 
-/* GET / DELETE */
-export const CONGLOMERATE =
-  "http://192.168.10.180:7000/api/sgdea/conglomerate/054a3833-fa34-4770-8c30-3fc0efcebb28/ccuartas";
+/* POST / GET / DELETE */
+export const CONGLOMERATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/conglomerates`;
 
 /* GET */
-export const CONGLOMERATES_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/conglomerate/active";
+export const CONGLOMERATES_STATUS = `${config.IP}:${config}/api/sgdea/conglomerate/active`;
 
-/* GET */
-export const CONGLOMERATE_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/conglomerate/export/ccuartas";
+export const CONGLOMERATES_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/conglomerates/inactive`;
+
+/* GET param username */
+export const CONGLOMERATE_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/conglomerates/export/data`;
 
 /* GET */
 export const CONGLOMERATE_PAGINATION = () => {
-  const page = 0;
-  const size = 3;
-  return `http://192.168.10.180:7000/api/sgdea/conglomerate/pagination?page=${page}&size=${size}`;
+  //const page = 0; => param
+  //const size = 3; => param
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/conglomerates/pagination`;
 };
 
 //---------------------------------------------EMPRESA--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const COMPANYS = "http://192.168.10.180:7000/api/sgdea/company";
+export const COMPANYS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/companies`;
 
 /* GET / DELETE */
 export const COMPANY =
   "http://192.168.10.180:7000/api/sgdea/company/679a9e1f-29a6-4c7a-b90b-da4d774ebf1f/ccuartas";
 
 /* GET */
-export const COMPANYS_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/company/active";
+export const COMPANYS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/companies/active`;
 
-/* GET */
-export const COMPANY_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/company/export/ccuartas";
+/* GET param => username  */
+export const COMPANY_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/companies/export/data`;
+
+/* GET param => idCompany */
+export const COMPANY_BY_CONGLOMERATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/companies/conglomerate/`;
 
 /* GET */
 export const COMPANY_PAGINATION = () => {
-  const page = 0;
-  const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/company/pagination?page=${page}&size=${size}`;
+  //const page = 0; => param page
+  //const size = 1; => param size
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/companies/pagination`;
 };
+
+/* GET */
+export const COMPANYS_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/companies/inactive`;
 
 //---------------------------------------------SEDES--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const HEADQUARTERS = "http://192.168.10.180:7000/api/sgdea/headquarter";
+/* GET / POST / PUT  */
+export const HEADQUARTERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/headquarters`;
 
-/* GET / DELETE */
-export const HEADQUARTER =
-  "http://192.168.10.180:7000/api/sgdea/headquarter/2473c30a-c0ef-4176-b196-0c8b2c55c1a0/ccuartas";
-
-/* GET */
-export const HEADQUARTERS_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/headquarter/active";
+/* GET / DELETE param => idHeadquarter, username */
+export const HEADQUARTER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/headquarters/`;
 
 /* GET */
-export const HEADQUARTER_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/headquarter/export/ccuartas";
+export const HEADQUARTERS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/headquarters/active`;
+
+/* GET */
+export const HEADQUARTERS_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/headquarters/inactive`;
+
+/* GET param => username */
+export const HEADQUARTER_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/headquarters/export/data`;
+
+/* GET param idCharge */
+export const HEADQUARTER_BY_CHARGE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/headquarters/charge/`;
+
+/* GET param idCity */
+export const HEADQUARTER_BY_CITY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/headquarters/city/`;
+
+/* GET param idCompany */
+export const HEADQUARTER_BY_COMPANY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/headquarters/company/`;
 
 /* GET */
 export const HEADQUARTER_PAGINATION = () => {
-  const page = 0;
-  const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/headquarter/pagination?page=${page}&size=${size}`;
+  //const page = 0; => param page
+  //const size = 1; = > param size
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/headquarters/pagination`;
 };
 
 //---------------------------------------------DEPENDENCIA--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const DEPENDENCIES = "http://192.168.10.180:7000/api/sgdea/dependence";
+export const DEPENDENCIES = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies`;
 
-/* GET / DELETE */
-export const DEPENDENCE =
-  "http://192.168.10.180:7000/api/sgdea/dependence/a113c47b-e30c-49e8-987d-c178b429b302/ccuartas";
-
-/* GET */
-export const DEPENDENCIES_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/dependence/active";
+/* GET / DELETE param => idDependencia */
+export const DEPENDENCE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies/`;
 
 /* GET */
+export const DEPENDENCIES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies/active`;
+
+/*GET */
+export const DEPENDENCIES_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies/inactive`;
+
+/* GET  param => idHeadquarter */
+export const DEPENDENCIES_BY_HEADQUARTER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies/headquarter/`;
+
+/* GET param => idCharge */
+export const DEPENDENCIES_BY_CHARGE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies/charge/`;
+
+/* GET  */
 export const DEPENDENCE_EXPORT =
   "http://192.168.10.180:7000/api/sgdea/dependence/export/ccuartas";
 
@@ -127,18 +145,20 @@ export const MESSENGERS = `${config.IP}:${config.PORT}/api/sgdea/service/configu
 export const MESSENGER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers`;
 
 /* GET */
-export const MESSENGERS_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/messenger/status/1";
+export const MESSENGERS_STATUS_ACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers/active`;
 
 /* GET */
-export const MESSENGER_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/messenger/export/ccuartas";
 
-/* GET */
+export const MESSENGERS_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers/inactive`;
+
+/* GET  params => username  */
+export const MESSENGER_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers/export/data`;
+
+/* GET params => {page, size} */
 export const MESSENGER_PAGINATION = () => {
-  const page = 0;
-  const size = 2;
-  return `http://192.168.10.180:7000/api/sgdea/messenger/pagination?page=${page}&size=${size}`;
+  // const page = 0;
+  // const size = 2;
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers/pagination`;
 };
 
 //---------------------------------------------TIPO DE ENVÍO / LLEGADA--------------------------------------------------//

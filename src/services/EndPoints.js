@@ -105,18 +105,16 @@ export const CHARGES = `${config.IP}:${config.PORT}/api/sgdea/service/configurat
 export const CHARGE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/`;
 
 /* GET */
-export const CHARGES_STATUS =
-  "http:///192.168.20.187:7000/api/sgdea/charge/active";
+export const CHARGES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/active`;
 
 /* GET */
-export const CHARGE_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/charge/export/ccuartas";
+export const CHARGE_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/export/data`;
 
 /* GET */
 export const CHARGE_PAGINATION = () => {
-  const page = 0;
-  const size = 2;
-  return `http://192.168.10.180:7000/api/sgdea/charge/pagination?page=${page}&size=${size}`;
+  const page = 0; // => param que tienen que ir en la url
+  const size = 2; // => param que tiene que ir en la url
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/pagination`;
 };
 
 //---------------------------------------------MENSAJERO--------------------------------------------------//

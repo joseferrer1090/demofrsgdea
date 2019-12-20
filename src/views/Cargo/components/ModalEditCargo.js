@@ -13,21 +13,38 @@ import {
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import IMGCARGO from "./../../../assets/img/employee.svg";
-import { CHARGES } from "../../../services/EndPoints";
+import { CHARGES, CHARGE } from "../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalEditCargo extends React.Component {
   state = {
     modal: this.props.modaledit,
     id: this.props.id,
     dataCharge: {},
-    userName: "jferrer",
     alertError: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
     status: 0,
-    username: "ccuartas"
+    auth: this.props.authorization,
+    userName: ""
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState({
@@ -38,16 +55,15 @@ class ModalEditCargo extends React.Component {
   };
 
   getDataChargeById = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/charge/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${CHARGE}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -97,11 +113,15 @@ class ModalEditCargo extends React.Component {
                   }
                   return 0;
                 };
-
+                const user = () => {
+                  const data = this.state.auth;
+                  const user = decode(data);
+                  return user.user_name;
+                };
                 fetch(CHARGES, {
                   method: "PUT",
                   headers: {
-                    Authorization: "Basic " + window.btoa("sgdea:123456"),
+                    Authorization: "Bearer " + this.state.auth,
                     "Content-Type": "application/json"
                   },
                   body: JSON.stringify({
@@ -110,7 +130,7 @@ class ModalEditCargo extends React.Component {
                     id: this.state.id,
                     status: tipoEstado(values.status),
                     description: values.description,
-                    userName: this.state.userName
+                    userName: user()
                   })
                 })
                   .then(response => {

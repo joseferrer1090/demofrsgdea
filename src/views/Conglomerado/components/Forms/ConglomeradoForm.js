@@ -34,7 +34,8 @@ const ConglomeradorForm = props => {
     setFieldTouched,
     handleBlur,
     handleSubmit,
-    t
+    t,
+    authorizathion
   } = props;
 
   const [optionsCharges, setOptionsCharges] = useState([]);
@@ -48,7 +49,7 @@ const ConglomeradorForm = props => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + props.authorizathion
       }
     })
       .then(response => response.json())
@@ -65,6 +66,7 @@ const ConglomeradorForm = props => {
       </option>
     );
   });
+  console.log(props);
   return (
     <div>
       <Card>
@@ -363,7 +365,7 @@ export default withTranslation("translations")(
         .ensure(),
       chargeId: Yup.string().ensure()
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -378,7 +380,7 @@ export default withTranslation("translations")(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + props.authorizathion
           },
           body: JSON.stringify({
             code: values.codigo,

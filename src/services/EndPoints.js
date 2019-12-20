@@ -1,3 +1,4 @@
+import config from "./configRequest/config";
 //---------------------------------------------CONGLOMERADO--------------------------------------------------//
 
 /* GET / POST / PUT */
@@ -98,35 +99,32 @@ export const DEPENDENCE_PAGINATION = () => {
 //---------------------------------------------CARGO--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const CHARGES = "http://192.168.10.180:7000/api/sgdea/charge";
+export const CHARGES = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges`;
 
 /* GET / DELETE */
-export const CHARGE =
-  "http://192.168.10.180:7000/api/sgdea/charge/134be0a4-0237-4418-9a04-8a58ea651aa2/ccuartas";
+export const CHARGE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/`;
 
 /* GET */
-export const CHARGES_STATUS =
-  "http:///192.168.20.187:7000/api/sgdea/charge/active";
+export const CHARGES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/active`;
 
 /* GET */
-export const CHARGE_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/charge/export/ccuartas";
+export const CHARGE_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/export/data`;
 
 /* GET */
 export const CHARGE_PAGINATION = () => {
-  const page = 0;
-  const size = 2;
-  return `http://192.168.10.180:7000/api/sgdea/charge/pagination?page=${page}&size=${size}`;
+  const page = 0; // => param que tienen que ir en la url
+  const size = 2; // => param que tiene que ir en la url
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/pagination`;
 };
 
 //---------------------------------------------MENSAJERO--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const MESSENGERS = "http://192.168.10.180:7000/api/sgdea/messenger";
+export const MESSENGERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers`;
 
 /* GET / DELETE */
-export const MESSENGER =
-  "http://192.168.10.180:7000/api/sgdea/messenger/be31eb45-fa5b-4b15-bd32-c4adf9ff4376/ccuartas";
+
+export const MESSENGER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers`;
 
 /* GET */
 export const MESSENGERS_STATUS =

@@ -27,7 +27,7 @@ class TableContentCargo extends Component {
   }
 
   static getDerivedStaticFromProps(props, state) {
-    if (props.authorization !== state.auth) {
+    if (props.auhorization !== state.auth) {
       return {
         auth: props.authorization
       };
@@ -239,6 +239,7 @@ class TableContentCargo extends Component {
           </BootstrapTable>
         </Col>
         <ModalView
+          dalView
           t={t}
           modalviewcargo={this.state.modalview}
           authorization={this.state.auth}

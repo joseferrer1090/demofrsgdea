@@ -13,7 +13,7 @@ const FormCreatePais = props => {
   console.log(auth);
   return (
     <div className="animated fadeIn">
-      <FormPais pais={dataPais} authorization={auth} />
+      <FormPais pais={dataPais} authorization={props.authorization} />
     </div>
   );
 };

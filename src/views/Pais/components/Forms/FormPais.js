@@ -28,6 +28,7 @@ const FormPais = props => {
     handleSubmit,
     t
   } = props;
+
   return (
     <Row>
       <Col sm={{ size: 8, offset: 2 }}>
@@ -162,7 +163,7 @@ export default withTranslation("translations")(
         .test("Activo", "Es necesario activar el país", value => value === true)
         .required("Es necesario activar el país")
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -177,7 +178,7 @@ export default withTranslation("translations")(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + props.authorization
           },
           body: JSON.stringify({
             code: values.code,
@@ -228,5 +229,6 @@ export default withTranslation("translations")(
 );
 
 FormPais.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };

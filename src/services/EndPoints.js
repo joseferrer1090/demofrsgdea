@@ -359,25 +359,22 @@ export const TYPEDOCUMENTARYS_PAGINATION = () => {
 //---------------------------------------------PAÍS--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const COUNTRIES = "http://192.168.10.180:7000/api/sgdea/country";
+export const COUNTRIES = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/countries`;
 
 /* GET / DELETE */
-export const CONTRY =
-  "http://192.168.10.180:7000/api/sgdea/country/fecd7706-42f2-49a0-88c2-ec5e17fe6479/ccuartas";
+export const COUNTRY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/countries/`;
 
 /* GET */
-export const CONTRIES_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/country/active";
+export const CONTRIES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/countries/active`;
 
 /* GET */
-export const COUNTRIES_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/country/export/ccuartas";
+export const COUNTRIES_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/countries/export/data`;
 
 /* GET */
 export const COUNTRIES_PAGINATION = () => {
   const page = 0;
   const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/country/pagination?page=${page}&size=${size}`;
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/countries/pagination?page=${page}&size=${size}`;
 };
 
 //---------------------------------------------DEPARTAMENTO--------------------------------------------------//

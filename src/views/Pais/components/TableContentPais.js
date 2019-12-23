@@ -20,20 +20,35 @@ class TableContentPais extends Component {
       ModalDel: false,
       modalexport: false,
       dataPais: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataPais();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataPais();
+    }
+  }
+
 
   getDataPais = () => {
     fetch(COUNTRIES, {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization,
+        "Content-Type": "application/json"
       }
     })
       .then(response => response.json())
@@ -217,30 +232,35 @@ class TableContentPais extends Component {
           t={this.props.t}
           modalview={this.state.ModalViewPais}
           ref="child"
+          authorization={this.state.auth}
         />
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.ModalEdit}
           updateTable={this.getDataPais}
           ref="child3"
+          authorization={this.state.auth}
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.ModalDelete}
           updateTable={this.getDataPais}
           ref="child2"
+          authorization={this.state.auth}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref="child4"
+          authorization={this.state.auth}
         />
       </div>
     );
   }
 }
 TableContentPais.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableContentPais);

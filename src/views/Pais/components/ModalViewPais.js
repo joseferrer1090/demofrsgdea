@@ -10,6 +10,8 @@ import {
 } from "reactstrap";
 import IMGPAIS from "./../../../assets/img/flag.svg";
 import moment from "moment";
+import { decode } from "jsonwebtoken";
+import { COUNTRY } from "./../../../services/EndPoints";
 
 class ModalViewPais extends Component {
   constructor(props) {
@@ -19,8 +21,25 @@ class ModalViewPais extends Component {
       dataPais: {},
       id: this.props.id,
       t: this.props.t,
-      username: "ccuartas"
+      username: "",
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -28,23 +47,26 @@ class ModalViewPais extends Component {
       modal: !this.state.modal,
       id: id
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/country/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    this.getDataCountyById(id);
+  };
+
+  getDataCountyById = id => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${COUNTRY}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
           dataPais: data
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch("Error", console.log("Error", Error));
   };
 
   FechaCreacionPais(data) {
@@ -164,7 +186,8 @@ class ModalViewPais extends Component {
 ModalViewPais.propTypes = {
   modalview: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalViewPais;

@@ -14,7 +14,8 @@ import { PAIS_EDIT } from "./../../../data/JSON-SERVER";
 import IMGCOUNTRY from "./../../../assets/img/flag.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
-import { COUNTRIES } from "./../../../services/EndPoints";
+import { COUNTRIES, COUNTRY } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalEditPais extends React.Component {
   state = {
@@ -26,7 +27,8 @@ class ModalEditPais extends React.Component {
     alertError400: false,
     t: this.props.t,
     country_status: 0,
-    username: "ccuartas"
+    username: "",
+    auth: this.props.authorization
   };
 
   toggle = id => {
@@ -37,17 +39,32 @@ class ModalEditPais extends React.Component {
     this.getCountryByID(id);
   };
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
+
   getCountryByID = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/country/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${COUNTRY}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -58,7 +75,7 @@ class ModalEditPais extends React.Component {
           }
         });
       })
-      .catch(error => console.log(error));
+      .catch("Error", console.log("Error", Error));
   };
 
   render() {
@@ -85,18 +102,23 @@ class ModalEditPais extends React.Component {
                 return 0;
               };
               setTimeout(() => {
+                const user = () => {
+                  const data = this.state.auth;
+                  const user = decode(data);
+                  return user.user_name;
+                };
                 fetch(COUNTRIES, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    Authorization: "Bearer " + this.state.auth
                   },
                   body: JSON.stringify({
                     id: this.state.idPais,
                     code: values.country_code,
                     name: values.country_name,
                     status: tipoEstado(values.country_status),
-                    userName: "ccuartas"
+                    userName: user()
                   })
                 })
                   .then(response => {
@@ -318,7 +340,8 @@ ModalEditPais.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   updateTable: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalEditPais;

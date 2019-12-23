@@ -1,16 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import FormPais from './Forms/FormPais';
+import React from "react";
+import PropTypes from "prop-types";
+import FormPais from "./Forms/FormPais";
 
 const dataPais = {
-  code: '',
-  name: '',
-  status: ''
+  code: "",
+  name: "",
+  status: ""
 };
-const FormCreatePais = () => {
+
+const FormCreatePais = props => {
+  const auth = props.authorization;
+  console.log(auth);
   return (
     <div className="animated fadeIn">
-      <FormPais pais={dataPais} />
+      <FormPais pais={dataPais} authorization={auth} />
     </div>
   );
 };

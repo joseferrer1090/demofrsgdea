@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import CountrySelect from "./components/SelectCountry";
 
 const DepartamentoForm = props => {
   const {
@@ -27,38 +28,40 @@ const DepartamentoForm = props => {
     setFieldValue,
     handleBlur,
     handleSubmit,
+    setFieldTouched,
     t
   } = props;
 
   const [optionsCountries, setOptionsCountries] = useState([]);
 
-  useEffect(() => {
-    getDataCountries();
-  }, []);
+  // useEffect(() => {
+  //   getDataCountries();
+  //   console.log(props.authorization);
+  // }, []);
 
-  const getDataCountries = data => {
-    fetch(CONTRIES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsCountries(data);
-      })
-      .catch(Error => console.log(" ", Error));
-  };
+  // const getDataCountries = () => {
+  //   fetch(CONTRIES_STATUS, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //       Authorization: "Bearer " + auth
+  //     }
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       setOptionsCountries(data);
+  //     })
+  //     .catch(Error => console.log(" ", Error));
+  // };
 
-  const mapOptionsCountries = optionsCountries.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
+  // const mapOptionsCountries = optionsCountries.map((aux, idx) => {
+  //   return (
+  //     <option key={aux.id} value={aux.id}>
+  //       {aux.name}
+  //     </option>
+  //   );
+  // });
+  console.log(props.authorization);
   return (
     <Row>
       <Col sm={{ size: 8, offset: 2 }}>
@@ -75,7 +78,20 @@ const DepartamentoForm = props => {
                       {t("app_departamento_form_select_pais")}{" "}
                       <span className="text-danger">*</span>{" "}
                     </label>
-                    <select
+                    <CountrySelect
+                      authorization={props.authorization}
+                      t={props.t}
+                      name={"countryId"}
+                      onChange={e => setFieldValue("countryId", e.target.value)}
+                      onBlur={() => {
+                        setFieldTouched("countryId", true);
+                      }}
+                      value={values.countryId}
+                      className={`form-control form-control-sm ${errors.countryId &&
+                        touched.countryId &&
+                        "is-invalid"}`}
+                    />
+                    {/* <select
                       name={"countryId"}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -89,7 +105,7 @@ const DepartamentoForm = props => {
                         -- {t("app_departamento_form_registrar_pais")} --
                       </option>
                       {mapOptionsCountries}
-                    </select>
+                    </select> */}
                     <div style={{ color: "#D54B4B" }}>
                       {errors.countryId && touched.countryId ? (
                         <i className="fa fa-exclamation-triangle" />
@@ -234,7 +250,7 @@ export default withTranslation("translations")(
         .ensure()
         .required(" Por favor seleccione un país.")
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -249,7 +265,7 @@ export default withTranslation("translations")(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + props.authorization
           },
           body: JSON.stringify({
             countryId: values.countryId,

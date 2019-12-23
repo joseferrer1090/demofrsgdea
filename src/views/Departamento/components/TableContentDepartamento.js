@@ -21,11 +21,26 @@ class TableContentDepartamento extends Component {
       modalexport: false,
       dataDepartment: [],
       hiddenColumnID: true,
-      t: this.props.t
+      t: this.props.t,
+      auth: this.props.authorization
     };
   }
-  componentDidMount() {
-    this.getDataDepartment();
+
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataDepartment();
+    }
   }
 
   getDataDepartment = () => {
@@ -33,7 +48,7 @@ class TableContentDepartamento extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -235,23 +250,27 @@ class TableContentDepartamento extends Component {
           t={this.props.t}
           modalview={this.state.ModalViewPais}
           ref="child"
+          authorization={this.state.auth}
         />
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.ModalEdit}
           updateTable={this.getDataDepartment}
           ref="child3"
+          authorization={this.state.auth}
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.ModalDel}
           updateTable={this.getDataDepartment}
           ref="child2"
+          authorization={this.state.auth}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.ModalExport}
           ref="child4"
+          authorization={this.state.auth}
         />
       </div>
     );

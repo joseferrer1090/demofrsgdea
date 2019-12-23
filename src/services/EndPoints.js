@@ -380,25 +380,25 @@ export const COUNTRIES_PAGINATION = () => {
 //---------------------------------------------DEPARTAMENTO--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const DEPARTMENTS = "http://192.168.10.180:7000/api/sgdea/department";
+export const DEPARTMENTS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/departments`;
 
 /* GET / DELETE */
 export const DEPARTMENT =
-  "http://192.168.10.180:7000/api/sgdea/department/af27290a-714e-4857-b157-1779c941e4fc/ccuartas";
+  `${config.IP}:${config.PORT}/api/sgdea/service/configuration/departments/`;
 
 /* GET */
 export const DEPARTMENTS_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/department/active";
+  `${config.IP}:${config.PORT}/api/sgdea/service/configuration/departments/active`;
 
 /* GET */
 export const DEPARTMENTS_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/department/export/ccuartas";
+  `${config.IP}:${config.PORT}/api/sgdea/service/configuration/departments/export/data`;
 
 /* GET */
 export const DEPARTMENTS_PAGINATION = () => {
   const page = 0;
   const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/department/pagination?page=${page}&size=${size}`;
+  return `${config.IP}:${config.PORT}/api/sgdea/department/pagination?page=${page}&size=${size}`;
 };
 
 //---------------------------------------------CIUDAD--------------------------------------------------//

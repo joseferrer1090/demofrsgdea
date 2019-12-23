@@ -9,8 +9,6 @@ const dataPais = {
 };
 
 const FormCreatePais = props => {
-  const auth = props.authorization;
-  console.log(auth);
   return (
     <div className="animated fadeIn">
       <FormPais pais={dataPais} authorization={props.authorization} />
@@ -19,6 +17,7 @@ const FormCreatePais = props => {
 };
 
 FormCreatePais.propTypes = {
-  pais: PropTypes.object.isRequired
+  pais: PropTypes.object.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 export default FormCreatePais;

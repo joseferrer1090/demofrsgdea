@@ -8,6 +8,7 @@ class SelectCountry extends React.Component {
     t: this.props.t,
     auth: this.props.authorization
   };
+
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
@@ -53,17 +54,19 @@ class SelectCountry extends React.Component {
 
   render() {
     const { t } = this.props;
+    console.log(this.state.dataCountry);
+    console.log(this.state.auth);
     return (
       <div>
         <select
           name={this.props.name}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
           value={this.props.value}
           className={this.props.className}
-          onBlur={this.props.onBlur}
         >
           <option value={""}>
-            -- {t("app_ciudad_form_registrar_pais")} --
+            -- {t("app_conglomerado_form_select_pais")} --
           </option>
           {this.state.dataCountry.map((aux, id) => {
             return (
@@ -81,4 +84,5 @@ SelectCountry.propTypes = {
   t: PropTypes.any,
   authorization: PropTypes.string.isRequired
 };
+
 export default SelectCountry;

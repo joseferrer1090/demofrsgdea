@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 import "./styles/table_fixed.css";
 import { CSVLink } from "react-csv";
 import { Parser } from "json2csv";
-
+import { decode } from "jsonwebtoken";
+import { DEPARTMENTS_EXPORT } from "./../../../services/EndPoints";
 class ModalExportCSV extends Component {
   constructor(props) {
     super(props);
@@ -12,8 +13,26 @@ class ModalExportCSV extends Component {
       modal: this.props.modalexport,
       dataExport: [],
       t: this.props.t,
-      username: "ccuartas"
+      username: "",
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = () => {
@@ -24,16 +43,15 @@ class ModalExportCSV extends Component {
   };
 
   getDataExportCSV = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/department/export/data?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "BASIC " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${DEPARTMENTS_EXPORT}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response =>
         response.json().then(data => {
           this.setState({

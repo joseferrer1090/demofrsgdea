@@ -50,6 +50,7 @@ const CiudadForm = props => {
                       <span className="text-danger">*</span>{" "}
                     </label>
                     <SelectCountry
+                      authorization={props.authorization}
                       t={props.t}
                       name={"countryId"}
                       onChange={e => setFieldValue("countryId", e.target.value)}
@@ -75,6 +76,7 @@ const CiudadForm = props => {
                       <span className="text-danger">*</span>{" "}
                     </label>
                     <SelectDepartment
+                      authorization={props.authorization}
                       t={props.t}
                       countryId={props.values.countryId}
                       name="departmentId"
@@ -237,7 +239,7 @@ export default withTranslation("translations")(
         .ensure()
         .required(" Por favor seleccione un departamento.")
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -252,7 +254,7 @@ export default withTranslation("translations")(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + props.authorization
           },
           body: JSON.stringify({
             departmentId: values.departmentId,

@@ -20,12 +20,26 @@ class TableContentCiudad extends Component {
       ModalDel: false,
       modalExport: false,
       dataCity: [],
-      hiddenColumnId: true
+      hiddenColumnId: true,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataCity();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataCity();
+    }
   }
 
   getDataCity = () => {
@@ -33,7 +47,7 @@ class TableContentCiudad extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -245,23 +259,27 @@ class TableContentCiudad extends Component {
           t={this.props.t}
           modalview={this.state.ModalViewPais}
           ref="child"
+          authorization={this.state.auth}
         />
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.ModalEdit}
           ref="child3"
           updateTable={this.getDataCity}
+          authorization={this.state.auth}
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.ModalDelete}
           ref="child2"
           updateTable={this.getDataCity}
+          authorization={this.state.auth}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalExport}
           ref="child4"
+          authorization={this.state.auth}
         />
       </div>
     );

@@ -39,7 +39,8 @@ class SelectCountry extends React.Component {
         this.setState({
           dataCountry: data
         });
-      });
+      })
+      .catch(Error => console.log("", Error));
   };
 
   handleChange = value => {

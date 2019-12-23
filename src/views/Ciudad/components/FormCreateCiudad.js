@@ -1,21 +1,22 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import CiudadForm from './Forms/CiudadForm';
+import React from "react";
+import PropTypes from "prop-types";
+import CiudadForm from "./Forms/CiudadForm";
 const dataCiudad = {
-  countryId: '',
-  departmentId: '',
-  code: '',
-  name: '',
-  status: ''
+  countryId: "",
+  departmentId: "",
+  code: "",
+  name: "",
+  status: ""
 };
-const FormCreateCiudad = () => {
+const FormCreateCiudad = props => {
   return (
     <div className="animated fadeIn">
-      <CiudadForm ciudad={dataCiudad} />
+      <CiudadForm ciudad={dataCiudad} authorization={props.authorization} />
     </div>
   );
 };
 FormCreateCiudad.propTypes = {
-  ciudad: PropTypes.object.isRequired
+  ciudad: PropTypes.object.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 export default FormCreateCiudad;

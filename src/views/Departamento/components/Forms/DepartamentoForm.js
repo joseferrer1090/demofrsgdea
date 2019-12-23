@@ -32,36 +32,6 @@ const DepartamentoForm = props => {
     t
   } = props;
 
-  const [optionsCountries, setOptionsCountries] = useState([]);
-
-  // useEffect(() => {
-  //   getDataCountries();
-  //   console.log(props.authorization);
-  // }, []);
-
-  // const getDataCountries = () => {
-  //   fetch(CONTRIES_STATUS, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //       Authorization: "Bearer " + auth
-  //     }
-  //   })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       setOptionsCountries(data);
-  //     })
-  //     .catch(Error => console.log(" ", Error));
-  // };
-
-  // const mapOptionsCountries = optionsCountries.map((aux, idx) => {
-  //   return (
-  //     <option key={aux.id} value={aux.id}>
-  //       {aux.name}
-  //     </option>
-  //   );
-  // });
-  console.log(props.authorization);
   return (
     <Row>
       <Col sm={{ size: 8, offset: 2 }}>

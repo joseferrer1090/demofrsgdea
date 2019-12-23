@@ -8,7 +8,6 @@ const dataDepartamento = {
   countryId: ""
 };
 const FormCreateDepartamento = props => {
-  console.log(props.authorization);
   return (
     <div className="animated fadeIn">
       <DepartamentoForm

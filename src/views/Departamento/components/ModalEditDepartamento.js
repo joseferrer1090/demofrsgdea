@@ -85,23 +85,6 @@ class ModalEditDepartamento extends React.Component {
       .catch(error => console.log(error));
   };
 
-  // getDataCountries = data => {
-  //   fetch(CONTRIES_STATUS, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + this.state.auth
-  //     }
-  //   })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       this.setState({
-  //         optionsCountries: data
-  //       });
-  //     })
-  //     .catch(Error => console.log(" ", Error));
-  // };
-
   onDismiss = () => {
     this.setState({
       alertError: false,
@@ -259,24 +242,7 @@ class ModalEditDepartamento extends React.Component {
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              {/* <select
-                                name={"department_country"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.department_country}
-                                className={`form-control form-control-sm ${errors.department_country &&
-                                  touched.department_country &&
-                                  "is-invalid"}`}
-                              >
-                                <option value={""} disabled>
-                                  --{" "}
-                                  {t(
-                                    "app_departamento_modal_actualizar_select_pais"
-                                  )}{" "}
-                                  --
-                                </option>
-                                {mapOptionsCountries}
-                              </select> */}
+
                               <CountrySelect
                                 authorization={this.state.auth}
                                 t={this.state.t}

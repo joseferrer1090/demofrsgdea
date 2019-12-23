@@ -31,11 +31,13 @@ class SelectDepartment extends React.Component {
       this.getDataDepartment();
     }
     if (this.props.authorization !== prevProps.authorization) {
-      this.setState({
-        auth: this.props.authorization
-      });
+      this.setState(
+        {
+          auth: this.props.authorization
+        },
+        this.getDataDepartment()
+      );
     }
-    this.getDataDepartment();
   }
 
   // componentDidMount() {

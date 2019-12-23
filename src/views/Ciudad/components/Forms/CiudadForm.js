@@ -254,7 +254,7 @@ export default withTranslation("translations")(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + props.authorization
+            Authorization: "Bearer " + props.authorization
           },
           body: JSON.stringify({
             departmentId: values.departmentId,

@@ -19,11 +19,13 @@ class SelectCountry extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
-      this.setState({
-        auth: this.props.authorization
-      });
+      this.setState(
+        {
+          auth: this.props.authorization
+        },
+        this.getData()
+      );
     }
-    this.getData();
   }
 
   getData = () => {
@@ -53,8 +55,6 @@ class SelectCountry extends React.Component {
 
   render() {
     const { t } = this.props;
-    console.log(this.state.dataCountry);
-    console.log(this.state.auth);
     return (
       <div>
         <select

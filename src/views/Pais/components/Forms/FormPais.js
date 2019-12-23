@@ -28,6 +28,7 @@ const FormPais = props => {
     handleSubmit,
     t
   } = props;
+  const auth = props.authorization;
   return (
     <Row>
       <Col sm={{ size: 8, offset: 2 }}>
@@ -173,11 +174,14 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const auth = auth;
+        console.log(`Token ${auth}`);
+
         fetch(COUNTRIES, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + auth
           },
           body: JSON.stringify({
             code: values.code,

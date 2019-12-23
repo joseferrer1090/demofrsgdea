@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
 import * as Yup from "yup";
 import { Formik, ErrorMessage } from "formik";
+import { decode } from "jsonwebtoken";
+import { COUNTRY, COUNTRIES } from "../../../services/EndPoints";
 
 class ModalDeletePais extends Component {
   constructor(props) {
@@ -17,8 +19,26 @@ class ModalDeletePais extends Component {
       alertCode: false,
       namePais: "",
       t: this.props.t,
-      username: "ccuartas"
+      username: "ccuartas",
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -28,23 +48,23 @@ class ModalDeletePais extends Component {
       idPais: id,
       useLogged: "ccuartas"
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/country/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${COUNTRY}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
           namePais: data.name
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch("Error", console.log("Error", Error));
   };
 
   onDismiss = () => {
@@ -72,13 +92,15 @@ class ModalDeletePais extends Component {
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/country/${this.state.idPais}?code=${values.code}&username=${this.state.useLogged}`,
+                  `${COUNTRIES}/${this.state.idPais}?code=${values.code}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                      Authorization: "Bearer " + this.state.auth
                     }
                   }
                 )
@@ -213,7 +235,8 @@ ModalDeletePais.propTypes = {
   modaldel: PropTypes.bool.isRequired,
   updateTable: PropTypes.func.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalDeletePais;

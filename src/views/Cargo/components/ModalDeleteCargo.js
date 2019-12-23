@@ -86,13 +86,11 @@ class ModalDeleteCargo extends React.Component {
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                const user = () => {
-                  const data = this.state.auth;
-                  const user = decode(data);
-                  return user.user_name;
-                };
+                const data = this.state.auth;
+                const user = decode(data);
+
                 fetch(
-                  `${CHARGES}${this.state.id}?code=${values.code}?username=${user}`,
+                  `${CHARGES}/${this.state.id}?code=${values.code}&username=${user.user_name}`,
                   {
                     method: "DELETE",
                     headers: {

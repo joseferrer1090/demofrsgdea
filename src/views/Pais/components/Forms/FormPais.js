@@ -29,6 +29,7 @@ const FormPais = props => {
     t
   } = props;
   const auth = props.authorization;
+  console.log(`Token ${auth}`);
   return (
     <Row>
       <Col sm={{ size: 8, offset: 2 }}>
@@ -174,14 +175,11 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
-        const auth = auth;
-        console.log(`Token ${auth}`);
-
         fetch(COUNTRIES, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth
+            Authorization: "Bearer " + ""
           },
           body: JSON.stringify({
             code: values.code,

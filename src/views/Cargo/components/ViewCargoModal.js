@@ -10,6 +10,8 @@ import {
 import PropTypes from "prop-types";
 import IMGCARGO from "./../../../assets/img/employee.svg";
 import moment from "moment";
+import { CHARGE } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalViewCargo extends Component {
   constructor(props) {
@@ -20,8 +22,25 @@ class ModalViewCargo extends Component {
       datCharge: {},
       collapase: false,
       t: this.props.t,
-      username: "ccuartas"
+      auth: this.props.authorization,
+      username: ""
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -39,16 +58,15 @@ class ModalViewCargo extends Component {
   };
 
   getDataCargoById = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/charge/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${CHARGE}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -184,7 +202,8 @@ class ModalViewCargo extends Component {
 ModalViewCargo.propTypes = {
   modalviewcargo: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalViewCargo;

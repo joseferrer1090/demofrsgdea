@@ -10,6 +10,7 @@ import "./../../../css/styleTableCargo.css";
 import moment from "moment";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { CHARGES } from "./../../../services/EndPoints";
 
 class TableContentCargo extends Component {
   constructor(props) {
@@ -20,19 +21,33 @@ class TableContentCargo extends Component {
       modaldelete: false,
       modalexport: false,
       dataCharge: [],
-      HiddenColumn: true
+      HiddenColumn: true,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataCharge();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataCharge();
+    }
   }
 
   getDataCharge = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/charge/`, {
+    fetch(CHARGES, {
       method: "GET",
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        Authorization: "Bearer " + this.props.authorization,
         "Content-Type": "application/json"
       }
     })
@@ -224,20 +239,24 @@ class TableContentCargo extends Component {
           </BootstrapTable>
         </Col>
         <ModalView
-          t={this.props.t}
+          dalView
+          t={t}
           modalviewcargo={this.state.modalview}
+          authorization={this.state.auth}
           ref="child1"
         />
         <ModalEdit
           t={this.props.t}
           modaleditcargo={this.state.modaledit}
           updateTable={this.getDataCharge}
+          authorization={this.state.auth}
           ref="child2"
         />
         <ModalDel
           t={this.props.t}
           modaldelete={this.state.modaldelete}
           updateTable={this.getDataCharge}
+          authorization={this.state.auth}
           ref="child3"
         />
         <ModalExport
@@ -250,6 +269,7 @@ class TableContentCargo extends Component {
   }
 }
 TableContentCargo.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(TableContentCargo);

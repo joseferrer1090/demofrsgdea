@@ -130,8 +130,8 @@ export const CHARGE_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/conf
 
 /* GET */
 export const CHARGE_PAGINATION = () => {
-  const page = 0; // => param que tienen que ir en la url
-  const size = 2; // => param que tiene que ir en la url
+  //const page = 0; // => param que tienen que ir en la url
+  //const size = 2; // => param que tiene que ir en la url
   return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/pagination`;
 };
 
@@ -214,7 +214,7 @@ export const TYPEPROCEDURES_PAGINATION = () => {
 //---------------------------------------------USUARIOS--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const USERS = "http://192.168.10.180:7000/api/sgdea/user";
+export const USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users`;
 
 /* GET / DELETE */
 export const USER =

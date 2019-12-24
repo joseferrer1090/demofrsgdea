@@ -295,28 +295,36 @@ export const PASSWORD_RESET = `${config.IP}:${config.PORT}/api/sgdea/service/con
 
 //---------------------------------------------TIPO DE TERCERO--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const TYPETHIRDPARTYS =
-  "http://192.168.10.180:7000/api/sgdea/typethirdparty";
+/* GET */
+export const TYPETHIRDPARTYS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties`;
 
-/* GET / DELETE */
-export const TYPETHIRDPARTY =
-  "http://192.168.10.180:7000/api/sgdea/typethirdparty/66b23763-3979-443c-967c-7453b6b3e5c2/ccuartas";
+/* GET params => username  */
+export const TYPETHIRDPARTY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/`;
 
 /* GET */
-export const TYPETHIRDPARTYS_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/typethirdparty/active";
+export const TYPETHIRDPARTYS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/active`;
 
 /* GET */
-export const TYPETHIRDPARTYS_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/typethirdparty/export/ccuartas";
+export const TYPETHIRDPARTYS_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/inactive`;
 
-/* GET */
+/* POST */
+export const TYPETHIRDPARTY_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties`;
+
+/* PUT */
+export const TYPETHIRDPARTY_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties`;
+
+/* DELETE  params => id, code, username  */
+export const TYPETHIRDPARTY_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/`;
+
+/* GET params => page, size*/
 export const TYPETHIRDPARTYS_PAGINATION = () => {
-  const page = 0;
-  const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/typethirdparty/pagination?page=${page}&size=${size}`;
+  //const page = 0; param page
+  //const size = 1; param size
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/pagination`;
 };
+
+/* GET param => username  */
+export const TYPETHIRDPARTYS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/export/data`;
 
 //---------------------------------------------ROLES--------------------------------------------------//
 

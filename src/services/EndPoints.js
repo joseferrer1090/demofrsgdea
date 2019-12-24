@@ -213,26 +213,66 @@ export const TYPEPROCEDURES_PAGINATION = () => {
 
 //---------------------------------------------USUARIOS--------------------------------------------------//
 
-/* GET / POST / PUT */
+/* GET */
 export const USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users`;
 
-/* GET / DELETE */
-export const USER =
-  "http://192.168.10.180:7000/api/sgdea/user/689bfff8-4fa1-490f-96e0-c5092c7a8aad/ccuartas";
+/* GET  params => idUser, username  */
+export const USER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/`;
 
 /* GET */
-export const USERS_STATUS = "http://192.168.10.180:7000/api/sgdea/user/active";
+export const USERS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/active`;
 
 /* GET */
-export const USERS_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/user/export/ccuartas";
+export const USERS_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/inactive`;
+
+/* GET params => idCharge */
+export const USERS_BY_CHARGE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/charge/`;
+
+/* GET params => idDependence */
+export const USERS_BY_DEPENDENCE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/dependence/`;
+
+/* POST */
+export const USER_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users`;
+
+/* PUT */
+export const USER_PUT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users`;
+
+/* DELETE params => identification, username, idUser */
+export const USER_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/`;
+
+/* POST */
+export const CHANGE_PASSWORD = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/change/password`;
+
+/* PUT */
+export const UPDATE_PROFILE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/update/profile`;
+
+/* PUT */
+export const UPDATE_INTENT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/update/intent/04f5da38-b6b5-409d-9d81-96fe8d13caa4`;
+
+/* POST */
+export const UPDATE_PROFILE_PASSWORD = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/update/profile/password`;
 
 /* GET */
 export const USERS_PAGINATION = () => {
-  const page = 0;
-  const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/user/pagination?page=${page}&size=${size}`;
+  //const page = 0; params page
+  //const size = 1; param size
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/pagination`;
 };
+
+/* GET  param => username  */
+export const USERS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/export/data`;
+
+/* GET  params => idRol, username  VERIFICAR LA URL PORQUE TIENES EL ID QUEMADO*/
+export const USERS_EXPORT_ROLES = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/export/7ec027cc-d915-4b2f-a450-73d16b505337/roles`;
+
+/* GET  */
+export const SEARCH_BY_USERNAME = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/search/username`;
+
+/* POST */
+export const PASSWORD_RESET_REQUEST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/user/password-reset-request`;
+
+/* POST */
+export const PASSWORD_RESET = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/user/password-reset`;
 
 //---------------------------------------------TIPO DE TERCERO--------------------------------------------------//
 

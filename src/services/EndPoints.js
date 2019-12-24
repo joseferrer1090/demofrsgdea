@@ -130,8 +130,8 @@ export const CHARGE_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/conf
 
 /* GET */
 export const CHARGE_PAGINATION = () => {
-  const page = 0; // => param que tienen que ir en la url
-  const size = 2; // => param que tiene que ir en la url
+  //const page = 0; // => param que tienen que ir en la url
+  //const size = 2; // => param que tiene que ir en la url
   return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/pagination`;
 };
 
@@ -163,101 +163,168 @@ export const MESSENGER_PAGINATION = () => {
 
 //---------------------------------------------TIPO DE ENVÍO / LLEGADA--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const TYPESHIPMENTARRIVAL =
-  "http://192.168.10.180:7000/api/sgdea/typeshipmentarrival";
-
-/* GET / DELETE */
-export const TYPESHIPMENTSARRIVALS =
-  "http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/81339c73-fed7-4847-9215-8c6ebb67e36b/ccuartas";
+/* GET params => id, usernema */
+export const TYPESHIPMENTARRIVAL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
 
 /* GET */
-export const TYPESHIPMENTARRIVAL_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/status/1";
+export const TYPESHIPMENTSARRIVALS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
 
 /* GET */
-export const TYPESHIPMENTARRIVAL_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/export/ccuartas";
+export const TYPESHIPMENTARRIVAL_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/active`;
+
+/* GET */
+export const TYPESHIPMENTARRIVAL_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/inactive`;
+
+/* POST */
+export const TYPESHIPMENTARRIVAL_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
+
+/* PUT */
+export const TYPESHIPMENTARRIVAL_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
+
+/* DELETE params identification, username */
+export const TYPESHIPMENTARRIVAL_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/`;
 
 /* GET */
 export const TYPESHIPMENTARRIVAL_PAGINATION = () => {
-  const page = 0;
-  const size = 2;
-  return `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/pagination?page=${page}&size=${size}`;
+  // const page = 0; params page
+  // const size = 2; params size
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/pagination`;
 };
+
+/* GET params username */
+export const TYPESHIPMENTARRIVAL_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/export/data`;
 
 //---------------------------------------------TIPO TRÁMITE--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const TYPEPROCEDURES =
-  "http://192.168.10.180:7000/api/sgdea/typeprocedure";
+/* GET */
+export const TYPEPROCEDURES = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures`;
 
-/* GET / DELETE */
-export const TYPEPROCEDURE =
-  "http://192.168.10.180:7000/api/sgdea/typeprocedure/2ca8b720-764d-4219-ae96-b530343562db/ccuartas";
+/* GET  params => idTypeprodcedure, username*/
+export const TYPEPROCEDURE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/`;
 
 /* GET */
-export const TYPEPROCEDURES_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/typeprocedure/status/1";
+export const TYPEPROCEDURES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/active`;
 
 /* GET */
-export const TYPEPROCEDURES_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/typeprocedure/export/ccuartas";
+export const TYPEPROCEDURES_STATUS_INAVTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/inactive`;
+
+/* POST */
+export const TYPEPROCEDURE_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures`;
+
+/* PUT */
+export const TYPEPROCEDURE_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures`;
+
+/* DELETE param = idTypeProcedure, username, code */
+export const TYPEPROCEDURE_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/`;
 
 /* GET */
 export const TYPEPROCEDURES_PAGINATION = () => {
-  const page = 0;
-  const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/typeprocedure/pagination?page=${page}&size=${size}`;
+  //const page = 0; param page
+  //const size = 1; param size
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/pagination`;
 };
+
+/* GET params username */
+export const TYPEPROCEDURES_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/export/data`;
+
+/* GET */
+export const TYPEPROCEDURES_EXPORT_USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/export/565b08fd-f26f-43a2-9f53-730fadae0676/users`;
 
 //---------------------------------------------USUARIOS--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const USERS = "http://192.168.10.180:7000/api/sgdea/user";
+/* GET */
+export const USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users`;
 
-/* GET / DELETE */
-export const USER =
-  "http://192.168.10.180:7000/api/sgdea/user/689bfff8-4fa1-490f-96e0-c5092c7a8aad/ccuartas";
+/* GET  params => idUser, username  */
+export const USER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/`;
 
 /* GET */
-export const USERS_STATUS = "http://192.168.10.180:7000/api/sgdea/user/active";
+export const USERS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/active`;
 
 /* GET */
-export const USERS_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/user/export/ccuartas";
+export const USERS_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/inactive`;
+
+/* GET params => idCharge */
+export const USERS_BY_CHARGE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/charge/`;
+
+/* GET params => idDependence */
+export const USERS_BY_DEPENDENCE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/dependence/`;
+
+/* POST */
+export const USER_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users`;
+
+/* PUT */
+export const USER_PUT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users`;
+
+/* DELETE params => identification, username, idUser */
+export const USER_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/`;
+
+/* POST */
+export const CHANGE_PASSWORD = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/change/password`;
+
+/* PUT */
+export const UPDATE_PROFILE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/update/profile`;
+
+/* PUT */
+export const UPDATE_INTENT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/update/intent/04f5da38-b6b5-409d-9d81-96fe8d13caa4`;
+
+/* POST */
+export const UPDATE_PROFILE_PASSWORD = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/update/profile/password`;
 
 /* GET */
 export const USERS_PAGINATION = () => {
-  const page = 0;
-  const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/user/pagination?page=${page}&size=${size}`;
+  //const page = 0; params page
+  //const size = 1; param size
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/pagination`;
 };
+
+/* GET  param => username  */
+export const USERS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/export/data`;
+
+/* GET  params => idRol, username  VERIFICAR LA URL PORQUE TIENES EL ID QUEMADO*/
+export const USERS_EXPORT_ROLES = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/export/7ec027cc-d915-4b2f-a450-73d16b505337/roles`;
+
+/* GET  */
+export const SEARCH_BY_USERNAME = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/search/username`;
+
+/* POST */
+export const PASSWORD_RESET_REQUEST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/user/password-reset-request`;
+
+/* POST */
+export const PASSWORD_RESET = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/user/password-reset`;
 
 //---------------------------------------------TIPO DE TERCERO--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const TYPETHIRDPARTYS =
-  "http://192.168.10.180:7000/api/sgdea/typethirdparty";
+/* GET */
+export const TYPETHIRDPARTYS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties`;
 
-/* GET / DELETE */
-export const TYPETHIRDPARTY =
-  "http://192.168.10.180:7000/api/sgdea/typethirdparty/66b23763-3979-443c-967c-7453b6b3e5c2/ccuartas";
+/* GET params => username  */
+export const TYPETHIRDPARTY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/`;
 
 /* GET */
-export const TYPETHIRDPARTYS_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/typethirdparty/active";
+export const TYPETHIRDPARTYS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/active`;
 
 /* GET */
-export const TYPETHIRDPARTYS_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/typethirdparty/export/ccuartas";
+export const TYPETHIRDPARTYS_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/inactive`;
 
-/* GET */
+/* POST */
+export const TYPETHIRDPARTY_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties`;
+
+/* PUT */
+export const TYPETHIRDPARTY_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties`;
+
+/* DELETE  params => id, code, username  */
+export const TYPETHIRDPARTY_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/`;
+
+/* GET params => page, size*/
 export const TYPETHIRDPARTYS_PAGINATION = () => {
-  const page = 0;
-  const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/typethirdparty/pagination?page=${page}&size=${size}`;
+  //const page = 0; param page
+  //const size = 1; param size
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/pagination`;
 };
+
+/* GET param => username  */
+export const TYPETHIRDPARTYS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/export/data`;
 
 //---------------------------------------------ROLES--------------------------------------------------//
 

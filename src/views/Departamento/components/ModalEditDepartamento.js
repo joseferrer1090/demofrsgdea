@@ -11,9 +11,15 @@ import {
   Alert
 } from "reactstrap";
 import IMGDEPARTAMENTO from "./../../../assets/img/map-marker.svg";
-import { DEPARTMENTS, CONTRIES_STATUS } from "./../../../services/EndPoints";
+import {
+  DEPARTMENTS,
+  CONTRIES_STATUS,
+  DEPARTMENT
+} from "./../../../services/EndPoints";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import { decode } from "jsonwebtoken";
+import CountrySelect from "./SelectCountry";
 
 class ModalEditDepartamento extends React.Component {
   state = {
@@ -26,8 +32,25 @@ class ModalEditDepartamento extends React.Component {
     alertError400: false,
     t: this.props.t,
     department_status: 0,
-    username: "ccuartas"
+    username: "",
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState({
@@ -35,18 +58,19 @@ class ModalEditDepartamento extends React.Component {
       idDepartment: id
     });
     this.getDepartmentByID(id);
+    // this.getDataCountries();
   };
+
   getDepartmentByID = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/department/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${DEPARTMENT}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -61,27 +85,6 @@ class ModalEditDepartamento extends React.Component {
       .catch(error => console.log(error));
   };
 
-  componentDidMount() {
-    this.getDataCountries();
-  }
-
-  getDataCountries = data => {
-    fetch(CONTRIES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsCountries: data
-        });
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-
   onDismiss = () => {
     this.setState({
       alertError: false,
@@ -92,13 +95,6 @@ class ModalEditDepartamento extends React.Component {
 
   render() {
     const dataResult = this.state.dataResult;
-    const mapOptionsCountries = this.state.optionsCountries.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
     const { t } = this.props;
     return (
       <Fragment>
@@ -127,7 +123,7 @@ class ModalEditDepartamento extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    Authorization: "Bearer " + this.state.auth
                   },
                   body: JSON.stringify({
                     id: this.state.idDepartment,
@@ -203,7 +199,9 @@ class ModalEditDepartamento extends React.Component {
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
+                setFieldTouched,
+                setFieldValue
               } = props;
               return (
                 <Fragment>
@@ -244,24 +242,25 @@ class ModalEditDepartamento extends React.Component {
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <select
+
+                              <CountrySelect
+                                authorization={this.state.auth}
+                                t={this.state.t}
                                 name={"department_country"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
+                                onChange={e =>
+                                  setFieldValue(
+                                    "department_country",
+                                    e.target.value
+                                  )
+                                }
+                                onBlur={() => {
+                                  setFieldTouched("department_country", true);
+                                }}
                                 value={values.department_country}
                                 className={`form-control form-control-sm ${errors.department_country &&
                                   touched.department_country &&
                                   "is-invalid"}`}
-                              >
-                                <option value={""} disabled>
-                                  --{" "}
-                                  {t(
-                                    "app_departamento_modal_actualizar_select_pais"
-                                  )}{" "}
-                                  --
-                                </option>
-                                {mapOptionsCountries}
-                              </select>
+                              />
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.department_country &&
                                 touched.department_country ? (

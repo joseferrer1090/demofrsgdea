@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import {
   Modal,
   ModalHeader,
@@ -9,17 +9,19 @@ import {
   Col,
   CustomInput,
   Alert
-} from 'reactstrap';
-import IMGCITY from './../../../assets/img/skyline.svg';
+} from "reactstrap";
+import IMGCITY from "./../../../assets/img/skyline.svg";
 import {
   CITYS,
   CONTRIES_STATUS,
-  DEPARTMENTS_STATUS
-} from './../../../services/EndPoints';
-import { Formik, ErrorMessage, Field } from 'formik';
-import * as Yup from 'yup';
-import SelectCountry from './SelectCountryModalEdit';
-import SelectDepartment from './SelectDepartmentModalEdit';
+  DEPARTMENTS_STATUS,
+  CITY
+} from "./../../../services/EndPoints";
+import { Formik, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
+import SelectCountry from "./SelectCountryModalEdit";
+import SelectDepartment from "./SelectDepartmentModalEdit";
+import { decode } from "jsonwebtoken";
 
 class ModalEditCiudad extends React.Component {
   state = {
@@ -33,8 +35,24 @@ class ModalEditCiudad extends React.Component {
     alertError400: false,
     t: this.props.t,
     city_status: 0,
-    username: 'ccuartas'
+    username: "",
+    auth: this.props.authorization
   };
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
   onDismiss = () => {
     this.setState({
       alertError: false,
@@ -49,22 +67,17 @@ class ModalEditCiudad extends React.Component {
     this.getCityByID(id);
   };
 
-  componentDidMount() {
-    this.getDataCountries();
-    this.getDataDepartments();
-  }
-
   getCityByID = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/city/${id}?username=${this.state.username}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
+    const auth = this.state.auth;
+    console.log(auth);
+    const username = decode(auth);
+    fetch(`${CITY}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -80,48 +93,16 @@ class ModalEditCiudad extends React.Component {
       .catch(error => console.log(error));
   };
 
-  getDataCountries = data => {
-    fetch(CONTRIES_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsCountries: data
-        });
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-  getDataDepartments = data => {
-    fetch(DEPARTMENTS_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsDepartment: data
-        });
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-
   render() {
     const dataResult = this.state.dataResult;
     const { t } = this.props;
+    console.log(this.state.auth);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {' '}
-            {t('app_ciudad_modal_actualizar_titulo')} {dataResult.city_name}{' '}
+            {" "}
+            {t("app_ciudad_modal_actualizar_titulo")} {dataResult.city_name}{" "}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -139,10 +120,10 @@ class ModalEditCiudad extends React.Component {
 
               setTimeout(() => {
                 fetch(CITYS, {
-                  method: 'PUT',
+                  method: "PUT",
                   headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                    "Content-Type": "application/json",
+                    Authorization: "Basic " + this.state.auth
                   },
                   body: JSON.stringify({
                     id: this.state.idCity,
@@ -150,7 +131,7 @@ class ModalEditCiudad extends React.Component {
                     name: values.city_name,
                     departmentId: values.city_department,
                     status: tipoEstado(values.city_status),
-                    userName: 'ccuartas'
+                    userName: "ccuartas"
                   })
                 })
                   .then(response => {
@@ -188,29 +169,29 @@ class ModalEditCiudad extends React.Component {
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log('', error));
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 500);
             }}
             validationSchema={Yup.object().shape({
               city_country: Yup.string()
                 .ensure()
-                .required(' Por favor seleccione un país.'),
+                .required(" Por favor seleccione un país."),
               city_department: Yup.string()
                 .ensure()
-                .required(' Por favor seleccione un departamento.'),
+                .required(" Por favor seleccione un departamento."),
 
               city_code: Yup.string()
-                .required(' Por favor introduzca un código alfanumérico.')
-                .matches(/^[0-9a-zA-Z]+$/, ' No es un código alfanumérico.')
-                .min(2, ' Mínimo 2 caracteres.')
-                .max(15, ' Máximo 15 caracteres.'),
+                .required(" Por favor introduzca un código alfanumérico.")
+                .matches(/^[0-9a-zA-Z]+$/, " No es un código alfanumérico.")
+                .min(2, " Mínimo 2 caracteres.")
+                .max(15, " Máximo 15 caracteres."),
               city_name: Yup.string()
-                .required(' Por favor introduzca un nombre.')
-                .max(100, 'Máximo 100 caracteres.'),
+                .required(" Por favor introduzca un nombre.")
+                .max(100, "Máximo 100 caracteres."),
               city_status: Yup.bool().test(
-                'Activado',
-                '',
+                "Activado",
+                "",
                 value => value === true
               )
             })}
@@ -234,13 +215,13 @@ class ModalEditCiudad extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {t('app_ciudad_modal_actualizar_alert_error')}
+                      {t("app_ciudad_modal_actualizar_alert_error")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {t('app_ciudad_modal_actualizar_alert_success')}
+                      {t("app_ciudad_modal_actualizar_alert_success")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t('app_ciudad_modal_actualizar_alert_error400')}
+                      {t("app_ciudad_modal_actualizar_alert_error400")}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -248,41 +229,42 @@ class ModalEditCiudad extends React.Component {
                       </Col>
                       <Col sm="9">
                         <div className="">
-                          {' '}
+                          {" "}
                           <h5
                             className=""
-                            style={{ borderBottom: '1px solid black' }}
+                            style={{ borderBottom: "1px solid black" }}
                           >
-                            {' '}
-                            {t('app_ciudad_modal_actualizar_titulo_2')}{' '}
-                          </h5>{' '}
+                            {" "}
+                            {t("app_ciudad_modal_actualizar_titulo_2")}{" "}
+                          </h5>{" "}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {t('app_ciudad_modal_actualizar_pais')}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                {t("app_ciudad_modal_actualizar_pais")}{" "}
+                                <span className="text-danger">*</span>{" "}
                                 <dd>
-                                  {' '}
+                                  {" "}
                                   <SelectCountry
+                                    authorization={this.state.auth}
                                     t={this.state.t}
-                                    name={'city_country'}
+                                    name={"city_country"}
                                     onChange={e =>
                                       setFieldValue(
-                                        'city_country',
+                                        "city_country",
                                         e.target.value
                                       )
                                     }
                                     onBlur={() =>
-                                      setFieldTouched('city_country', true)
+                                      setFieldTouched("city_country", true)
                                     }
                                     value={values.city_country}
                                     className={`form-control form-control-sm ${errors.city_country &&
                                       touched.city_country &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   />
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.city_country &&
                                     touched.city_country ? (
                                       <i className="fa fa-exclamation-triangle" />
@@ -297,30 +279,31 @@ class ModalEditCiudad extends React.Component {
                             <div className="form-group">
                               <dl className="param">
                                 {t(
-                                  'app_ciudad_modal_actualizar_select_departamento'
-                                )}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                  "app_ciudad_modal_actualizar_select_departamento"
+                                )}{" "}
+                                <span className="text-danger">*</span>{" "}
                                 <dd>
-                                  {' '}
+                                  {" "}
                                   <SelectDepartment
+                                    authorization={this.state.auth}
                                     t={this.state.t}
                                     city_country={props.values.city_country}
                                     name="city_department"
                                     value={values.city_department}
                                     onChange={e =>
                                       setFieldValue(
-                                        'city_department',
+                                        "city_department",
                                         e.target.value
                                       )
                                     }
                                     onBlur={() =>
-                                      setFieldTouched('city_department', true)
+                                      setFieldTouched("city_department", true)
                                     }
                                     className={`form-control form-control-sm ${errors.city_department &&
                                       touched.city_department &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   />
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.city_department &&
                                     touched.city_department ? (
                                       <i className="fa fa-exclamation-triangle" />
@@ -334,21 +317,21 @@ class ModalEditCiudad extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {t('app_ciudad_modal_actualizar_codigo')}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                {t("app_ciudad_modal_actualizar_codigo")}{" "}
+                                <span className="text-danger">*</span>{" "}
                                 <dd>
-                                  {' '}
+                                  {" "}
                                   <input
                                     type="text"
-                                    name={'city_code'}
+                                    name={"city_code"}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.city_code}
                                     className={`form-control form-control-sm ${errors.city_code &&
                                       touched.city_code &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   />
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.city_code && touched.city_code ? (
                                       <i className="fa fa-exclamation-triangle" />
                                     ) : null}
@@ -361,10 +344,10 @@ class ModalEditCiudad extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {t('app_ciudad_modal_actualizar_nombre')}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                {t("app_ciudad_modal_actualizar_nombre")}{" "}
+                                <span className="text-danger">*</span>{" "}
                                 <dd>
-                                  {' '}
+                                  {" "}
                                   <input
                                     type="text"
                                     name="city_name"
@@ -373,9 +356,9 @@ class ModalEditCiudad extends React.Component {
                                     value={values.city_name}
                                     className={`form-control form-control-sm ${errors.city_name &&
                                       touched.city_name &&
-                                      'is-invalid'}`}
-                                  />{' '}
-                                  <div style={{ color: '#D54B4B' }}>
+                                      "is-invalid"}`}
+                                  />{" "}
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.city_name && touched.city_name ? (
                                       <i className="fa fa-exclamation-triangle" />
                                     ) : null}
@@ -389,9 +372,9 @@ class ModalEditCiudad extends React.Component {
                             <div className="form-group">
                               <dl className="param">
                                 <label>
-                                  {' '}
-                                  {t('app_ciudad_modal_actualizar_estado')}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                  {" "}
+                                  {t("app_ciudad_modal_actualizar_estado")}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <div className="text-justify">
                                   <Field
@@ -402,14 +385,14 @@ class ModalEditCiudad extends React.Component {
                                           type="checkbox"
                                           id="CheckboxEditCiudad"
                                           label={t(
-                                            'app_ciudad_modal_actualizar_estado_descripcion'
+                                            "app_ciudad_modal_actualizar_estado_descripcion"
                                           )}
                                           {...field}
                                           checked={field.value}
                                           className={
                                             errors.city_status &&
                                             touched.city_status &&
-                                            'invalid-feedback'
+                                            "invalid-feedback"
                                           }
                                         />
                                       );
@@ -433,9 +416,9 @@ class ModalEditCiudad extends React.Component {
                         handleSubmit();
                       }}
                     >
-                      {' '}
-                      <i className="fa fa-pencil" />{' '}
-                      {t('app_ciudad_modal_actualizar_button_actualizar')}{' '}
+                      {" "}
+                      <i className="fa fa-pencil" />{" "}
+                      {t("app_ciudad_modal_actualizar_button_actualizar")}{" "}
                     </button>
                     <button
                       type="button"
@@ -444,9 +427,9 @@ class ModalEditCiudad extends React.Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      {' '}
-                      <i className="fa fa-times" />{' '}
-                      {t('app_ciudad_modal_actualizar_button_cerrar')}{' '}
+                      {" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_ciudad_modal_actualizar_button_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>

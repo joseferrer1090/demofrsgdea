@@ -10,6 +10,8 @@ import {
 } from "reactstrap";
 import IMGDEPARTAMENTO from "./../../../assets/img/map-marker.svg";
 import moment from "moment";
+import { decode } from "jsonwebtoken";
+import { DEPARTMENT } from "./../../../services/EndPoints";
 
 class ModalViewDepartamento extends Component {
   constructor(props) {
@@ -20,8 +22,25 @@ class ModalViewDepartamento extends Component {
       dataDepartamento: {},
       dataPais: {},
       t: this.props.t,
-      username: "ccuartas"
+      username: "",
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -29,24 +48,24 @@ class ModalViewDepartamento extends Component {
       modal: !this.state.modal,
       id: id
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/department/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    this.getDataDeparmentById(id);
+  };
+
+  getDataDeparmentById = id => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${DEPARTMENT}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataPais: data.country,
-          dataDepartamento: data
-        });
-      })
-      .catch(Error => console.log(" ", Error));
+      .then(data =>
+        this.setState({ dataPais: data.country, dataDepartamento: data })
+      )
+      .catch(Error => console.log("", Error));
   };
   FechaCreacionDeparment(data) {
     let createdAt;

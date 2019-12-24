@@ -15,6 +15,17 @@ import FormImport from "./components/FormImportCiudad";
 import TableContent from "./components/TableContentCiudad";
 import { withTranslation } from "react-i18next";
 
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
+
 class Ciudad extends Component {
   constructor(props) {
     super(props);
@@ -22,6 +33,22 @@ class Ciudad extends Component {
       activeTab: "1"
     };
   }
+  componentDidMount() {
+    this.getDataLocal();
+  }
+
+  getDataLocal = () => {
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          authToken: resp.data.access_token
+        });
+      });
+  };
 
   toggle = tab => {
     if (this.state.activeTab !== 0) {
@@ -33,6 +60,7 @@ class Ciudad extends Component {
 
   render() {
     const { t } = this.props;
+    const { authToken } = this.state;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -71,14 +99,14 @@ class Ciudad extends Component {
           <TabPane tabId="1">
             <Row>
               <Col md="12">
-                <FormCreate />
+                <FormCreate authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <TableContent />
+                <TableContent authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

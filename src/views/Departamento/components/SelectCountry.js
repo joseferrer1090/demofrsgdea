@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CONTRIES_STATUS } from "./../../../../../services/EndPoints";
+import { CONTRIES_STATUS } from "./../../../services/EndPoints";
 
 class SelectCountry extends React.Component {
   state = {
@@ -8,6 +8,7 @@ class SelectCountry extends React.Component {
     t: this.props.t,
     auth: this.props.authorization
   };
+
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
@@ -40,7 +41,8 @@ class SelectCountry extends React.Component {
         this.setState({
           dataCountry: data
         });
-      });
+      })
+      .catch(Error => console.log("", Error));
   };
 
   handleChange = value => {
@@ -58,12 +60,12 @@ class SelectCountry extends React.Component {
         <select
           name={this.props.name}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
           value={this.props.value}
           className={this.props.className}
-          onBlur={this.props.onBlur}
         >
           <option value={""}>
-            -- {t("app_ciudad_form_registrar_pais")} --
+            -- {t("app_conglomerado_form_select_pais")} --
           </option>
           {this.state.dataCountry.map((aux, id) => {
             return (
@@ -81,4 +83,5 @@ SelectCountry.propTypes = {
   t: PropTypes.any,
   authorization: PropTypes.string.isRequired
 };
+
 export default SelectCountry;

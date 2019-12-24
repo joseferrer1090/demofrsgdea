@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
 import * as Yup from "yup";
 import { Formik, ErrorMessage } from "formik";
+import { decode } from "jsonwebtoken";
+import { DEPARTMENT, DEPARTMENTS } from "../../../services/EndPoints";
 
 class ModalDeleteDepartamento extends Component {
   constructor(props) {
@@ -17,8 +19,26 @@ class ModalDeleteDepartamento extends Component {
       alertSuccess: false,
       nameDepartment: "",
       t: this.props.t,
-      username: "ccuartas"
+      username: "",
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -28,16 +48,15 @@ class ModalDeleteDepartamento extends Component {
       nombre: "",
       useLogged: "ccuartas"
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/department/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${DEPARTMENT}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -72,13 +91,15 @@ class ModalDeleteDepartamento extends Component {
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/department/${this.state.idDepartment}?code=${values.code}&username=${this.state.useLogged}`,
+                  `${DEPARTMENTS}/${this.state.idDepartment}?code=${values.code}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                      Authorization: "Bearer " + this.state.auth
                     }
                   }
                 )

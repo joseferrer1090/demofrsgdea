@@ -10,6 +10,8 @@ import {
 } from "reactstrap";
 import IMGCITY from "./../../../assets/img/skyline.svg";
 import moment from "moment";
+import { decode } from "jsonwebtoken";
+import { CITY } from "../../../services/EndPoints";
 
 class ModalViewCiudad extends Component {
   constructor(props) {
@@ -21,8 +23,24 @@ class ModalViewCiudad extends Component {
       dataDepartment: {},
       dataCountry: {},
       t: this.props.t,
-      username: "ccuartas"
+      username: "",
+      auth: this.props.authorization
     };
+  }
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -30,25 +48,28 @@ class ModalViewCiudad extends Component {
       modal: !this.state.modal,
       idCity: id
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/city/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    this.getDataCitiesById(id);
+  };
+
+  getDataCitiesById = id => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${CITY}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
-      .then(data => {
+      .then(data =>
         this.setState({
           dataCity: data,
           dataDepartment: data.department,
           dataCountry: data.department.country
-        });
-      })
-      .catch(Error => console.log(" ", Error));
+        })
+      )
+      .catch(Error => console.log("", Error));
   };
   FechaCreacionCiudad(data) {
     let createdAt;

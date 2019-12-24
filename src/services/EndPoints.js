@@ -380,42 +380,40 @@ export const COUNTRIES_PAGINATION = () => {
 //---------------------------------------------DEPARTAMENTO--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const DEPARTMENTS = "http://192.168.10.180:7000/api/sgdea/department";
+export const DEPARTMENTS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/departments`;
 
 /* GET / DELETE */
-export const DEPARTMENT =
-  "http://192.168.10.180:7000/api/sgdea/department/af27290a-714e-4857-b157-1779c941e4fc/ccuartas";
+export const DEPARTMENT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/departments/`;
 
 /* GET */
-export const DEPARTMENTS_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/department/active";
+export const DEPARTMENTS_BY_COUNTRY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/departments/country/`;
 
 /* GET */
-export const DEPARTMENTS_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/department/export/ccuartas";
+export const DEPARTMENTS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/departments/active`;
+
+/* GET */
+export const DEPARTMENTS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/departments/export/data`;
 
 /* GET */
 export const DEPARTMENTS_PAGINATION = () => {
   const page = 0;
   const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/department/pagination?page=${page}&size=${size}`;
+  return `${config.IP}:${config.PORT}/api/sgdea/department/pagination?page=${page}&size=${size}`;
 };
 
 //---------------------------------------------CIUDAD--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const CITYS = "http://192.168.10.180:7000/api/sgdea/city";
+export const CITYS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/cities`;
 
 /* GET / DELETE */
-export const CITY =
-  "http://192.168.10.180:7000/api/sgdea/city/23ed762d-ae48-44af-a6cc-82b2430fc33b/ccuartas";
+export const CITY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/cities/`;
 
 /* GET */
-export const CITIES_STATUS = "http://192.168.10.180:7000/api/sgdea/city/active";
+export const CITIES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/cities/active`;
 
 /* GET */
-export const CITIES_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/city/export/ccuartas";
+export const CITIES_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/cities/export/data`;
 
 /* GET */
 export const CITIES_PAGINATION = () => {

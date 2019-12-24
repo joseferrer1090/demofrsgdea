@@ -163,28 +163,36 @@ export const MESSENGER_PAGINATION = () => {
 
 //---------------------------------------------TIPO DE ENVÍO / LLEGADA--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const TYPESHIPMENTARRIVAL =
-  "http://192.168.10.180:7000/api/sgdea/typeshipmentarrival";
-
-/* GET / DELETE */
-export const TYPESHIPMENTSARRIVALS =
-  "http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/81339c73-fed7-4847-9215-8c6ebb67e36b/ccuartas";
+/* GET params => id, usernema */
+export const TYPESHIPMENTARRIVAL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
 
 /* GET */
-export const TYPESHIPMENTARRIVAL_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/status/1";
+export const TYPESHIPMENTSARRIVALS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
 
 /* GET */
-export const TYPESHIPMENTARRIVAL_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/export/ccuartas";
+export const TYPESHIPMENTARRIVAL_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/active`;
+
+/* GET */
+export const TYPESHIPMENTARRIVAL_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/inactive`;
+
+/* POST */
+export const TYPESHIPMENTARRIVAL_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
+
+/* PUT */
+export const TYPESHIPMENTARRIVAL_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
+
+/* DELETE params identification, username */
+export const TYPESHIPMENTARRIVAL_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/`;
 
 /* GET */
 export const TYPESHIPMENTARRIVAL_PAGINATION = () => {
-  const page = 0;
-  const size = 2;
-  return `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/pagination?page=${page}&size=${size}`;
+  // const page = 0; params page
+  // const size = 2; params size
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/pagination`;
 };
+
+/* GET params username */
+export const TYPESHIPMENTARRIVAL_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/export/data`;
 
 //---------------------------------------------TIPO TRÁMITE--------------------------------------------------//
 

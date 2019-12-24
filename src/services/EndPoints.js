@@ -196,28 +196,39 @@ export const TYPESHIPMENTARRIVAL_EXPORT = `${config.IP}:${config.PORT}/api/sgdea
 
 //---------------------------------------------TIPO TRÁMITE--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const TYPEPROCEDURES =
-  "http://192.168.10.180:7000/api/sgdea/typeprocedure";
+/* GET */
+export const TYPEPROCEDURES = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures`;
 
-/* GET / DELETE */
-export const TYPEPROCEDURE =
-  "http://192.168.10.180:7000/api/sgdea/typeprocedure/2ca8b720-764d-4219-ae96-b530343562db/ccuartas";
+/* GET  params => idTypeprodcedure, username*/
+export const TYPEPROCEDURE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/`;
 
 /* GET */
-export const TYPEPROCEDURES_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/typeprocedure/status/1";
+export const TYPEPROCEDURES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/active`;
 
 /* GET */
-export const TYPEPROCEDURES_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/typeprocedure/export/ccuartas";
+export const TYPEPROCEDURES_STATUS_INAVTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/inactive`;
+
+/* POST */
+export const TYPEPROCEDURE_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures`;
+
+/* PUT */
+export const TYPEPROCEDURE_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures`;
+
+/* DELETE param = idTypeProcedure, username, code */
+export const TYPEPROCEDURE_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/`;
 
 /* GET */
 export const TYPEPROCEDURES_PAGINATION = () => {
-  const page = 0;
-  const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/typeprocedure/pagination?page=${page}&size=${size}`;
+  //const page = 0; param page
+  //const size = 1; param size
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/pagination`;
 };
+
+/* GET params username */
+export const TYPEPROCEDURES_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/export/data`;
+
+/* GET */
+export const TYPEPROCEDURES_EXPORT_USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/export/565b08fd-f26f-43a2-9f53-730fadae0676/users`;
 
 //---------------------------------------------USUARIOS--------------------------------------------------//
 

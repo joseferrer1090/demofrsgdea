@@ -395,7 +395,7 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
-        fetch(COMPANYS, {
+        fetch(`${COMPANYS}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

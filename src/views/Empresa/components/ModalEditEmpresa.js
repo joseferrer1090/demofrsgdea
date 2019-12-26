@@ -24,7 +24,7 @@ import {
 import SelectCountry from "./SelectCountryModalEdit";
 import SelectDepartment from "./SelectDepartmentModalEdit";
 import SelectCity from "./SelecCityModalEdit";
-import SelectCharges from "./SelecCityModalEdit";
+import SelectCharges from "./SelectChargesModalEdit";
 import { decode } from "jsonwebtoken";
 
 class ModalEditEmpresa extends React.Component {

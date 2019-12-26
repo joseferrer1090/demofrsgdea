@@ -38,8 +38,7 @@ class Empresa extends Component {
   toggle = tab => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab,
-        authToken: ""
+        activeTab: tab
       });
     }
   };
@@ -109,8 +108,7 @@ class Empresa extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                {/* <TableContent authorization={authToken} /> */}
-                {/* <FormCreate authorization={authToken} /> */}
+                <TableContent authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

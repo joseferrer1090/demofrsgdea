@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CHARGES_STATUS } from "./../../../../../services/EndPoints";
+import { CHARGES_STATUS } from "./../../../services/EndPoints";
 
 class SelectCharges extends React.Component {
   state = {

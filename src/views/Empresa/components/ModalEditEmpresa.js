@@ -19,38 +19,54 @@ import IMGEMPRESA from "./../../../assets/img/company.svg";
 import {
   CONGLOMERATES_STATUS,
   CHARGES_STATUS,
-  CONTRIES_STATUS,
-  DEPARTMENTS_STATUS,
-  CITIES_STATUS
+  COMPANYS
 } from "../../../services/EndPoints";
 import SelectCountry from "./SelectCountryModalEdit";
 import SelectDepartment from "./SelectDepartmentModalEdit";
 import SelectCity from "./SelecCityModalEdit";
+import SelectCharges from "./SelecCityModalEdit";
+import { decode } from "jsonwebtoken";
 
 class ModalEditEmpresa extends React.Component {
-  state = {
-    modal: this.props.modaleditempresa,
-    dataCompany: {},
-    optionsConglomerate: [0],
-    optionsCharges: [0],
-    id: this.props.id,
-    alertSuccess: false,
-    alertError: false,
-    alertError400: "",
-    optionsCountries: [0],
-    optionsCitys: [0],
-    optionsDepartment: [0],
-    t: this.props.t,
-    company_status: 0,
-    username: "ccuartas"
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: this.props.modaleditempresa,
+      dataCompany: {},
+      optionsConglomerate: [0],
+      optionsCharges: [0],
+      id: this.props.id,
+      alertSuccess: false,
+      alertError: false,
+      alertError400: "",
+      optionsCountries: [0],
+      optionsCitys: [0],
+      optionsDepartment: [0],
+      t: this.props.t,
+      company_status: 0,
+      username: "",
+      auth: this.props.authorization
+    };
+  }
 
-  componentDidMount() {
-    this.getDataConglomerates();
-    this.getDataCharges();
-    this.getDataCitys();
-    this.getDataDepartments();
-    this.getDataCountries();
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState(
+        {
+          auth: this.props.authorization
+        },
+        this.getDataConglomerates(),
+        this.getDataCharges()
+      );
+    }
   }
 
   toggle = id => {
@@ -65,11 +81,12 @@ class ModalEditEmpresa extends React.Component {
   };
 
   getDataConglomerates = data => {
+    const auth = this.state.auth;
     fetch(CONGLOMERATES_STATUS, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + auth
       }
     })
       .then(response => response.json())
@@ -80,12 +97,14 @@ class ModalEditEmpresa extends React.Component {
       })
       .catch(Error => console.log(" ", Error));
   };
+
   getDataCharges = data => {
+    const auth = this.state.auth;
     fetch(CHARGES_STATUS, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + auth
       }
     })
       .then(response => response.json())
@@ -96,17 +115,17 @@ class ModalEditEmpresa extends React.Component {
       })
       .catch(Error => console.log(" ", Error));
   };
+
   getCompanyById = id => {
-    fetch(
-      `http://192.168.20.187:7000/api/sgdea/company/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${COMPANYS}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -133,7 +152,7 @@ class ModalEditEmpresa extends React.Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -151,55 +170,7 @@ class ModalEditEmpresa extends React.Component {
       alertError: false
     });
   };
-  getDataCountries = data => {
-    fetch(CONTRIES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsCountries: data
-        });
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-  getDataDepartments = data => {
-    fetch(DEPARTMENTS_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsDepartment: data
-        });
-      })
-      .catch(Error => console.log(" ", Error));
-  };
 
-  getDataCitys = data => {
-    fetch(CITIES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsCitys: data
-        });
-      })
-      .catch(Error => console.log(" ", Error));
-  };
   render() {
     const { t } = this.props;
 
@@ -676,24 +647,24 @@ class ModalEditEmpresa extends React.Component {
                                         "app_empresa_modal_actualizar_cargo_responsable"
                                       )}{" "}
                                     </label>
-                                    <select
-                                      name={"company_charge"}
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={values.company_charge}
-                                      className={`form-control form-control-sm ${errors.company_charge &&
-                                        touched.company_charge &&
+                                    <SelectCharges
+                                      authorization={props.authorization}
+                                      t={props.t}
+                                      name={"chargeId"}
+                                      onChange={e =>
+                                        setFieldValue(
+                                          "chargeId",
+                                          e.target.value
+                                        )
+                                      }
+                                      onBlur={() => {
+                                        setFieldTouched("chargeId", true);
+                                      }}
+                                      value={values.chargeId}
+                                      className={`form-control form-control-sm ${errors.chargeId &&
+                                        touched.chargeId &&
                                         "is-invalid"}`}
-                                    >
-                                      <option value={""}>
-                                        --{" "}
-                                        {t(
-                                          "app_empresa_modal_actualizar_select_cargo_responsable"
-                                        )}{" "}
-                                        --
-                                      </option>
-                                      {mapOptionsCharges}
-                                    </select>
+                                    />
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.company_charge &&
                                       touched.company_charge ? (

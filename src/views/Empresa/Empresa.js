@@ -30,7 +30,8 @@ class Empresa extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1"
+      activeTab: "1",
+      authToken: ""
     };
   }
 
@@ -101,14 +102,15 @@ class Empresa extends Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="8" md={{ offset: 2 }}>
-                <FormCreate />
+                <FormCreate authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <TableContent authorization={authToken} />
+                {/* <TableContent authorization={authToken} /> */}
+                {/* <FormCreate authorization={authToken} /> */}
               </Col>
             </Row>
           </TabPane>

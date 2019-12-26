@@ -1,45 +1,34 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CITIES_BY_DEPARTMENT } from "../../../../../services/EndPoints";
+import { CHARGES_STATUS } from "../../../../../services/EndPoints";
 
-class SelectCity extends React.Component {
+class SelectCharges extends React.Component {
   state = {
-    dataCity: [],
-    id: this.props.departmentId,
+    dataCharges: [],
     t: this.props.t,
     auth: this.props.authorization
   };
-
   static getDerivedStateFromProps(props, state) {
-    if (props.departmentId !== state.id) {
-      return {
-        id: props.departmentId
-      };
-    }
     if (props.authorization !== state.auth) {
       return {
         auth: props.authorization
       };
     }
-    return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.departmentId !== prevProps.departmentId) {
-      this.getDataCitys();
-    }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
         {
           auth: this.props.authorization
         },
-        this.getDataCitys()
+        this.getData()
       );
     }
   }
 
-  getDataCitys = () => {
-    fetch(`${CITIES_BY_DEPARTMENT}${this.props.departmentId}`, {
+  getData = () => {
+    fetch(`${CHARGES_STATUS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -49,10 +38,18 @@ class SelectCity extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataCity: data
+          dataCharges: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(Error => console.log(" ", Error));
+  };
+
+  handleChange = value => {
+    this.props.onChange("chargeId", value);
+  };
+
+  handleBlur = () => {
+    this.props.onBlur("chargeId", true);
   };
 
   render() {
@@ -61,15 +58,15 @@ class SelectCity extends React.Component {
       <div>
         <select
           name={this.props.name}
+          onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
-          onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
           <option value={""}>
-            -- {t("app_empresa_form_registrar_select_ciudad")} --
+            -- {t("app_conglomerado_form_select_cargo_responsable")} --
           </option>
-          {this.state.dataCity.map((aux, id) => {
+          {this.state.dataCharges.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
                 {aux.name}
@@ -81,8 +78,8 @@ class SelectCity extends React.Component {
     );
   }
 }
-SelectCity.propTypes = {
+SelectCharges.propTypes = {
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired
 };
-export default SelectCity;
+export default SelectCharges;

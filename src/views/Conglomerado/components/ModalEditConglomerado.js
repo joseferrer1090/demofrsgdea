@@ -56,9 +56,7 @@ class ModalEditConglomerado extends React.Component {
         {
           auth: this.props.authorization
         },
-        this.getDataCountries(),
-        this.getDataDepartments(),
-        this.getDataCitys(),
+
         this.getDataCharges()
       );
     }
@@ -117,55 +115,6 @@ class ModalEditConglomerado extends React.Component {
       alertSuccess: false
     });
   };
-  getDataCountries = data => {
-    fetch(CONTRIES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsCountries: data
-        });
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-  getDataDepartments = data => {
-    fetch(DEPARTMENTS_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsDepartment: data
-        });
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-
-  getDataCitys = data => {
-    fetch(CITIES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsCitys: data
-        });
-      })
-      .catch(Error => console.log(" ", Error));
-  };
 
   getDataCharges = data => {
     fetch(CHARGES_STATUS, {
@@ -216,7 +165,6 @@ class ModalEditConglomerado extends React.Component {
                 return 0;
               };
               setTimeout(() => {
-
                 fetch(CONGLOMERATES, {
                   method: "PUT",
                   headers: {

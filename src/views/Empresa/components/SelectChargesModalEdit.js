@@ -18,13 +18,13 @@ class SelectCharges extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
-      this.setState(
-        {
-          auth: this.props.authorization
-        },
-        this.getData()
-      );
+      this.setState({
+        auth: this.props.authorization
+      });
     }
+  }
+  componentDidMount() {
+    this.getData();
   }
 
   getData = () => {
@@ -45,11 +45,11 @@ class SelectCharges extends React.Component {
   };
 
   handleChange = value => {
-    this.props.onChange("chargeId", value);
+    this.props.onChange("company_charge", value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("chargeId", true);
+    this.props.onBlur("company_charge", true);
   };
 
   render() {

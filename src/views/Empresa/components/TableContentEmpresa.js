@@ -21,12 +21,26 @@ class TableContentEmpresa extends Component {
       modaldel: false,
       modalexport: false,
       dataCompanys: this.props.updateTable,
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataCompany();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataCompany();
+    }
   }
 
   getDataCompany = () => {
@@ -34,7 +48,7 @@ class TableContentEmpresa extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.auhorization
       }
     })
       .then(response => response.json())
@@ -242,23 +256,27 @@ class TableContentEmpresa extends Component {
           t={this.props.t}
           modalviewempesa={this.state.modalview}
           ref={"child"}
+          authorization={this.state.auth}
         />
         <ModalEdit
           t={this.props.t}
           modaleditempresa={this.state.modaledit}
           ref={"child2"}
           updateTable={this.getDataCompany}
+          authorization={this.state.auth}
         />
         <ModalDel
           t={this.props.t}
           modaldelempresa={this.state.modaldel}
           updateTable={this.getDataCompany}
           ref="child3"
+          authorization={this.state.auth}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref="child4"
+          authorization={this.state.auth}
         />
       </div>
     );
@@ -266,7 +284,8 @@ class TableContentEmpresa extends Component {
 }
 
 TableContentEmpresa.propTypes = {
-  updateTable: PropTypes.any
+  updateTable: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableContentEmpresa);

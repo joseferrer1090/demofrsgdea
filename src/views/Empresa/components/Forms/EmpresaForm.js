@@ -20,6 +20,8 @@ import { withTranslation } from "react-i18next";
 import SelectCity from "./components/SelectCity";
 import SelectCountry from "./components/SelectCountry";
 import SelectDepartment from "./components/SelectDeparment";
+import SelectCharges from "./components/SelectCharges";
+import SelectConglomerate from "./components/SelectConglomerate";
 
 const EmpresaForm = props => {
   const {
@@ -35,59 +37,6 @@ const EmpresaForm = props => {
     t
   } = props;
 
-  const [optionsConglomerate, setOptionsConglomerate] = useState([]);
-  const [optionsCharges, setOptionsCharges] = useState([]);
-
-  useEffect(() => {
-    getDataConglomerates();
-    getDataCharges();
-  }, []);
-
-  const getDataConglomerates = data => {
-    fetch(CONGLOMERATES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsConglomerate(data);
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-
-  const mapOptionsConglomerate = optionsConglomerate.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
-  const getDataCharges = data => {
-    fetch(CHARGES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsCharges(data);
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-
-  const mapOptionsCharges = optionsCharges.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
   return (
     <div>
       <Card>
@@ -103,21 +52,21 @@ const EmpresaForm = props => {
                     {t("app_empresa_form_registrar_conglomerado")}{" "}
                     <span className="text-danger">*</span>{" "}
                   </label>
-                  <select
-                    name="conglomerateId"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
+                  <SelectConglomerate
+                    authorization={props.authorization}
+                    t={props.t}
+                    name={"conglomerateId"}
+                    onChange={e =>
+                      setFieldValue("conglomerateId", e.target.value)
+                    }
+                    onBlur={() => {
+                      setFieldTouched("conglomerateId", true);
+                    }}
+                    value={values.conglomerateId}
                     className={`form-control form-control-sm ${errors.conglomerateId &&
                       touched.conglomerateId &&
                       "is-invalid"}`}
-                    value={values.conglomerateId}
-                  >
-                    <option value={""} disabled>
-                      -- {t("app_empresa_form_registrar_select_conglomerado")}{" "}
-                      --
-                    </option>
-                    {mapOptionsConglomerate}
-                  </select>
+                  />
                   <div style={{ color: "#D54B4B" }}>
                     {errors.conglomerateId && touched.conglomerateId ? (
                       <i className="fa fa-exclamation-triangle" />
@@ -231,6 +180,7 @@ const EmpresaForm = props => {
                   <label>{t("app_empresa_form_registrar_pais")}</label>
                   <span className="text-danger">*</span>{" "}
                   <SelectCountry
+                    authorization={props.authorization}
                     t={props.t}
                     name={"countryId"}
                     onChange={e => setFieldValue("countryId", e.target.value)}
@@ -253,6 +203,7 @@ const EmpresaForm = props => {
                   <label>{t("app_empresa_form_registrar_departamento")}</label>
                   <span className="text-danger">*</span>{" "}
                   <SelectDepartment
+                    authorization={props.authorization}
                     t={props.t}
                     countryId={props.values.countryId}
                     name="departmentId"
@@ -280,6 +231,7 @@ const EmpresaForm = props => {
                     <span className="text-danger">*</span>
                   </label>
                   <SelectCity
+                    authorization={props.authorization}
                     t={props.t}
                     departmentId={props.values.departmentId}
                     name={"cityId"}
@@ -303,24 +255,19 @@ const EmpresaForm = props => {
                     {" "}
                     {t("app_empresa_form_registrar_cargo_responsable")}
                   </label>
-                  <select
-                    name="chargeId"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
+                  <SelectCharges
+                    authorization={props.authorization}
+                    t={props.t}
+                    name={"chargeId"}
+                    onChange={e => setFieldValue("chargeId", e.target.value)}
+                    onBlur={() => {
+                      setFieldTouched("chargeId", true);
+                    }}
                     value={values.chargeId}
-                    className="form-control form-control-sm"
-                  >
-                    {" "}
-                    <option value={""} disabled>
-                      {" "}
-                      --{" "}
-                      {t(
-                        "app_empresa_form_registrar_select_cargo_responsable"
-                      )}{" "}
-                      --{" "}
-                    </option>
-                    {mapOptionsCharges}
-                  </select>
+                    className={`form-control form-control-sm ${errors.chargeId &&
+                      touched.chargeId &&
+                      "is-invalid"}`}
+                  />
                 </div>
               </div>
             </div>
@@ -437,7 +384,7 @@ export default withTranslation("translations")(
         )
         .required("Se debe aceptar la activacion de la empresa.")
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -448,11 +395,11 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
-        fetch(COMPANYS, {
+        fetch(`${COMPANYS}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + props.authorization
           },
           body: JSON.stringify({
             conglomerateId: values.conglomerateId,

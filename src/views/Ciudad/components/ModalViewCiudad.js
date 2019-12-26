@@ -212,7 +212,8 @@ class ModalViewCiudad extends Component {
 ModalViewCiudad.propTypes = {
   modalview: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization:PropTypes.string.isRequired,
 };
 
 export default ModalViewCiudad;

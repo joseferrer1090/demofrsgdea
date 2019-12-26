@@ -306,5 +306,6 @@ export default withTranslation("translations")(
 );
 
 CiudadForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization:PropTypes.string.isRequired,
 };

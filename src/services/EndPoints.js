@@ -8,7 +8,7 @@ export const CONGLOMERATES = `${config.IP}:${config.PORT}/api/sgdea/service/conf
 export const CONGLOMERATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/conglomerates`;
 
 /* GET */
-export const CONGLOMERATES_STATUS = `${config.IP}:${config}/api/sgdea/conglomerate/active`;
+export const CONGLOMERATES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/conglomerates/active`;
 
 export const CONGLOMERATES_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/conglomerates/inactive`;
 
@@ -28,8 +28,6 @@ export const CONGLOMERATE_PAGINATION = () => {
 export const COMPANYS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/companies`;
 
 /* GET / DELETE */
-export const COMPANY =
-  "http://192.168.10.180:7000/api/sgdea/company/679a9e1f-29a6-4c7a-b90b-da4d774ebf1f/ccuartas";
 
 /* GET */
 export const COMPANYS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/companies/active`;
@@ -481,6 +479,8 @@ export const CITIES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/conf
 
 /* GET */
 export const CITIES_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/cities/export/data`;
+
+export const CITIES_BY_DEPARTMENT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/cities/department/`;
 
 /* GET */
 export const CITIES_PAGINATION = () => {

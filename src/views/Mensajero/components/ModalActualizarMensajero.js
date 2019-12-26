@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment } from "react";
 import {
   Modal,
   ModalHeader,
@@ -8,12 +8,13 @@ import {
   Col,
   CustomInput,
   Alert
-} from 'reactstrap';
-import PropTypes from 'prop-types';
-import ImgMensajero from './../../../assets/img/courier.svg';
-import { Formik, ErrorMessage, Field } from 'formik';
-import * as Yup from 'yup';
-import { MESSENGERS } from './../../../services/EndPoints';
+} from "reactstrap";
+import PropTypes from "prop-types";
+import ImgMensajero from "./../../../assets/img/courier.svg";
+import { Formik, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
+import { MESSENGERS, MESSENGER } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalActualizarMensajero extends React.Component {
   state = {
@@ -25,7 +26,8 @@ class ModalActualizarMensajero extends React.Component {
     alertError400: false,
     t: this.props.t,
     messenger_status: 0,
-    username: 'ccuartas'
+    username: "",
+    auth: this.props.authorization
   };
 
   toggle = id => {
@@ -36,17 +38,32 @@ class ModalActualizarMensajero extends React.Component {
     this.getMessengerByID(id);
   };
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
+
   getMessengerByID = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/messenger/${id}?username=${this.state.username}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Basic ' + window.btoa('sgdea:123456')
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${MESSENGER}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -68,7 +85,7 @@ class ModalActualizarMensajero extends React.Component {
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            {t('app_mensajero_modal_actualizar_titulo')}{' '}
+            {t("app_mensajero_modal_actualizar_titulo")}{" "}
             {dataResult.messenger_name}
           </ModalHeader>
           <Formik
@@ -78,19 +95,19 @@ class ModalActualizarMensajero extends React.Component {
               messenger_identification: Yup.string()
                 .matches(
                   /^[0-9]+$/,
-                  '  El número de identificación no acepta puntos, letras, ni caracteres especiales.'
+                  "  El número de identificación no acepta puntos, letras, ni caracteres especiales."
                 )
-                .required(' Por favor introduzca una identificación.'),
+                .required(" Por favor introduzca una identificación."),
               messenger_name: Yup.string()
-                .required(' Por favor introduzca un nombre.')
+                .required(" Por favor introduzca un nombre.")
                 .max(100),
               messenger_description: Yup.string().max(
                 250,
-                'Máximo 250 caracteres.'
+                "Máximo 250 caracteres."
               ),
               messenger_status: Yup.bool().test(
-                'Activo',
-                '',
+                "Activo",
+                "",
                 value => value === true
               )
             })}
@@ -107,10 +124,10 @@ class ModalActualizarMensajero extends React.Component {
 
               setTimeout(() => {
                 fetch(MESSENGERS, {
-                  method: 'PUT',
+                  method: "PUT",
                   headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + this.state.auth
                   },
                   body: JSON.stringify({
                     id: this.state.idMensajero,
@@ -118,7 +135,7 @@ class ModalActualizarMensajero extends React.Component {
                     name: values.messenger_name,
                     description: values.messenger_description,
                     status: tipoEstado(values.messenger_status),
-                    userName: 'ccuartas'
+                    userName: "ccuartas"
                   })
                 })
                   .then(response => {
@@ -156,7 +173,7 @@ class ModalActualizarMensajero extends React.Component {
                       }, 3000);
                     }
                   })
-                  .catch(error => console.log('', error));
+                  .catch(error => console.log("", error));
                 setSubmitting(false);
               }, 500);
             }}
@@ -166,23 +183,21 @@ class ModalActualizarMensajero extends React.Component {
                 values,
                 touched,
                 errors,
-
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                t
+                handleSubmit
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {t('app_mensajero_modal_actualizar_alert_error')}
+                      {t("app_mensajero_modal_actualizar_alert_error")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      {t('app_mensajero_modal_actualizar_alert_success')}
+                      {t("app_mensajero_modal_actualizar_alert_success")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t('app_mensajero_modal_actualizar_alert_error400')}
+                      {t("app_mensajero_modal_actualizar_alert_error400")}
                     </Alert>
                     <Row>
                       <Col sm="3">
@@ -190,35 +205,35 @@ class ModalActualizarMensajero extends React.Component {
                       </Col>
                       <Col sm="9">
                         <div className="">
-                          {' '}
+                          {" "}
                           <h5
                             className=""
-                            style={{ borderBottom: '1px solid black' }}
+                            style={{ borderBottom: "1px solid black" }}
                           >
-                            {' '}
-                            {t('app_mensajero_modal_actualizar_titulo_2')}{' '}
-                          </h5>{' '}
+                            {" "}
+                            {t("app_mensajero_modal_actualizar_titulo_2")}{" "}
+                          </h5>{" "}
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
                                 {t(
-                                  'app_mensajero_modal_actualizar_identificacion'
-                                )}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                  "app_mensajero_modal_actualizar_identificacion"
+                                )}{" "}
+                                <span className="text-danger">*</span>{" "}
                                 <dd>
                                   <input
-                                    name={'messenger_identification'}
+                                    name={"messenger_identification"}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.messenger_identification}
                                     type="text"
                                     className={`form-control form-control-sm ${errors.messenger_identification &&
                                       touched.messenger_identification &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   />
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.messenger_identification &&
                                     touched.messenger_identification ? (
                                       <i className="fa fa-exclamation-triangle" />
@@ -232,21 +247,21 @@ class ModalActualizarMensajero extends React.Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <dl className="param">
-                                {t('app_mensajero_modal_actualizar_nombre')}{' '}
-                                <span className="text-danger">*</span>{' '}
+                                {t("app_mensajero_modal_actualizar_nombre")}{" "}
+                                <span className="text-danger">*</span>{" "}
                                 <dd>
-                                  {' '}
+                                  {" "}
                                   <input
-                                    name={'messenger_name'}
+                                    name={"messenger_name"}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.messenger_name}
                                     type="text"
                                     className={`form-control form-control-sm ${errors.messenger_name &&
                                       touched.messenger_name &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                   />
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.messenger_name &&
                                     touched.messenger_name ? (
                                       <i className="fa fa-exclamation-triangle" />
@@ -261,12 +276,12 @@ class ModalActualizarMensajero extends React.Component {
                             <div className="form-group">
                               <dl className="param">
                                 {t(
-                                  'app_mensajero_modal_actualizar_descripción'
+                                  "app_mensajero_modal_actualizar_descripción"
                                 )}
                                 <dd>
-                                  {' '}
+                                  {" "}
                                   <textarea
-                                    name={'messenger_description'}
+                                    name={"messenger_description"}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.messenger_description}
@@ -280,11 +295,11 @@ class ModalActualizarMensajero extends React.Component {
                             <div className="form-group">
                               <dl className="param">
                                 <label>
-                                  {' '}
+                                  {" "}
                                   {t(
-                                    'app_mensajero_modal_actualizar_estado'
-                                  )}{' '}
-                                  <span className="text-danger">*</span>{' '}
+                                    "app_mensajero_modal_actualizar_estado"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
                                 </label>
                                 <div className="text-justify">
                                   <Field
@@ -295,14 +310,14 @@ class ModalActualizarMensajero extends React.Component {
                                           type="checkbox"
                                           id="CheckBoxEditRoles"
                                           label={t(
-                                            'app_mensajero_modal_actualizar_estado_descripcion'
+                                            "app_mensajero_modal_actualizar_estado_descripcion"
                                           )}
                                           {...field}
                                           checked={field.value}
                                           className={
                                             errors.messenger_status &&
                                             touched.messenger_status &&
-                                            'invalid-feedback'
+                                            "invalid-feedback"
                                           }
                                         />
                                       );
@@ -326,8 +341,8 @@ class ModalActualizarMensajero extends React.Component {
                       type="button"
                       className="btn btn-sm btn-outline-success"
                     >
-                      <i className="fa fa-pencil" />{' '}
-                      {t('app_mensajero_modal_actualizar_boton_actualizar')}
+                      <i className="fa fa-pencil" />{" "}
+                      {t("app_mensajero_modal_actualizar_boton_actualizar")}
                     </button>
                     <button
                       className="btn btn-sm btn-secondary "
@@ -335,9 +350,9 @@ class ModalActualizarMensajero extends React.Component {
                         this.setState({ modal: false });
                       }}
                     >
-                      {' '}
-                      <i className="fa fa-times" />{' '}
-                      {t('app_mensajero_modal_actualizar_boton_cerrar')}{' '}
+                      {" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_mensajero_modal_actualizar_boton_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>

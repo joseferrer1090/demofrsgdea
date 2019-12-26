@@ -21,7 +21,10 @@ const FormCreateEmpresa = props => {
       <div className="container">
         <div className="row">
           <div className="col-sm-12">
-            <EmpresaForm empresa={empresa} />
+            <EmpresaForm
+              empresa={empresa}
+              authorization={props.authorization}
+            />
           </div>
         </div>
       </div>
@@ -30,6 +33,7 @@ const FormCreateEmpresa = props => {
 };
 
 FormCreateEmpresa.propTypes = {
-  empresa: PropTypes.object.isRequired
+  empresa: PropTypes.object.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 export default FormCreateEmpresa;

@@ -16,10 +16,10 @@ import ImportFile from "./components/FormUploadFile";
 import { withTranslation } from "react-i18next";
 
 const asyncLocalStorage = {
-  // setItem: async function(key, value) {
-  //   await null;
-  //   return localStorage.setItem(key, value);
-  // },
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
   getItem: async function(key) {
     await null;
     return localStorage.getItem(key);
@@ -108,7 +108,7 @@ class Conglomerado extends React.Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <TableContent />
+                <TableContent authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

@@ -30,7 +30,8 @@ class Ciudad extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1"
+      activeTab: "1",
+      authToken: ""
     };
   }
   componentDidMount() {

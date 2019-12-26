@@ -235,6 +235,7 @@ class ModalDeleteDepartamento extends Component {
 
 ModalDeleteDepartamento.propTypes = {
   modaldel: PropTypes.bool.isRequired,
+  authorization: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired,
   t: PropTypes.any
 };

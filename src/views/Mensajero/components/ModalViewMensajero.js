@@ -10,6 +10,8 @@ import {
 import ImgMensajero from "./../../../assets/img/courier.svg";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { decode } from "jsonwebtoken";
+import { MESSENGER } from "../../../services/EndPoints";
 
 class ModalViewMensajero extends Component {
   constructor(props) {
@@ -19,8 +21,24 @@ class ModalViewMensajero extends Component {
       id: this.props.id,
       dataMessenger: {},
       t: this.props.t,
-      username: "ccuartas"
+      username: "",
+      auth: this.props.authorization
     };
+  }
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -28,16 +46,20 @@ class ModalViewMensajero extends Component {
       modal: !prevState.modal,
       id: id
     }));
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/messenger/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    this.getDataMessengerById(id);
+  };
+
+  getDataMessengerById = id => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+
+    fetch(`${MESSENGER}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -176,7 +198,8 @@ class ModalViewMensajero extends Component {
 ModalViewMensajero.propTypes = {
   modalview: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalViewMensajero;

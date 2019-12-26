@@ -251,5 +251,6 @@ class FormImportPais extends React.Component {
 }
 FormImportPais.propTypes = {
   t: PropTypes.any
+  // authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(FormImportPais);

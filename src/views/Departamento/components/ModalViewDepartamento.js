@@ -191,7 +191,8 @@ class ModalViewDepartamento extends Component {
 ModalViewDepartamento.propTypes = {
   modalview: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalViewDepartamento;

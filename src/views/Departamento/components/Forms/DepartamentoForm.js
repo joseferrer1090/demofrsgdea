@@ -247,7 +247,6 @@ export default withTranslation("translations")(
         })
           .then(response =>
             response.json().then(data => {
-              console.log(response.status);
               if (response.status === 201) {
                 toast.success("Se creo el departamento con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
@@ -287,5 +286,6 @@ export default withTranslation("translations")(
   })(DepartamentoForm)
 );
 DepartamentoForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };

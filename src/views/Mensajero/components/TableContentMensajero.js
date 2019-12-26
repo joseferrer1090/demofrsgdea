@@ -21,12 +21,26 @@ class TableContentMensajero extends Component {
       modaldelte: false,
       modalexport: false,
       dataMessengers: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataMessenger();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataMessenger();
+    }
   }
 
   getDataMessenger = () => {
@@ -34,7 +48,7 @@ class TableContentMensajero extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -228,23 +242,27 @@ class TableContentMensajero extends Component {
           </Col>
         </Row>
         <ModalViewMensajero
+          authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalView}
           ref={"child"}
         />
         <ModalUpdate
+          authorization={this.state.auth}
           t={this.props.t}
           modalupdate={this.state.modalUpdate}
           updateTable={this.getDataMessenger}
           ref={"child2"}
         />
         <Modaldelete
+          authorization={this.state.auth}
           t={this.props.t}
           modaldelete={this.state.modaldelte}
           updateTable={this.getDataMessenger}
           ref={"child3"}
         />
         <ModalExport
+          authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref={"child4"}
@@ -255,7 +273,8 @@ class TableContentMensajero extends Component {
 }
 
 TableContentMensajero.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableContentMensajero);

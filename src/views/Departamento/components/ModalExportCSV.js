@@ -140,7 +140,8 @@ class ModalExportCSV extends Component {
 
 ModalExportCSV.propTypes = {
   modal: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalExportCSV;

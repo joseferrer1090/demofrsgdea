@@ -406,7 +406,8 @@ ModalEditDepartamento.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   updateTable: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalEditDepartamento;

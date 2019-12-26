@@ -69,7 +69,7 @@ class ModalEditCiudad extends React.Component {
 
   getCityByID = id => {
     const auth = this.state.auth;
-    console.log(auth);
+
     const username = decode(auth);
     fetch(`${CITY}${id}?username=${username.user_name}`, {
       method: "GET",
@@ -96,7 +96,7 @@ class ModalEditCiudad extends React.Component {
   render() {
     const dataResult = this.state.dataResult;
     const { t } = this.props;
-    console.log(this.state.auth);
+   
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -446,7 +446,8 @@ ModalEditCiudad.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   updateTable: PropTypes.func.isRequired,
   t: PropTypes.any,
-  id: PropTypes.any
+  id: PropTypes.any,
+  authorization:PropTypes.string.isRequired,
 };
 
 export default ModalEditCiudad;

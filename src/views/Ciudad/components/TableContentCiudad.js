@@ -286,7 +286,8 @@ class TableContentCiudad extends Component {
   }
 }
 TableContentCiudad.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization:PropTypes.string.isRequired,
 };
 
 export default withTranslation("translations")(TableContentCiudad);

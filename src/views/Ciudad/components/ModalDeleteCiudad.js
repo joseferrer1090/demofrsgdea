@@ -244,7 +244,8 @@ ModalDeleteCiudad.propTypes = {
   modaldel: PropTypes.bool.isRequired,
   updateTable: PropTypes.func.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization:PropTypes.string.isRequired,
 };
 
 export default ModalDeleteCiudad;

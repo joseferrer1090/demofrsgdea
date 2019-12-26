@@ -54,7 +54,7 @@ class SelectCountry extends React.Component {
   };
 
   render() {
-    console.log(this.state.auth);
+    
     const { t } = this.props;
     return (
       <div>

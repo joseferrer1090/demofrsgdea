@@ -10,7 +10,7 @@ import {
   CustomInput,
   Alert
 } from "reactstrap";
-import { PAIS_EDIT } from "./../../../data/JSON-SERVER";
+
 import IMGCOUNTRY from "./../../../assets/img/flag.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";

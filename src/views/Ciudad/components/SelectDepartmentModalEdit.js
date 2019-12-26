@@ -83,6 +83,7 @@ class SelectDepartment extends React.Component {
 }
 SelectDepartment.propTypes = {
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization:PropTypes.string.isRequired,
 };
 export default SelectDepartment;

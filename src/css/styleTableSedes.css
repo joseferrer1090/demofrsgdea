@@ -1,0 +1,34 @@
+.table-actionMenuSedes {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuSedes,
+tr:hover th .table-actionMenuSedes {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
+.tableSedes table > tbody > tr > td,
+.tableSedes table > tbody > tr > th,
+.tableSedes table > tfoot > tr > td,
+.tableSedes table > tfoot > tr > th {
+  padding-bottom: 20px !important;
+}
+
+.tableSedes1 table > thead > tr > td,
+.tableSedes1 table > thead > tr > th {
+  /* padding-bottom: 20px !important; */
+  padding-top: 7px !important;
+}
+
+.texto-Sedes {
+  font-size: 13px !important;
+  font-weight: 450 !important;
+}

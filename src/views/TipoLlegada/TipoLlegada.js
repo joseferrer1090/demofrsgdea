@@ -5,18 +5,15 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
   Col
 } from "reactstrap";
 import classnames from "classnames";
-import PropTypes from "prop-types";
 import FormImporTipoLegada from "./components/FormImportTipoLlegada";
 import FormCreateTipoLlegada from "./components/FormCreateTipoLlegada";
 import TableContent from "./components/TableTipoLlegada";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class TipoLlegada extends Component {
   constructor(props) {
@@ -34,6 +31,7 @@ class TipoLlegada extends Component {
     }
   };
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -44,7 +42,7 @@ class TipoLlegada extends Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus " /> Registrar
+              <i className="fa fa-plus " /> {t("app_tipoLlegada_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -54,7 +52,7 @@ class TipoLlegada extends Component {
                 this.toggle("2");
               }}
             >
-              <i className={"fa fa-gear"} /> Administrar
+              <i className={"fa fa-gear"} /> {t("app_tipoLlegada_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -64,7 +62,7 @@ class TipoLlegada extends Component {
                 this.toggle("3");
               }}
             >
-              <i className={"fa fa-upload"} /> Importar
+              <i className={"fa fa-upload"} /> {t("app_tipoLlegada_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -95,5 +93,8 @@ class TipoLlegada extends Component {
     );
   }
 }
+TipoLlegada.propTypes = {
+  t: PropTypes.any
+};
 
-export default TipoLlegada;
+export default withTranslation("translations")(TipoLlegada);

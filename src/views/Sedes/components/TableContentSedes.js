@@ -1,78 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col, Badge } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import ModalEdit from "./ModalEditSedes";
 import ModalView from "./ModalViewSedes";
 import ModalDelete from "./ModalDeleteSedes";
+import ModalExport from "./ModalExportCSV";
+import "./../../../css/styleTableSedes.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/table_data.css";
-
-const dataExample = [
-  {
-    IdSede: "1",
-    Nombre: "BOGOTA PRINCIPAL",
-    Prefijo: "BP",
-    Estado: 0,
-    Direccion: "AUTOPISTA SUR  60-51",
-    Telefono: "711 90 05",
-    Ciudad: "BOGOTA - DISTRITO CAPITAL"
-  },
-  {
-    IdSede: "3",
-    Nombre: "REGIONAL ATLANTICO",
-    Prefijo: "ATLAN",
-    Estado: 1,
-    Direccion: "CALLE 110 9G-330 BODEGA 1415",
-    Telefono: "310 398 74 11",
-    Ciudad: "BARRANQUILLA - ATLANTICO"
-  },
-  {
-    IdSede: "2",
-    Nombre: "BOGOTA CENTRO DE LOGISTICA",
-    Prefijo: "BCLED",
-    Estado: 1,
-    Direccion: "CALLE 25D 95A-90",
-    Telefono: "426 34 44",
-    Ciudad: "BOGOTA - DISTRITO CAPITAL"
-  },
-  {
-    IdSede: "6",
-    Nombre: "REGIONAL ANTIOQUIA",
-    Prefijo: "ANTI",
-    Estado: 0,
-    Direccion: "CRA 42 54A-155 BODEGA A 101 ITAGUI",
-    Telefono: "4-372 12 45",
-    Ciudad: "MEDELLIN - ANTIOQUIA"
-  },
-  {
-    IdSede: "7",
-    Nombre: "REGIONAL EJE CAFETERO",
-    Prefijo: "EJECAF",
-    Estado: 1,
-    Direccion: "CRA 14 88-00 BODEGA MONSERRATE BOD 1 SEC. BELMONTE",
-    Telefono: "6-320 51 55",
-    Ciudad: "PEREIRA - RISARALDA"
-  },
-  {
-    IdSede: "5",
-    Nombre: "REGIONAL OCCIDENTE",
-    Prefijo: "OCCI",
-    Estado: 0,
-    Direccion: "CRA 27B 13-141 ZONA INDUS. BL 8 BOD 15 ARROYOHONDO",
-    Telefono: "2-691 37 07",
-    Ciudad: "CALI - VALLE DEL CAUCA"
-  },
-  {
-    IdSede: "4",
-    Nombre: "REGIONAL SANTANDER",
-    Prefijo: "SANT",
-    Estado: 1,
-    Direccion: "MANZANA D BODEGA 1 PARQUE INDUSTRIAL VIA CHIMITA",
-    Telefono: "7-676 00 78",
-    Ciudad: "BUCARAMANGA - SANTANDER"
-  }
-];
+import { HEADQUARTERS } from "./../../../services/EndPoints";
+import moment from "moment";
+import { withTranslation } from "react-i18next";
 
 class TableContentSedes extends Component {
   constructor(props) {
@@ -80,30 +18,53 @@ class TableContentSedes extends Component {
     this.state = {
       modalView: false,
       modalEdit: false,
-      modalDel: false
+      modalDel: false,
+      modalExport: false,
+      dataHeadquarters: [],
+      hiddenColumnId: true
     };
   }
 
-  SedesStatus(cell, row) {
+  componentDidMount() {
+    this.getDataHeadquarters();
+  }
+
+  getDataHeadquarters = () => {
+    fetch(HEADQUARTERS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Basic " + window.btoa("sgdea:123456")
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataHeadquarters: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
+  SedesStatus = (cell, row) => {
+    const { t } = this;
     let status;
-    if (row.Estado === 1) status = <b className="text-success">ACTIVO</b>;
-    else if (row.Estado === 0) {
-      status = <b className="text-danger">INACTIVO</b>;
+    if (row.status === 1)
+      status = <b className="text-success">{t("app_tablas_estado_activo")}</b>;
+    else if (row.status === 0) {
+      status = <b className="text-danger">{t("app_tablas_estado_inactivo")}</b>;
     }
     return status;
-  }
+  };
 
   accionesSedes = (cell, row) => {
     return (
-      <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "30px" }}
-      >
+      <div className="table-actionMenuSedes" style={{ marginRight: "60px" }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -114,7 +75,7 @@ class TableContentSedes extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -124,7 +85,7 @@ class TableContentSedes extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           {" "}
@@ -134,93 +95,132 @@ class TableContentSedes extends Component {
     );
   };
 
-  openModalView = () => {
-    this.refs.child.toggle();
+  openModalView = id => {
+    this.refs.child.toggle(id);
   };
 
-  openModalEdit = () => {
-    this.refs.child2.toggle();
+  openModalEdit = id => {
+    this.refs.child2.toggle(id);
   };
 
-  openModalDelete = () => {
-    this.refs.child3.toggle();
+  openModalDelete = id => {
+    this.refs.child3.toggle(id);
+  };
+
+  openModalExport = () => {
+    this.refs.child4.toggle();
+  };
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
+  FechaCreacionSede(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("YYYY-MM-DD");
+  }
+
+  createCustomButtonGroup = props => {
+    const { t } = this.props;
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" />{" "}
+        {t("app_sedes_administrar_table_button_exportar")}
+      </button>
+    );
+  };
+
+  EmpresaInfo = company => {
+    return !company ? null : `<div>${company.name}</div>`;
   };
 
   render() {
+    const options = {
+      btnGroup: this.createCustomButtonGroup
+    };
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
           <Col md="12">
             <div className="">
               <BootstrapTable
-                data={dataExample}
+                options={options}
+                data={this.state.dataHeadquarters}
                 search
                 hover
                 pagination
                 bordered={false}
                 striped
-                searchPlaceholder={"Buscar"}
+                searchPlaceholder={t("app_sedes_administrar_table_placeholder")}
                 exportCSV
-                className="texto-small"
-                headerStyle={{ height: "39px" }}
+                className="tableSedes tableSedes1 texto-Sedes"
               >
                 <TableHeaderColumn
+                  export={false}
                   isKey
-                  dataField={"IdSede"}
+                  dataField={"id"}
+                  hidden={this.state.hiddenColumnId}
+                />
+                <TableHeaderColumn
+                  dataField={"id"}
+                  dataFormat={this.indexN}
                   width={"50"}
                   dataAlign="center"
                   dataSort={true}
                 >
                   #
                 </TableHeaderColumn>
+
                 <TableHeaderColumn
-                  dataField={"Nombre"}
-                  dataAlign="center"
-                  width={""}
-                  dataSort={true}
-                >
-                  Nombre
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  dataField={"Prefijo"}
-                  dataAlign="center"
-                  width={"100"}
-                  dataSort={true}
-                >
-                  Prefijo
-                </TableHeaderColumn>
-                <TableHeaderColumn
-                  dataField={"Ciudad"}
+                  dataField={"company"}
+                  dataFormat={this.EmpresaInfo}
                   dataAlign={"center"}
-                  width={"250"}
+                  width={"200"}
                   dataSort={true}
                 >
                   {" "}
-                  Ciudad{" "}
+                  {t("app_sedes_administrar_table_empresa")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  dataField={"Direccion"}
-                  dataAlign={"center"}
+                  dataField={"code"}
+                  dataAlign="center"
+                  width={"120"}
+                  dataSort={true}
+                >
+                  {t("app_sedes_administrar_table_codigo")}
+                </TableHeaderColumn>
+                <TableHeaderColumn
+                  dataField={"name"}
+                  dataAlign="center"
                   width={"250"}
                   dataSort={true}
                 >
-                  Dirección
+                  {t("app_sedes_administrar_table_nombre")}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  dataField={"Telefono"}
-                  dataAlign={"center"}
                   dataSort={true}
+                  dataField={"createdAt"}
+                  dataFormat={(cell, row) => this.FechaCreacionSede(cell, row)}
+                  dataAlign="center"
+                  width={"140"}
                 >
-                  Teléfono
+                  {t("app_sedes_administrar_table_fecha_creacion")}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  dataField={"Estado"}
+                  dataField={"status"}
                   dataFormat={(cell, row) => this.SedesStatus(cell, row)}
                   dataAlign={"center"}
+                  width={"120"}
                   dataSort={true}
                 >
                   {" "}
-                  Estado{" "}
+                  {t("app_sedes_administrar_table_estado")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
                   export={false}
@@ -229,20 +229,41 @@ class TableContentSedes extends Component {
                   style={{ border: "none" }}
                 >
                   {" "}
-                  Acciones{" "}
+                  {t("app_sedes_administrar_table_acciones")}{" "}
                 </TableHeaderColumn>
               </BootstrapTable>
             </div>
           </Col>
         </Row>
-        <ModalView modalview={this.state.modalView} ref="child" />
-        <ModalEdit modaledit={this.state.modalEdit} ref="child2" />
-        <ModalDelete modaldel={this.state.modalDel} ref="child3" />
+        <ModalView
+          t={this.props.t}
+          modalview={this.state.modalView}
+          ref="child"
+        />
+        <ModalEdit
+          t={this.props.t}
+          modaledit={this.state.modalEdit}
+          updateTable={this.getDataHeadquarters}
+          ref="child2"
+        />
+        <ModalDelete
+          t={this.props.t}
+          modaldel={this.state.modalDel}
+          updateTable={this.getDataHeadquarters}
+          ref="child3"
+        />
+        <ModalExport
+          t={this.props.t}
+          modalExport={this.state.modalExport}
+          ref="child4"
+        />
       </div>
     );
   }
 }
 
-TableContentSedes.propTypes = {};
+TableContentSedes.propTypes = {
+  t: PropTypes.any
+};
 
-export default TableContentSedes;
+export default withTranslation("translations")(TableContentSedes);

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { userActions } from "./../../../actions/";
 import {
   Collapse,
   Navbar,
@@ -15,7 +17,8 @@ import {
   DropdownItem,
   Card,
   Col,
-  Row
+  Row,
+  Button
 } from "reactstrap";
 
 import "./../../../css/custom_footer.css";
@@ -25,11 +28,27 @@ import MODULOCORRESPONDENCIA from "./../../../assets/img/close-envelope.svg";
 import MODULOARCHIVO from "./../../../assets/img/archive.svg";
 import MODULOWORKFLOW from "./../../../assets/img/workflow2.svg";
 import url from "./../../../services/deploymentdata";
+import { decode } from "jsonwebtoken";
+
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
 
 class ViewMiddleware extends Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false };
+    this.state = { isOpen: false, datalocal: {} };
+  }
+
+  componentDidMount() {
+    this.getDataLocalStorage();
   }
 
   toggle = () => {
@@ -43,6 +62,23 @@ class ViewMiddleware extends Component {
     return null;
   };
 
+  logout = () => {
+    this.props.logout();
+  };
+
+  getDataLocalStorage = () => {
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          datalocal: decode(resp.data.access_token)
+        });
+      });
+  };
+
   render() {
     return (
       <div className="animated fadeIn">
@@ -53,14 +89,14 @@ class ViewMiddleware extends Component {
             <Nav className="ml-auto" navbar>
               <UncontrolledDropdown nav inNavbar>
                 <DropdownToggle nav caret>
-                  Usuario
+                  {this.state.datalocal.user_name}{" "}
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
                     {" "}
-                    <a href="/" onClick={() => {}}>
-                      <i className="fa fa-times" /> Cerrar session
-                    </a>
+                    <Button color="link" onClick={this.logout}>
+                      <i className="fa fa-times" /> Cerrar sesion
+                    </Button>
                   </DropdownItem>{" "}
                 </DropdownMenu>
               </UncontrolledDropdown>
@@ -83,7 +119,7 @@ class ViewMiddleware extends Component {
                     <div className="text-center">
                       <br />
                       <a style={{ fontSize: "20px" }}>
-                        Modulo de configuración
+                        Módulo de configuración
                       </a>
                     </div>
                   </div>
@@ -91,13 +127,13 @@ class ViewMiddleware extends Component {
               </Link>
             </div>
             <div className="col-md-3">
-              <a href={`${url.defaultServer}3001`} className="hvr-grow">
+              <a href={`${url.defaultLocal}3001/#/`} className="hvr-grow">
                 <div className="card card-middleware">
                   <div className="card-body">
                     <img src={MODULOCORRESPONDENCIA} width="200" />
                     <div className="text-center">
                       <a style={{ fontSize: "19px" }}>
-                        Modulo de correspondencia
+                        Módulo de correspondencia
                       </a>{" "}
                     </div>
                   </div>
@@ -111,7 +147,7 @@ class ViewMiddleware extends Component {
                     <img src={MODULOARCHIVO} width="200" />
                     <div className="text-center">
                       <br />
-                      <a style={{ fontSize: "20px" }}>Modulo de archivo </a>
+                      <a style={{ fontSize: "20px" }}>Módulo de archivo </a>
                     </div>
                   </div>
                 </div>
@@ -126,7 +162,7 @@ class ViewMiddleware extends Component {
                       <br />
                       <a style={{ fontSize: "20px" }}>
                         {" "}
-                        Modulo de workflow{" "}
+                        Módulo de workflow{" "}
                       </a>{" "}
                     </div>
                   </div>
@@ -142,4 +178,14 @@ class ViewMiddleware extends Component {
 
 ViewMiddleware.propTypes = {};
 
-export default ViewMiddleware;
+function mapStateToProps(state) {
+  //const { loggingIn } = state.authentication;
+  console.log(state);
+  return { state };
+}
+
+const actionCreators = {
+  logout: userActions.logout
+};
+
+export default connect(mapStateToProps, actionCreators)(ViewMiddleware);

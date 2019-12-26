@@ -1,302 +1,15 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col } from "reactstrap";
+import { Col } from "reactstrap";
 import ModalView from "./ModalViewDependencia";
 import ModalEdit from "./ModalEditDependencia";
 import ModalDelete from "./ModalDeleteDependencia";
+import ModalExport from "./ModalExportCSV";
+import "./../../../css/styleTableDependencia.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/table_data.css";
-const dataExample = [
-  {
-    IdDependencia: 3,
-    Nombre: "GERENCIA GENERAL",
-    Cargo: "GERENTE GENERAL",
-    Codigo: 1000,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "inactivo"
-  },
-  {
-    IdDependencia: 4,
-    Nombre: "CONTROL INTERNO",
-    Cargo: "JEFE DE CONTROL INTERNO",
-    Codigo: 1100,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 5,
-    Nombre: "SSTA",
-    Cargo: "JEFE DE SSMA",
-    Codigo: 1200,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 6,
-    Nombre: "DIRECCION TECNICA",
-    Cargo: "DIRECTOR TECNICO",
-    Codigo: 1300,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 7,
-    Nombre: "GERENCIA OPERATIVA",
-    Cargo: "GERENTE OPERATIVO",
-    Codigo: 2000,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 1,
-    Nombre: "DIRECCION ADMINISTRATIVA",
-    Cargo: "DIRECTOR ADMINISTRATIVO",
-    Codigo: 3000,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 8,
-    Nombre: "SEGURIDAD FISICA",
-    Cargo: "JEFE DE SEGURIDAD",
-    Codigo: 3100,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 9,
-    Nombre: "TALENTO HUMANO",
-    Cargo: "COORDINADOR DE TALENTO HUMANO",
-    Codigo: 3200,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 10,
-    Nombre: "SERVICIOS ADMINISTRATIVOS",
-    Cargo: "COORDINADOR DE SERVICIOS ADMINISTRATIVOS",
-    Codigo: 3300,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 11,
-    Nombre: "NOMINA",
-    Cargo: "JEFE DE NOMINA",
-    Codigo: 3400,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 12,
-    Nombre: "CONTRATACION Y SEGURIDAD SOCIAL",
-    Cargo: "COORDINADOR DE CONTRATACION Y SEGURIDAD SOCIAL",
-    Codigo: 3500,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 13,
-    Nombre: "ARCHIVO",
-    Cargo: "AUXILIAR DE ARCHIVO",
-    Codigo: 3600,
-    Sede: "BOGOTA CENTRO DE LOGISTICA",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 14,
-    Nombre: "GERENCIA DE PLANTA",
-    Cargo: "GERENTE DE PLANTA",
-    Codigo: 4000,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 15,
-    Nombre: "CONTROL DE CALIDAD",
-    Cargo: "JEFE DE CONTROL DE CALIDAD",
-    Codigo: 4100,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 16,
-    Nombre: "MANTENIMIENTO",
-    Cargo: "JEFE DE MANTENIMIENTO",
-    Codigo: 4200,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 17,
-    Nombre: "PRODUCCION",
-    Cargo: "JEFE DE PRODUCCION",
-    Codigo: 4300,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 19,
-    Nombre: "DIRECCION DE CATEGORIA",
-    Cargo: "DIRECTOR DE CATEGORIA",
-    Codigo: 5100,
-    Sede: "BOGOTA CENTRO DE LOGISTICA",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 18,
-    Nombre: "GERENCIA DE MERCADEO",
-    Cargo: "GERENTE OPERATIVO",
-    Codigo: 5000,
-    Sede: "BOGOTA CENTRO DE LOGISTICA",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 20,
-    Nombre: "TRADE MARKETING",
-    Cargo: "JEFE DE TRADE MARKETING",
-    Codigo: 5200,
-    Sede: "BOGOTA CENTRO DE LOGISTICA",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 21,
-    Nombre: "GERENCIA NACIONAL DE VENTAS",
-    Cargo: "GERENTE NACIONAL DE VENTAS",
-    Codigo: 6000,
-    Sede: "BOGOTA CENTRO DE LOGISTICA",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 22,
-    Nombre: "CANAL MERKA Y GANA",
-    Cargo: "COORDINADOR CANAL MERKA Y GANA",
-    Codigo: 6100,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 23,
-    Nombre: "GERENCIA DE LOGISTICA",
-    Cargo: "GERENTE DE LOGISTICA",
-    Codigo: 7000,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 24,
-    Nombre: "LOGISTICA DE APROVISIONAMIENTO",
-    Cargo: "JEFE DE APROVISIONAMIENTO",
-    Codigo: 7100,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 25,
-    Nombre: "ALMACEN",
-    Cargo: "JEFE DE ALMACEN",
-    Codigo: 7200,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 26,
-    Nombre: "DISTRIBUCION BOGOTA",
-    Cargo: "JEFE DE DISTRIBUCION",
-    Codigo: 7300,
-    Sede: "BOGOTA CENTRO DE LOGISTICA",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 27,
-    Nombre: "BODEGA REGIONAL",
-    Cargo: "GERENTE DE LOGISTICA",
-    Codigo: 7400,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 2,
-    Nombre: "DIRECCION FINANCIERA",
-    Cargo: "DIRECTOR",
-    Codigo: 8000,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 28,
-    Nombre: "CONTABILIDAD",
-    Cargo: "DIRECTOR DE CONTABILIDAD",
-    Codigo: 8100,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 29,
-    Nombre: "SISTEMAS",
-    Cargo: "DIRECTOR DE SISTEMAS",
-    Codigo: 8200,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 30,
-    Nombre: "CREDITO Y CARTERA",
-    Cargo: "JEFE DE CARTERA",
-    Codigo: 8300,
-    Sede: "BOGOTA CENTRO DE LOGISTICA",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 31,
-    Nombre: "TESORERIA",
-    Cargo: "JEFE DE TESORERIA",
-    Codigo: 8400,
-    Sede: "BOGOTA PRINCIPAL",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 33,
-    Nombre: "LOGISTICA BUCARAMANGA",
-    Cargo: "JEFE DE BODEGA",
-    Codigo: 7420,
-    Sede: "REGIONAL SANTANDER",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 34,
-    Nombre: "LOGISTICA CALI",
-    Cargo: "JEFE DE BODEGA",
-    Codigo: 7430,
-    Sede: "REGIONAL OCCIDENTE",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 35,
-    Nombre: "LOGISTICA MEDELLIN",
-    Cargo: "JEFE DE BODEGA",
-    Codigo: 7440,
-    Sede: "REGIONAL ANTIOQUIA",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 36,
-    Nombre: "LOGISTICA PEREIRA",
-    Cargo: "JEFE DE BODEGA",
-    Codigo: 7450,
-    Sede: "REGIONAL EJE CAFETERO",
-    Estado: "activo"
-  },
-  {
-    IdDependencia: 32,
-    Nombre: "LOGISTICA BARRANQUILLA",
-    Cargo: "JEFE DE BODEGA",
-    Codigo: 7410,
-    Sede: "REGIONAL ATLANTICO",
-    Estado: "activo"
-  }
-];
+import moment from "moment";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class TableContentDependencia extends Component {
   constructor(props) {
@@ -304,20 +17,46 @@ class TableContentDependencia extends Component {
     this.state = {
       modalviewstate: false,
       modaleditstate: false,
-      modaldelstate: false
+      modaldelstate: false,
+      modalexport: false,
+      dataDependence: [],
+      hiddenColumnID: true
     };
+  }
+
+  componentDidMount() {
+    this.getDataDependence();
+  }
+
+  getDataDependence = () => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/dependence`, {
+      method: "GET",
+      headers: {
+        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDependence: data
+        });
+      })
+      .catch(Error => console.log("", Error));
+  };
+  FechaCreacionDependencia(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("YYYY-MM-DD");
   }
   accionesDependencias(cell, row) {
     return (
-      <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "50px" }}
-      >
+      <div className="table-actionMenuDep" style={{ marginRight: "49px" }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -328,7 +67,7 @@ class TableContentDependencia extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -338,7 +77,7 @@ class TableContentDependencia extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           {" "}
@@ -349,97 +88,190 @@ class TableContentDependencia extends Component {
   }
 
   StatusDependencia(cell, row) {
+    const { t } = this.props;
     let status;
-    if (row.Estado === "activo") {
-      status = <p className="text-success">ACTIVADA</p>;
-    } else if (row.Estado !== "activo") {
-      status = <p className="text-danger">INACTIVADA</p>;
+    if (row.status === 1) {
+      status = <b className="text-success">{t("app_tablas_estado_activo")}</b>;
+    } else if (row.status === 0) {
+      status = <b className="text-danger">{t("app_tablas_estado_inactivo")}</b>;
     }
     return status;
   }
 
-  openModalView() {
-    this.refs.child1.toggle();
+  openModalView(id) {
+    this.refs.child1.toggle(id);
   }
 
-  openModalDelete() {
-    this.refs.child3.toggle();
+  openModalDelete(id) {
+    this.refs.child3.toggle(id);
   }
 
-  openModalEdit() {
-    this.refs.child2.toggle();
+  openModalEdit(id) {
+    this.refs.child2.toggle(id);
   }
+
+  openModalExport() {
+    this.refs.child4.toggle();
+  }
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
+  headquarter = headquarter => {
+    return !headquarter ? null : `<div>${headquarter.name}</div>`;
+  };
+
+  charge = charge => {
+    return !charge ? null : `<div>${charge.name}</div>`;
+  };
+
+  createCustomButtonGroup = props => {
+    const { t } = this.props;
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" />{" "}
+        {t("app_dependencia_administrar_table_button_exportar")}
+      </button>
+    );
+  };
 
   render() {
+    const dataDependence = this.state.dataDependence;
+    const options = {
+      btnGroup: this.createCustomButtonGroup
+    };
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Col md="12">
           <BootstrapTable
-            data={dataExample}
+            options={options}
+            data={dataDependence}
             pagination
             search
-            searchPlaceholder="Buscar"
+            searchPlaceholder={t(
+              "app_dependencia_administrar_table_placeholder"
+            )}
             exportCSV
             bordered={false}
             hover
             striped
-            className="texto-small"
-            headerStyle={{ height: "39px" }}
+            className="tableDep texto-Dep"
           >
             <TableHeaderColumn
-              dataField="Codigo"
-              isKey={true}
+              export={false}
+              isKey
+              dataField={"id"}
+              hidden={this.state.hiddenColumnID}
+            />
+            <TableHeaderColumn
+              dataSort={true}
+              dataField={"id"}
+              width={"30"}
+              dataFormat={this.indexN}
+              dataAlign="center"
+            >
+              #
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              width={"120"}
+              dataField="headquarter"
+              dataFormat={this.headquarter}
               dataAlign="center"
               dataSort={true}
             >
-              Código
+              {t("app_dependencia_administrar_table_sede")}
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField="Nombre"
-              dataSort={true}
-              dataAlign="center"
-            >
-              Nombre
-            </TableHeaderColumn>
-            <TableHeaderColumn
-              dataField="Cargo"
+              width={"100"}
+              dataField="code"
               dataAlign="center"
               dataSort={true}
             >
-              Cargo responsable
+              {t("app_dependencia_administrar_table_codigo")}
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField="Sede"
+              width={"170"}
+              dataField="name"
+              dataSort={true}
+              dataAlign="center"
+            >
+              {t("app_dependencia_administrar_table_nombre")}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              width={"120"}
+              dataField="charge"
+              dataFormat={this.charge}
               dataAlign="center"
               dataSort={true}
             >
-              Sede
+              {t("app_dependencia_administrar_table_cargo_responsable")}
             </TableHeaderColumn>
             <TableHeaderColumn
+              dataSort={true}
+              dataField={"createdAt"}
+              dataFormat={(cell, row) =>
+                this.FechaCreacionDependencia(cell, row)
+              }
+              dataAlign="center"
+              width={"140"}
+            >
+              {t("app_dependencia_administrar_table_fecha_creacion")}
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              width={"70"}
               dataField="Estado"
               dataAlign="center"
               dataSort={true}
               dataFormat={(cell, row) => this.StatusDependencia(cell, row)}
             >
               {" "}
-              Estado{" "}
+              {t("app_dependencia_administrar_table_estado")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
+              width={"120"}
+              export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesDependencias(cell, row)}
             >
-              Acciones
+              {t("app_dependencia_administrar_table_acciones")}
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
-        <ModalView modalView={this.state.modalviewstate} ref="child1" />
-        <ModalEdit modalEdit={this.state.modaleditstate} ref="child2" />
-        <ModalDelete modalDel={this.state.modaldelstate} ref="child3" />
+        <ModalView
+          t={this.props.t}
+          modalView={this.state.modalviewstate}
+          ref="child1"
+        />
+        <ModalEdit
+          t={this.props.t}
+          modalEdit={this.state.modaleditstate}
+          updateTable={this.getDataDependence}
+          ref="child2"
+        />
+        <ModalDelete
+          t={this.props.t}
+          modalDel={this.state.modaldelstate}
+          updateTable={this.getDataDependence}
+          ref="child3"
+        />
+        <ModalExport
+          t={this.props.t}
+          modalExport={this.state.modalexport}
+          ref={"child4"}
+        />
       </div>
     );
   }
 }
 
-TableContentDependencia.propTypes = {};
+TableContentDependencia.propTypes = {
+  t: PropTypes.any
+};
 
-export default TableContentDependencia;
+export default withTranslation("translations")(TableContentDependencia);

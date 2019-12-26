@@ -3,6 +3,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 import FormManual from "./components/FormManual";
 import FormAutomatic from "./components/FormAutomatic";
 import classnames from "classnames";
+import PropTypes from "prop-types";
 
 class MoverHisotrico extends Component {
   constructor(props) {

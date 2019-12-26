@@ -1,32 +1,56 @@
 import React from "react";
+import PropTypes from "prop-types";
 import {
   TabContent,
   TabPane,
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
-  Col,
-  CardBody,
-  CardFooter,
-  CardHeader
+  Col
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreate from "./components/FormCreateConglomerado";
 import TableContent from "./components/TableContentConglomerado";
 import ImportFile from "./components/FormUploadFile";
+import { withTranslation } from "react-i18next";
+
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
 
 class Conglomerado extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1"
+      activeTab: "1",
+      authToken: ""
     };
   }
+
+  componentDidMount() {
+    this.getDataLocal();
+  }
+
+  getDataLocal = () => {
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          authToken: resp.data.access_token
+        });
+      });
+  };
 
   toggle = tab => {
     if (this.state.activeTab !== tab) {
@@ -37,6 +61,8 @@ class Conglomerado extends React.Component {
   };
 
   render() {
+    const { t } = this.props;
+    const { authToken } = this.state;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -47,7 +73,7 @@ class Conglomerado extends React.Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus" /> Registrar
+              <i className="fa fa-plus" /> {t("app_conglomerado_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -57,7 +83,7 @@ class Conglomerado extends React.Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar
+              <i className="fa fa-gear" /> {t("app_conglomerado_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -67,7 +93,7 @@ class Conglomerado extends React.Component {
                 this.toggle("3");
               }}
             >
-              <i className="fa fa-upload" /> Importar
+              <i className="fa fa-upload" /> {t("app_conglomerado_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -75,14 +101,14 @@ class Conglomerado extends React.Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="10" md={{ offset: 1 }}>
-                <FormCreate />
+                <FormCreate authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <TableContent />
+                <TableContent authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
@@ -99,4 +125,8 @@ class Conglomerado extends React.Component {
   }
 }
 
-export default Conglomerado;
+Conglomerado.propTypes = {
+  t: PropTypes.any
+};
+
+export default withTranslation("translations")(Conglomerado);

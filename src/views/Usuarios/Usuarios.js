@@ -13,6 +13,7 @@ import classnames from "classnames";
 import FormCreateUsers from "./components/FormCreateUser";
 import UploadUsers from "./components/FormUploadUser";
 import TableContent from "./components/TableContentUser";
+import { withTranslation } from "react-i18next";
 
 class Usuarios extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class Usuarios extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -41,7 +43,7 @@ class Usuarios extends Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus" /> Registrar
+              <i className="fa fa-plus" /> {t("app_usuarios_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -51,7 +53,7 @@ class Usuarios extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar
+              <i className="fa fa-gear" /> {t("app_usuarios_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -61,7 +63,7 @@ class Usuarios extends Component {
                 this.toggle("3");
               }}
             >
-              <i className="fa fa-upload" /> Importar
+              <i className="fa fa-upload" /> {t("app_usuarios_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -93,6 +95,8 @@ class Usuarios extends Component {
   }
 }
 
-Usuarios.propTypes = {};
+Usuarios.propTypes = {
+  t: PropTypes.any
+};
 
-export default Usuarios;
+export default withTranslation("translations")(Usuarios);

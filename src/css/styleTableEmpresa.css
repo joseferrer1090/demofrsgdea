@@ -1,0 +1,43 @@
+/* .tableEmpre table > tbody > tr > td,
+.tableEmpre table > tbody > tr > th,
+.tableEmpre table > tfoot > tr > td,
+.tableEmpre table > tfoot > tr > th,
+.tableEmpre table > thead > tr > td,
+.tableEmpre table > thead > tr > th {
+  padding-bottom: 20px;
+} */
+
+.table-actionMenuEmpre {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuEmpre,
+tr:hover th .table-actionMenuEmpre {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
+.tableEmpre table > tbody > tr > td,
+.tableEmpre table > tbody > tr > th,
+.tableEmpre table > tfoot > tr > td,
+.tableEmpre table > tfoot > tr > th {
+  padding-bottom: 20px !important;
+}
+
+.tableEmpre1 table > thead > tr > td,
+.tableEmpre1 table > thead > tr > th {
+  /* padding-bottom: 0px !important; */
+  padding-top: 7px !important;
+}
+
+.texto-Empre {
+  font-size: 13px !important;
+  font-weight: 450 !important;
+}

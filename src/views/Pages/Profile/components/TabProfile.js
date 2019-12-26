@@ -5,10 +5,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
   Col
 } from "reactstrap";
@@ -18,8 +14,9 @@ import FormChange from "./FormChangePassword";
 import FormAdvance from "./FormChangeAdvanceData";
 import ThemeSelector from "./ThemeSelector";
 import NewEditTheme from "./NewEditTheme";
+import { withTranslation } from "react-i18next";
 
-export default class TabProfile extends React.Component {
+class TabProfile extends React.Component {
   constructor(props) {
     super(props);
 
@@ -37,6 +34,7 @@ export default class TabProfile extends React.Component {
     }
   }
   render() {
+    const { t } = this.props;
     return (
       <div>
         <Nav tabs>
@@ -47,7 +45,7 @@ export default class TabProfile extends React.Component {
                 this.toggle("1");
               }}
             >
-              <i className="icon-user" /> Datos personales
+              <i className="icon-user" /> {t("user_profile_tab_1")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -57,7 +55,8 @@ export default class TabProfile extends React.Component {
                 this.toggle("3");
               }}
             >
-              <i className="icon-settings" /> Datos adicionales
+              <i className="icon-settings" />
+              {t("user_profile_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -67,7 +66,7 @@ export default class TabProfile extends React.Component {
                 this.toggle("2");
               }}
             >
-              <i className="icon-lock" /> Contraseña
+              <i className="icon-lock" /> {t("user_profile_tab_3")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -77,7 +76,7 @@ export default class TabProfile extends React.Component {
                 this.toggle("4");
               }}
             >
-              <i className="cui-brush" /> Temas
+              <i className="cui-brush" /> {t("user_profile_tab_4")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -87,7 +86,7 @@ export default class TabProfile extends React.Component {
                 this.toggle("5");
               }}
             >
-              <i className="cui-wrench" /> Personalizar tema
+              <i className="cui-wrench" /> {t("user_profile_tab_5")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -132,3 +131,5 @@ export default class TabProfile extends React.Component {
     );
   }
 }
+
+export default withTranslation("translations")(TabProfile);

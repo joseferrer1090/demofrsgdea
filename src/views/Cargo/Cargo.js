@@ -6,23 +6,54 @@ import {
   TabContent,
   TabPane,
   Row,
-  Col,
-  Input
+  Col
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreate from "./components/FormCreateCargo";
 import TableContent from "./components/TableContentCargo";
 import FormUpload from "./components/FormUploadCargo";
 import data from "./../../data/data";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
+
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
 
 class Cargo extends Component {
   constructor(props) {
     super(props);
     this.state = {
       activeTab: "1",
-      dataTextArea: data
+      dataTextArea: data,
+      authToken: "",
+      userToken: ""
     };
   }
+
+  componentDidMount() {
+    this.getDataLocal();
+  }
+
+  getDataLocal = () => {
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          authToken: resp.data.access_token
+        });
+      });
+  };
 
   toggle = tab => {
     if (this.state.activeTab !== 0) {
@@ -33,6 +64,8 @@ class Cargo extends Component {
   };
 
   render() {
+    const { t } = this.props;
+    const { authToken } = this.state;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -43,7 +76,7 @@ class Cargo extends Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus" /> Registrar
+              <i className="fa fa-plus" /> {t("app_cargo_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -53,7 +86,7 @@ class Cargo extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar
+              <i className="fa fa-gear" /> {t("app_cargo_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -63,7 +96,7 @@ class Cargo extends Component {
                 this.toggle("3");
               }}
             >
-              <i className="fa fa-upload" /> Importar
+              <i className="fa fa-upload" /> {t("app_cargo_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -78,7 +111,7 @@ class Cargo extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <TableContent />
+                <TableContent authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
@@ -94,5 +127,7 @@ class Cargo extends Component {
     );
   }
 }
-
-export default Cargo;
+Cargo.propTypes = {
+  t: PropTypes.any
+};
+export default withTranslation("translations")(Cargo);

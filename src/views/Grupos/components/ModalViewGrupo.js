@@ -12,19 +12,49 @@ import {
   CardHeader,
   CardBody
 } from "reactstrap";
-
 import IMGGROUPOS from "./../../../assets/img/multiple-users-silhouette.svg";
+import moment from "moment";
 
 class ModalViewPais extends Component {
   constructor(props) {
     super(props);
-    this.state = { modal: this.props.modalview, collapse: false };
+    this.state = {
+      modal: this.props.modalview,
+      collapse: false,
+      id: this.props.id,
+      username: "jferrer",
+      dataGroup: {},
+      dataUsers: []
+    };
   }
 
-  toggle = () => {
+  toggle = id => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id: id
     });
+    this.getDataGroupById(id);
+  };
+
+  getDataGroupById = id => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/groupuser/${id}?username=${this.state.username}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataGroup: data,
+          dataUsers: data.users
+        });
+      })
+      .catch(err => console.log("Error", err));
   };
 
   toggleCollapse = () => {
@@ -33,11 +63,38 @@ class ModalViewPais extends Component {
     });
   };
 
+  FechaCreacionGrupo = data => {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+  };
+  FechaModificacionGrupo = data => {
+    let updatedAt;
+    updatedAt = new Date(data);
+    // moment.locale(es);
+    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+  };
+
   render() {
+    const statusGrupo = data => {
+      let status;
+      if (data === 1) {
+        status = <b className="text-success">Activo</b>;
+      } else if (data === 0) {
+        status = <b className="text-danger">Inactivo</b>;
+      }
+      return status;
+    };
+
+    const data = this.state.dataUsers;
+
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver grupo </ModalHeader>
+          <ModalHeader>
+            {" "}
+            Ver grupo de usuarios {this.state.dataGroup.name}{" "}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -56,7 +113,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Código </dt>
-                        <dd> codigo </dd>
+                        <dd> {this.state.dataGroup.code} </dd>
                       </dl>
                     </div>
                   </div>
@@ -64,7 +121,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Nombre </dt>
-                        <dd> nombre </dd>
+                        <dd> {this.state.dataGroup.name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -72,7 +129,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Descripción </dt>
-                        <dd> descripción </dd>
+                        <dd> {this.state.dataGroup.description} </dd>
                       </dl>
                     </div>
                   </div>
@@ -80,7 +137,7 @@ class ModalViewPais extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt> Estado </dt>
-                        <dd> estado </dd>
+                        <dd> {statusGrupo(this.state.dataGroup.status)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -110,7 +167,11 @@ class ModalViewPais extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt> Fecha de creaciónn </dt>
-                              <dd> fecha de creaciónn </dd>
+                              <dd>
+                                {this.FechaCreacionGrupo(
+                                  this.state.dataGroup.createdAt
+                                )}{" "}
+                              </dd>
                             </dl>
                           </div>
                         </div>
@@ -118,20 +179,30 @@ class ModalViewPais extends Component {
                           <div className="form-group">
                             <dl className="param">
                               <dt> Fecha de modificación </dt>
-                              <dd> fecha de modificación </dd>
+                              <dd>
+                                {this.FechaModificacionGrupo(
+                                  this.state.dataGroup.updatedAt
+                                )}{" "}
+                              </dd>
                             </dl>
                           </div>
                         </div>
                         <div className="col-md-12">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Usuarios </dt>
+                              <dt> Usuarios asigandos: </dt>
                               <dd>
-                                {" "}
-                                <textarea
-                                  className="form-control"
-                                  disabled
-                                />{" "}
+                                {""}
+
+                                {data !== null ? (
+                                  data.map((aux, id) => {
+                                    return <p>{aux.name} </p>;
+                                  })
+                                ) : (
+                                  <p className="text-danger">
+                                    No en este grupo hay usuarios asignados
+                                  </p>
+                                )}
                               </dd>
                             </dl>
                           </div>
@@ -145,7 +216,7 @@ class ModalViewPais extends Component {
           </ModalBody>
           <ModalFooter>
             <button
-              className="btn btn-secondary"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({ modal: false });
               }}
@@ -161,7 +232,9 @@ class ModalViewPais extends Component {
 }
 
 ModalViewPais.propTypes = {
-  modalview: PropTypes.bool.isRequired
+  modalview: PropTypes.bool.isRequired,
+  id: PropTypes.string.isRequired,
+  t: PropTypes.any
 };
 
 export default ModalViewPais;

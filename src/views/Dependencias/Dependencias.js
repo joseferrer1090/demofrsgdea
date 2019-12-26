@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import {
   Row,
   Col,
@@ -13,6 +12,8 @@ import classnames from "classnames";
 import FromCreate from "./components/FormCreateDependencia";
 import TableContent from "./components/TableContentDependencia";
 import FormUpload from "./components/FormUploadDependencias";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class Dependencias extends Component {
   constructor(props) {
@@ -31,6 +32,7 @@ class Dependencias extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -41,7 +43,7 @@ class Dependencias extends Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus" /> Registrar
+              <i className="fa fa-plus" /> {t("app_dependencia_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -51,7 +53,7 @@ class Dependencias extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar
+              <i className="fa fa-gear" /> {t("app_dependencia_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -61,7 +63,7 @@ class Dependencias extends Component {
                 this.toggle("3");
               }}
             >
-              <i className="fa fa-upload" /> Importar
+              <i className="fa fa-upload" /> {t("app_dependencia_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -93,6 +95,8 @@ class Dependencias extends Component {
   }
 }
 
-Dependencias.propTypes = {};
+Dependencias.propTypes = {
+  t: PropTypes.any
+};
 
-export default Dependencias;
+export default withTranslation("translations")(Dependencias);

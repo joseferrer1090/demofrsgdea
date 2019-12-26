@@ -6,6 +6,43 @@ import Ciudad from "./views/Ciudad/Ciudad";
 import Departamento from "./views/Departamento/Departamento";
 import Profile from "./views/Pages/Profile/Profle";
 import Tema from "./views/Tema/Tema";
+import EditTramite from "./views/TipoTramite/components/ViewEditTramite";
+import EditPlantilla from "./views/Plantilla/components/EditPlantilla";
+import AddIndexPlantilla from "./views/Plantilla/components/AddIndexPlantilla";
+import { Route, Redirect } from "react-router-dom";
+
+const isAuthenticated = () => {
+  const token = sessionStorage.getItem("access_token");
+  try {
+    if (token != null) {
+      return true;
+    } else {
+      return false;
+    }
+    // decode(token);
+    // console.log(decode(token));
+  } catch (error) {
+    return false;
+  }
+  return true;
+};
+
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/"
+          }}
+        />
+      )
+    }
+  />
+);
 
 const Configuracion = React.lazy(() =>
   import("./views/Configuracion/Configuracion")
@@ -51,6 +88,22 @@ const Mensajero = React.lazy(() => import("./views/Mensajero/Mensajero"));
 
 const TipoLlegada = React.lazy(() => import("./views/TipoLlegada/TipoLlegada"));
 
+const TipoTramite = React.lazy(() => import("./views/TipoTramite/TipoTramite"));
+
+const TipoTercero = React.lazy(() => import("./views/TipoTercero/TipoTercero"));
+
+const Plantilla = React.lazy(() => import("./views/Plantilla/Plantilla"));
+
+const EditTipoDocumentalRadication = React.lazy(() =>
+  import(
+    "./views/TipoDocumentalRadicacion/components/ViewEditTipoDocumentalRadication"
+  )
+);
+
+const RadicacionEmail = React.lazy(() =>
+  import("./views/RadicacionEmail/RadicacionEmail")
+);
+
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
   {
@@ -84,9 +137,9 @@ const routes = [
     component: Sedes
   },
   {
-    path: "/configuracion/dependencias",
+    path: "/configuracion/dependencia",
     exact: true,
-    name: " Configuración / Dependencias ",
+    name: " Configuración / Dependencia ",
     component: Dependencias
   },
   {
@@ -104,19 +157,19 @@ const routes = [
   {
     path: "/configuracion/roles",
     exact: true,
-    name: " Configuración / Roles y permisos ",
+    name: " Configuración / Roles  ",
     component: Roles
   },
   {
     path: "/configuracion/grupos",
     exact: true,
-    name: " Configuración / Grupos ",
+    name: " Configuración / Grupo de usuarios ",
     component: GruposUsuarios
   },
   {
-    path: "/configuracion/remitentes",
+    path: "/configuracion/terceros",
     exact: true,
-    name: " Configuración / Remitentes ",
+    name: " Configuración / Terceros",
     component: Remitentes
   },
   {
@@ -128,8 +181,14 @@ const routes = [
   {
     path: "/configuracion/tipodocumentalradicacion",
     exact: true,
-    name: " Configuración / Tipo documental de radicacion ",
+    name: " Configuración / Tipo documental de radicación ",
     component: TipoDocumentalesRadicacion
+  },
+  {
+    path: "/configuracion/tipodocumentalradication/edit",
+    exact: true,
+    name: "Configuración / Tipo documental de radicación",
+    component: EditTipoDocumentalRadication
   },
   {
     path: "/configuracion/pais",
@@ -140,7 +199,7 @@ const routes = [
   {
     path: "/configuracion/ciudad",
     exact: true,
-    name: " Configuración / Ciudades",
+    name: " Configuración / Ciudad",
     component: Ciudad
   },
   {
@@ -158,33 +217,81 @@ const routes = [
   {
     path: "/configuracion/auditoria",
     exact: true,
-    name: " Configuracion / Auditoria ",
+    name: " Configuración / Auditoria ",
     component: Auditoria
   },
   {
     path: "/configuracion/auditoria/moverhistorico",
     exact: true,
-    name: "Mover historico",
+    name: "Mover histórico",
     component: MoverHistorico
   },
   {
     path: "/configuracion/tema",
     exact: true,
-    name: " Configuracion / Tema  ",
+    name: " Configuración / tema  ",
     component: Tema
   },
   {
     path: "/configuracion/mensajero",
     exact: true,
-    name: " Configuracion / Mensajero  ",
+    name: " Configuración / Mensajero  ",
     component: Mensajero
   },
   {
     path: "/configuracion/tipollegada",
     exact: true,
-    name: " Configuracion / tipo de llegada  ",
+    name: " Configuración / Tipo de envío / llegada  ",
     component: TipoLlegada
+  },
+  {
+    path: "/configuracion/tipotramite",
+    exact: true,
+    name: "Configuración / Tipo trámite",
+    component: TipoTramite
+  },
+  {
+    path: "/configuracion/tipotramite/edit",
+    exact: true,
+    name: "Editar tipo de tramite",
+    component: EditTramite
+  },
+  {
+    path: "/configuracion/tipotercero",
+    exact: true,
+    name: "Configuración / tipo de tercero",
+    component: TipoTercero
+  },
+  {
+    path: "/configuracion/plantilla",
+    exact: true,
+    name: "Configuración / Plantilla de datos",
+    component: Plantilla
+  },
+  {
+    path: "/configuracion/plantilla/edit",
+    exact: true,
+    name: "Editar plantilla de datos",
+    component: EditPlantilla
+  },
+  {
+    path: "/configuracion/plantilla/addindexes",
+    exact: true,
+    name: "Agregar indices de datos",
+    component: AddIndexPlantilla
+  },
+  {
+    path: "/configuracion/radicacionemail",
+    exact: true,
+    name: "Cofiguración / Radicación por email",
+    component: RadicacionEmail
   }
 ];
+
+// {
+//   routes.map((route, idx) => {
+//     // console.log(route);
+//   });
+// }
 
 export default routes;

@@ -1,5 +1,4 @@
 import React from "react";
-
 import Rol from "./Roles";
 
 export default ({ favourites, data, deleteFavourite }) => {

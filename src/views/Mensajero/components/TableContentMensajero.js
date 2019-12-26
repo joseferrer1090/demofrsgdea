@@ -5,46 +5,12 @@ import { Row, Col } from "reactstrap";
 import ModalViewMensajero from "./ModalViewMensajero";
 import ModalUpdate from "./ModalActualizarMensajero";
 import Modaldelete from "./ModalDeleteMensajero";
+import ModalExport from "./ModalExportCSV";
+import "./../../../css/styleTableMensajero.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/custom_table.css";
-
-const dataExample = [
-  {
-    id: 1,
-    identificacion: "25468298",
-    nombre: "Servientrega",
-    descripcion: "Empresa de mensajeria colombiana de miltiple soluciones",
-    estado: true
-  },
-  {
-    id: 2,
-    identificacion: "25468298",
-    nombre: "TCC",
-    descripcion: "Empresa de mensajeria colombiana",
-    estado: true
-  },
-  {
-    id: 3,
-    identificacion: "25468298",
-    nombre: "Interapidisimo",
-    descripcion: "Empresa de mensajeria colombiana de miltiple soluciones",
-    estado: true
-  },
-  {
-    id: 4,
-    identificacion: "25468298",
-    nombre: "DHL",
-    descripcion: "Empresa de mensajeria internacional de multiple soluciones",
-    estado: true
-  },
-  {
-    id: 5,
-    identificacion: "25468298",
-    nombre: "Envia",
-    descripcion: "Empresa de mensajeria colombiana de miltiple soluciones",
-    estado: true
-  }
-];
+import { MESSENGERS } from "./../../../services/EndPoints";
+import moment from "moment";
+import { withTranslation } from "react-i18next";
 
 class TableContentMensajero extends Component {
   constructor(props) {
@@ -52,21 +18,56 @@ class TableContentMensajero extends Component {
     this.state = {
       modalView: false,
       modalUpdate: false,
-      modaldelte: false
+      modaldelte: false,
+      modalexport: false,
+      dataMessengers: [],
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
 
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataMessenger();
+    }
+  }
+
+  getDataMessenger = () => {
+    fetch(MESSENGERS, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataMessengers: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
+
   accionesMensajero(cell, row) {
     return (
-      <div
-        className="table-menu"
-        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
-      >
+      <div className="table-actionMenuMensj" style={{ marginRight: "60px" }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -77,7 +78,7 @@ class TableContentMensajero extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalUpdate();
+            this.openModalUpdate(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -87,7 +88,7 @@ class TableContentMensajero extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           <i className="fa fa-trash" />
@@ -97,89 +98,183 @@ class TableContentMensajero extends Component {
   }
 
   EstadoMensajero = (cell, row) => {
+    const { t } = this.props;
     let status;
-    if (row.estado === true) {
-      status = <div className="text-success">Activo</div>;
-    } else if (row.estado !== true) {
-      status = <div className="text-danger"> Inactivo </div>;
+    if (row.status === 1) {
+      status = <b className="text-success">{t("app_tablas_estado_activo")}</b>;
+    } else if (row.status === 0) {
+      status = (
+        <b className="text-danger"> {t("app_tablas_estado_inactivo")} </b>
+      );
     }
     return status;
   };
 
-  openModalView = () => {
-    this.refs.child.toggle();
+  FechaCreacionMensajero(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("YYYY-MM-DD");
+  }
+
+  openModalView = id => {
+    this.refs.child.toggle(id);
   };
 
-  openModalUpdate = () => {
-    this.refs.child2.toggle();
+  openModalUpdate = id => {
+    this.refs.child2.toggle(id);
   };
 
-  openModalDelete = () => {
-    this.refs.child3.toggle();
+  openModalDelete = id => {
+    this.refs.child3.toggle(id);
+  };
+
+  openModalExport = () => {
+    this.refs.child4.toggle();
+  };
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
+  createCustomButtonGroup = props => {
+    const { t } = this.props;
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" />{" "}
+        {t("app_mensajero_administrar_table_boton_exportar")}
+      </button>
+    );
   };
 
   render() {
+    const options = {
+      btnGroup: this.createCustomButtonGroup
+    };
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
           <Col sm="12">
             <BootstrapTable
-              data={dataExample}
+              options={options}
+              data={this.state.dataMessengers}
               bordered={false}
               hover
               striped
               pagination
-              search
+              search={true}
               exportCSV
-              searchPlaceholder="Buscar"
+              searchPlaceholder={t(
+                "app_mensajero_administrar_table_placeholder"
+              )}
+              className="tableMensj texto-Mensj"
             >
               <TableHeaderColumn
+                export={false}
                 isKey
-                dataField="id"
+                dataField={"id"}
+                hidden={this.state.hiddenColumnID}
+              />
+              <TableHeaderColumn
+                dataSort={true}
+                dataFormat={this.indexN}
+                width={"50"}
+                dataField={"id"}
                 dataAlign="center"
-                width="80"
               >
-                {" "}
-                id{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="identificacion" dataAlign="center">
-                {" "}
-                Identificación{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="nombre" dataAlign="center">
-                {" "}
-                Nombre{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField="descripcion" dataAlign="center">
-                {" "}
-                Descripción{" "}
+                #
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField="estado"
+                dataField="identification"
+                dataAlign="center"
+                width={"140"}
+              >
+                {t("app_mensajero_administrar_table_identificacion")}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="name"
+                dataAlign="center"
+                width={"120"}
+              >
+                {t("app_mensajero_administrar_table_nombre")}{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField="description"
+                dataAlign="center"
+                width={"200"}
+              >
+                {t("app_mensajero_administrar_table_descripción")}{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataSort={true}
+                dataField={"createdAt"}
+                dataFormat={(cell, row) =>
+                  this.FechaCreacionMensajero(cell, row)
+                }
+                dataAlign="center"
+                width={"150"}
+              >
+                {t("app_mensajero_administrar_table_fecha_creacion")}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                width={"100"}
+                dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.EstadoMensajero(cell, row)}
               >
                 {" "}
-                Estado{" "}
+                {t("app_mensajero_administrar_table_estado")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
+                width={"120"}
+                export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesMensajero(cell, row)}
               >
                 {" "}
-                Acciones{" "}
+                {t("app_mensajero_administrar_table_acciones")}{" "}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>
-        <ModalViewMensajero modalview={this.state.modalView} ref={"child"} />
-        <ModalUpdate modalupdate={this.state.modalUpdate} ref={"child2"} />
-        <Modaldelete modaldelete={this.state.modaldelte} ref={"child3"} />
+        <ModalViewMensajero
+          authorization={this.state.auth}
+          t={this.props.t}
+          modalview={this.state.modalView}
+          ref={"child"}
+        />
+        <ModalUpdate
+          authorization={this.state.auth}
+          t={this.props.t}
+          modalupdate={this.state.modalUpdate}
+          updateTable={this.getDataMessenger}
+          ref={"child2"}
+        />
+        <Modaldelete
+          authorization={this.state.auth}
+          t={this.props.t}
+          modaldelete={this.state.modaldelte}
+          updateTable={this.getDataMessenger}
+          ref={"child3"}
+        />
+        <ModalExport
+          authorization={this.state.auth}
+          t={this.props.t}
+          modalexport={this.state.modalexport}
+          ref={"child4"}
+        />
       </div>
     );
   }
 }
 
-TableContentMensajero.propTypes = {};
+TableContentMensajero.propTypes = {
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
+};
 
-export default TableContentMensajero;
+export default withTranslation("translations")(TableContentMensajero);

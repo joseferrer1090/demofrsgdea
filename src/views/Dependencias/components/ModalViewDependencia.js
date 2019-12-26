@@ -13,22 +13,54 @@ import {
   CardBody,
   Collapse
 } from "reactstrap";
-
 import IMGDEPENDENCIA from "./../../../assets/img/settings-work-tool.svg";
+import moment from "moment";
 
 class ModalViewDependencia extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: this.props.modalView,
-      collapse: false
+      collapse: false,
+      id: this.props.id,
+      userLogged: "jferrer",
+      dataDependence: {},
+      dataDependenceHeadquarter: {},
+      dataDependenceHeadquarterCompany: {},
+      dataDependenceHeadquarterCompanyConglomerate: {},
+      dataDependenceCharge: {},
+      t: this.props.t,
+      username: "ccuartas"
     };
   }
 
-  toggle = () => {
+  toggle = id => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id: id
     });
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/dependence/${id}?username=${this.state.username}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataDependence: data,
+          dataDependenceHeadquarter: data.headquarter,
+          dataDependenceHeadquarterCompany: data.headquarter.company,
+          dataDependenceHeadquarterCompanyConglomerate:
+            data.headquarter.company.conglomerate,
+          dataDependenceCharge: data.charge
+        });
+      })
+      .catch(Error => console.log(Error));
   };
 
   toggleCollapse = () => {
@@ -36,12 +68,43 @@ class ModalViewDependencia extends Component {
       collapse: !this.state.collapse
     });
   };
-
+  FechaCreacionDependencia(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+  }
+  FechaModificacionDependencia(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+  }
   render() {
+    const statusDependence = data => {
+      const { t } = this.props;
+      let status;
+      if (data === 1) {
+        return (status = (
+          <b className="text-success"> {t("app_tablas_estado_activo")}</b>
+        ));
+      } else if (data === 0) {
+        return (status = (
+          <b className="text-danger">
+            {" "}
+            {this.orops.t("app_tablas_estado_inactivo")}{" "}
+          </b>
+        ));
+      }
+      return status;
+    };
+    const { t } = this.props;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Ver dependencia </ModalHeader>
+          <ModalHeader>
+            {" "}
+            {t("app_dependencia_modal_ver_titulo")}{" "}
+            {this.state.dataDependence.name}{" "}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -52,55 +115,63 @@ class ModalViewDependencia extends Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Datos personales{" "}
+                    {t("app_dependencia_modal_ver_titulo_2")}{" "}
                   </h5>{" "}
                 </div>
+
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Codigo </dt>
-                        <dd> 1047425246 </dd>
+                        <dt>{t("app_dependencia_modal_ver_conglomerado")} </dt>
+                        <dd>
+                          {
+                            this.state
+                              .dataDependenceHeadquarterCompanyConglomerate.name
+                          }
+                        </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
-                        <dd> Jose Carlos Ferrer Bermudez</dd>
+                        <dt>{t("app_dependencia_modal_ver_empresa")} </dt>
+                        <dd>
+                          {this.state.dataDependenceHeadquarterCompany.name}
+                        </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Descripción </dt>
-                        <dd> jcfb90@gmail.com </dd>
+                        <dt>{t("app_dependencia_modal_ver_sede")} </dt>
+                        <dd>{this.state.dataDependenceHeadquarter.name}</dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Conglomerado </dt>
-                        <dd> 301-7923-466 </dd>
+                        <dt>{t("app_dependencia_modal_ver_codigo")} </dt>
+                        <dd>{this.state.dataDependence.code} </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Empresa </dt>
-                        <dd> Cra 44c # 22 - 86 int 702</dd>
+                        <dt>{t("app_dependencia_modal_ver_nombre")} </dt>
+                        <dd>{this.state.dataDependence.name}</dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Sede </dt>
-                        <dd>San petesburgo</dd>
+                        <dt>{t("app_dependencia_modal_ver_descripcion")} </dt>
+                        <dd>{this.state.dataDependence.description} </dd>
                       </dl>
                     </div>
                   </div>
@@ -117,7 +188,7 @@ class ModalViewDependencia extends Component {
                       style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      Más información{" "}
+                      {t("app_dependencia_modal_ver_collapse")}{" "}
                     </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapse}>
@@ -126,32 +197,54 @@ class ModalViewDependencia extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Cargo responsable </dt>
-                              <dd>cargo responsable </dd>
+                              <dt>
+                                {t(
+                                  "app_dependencia_modal_ver_cargo_responsable"
+                                )}{" "}
+                              </dt>
+                              <dd> {this.state.dataDependenceCharge.name} </dd>
                             </dl>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Estado </dt>
-                              <dd> estado </dd>
+                              <dt>{t("app_dependencia_modal_ver_estado")} </dt>
+                              <dd>
+                                {statusDependence(
+                                  this.state.dataDependence.status
+                                )}{" "}
+                              </dd>
                             </dl>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Fecha de creación </dt>
-                              <dd> dd/mm/aaaa </dd>
+                              <dt>
+                                {t("app_dependencia_modal_ver_fecha_creacion")}{" "}
+                              </dt>
+                              <dd>
+                                {this.FechaCreacionDependencia(
+                                  this.state.dataDependence.createdAt
+                                )}{" "}
+                              </dd>
                             </dl>
                           </div>
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt>Fecha de modificación </dt>
-                              <dd>dd/mm/aaaa </dd>
+                              <dt>
+                                {t(
+                                  "app_dependencia_modal_ver_fecha_modificacion"
+                                )}{" "}
+                              </dt>
+                              <dd>
+                                {this.FechaModificacionDependencia(
+                                  this.state.dataDependence.updatedAt
+                                )}
+                              </dd>
                             </dl>
                           </div>
                         </div>
@@ -164,14 +257,15 @@ class ModalViewDependencia extends Component {
           </ModalBody>
           <ModalFooter>
             <Button
-              className="btn btn-secondary"
+              className="btn btn-sm btn-secondary"
               onClick={() => {
                 this.setState({
                   modal: false
                 });
               }}
             >
-              <i className="fa fa-times" /> Cerrar{" "}
+              <i className="fa fa-times" />{" "}
+              {t("app_dependencia_modal_ver_boton_cerrar")}{" "}
             </Button>
           </ModalFooter>
         </Modal>
@@ -181,7 +275,9 @@ class ModalViewDependencia extends Component {
 }
 
 ModalViewDependencia.propTypes = {
-  modalView: PropTypes.bool.isRequired
+  modalView: PropTypes.bool.isRequired,
+  t: PropTypes.any,
+  id: PropTypes.string.isRequired
 };
 
 export default ModalViewDependencia;

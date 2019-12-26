@@ -1,36 +1,16 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { Row, Col } from "reactstrap";
 import ModalView from "./ModalViewConglomerado";
 import ModalDelete from "./ModalDeleteConglomerado";
 import ModalEdit from "./ModalEditConglomerado";
-import ModalCustom from "./../customcomponent/CustomModalTable";
-import ModalCustom2 from "./../customcomponent/CustomModalTable2";
-
+import ModalExport from "./ModalExportCSV";
+import "./../../../css/styleTableConglomerado.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import "./../../../css/table_data.css";
-
-const data = [
-  {
-    id: 1,
-    codigo: "CG1",
-    nombre: "Conglomerado1",
-    descripcion: "descripcion del conglomerado"
-  },
-  {
-    id: 2,
-    codigo: "CG2",
-    nombre: "Conglomerado 2",
-    descripcion: "descripcion del conglomerado"
-  },
-  {
-    id: 3,
-    codigo: "CG3",
-    nombre: "Conglomerado 3",
-    descripcion: "descripcion del conglomerado"
-  }
-];
+import { CONGLOMERATES } from "./../../../services/EndPoints";
+import { withTranslation } from "react-i18next";
+import moment from "moment";
+import PropTypes from "prop-types";
 
 class TableContentConglomerado extends Component {
   constructor(props) {
@@ -39,22 +19,58 @@ class TableContentConglomerado extends Component {
       modalView: false,
       modalDelete: false,
       modalEdit: false,
-      modalCustom: false,
-      modalCustom2: false
+      modalexport: false,
+      dataConglomerates: [],
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
+
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataConglomerates();
+    }
+  }
+
+  getDataConglomerates = () => {
+    fetch(CONGLOMERATES, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataConglomerates: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
 
   accionesConglomerado(cell, row) {
     return (
       <div
-        className="table-menu"
+        className="table-actionMenuConglo"
         style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -65,7 +81,7 @@ class TableContentConglomerado extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalEdit();
+            this.openModalEdit(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -75,7 +91,7 @@ class TableContentConglomerado extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           {" "}
@@ -85,60 +101,69 @@ class TableContentConglomerado extends Component {
     );
   }
 
-  createButtonCustom = props => {
-    return (
-      <div className="btn-group btn-group-sm">
-        {props.exportCSVBtn}
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          onClick={() => {
-            this.openModalCustom();
-          }}
-        >
-          {" "}
-          <i className="fa fa-pencil" /> Personalizar{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          onClick={() => {
-            this.openModalCustom2();
-          }}
-        >
-          {" "}
-          <i className="fa fa-pencil" /> Personalizar 2{" "}
-        </button>
-      </div>
-    );
-  };
-
-  openModalView() {
-    this.refs.child.toggle();
+  EstadoConglomerado(cell, row) {
+    const { t } = this.props;
+    let status;
+    if (row.status === 1) {
+      status = <b className="text-success">{t("app_tablas_estado_activo")}</b>;
+    } else if (row.status === 0) {
+      status = <b className="text-danger">{t("app_tablas_estado_inactivo")}</b>;
+    }
+    return status;
   }
 
-  openModalDelete() {
-    this.refs.child2.toggle();
+  FechaCreacionConglomerado(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("YYYY-MM-DD");
   }
 
-  openModalEdit() {
-    this.refs.child3.toggle();
+  openModalView(id) {
+    this.refs.child.toggle(id);
   }
 
-  // Esta son los modal de personalizacion
-  openModalCustom = () => {
+  openModalDelete(id) {
+    this.refs.child2.toggle(id);
+  }
+
+  openModalEdit(id) {
+    this.refs.child3.toggle(id);
+  }
+
+  openModalExport = () => {
     this.refs.child4.toggle();
   };
 
-  openModalCustom2 = () => {
-    this.refs.child5.toggle();
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
+  createCustomButtonGroup = props => {
+    const { t } = this.props;
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" />{" "}
+        {t("app_conglomerado_administrar_button_exportar")}
+      </button>
+    );
   };
-  //
 
   render() {
     const options = {
-      btnGroup: this.createButtonCustom
+      btnGroup: this.createCustomButtonGroup,
+      pagination: true,
+      exportCSV: true
     };
+    const { t } = this.props;
+
+    const placeholder = t => {
+      return t("app_conglomrado_administrar_table_placeholder");
+    };
+
     return (
       <div className="animated fadeIn">
         <Row>
@@ -147,49 +172,74 @@ class TableContentConglomerado extends Component {
               <Row>
                 <Col md="12">
                   <BootstrapTable
+                    remote={true} // dudas de como funciona este props para actualizar la data
                     options={options}
-                    data={data}
-                    pagination={true}
-                    search={true}
-                    exportCSV
+                    data={this.state.dataConglomerates}
+                    search
                     hover
                     striped
                     bordered={false}
-                    searchPlaceholder="Buscar"
-                    className="texto-small"
+                    searchPlaceholder={placeholder(t)}
+                    className="tableConglo tableConglo1 texto-Conglo actionMenuConglo"
                   >
                     <TableHeaderColumn
-                      dataSort={true}
+                      export={false}
                       isKey
                       dataField={"id"}
-                      width={"60"}
+                      hidden={this.state.hiddenColumnID}
+                    />
+                    <TableHeaderColumn
+                      dataFormat={this.indexN}
+                      width={"50"}
+                      dataField={"id"}
                       dataAlign="center"
                     >
                       #
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataSort={true}
-                      dataField={"codigo"}
+                      dataField={"code"}
                       dataAlign="center"
+                      width={"100"}
                     >
                       {" "}
-                      Código{" "}
+                      {t("app_conglomerado_administrar_table_codigo")}{" "}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataSort={true}
-                      dataField={"nombre"}
+                      dataField={"name"}
                       dataAlign="center"
+                      width={"205"}
                     >
-                      Nombre
+                      {t("app_conglomerado_administrar_table_nombre")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      dataSort={true}
-                      dataField={"descripcion"}
+                      dataField={"description"}
                       dataAlign="center"
+                      width={"230"}
                     >
-                      Descripción
+                      {t("app_conglomerado_administrar_table_descripcion")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
+                      dataField={"createdAt"}
+                      dataFormat={(cell, row) =>
+                        this.FechaCreacionConglomerado(cell, row)
+                      }
+                      dataAlign="center"
+                      width={"150"}
+                    >
+                      {t("app_conglomerado_administrar_table_fecha_creacion")}
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      width={""}
+                      dataField={"status"}
+                      dataAlign={"center"}
+                      dataFormat={(cell, row) =>
+                        this.EstadoConglomerado(cell, row)
+                      }
+                    >
+                      {t("app_conglomerado_administrar_table_estado")}
+                    </TableHeaderColumn>
+                    <TableHeaderColumn
+                      width={"200"}
                       export={false}
                       dataAlign="center"
                       dataFormat={(cell, row) =>
@@ -197,7 +247,7 @@ class TableContentConglomerado extends Component {
                       }
                       style={{ border: "none" }}
                     >
-                      Acciones
+                      {t("app_conglomerado_administrar_table_acciones")}
                     </TableHeaderColumn>
                   </BootstrapTable>
                 </Col>
@@ -205,14 +255,40 @@ class TableContentConglomerado extends Component {
             </div>
           </Col>
         </Row>
-        <ModalView modalviewstate={this.state.modalView} ref="child" />
-        <ModalDelete modaldeletestate={this.state.modalDelete} ref="child2" />
-        <ModalEdit modaleditstate={this.state.modalEdit} ref="child3" />
-        <ModalCustom modalcustom={this.state.modalCustom} ref="child4" />
-        <ModalCustom2 modalcustom2={this.state.modalCustom2} ref="child5" />
+        <ModalView
+          t={t}
+          modalviewstate={this.state.modalView}
+          ref="child"
+          authorization={this.state.auth}
+        />
+        <ModalDelete
+          t={t}
+          modaldeletestate={this.state.modalDelete}
+          updateTable={this.getDataConglomerates}
+          ref="child2"
+          authorization={this.state.auth}
+        />
+        <ModalEdit
+          authorization={this.state.auth}
+          t={t}
+          modaleditstate={this.state.modalEdit}
+          ref="child3"
+          updateTable={this.getDataConglomerates}
+        />
+        <ModalExport
+          t={t}
+          modalexport={this.state.modalexport}
+          ref="child4"
+          authorization={this.state.auth}
+        />
       </div>
     );
   }
 }
 
-export default TableContentConglomerado;
+TableContentConglomerado.propTypes = {
+  t: PropTypes.any.isRequired,
+  authorization: PropTypes.string.isRequired
+};
+
+export default withTranslation("translations")(TableContentConglomerado);

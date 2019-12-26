@@ -9,6 +9,7 @@ import {
   Collapse
 } from "reactstrap";
 import PropType from "prop-types";
+import { withTranslation } from "react-i18next";
 
 class NewEditTheme extends Component {
   constructor(props) {
@@ -50,6 +51,7 @@ class NewEditTheme extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -62,10 +64,10 @@ class NewEditTheme extends Component {
                       onClick={() => {
                         this.toggle();
                       }}
-                      style={{cursor: "pointer"}}
+                      style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      Header{" "}
+                      {t("user_profile_tab_5_header")}{" "}
                     </CardHeader>
                     <Collapse isOpen={this.state.headercollapse}>
                       <CardBody>
@@ -80,10 +82,10 @@ class NewEditTheme extends Component {
                       onClick={() => {
                         this.toggleBody();
                       }}
-                      style={{cursor: "pointer"}}
+                      style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      Body{" "}
+                      {t("user_profile_tab_5_body")}{" "}
                     </CardHeader>
                     <Collapse isOpen={this.state.bodycollapse}>
                       <CardBody>
@@ -98,10 +100,10 @@ class NewEditTheme extends Component {
                       onClick={() => {
                         this.toggleFooter();
                       }}
-                      style={{cursor: "pointer"}}
+                      style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      Footer{" "}
+                      {t("user_profile_tab_5_footer")}{" "}
                     </CardHeader>
                     <Collapse isOpen={this.state.footercollapse}>
                       <CardBody>
@@ -116,9 +118,9 @@ class NewEditTheme extends Component {
                       onClick={() => {
                         this.toggleComponentes();
                       }}
-                      style={{cursor: "pointer"}}
+                      style={{ cursor: "pointer" }}
                     >
-                      Otro componentes
+                      {t("user_profile_tab_5_otro")}
                     </CardHeader>
                     <Collapse isOpen={this.state.componentscollapse}>
                       <CardBody>
@@ -132,11 +134,13 @@ class NewEditTheme extends Component {
                 <div className="float-right">
                   <button className="btn btn-secondary btn-sm">
                     {" "}
-                    <i className="fa fa-times" /> Borrar{" "}
+                    <i className="fa fa-times" />{" "}
+                    {t("user_profile_tab_5_button_cancel")}{" "}
                   </button>
                   &nbsp;
                   <button className="btn btn-secondary btn-sm">
-                    <i className="fa fa-pencil" /> Nuevo tema{" "}
+                    <i className="fa fa-pencil" />{" "}
+                    {t("user_profile_tab_5_button_new")}{" "}
                   </button>
                 </div>
               </CardFooter>
@@ -148,4 +152,4 @@ class NewEditTheme extends Component {
   }
 }
 
-export default NewEditTheme;
+export default withTranslation("translations")(NewEditTheme);

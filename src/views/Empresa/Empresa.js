@@ -6,20 +6,25 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
-  Col,
-  CardBody,
-  CardFooter,
-  CardHeader
+  Col
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreate from "./components/FormCreateEmpresa";
 import TableContent from "./components/TableContentEmpresa";
 import FormImport from "./components/FormUpload";
+import { withTranslation } from "react-i18next";
+
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
 
 class Empresa extends Component {
   constructor(props) {
@@ -32,12 +37,32 @@ class Empresa extends Component {
   toggle = tab => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
+        authToken: ""
       });
     }
   };
 
+  componentDidMount() {
+    this.getDataLocal();
+  }
+
+  getDataLocal = () => {
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          authToken: resp.data.access_token
+        });
+      });
+  };
+
   render() {
+    const { t } = this.props;
+    const { authToken } = this.state;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -48,7 +73,7 @@ class Empresa extends Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus" /> Registrar
+              <i className="fa fa-plus" /> {t("app_empresa_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -58,7 +83,7 @@ class Empresa extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar
+              <i className="fa fa-gear" /> {t("app_empresa_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -68,7 +93,7 @@ class Empresa extends Component {
                 this.toggle("3");
               }}
             >
-              <i className="fa fa-upload" /> Importar
+              <i className="fa fa-upload" /> {t("app_empresa_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -83,7 +108,7 @@ class Empresa extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <TableContent />
+                <TableContent authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
@@ -100,6 +125,8 @@ class Empresa extends Component {
   }
 }
 
-Empresa.propTypes = {};
+Empresa.propTypes = {
+  t: PropTypes.any
+};
 
-export default Empresa;
+export default withTranslation("translations")(Empresa);

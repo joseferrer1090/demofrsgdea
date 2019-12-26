@@ -13,14 +13,43 @@ import classnames from "classnames";
 import FormCreate from "./components/FormCreateCiudad";
 import FormImport from "./components/FormImportCiudad";
 import TableContent from "./components/TableContentCiudad";
+import { withTranslation } from "react-i18next";
+
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
 
 class Ciudad extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1"
+      activeTab: "1",
+      authToken: ""
     };
   }
+  componentDidMount() {
+    this.getDataLocal();
+  }
+
+  getDataLocal = () => {
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          authToken: resp.data.access_token
+        });
+      });
+  };
 
   toggle = tab => {
     if (this.state.activeTab !== 0) {
@@ -31,6 +60,8 @@ class Ciudad extends Component {
   };
 
   render() {
+    const { t } = this.props;
+    const { authToken } = this.state;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -41,7 +72,7 @@ class Ciudad extends Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus" /> Registrar
+              <i className="fa fa-plus" /> {t("app_ciudad_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -51,7 +82,7 @@ class Ciudad extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar
+              <i className="fa fa-gear" /> {t("app_ciudad_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -61,7 +92,7 @@ class Ciudad extends Component {
                 this.toggle("3");
               }}
             >
-              <i className="fa fa-upload" /> Importar
+              <i className="fa fa-upload" /> {t("app_ciudad_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -69,14 +100,14 @@ class Ciudad extends Component {
           <TabPane tabId="1">
             <Row>
               <Col md="12">
-                <FormCreate />
+                <FormCreate authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <TableContent />
+                <TableContent authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
@@ -93,6 +124,8 @@ class Ciudad extends Component {
   }
 }
 
-Ciudad.propTypes = {};
+Ciudad.propTypes = {
+  t: PropTypes.any
+};
 
-export default Ciudad;
+export default withTranslation("translations")(Ciudad);

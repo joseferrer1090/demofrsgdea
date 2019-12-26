@@ -1,18 +1,5 @@
 import React, { Component } from "react";
-import DatePicker from "react-datepicker";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  CardFooter,
-  Col,
-  Row,
-  CardTitle,
-  Form,
-  FormGroup,
-  Label,
-  Input
-} from "reactstrap";
+import { Card } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewAditoria from "./components/ModalViewAuditoria";
 import ModalSearch from "./components/ModalSearchAuditoria";
@@ -21,59 +8,10 @@ import "./../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.
 import "./../../css/custom_calendar.css";
 import "./../../css/table_data.css";
 import "./components/customstyle.css";
-import styled from "styled-components";
+import "./../../css/styleTableAuditoria.css";
 import moment from "moment";
-
-const dataExample = [
-  {
-    id: 1,
-    fecha: "01/01/2019",
-    accion: "Grabar",
-    tabla: "tabla_entidad",
-    usuario: "usuario_nanme",
-    tipo: "usuario_type"
-  },
-  {
-    id: 2,
-    fecha: "01/01/2019",
-    accion: "Grabar",
-    tabla: "tabla_entidad",
-    usuario: "usuario_nanme",
-    tipo: "usuario_type"
-  },
-  {
-    id: 3,
-    fecha: "01/01/2019",
-    accion: "Grabar",
-    tabla: "tabla_entidad",
-    usuario: "usuario_nanme",
-    tipo: "usuario_type"
-  },
-  {
-    id: 4,
-    fecha: "01/01/2019",
-    accion: "Grabar",
-    tabla: "tabla_entidad",
-    usuario: "usuario_nanme",
-    tipo: "usuario_type"
-  },
-  {
-    id: 5,
-    fecha: "01/01/2019",
-    accion: "Grabar",
-    tabla: "tabla_entidad",
-    usuario: "usuario_nanme",
-    tipo: "usuario_type"
-  },
-  {
-    id: 6,
-    fecha: "01/01/2019",
-    accion: "Grabar",
-    tabla: "tabla_entidad",
-    usuario: "usuario_nanme",
-    tipo: "usuario_type"
-  }
-];
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
 class Auditoria extends Component {
   constructor(props) {
@@ -82,38 +20,61 @@ class Auditoria extends Component {
       startDate: new Date(),
       modalviewauditoria: false,
       modalSearch: false,
-      visible: false
+      visible: false,
+      dataAuditoria: [],
+      dataProps: [],
+      hiddenColumnId: true,
+      page: "0",
+      size: "10"
     };
   }
 
-  handleChangeStartDate = date => {
-    this.setState({
-      startDate: date
-    });
-  };
+  componentDidMount() {
+    this.getDataAudit();
+  }
 
-  handleChangeEndDate = date => {
-    this.setState({
-      endDate: date
-    });
+  getDataAudit = () => {
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/audit/pagination?page=${this.state.page}&size=${this.state.size}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Basic " + window.btoa("sgdea:123456")
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataAuditoria: data.content
+        });
+      })
+      .catch(Error => console.log(" ", Error));
   };
 
   accionVerAuditoria(cel, row) {
     return (
-      <button
-        className="btn btn-secondary btn-sm "
-        data-trigger="hover"
-        onClick={() => {
-          this.openModalView();
-        }}
+      <div
+        className="table-actionMenuAuditoria"
+        style={{ marginRight: "60px" }}
       >
-        {" "}
-        <i className="fa fa-eye" />{" "}
-      </button>
+        <button
+          className="btn btn-secondary btn-sm "
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalView(row.id);
+          }}
+        >
+          {" "}
+          <i className="fa fa-eye" />{" "}
+        </button>
+      </div>
     );
   }
 
   createButtonCustom = props => {
+    const { t } = this.props;
     return (
       <div className="btn-group btn-group-sm">
         {props.exportCSVBtn}
@@ -125,24 +86,54 @@ class Auditoria extends Component {
           }}
         >
           {" "}
-          <i className="fa fa-pencil" /> Consultar auditoría{" "}
+          <i className="fa fa-pencil" />{" "}
+          {t("app_auditoria_tabla_consulta_boton_consultar")}{" "}
         </button>
       </div>
     );
   };
 
-  openModalView() {
-    this.refs.child1.toggle();
+  openModalView(id) {
+    this.refs.child1.toggle(id);
   }
 
   openModalSearch() {
     this.refs.child2.toggle();
   }
 
+  FechaAuditoria(cell, row) {
+    let date;
+    date = new Date(row.date);
+    return moment(date).format("YYYY-MM-DD");
+  }
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
+  ModuloInfo = pageAction => {
+    return !pageAction
+      ? null
+      : `<div>${pageAction.pageEntity.pageModule.name}</div>`;
+  };
+  EntidadInfo = pageAction => {
+    return !pageAction ? null : `<div>${pageAction.pageEntity.name}</div>`;
+  };
+  AccionInfo = pageAction => {
+    return !pageAction ? null : `<div>${pageAction.name}</div>`;
+  };
+
+  onDataFetch = data => {
+    this.setState({
+      dataAuditoria: data
+    });
+  };
+
   render() {
     const options = {
       btnGroup: this.createButtonCustom
     };
+    const { t } = this.props;
 
     return (
       <div className="animated fadeIn">
@@ -150,7 +141,7 @@ class Auditoria extends Component {
           <div className="col-md-12">
             <Card body>
               <BootstrapTable
-                data={dataExample}
+                data={this.state.dataAuditoria}
                 options={options}
                 bordered={false}
                 hover
@@ -159,49 +150,83 @@ class Auditoria extends Component {
                 searchPlaceholder="Buscar"
                 pagination
                 striped
-                className="texto-small"
-                headerStyle={{ height: "39px" }}
-                bod
+                className="tableAuditoria texto-Auditoria"
               >
-                <TableHeaderColumn isKey dataField="fecha" dataAlign="center">
+                <TableHeaderColumn
+                  isKey={true}
+                  dataField="date"
+                  dataAlign="center"
+                  dataFormat={(cell, row) => this.FechaAuditoria(cell, row)}
+                  width={"180"}
+                >
                   {" "}
-                  Fecha{" "}
+                  {t("app_auditoria_tabla_fecha_auditoria")}{" "}
                 </TableHeaderColumn>
-                <TableHeaderColumn dataField="accion" dataAlign="center">
+                <TableHeaderColumn
+                  dataFormat={this.ModuloInfo}
+                  dataField="pageAction"
+                  dataAlign="center"
+                  width={"180"}
+                >
                   {" "}
-                  Accion{" "}
+                  {t("app_auditoria_tabla_modulo")}{" "}
                 </TableHeaderColumn>
-                <TableHeaderColumn dataField="tabla" dataAlign="center">
+                <TableHeaderColumn
+                  dataFormat={this.EntidadInfo}
+                  dataField="pageAction"
+                  dataAlign="center"
+                  width={"180"}
+                >
                   {" "}
-                  Tabla{" "}
+                  {t("app_auditoria_tabla_entidad")}{" "}
                 </TableHeaderColumn>
-                <TableHeaderColumn dataField="usuario" dataAlign="center">
+                <TableHeaderColumn
+                  dataFormat={this.AccionInfo}
+                  dataField="pageAction"
+                  dataAlign="center"
+                  width={"180"}
+                >
                   {" "}
-                  Usuario{" "}
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField="tipo" dataAlign="center">
-                  {" "}
-                  Tipo{" "}
+                  {t("app_auditoria_tabala_accion")}{" "}
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
+                  width={"180"}
+                  dataField="username"
+                  dataAlign="center"
+                >
+                  {" "}
+                  {t("app_auditoria_tabla_usuario")}{" "}
+                </TableHeaderColumn>
+
+                <TableHeaderColumn
+                  width={"100"}
+                  export={false}
                   dataAlign="center"
                   dataFormat={(cel, row) => this.accionVerAuditoria(cel, row)}
                 >
-                  Acciones{" "}
+                  {t("app_auditoria_tabla_acciones")}{" "}
                 </TableHeaderColumn>
               </BootstrapTable>
             </Card>
           </div>
         </div>
         <ModalViewAditoria
+          t={this.props.t}
           modalview={this.state.modalviewauditoria}
           ref={"child1"}
         />
-        <ModalSearch modalSearch={this.state.modalSearch} ref={"child2"} />
+        <ModalSearch
+          t={this.props.t}
+          onDataFetch={this.onDataFetch}
+          modalSearch={this.state.modalSearch}
+          ref={"child2"}
+        />
       </div>
     );
   }
 }
-
-export default Auditoria;
+Auditoria.propTypes = {
+  t: PropTypes.any
+};
+export default withTranslation("translations")(Auditoria);

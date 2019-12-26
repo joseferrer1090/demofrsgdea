@@ -1,18 +1,19 @@
 import React, { Component, Suspense } from "react";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, Link } from "react-router-dom";
 import { Container } from "reactstrap";
+import { withTranslation } from "react-i18next";
+import AppSidebarNav from "./AppSidebarNav";
+import AppBreadcrumb from "./Breadcrumb";
 
 import {
   AppAside,
-  AppBreadcrumb,
   AppFooter,
   AppHeader,
   AppSidebar,
   AppSidebarFooter,
   AppSidebarForm,
   AppSidebarHeader,
-  AppSidebarMinimizer,
-  AppSidebarNav
+  AppSidebarMinimizer
 } from "@coreui/react";
 // sidebar nav config
 import navigation from "../../_nav";
@@ -25,7 +26,21 @@ const DefaultHeader = React.lazy(() => import("./DefaultHeader"));
 
 class DefaultLayout extends Component {
   loading = () => (
-    <div className="animated fadeIn pt-1 text-center">Loading...</div>
+    // <div className="animated fadeIn pt-1 text-center">Loading...</div>
+    <div
+      className=""
+      style={{
+        margin: "0",
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        marginRight: "-50%",
+        transform: "translate(-50%, -50%)"
+      }}
+    >
+      <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
+      <p>Loading ... </p>
+    </div>
   );
 
   signOut(e) {
@@ -34,10 +49,11 @@ class DefaultLayout extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className="app">
         <AppHeader fixed>
-          <Suspense fallback={this.loading()}>
+          <Suspense fallback>
             <DefaultHeader onLogout={e => this.signOut(e)} />
           </Suspense>
         </AppHeader>
@@ -46,13 +62,13 @@ class DefaultLayout extends Component {
             <AppSidebarHeader />
             <AppSidebarForm />
             <Suspense>
-              <AppSidebarNav navConfig={navigation} {...this.props} />
+              <AppSidebarNav t={t} {...this.props} />
             </Suspense>
             <AppSidebarFooter />
             <AppSidebarMinimizer />
           </AppSidebar>
           <main className="main">
-            <AppBreadcrumb appRoutes={routes} />
+            <AppBreadcrumb t={t} />
             <Container fluid>
               <Suspense fallback={this.loading()}>
                 <Switch>
@@ -73,13 +89,13 @@ class DefaultLayout extends Component {
             </Container>
           </main>
           <AppAside fixed>
-            <Suspense fallback={this.loading()}>
+            <Suspense fallback>
               <DefaultAside />
             </Suspense>
           </AppAside>
         </div>
         <AppFooter>
-          <Suspense fallback={this.loading()}>
+          <Suspense fallback>
             <DefaultFooter />
           </Suspense>
         </AppFooter>
@@ -88,4 +104,4 @@ class DefaultLayout extends Component {
   }
 }
 
-export default DefaultLayout;
+export default withTranslation("translations")(DefaultLayout);

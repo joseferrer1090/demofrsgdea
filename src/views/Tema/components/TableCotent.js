@@ -5,7 +5,8 @@ import PropTypes from "prop-types";
 import ModalViewTheme from "./ModalViewTema";
 import ModalEditTheme from "./ModalEditTheme";
 import ModalDisabledTheme from "./ModalDisabledTheme";
-
+import "./../../../css/styleTableTema.css";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 const dataExample = [
   {
     id: 1,
@@ -51,7 +52,7 @@ class TableCotent extends Component {
 
   accionesTemas = (cell, row) => {
     return (
-      <div>
+      <div className="table-actionMenuTema" style={{ marginRight: "180px" }}>
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
@@ -118,20 +119,35 @@ class TableCotent extends Component {
           pagination
           search
           searchPlaceholder={"Buscar"}
+          className="tableTema texto-Tema"
         >
-          <TableHeaderColumn isKey dataField={"id"} dataAlign="center">
+          <TableHeaderColumn
+            isKey
+            dataField={"id"}
+            dataAlign="center"
+            width={"100"}
+          >
             {" "}
-            id{" "}
+            Código{" "}
           </TableHeaderColumn>
-          <TableHeaderColumn dataField={"name"} dataAlign="center">
+          <TableHeaderColumn
+            dataField={"name"}
+            dataAlign="center"
+            width={"200"}
+          >
             {" "}
             Nombre{" "}
           </TableHeaderColumn>
-          <TableHeaderColumn dataField={"descripcion"} dataAlign="center">
+          <TableHeaderColumn
+            dataField={"descripcion"}
+            dataAlign="center"
+            width={"300"}
+          >
             {" "}
             Descripcion{" "}
           </TableHeaderColumn>
           <TableHeaderColumn
+            width={"200"}
             dataField={"estado"}
             dataAlign="center"
             dataFormat={(cell, row) => this.estadoTema(cell, row)}

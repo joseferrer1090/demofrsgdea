@@ -1,27 +1,28 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { browserHistory } from "react-router";
-
+import Select from "react-select";
+import { options } from "./../../config/options";
+import { withTranslation } from "react-i18next";
 import {
-  Badge,
   DropdownItem,
   DropdownMenu,
   DropdownToggle,
   Nav,
   NavItem,
-  NavLink
+  UncontrolledDropdown
 } from "reactstrap";
 import PropTypes from "prop-types";
-
-import {
-  AppAsideToggler,
-  AppHeaderDropdown,
-  AppNavbarBrand,
-  AppSidebarToggler
-} from "@coreui/react";
+import language from "./../../assets/img/language.png";
+import { AppNavbarBrand, AppSidebarToggler } from "@coreui/react";
 
 import logo from "../../assets/img/sevenet_ori.svg";
 import sygnet from "../../assets/img/sevenet_ori.svg";
+import { useTranslation, Trans } from "react-i18next";
+import { useDispatch } from "react-redux";
+import { userActions } from "./../../actions/authenticationActions";
+
+import decode from "jwt-decode";
 
 const propTypes = {
   children: PropTypes.node
@@ -29,12 +30,25 @@ const propTypes = {
 
 const defaultProps = {};
 
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
+
 class DefaultHeader extends Component {
   constructor(props) {
     super(props);
     this.state = {
       logoFull: logo,
-      logoMin: sygnet
+      logoMin: sygnet,
+      lang: options[1],
+      resp: {}
     };
   }
 
@@ -42,10 +56,48 @@ class DefaultHeader extends Component {
   //   browserHistory.push("/path");
   // };
 
-  render() {
-    // eslint-disable-next-line
-    const { children, ...attributes } = this.props;
+  componentDidMount() {
+    this.getData();
+  }
 
+  getData = () => {
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          resp: decode(resp.data.access_token)
+        });
+        //console.log(resp.data.access_token);
+      });
+  };
+
+  changeLanguaje = lang => {
+    const { i18n } = this.props;
+    this.setState({
+      lang
+    });
+    i18n.changeLanguage(lang);
+  };
+
+  logout = dispatch => {
+    dispatch = useDispatch();
+    dispatch(userActions.userlogout());
+  };
+
+  render() {
+    const { children, ...attributes } = this.props;
+    const { t } = this.props;
+    const { lang } = this.state.lang;
+    const optionlanguage = options.map((aux, idx) => {
+      return (
+        <option key={idx} value={aux.value}>
+          {aux.label}
+        </option>
+      );
+    });
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -64,42 +116,44 @@ class DefaultHeader extends Component {
           }}
         />
         <AppSidebarToggler className="d-md-down-none" display="lg" />
-
-        {/* <Nav className="d-md-down-none" navbar>
-          <NavItem className="px-3">
-            <NavLink href="/">Dashboard</NavLink>
+        <Nav className="d-md-down-none" navbar>
+          <NavItem className="">
+            <img src={language} style={{ width: 20, height: 20 }} />
           </NavItem>
-          <NavItem className="px-3">
-            <Link to="/users">Users</Link>
+          <NavItem className="">
+            <select
+              className="form-control form-control-sm"
+              style={{ borderColor: "#9CAEB2" }}
+              defaultValue={options[0].value}
+              value={lang}
+              onChange={e => this.changeLanguaje(e.target.value)}
+            >
+              <option value={""} disabled style={{ background: "#D8E3E6" }}>
+                -- &nbsp; {t("language")} &nbsp; --
+              </option>
+              {optionlanguage}
+            </select>
           </NavItem>
-          <NavItem className="px-3">
-            <NavLink href="#">Settings</NavLink>
-          </NavItem>
-        </Nav> */}
-        <Nav className="ml-auto" navbar>
-          {/* <NavItem className="d-md-down-none">
-            <NavLink href="#"><i className="icon-bell"></i><Badge pill color="danger">5</Badge></NavLink>
-          </NavItem> */}
-          {/* <NavItem className="d-md-down-none">
-            <NavLink href="#"><i className="icon-list"></i></NavLink>
-          </NavItem> */}
-          {/* <NavItem className="d-md-down-none">
-            <NavLink href="#">
-              <i className="icon-location-pin" />
-            </NavLink>
-          </NavItem> */}
-          <AppHeaderDropdown direction="down">
+        </Nav>
+        <Nav className="ml-auto" navbar style={{ marginRight: "31px" }}>
+          <UncontrolledDropdown nav direction="down">
             <DropdownToggle nav style={{ marginRight: "4px !important" }}>
-              Administrador
+              {/* {t("userLogged")} */}
+              {this.state.resp.user_name}
               <img
                 src={"../../assets/img/avatars/user2.jpg"}
                 className="img-avatar"
                 alt="administratos@image"
               />
+              {/*
+              
+
+                
+              */}
             </DropdownToggle>
-            <DropdownMenu right style={{ right: "auto" }}>
+            <DropdownMenu style={{ marginLeft: "-45px" }}>
               <DropdownItem header tag="div" className="text-center">
-                <strong>Cuenta</strong>
+                <strong>{t("account")}</strong>
               </DropdownItem>
               <DropdownItem>
                 <Link
@@ -111,7 +165,7 @@ class DefaultHeader extends Component {
                   to="/configuracion/perfil"
                 >
                   {" "}
-                  <i className="fa fa-user" /> Perfil{" "}
+                  <i className="fa fa-user" /> {t("account")}{" "}
                 </Link>
               </DropdownItem>
               <DropdownItem>
@@ -124,17 +178,15 @@ class DefaultHeader extends Component {
                   }}
                 >
                   {" "}
-                  <i className="fa fa-wrench" /> Principal{" "}
+                  <i className="fa fa-wrench" /> {t("homePage")}{" "}
                 </Link>
               </DropdownItem>
-              <DropdownItem onClick={e => this.props.onLogout(e)}>
-                <i className="fa fa-lock" /> Salir
+              <DropdownItem onClick={() => this.logout}>
+                <i className="fa fa-lock" /> {t("goOut")}
               </DropdownItem>
             </DropdownMenu>
-          </AppHeaderDropdown>
+          </UncontrolledDropdown>
         </Nav>
-        {/* <AppAsideToggler className="d-md-down-none" />
-        <AppAsideToggler className="d-lg-none" mobile /> */}
       </React.Fragment>
     );
   }
@@ -143,4 +195,4 @@ class DefaultHeader extends Component {
 DefaultHeader.propTypes = propTypes;
 DefaultHeader.defaultProps = defaultProps;
 
-export default DefaultHeader;
+export default withTranslation("translations")(DefaultHeader);

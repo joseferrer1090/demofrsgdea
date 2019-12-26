@@ -9,26 +9,81 @@ import {
 } from "reactstrap";
 import IMGPackage from "./../../../assets/img/package.svg";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 class ModalViewTipoLlegada extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalview
+      modal: this.props.modalview,
+      id: this.props.id,
+      dataTipoLlegada: {},
+      t: this.props.t,
+      username: "ccuartas"
     };
   }
 
-  toggle = () => {
+  toggle = id => {
     this.setState(prevState => ({
-      modal: !prevState.modal
+      modal: !prevState.modal,
+      id: id
     }));
+    fetch(
+      `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/${id}?username=${this.state.username}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          "Content-Type": "application/json"
+        }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataTipoLlegada: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
   };
-
+  FechaCreacionTipoLlegada(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+  }
+  FechaModificacionTipoLlegada(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+  }
   render() {
+    const { t } = this.props;
+    const statusTipoLlegada = data => {
+      let status;
+      if (data === 1) {
+        status = (
+          <b className="text-success"> {t("app_tablas_estado_activo")} </b>
+        );
+      } else if (data === 0) {
+        status = (
+          <b className="text-danger"> {t("app_tablas_estado_inactivo")} </b>
+        );
+      }
+      return status;
+    };
+    const code = this.state.dataTipoLlegada.code;
+    const createdAt = this.state.dataTipoLlegada.createdAt;
+    const description = this.state.dataTipoLlegada.description;
+    const id = this.state.dataTipoLlegada.id;
+    const name = this.state.dataTipoLlegada.name;
+    const status = this.state.dataTipoLlegada.status;
+    const updatedAt = this.state.dataTipoLlegada.updatedAt;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Probando</ModalHeader>
+          <ModalHeader>
+            {t("app_tipoLlegada_modal_ver_titulo")} {name}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -39,55 +94,62 @@ class ModalViewTipoLlegada extends Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Datos{" "}
+                    {t("app_tipoLlegada_modal_ver_titulo_2")}{" "}
                   </h5>{" "}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Código </dt>
-                        <dd> Código </dd>
+                        <dt>{t("app_tipoLlegada_modal_ver_codigo")} </dt>
+                        <dd> {code} </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
-                        <dd> Nombre </dd>
+                        <dt>{t("app_tipoLlegada_modal_ver_nombre")} </dt>
+                        <dd> {name} </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Descripción </dt>
-                        <dd> descripción </dd>
+                        <dt>{t("app_tipoLlegada_modal_ver_descripcion")} </dt>
+                        <dd> {description} </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Estado </dt>
-                        <dd> estado </dd>
+                        <dt>{t("app_tipoLlegada_modal_ver_estado")} </dt>
+                        <dd> {statusTipoLlegada(status)} </dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de creación </dt>
-                        <dd> Fecha de creación </dd>
+                        <dt>
+                          {t("app_tipoLlegada_modal_ver_fecha_creacion")}{" "}
+                        </dt>
+                        <dd>{this.FechaCreacionTipoLlegada(createdAt)}</dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de modificación </dt>
-                        <dd> Fecha de modificación </dd>
+                        <dt>
+                          {t("app_tipoLlegada_modal_ver_fecha_modificacion")}{" "}
+                        </dt>
+                        <dd>
+                          {" "}
+                          {this.FechaModificacionTipoLlegada(updatedAt)}{" "}
+                        </dd>
                       </dl>
                     </div>
                   </div>
@@ -103,7 +165,8 @@ class ModalViewTipoLlegada extends Component {
               }}
             >
               {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
+              <i className="fa fa-times" />{" "}
+              {t("app_tipoLlegada_modal_ver_button_cerrar")}{" "}
             </button>
           </ModalFooter>
         </Modal>
@@ -113,7 +176,9 @@ class ModalViewTipoLlegada extends Component {
 }
 
 ModalViewTipoLlegada.propTypes = {
-  modalview: PropTypes.bool.isRequired
+  modalview: PropTypes.bool.isRequired,
+  t: PropTypes.array,
+  id: PropTypes.string.isRequired
 };
 
 export default ModalViewTipoLlegada;

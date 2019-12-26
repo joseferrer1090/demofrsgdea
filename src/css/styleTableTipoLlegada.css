@@ -1,0 +1,20 @@
+.table-actionMenuTLlegada {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuTLlegada,
+tr:hover th .table-actionMenuTLlegada {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+.texto-TLlegada {
+  font-size: 14px !important;
+  font-weight: 450 !important;
+}

@@ -1,0 +1,30 @@
+.tableTema table > tbody > tr > td,
+.tableTema table > tbody > tr > th {
+  padding-bottom: 15px !important;
+}
+.tableTema table > tfoot > tr > td,
+.tableTema table > tfoot > tr > th,
+.tableTema table > thead > tr > td,
+.tableTema table > thead > tr > th {
+  padding-bottom: 10px !important;
+}
+.table-actionMenuTema {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuTema,
+tr:hover th .table-actionMenuTema {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+.texto-Tema {
+  font-size: 14px !important;
+  font-weight: 450 !important;
+}

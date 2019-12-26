@@ -5,10 +5,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
   Col
 } from "reactstrap";
@@ -16,16 +12,18 @@ import classnames from "classnames";
 import FormCreate from "./components/FormCreateRoles";
 import TableContent from "./components/TableContentRoles";
 import FormImport from "./components/FormUploadRoles";
+import data from "../../data/data";
+import { withTranslation } from "react-i18next";
+import PropTypes from "prop-types";
 
-import data from "./../../data/data";
-
-export default class Roles extends React.Component {
+class Roles extends React.Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: "1"
+      activeTab: "1",
+      t: this.props.t
     };
   }
 
@@ -36,7 +34,9 @@ export default class Roles extends React.Component {
       });
     }
   }
+
   render() {
+    const { t } = this.props;
     return (
       <div>
         <Nav tabs>
@@ -47,7 +47,7 @@ export default class Roles extends React.Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus" /> Registrar
+              <i className="fa fa-plus" /> {t("app_roles_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -57,7 +57,7 @@ export default class Roles extends React.Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar
+              <i className="fa fa-gear" /> {t("app_roles_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -67,7 +67,7 @@ export default class Roles extends React.Component {
                 this.toggle("3");
               }}
             >
-              <i className="fa fa-upload" /> Importar
+              <i className="fa fa-upload" /> {t("app_roles_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -78,7 +78,7 @@ export default class Roles extends React.Component {
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <TableContent />
+                <TableContent data={data} />
               </Col>
             </Row>
           </TabPane>
@@ -94,3 +94,7 @@ export default class Roles extends React.Component {
     );
   }
 }
+Roles.propTypes = {
+  t: PropTypes.any
+};
+export default withTranslation("translations")(Roles);

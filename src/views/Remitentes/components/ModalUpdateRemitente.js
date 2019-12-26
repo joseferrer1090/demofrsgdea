@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import {
   Modal,
@@ -8,182 +8,767 @@ import {
   Button,
   Row,
   Col,
-  Collapse,
-  Card,
-  CardHeader,
-  CardBody,
   TabContent,
   TabPane,
   Nav,
   NavItem,
-  CardTitle,
-  CardText,
-  NavLink
+  NavLink,
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
-
 import IMGPROFILE from "./../../../assets/img/profile.svg";
+import { Formik, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
+import { THIRDPARTYS, TYPETHIRDPARTYS_STATUS, CONTRIES_STATUS, DEPARTMENTS_STATUS, CITIES_STATUS } from '../../../services/EndPoints';
+import SelectCountry from './SelectCountryModalEdit';
+import SelectDepartment from './SelectDepartmentModalEdit';
+import SelectCity from './SelectCityModalEdit';
 
-class ModalUpdateRemitente extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+class ModalUpdateRemitente extends React.Component {
+  state = {
       modal: this.props.modalupdate,
-      activeTab: "1"
+      id: this.props.id,
+      dataResult:{},
+      alertSuccess: false,
+      alertError:false,
+      alertError400: false,
+      activeTab:"1",
+      optionsTipoTercero:[],
+      optionsCountries:[],
+      optionsDepartments:[],
+      optionsCities:[],
+      t:this.props.t,
+      tercero_estado:0,
+      username:'ccuartas'
     };
-  }
 
-  toggle = () => {
+
+  toggle = (id) => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      id:id
     });
+    this.getTerceroByID(id)
+  };
+  getTerceroByID = id => {
+    fetch(`http://192.168.10.180:7000/api/sgdea/thirdparty/${id}?username=${this.state.username}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.setState({
+          dataResult: {
+            tercero_tipoTercero: data.typeThirdParty.id,
+            tercero_elementoComunicacion: data.communicationElement,
+            tercero_identificacion: data.identification,
+            tercero_nombre: data.name,
+            tercero_email: data.email,
+            tercero_telFijo: data.landline,
+            tercero_telCel: data.cellPhone,
+            tercero_direccion: data.address,
+            tercero_referencia: data.reference,
+            tercero_observacion: data.observation,
+            tercero_estado: data.status,
+            tercero_pais:data.city.department.country.id,
+            tercero_departamento:data.city.department.id,
+            tercero_ciudad:data.city.id
+          }
+        });
+      })
+      .catch(error => console.log(error));
   };
 
+  componentDidMount() {
+    this.getDataTipoTercero();
+    this.getDataCountries();
+    this.getDataDepartments();
+    this.getDataCities();
+  }
+  
   toggleTab = tab => {
     if (this.state.activeTab !== tab) {
       this.setState({ activeTab: tab });
     }
   };
 
+  handleSubmit = (values, { props = this.props, setSubmitting }) => {
+    alert(JSON.stringify(values, null, 2));
+    setSubmitting(false);
+    return;
+  };
+
+  getDataTipoTercero = data => {
+    fetch(TYPETHIRDPARTYS_STATUS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsTipoTercero: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+  getDataCountries = data => {
+    fetch(CONTRIES_STATUS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCountries: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+  getDataDepartments = data => {
+    fetch(DEPARTMENTS_STATUS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsDepartments: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+  getDataCities = data => {
+    fetch(CITIES_STATUS, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          optionsCities: data
+        });
+      })
+      .catch(Error => console.log(' ', Error));
+  };
+
   render() {
+    const dataResult = this.state.dataResult;
+    const mapOptionsTipoTercero = this.state.optionsTipoTercero.map((aux, idx) => {
+      return (
+        <option key={aux.id} value={aux.id}>
+          {aux.name}
+        </option>
+      );
+    });
+    const {t} = this.props;
     return (
-      <div>
-        <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader> Actualizar remitente </ModalHeader>
+      <Fragment>
+      <Modal className="modal-lg" isOpen={this.state.modal}>
+      <ModalHeader> {t("app_tercero_modal_actualizar_titulo")} {this.state.dataResult.tercero_nombre} </ModalHeader>
+      <Formik
+      enableReinitialize={true}
+        initialValues={dataResult}
+        onSubmit={(values, {setSubmitting}) =>{
+          const tipoEstado = data => {
+            let tipo;
+            if (data === true || data === 1) {
+              return (tipo = 1);
+            } else if (data === false || data === 0) {
+              return (tipo = 0);
+            }
+            return 0;
+          };
+          setTimeout(()=>{
+            fetch(THIRDPARTYS, {
+              method: 'PUT',
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Basic ' + window.btoa('sgdea:123456')
+              },
+              body: JSON.stringify({
+                address: values.tercero_direccion,
+                cellPhone: values.tercero_telCel,
+                communicationElement: values.tercero_elementoComunicacion,
+                cityId: values.tercero_ciudad,
+                email: values.tercero_email,
+                id: this.state.id,
+                identification: values.tercero_identificacion,
+                landline: values.tercero_telFijo,
+                name: values.tercero_nombre,
+                observation: values.tercero_observacion,
+                reference: values.tercero_referencia,
+                status: tipoEstado(values.tercero_estado),
+                typeThirdPartyId: values.tercero_tipoTercero,
+                userName: "ccuartas"
+              })
+            })
+              .then(response => {
+                if (response.status === 200) {
+                  this.setState(
+                    {
+                      alertSuccess: true
+                    },
+                    () => this.props.updateTable()
+                  );
+                  setTimeout(() => {
+                    this.setState({
+                      alertSuccess: false,
+                      modal: false
+                    });
+                  }, 3000);
+                } else if (response.status === 400) {
+                  this.setState({
+                    alertError400: true
+                  });
+                  setTimeout(() => {
+                    this.setState({
+                      alertError400: false
+                    });
+                  }, 3000);
+                } else if (response.status === 500) {
+                  this.setState({
+                    alertError: true
+                  });
+                  setTimeout(() => {
+                    this.setState({
+                      alertError: false,
+                      modal: !this.state.modal
+                    });
+                  }, 500);
+                }
+              })
+              .catch(error => console.log('', error));
+            setSubmitting(false);
+          },500)
+        }}
+        validationSchema={Yup.object().shape({
+          tercero_tipoTercero: Yup.string()
+          .ensure()
+          .required(" Por favor seleccione el tipo de tercero."),
+          tercero_elementoComunicacion: Yup.string()
+          .ensure()
+          .required(" Por favor seleccione un elemento de comunicación."),
+          tercero_pais: Yup.string()
+          .ensure()
+          .required(" Por favor seleccione un país."),
+          tercero_departamento: Yup.string()
+          .ensure()
+          .required(" Por favor seleccione un departamento."),
+          tercero_ciudad: Yup.string()
+          .ensure()
+          .required(" Por favor seleccione una ciudad."),
+          tercero_identificacion: Yup.string()
+          .matches(
+            /^[0-9]+$/,
+            '  El número de identificación no acepta puntos, letras, ni caracteres especiales.'
+          )
+          .required(' Por favor introduzca una identificación.'),
+          tercero_nombre: Yup.string()
+          .max(45, "Máximo 45 caracteres.")
+          .required(" Por favor introduzca un nombre."),
+          tercero_email: Yup.string()
+          .email(" Por favor introduzca un email valido.")
+          .required(" Por favor introduzca un email."),
+          tercero_telFijo: Yup.string()
+          .matches(
+            /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
+            " Número no valido."
+          )          
+          .required(" Por favor introduzca un teléfono fijo."),
+          tercero_telCel: Yup.string()
+          .matches(
+            /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
+            " Número no valido."
+          )          
+          .required(" Por favor introduzca un teléfono celular."),
+          tercero_direccion: Yup.string()
+          .max(45, "Máximo 45 caracteres")
+          .required("Por favor introduzca una dirección."),
+          tercero_referencia: Yup.string()   
+          .nullable()     
+          .max(50, 'Máximo 50 caracteres.'),
+          tercero_observacion: Yup.string()     
+          .nullable()
+          .max(250, 'Máximo 250 caracteres.'),
+          tercero_estado: Yup.bool()
+            .test(
+              "Activado",
+              "",
+              value=> value === true
+            ),
+        })}
+      >
+      {props => {
+        const {
+          values,
+          touched,
+          errors,
+      
+          handleChange,
+          handleBlur,
+          handleSubmit,
+
+          setFieldValue,
+          setFieldTouched
+        } = props;
+        return(
+          <Fragment>
           <ModalBody>
-            <Row>
-              <Col sm="3">
-                <img src={IMGPROFILE} className="img-thumbnail" />
-              </Col>
-              <Col sm="9">
-                <div className="">
+          <Alert color="danger" isOpen={this.state.alertError}>
+             {t("app_tercero_modal_actualizar_alert_error")}
+          </Alert>
+          <Alert color="success" isOpen={this.state.alertSuccess}>
+              {t("app_tercero_modal_actualizar_alert_success")}
+           </Alert>
+           <Alert color="danger" isOpen={this.state.alertError400}>
+              {t("app_tercero_modal_actualizar_alert_error400")}
+            </Alert>
+          <Row>
+            <Col sm="3">
+              <img src={IMGPROFILE} className="img-thumbnail" />
+            </Col>
+            <Col sm="9">
+              <div className="">
+                {" "}
+                <h5 className="" style={{ borderBottom: "1px solid black" }}>
                   {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Datos personales{" "}
-                  </h5>{" "}
+                  {t("app_tercero_modal_actualizar_titulo_2")}{" "}
+                </h5>{" "}
+              </div>
+              <div className="row">
+              <div className="col-md-6">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          {t("app_tercero_modal_actualizar_tipoTercero")}{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </label>
+                        <select
+                            name={"tercero_tipoTercero"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.tercero_tipoTercero}
+                            className={`form-control form-control-sm ${errors.tercero_tipoTercero &&
+                              touched.tercero_tipoTercero &&
+                              "is-invalid"}`}
+                        >
+                          <option value={''} disabled>
+                                  -- {t("app_tercero_modal_actualizar_select_tipoTercero")} --
+                                </option>
+                        {mapOptionsTipoTercero}
+                        </select>
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.tercero_tipoTercero && touched.tercero_tipoTercero ?
+                          <i className="fa fa-exclamation-triangle"/> :
+                          null
+                        }
+                        <ErrorMessage name="tercero_tipoTercero"/>
+                        </div>
+                      </div>
+                      </div>
+                      <div className="col-md-6">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          {t("app_tercero_modal_actualizar_ElementoComunicacion")}{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </label>
+                        <select
+                          name={"tercero_elementoComunicacion"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.tercero_elementoComunicacion}
+                          className={`form-control form-control-sm ${errors.tercero_elementoComunicacion &&
+                            touched.tercero_elementoComunicacion &&
+                            "is-invalid"}`}
+                        >
+                         <option disabled value={''}>
+                            -- {t("app_tercero_modal_actualizar_select_ElementoComunicacion")} --
+                          </option>
+                          <option value={1}>{t("app_tercero_form_registrar_option_remitente")}</option>
+                          <option value={2}>{t("app_tercero_form_registrar_option_destinatario")} </option>
+                          <option value={3}>{t("app_tercero_form_registrar_option_mixto")} </option>
+                        </select>
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.tercero_elementoComunicacion && touched.tercero_elementoComunicacion ?
+                          <i className="fa fa-exclamation-triangle"/> :
+                          null
+                        }
+                        <ErrorMessage name="tercero_elementoComunicacion"/>
+                        </div>
+                      </div>
+                      </div>
+                <div className="col-md-6">
+                  <div className="form-group ">
+                    <label> {t("app_tercero_modal_actualizar_identificacion")} <span className="text-danger">*</span>{" "} </label>
+                    <input
+                      type="text"
+                      name={"tercero_identificacion"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.tercero_identificacion}
+                      className={`form-control form-control-sm ${errors.tercero_identificacion &&
+                        touched.tercero_identificacion &&
+                        "is-invalid"}`}
+                      />
+                      <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.tercero_identificacion && touched.tercero_identificacion ?
+                          <i className="fa fa-exclamation-triangle"/> :
+                          null
+                        }
+                      <ErrorMessage name="tercero_identificacion"/>
+                      </div>
+                  </div>
                 </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Idenfiticación </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Nombre </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> E-mail </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Telefono </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Dirección </label>
-                      <input type="text" className="form-control" />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label> Ciudad </label>
-                      <select className="form-control">
-                        <option>Seleccione...</option>
-                      </select>
-                    </div>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label> {t("app_tercero_modal_actualizar_nombre")} <span className="text-danger">*</span>{" "} </label>
+                    <input
+                      type="text"
+                      name={"tercero_nombre"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.tercero_nombre}
+                      className={`form-control form-control-sm ${errors.tercero_nombre &&
+                        touched.tercero_nombre &&
+                        "is-invalid"}`}
+                      />
+                      <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.tercero_nombre && touched.tercero_nombre ?
+                          <i className="fa fa-exclamation-triangle"/> :
+                          null
+                        }
+                      <ErrorMessage name="tercero_nombre"/>
+                      </div>
                   </div>
                 </div>
-              </Col>
-              <Col sm="12">
-                <Nav tabs>
-                  <NavItem>
-                    <NavLink
-                      className={classnames({
-                        active: this.state.activeTab === "1"
-                      })}
-                      onClick={() => {
-                        this.toggleTab("1");
-                      }}
-                    >
-                      Otra informacion
-                    </NavLink>
-                  </NavItem>
-                </Nav>
-                <TabContent activeTab={this.state.activeTab}>
-                  <TabPane tabId="1">
-                    <Row>
-                      <Col sm="6">
-                        <div className="form-group">
-                          <label> Pais </label>
-                          <select className="form-control">
-                            {" "}
-                            <option> Seleccione... </option>{" "}
-                          </select>
-                        </div>
-                      </Col>
-                      <Col sm="6">
-                        <div className="form-group">
-                          <label> Departamento </label>
-                          <select className="form-control">
-                            {" "}
-                            <option> Seleccione... </option>{" "}
-                          </select>
-                        </div>
-                      </Col>
-                      <Col sm="6">
-                        <div className="form-group">
-                          <label> Observacion </label>
-                          <input type="text" className="form-control" />
-                        </div>
-                      </Col>
-                      <Col sm="6">
-                        <div className="form-group">
-                          <label> Estado </label>
-                          <select className="form-control">
-                            <option> Activo </option>
-                            <option> Inactivo </option>
-                          </select>
-                        </div>
-                      </Col>
-                    </Row>
-                  </TabPane>
-                </TabContent>
-              </Col>
-            </Row>
-          </ModalBody>
-          <ModalFooter>
-            <button className="btn btn-outline-success">
-              {" "}
-              <i className="fa fa-pencil" /> Actualizar{" "}
-            </button>
-            <Button
-              className="btn btn-secodary"
-              onClick={() => {
-                this.setState({ modal: false });
-              }}
-            >
-              {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
-            </Button>
-          </ModalFooter>
+                <div className="col-md-6">
+                  <div className="form-group">
+                    <label> {this.t("app_tercero_modal_actualizar_email")} <span className="text-danger">*</span>{" "}  </label>
+                    <input
+                      type="text"
+                      name={"tercero_email"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.tercero_email}
+                      className={`form-control form-control-sm ${errors.tercero_email &&
+                        touched.tercero_email &&
+                        "is-invalid"}`}
+                      />
+                      <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.tercero_email && touched.tercero_email ?
+                          <i className="fa fa-exclamation-triangle"/> :
+                          null
+                        }
+                      <ErrorMessage name="tercero_email"/>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+            <Col sm="12">
+              <Nav tabs>
+                <NavItem>
+                  <NavLink
+                    className={classnames({
+                      active: this.state.activeTab === "1"
+                    })}
+                    onClick={() => {
+                      this.toggleTab("1");
+                    }}
+                  >
+                    {this.t("app_tercero_modal_actualizar_collapse")}
+                  </NavLink>
+                </NavItem>
+              </Nav>
+              <TabContent activeTab={this.state.activeTab}>
+                <TabPane tabId="1">
+                  <Row>
+                  <Col sm="6">
+                  <div className="form-group">
+                    <label> {this.t("app_tercero_modal_actualizar_telFijo")} </label>
+                    <input
+                      type="text"
+                      name={"tercero_telFijo"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.tercero_telFijo}
+                      className={`form-control form-control-sm ${errors.tercero_telFijo &&
+                        touched.tercero_telFijo &&
+                        "is-invalid"}`}
+                      />
+                      <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.tercero_telFijo && touched.tercero_telFijo ?
+                          <i className="fa fa-exclamation-triangle"/> :
+                          null
+                        }
+                      <ErrorMessage name="tercero_telFijo"/>
+                      </div>
+                  </div>
+                </Col>
+                <Col sm="6">
+                  <div className="form-group">
+                    <label> {this.t("app_tercero_modal_actualizar_telCelular")} <span className="text-danger">*</span>{" "} </label>
+                    <input
+                      type="text"
+                      name={"tercero_telCel"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.tercero_telCel}
+                      className={`form-control form-control-sm ${errors.tercero_telCel &&
+                        touched.tercero_telCel &&
+                        "is-invalid"}`}
+                      />
+                      <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.tercero_telCel && touched.tercero_telCel ?
+                          <i className="fa fa-exclamation-triangle"/> :
+                          null
+                        }
+                      <ErrorMessage name="tercero_telCel"/>
+                      </div>
+                  </div>
+                </Col>
+                <Col sm="12">
+                  <div className="form-group">
+                    <label> {this.t("app_tercero_modal_actualizar_direccion")} <span className="text-danger">*</span>{" "} </label>
+                    <input
+                      type="text"
+                      name={"tercero_direccion"}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.tercero_direccion}
+                      className={`form-control form-control-sm ${errors.tercero_direccion &&
+                        touched.tercero_direccion &&
+                        "is-invalid"}`}
+                      />
+                      <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.tercero_direccion && touched.tercero_direccion ?
+                          <i className="fa fa-exclamation-triangle"/> :
+                          null
+                        }
+                      <ErrorMessage name="tercero_direccion"/>
+                      </div>
+                  </div>
+                </Col>
+                    <Col sm="4">
+                      <div className="form-group">
+                        <label> {this.t("app_tercero_modal_actualizar_pais")} <span className="text-danger">*</span>{" "} </label>
+                        <SelectCountry
+                        t={this.state.t}
+                    name={'tercero_pais'}
+                    onChange={e => setFieldValue('tercero_pais', e.target.value)}
+                        onBlur={()=>setFieldTouched('tercero_pais', true)}
+                    value={values.tercero_pais}
+                    className={`form-control form-control-sm ${errors.tercero_pais &&
+                      touched.tercero_pais &&
+                      'is-invalid'}`}
+                  />
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.tercero_pais && touched.tercero_pais ?
+                          <i className="fa fa-exclamation-triangle"/> :
+                          null
+                        }
+                      <ErrorMessage name="tercero_pais"/>
+                      </div>
+                      </div>
+                    </Col>
+                    <Col sm="4">
+                      <div className="form-group">
+                        <label> {this.t("app_tercero_modal_actualizar_departamento")} <span className="text-danger">*</span>{" "} </label>
+                        <SelectDepartment
+                        t={this.state.t}
+                    tercero_pais={props.values.tercero_pais}
+                    name="tercero_departamento"
+                    value={values.tercero_departamento}
+                    onChange={e =>
+                      setFieldValue('tercero_departamento', e.target.value)
+                    }
+                    onBlur={()=>setFieldTouched('tercero_departamento', true)}
+                    className={`form-control form-control-sm ${errors.tercero_departamento &&
+                      touched.tercero_departamento &&
+                      'is-invalid'}`}
+                  />
+                        <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.tercero_departamento && touched.tercero_departamento ?
+                          <i className="fa fa-exclamation-triangle"/> :
+                          null
+                        }
+                      <ErrorMessage name="tercero_departamento"/>
+                      </div>
+                      </div>
+                    </Col>
+                    <Col sm="4">
+                    <div className="form-group">
+                      <label> {this.t("app_tercero_modal_actualizar_ciudad")} <span className="text-danger">*</span>{" "} </label>
+                      <SelectCity
+                      t={this.state.t}
+                          tercero_departamento={props.values.tercero_departamento}
+                          name={'tercero_ciudad'}
+                          value={values.tercero_ciudad}
+                          onChange={e =>
+                            setFieldValue('tercero_ciudad', e.target.value)
+                          }
+                          onBlur={()=>setFieldTouched('tercero_ciudad', true)}
+                          className={`form-control form-control-sm ${errors.tercero_ciudad &&
+                            touched.tercero_ciudad &&
+                            'is-invalid'}`}
+                        />
+                      <div style={{ color: '#D54B4B' }}>
+                        {
+                          errors.tercero_ciudad && touched.tercero_ciudad ?
+                          <i className="fa fa-exclamation-triangle"/> :
+                          null
+                        }
+                      <ErrorMessage name="tercero_ciudad"/>
+                      </div>
+                    </div>
+                  </Col>
+                    <Col sm="6">
+                      <div className="form-group">
+                        <label> {this.t("app_tercero_modal_actualizar_referencia")} </label>
+                        <textarea
+                          type="text"
+                          name={"tercero_referencia"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.tercero_referencia}
+                          className={`form-control form-control-sm ${errors.tercero_referencia &&
+                            touched.tercero_referencia &&
+                            "is-invalid"}`}
+                            />
+                            <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.tercero_referencia && touched.tercero_referencia ?
+                              <i className="fa fa-exclamation-triangle"/> :
+                              null
+                            }
+                          <ErrorMessage name="tercero_referencia"/>
+                          </div>
+                      </div>
+                    </Col>
+                    <Col sm="6">
+                      <div className="form-group">
+                        <label> {this.t("app_tercero_modal_actualizar_observacion")} </label>
+                        <textarea
+                          type="text"
+                          name={"tercero_observacion"}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.tercero_observacion}
+                          className={`form-control form-control-sm ${errors.tercero_observacion &&
+                            touched.tercero_observacion &&
+                            "is-invalid"}`}
+                            />
+                            <div style={{ color: '#D54B4B' }}>
+                            {
+                              errors.tercero_observacion && touched.tercero_observacion ?
+                              <i className="fa fa-exclamation-triangle"/> :
+                              null
+                            }
+                          <ErrorMessage name="tercero_observacion"/>
+                          </div>
+                      </div>
+                    </Col>
+                    <Col sm="12">
+                      <div className="form-group">
+                        <label>
+                          {" "}
+                          {this.t("app_tercero_modal_actualizar_estado")} <span className="text-danger">*</span>{" "}
+                        </label>
+                        <div className="text-justify">
+                        <Field
+                        name="tercero_estado"
+                        render={({field, form})=>{
+                          return(
+                            <CustomInput
+                            type="checkbox"
+                            id="CheckboxEditTerceros"
+                            label={this.t("app_tercero_modal_actualizar_estado_descripcion")}
+                            {...field}
+                              checked={field.value}
+                              className={
+                                errors.tercero_estado &&
+                                touched.tercero_estado &&
+                                "invalid-feedback"
+                              }
+                          />
+                          );
+                        }}
+                        />
+                        <ErrorMessage name="tercero_estado"/>
+                          </div>
+                          </div>
+                          </Col>
+                  </Row>
+                </TabPane>
+              </TabContent>
+            </Col>
+          </Row>
+        </ModalBody>
+        <ModalFooter>
+          <button
+          onClick={e=>{
+            e.preventDefault();
+            handleSubmit();
+          }}
+          className="btn btn-outline-success btn-sm">
+            {" "}
+            <i className="fa fa-pencil" /> {this.t("app_tercero_modal_actualizar_boton_actualizar")}{" "}
+          </button>
+          <Button
+            className="btn btn-secodary btn-sm"
+            onClick={() => {
+              this.setState({ modal: false });
+            }}
+          >
+            {" "}
+            <i className="fa fa-times" /> {this.t("app_tercero_modal_actualizar_boton_cerrar")}{" "}
+          </Button>
+        </ModalFooter>
+        </Fragment>
+        );
+      }}
+
+         </Formik>
         </Modal>
-      </div>
+    </Fragment>
     );
   }
 }
 
 ModalUpdateRemitente.propTypes = {
-  modalupdate: PropTypes.bool.isRequired
+  modalupdate: PropTypes.bool.isRequired,
+  updateTable: PropTypes.func.isRequired,
+  id:PropTypes.string.isRequired,
+  t:PropTypes.any,
 };
 
 export default ModalUpdateRemitente;
+

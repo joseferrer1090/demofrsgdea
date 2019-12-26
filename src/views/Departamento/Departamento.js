@@ -13,14 +13,44 @@ import classnames from "classnames";
 import FormCreate from "./components/FormCreateDepartamento";
 import TableContent from "./components/TableContentDepartamento";
 import FormImport from "./components/FormImportDepartamento";
+import { withTranslation } from "react-i18next";
+
+const asyncLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
 
 class Departamento extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1"
+      activeTab: "1",
+      authToken: "",
+      userToken: ""
     };
   }
+  componentDidMount() {
+    this.getDataLocal();
+  }
+
+  getDataLocal = () => {
+    asyncLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          authToken: resp.data.access_token
+        });
+      });
+  };
 
   toggle = tab => {
     if (this.state.activeTab !== 0) {
@@ -31,6 +61,8 @@ class Departamento extends Component {
   };
 
   render() {
+    const { t } = this.props;
+    const { authToken } = this.state;
     return (
       <div className="animated fadeIn">
         <Nav tabs>
@@ -41,7 +73,7 @@ class Departamento extends Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus" /> Registrar
+              <i className="fa fa-plus" /> {t("app_departamento_tab")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -51,7 +83,7 @@ class Departamento extends Component {
                 this.toggle("2");
               }}
             >
-              <i className="fa fa-gear" /> Administrar
+              <i className="fa fa-gear" /> {t("app_departamento_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -61,7 +93,7 @@ class Departamento extends Component {
                 this.toggle("3");
               }}
             >
-              <i className="fa fa-upload" /> Importar
+              <i className="fa fa-upload" /> {t("app_departamento_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -69,14 +101,14 @@ class Departamento extends Component {
           <TabPane tabId="1">
             <Row>
               <Col md="12">
-                <FormCreate />
+                <FormCreate authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                <TableContent />
+                <TableContent authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
@@ -93,6 +125,8 @@ class Departamento extends Component {
   }
 }
 
-Departamento.propTypes = {};
+Departamento.propTypes = {
+  t: PropTypes.any
+};
 
-export default Departamento;
+export default withTranslation("translations")(Departamento);

@@ -482,6 +482,8 @@ export const CITIES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/conf
 /* GET */
 export const CITIES_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/cities/export/data`;
 
+export const CITIES_BY_DEPARTMENT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/cities/department/`;
+
 /* GET */
 export const CITIES_PAGINATION = () => {
   const page = 0;

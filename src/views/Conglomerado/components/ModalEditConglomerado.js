@@ -16,12 +16,14 @@ import {
   CONTRIES_STATUS,
   DEPARTMENTS_STATUS,
   CITIES_STATUS,
-  CHARGES_STATUS
+  CHARGES_STATUS,
+  CONGLOMERATE
 } from "./../../../services/EndPoints";
 import { Trans } from "react-i18next";
 import SelectCity from "./SelectCityModalEdit";
 import SelectDepartment from "./SelectDepartmentModalEdit";
 import SelectCountry from "./SelectCountryModalEdit";
+import { decode } from "jsonwebtoken";
 
 class ModalEditConglomerado extends React.Component {
   state = {
@@ -37,14 +39,29 @@ class ModalEditConglomerado extends React.Component {
     optionsCitys: [0],
     optionsCharges: [0],
     status: 0,
-    username: "ccuartas"
+    username: "",
+    auth: this.props.authorization
   };
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
-  componentDidMount() {
-    this.getDataCountries();
-    this.getDataDepartments();
-    this.getDataCitys();
-    this.getDataCharges();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState(
+        {
+          auth: this.props.authorization
+        },
+        this.getDataCountries(),
+        this.getDataDepartments(),
+        this.getDataCitys(),
+        this.getDataCharges()
+      );
+    }
   }
 
   toggle = id => {
@@ -61,19 +78,17 @@ class ModalEditConglomerado extends React.Component {
   };
 
   getConglomeradoByID = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/conglomerate/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${CONGLOMERATE}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataResult: {
             conglomerate_country: data.city.department.country.id,
@@ -107,7 +122,7 @@ class ModalEditConglomerado extends React.Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.state.auth
       }
     })
       .then(response => response.json())
@@ -123,7 +138,7 @@ class ModalEditConglomerado extends React.Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.state.auth
       }
     })
       .then(response => response.json())
@@ -140,7 +155,7 @@ class ModalEditConglomerado extends React.Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.state.auth
       }
     })
       .then(response => response.json())
@@ -151,12 +166,13 @@ class ModalEditConglomerado extends React.Component {
       })
       .catch(Error => console.log(" ", Error));
   };
+
   getDataCharges = data => {
     fetch(CHARGES_STATUS, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.state.auth
       }
     })
       .then(response => response.json())
@@ -178,6 +194,7 @@ class ModalEditConglomerado extends React.Component {
     });
     const dataResult = this.state.dataResult;
     const { t } = this.props;
+
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -199,11 +216,12 @@ class ModalEditConglomerado extends React.Component {
                 return 0;
               };
               setTimeout(() => {
+
                 fetch(CONGLOMERATES, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    Authorization: "Bearer " + this.state.auth
                   },
                   body: JSON.stringify({
                     id: this.state.idConglomerado,
@@ -292,6 +310,7 @@ class ModalEditConglomerado extends React.Component {
                 setFieldValue,
                 setFieldTouched
               } = props;
+
               return (
                 <Fragment>
                   <ModalBody>
@@ -398,6 +417,7 @@ class ModalEditConglomerado extends React.Component {
                                 </label>
                                 <span className="text-danger">*</span>{" "}
                                 <SelectCountry
+                                  authorization={this.state.auth}
                                   t={this.state.t}
                                   name={"conglomerate_country"}
                                   onChange={e =>
@@ -436,6 +456,7 @@ class ModalEditConglomerado extends React.Component {
                                 </label>
                                 <span className="text-danger">*</span>{" "}
                                 <SelectDepartment
+                                  authorization={this.state.auth}
                                   t={this.state.t}
                                   conglomerate_country={
                                     props.values.conglomerate_country
@@ -477,6 +498,7 @@ class ModalEditConglomerado extends React.Component {
                                   <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectCity
+                                  authorization={this.state.auth}
                                   t={this.state.t}
                                   conglomerate_department={
                                     props.values.conglomerate_department
@@ -496,7 +518,6 @@ class ModalEditConglomerado extends React.Component {
                                     touched.conglomerate_city &&
                                     "is-invalid"}`}
                                 />
-
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.conglomerate_city &&
                                   touched.conglomerate_city ? (
@@ -634,7 +655,8 @@ class ModalEditConglomerado extends React.Component {
 ModalEditConglomerado.propTypes = {
   modaleditstate: PropTypes.bool.isRequired,
   id: PropTypes.string,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalEditConglomerado;

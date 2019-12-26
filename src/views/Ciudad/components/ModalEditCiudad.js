@@ -96,7 +96,7 @@ class ModalEditCiudad extends React.Component {
   render() {
     const dataResult = this.state.dataResult;
     const { t } = this.props;
-   
+
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -123,7 +123,7 @@ class ModalEditCiudad extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + this.state.auth
+                    Authorization: "Bearer " + this.state.auth
                   },
                   body: JSON.stringify({
                     id: this.state.idCity,
@@ -447,7 +447,7 @@ ModalEditCiudad.propTypes = {
   updateTable: PropTypes.func.isRequired,
   t: PropTypes.any,
   id: PropTypes.any,
-  authorization:PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalEditCiudad;

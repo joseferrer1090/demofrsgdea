@@ -22,6 +22,7 @@ import { withTranslation } from "react-i18next";
 import SelectCity from "./components/SelectCity";
 import SelectDepartment from "./components/SelectDepartment";
 import SelectCountry from "./components/SelectCountry";
+import SelectCharges from "./components/SelectCharges";
 
 const ConglomeradorForm = props => {
   const {
@@ -34,39 +35,8 @@ const ConglomeradorForm = props => {
     setFieldTouched,
     handleBlur,
     handleSubmit,
-    t,
-    authorizathion
+    t
   } = props;
-
-  const [optionsCharges, setOptionsCharges] = useState([]);
-
-  useEffect(() => {
-    getDataCharges();
-  }, []);
-
-  const getDataCharges = data => {
-    fetch(CHARGES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + props.authorizathion
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsCharges(data);
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-
-  const mapOptionsCharges = optionsCharges.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-  console.log(props);
   return (
     <div>
       <Card>
@@ -141,6 +111,7 @@ const ConglomeradorForm = props => {
                   </label>
 
                   <SelectCountry
+                    authorization={props.authorization}
                     t={props.t}
                     name={"countryId"}
                     onChange={e => setFieldValue("countryId", e.target.value)}
@@ -170,6 +141,7 @@ const ConglomeradorForm = props => {
                     <span className="text-danger">*</span>{" "}
                   </label>
                   <SelectDepartment
+                    authorization={props.authorization}
                     t={props.t}
                     countryId={props.values.countryId}
                     name="departmentId"
@@ -200,6 +172,7 @@ const ConglomeradorForm = props => {
                     <span className="text-danger">*</span>
                   </label>
                   <SelectCity
+                    authorization={props.authorization}
                     t={props.t}
                     departmentId={props.values.departmentId}
                     name={"cityId"}
@@ -228,23 +201,19 @@ const ConglomeradorForm = props => {
                       "app_conglomerado_form_registrar_cargo_responsable"
                     )}{" "}
                   </label>
-                  <select
-                    name="chargeId"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
+                  <SelectCharges
+                    authorization={props.authorization}
+                    t={props.t}
+                    name={"chargeId"}
+                    onChange={e => setFieldValue("chargeId", e.target.value)}
+                    onBlur={() => {
+                      setFieldTouched("chargeId", true);
+                    }}
                     value={values.chargeId}
-                    className="form-control form-control-sm"
-                  >
-                    {" "}
-                    <option value={""} disabled>
-                      {" "}
-                      -- {t(
-                        "app_conglomerado_form_select_cargo_responsable"
-                      )}{" "}
-                      --{" "}
-                    </option>
-                    {mapOptionsCharges}
-                  </select>
+                    className={`form-control form-control-sm ${errors.chargeId &&
+                      touched.chargeId &&
+                      "is-invalid"}`}
+                  />
                 </div>
               </div>
             </div>
@@ -380,7 +349,7 @@ export default withTranslation("translations")(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + props.authorizathion
+            Authorization: "Bearer " + props.authorization
           },
           body: JSON.stringify({
             code: values.codigo,

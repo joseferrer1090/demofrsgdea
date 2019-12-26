@@ -3,6 +3,8 @@ import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik, ErrorMessage } from "formik";
+import { CONGLOMERATE } from "../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalDeleteConglomerado extends React.Component {
   state = {
@@ -14,9 +16,24 @@ class ModalDeleteConglomerado extends React.Component {
     t: this.props.t,
     code: "",
     nameCompany: "",
-    username: "ccuartas"
+    username: "",
+    auth: this.props.authorization
   };
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
   toggle = id => {
     this.setState(
       {
@@ -26,16 +43,16 @@ class ModalDeleteConglomerado extends React.Component {
       },
       () => this.props.updateTable()
     );
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/conglomerate/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    console.log(username.user_name);
+    fetch(`${CONGLOMERATE}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -71,13 +88,15 @@ class ModalDeleteConglomerado extends React.Component {
             initialValues={dataInitial}
             onSubmit={(values, setSubmitting) => {
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/conglomerate/${this.state.idConglomerado}?code=${values.code}&username=${this.state.useLogged}`,
+                  `${CONGLOMERATE}/${this.state.idConglomerado}?code=${values.code}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                      Authorization: "Bearer " + auth
                     }
                   }
                 )

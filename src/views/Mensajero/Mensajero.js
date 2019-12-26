@@ -107,7 +107,7 @@ class Mensajero extends Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <FormCreateMensajero />
+                <FormCreateMensajero authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

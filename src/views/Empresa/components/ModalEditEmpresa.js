@@ -18,7 +18,6 @@ import * as Yup from "yup";
 import IMGEMPRESA from "./../../../assets/img/company.svg";
 import {
   CONGLOMERATES_STATUS,
-  CHARGES_STATUS,
   COMPANYS
 } from "../../../services/EndPoints";
 import SelectCountry from "./SelectCountryModalEdit";
@@ -164,11 +163,13 @@ class ModalEditEmpresa extends React.Component {
               };
 
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username =decode(auth);
                 fetch(`${COMPANYS}`, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + this.state.auth
+                    Authorization: "Bearer " + auth
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -180,7 +181,7 @@ class ModalEditEmpresa extends React.Component {
                     chargeId: values.company_charge,
                     cityId: values.company_city,
                     status: tipoEstado(values.company_status),
-                    userName: "jferrer"
+                    userName: username.user_name
                   })
                 }).then(response => {
                   if (response.status === 200) {

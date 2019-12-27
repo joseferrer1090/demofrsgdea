@@ -21,20 +21,33 @@ class TableContentSedes extends Component {
       modalDel: false,
       modalExport: false,
       dataHeadquarters: [],
-      hiddenColumnId: true
+      hiddenColumnId: true,
+      auth: this.props.authorization
     };
   }
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
-  componentDidMount() {
-    this.getDataHeadquarters();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataHeadquarters();
+    }
   }
 
   getDataHeadquarters = () => {
-    fetch(HEADQUARTERS, {
+    fetch(`${HEADQUARTERS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -47,7 +60,7 @@ class TableContentSedes extends Component {
   };
 
   SedesStatus = (cell, row) => {
-    const { t } = this;
+    const { t } = this.props;
     let status;
     if (row.status === 1)
       status = <b className="text-success">{t("app_tablas_estado_activo")}</b>;
@@ -241,6 +254,7 @@ class TableContentSedes extends Component {
           ref="child"
         />
         <ModalEdit
+          authorization={this.state.auth}
           t={this.props.t}
           modaledit={this.state.modalEdit}
           updateTable={this.getDataHeadquarters}
@@ -263,7 +277,8 @@ class TableContentSedes extends Component {
 }
 
 TableContentSedes.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableContentSedes);

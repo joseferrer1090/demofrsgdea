@@ -119,11 +119,13 @@ class ModalEditCiudad extends React.Component {
               };
 
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(CITYS, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + this.state.auth
+                    Authorization: "Bearer " + auth
                   },
                   body: JSON.stringify({
                     id: this.state.idCity,
@@ -131,7 +133,7 @@ class ModalEditCiudad extends React.Component {
                     name: values.city_name,
                     departmentId: values.city_department,
                     status: tipoEstado(values.city_status),
-                    userName: "ccuartas"
+                    userName: username.user_name
                   })
                 })
                   .then(response => {

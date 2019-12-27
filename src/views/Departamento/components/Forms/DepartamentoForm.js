@@ -17,6 +17,7 @@ import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import CountrySelect from "./components/SelectCountry";
+import { decode } from "jsonwebtoken";
 
 const DepartamentoForm = props => {
   const {
@@ -231,18 +232,20 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const auth  = props.authorization;
+        const username = decode(auth);
         fetch(DEPARTMENTS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + props.authorization
+            Authorization: "Bearer " + auth
           },
           body: JSON.stringify({
             countryId: values.countryId,
             code: values.code,
             name: values.name,
             status: tipoEstado(values.status),
-            userName: "jferrer"
+            userName: username.user_name
           })
         })
           .then(response =>

@@ -107,11 +107,12 @@ class ModalEditPais extends React.Component {
                   const user = decode(data);
                   return user.user_name;
                 };
+                const auth = this.state.auth;
                 fetch(COUNTRIES, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + this.state.auth
+                    Authorization: "Bearer " + auth
                   },
                   body: JSON.stringify({
                     id: this.state.idPais,

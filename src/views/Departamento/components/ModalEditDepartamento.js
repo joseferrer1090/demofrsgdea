@@ -119,11 +119,13 @@ class ModalEditDepartamento extends React.Component {
               };
 
               setTimeout(() => {
+                const auth  = this.state.auth;
+                const username = decode(auth);
                 fetch(DEPARTMENTS, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + this.state.auth
+                    Authorization: "Bearer " + auth
                   },
                   body: JSON.stringify({
                     id: this.state.idDepartment,
@@ -131,7 +133,7 @@ class ModalEditDepartamento extends React.Component {
                     name: values.department_name,
                     countryId: values.department_country,
                     status: tipoEstado(values.department_status),
-                    userName: "ccuartas"
+                    userName: username.user_name
                   })
                 })
                   .then(response => {

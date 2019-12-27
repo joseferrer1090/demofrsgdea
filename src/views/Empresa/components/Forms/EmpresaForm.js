@@ -22,6 +22,7 @@ import SelectCountry from "./components/SelectCountry";
 import SelectDepartment from "./components/SelectDeparment";
 import SelectCharges from "./components/SelectCharges";
 import SelectConglomerate from "./components/SelectConglomerate";
+import { decode } from "jsonwebtoken";
 
 const EmpresaForm = props => {
   const {
@@ -395,11 +396,13 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const auth = props.authorization;
+        const username = decode(auth);
         fetch(`${COMPANYS}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + props.authorization
+            Authorization: "Bearer " + auth
           },
           body: JSON.stringify({
             conglomerateId: values.conglomerateId,
@@ -410,7 +413,7 @@ export default withTranslation("translations")(
             description: values.description,
             chargeId: values.chargeId,
             status: tipoEstado(values.status),
-            userName: "jferrer"
+            userName: username.user_name
           })
         })
           .then(response =>

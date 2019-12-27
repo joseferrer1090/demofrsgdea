@@ -21,12 +21,26 @@ class TableContentTipoTerceros extends Component {
       modaluptate: false,
       modalexport: false,
       dataTipoTercero: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataTipoTercero();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataTipoTercero();
+    }
   }
 
   getDataTipoTercero = () => {
@@ -34,7 +48,7 @@ class TableContentTipoTerceros extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -256,7 +270,8 @@ class TableContentTipoTerceros extends Component {
 }
 
 TableContentTipoTerceros.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableContentTipoTerceros);

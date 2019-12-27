@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CONTRIES_STATUS } from "../../../services/EndPoints";
+import { TYPETHIRDPARTYS_STATUS } from "../../../../../services/EndPoints";
 
-class SelectCountry extends React.Component {
+class SelectTipoTercero extends React.Component {
   state = {
-    dataCountry: [],
+    dataTipoTercero: [],
     t: this.props.t,
     auth: this.props.authorization
   };
@@ -18,18 +18,17 @@ class SelectCountry extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
-      this.setState({
-        auth: this.props.authorization
-      });
+      this.setState(
+        {
+          auth: this.props.authorization
+        },
+        this.getData()
+      );
     }
   }
 
-  componentDidMount() {
-    this.getData();
-  }
-
   getData = () => {
-    fetch(`${CONTRIES_STATUS}`, {
+    fetch(`${TYPETHIRDPARTYS_STATUS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -39,17 +38,17 @@ class SelectCountry extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataCountry: data
+          dataTipoTercero: data
         });
       });
   };
 
   handleChange = value => {
-    this.props.onChange("company_country", value);
+    this.props.onChange("tipoTercero", value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("company_country", true);
+    this.props.onBlur("tipoTercero", true);
   };
 
   render() {
@@ -64,9 +63,9 @@ class SelectCountry extends React.Component {
           onBlur={this.props.onBlur}
         >
           <option value={""}>
-            -- {t("app_empresa_modal_actualizar_select_pais")} --
+            -- {t("app_tercero_form_select_registrar_pais")} --
           </option>
-          {this.state.dataCountry.map((aux, id) => {
+          {this.state.dataTipoTercero.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
                 {aux.name}
@@ -78,9 +77,8 @@ class SelectCountry extends React.Component {
     );
   }
 }
-
-SelectCountry.propTypes = {
+SelectTipoTercero.propTypes = {
   t: PropTypes.any,
   authorization: PropTypes.string.isRequired
 };
-export default SelectCountry;
+export default SelectTipoTercero;

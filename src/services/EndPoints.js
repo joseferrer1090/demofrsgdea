@@ -162,35 +162,35 @@ export const MESSENGER_PAGINATION = () => {
 //---------------------------------------------TIPO DE ENVÍO / LLEGADA--------------------------------------------------//
 
 /* GET params => id, usernema */
-export const TYPESHIPMENTARRIVAL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
+export const TYPESHIPMENTARRIVAL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/shipments/arrivals`;
 
 /* GET */
-export const TYPESHIPMENTSARRIVALS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
+export const TYPESHIPMENTSARRIVALS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/shipments/arrivals/`;
 
 /* GET */
-export const TYPESHIPMENTARRIVAL_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/active`;
+export const TYPESHIPMENTARRIVAL_STATUS_ACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/shipments/arrivals/active`;
 
 /* GET */
-export const TYPESHIPMENTARRIVAL_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/inactive`;
+export const TYPESHIPMENTARRIVAL_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/shipments/arrivals/inactive`;
 
 /* POST */
-export const TYPESHIPMENTARRIVAL_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
+export const TYPESHIPMENTARRIVAL_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/shipments/arrivals`;
 
 /* PUT */
-export const TYPESHIPMENTARRIVAL_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
+export const TYPESHIPMENTARRIVAL_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/shipments/arrivals`;
 
 /* DELETE params identification, username */
-export const TYPESHIPMENTARRIVAL_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/`;
+export const TYPESHIPMENTARRIVAL_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/shipments/arrivals/`;
 
 /* GET */
 export const TYPESHIPMENTARRIVAL_PAGINATION = () => {
   // const page = 0; params page
   // const size = 2; params size
-  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/pagination`;
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/shipments/arrivals/pagination`;
 };
 
 /* GET params username */
-export const TYPESHIPMENTARRIVAL_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/export/data`;
+export const TYPESHIPMENTARRIVAL_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/shipments/arrivals/export/data`;
 
 //---------------------------------------------TIPO TRÁMITE--------------------------------------------------//
 
@@ -338,6 +338,9 @@ export const ROLES_STATUS =
   "http://192.168.10.180:7000/api/sgdea/role/status/1";
 
 /* GET */
+export const ROLES_STATUS_ACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles/active`;
+
+/* GET */
 export const ROLES_EXPORT =
   "http://192.168.10.180:7000/api/sgdea/role/export/ccuartas";
 
@@ -375,11 +378,10 @@ export const GROUPUSERS_PAGINATION = () => {
 //---------------------------------------------TERCEROS--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const THIRDPARTYS = "http://192.168.10.180:7000/api/sgdea/thirdparty";
+export const THIRDPARTYS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties`;
 
 /* GET / DELETE */
-export const THIRDPARTY =
-  "http://192.168.10.180:7000/api/sgdea/thirdparty/50dd5f08-1104-4eac-ba3c-6e77b3b70373/ccuartas";
+export const THIRDPARTY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/`;
 
 /* GET */
 export const THIRDPARTYS_STATUS =

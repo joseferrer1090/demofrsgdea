@@ -18,6 +18,7 @@ import { withTranslation } from "react-i18next";
 import SelectCountry from "./components/SelectCountry";
 import SelectDepartment from "./components/SelectDepartment";
 import PropTypes from "prop-types";
+import { decode } from "jsonwebtoken";
 
 const CiudadForm = props => {
   const {
@@ -250,18 +251,20 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const auth = props.authorization;
+        const username = decode(auth);
         fetch(CITYS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + props.authorization
+            Authorization: "Bearer " + auth
           },
           body: JSON.stringify({
             departmentId: values.departmentId,
             code: values.code,
             name: values.name,
             status: tipoEstado(values.status),
-            userName: "jferrer"
+            userName: username.user_name
           })
         })
           .then(response =>

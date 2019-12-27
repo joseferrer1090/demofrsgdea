@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { decode } from "jsonwebtoken";
 
 const CargoForm = props => {
   const {
@@ -161,7 +162,8 @@ const CargoForm = props => {
   );
 };
 CargoForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(
   withFormik({
@@ -187,7 +189,7 @@ export default withTranslation("translations")(
         )
         .required(" Se debe activar el cargo.")
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -197,19 +199,22 @@ export default withTranslation("translations")(
         }
         return null;
       };
+
       setTimeout(() => {
-        fetch(CHARGES, {
+        const auth = props.authorization;
+        const username = decode(auth);
+        fetch(`${CHARGES}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + auth
           },
           body: JSON.stringify({
             description: values.description,
             code: values.code,
             name: values.name,
             status: tipoEstado(values.status),
-            userName: "jferrer"
+            userName: username.user_name
           })
         })
           .then(response =>

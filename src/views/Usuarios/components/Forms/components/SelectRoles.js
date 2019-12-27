@@ -1,15 +1,30 @@
 import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
+import { ROLES_STATUS_ACTIVE } from "./../../../../../services/EndPoints";
 
 class MySelect extends React.Component {
   state = {
     dataRoles: [],
-    t: this.props.t
+    t: this.props.t,
+    auth: this.props.authorization
   };
 
-  componentDidMount() {
-    this.getData();
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getData();
+    }
   }
 
   handleChange = value => {
@@ -21,11 +36,11 @@ class MySelect extends React.Component {
   };
 
   getData = async () => {
-    let url = "http://192.168.10.180:7000/api/sgdea/role/active";
+    let url = `${ROLES_STATUS_ACTIVE}`;
     const response = await fetch(url, {
       method: "GET",
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.state.auth
       }
     });
     const data = await response.json();
@@ -61,6 +76,7 @@ class MySelect extends React.Component {
   }
 }
 MySelect.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default MySelect;

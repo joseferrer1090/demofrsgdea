@@ -104,7 +104,7 @@ class Cargo extends Component {
           <TabPane tabId="1">
             <Row>
               <Col md="12">
-                <FormCreate />
+                <FormCreate authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

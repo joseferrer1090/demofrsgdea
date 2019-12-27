@@ -11,6 +11,7 @@ import "./../../../css/styleTableUsuarios.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import moment from "react-moment";
 import { withTranslation } from "react-i18next";
+import { USERS } from "../../../services/EndPoints";
 
 class TableContentUser extends Component {
   constructor(props) {
@@ -24,20 +25,34 @@ class TableContentUser extends Component {
       dataUsers: [],
       dataUsersDependence: [],
       dataUsersCharge: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataUsers();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataUsers();
+    }
   }
 
   getDataUsers = () => {
-    fetch("http://192.168.10.180:7000/api/sgdea/user", {
+    fetch(`${USERS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -304,7 +319,8 @@ class TableContentUser extends Component {
 }
 
 TableContentUser.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableContentUser);

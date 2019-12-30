@@ -387,8 +387,7 @@ export const THIRDPARTYS_STATUS =
   "http://192.168.10.180:7000/api/sgdea/thirdparty/status/1";
 
 /* GET */
-export const THIRDPARTYS_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/thirdparty/export/ccuartas";
+export const THIRDPARTYS_EXPORT =`${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/export/data`;
 
 /* GET */
 export const THIRDPARTY_PAGINATION = () => {

@@ -13,7 +13,11 @@ import IMGPackage from "./../../../assets/img/package.svg";
 import PropTypes from "prop-types";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
-import { TYPESHIPMENTARRIVAL } from "./../../../services/EndPoints";
+import {
+  TYPESHIPMENTARRIVAL,
+  TYPESHIPMENTSARRIVALS
+} from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalEditTipoLlegada extends React.Component {
   state = {
@@ -25,8 +29,25 @@ class ModalEditTipoLlegada extends React.Component {
     alertError400: false,
     t: this.props.t,
     typeshipmentarrival_status: 0,
-    username: "ccuartas"
+    username: "",
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState(prevState => ({
@@ -37,16 +58,15 @@ class ModalEditTipoLlegada extends React.Component {
   };
 
   getTipoLlegadaByID = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${TYPESHIPMENTSARRIVALS}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -86,11 +106,13 @@ class ModalEditTipoLlegada extends React.Component {
               };
 
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(TYPESHIPMENTARRIVAL, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    Authorization: "Bearer " + auth
                   },
                   body: JSON.stringify({
                     id: this.state.idTipoLlegada,
@@ -98,7 +120,7 @@ class ModalEditTipoLlegada extends React.Component {
                     name: values.typeshipmentarrival_name,
                     description: values.typeshipmentarrival_description,
                     status: tipoEstado(values.typeshipmentarrival_status),
-                    userName: "ccuartas"
+                    userName: username.user_name
                   })
                 })
                   .then(response => {

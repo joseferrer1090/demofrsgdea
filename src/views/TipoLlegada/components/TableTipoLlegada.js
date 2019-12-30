@@ -245,23 +245,27 @@ class TableTipoLlegada extends Component {
           </Col>
         </Row>
         <ModalView
+          authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalviewtipollegada}
           ref={"child"}
         />
         <ModalEdit
+          authorization={this.state.auth}
           t={this.props.t}
           modaledit={this.state.modaledittipollegada}
           updateTable={this.getDataTipoLlegada}
           ref={"child2"}
         />
         <ModalDelete
+          authorization={this.state.auth}
           t={this.props.t}
           modaldelete={this.state.modaldeletetipollegada}
           updateTable={this.getDataTipoLlegada}
           ref={"child3"}
         />
         <ModalExport
+          authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref="child4"

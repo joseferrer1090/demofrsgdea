@@ -1,17 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { HEADQUARTER_BY_COMPANY } from "../../../services/EndPoints";
 
 class SelectHeadquarter extends React.Component {
   state = {
     dataHeadquarter: [],
     id: this.props.company,
-    t: this.props.t
+    t: this.props.t,
+    auth: this.props.authorization
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.company !== state.id) {
       return {
         id: props.company
+      };
+    }
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
       };
     }
     return null;
@@ -21,6 +28,11 @@ class SelectHeadquarter extends React.Component {
     if (this.props.company !== prevProps.company) {
       this.getDataHeadquarter();
     }
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   componentDidMount() {
@@ -28,16 +40,13 @@ class SelectHeadquarter extends React.Component {
   }
 
   getDataHeadquarter = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/headquarter/company/${this.props.company}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    fetch(`${HEADQUARTER_BY_COMPANY}${this.props.company}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.state.auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -75,6 +84,7 @@ class SelectHeadquarter extends React.Component {
 }
 SelectHeadquarter.propTypes = {
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default SelectHeadquarter;

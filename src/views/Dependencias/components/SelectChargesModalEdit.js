@@ -18,13 +18,13 @@ class SelectCharges extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
-      this.setState(
-        {
-          auth: this.props.authorization
-        },
-        this.getData()
-      );
+      this.setState({
+        auth: this.props.authorization
+      });
     }
+  }
+  componentDidMount() {
+    this.getData();
   }
 
   getData = () => {

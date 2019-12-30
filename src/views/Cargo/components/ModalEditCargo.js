@@ -360,7 +360,8 @@ class ModalEditCargo extends React.Component {
 }
 ModalEditCargo.propTypes = {
   modaledit: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalEditCargo;

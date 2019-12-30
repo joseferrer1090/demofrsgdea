@@ -249,6 +249,7 @@ class TableContentSedes extends Component {
           </Col>
         </Row>
         <ModalView
+          authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalView}
           ref="child"
@@ -261,12 +262,14 @@ class TableContentSedes extends Component {
           ref="child2"
         />
         <ModalDelete
+          authorization={this.state.auth}
           t={this.props.t}
           modaldel={this.state.modalDel}
           updateTable={this.getDataHeadquarters}
           ref="child3"
         />
         <ModalExport
+          authorization={this.state.auth}
           t={this.props.t}
           modalExport={this.state.modalExport}
           ref="child4"

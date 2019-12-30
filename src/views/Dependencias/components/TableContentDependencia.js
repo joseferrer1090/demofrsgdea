@@ -258,6 +258,7 @@ class TableContentDependencia extends Component {
           </BootstrapTable>
         </Col>
         <ModalView
+          authorization={this.state.auth}
           t={this.props.t}
           modalView={this.state.modalviewstate}
           ref="child1"
@@ -270,12 +271,14 @@ class TableContentDependencia extends Component {
           ref="child2"
         />
         <ModalDelete
+          authorization={this.state.auth}
           t={this.props.t}
           modalDel={this.state.modaldelstate}
           updateTable={this.getDataDependence}
           ref="child3"
         />
         <ModalExport
+          authorization={this.state.auth}
           t={this.props.t}
           modalExport={this.state.modalexport}
           ref={"child4"}

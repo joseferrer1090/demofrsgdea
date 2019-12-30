@@ -102,8 +102,7 @@ export const DEPENDENCIES_BY_HEADQUARTER = `${config.IP}:${config.PORT}/api/sgde
 export const DEPENDENCIES_BY_CHARGE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies/charge/`;
 
 /* GET  */
-export const DEPENDENCE_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/dependence/export/ccuartas";
+export const DEPENDENCE_EXPORT =`${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies/export/data`;
 
 /* GET */
 export const DEPENDENCE_PAGINATION = () => {

@@ -3,36 +3,55 @@ import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import { decode } from "jsonwebtoken";
+import { DEPENDENCE } from "../../../services/EndPoints";
 
 class ModalDeleteDependencia extends Component {
   state = {
     modal: this.props.modalDel,
     code: "",
     id: this.props.id,
-    userLogged: "jferrer",
+    userLogged: "",
     alertError: false,
     alertCode: false,
     alertSuccess: false,
     nameDependence: "",
     t: this.props.t,
-    username: "ccuartas"
+    username: "",
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
       id: id
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+
+    fetch(`${DEPENDENCE}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -67,12 +86,14 @@ class ModalDeleteDependencia extends Component {
             initialValues={dataInit}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/dependence/${this.state.id}?code=${values.code}&username=${this.state.userLogged}`,
+                  `${DEPENDENCE}${this.state.id}?code=${values.code}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
-                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                      Authorization: "Bearer " + auth
                     }
                   }
                 )
@@ -129,8 +150,7 @@ class ModalDeleteDependencia extends Component {
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                t
+                handleSubmit
               } = props;
               return (
                 <Fragment>

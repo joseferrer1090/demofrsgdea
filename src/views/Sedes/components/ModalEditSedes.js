@@ -15,7 +15,7 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGSEDE from "./../../../assets/img/teamwork.svg";
-import { HEADQUARTERS, CHARGES_STATUS } from "./../../../services/EndPoints";
+import { HEADQUARTERS, HEADQUARTER } from "./../../../services/EndPoints";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import SelectConglomerado from "./SelectConglomeradoModalEdit";
@@ -23,6 +23,8 @@ import SelectCompany from "./SelectCompanyModalEdit";
 import SelectCountry from "./SelectCountryModalEdit";
 import SelectDepartment from "./SelectDepartmentModalEdit";
 import SelectCity from "./SelectCityModalEdit";
+import SelectCharges from "./SelectChargesModalEdit";
+import { decode } from "jsonwebtoken";
 
 class ModalEditSedes extends React.Component {
   state = {
@@ -30,23 +32,30 @@ class ModalEditSedes extends React.Component {
     collapse: false,
     idSedes: this.props.id,
     dataResult: {},
-    optionsConglomerate: [0],
-    optionsCompanys: [0],
-    optionsCountries: [0],
-    optionsDepartment: [0],
-    optionsCitys: [0],
-    optionsCharges: [0],
     alertError: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
     headquarter_status: 0,
-    username: "ccuartas"
+    username: "",
+    auth: this.props.authorization
   };
-
-  componentDidMount() {
-    this.getDataCharges();
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
+
   onDismiss = () => {
     this.setState({
       alertError: false,
@@ -71,34 +80,16 @@ class ModalEditSedes extends React.Component {
     this.setState({ collapse: !this.state.collapse });
   };
 
-  getDataCharges = data => {
-    fetch(CHARGES_STATUS, {
+  getHeadquarterByID = id => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${HEADQUARTER}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + auth
       }
     })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsCharges: data
-        });
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-
-  getHeadquarterByID = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/headquarter/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
-      }
-    )
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -125,14 +116,6 @@ class ModalEditSedes extends React.Component {
 
   render() {
     const dataResult = this.state.dataResult;
-
-    const mapOptionsCharges = this.state.optionsCharges.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
     const { t } = this.props;
     return (
       <Fragment>
@@ -160,10 +143,9 @@ class ModalEditSedes extends React.Component {
               headquarter_name: Yup.string()
                 .required(" Por favor introduzca un nombre.")
                 .max(100, " Máximo 100 caracteres"),
-              headquarter_description: Yup.string().max(
-                250,
-                " Máximo 250 caracteres"
-              ),
+              headquarter_description: Yup.string()
+                .max(250, " Máximo 250 caracteres")
+                .nullable(),
               headquarter_prefix: Yup.string()
                 .required(" Por favor asigne un prefijo de radicación.")
                 .min(2, " Mínimo 2 caracteres.")
@@ -210,7 +192,7 @@ class ModalEditSedes extends React.Component {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    Authorization: "Bearer " + this.state.auth
                   },
                   body: JSON.stringify({
                     id: this.state.idSedes,
@@ -279,8 +261,7 @@ class ModalEditSedes extends React.Component {
                 handleSubmit,
 
                 setFieldValue,
-                setFieldTouched,
-                t
+                setFieldTouched
               } = props;
               return (
                 <Fragment>
@@ -320,6 +301,7 @@ class ModalEditSedes extends React.Component {
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <SelectConglomerado
+                                authorization={this.state.auth}
                                 t={this.state.t}
                                 name={"headquarter_conglomerate"}
                                 onChange={e =>
@@ -357,6 +339,7 @@ class ModalEditSedes extends React.Component {
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <SelectCompany
+                                authorization={this.state.auth}
                                 t={this.state.t}
                                 headquarter_conglomerate={
                                   props.values.headquarter_conglomerate
@@ -454,7 +437,15 @@ class ModalEditSedes extends React.Component {
                                   touched.headquarter_description &&
                                   "is-invalid"}`}
                               />
-                              <ErrorMessage name={"headquarter_description"} />
+                              <div style={{ color: "#D54B4B" }}>
+                                {errors.headquarter_description &&
+                                touched.headquarter_description ? (
+                                  <i class="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage
+                                  name={"headquarter_description"}
+                                />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -544,24 +535,28 @@ class ModalEditSedes extends React.Component {
                                           "app_sedes_form_actualizar_cargo_responsable"
                                         )}{" "}
                                       </label>
-                                      <select
-                                        name="headquarter_charge"
+                                      <SelectCharges
+                                        authorization={this.state.auth}
+                                        t={this.state.t}
+                                        name={"headquarter_charge"}
+                                        onChange={e =>
+                                          setFieldValue(
+                                            "headquarter_charge",
+                                            e.target.value
+                                          )
+                                        }
+                                        onBlur={() => {
+                                          setFieldTouched(
+                                            "headquarter_charge",
+                                            true
+                                          );
+                                        }}
+                                        value={values.headquarter_charge}
                                         className={`form-control form-control-sm ${errors.headquarter_charge &&
                                           touched.headquarter_charge &&
                                           "is-invalid"}`}
-                                        onChange={handleChange}
-                                        onBlur={handleBlur}
-                                        value={values.headquarter_charge}
-                                      >
-                                        <option value={""}>
-                                          --{" "}
-                                          {t(
-                                            "app_sedes_form_actualizar_select_cargo_responsable"
-                                          )}{" "}
-                                          --
-                                        </option>
-                                        {mapOptionsCharges}
-                                      </select>
+                                      />
+
                                       <ErrorMessage name="headquarter_charge" />
                                     </div>
                                   </div>
@@ -576,6 +571,7 @@ class ModalEditSedes extends React.Component {
                                         </span>{" "}
                                       </label>
                                       <SelectCountry
+                                        authorization={this.state.auth}
                                         t={this.state.t}
                                         name={"headquarter_country"}
                                         onChange={e =>
@@ -612,6 +608,7 @@ class ModalEditSedes extends React.Component {
                                         <span className="text-danger">*</span>{" "}
                                       </label>
                                       <SelectDepartment
+                                        authorization={this.state.auth}
                                         t={this.state.t}
                                         headquarter_country={
                                           props.values.headquarter_country
@@ -654,6 +651,7 @@ class ModalEditSedes extends React.Component {
                                         <span className="text-danger">*</span>{" "}
                                       </label>
                                       <SelectCity
+                                        authorization={this.state.auth}
                                         t={this.state.t}
                                         headquarter_department={
                                           props.values.headquarter_department

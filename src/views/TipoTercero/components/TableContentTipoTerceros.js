@@ -21,12 +21,26 @@ class TableContentTipoTerceros extends Component {
       modaluptate: false,
       modalexport: false,
       dataTipoTercero: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataTipoTercero();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataTipoTercero();
+    }
   }
 
   getDataTipoTercero = () => {
@@ -34,7 +48,7 @@ class TableContentTipoTerceros extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -229,23 +243,27 @@ class TableContentTipoTerceros extends Component {
           </Col>
         </Row>
         <ModalViewTipoTercero
+          authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalView}
           ref={"child"}
         />
         <ModalUpdateTipoTercero
+          authorization={this.state.auth}
           t={this.props.t}
           modalupdate={this.state.modaluptate}
           updateTable={this.getDataTipoTercero}
           ref={"child2"}
         />
         <ModalDeleteTipoTercero
+          authorization={this.state.auth}
           t={this.props.t}
           modaldelete={this.state.modaldelete}
           updateTable={this.getDataTipoTercero}
           ref={"child3"}
         />
         <ModalExport
+          authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref={"child4"}
@@ -256,7 +274,8 @@ class TableContentTipoTerceros extends Component {
 }
 
 TableContentTipoTerceros.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableContentTipoTerceros);

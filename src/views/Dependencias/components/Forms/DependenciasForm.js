@@ -19,6 +19,8 @@ import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
 import SelectCompany from "./components/SelectCompany";
 import SelectHeadquarter from "./components/SelectHeadquarter";
+import SelectCharges from "./components/SelectCharges";
+import { decode } from "jsonwebtoken";
 
 const DependenciaForm = props => {
   const {
@@ -33,36 +35,6 @@ const DependenciaForm = props => {
     setFieldTouched,
     t
   } = props;
-
-  const [optionsCharges, setOptionsCharges] = useState([]);
-
-  useEffect(() => {
-    getDataCharges();
-  }, []);
-
-  const getDataCharges = data => {
-    fetch(CHARGES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsCharges(data);
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-
-  const mapOptionsCharges = optionsCharges.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
-
   return (
     <div>
       <Row>
@@ -81,6 +53,7 @@ const DependenciaForm = props => {
                         <span className="text-danger">*</span>{" "}
                       </label>
                       <SelectConglomerado
+                        authorization={props.authorization}
                         t={props.t}
                         name={"conglomerateId"}
                         onChange={e =>
@@ -109,6 +82,7 @@ const DependenciaForm = props => {
                         <span className="text-danger">*</span>{" "}
                       </label>
                       <SelectCompany
+                        authorization={props.authorization}
                         t={props.t}
                         conglomerateId={props.values.conglomerateId}
                         name="companyId"
@@ -138,6 +112,7 @@ const DependenciaForm = props => {
                         <span className="text-danger">*</span>{" "}
                       </label>
                       <SelectHeadquarter
+                        authorization={props.authorization}
                         t={props.t}
                         companyId={props.values.companyId}
                         name={"headquarterId"}
@@ -247,25 +222,23 @@ const DependenciaForm = props => {
                         )}{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <select
+
+                      <SelectCharges
+                        authorization={props.authorization}
+                        t={props.t}
                         name={"chargeId"}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
+                        onChange={e =>
+                          setFieldValue("chargeId", e.target.value)
+                        }
+                        onBlur={() => {
+                          setFieldTouched("chargeId", true);
+                        }}
                         value={values.chargeId}
                         className={`form-control form-control-sm ${errors.chargeId &&
                           touched.chargeId &&
                           "is-invalid"}`}
-                      >
-                        {" "}
-                        <option value={""}>
-                          --{" "}
-                          {t(
-                            "app_dependencia_form_registrar_select_cargo_responsable"
-                          )}{" "}
-                          --
-                        </option>
-                        {mapOptionsCharges}{" "}
-                      </select>
+                      />
+
                       <div style={{ color: "#D54B4B" }}>
                         {errors.chargeId && touched.chargeId ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -331,7 +304,8 @@ const DependenciaForm = props => {
 };
 
 DependenciaForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(
@@ -372,7 +346,7 @@ export default withTranslation("translations")(
         value => value === true
       )
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -383,11 +357,13 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const auth = props.authorization;
+        const username = decode(auth);
         fetch(DEPENDENCIES, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + auth
           },
           body: JSON.stringify({
             description: values.description,
@@ -396,7 +372,7 @@ export default withTranslation("translations")(
             headquarterId: values.headquarterId,
             chargeId: values.chargeId,
             status: tipoEstado(values.status),
-            userName: "jferrer"
+            userName: username.user_name
           })
         })
           .then(response =>

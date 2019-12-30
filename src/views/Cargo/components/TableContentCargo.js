@@ -260,6 +260,7 @@ class TableContentCargo extends Component {
           ref="child3"
         />
         <ModalExport
+          authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref="child4"

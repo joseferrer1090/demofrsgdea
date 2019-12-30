@@ -8,19 +8,20 @@ import {
   CustomInput,
   Alert
 } from "reactstrap";
-import { CHARGES_STATUS } from "./../../../services/EndPoints";
 import IMGDEPENDENCIA from "./../../../assets/img/settings-work-tool.svg";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import SelectConglomerado from "./SelectConglomeradoModalEdit";
 import SelectCompany from "./SelectCompanyModalEdit";
 import SelectHeadquarter from "./SelectHeadquarterModalEdit";
+import SelectCharges from "./SelectChargesModalEdit";
+import { DEPENDENCE, DEPENDENCIES } from "../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalEditDependencia extends React.Component {
   state = {
     modal: this.props.modaledit,
     id: this.props.id,
-    userLogged: "jferrer",
     dataDependence: {},
     dataCharge: {},
     dataDependenceConglomerate: {},
@@ -36,11 +37,22 @@ class ModalEditDependencia extends React.Component {
     alertError400: false,
     t: this.props.t,
     status: 0,
-    username: "ccuartas"
+    auth: this.props.authorization
   };
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
-  componentDidMount() {
-    this.getDataCharge();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -52,16 +64,15 @@ class ModalEditDependencia extends React.Component {
   };
 
   getDataDependence = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${DEPENDENCE}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -73,23 +84,6 @@ class ModalEditDependencia extends React.Component {
         });
       })
       .catch(Error => console.log(" ", Error));
-  };
-
-  getDataCharge = () => {
-    fetch(CHARGES_STATUS, {
-      method: "GET",
-      headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
-        "Content-Type": "application/json"
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataChargeList: data
-        });
-      })
-      .catch(Error => console.log("Error", Error));
   };
 
   render() {
@@ -104,14 +98,6 @@ class ModalEditDependencia extends React.Component {
       description: this.state.dataDependence.description,
       status: this.state.dataDependence.status
     };
-
-    const chargeList = this.state.dataChargeList.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -134,10 +120,12 @@ class ModalEditDependencia extends React.Component {
               };
 
               setTimeout(() => {
-                fetch(`http://192.168.10.180:7000/api/sgdea/dependence`, {
+                const auth = this.state.auth;
+                const username = decode(auth);
+                fetch(`${DEPENDENCIES}`, {
                   method: "PUT",
                   headers: {
-                    Authorization: "Basic " + window.btoa("sgdea:123456"),
+                    Authorization: "Bearer " + this.state.auth,
                     "Content-Type": "application/json"
                   },
                   body: JSON.stringify({
@@ -148,7 +136,7 @@ class ModalEditDependencia extends React.Component {
                     headquarterId: values.headquarter,
                     chargeId: values.charge,
                     status: tipoEstado(values.status),
-                    userName: this.state.userLogged
+                    userName: username.user_name
                   })
                 })
                   .then(response => {
@@ -205,7 +193,9 @@ class ModalEditDependencia extends React.Component {
                 .min(2, " Mínimo 2 caracteres.")
                 .max(15, " Máximo 15 caracteres."),
               name: Yup.string().required(" Por favor introduzca un código."),
-              description: Yup.string().max(250, "Máximo 250 caracteres."),
+              description: Yup.string()
+                .max(250, "Máximo 250 caracteres.")
+                .nullable(),
               charge: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione el cargo."),
@@ -271,6 +261,7 @@ class ModalEditDependencia extends React.Component {
                                   <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectConglomerado
+                                  authorization={this.state.auth}
                                   t={this.state.t}
                                   name={"conglomerate"}
                                   onChange={e =>
@@ -306,6 +297,7 @@ class ModalEditDependencia extends React.Component {
                                   <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectCompany
+                                  authorization={this.state.auth}
                                   t={this.state.t}
                                   conglomerate={props.values.conglomerate}
                                   name="company"
@@ -338,6 +330,7 @@ class ModalEditDependencia extends React.Component {
                                   <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectHeadquarter
+                                  authorization={this.state.auth}
                                   t={this.state.t}
                                   company={props.values.company}
                                   name={"headquarter"}
@@ -423,22 +416,21 @@ class ModalEditDependencia extends React.Component {
                                   )}{" "}
                                   <span className="text-danger">*</span>{" "}
                                 </label>
-                                <select
+                                <SelectCharges
+                                  authorization={this.state.auth}
+                                  t={this.state.t}
                                   name={"charge"}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
+                                  onChange={e =>
+                                    setFieldValue("charge", e.target.value)
+                                  }
+                                  onBlur={() => {
+                                    setFieldTouched("charge", true);
+                                  }}
                                   value={values.charge}
-                                  className="form-control form-control-sm"
-                                >
-                                  <option value="">
-                                    --{" "}
-                                    {t(
-                                      "app_dependencia_form_actualizar_select_cargo_responsable"
-                                    )}{" "}
-                                    --
-                                  </option>
-                                  {chargeList}
-                                </select>
+                                  className={`form-control form-control-sm ${errors.charge &&
+                                    touched.charge &&
+                                    "is-invalid"}`}
+                                />
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.charge && touched.charge ? (
                                     <i class="fa fa-exclamation-triangle" />

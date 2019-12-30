@@ -10,6 +10,8 @@ import {
 import IMGPackage from "./../../../assets/img/package.svg";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { TYPESHIPMENTSARRIVALS } from "../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalViewTipoLlegada extends Component {
   constructor(props) {
@@ -19,8 +21,25 @@ class ModalViewTipoLlegada extends Component {
       id: this.props.id,
       dataTipoLlegada: {},
       t: this.props.t,
-      username: "ccuartas"
+      username: "",
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -28,16 +47,15 @@ class ModalViewTipoLlegada extends Component {
       modal: !prevState.modal,
       id: id
     }));
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/typeshipmentarrival/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${TYPESHIPMENTSARRIVALS}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -178,7 +196,8 @@ class ModalViewTipoLlegada extends Component {
 ModalViewTipoLlegada.propTypes = {
   modalview: PropTypes.bool.isRequired,
   t: PropTypes.array,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  auth: PropTypes.string.isRequired
 };
 
 export default ModalViewTipoLlegada;

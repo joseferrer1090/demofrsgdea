@@ -1,21 +1,39 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { CONTRIES_STATUS } from "../../../services/EndPoints";
 class SelectCountry extends React.Component {
   state = {
     dataCountry: [],
-    t: this.props.t
+    t: this.props.t,
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   componentDidMount() {
     this.getData();
   }
 
   getData = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/country/active`, {
+    fetch(`${CONTRIES_STATUS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.state.auth
       }
     })
       .then(response => response.json())
@@ -61,6 +79,7 @@ class SelectCountry extends React.Component {
   }
 }
 SelectCountry.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default SelectCountry;

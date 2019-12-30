@@ -20,7 +20,7 @@ class TableContentEmpresa extends Component {
       modaledit: false,
       modaldel: false,
       modalexport: false,
-      dataCompanys: this.props.updateTable,
+      dataCompanys: [],
       hiddenColumnID: true,
       auth: this.props.authorization
     };
@@ -44,11 +44,11 @@ class TableContentEmpresa extends Component {
   }
 
   getDataCompany = () => {
-    fetch(COMPANYS, {
+    fetch(`${COMPANYS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.auhorization
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -284,7 +284,6 @@ class TableContentEmpresa extends Component {
 }
 
 TableContentEmpresa.propTypes = {
-  updateTable: PropTypes.any,
   authorization: PropTypes.string.isRequired
 };
 

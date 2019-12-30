@@ -21,6 +21,8 @@ import SelectCompany from "./components/SelectCompany";
 import SelectCountry from "./components/SelectCountry";
 import SelectDepartment from "./components/SelectDepartment";
 import SelectCity from "./components/SelectCity";
+import SelectCharges from "./components/SelectCharges";
+import { decode } from "jsonwebtoken";
 
 const SedesForm = props => {
   const {
@@ -37,34 +39,6 @@ const SedesForm = props => {
   } = props;
 
   const [visibleAlert, setVisibleAlert] = useState(true);
-  const [optionsCharges, setOptionsCharges] = useState([]);
-
-  useEffect(() => {
-    getDataCharges();
-  }, []);
-
-  const getDataCharges = data => {
-    fetch(CHARGES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsCharges(data);
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-
-  const mapOptionsCharges = optionsCharges.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   const onDismiss = () => {
     setVisibleAlert(!visibleAlert);
@@ -86,6 +60,7 @@ const SedesForm = props => {
                     <span className="text-danger">*</span>{" "}
                   </label>
                   <SelectConglomerado
+                    authorization={props.authorization}
                     t={props.t}
                     name={"conglomerateId"}
                     onChange={e =>
@@ -115,6 +90,7 @@ const SedesForm = props => {
                   </label>
                   <br />
                   <SelectCompany
+                    authorization={props.authorization}
                     t={props.t}
                     conglomerateId={props.values.conglomerateId}
                     name="companyId"
@@ -280,6 +256,7 @@ const SedesForm = props => {
                   <label>{t("app_sedes_form_registrar_pais")}</label>
                   <span className="text-danger">*</span>{" "}
                   <SelectCountry
+                    authorization={props.authorization}
                     t={props.t}
                     name={"countryId"}
                     onChange={e => setFieldValue("countryId", e.target.value)}
@@ -304,6 +281,7 @@ const SedesForm = props => {
                     <span className="text-danger">*</span>{" "}
                   </label>
                   <SelectDepartment
+                    authorization={props.authorization}
                     t={props.t}
                     countryId={props.values.countryId}
                     name="departmentId"
@@ -332,6 +310,7 @@ const SedesForm = props => {
                     <span className="text-danger">*</span>
                   </label>
                   <SelectCity
+                    authorization={props.authorization}
                     t={props.t}
                     departmentId={props.values.departmentId}
                     name={"cityId"}
@@ -412,20 +391,19 @@ const SedesForm = props => {
                     {t("app_sedes_form_registrar_cargo_responsable")}{" "}
                   </label>
 
-                  <select
+                  <SelectCharges
+                    authorization={props.authorization}
+                    t={props.t}
                     name={"chargeId"}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
+                    onChange={e => setFieldValue("chargeId", e.target.value)}
+                    onBlur={() => {
+                      setFieldTouched("chargeId", true);
+                    }}
                     value={values.chargeId}
-                    className="form-control form-control-sm"
-                  >
-                    <option value={""}>
-                      --{" "}
-                      {t("app_sedes_form_registrar_select_cargo_responsable")}{" "}
-                      --
-                    </option>
-                    {mapOptionsCharges}
-                  </select>
+                    className={`form-control form-control-sm ${errors.chargeId &&
+                      touched.chargeId &&
+                      "is-invalid"}`}
+                  />
                 </div>
               </Col>
               <Col sm="12">
@@ -542,7 +520,7 @@ export default withTranslation("translations")(
         )
         .required(" Es necesario activar la sede.")
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -553,11 +531,13 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const auth = props.authorization;
+        const username = decode(auth);
         fetch(HEADQUARTERS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + auth
           },
           body: JSON.stringify({
             description: values.description,
@@ -571,7 +551,7 @@ export default withTranslation("translations")(
             cityId: values.cityId,
             chargeId: values.chargeId,
             status: tipoEstado(values.status),
-            userName: "jferrer"
+            userName: username.user_name
           })
         })
           .then(response =>

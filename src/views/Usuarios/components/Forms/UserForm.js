@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { withFormik, ErrorMessage, Field } from "formik";
-import { CONGLOMERATES } from "./../../../../services/EndPoints";
+import { CONGLOMERATES, USERS } from "./../../../../services/EndPoints";
 import * as Yup from "yup";
 import axios from "axios";
 import {
@@ -22,7 +22,10 @@ import SelectConglomerado from "./components/SelectConglomerado";
 import SelectCompany from "./components/SelectCompany";
 import SelectHeadquarter from "./components/SelectHeadquarter";
 import SelectDependence from "./components/SelectDependence";
+import SelectCharge from "./components/SelectCharge";
+
 import PropTypes from "prop-types";
+import { decode } from "jsonwebtoken";
 
 const UserForm = props => {
   const {
@@ -37,35 +40,6 @@ const UserForm = props => {
     setFieldTouched,
     t
   } = props;
-
-  const [cargoOptions, setCargoOptions] = useState([]);
-
-  useEffect(() => {
-    dataCharge();
-  }, []);
-
-  const dataCharge = data => {
-    fetch("http://192.168.10.180:7000/api/sgdea/charge", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setCargoOptions(data);
-      })
-      .catch(Error => console.log(" " + Error));
-  };
-
-  const selectCargo = cargoOptions.map((aux, id) => {
-    return (
-      <option key={id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
   return (
     <Fragment>
       <Card>
@@ -244,6 +218,7 @@ const UserForm = props => {
                         <span className="text-danger">*</span>{" "}
                       </label>
                       <SelectConglomerado
+                        authorization={props.authorization}
                         t={props.t}
                         name={"conglomeradoID"}
                         onChange={e =>
@@ -275,6 +250,7 @@ const UserForm = props => {
                         <span className="text-danger">*</span>{" "}
                       </label>
                       <SelectCompany
+                        authorization={props.authorization}
                         t={props.t}
                         conglomerate={props.values.conglomeradoID}
                         name="empresaID"
@@ -302,6 +278,7 @@ const UserForm = props => {
                         <span className="text-danger">*</span>{" "}
                       </label>
                       <SelectHeadquarter
+                        authorization={props.authorization}
                         t={props.t}
                         company={props.values.empresaID}
                         name={"sedeID"}
@@ -326,6 +303,7 @@ const UserForm = props => {
                         <span className="text-danger">*</span>{" "}
                       </label>
                       <SelectDependence
+                        authorization={props.authorization}
                         t={props.t}
                         headquarter={props.values.sedeID}
                         name={"dependenciaID"}
@@ -352,23 +330,19 @@ const UserForm = props => {
                         {t("app_usuarios_form_registrar_cargo")}{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <select
+                      <SelectCharge
+                        authorization={props.authorization}
+                        t={props.t}
                         name={"cargoID"}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
+                        onChange={e => setFieldValue("cargoID", e.target.value)}
+                        onBlur={() => {
+                          setFieldTouched("cargoID", true);
+                        }}
                         value={values.cargoID}
                         className={`form-control form-control-sm ${errors.cargoID &&
                           touched.cargoID &&
                           "is-invalid"}`}
-                      >
-                        <option value={""}>
-                          {" "}
-                          -- {t(
-                            "app_usuarios_form_registrar_cargo_select"
-                          )} --{" "}
-                        </option>
-                        {selectCargo}
-                      </select>
+                      />
                       <div style={{ color: "#D54B4B" }}>
                         {errors.cargoID && touched.cargoID ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -472,6 +446,7 @@ const UserForm = props => {
                         <span className="text-danger">*</span>{" "}
                       </label>
                       <MySelect
+                        authorization={props.authorization}
                         t={props.t}
                         name={"rolesID"}
                         value={values.rolesID}
@@ -549,7 +524,8 @@ const UserForm = props => {
   );
 };
 UserForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(
@@ -634,8 +610,10 @@ export default withTranslation("translations")(
       ),
       foto: Yup.mixed()
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const formData = new FormData();
+      const auth = props.authorization;
+      const username = decode(auth);
       formData.append("photo", values.foto);
       formData.append(
         "user",
@@ -654,7 +632,7 @@ export default withTranslation("translations")(
               chargeId: values.cargoID,
               userRoleRequests: values.rolesID,
               enabled: values.estado,
-              userNameAuthenticate: "ccuartas"
+              userNameAuthenticate: username.user_name
             })
           ],
           {
@@ -664,9 +642,9 @@ export default withTranslation("translations")(
       );
       setTimeout(() => {
         axios
-          .post("http://192.168.10.180:7000/api/sgdea/user", formData, {
+          .post(`${USERS}`, formData, {
             headers: {
-              Authorization: "Basic " + window.btoa("sgdea:123456")
+              Authorization: "Bearer " + props.authorization
             }
           })
           .then(response => {

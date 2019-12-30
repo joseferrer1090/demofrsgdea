@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -8,13 +8,7 @@ import {
   CardHeader,
   Card
 } from "reactstrap";
-import {
-  CONGLOMERATES,
-  CITIES_STATUS,
-  CHARGES_STATUS,
-  DEPARTMENTS_STATUS,
-  CONTRIES_STATUS
-} from "./../../../../services/EndPoints";
+import { CONGLOMERATES } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
@@ -23,6 +17,7 @@ import SelectCity from "./components/SelectCity";
 import SelectDepartment from "./components/SelectDepartment";
 import SelectCountry from "./components/SelectCountry";
 import SelectCharges from "./components/SelectCharges";
+import { decode } from "jsonwebtoken";
 
 const ConglomeradorForm = props => {
   const {
@@ -345,6 +340,8 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const auth = props.authorization;
+        const username = decode(auth);
         fetch(CONGLOMERATES, {
           method: "POST",
           headers: {
@@ -358,7 +355,7 @@ export default withTranslation("translations")(
             status: tipoEstado(values.estado),
             chargeId: values.chargeId,
             cityId: values.cityId,
-            userName: "jferrer"
+            userName: username.user_name
           })
         })
           .then(response =>

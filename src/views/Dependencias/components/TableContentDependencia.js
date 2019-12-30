@@ -10,6 +10,7 @@ import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-tab
 import moment from "moment";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { DEPENDENCIES } from "../../../services/EndPoints";
 
 class TableContentDependencia extends Component {
   constructor(props) {
@@ -20,19 +21,32 @@ class TableContentDependencia extends Component {
       modaldelstate: false,
       modalexport: false,
       dataDependence: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
-  componentDidMount() {
-    this.getDataDependence();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataDependence();
+    }
   }
 
   getDataDependence = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/dependence`, {
+    fetch(`${DEPENDENCIES}`, {
       method: "GET",
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        Authorization: "Bearer " + this.props.authorization,
         "Content-Type": "application/json"
       }
     })
@@ -244,23 +258,27 @@ class TableContentDependencia extends Component {
           </BootstrapTable>
         </Col>
         <ModalView
+          authorization={this.state.auth}
           t={this.props.t}
           modalView={this.state.modalviewstate}
           ref="child1"
         />
         <ModalEdit
+          authorization={this.state.auth}
           t={this.props.t}
           modalEdit={this.state.modaleditstate}
           updateTable={this.getDataDependence}
           ref="child2"
         />
         <ModalDelete
+          authorization={this.state.auth}
           t={this.props.t}
           modalDel={this.state.modaldelstate}
           updateTable={this.getDataDependence}
           ref="child3"
         />
         <ModalExport
+          authorization={this.state.auth}
           t={this.props.t}
           modalExport={this.state.modalexport}
           ref={"child4"}
@@ -271,7 +289,8 @@ class TableContentDependencia extends Component {
 }
 
 TableContentDependencia.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableContentDependencia);

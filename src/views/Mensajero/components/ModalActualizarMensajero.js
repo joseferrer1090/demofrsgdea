@@ -123,11 +123,13 @@ class ModalActualizarMensajero extends React.Component {
               };
 
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(MESSENGERS, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Bearer " + this.state.auth
+                    Authorization: "Bearer " + auth
                   },
                   body: JSON.stringify({
                     id: this.state.idMensajero,
@@ -135,7 +137,7 @@ class ModalActualizarMensajero extends React.Component {
                     name: values.messenger_name,
                     description: values.messenger_description,
                     status: tipoEstado(values.messenger_status),
-                    userName: "ccuartas"
+                    userName: username.user_name
                   })
                 })
                   .then(response => {

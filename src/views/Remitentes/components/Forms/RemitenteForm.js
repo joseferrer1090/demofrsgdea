@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import * as Yup from "yup";
 import {
   Card,
@@ -9,13 +9,7 @@ import {
   Col,
   CustomInput
 } from "reactstrap";
-import {
-  THIRDPARTYS,
-  TYPETHIRDPARTYS_STATUS,
-  CONTRIES_STATUS,
-  DEPARTMENTS_STATUS,
-  CITIES_STATUS
-} from "../../../../services/EndPoints";
+import { THIRDPARTYS } from "../../../../services/EndPoints";
 import { withFormik, ErrorMessage } from "formik";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -25,6 +19,10 @@ import SelectCountry from "./components/SelectCountry";
 import SelectDepartment from "./components/SelectDepartment";
 import SelectCity from "./components/SelectCity";
 import PropTypes from "prop-types";
+import SelectTipoTercero from "./components/SelectTipoTercero";
+import { decode } from "jsonwebtoken";
+import IntlTelInput from "react-intl-tel-input";
+import "react-intl-tel-input/dist/main.css";
 
 const RemitenteForm = props => {
   const {
@@ -39,35 +37,6 @@ const RemitenteForm = props => {
     setFieldValue,
     t
   } = props;
-
-  const [optionsTipoTecero, setOptionsTipoTercero] = useState([]);
-
-  useEffect(() => {
-    getDataTipoTeceros();
-  }, []);
-
-  const getDataTipoTeceros = data => {
-    fetch(TYPETHIRDPARTYS_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        setOptionsTipoTercero(data);
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-
-  const mapOptionsTipoTerceros = optionsTipoTecero.map((aux, idx) => {
-    return (
-      <option key={aux.id} value={aux.id}>
-        {aux.name}
-      </option>
-    );
-  });
 
   return (
     <div className="animated fadeIn">
@@ -87,22 +56,19 @@ const RemitenteForm = props => {
                           {t("app_tercero_form_registrar_TipoTercero")}{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
-                        <select
+                        <SelectTipoTercero
+                          authorization={props.authorization}
+                          t={props.t}
                           name={"tipoTercero"}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
+                          onChange={e =>
+                            setFieldValue("tipoTercero", e.target.value)
+                          }
+                          onBlur={() => setFieldTouched("tipoTercero", true)}
                           value={values.tipoTercero}
                           className={`form-control form-control-sm ${errors.tipoTercero &&
                             touched.tipoTercero &&
                             "is-invalid"}`}
-                        >
-                          <option disabled value={""}>
-                            --{" "}
-                            {t("app_tercero_form_registrar_select_TipoTercero")}{" "}
-                            --
-                          </option>
-                          {mapOptionsTipoTerceros}
-                        </select>
+                        />
                         <div style={{ color: "#D54B4B" }}>
                           {errors.tipoTercero && touched.tipoTercero ? (
                             <i className="fa fa-exclamation-triangle" />
@@ -264,6 +230,7 @@ const RemitenteForm = props => {
                           {" "}
                           {t("app_tercero_form_registrar_telCelular")}{" "}
                         </label>
+
                         <input
                           name={"telefonoCelular"}
                           onChange={handleChange}
@@ -316,6 +283,7 @@ const RemitenteForm = props => {
                           <span className="text-danger"> * </span>{" "}
                         </label>
                         <SelectCountry
+                          authorization={props.authorization}
                           t={props.t}
                           name={"pais"}
                           onChange={e => setFieldValue("pais", e.target.value)}
@@ -341,6 +309,7 @@ const RemitenteForm = props => {
                           <span className="text-danger"> * </span>{" "}
                         </label>
                         <SelectDepartment
+                          authorization={props.authorization}
                           t={props.t}
                           pais={props.values.pais}
                           name="departamento"
@@ -369,6 +338,7 @@ const RemitenteForm = props => {
                           <span className="text-danger"> * </span>{" "}
                         </label>
                         <SelectCity
+                          authorization={props.authorization}
                           t={props.t}
                           departamento={props.values.departamento}
                           name={"ciudad"}
@@ -555,7 +525,7 @@ export default withTranslation("translations")(
         value => value === true
       )
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -566,11 +536,13 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
+        const auth = props.authorization;
+        const username = decode(auth);
         fetch(THIRDPARTYS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + auth
           },
           body: JSON.stringify({
             address: values.direccion,
@@ -585,7 +557,7 @@ export default withTranslation("translations")(
             status: tipoEstado(values.estado),
             typeThirdPartyId: values.tipoTercero,
             cityId: values.ciudad,
-            userName: "ccuartas"
+            userName: username.user_name
           })
         })
           .then(response =>
@@ -629,5 +601,6 @@ export default withTranslation("translations")(
   })(RemitenteForm)
 );
 RemitenteForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };

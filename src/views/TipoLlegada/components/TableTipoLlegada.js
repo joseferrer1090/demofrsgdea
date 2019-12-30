@@ -21,19 +21,33 @@ class TableTipoLlegada extends Component {
       modaldeletetipollegada: false,
       modalexport: false,
       dataTipoLlegada: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
-
-  componentDidMount() {
-    this.getDataTipoLlegada();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataTipoLlegada();
+    }
+  }
+
   getDataTipoLlegada = () => {
     fetch(TYPESHIPMENTARRIVAL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -231,23 +245,27 @@ class TableTipoLlegada extends Component {
           </Col>
         </Row>
         <ModalView
+          authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalviewtipollegada}
           ref={"child"}
         />
         <ModalEdit
+          authorization={this.state.auth}
           t={this.props.t}
           modaledit={this.state.modaledittipollegada}
           updateTable={this.getDataTipoLlegada}
           ref={"child2"}
         />
         <ModalDelete
+          authorization={this.state.auth}
           t={this.props.t}
           modaldelete={this.state.modaldeletetipollegada}
           updateTable={this.getDataTipoLlegada}
           ref={"child3"}
         />
         <ModalExport
+          authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref="child4"
@@ -258,7 +276,8 @@ class TableTipoLlegada extends Component {
 }
 
 TableTipoLlegada.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableTipoLlegada);

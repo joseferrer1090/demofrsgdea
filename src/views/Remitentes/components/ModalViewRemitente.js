@@ -14,6 +14,8 @@ import {
 } from "reactstrap";
 import IMGPROFILE from "./../../../assets/img/profile.svg";
 import moment from "moment";
+import { THIRDPARTY } from "../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalViewRemitente extends Component {
   constructor(props) {
@@ -22,13 +24,29 @@ class ModalViewRemitente extends Component {
       modal: this.props.modalview,
       collapse: false,
       id: this.props.id,
-      userLogged: "ccuartas",
+
       dataTercero: {},
       datTipoTecero: {},
       dataCiudad: {},
       t: this.props.t,
-      username: "ccuartas"
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -36,16 +54,15 @@ class ModalViewRemitente extends Component {
       modal: !this.state.modal,
       id: id
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/thirdparty/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${THIRDPARTY}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -301,7 +318,8 @@ class ModalViewRemitente extends Component {
 ModalViewRemitente.propTypes = {
   modalview: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalViewRemitente;

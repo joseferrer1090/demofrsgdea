@@ -9,7 +9,7 @@ import ModalChangePassword from "./FormChangePasswordUser";
 import ModalExportCSV from "./ModalExportUser";
 import "./../../../css/styleTableUsuarios.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import moment from "react-moment";
+import moment from "moment";
 import { withTranslation } from "react-i18next";
 import { USERS } from "../../../services/EndPoints";
 
@@ -287,28 +287,33 @@ class TableContentUser extends Component {
         </Col>
 
         <ModalView
+          authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalviewuserstate}
           ref="child"
         />
         <ModalDelete
+          authorization={this.state.auth}
           t={this.props.t}
           modaldel={this.state.modaldeluserstate}
           updateTable={this.getDataUsers}
           ref="child2"
         />
         <ModalUpdate
+          authorization={this.state.auth}
           t={this.props.t}
           updateTable={this.getDataUsers}
           modaledit={this.state.modaledituserstate}
           ref="child3"
         />
         <ModalChangePassword
+          authorization={this.state.auth}
           t={this.props.t}
           modalpassword={this.state.modalchangepassword}
           ref="child4"
         />
         <ModalExportCSV
+          authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref={"child5"}

@@ -102,7 +102,7 @@ export const DEPENDENCIES_BY_HEADQUARTER = `${config.IP}:${config.PORT}/api/sgde
 export const DEPENDENCIES_BY_CHARGE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies/charge/`;
 
 /* GET  */
-export const DEPENDENCE_EXPORT =`${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies/export/data`;
+export const DEPENDENCE_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies/export/data`;
 
 /* GET */
 export const DEPENDENCE_PAGINATION = () => {
@@ -234,6 +234,9 @@ export const USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuratio
 
 /* GET  params => idUser, username  */
 export const USER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/`;
+
+/* SRC PHOTO USER */
+export const USER_PHOTO = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/photo/view/`;
 
 /* GET */
 export const USERS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/active`;
@@ -387,7 +390,7 @@ export const THIRDPARTYS_STATUS =
   "http://192.168.10.180:7000/api/sgdea/thirdparty/status/1";
 
 /* GET */
-export const THIRDPARTYS_EXPORT =`${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/export/data`;
+export const THIRDPARTYS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/export/data`;
 
 /* GET */
 export const THIRDPARTY_PAGINATION = () => {

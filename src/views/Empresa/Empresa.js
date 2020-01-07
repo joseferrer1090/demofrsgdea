@@ -109,7 +109,7 @@ class Empresa extends Component {
           <TabPane tabId="2">
             <Row>
               <Col md="12">
-                {/* <TableContent authorization={authToken} /> */}
+                <TableContent authorization={authToken} />
                 {/* <FormCreate authorization={authToken} /> */}
               </Col>
             </Row>

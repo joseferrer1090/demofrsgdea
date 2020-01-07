@@ -23,7 +23,7 @@ class SelectConglomerate extends React.Component {
         {
           auth: this.props.authorization
         },
-        this.getData()
+        () => console.log("Hola mundo")
       );
     }
   }

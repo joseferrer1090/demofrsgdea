@@ -33,7 +33,7 @@ class SelectDepartment extends React.Component {
         {
           auth: this.props.authorization
         },
-        this.getDataDepartment()
+        () => this.getDataDepartment()
       );
     }
   }

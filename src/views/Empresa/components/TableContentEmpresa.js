@@ -36,10 +36,12 @@ class TableContentEmpresa extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
-      this.setState({
-        auth: this.props.authorization
-      });
-      this.getDataCompany();
+      this.setState(
+        {
+          auth: this.props.authorization
+        },
+        () => this.getDataCompany()
+      );
     }
   }
 

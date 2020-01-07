@@ -1,18 +1,25 @@
 import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
+import { USERS_BY_DEPENDENCE } from "./../../../../services/EndPoints";
 
 class MySelect extends React.Component {
   state = {
     dataUsersDependencia: [],
     id: this.props.idDependence,
-    username: "jferrer"
+    username: "jferrer",
+    auth: this.props.authorization
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.idDependence !== state.id) {
       return {
         id: props.idDependence
+      };
+    }
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
       };
     }
     return null;
@@ -22,19 +29,24 @@ class MySelect extends React.Component {
     if (this.props.idDependence !== prevProps.idDependence) {
       this.getDataUserDependenceList();
     }
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState(
+        {
+          auth: this.props.authorization
+        },
+        this.getDataUserDependenceList()
+      );
+    }
   }
 
   getDataUserDependenceList = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/user/dependence/${this.props.idDependence}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    fetch(`${USERS_BY_DEPENDENCE}${this.props.idDependence}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.state.auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -44,10 +56,6 @@ class MySelect extends React.Component {
       })
       .catch(err => console.log("Error", err));
   };
-
-  componentDidMount() {
-    this.getDataUserDependenceList();
-  }
 
   // Lista de usuarios por la dependencia //
 
@@ -61,7 +69,6 @@ class MySelect extends React.Component {
 
   render() {
     const { t } = this.props;
-
     return (
       <div style={{ margin: "0" }}>
         <Select
@@ -91,6 +98,7 @@ class MySelect extends React.Component {
 }
 MySelect.propTypes = {
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default MySelect;

@@ -20,6 +20,7 @@ import { withTranslation } from "react-i18next";
 import classnames from "classnames";
 import fileGroupUser from "./../../../assets/files/FilesImportCSV/group_user.csv";
 import fileGroupUserUsers from "./../../../assets/files/FilesImportCSV/group_user_users.csv";
+import { decode } from "jsonwebtoken";
 
 class FormImportGrupos extends React.Component {
   constructor(props) {
@@ -27,8 +28,26 @@ class FormImportGrupos extends React.Component {
     this.state = {
       file: null,
       username: "ccuartas",
-      activeTab: "1"
+      activeTab: "1",
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   onChange = e => {
@@ -142,7 +161,7 @@ class FormImportGrupos extends React.Component {
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
                 <Formik
-                  onSubmit={(values, { setSubmitting }) => {
+                  onSubmit={(values, { setSubmitting, props }) => {
                     const separator = separador => {
                       let separador_empty = "";
                       if (separador === undefined) {
@@ -161,13 +180,18 @@ class FormImportGrupos extends React.Component {
                       separator(values.separador_csv)
                     );
                     setTimeout(() => {
+                      const auth = this.state.auth;
+                      const username = decode(auth);
+                      //http://192.168.10.180:7016/api/sgdea/groupuser/import/?username=${this.state.username}
                       axios
                         .post(
-                          `http://192.168.10.180:7016/api/sgdea/groupuser/import/?username=${this.state.username}`,
+                          `http://192.168.10.180:8090/api/sgdea/service/import/group/users/`,
                           formData,
                           {
                             headers: {
-                              "Content-Type": "multipart/form-data"
+                              "Content-Type": "multipart/form-data",
+                              Authorization:
+                                "Bearer " + this.props.authorization
                             }
                           }
                         )
@@ -549,6 +573,7 @@ class FormImportGrupos extends React.Component {
   }
 }
 FormImportGrupos.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(FormImportGrupos);

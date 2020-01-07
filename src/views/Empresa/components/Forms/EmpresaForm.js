@@ -37,6 +37,7 @@ const EmpresaForm = props => {
     handleSubmit,
     t
   } = props;
+  console.log(props.authorization);
 
   return (
     <div>

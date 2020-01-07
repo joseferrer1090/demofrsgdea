@@ -20,6 +20,8 @@ import SelectEmpresa from "./components/SelectEmpresa";
 import SelectSedes from "./components/SelectSedes";
 import SelectDependencia from "./components/SelectDependencia";
 import MySelect from "./components/SelectRoles";
+import { decode } from "jsonwebtoken";
+import { GROUPUSERS } from "./../../../services/EndPoints";
 
 const GrupoUsuariosForm = props => {
   const {
@@ -142,6 +144,7 @@ const GrupoUsuariosForm = props => {
                               <span className="text-danger">*</span>{" "}
                             </label>
                             <SelectConglomerado
+                              authorization={props.authorization}
                               t={props.t}
                               name="conglomerado"
                               onChange={e => {
@@ -173,6 +176,7 @@ const GrupoUsuariosForm = props => {
                               <span className="text-danger">*</span>{" "}
                             </label>
                             <SelectEmpresa
+                              authorization={props.authorization}
                               t={props.t}
                               idConglomerado={props.values.conglomerado}
                               name="empresa"
@@ -203,6 +207,7 @@ const GrupoUsuariosForm = props => {
                               <span className="text-danger">*</span>{" "}
                             </label>
                             <SelectSedes
+                              authorization={props.authorization}
                               t={props.t}
                               company={props.values.empresa}
                               name="sede"
@@ -235,6 +240,7 @@ const GrupoUsuariosForm = props => {
                               <span className="text-danger">*</span>{" "}
                             </label>
                             <SelectDependencia
+                              authorization={props.authorization}
                               t={props.t}
                               headquarter={props.values.sede}
                               name="dependencia"
@@ -306,6 +312,7 @@ const GrupoUsuariosForm = props => {
                       <span className="text-danger">*</span>{" "}
                     </label>
                     <MySelect
+                      authorization={props.authorization}
                       t={props.t}
                       idDependence={props.values.dependencia}
                       name={"roles"}
@@ -443,7 +450,7 @@ export default withTranslation("translations")(
         )
         .required(" Por favor seleccione al menos un rol.")
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -455,11 +462,11 @@ export default withTranslation("translations")(
       };
       setTimeout(() => {
         //alert(JSON.stringify(values, null, 2));
-        fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
+        fetch(GROUPUSERS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + props.authorization
           },
           body: JSON.stringify({
             code: values.codigo,

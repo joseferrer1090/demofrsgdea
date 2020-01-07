@@ -33,7 +33,7 @@ class SelectCity extends React.Component {
         {
           auth: this.props.authorization
         },
-        this.getDataCitys()
+        () => this.getDataCitys()
       );
     }
   }

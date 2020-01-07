@@ -35,7 +35,7 @@ export const COMPANYS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/co
 /* GET param => username  */
 export const COMPANY_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/companies/export/data`;
 
-/* GET param => idCompany */
+/* GET param => idConglomerate */
 export const COMPANY_BY_CONGLOMERATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/companies/conglomerate/`;
 
 /* GET */
@@ -356,25 +356,27 @@ export const ROLES_PAGINATION = () => {
 //---------------------------------------------GRUPO DE USUARIOS--------------------------------------------------//
 
 /* GET / POST / PUT */
-export const GROUPUSERS = "http://192.168.10.180:7000/api/sgdea/groupuser";
+export const GROUPUSERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/group/users`;
 
-/* GET / DELETE */
-export const GROUPUSER =
-  "http://192.168.10.180:7000/api/sgdea/groupuser/171331b2-97b2-4523-b93b-092483a567bd/ccuartas";
-
-/* GET */
-export const GROUPUSERS_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/groupuser/status/1";
+/* GET / DELETE  params => id */
+export const GROUPUSER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/group/users/`;
 
 /* GET */
-export const GROUPUSERS_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/groupuser/export/ccuartas";
+export const GROUPUSERS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/group/users/active`;
+
+export const GROUPUSERS_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/group/users/inactive`;
+
+/* GET */
+export const GROUPUSERS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/group/users/export/data`;
+
+/* GET params => id grupo*/
+export const GROUPUSERS_EXPORT_USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/group/users/export/`;
 
 /* GET */
 export const GROUPUSERS_PAGINATION = () => {
-  const page = 0;
-  const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/groupuser/pagination?page=${page}&size=${size}`;
+  //const page = 0; params page
+  //const size = 1; params size
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/group/users/pagination`;
 };
 
 //---------------------------------------------TERCEROS--------------------------------------------------//

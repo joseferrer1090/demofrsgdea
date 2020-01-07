@@ -10,6 +10,7 @@ import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-tab
 import moment from "moment";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { GROUPUSERS } from "./../../../services/EndPoints";
 
 class TableContent extends Component {
   constructor(props) {
@@ -20,20 +21,39 @@ class TableContent extends Component {
       modaldelete: false,
       modalexport: false,
       dataGroup: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataGroup();
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataGroup();
+    }
+  }
+
+  // componentDidMount() {
+  //   this.getDataGroup();
+  // }
+
   getDataGroup = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/groupuser`, {
+    fetch(`${GROUPUSERS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.state.auth
       }
     })
       .then(response => response.json())
@@ -133,8 +153,20 @@ class TableContent extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
+  createCustomButtonGroup = props => {
+    const { t } = this.props;
+    return (
+      <button type="button" className={`btn btn-secondary btn-sm`}>
+        <i className="fa fa-download" /> Exportar
+      </button>
+    );
+  };
+
   render() {
     const { t } = this.props;
+    const options = {
+      btnGroup: this.createCustomButtonGroup
+    };
     return (
       <div className="animated fadeIn">
         <Col md="12">
@@ -149,6 +181,7 @@ class TableContent extends Component {
             )}
             pagination
             className="tableGUsu texto-GUsu"
+            exportCSV
           >
             <TableHeaderColumn
               isKey
@@ -210,23 +243,34 @@ class TableContent extends Component {
             </TableHeaderColumn>
           </BootstrapTable>
         </Col>
-        <ModalView modalview={this.state.modalview} ref="child" />
+        <ModalView
+          authorization={this.state.auth}
+          modalview={this.state.modalview}
+          ref="child"
+        />
         <ModalDelete
+          authorization={this.state.auth}
           updateTable={this.getDataGroup}
           modaldel={this.state.modaldelete}
           ref="child2"
         />
         <ModalEdit
+          authorization={this.state.auth}
           updateTable={this.getDataGroup}
           modaledit={this.state.modaledit}
           ref="child3"
         />
-        <ModalExport modalexport={this.state.modalexport} ref="child4" />
+        <ModalExport
+          authorization={this.state.auth}
+          modalexport={this.state.modalexport}
+          ref="child4"
+        />
       </div>
     );
   }
 }
 TableContent.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(TableContent);

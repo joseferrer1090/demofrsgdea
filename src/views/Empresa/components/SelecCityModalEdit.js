@@ -1,17 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { CITIES_BY_DEPARTMENT } from "../../../services/EndPoints";
 
 class SelectCity extends React.Component {
   state = {
     dataCity: [],
     id: this.props.company_department,
-    t: this.props.t
+    t: this.props.t,
+    auth: this.props.authorization
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.company_department !== state.id) {
       return {
         id: props.company_department
+      };
+    }
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
       };
     }
     return null;
@@ -21,6 +28,11 @@ class SelectCity extends React.Component {
     if (this.props.company_department !== prevProps.company_department) {
       this.getDataCitys();
     }
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   componentDidMount() {
@@ -28,16 +40,13 @@ class SelectCity extends React.Component {
   }
 
   getDataCitys = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/city/department/${this.props.company_department}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    fetch(`${CITIES_BY_DEPARTMENT}${this.state.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.state.auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({

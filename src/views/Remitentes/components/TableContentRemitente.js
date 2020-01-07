@@ -10,6 +10,7 @@ import "./../../../css/styleTableRemitente.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import moment from "moment";
 import { withTranslation } from "react-i18next";
+import { THIRDPARTYS } from "../../../services/EndPoints";
 
 class TableContentRemitente extends Component {
   constructor(props) {
@@ -19,19 +20,33 @@ class TableContentRemitente extends Component {
       modalUpdateRemitente: false,
       modalDeleteRemitente: false,
       dataTercero: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataTerceros();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataTerceros();
+    }
   }
 
   getDataTerceros = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/thirdparty`, {
+    fetch(`${THIRDPARTYS}`, {
       method: "GET",
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        Authorization: "Bearer " + this.props.authorization,
         "Content-Type": "application/json"
       }
     })
@@ -251,6 +266,7 @@ class TableContentRemitente extends Component {
           ref="child2"
         />
         <ModalUpdate
+          authorization={this.state.auth}
           updateTable={this.getDataTerceros}
           t={this.props.t}
           modalupdate={this.state.modalUpdateRemitente}
@@ -267,7 +283,8 @@ class TableContentRemitente extends Component {
 }
 
 TableContentRemitente.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableContentRemitente);

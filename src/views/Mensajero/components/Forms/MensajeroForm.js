@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { decode } from "jsonwebtoken";
 
 const MensajeroForm = props => {
   const {
@@ -201,18 +202,19 @@ export default withTranslation("translations")(
       };
 
       setTimeout(() => {
+        const auth = props.authorization;
+        const username = decode(auth);
         fetch(MESSENGERS, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + props.authorization
-          },
+            Authorization: "Bearer " + auth          },
           body: JSON.stringify({
             identification: values.identification,
             name: values.name,
             description: values.description,
             status: tipoEstado(values.status),
-            userName: "jferrer"
+            userName: username.user_name
           })
         })
           .then(response =>

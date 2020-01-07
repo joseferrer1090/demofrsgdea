@@ -20,10 +20,12 @@ import classnames from "classnames";
 import IMGPROFILE from "./../../../assets/img/profile.svg";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
-import { THIRDPARTYS, TYPETHIRDPARTYS_STATUS, CONTRIES_STATUS, DEPARTMENTS_STATUS, CITIES_STATUS } from '../../../services/EndPoints';
+import { THIRDPARTYS, TYPETHIRDPARTYS_STATUS, CONTRIES_STATUS, DEPARTMENTS_STATUS, CITIES_STATUS, THIRDPARTY } from '../../../services/EndPoints';
 import SelectCountry from './SelectCountryModalEdit';
 import SelectDepartment from './SelectDepartmentModalEdit';
 import SelectCity from './SelectCityModalEdit';
+import { decode } from "jsonwebtoken";
+import SelectTipoTercero from "./SelectTipoTerceroModalEdit";
 
 class ModalUpdateRemitente extends React.Component {
   state = {
@@ -40,9 +42,28 @@ class ModalUpdateRemitente extends React.Component {
       optionsCities:[],
       t:this.props.t,
       tercero_estado:0,
-      username:'ccuartas'
+      username:'',
+      auth:this.props.authorization
     };
 
+    static getDerivedStateFromProps(props, state) {
+      if (props.authorization !== state.auth) {
+        return {
+          auth: props.authorization
+        };
+      }
+    }
+  
+    componentDidUpdate(prevProps, prevState) {
+      if (this.props.authorization !== prevProps.authorization) {
+        this.setState(
+          {
+            auth: this.props.authorization
+          }
+        
+        );
+      }
+    }
 
   toggle = (id) => {
     this.setState({
@@ -52,11 +73,13 @@ class ModalUpdateRemitente extends React.Component {
     this.getTerceroByID(id)
   };
   getTerceroByID = id => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/thirdparty/${id}?username=${this.state.username}`, {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${THIRDPARTY}${id}?username=${username.user_name}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
+        Authorization: 'Bearer ' + auth
       }
     })
       .then(response => response.json())
@@ -83,13 +106,6 @@ class ModalUpdateRemitente extends React.Component {
       })
       .catch(error => console.log(error));
   };
-
-  componentDidMount() {
-    this.getDataTipoTercero();
-    this.getDataCountries();
-    this.getDataDepartments();
-    this.getDataCities();
-  }
   
   toggleTab = tab => {
     if (this.state.activeTab !== tab) {
@@ -103,80 +119,8 @@ class ModalUpdateRemitente extends React.Component {
     return;
   };
 
-  getDataTipoTercero = data => {
-    fetch(TYPETHIRDPARTYS_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsTipoTercero: data
-        });
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-  getDataCountries = data => {
-    fetch(CONTRIES_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsCountries: data
-        });
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-  getDataDepartments = data => {
-    fetch(DEPARTMENTS_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsDepartments: data
-        });
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-  getDataCities = data => {
-    fetch(CITIES_STATUS, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Basic ' + window.btoa('sgdea:123456')
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsCities: data
-        });
-      })
-      .catch(Error => console.log(' ', Error));
-  };
-
   render() {
     const dataResult = this.state.dataResult;
-    const mapOptionsTipoTercero = this.state.optionsTipoTercero.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
     const {t} = this.props;
     return (
       <Fragment>
@@ -196,11 +140,13 @@ class ModalUpdateRemitente extends React.Component {
             return 0;
           };
           setTimeout(()=>{
+            const auth  = this.state.auth;
+            const username = decode(auth);
             fetch(THIRDPARTYS, {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
-                Authorization: 'Basic ' + window.btoa('sgdea:123456')
+                Authorization: 'Bearer ' + auth
               },
               body: JSON.stringify({
                 address: values.tercero_direccion,
@@ -216,7 +162,7 @@ class ModalUpdateRemitente extends React.Component {
                 reference: values.tercero_referencia,
                 status: tipoEstado(values.tercero_estado),
                 typeThirdPartyId: values.tercero_tipoTercero,
-                userName: "ccuartas"
+                userName: username.user_name
               })
             })
               .then(response => {
@@ -360,20 +306,29 @@ class ModalUpdateRemitente extends React.Component {
                           {t("app_tercero_modal_actualizar_tipoTercero")}{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
-                        <select
-                            name={"tercero_tipoTercero"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.tercero_tipoTercero}
-                            className={`form-control form-control-sm ${errors.tercero_tipoTercero &&
-                              touched.tercero_tipoTercero &&
-                              "is-invalid"}`}
-                        >
-                          <option value={''} disabled>
-                                  -- {t("app_tercero_modal_actualizar_select_tipoTercero")} --
-                                </option>
-                        {mapOptionsTipoTercero}
-                        </select>
+               
+                        <SelectTipoTercero
+                                  authorization={this.state.auth}
+                                  t={this.state.t}
+                                  name={"tercero_tipoTercero"}
+                                  onChange={e =>
+                                    setFieldValue(
+                                      "tercero_tipoTercero",
+                                      e.target.value
+                                    )
+                                  }
+                                  onBlur={() => {
+                                    setFieldTouched(
+                                      "tercero_tipoTercero",
+                                      true
+                                    );
+                                  }}
+                                  value={values.tercero_tipoTercero}
+                                  className={`form-control form-control-sm ${errors.tercero_tipoTercero &&
+                                    touched.tercero_tipoTercero &&
+                                    "is-invalid"}`}
+                                />
+                      
                         <div style={{ color: '#D54B4B' }}>
                         {
                           errors.tercero_tipoTercero && touched.tercero_tipoTercero ?

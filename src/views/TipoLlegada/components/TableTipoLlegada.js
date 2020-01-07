@@ -21,19 +21,33 @@ class TableTipoLlegada extends Component {
       modaldeletetipollegada: false,
       modalexport: false,
       dataTipoLlegada: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
-
-  componentDidMount() {
-    this.getDataTipoLlegada();
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataTipoLlegada();
+    }
+  }
+
   getDataTipoLlegada = () => {
     fetch(TYPESHIPMENTARRIVAL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -258,7 +272,8 @@ class TableTipoLlegada extends Component {
 }
 
 TableTipoLlegada.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableTipoLlegada);

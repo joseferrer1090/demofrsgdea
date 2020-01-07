@@ -1,9 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  DEPARTMENTS_BY_COUNTRY,
-  DEPARTMENTS_STATUS
-} from "./../../../../../services/EndPoints";
+import { DEPARTMENTS_BY_COUNTRY } from "./../../../../../services/EndPoints";
 class SelectDepartment extends React.Component {
   state = {
     dataDepartment: [],
@@ -39,10 +36,6 @@ class SelectDepartment extends React.Component {
       );
     }
   }
-
-  // componentDidMount() {
-  //   this.getDataDepartment();
-  // }
 
   getDataDepartment = () => {
     fetch(`${DEPARTMENTS_BY_COUNTRY}${this.state.id}`, {
@@ -89,6 +82,6 @@ class SelectDepartment extends React.Component {
 SelectDepartment.propTypes = {
   id: PropTypes.string.isRequired,
   t: PropTypes.any,
-  authorization:PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 export default SelectDepartment;

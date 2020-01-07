@@ -18,13 +18,12 @@ import * as Yup from "yup";
 import IMGEMPRESA from "./../../../assets/img/company.svg";
 import {
   CONGLOMERATES_STATUS,
-  CHARGES_STATUS,
   COMPANYS
 } from "../../../services/EndPoints";
 import SelectCountry from "./SelectCountryModalEdit";
 import SelectDepartment from "./SelectDepartmentModalEdit";
 import SelectCity from "./SelecCityModalEdit";
-import SelectCharges from "./SelecCityModalEdit";
+import SelectCharges from "./SelectChargesModalEdit";
 import { decode } from "jsonwebtoken";
 
 class ModalEditEmpresa extends React.Component {
@@ -63,8 +62,7 @@ class ModalEditEmpresa extends React.Component {
         {
           auth: this.props.authorization
         },
-        this.getDataConglomerates(),
-        this.getDataCharges()
+        this.getDataConglomerates()
       );
     }
   }
@@ -93,24 +91,6 @@ class ModalEditEmpresa extends React.Component {
       .then(data => {
         this.setState({
           optionsConglomerate: data
-        });
-      })
-      .catch(Error => console.log(" ", Error));
-  };
-
-  getDataCharges = data => {
-    const auth = this.state.auth;
-    fetch(CHARGES_STATUS, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          optionsCharges: data
         });
       })
       .catch(Error => console.log(" ", Error));
@@ -147,30 +127,6 @@ class ModalEditEmpresa extends React.Component {
       .catch(Error => console.log("", Error));
   };
 
-  getCharge = () => {
-    fetch(`http://192.168.20.187:7000/api/sgdea/charge/`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCharge: data
-        });
-      })
-      .catch(Error => console.log("", Error));
-  };
-
-  onDismiss = () => {
-    this.setState({
-      alertSuccess: false,
-      alertError: false
-    });
-  };
-
   render() {
     const { t } = this.props;
 
@@ -183,13 +139,6 @@ class ModalEditEmpresa extends React.Component {
         );
       }
     );
-    const mapOptionsCharges = this.state.optionsCharges.map((aux, idx) => {
-      return (
-        <option key={aux.id} value={aux.id}>
-          {aux.name}
-        </option>
-      );
-    });
 
     return (
       <Fragment>
@@ -214,11 +163,13 @@ class ModalEditEmpresa extends React.Component {
               };
 
               setTimeout(() => {
-                fetch(`http://192.168.10.180:7000/api/sgdea/company`, {
+                const auth = this.state.auth;
+                const username =decode(auth);
+                fetch(`${COMPANYS}`, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    Authorization: "Bearer " + auth
                   },
                   body: JSON.stringify({
                     id: this.state.id,
@@ -230,7 +181,7 @@ class ModalEditEmpresa extends React.Component {
                     chargeId: values.company_charge,
                     cityId: values.company_city,
                     status: tipoEstado(values.company_status),
-                    userName: "jferrer"
+                    userName: username.user_name
                   })
                 }).then(response => {
                   if (response.status === 200) {
@@ -504,6 +455,7 @@ class ModalEditEmpresa extends React.Component {
                                       </span>{" "}
                                     </label>
                                     <SelectCountry
+                                      authorization={this.state.auth}
                                       t={this.state.t}
                                       name={"company_country"}
                                       onChange={e =>
@@ -539,6 +491,7 @@ class ModalEditEmpresa extends React.Component {
                                       <span className="text-danger">*</span>{" "}
                                     </label>
                                     <SelectDepartment
+                                      authorization={this.state.auth}
                                       t={this.state.t}
                                       company_country={
                                         props.values.company_country
@@ -580,6 +533,7 @@ class ModalEditEmpresa extends React.Component {
                                       <span className="text-danger">*</span>{" "}
                                     </label>
                                     <SelectCity
+                                      authorization={this.state.auth}
                                       t={this.state.t}
                                       company_department={
                                         props.values.company_department
@@ -648,21 +602,21 @@ class ModalEditEmpresa extends React.Component {
                                       )}{" "}
                                     </label>
                                     <SelectCharges
-                                      authorization={props.authorization}
-                                      t={props.t}
-                                      name={"chargeId"}
+                                      authorization={this.state.auth}
+                                      t={this.state.t}
+                                      name={"company_charge"}
                                       onChange={e =>
                                         setFieldValue(
-                                          "chargeId",
+                                          "company_charge",
                                           e.target.value
                                         )
                                       }
                                       onBlur={() => {
-                                        setFieldTouched("chargeId", true);
+                                        setFieldTouched("company_charge", true);
                                       }}
-                                      value={values.chargeId}
-                                      className={`form-control form-control-sm ${errors.chargeId &&
-                                        touched.chargeId &&
+                                      value={values.company_charge}
+                                      className={`form-control form-control-sm ${errors.company_charge &&
+                                        touched.company_charge &&
                                         "is-invalid"}`}
                                     />
                                     <div style={{ color: "#D54B4B" }}>

@@ -1,16 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import TipoTercerosForm from './Forms/TipoTercerosForm';
+import React from "react";
+import PropTypes from "prop-types";
+import TipoTercerosForm from "./Forms/TipoTercerosForm";
 
 const dataTipoTercerosForm = {
-  code: '',
-  name: '',
-  status: '',
-  description: ''
+  code: "",
+  name: "",
+  status: "",
+  description: ""
 };
 
-const FormCreateTipoTercero = () => {
-  return <TipoTercerosForm TipoTercerosForm={dataTipoTercerosForm} />;
+const FormCreateTipoTercero = props => {
+  return (
+    <TipoTercerosForm
+      TipoTercerosForm={dataTipoTercerosForm}
+      authorization={props.authorization}
+    />
+  );
 };
 
 FormCreateTipoTercero.propTypes = {

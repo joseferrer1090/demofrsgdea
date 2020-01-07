@@ -10,6 +10,7 @@ import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-tab
 import moment from "moment";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { DEPENDENCIES } from "../../../services/EndPoints";
 
 class TableContentDependencia extends Component {
   constructor(props) {
@@ -20,19 +21,32 @@ class TableContentDependencia extends Component {
       modaldelstate: false,
       modalexport: false,
       dataDependence: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
-  componentDidMount() {
-    this.getDataDependence();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataDependence();
+    }
   }
 
   getDataDependence = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/dependence`, {
+    fetch(`${DEPENDENCIES}`, {
       method: "GET",
       headers: {
-        Authorization: "Basic " + window.btoa("sgdea:123456"),
+        Authorization: "Bearer " + this.props.authorization,
         "Content-Type": "application/json"
       }
     })
@@ -249,6 +263,7 @@ class TableContentDependencia extends Component {
           ref="child1"
         />
         <ModalEdit
+          authorization={this.state.auth}
           t={this.props.t}
           modalEdit={this.state.modaleditstate}
           updateTable={this.getDataDependence}
@@ -271,7 +286,8 @@ class TableContentDependencia extends Component {
 }
 
 TableContentDependencia.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableContentDependencia);

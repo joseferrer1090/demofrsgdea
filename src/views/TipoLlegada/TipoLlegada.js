@@ -115,7 +115,7 @@ class TipoLlegada extends Component {
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <FormImporTipoLegada />
+                <FormImporTipoLegada authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

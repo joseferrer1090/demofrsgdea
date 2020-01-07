@@ -9,12 +9,31 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { withTranslation } from "react-i18next";
 import fileHeadquarter from "./../../../assets/files/FilesImportCSV/headquarters.csv";
+import { HEADQUARTER_IMPORT } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class FormUploadSedes extends React.Component {
   state = {
     file: null,
-    username: "ccuartas"
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
+
   onChange = e => {
     this.setState({
       file: e.target.files[0]
@@ -76,12 +95,15 @@ class FormUploadSedes extends React.Component {
                 formData.append("file", file);
                 formData.append("separator", separator(values.separador_csv));
                 setTimeout(() => {
+                  const auth = this.state.auth;
+                  const username = decode(auth);
                   axios
                     .post(
-                      `http://192.168.10.180:7003/api/sgdea/headquarter/import/?username=${this.state.username}`,
+                      `${HEADQUARTER_IMPORT}import?username=${username.user_name}`,
                       formData,
                       {
                         headers: {
+                          Authorization: `Bearer ${auth}`,
                           "Content-Type": "multipart/form-data"
                         }
                       }
@@ -89,7 +111,7 @@ class FormUploadSedes extends React.Component {
                     .then(response => {
                       if (response.status === 200) {
                         toast.success(
-                          "La importación de conglomerado se hizo satisfactoriamente.",
+                          "La importación de la sede se hizo satisfactoriamente.",
                           {
                             position: toast.POSITION.TOP_RIGHT,
                             className: css({
@@ -255,7 +277,8 @@ class FormUploadSedes extends React.Component {
 }
 
 FormUploadSedes.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(FormUploadSedes);

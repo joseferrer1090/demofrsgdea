@@ -115,7 +115,7 @@ class Conglomerado extends React.Component {
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <ImportFile />
+                <ImportFile authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

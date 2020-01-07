@@ -13,7 +13,6 @@ class ModalDeleteEmpresa extends React.Component {
     alertSuccess: false,
     alertError: false,
     alertCode: false,
-    username: "",
     code: "",
     nameCompany: "",
     t: this.props.t,

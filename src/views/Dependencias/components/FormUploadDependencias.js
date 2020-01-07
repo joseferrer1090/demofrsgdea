@@ -9,12 +9,30 @@ import { ToastContainer, toast } from "react-toastify";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import fileDependence from "./../../../assets/files/FilesImportCSV/dependence.csv";
+import { DEPENDENCE_IMPORT } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class FormUploadDependencias extends React.Component {
   state = {
     file: null,
-    username: "jferrer"
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   onChange = e => {
     this.setState({
@@ -82,12 +100,15 @@ class FormUploadDependencias extends React.Component {
                 formData.append("file", this.state.file);
                 formData.append("separator", separator(values.separador_csv));
                 setTimeout(() => {
+                  const auth = this.state.auth;
+                  const username = decode(auth);
                   axios
                     .post(
-                      `http://192.168.10.180:7004/api/sgdea/dependence/import/?username=${this.state.username}`,
+                      `${DEPENDENCE_IMPORT}import?username=${username.user_name}`,
                       formData,
                       {
                         headers: {
+                          Authorization: `Bearer ${auth}`,
                           "Content-Type": "multipart/form-data"
                         }
                       }
@@ -260,6 +281,7 @@ class FormUploadDependencias extends React.Component {
   }
 }
 FormUploadDependencias.propsTypes = {
-  file: PropTypes.any
+  file: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(FormUploadDependencias);

@@ -9,15 +9,34 @@ import { ToastContainer, toast } from "react-toastify";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import fileDepartment from "./../../../assets/files/FilesImportCSV/department.csv";
+import { decode } from "jsonwebtoken";
+import { DEPARTMENTS_IMPORT } from "./../../../services/EndPoints";
 
 class FormImportDepartamento extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       file: null,
-      username: "ccuartas"
+      auth: this.props.authorization
     };
   }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
+
   onChange = e => {
     this.setState({
       file: e.target.files[0]
@@ -85,12 +104,15 @@ class FormImportDepartamento extends React.Component {
                 formData.append("file", file);
                 formData.append("separator", separator(values.separador_csv));
                 setTimeout(() => {
+                  const auth = this.state.auth;
+                  const username = decode(auth);
                   axios
                     .post(
-                      `http://192.168.10.180:7011/api/sgdea/department/import/?username=${this.state.username}`,
+                      `${DEPARTMENTS_IMPORT}import?username=${username.user_name}`,
                       formData,
                       {
                         headers: {
+                          Authorization: `Bearer ${auth}`,
                           "Content-Type": "multipart/form-data"
                         }
                       }
@@ -263,6 +285,7 @@ class FormImportDepartamento extends React.Component {
   }
 }
 FormImportDepartamento.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(FormImportDepartamento);

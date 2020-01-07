@@ -1,17 +1,24 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { COMPANY_BY_CONGLOMERATE } from "./../../../../services/EndPoints";
 
 class SelectEmpresa extends React.Component {
   state = {
     dataEmpresa: [],
     id: this.props.idConglomerado,
-    t: this.props.t
+    t: this.props.t,
+    auth: this.props.authorization
   };
 
   static getDerivedStateFromProps(props, state) {
     if (props.idConglomerado !== state.id) {
       return {
         id: props.idConglomerado
+      };
+    }
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
       };
     }
     return null;
@@ -21,23 +28,25 @@ class SelectEmpresa extends React.Component {
     if (this.props.idConglomerado !== prevProps.idConglomerado) {
       this.getDataCompany();
     }
-  }
-
-  componentDidMount() {
-    this.getDataCompany();
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState(
+        {
+          auth: this.props.authorization,
+          id: this.props.idConglomerado
+        },
+        this.getDataCompany()
+      );
+    }
   }
 
   getDataCompany = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/company/conglomerate/${this.state.id}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    fetch(`${COMPANY_BY_CONGLOMERATE}${this.state.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.state.auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({

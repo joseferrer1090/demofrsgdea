@@ -109,10 +109,6 @@ class Empresa extends Component {
             <Row>
               <Col md="12">
                 <TableContent authorization={authToken} />
-<<<<<<< HEAD
-                {/* <FormCreate authorization={authToken} /> */}
-=======
->>>>>>> 91abe5516bb39deb238df576a1d5c2a5b4fe14f7
               </Col>
             </Row>
           </TabPane>

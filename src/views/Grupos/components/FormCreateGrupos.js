@@ -13,28 +13,21 @@ const dataGrupoUsers = {
   estado: "",
   roles: []
 };
-// class FormCreateGrupos extends Component {
-//   render() {
-//     return (
-//       <div className="animated fadeIn">
-//         <div className="container">
-//           <GrupoUsuariosForm grupoUsuarios={dataGrupoUsers}/>
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-// export default FormCreateGrupos;
-const FormCreateGrupos = () => {
+
+const FormCreateGrupos = props => {
   return (
     <div className="animated fadeIn">
       <div className="container">
-        <GrupoUsuariosForm grupoUsuarios={dataGrupoUsers} />
+        <GrupoUsuariosForm
+          grupoUsuarios={dataGrupoUsers}
+          authorization={props.authorization}
+        />
       </div>
     </div>
   );
 };
 FormCreateGrupos.propTypes = {
-  grupoUsuarios: PropTypes.object.isRequired
+  grupoUsuarios: PropTypes.object.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 export default FormCreateGrupos;

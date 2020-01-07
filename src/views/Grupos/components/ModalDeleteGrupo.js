@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
 import * as Yup from "yup";
 import { Formik, ErrorMessage } from "formik";
+import { GROUPUSER } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalDeletePais extends Component {
   constructor(props) {
@@ -14,8 +16,26 @@ class ModalDeletePais extends Component {
       useLogged: "jferrer",
       alertSuccess: false,
       alertError: false,
-      alertCode: false
+      alertCode: false,
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFormProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -27,16 +47,15 @@ class ModalDeletePais extends Component {
   };
 
   getDataGroup = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/groupuser/${id}?username=jferrer`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${GROUPUSER}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.state.auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -60,13 +79,15 @@ class ModalDeletePais extends Component {
             initialValues={dataInitial}
             onSubmit={(values, setSubmitting) => {
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/groupuser/${this.state.id}?code=${values.code}&username=${this.state.useLogged}`,
+                  `${GROUPUSER}${this.state.id}?code=${values.code}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                      Authorization: "Bearer " + auth
                     }
                   }
                 )
@@ -161,7 +182,7 @@ class ModalDeletePais extends Component {
                         <br />
                         <p className="text-center text-danger">
                           {" "}
-                          q El grupo de usuarios quedará eliminado de manera
+                          El grupo de usuarios quedará eliminado de manera
                           permanente.{" "}
                         </p>
                       </form>
@@ -179,7 +200,8 @@ class ModalDeletePais extends Component {
                       </button>
                       <button
                         className="btn btn-secondary btn-sm"
-                        onClick={() => {
+                        onClick={e => {
+                          e.preventDefault();
                           this.setState({ modal: false });
                         }}
                       >
@@ -199,7 +221,8 @@ class ModalDeletePais extends Component {
 }
 
 ModalDeletePais.propTypes = {
-  modaldel: PropTypes.bool.isRequired
+  modaldel: PropTypes.bool.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalDeletePais;

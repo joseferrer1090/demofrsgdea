@@ -115,7 +115,7 @@ class Usuarios extends Component {
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <UploadUsers />
+                <UploadUsers authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

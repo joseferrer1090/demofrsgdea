@@ -45,7 +45,6 @@ class ModalDeleteConglomerado extends React.Component {
     );
     const auth = this.state.auth;
     const username = decode(auth);
-    console.log(username.user_name);
     fetch(`${CONGLOMERATE}/${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
@@ -106,14 +105,17 @@ class ModalDeleteConglomerado extends React.Component {
                         alertError: true
                       });
                     } else if (response.status === 204) {
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
-                        this.setState(
-                          {
-                            alertSuccess: true,
-                            modal: false
-                          },
-                          () => this.props.updateTable()
-                        );
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false
+                        });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
@@ -121,9 +123,9 @@ class ModalDeleteConglomerado extends React.Component {
                       });
                     }
                   })
-                  .catch(Error => console.log("", Error));
+                  .catch(error => console.log("", error));
                 // alert(JSON.stringify(values, "", 2))
-              }, 3000);
+              }, 1000);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required(

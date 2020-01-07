@@ -115,7 +115,7 @@ class Departamento extends Component {
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <FormImport />
+                <FormImport authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

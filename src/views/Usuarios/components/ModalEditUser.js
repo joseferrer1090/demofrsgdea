@@ -26,6 +26,9 @@ import SelectConglomerado from "./SelectConglomeradoModalEdit";
 import SelectCompany from "./SelectCompanyModalEdit";
 import SelectHeadquarter from "./SelectHeadquarterModalEdit";
 import SelectDependence from "./SelectDependenceModalEdit";
+import SelectCharges from "./SelectChargesModalEdit";
+import { USER, USER_PUT, USER_PHOTO } from "../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalEditUser extends React.Component {
   constructor(props) {
@@ -34,7 +37,7 @@ class ModalEditUser extends React.Component {
       modal: this.props.modaledit,
       activeTab: "1",
       id: this.props.id,
-      userLogged: "jferrer",
+      userLogged: "",
       dataUser: {},
       dataConglomerate: [],
       dataCompany: [],
@@ -44,13 +47,26 @@ class ModalEditUser extends React.Component {
       alertError400: false,
       alertSuccess: false,
       alertError: false,
-      t: this.props.t
+      t: this.props.t,
+      auth: this.props.authorization
     };
     this.inputOpenFileRef = React.createRef();
   }
 
-  componentDidMount() {
-    this.getDataCharge();
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toogleTab = tab => {
@@ -80,16 +96,15 @@ class ModalEditUser extends React.Component {
   };
 
   getDataUser = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/user/${id}/?username=${this.state.userLogged}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${USER}${id}/?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -98,40 +113,6 @@ class ModalEditUser extends React.Component {
         });
       })
       .catch(Error => console.log("Error", Error));
-  };
-
-  getDataConglomerate = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/conglomerate/active`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataConglomerate: data
-        });
-      })
-      .catch(err => console.log("Error", err));
-  };
-
-  getDataCharge = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/charge/active`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCharge: data
-        });
-      })
-      .catch(err => console.log("Error", err));
   };
 
   render() {
@@ -155,9 +136,6 @@ class ModalEditUser extends React.Component {
       usuario_charge: this.state.dataUser.chargeId,
       usuario_status: this.state.dataUser.enabled
     };
-    const selectOptionsCharge = this.state.dataCharge.map((aux, id) => {
-      return <option value={aux.id}>{aux.name}</option>;
-    });
     const { t } = this.props;
     return (
       <Fragment>
@@ -170,6 +148,8 @@ class ModalEditUser extends React.Component {
             enableReinitialize={true}
             initialValues={dataResult}
             onSubmit={(values, { setSubmitting }) => {
+              const auth = this.state.auth;
+              const username = decode(auth);
               const formData = new FormData();
               formData.append(
                 "user",
@@ -188,7 +168,7 @@ class ModalEditUser extends React.Component {
                       name: values.usuario_name,
                       phone: values.usuario_phone,
                       userRoleRequests: values.roles,
-                      userNameAuthenticate: "ccuartas"
+                      userNameAuthenticate: username.user_name
                     })
                   ],
                   {
@@ -198,9 +178,9 @@ class ModalEditUser extends React.Component {
               );
               setTimeout(() => {
                 axios
-                  .put("http://192.168.10.180:7000/api/sgdea/user", formData, {
+                  .put(`${USER_PUT}`, formData, {
                     headers: {
-                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                      Authorization: "Bearer " + auth
                     }
                   })
                   .then(response => {
@@ -323,7 +303,7 @@ class ModalEditUser extends React.Component {
                       <div className="row">
                         <Col sm="3">
                           <img
-                            src={`http://192.168.10.180:7000/api/sgdea/user/photo/view/${this.state.id}`}
+                            src={`${USER_PHOTO}${this.state.id}`}
                             className="img-thumbnail"
                           />
                           <input
@@ -553,6 +533,7 @@ class ModalEditUser extends React.Component {
                                               </span>{" "}
                                             </label>
                                             <SelectConglomerado
+                                              authorization={this.state.auth}
                                               t={this.state.t}
                                               name={"usuario_conglomerate"}
                                               onChange={e =>
@@ -595,6 +576,7 @@ class ModalEditUser extends React.Component {
                                               </span>{" "}
                                             </label>
                                             <SelectCompany
+                                              authorization={this.state.auth}
                                               t={this.state.t}
                                               usuario_conglomerate={
                                                 props.values
@@ -639,6 +621,7 @@ class ModalEditUser extends React.Component {
                                               </span>{" "}
                                             </label>
                                             <SelectHeadquarter
+                                              authorization={this.state.auth}
                                               t={this.state.t}
                                               usuario_company={
                                                 props.values.usuario_company
@@ -684,6 +667,7 @@ class ModalEditUser extends React.Component {
                                               </span>{" "}
                                             </label>
                                             <SelectDependence
+                                              authorization={this.state.auth}
                                               t={this.state.t}
                                               usuario_headquarter={
                                                 props.values.usuario_headquarter
@@ -726,24 +710,27 @@ class ModalEditUser extends React.Component {
                                                 *
                                               </span>{" "}
                                             </label>
-                                            <select
+                                            <SelectCharges
+                                              authorization={this.state.auth}
+                                              t={this.state.t}
                                               name={"usuario_charge"}
-                                              onChange={handleChange}
-                                              onBlur={handleBlur}
+                                              onChange={e =>
+                                                setFieldValue(
+                                                  "usuario_charge",
+                                                  e.target.value
+                                                )
+                                              }
+                                              onBlur={() => {
+                                                setFieldTouched(
+                                                  "usuario_charge",
+                                                  true
+                                                );
+                                              }}
                                               value={values.usuario_charge}
                                               className={`form-control form-control-sm ${errors.usuario_charge &&
                                                 touched.usuario_charge &&
                                                 "is-invalid"}`}
-                                            >
-                                              <option value={""}>
-                                                --{" "}
-                                                {t(
-                                                  "app_usuarios_modal_editar_cargo_select"
-                                                )}{" "}
-                                                --
-                                              </option>
-                                              {selectOptionsCharge}
-                                            </select>
+                                            />
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.usuario_charge &&
                                               touched.usuario_charge ? (
@@ -806,6 +793,7 @@ class ModalEditUser extends React.Component {
                                             </span>{" "}
                                           </label>
                                           <MySelect
+                                            authorization={this.state.auth}
                                             t={this.state.t}
                                             name={"roles"}
                                             value={values.roles}
@@ -913,7 +901,8 @@ ModalEditUser.propTypes = {
   modaledit: PropTypes.bool.isRequired,
   id: PropTypes.any.isRequired,
   updateTable: PropTypes.func.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalEditUser;

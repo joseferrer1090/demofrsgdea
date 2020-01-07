@@ -116,7 +116,7 @@ class Dependencias extends Component {
           <TabPane tabId="3">
             <Row>
               <Col md="12">
-                <FormUpload />
+                <FormUpload authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

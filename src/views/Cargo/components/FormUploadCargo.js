@@ -9,12 +9,30 @@ import { ToastContainer, toast } from "react-toastify";
 import PreviewFile from "./PreviewFile";
 import { withTranslation } from "react-i18next";
 import fileCharge from "./../../../assets/files/FilesImportCSV/charge.csv";
+import { decode } from "jsonwebtoken";
+import { CHARGES_IMPORT } from "./../../../services/EndPoints";
 
 class FormUploadCargo extends React.Component {
   state = {
     file: null,
-    username: "jferrer"
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   onChange = e => {
     this.setState({ file: e.target.files[0] });
@@ -72,16 +90,18 @@ class FormUploadCargo extends React.Component {
                 };
                 const formData = new FormData();
                 const file = this.state.file;
-
                 formData.append("file", file);
                 formData.append("separator", separator(values.separador_csv));
                 setTimeout(() => {
+                  const auth = this.state.auth;
+                  const username = decode(auth);
                   axios
                     .post(
-                      `http://192.168.10.180:7005/api/sgdea/charge/import/?username=${this.state.username}`,
+                      `${CHARGES_IMPORT}import?username=${username.user_name}`,
                       formData,
                       {
                         headers: {
+                          Authorization: `Bearer ${auth}`,
                           "Content-Type": "multipart/form-data"
                         }
                       }
@@ -253,6 +273,7 @@ class FormUploadCargo extends React.Component {
   }
 }
 FormUploadCargo.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(FormUploadCargo);

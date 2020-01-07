@@ -9,12 +9,30 @@ import { ToastContainer, toast } from "react-toastify";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import fileTypeShipmentArrival from "./../../../assets/files/FilesImportCSV/type_shipment_arrival.csv";
+import { TYPESHIPMENTARRIVAL_IMPORT } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class FormImportTipoLlegada extends React.Component {
   state = {
     file: null,
-    username: "ccuartas"
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   onChange = e => {
     this.setState({
@@ -80,12 +98,15 @@ class FormImportTipoLlegada extends React.Component {
                 formData.append("file", file);
                 formData.append("separator", separator(values.separador_csv));
                 setTimeout(() => {
+                  const auth = this.state.auth;
+                  const username = decode(auth);
                   axios
                     .post(
-                      `http://192.168.10.180:7007/api/sgdea/typeshipmentarrival/import/?username=${this.state.username}`,
+                      `${TYPESHIPMENTARRIVAL_IMPORT}import?username=${username.user_name}`,
                       formData,
                       {
                         headers: {
+                          Authorization: `Bearer ${auth}`,
                           "Content-Type": "multipart/form-data"
                         }
                       }
@@ -257,6 +278,7 @@ class FormImportTipoLlegada extends React.Component {
   }
 }
 FormImportTipoLlegada.propTypes = {
-  t: PropTypes.string.isRequired
+  t: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(FormImportTipoLlegada);

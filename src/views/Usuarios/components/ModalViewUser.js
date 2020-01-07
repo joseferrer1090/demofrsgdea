@@ -15,7 +15,8 @@ import {
 import PropTypes from "prop-types";
 import classnames from "classnames";
 import moment from "moment";
-
+import { decode } from "jsonwebtoken";
+import { USER, USER_PHOTO } from "./../../../services/EndPoints";
 class ModalViewUser extends Component {
   constructor(props) {
     super(props);
@@ -26,10 +27,27 @@ class ModalViewUser extends Component {
       id: this.props.id,
       data: [],
       dataRoles: [],
-      userlogged: "ccuartas",
+      userlogged: "",
       activeTab: "1",
-      t: this.props.t
+      t: this.props.t,
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggleTab = tab => {
@@ -45,16 +63,15 @@ class ModalViewUser extends Component {
       modal: !this.state.modal,
       id: id
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/user/${id}/?username=${this.state.userlogged}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${USER}${id}/?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         console.log(data);
@@ -106,7 +123,7 @@ class ModalViewUser extends Component {
           <Row>
             <Col sm="3">
               <img
-                src={`http://192.168.10.180:7000/api/sgdea/user/photo/view/${this.state.id}`}
+                src={`${USER_PHOTO}${this.state.id}`}
                 className="img-thumbnail"
               />
             </Col>
@@ -328,7 +345,8 @@ class ModalViewUser extends Component {
 ModalViewUser.propTypes = {
   modalview: PropTypes.bool.isRequired,
   id: PropTypes.any.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalViewUser;

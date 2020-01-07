@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { CSVLink } from "react-csv";
 import { Parser } from "json2csv";
+import { USERS_EXPORT } from "../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalExportCSV extends Component {
   constructor(props) {
@@ -10,10 +12,28 @@ class ModalExportCSV extends Component {
     this.state = {
       modal: this.props.modalexport,
       dataExport: [],
-      username: "ccuartas",
-      t: this.props.t
+      username: "",
+      t: this.props.t,
+      auth: this.props.authorization
     };
   }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
+
   toggle = () => {
     this.setState({
       modal: !this.state.modal
@@ -22,16 +42,15 @@ class ModalExportCSV extends Component {
   };
 
   getDataExportCSV = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/user/export/data?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${USERS_EXPORT}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -152,7 +171,8 @@ class ModalExportCSV extends Component {
 
 ModalExportCSV.propTypes = {
   modalexport: PropTypes.bool.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalExportCSV;

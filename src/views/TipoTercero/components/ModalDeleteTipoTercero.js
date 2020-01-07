@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import * as Yup from "yup";
 import { Formik, ErrorMessage } from "formik";
+import { TYPETHIRDPARTY } from "../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalDeleteTipoTercero extends Component {
   constructor(props) {
@@ -11,33 +13,47 @@ class ModalDeleteTipoTercero extends Component {
       modal: this.props.modaldelete,
       idTipoTercero: this.props.id,
       code: "",
-      useLogged: "",
+
       alertSuccess: false,
       alertError: false,
       alertCode: false,
       nameTipoTercero: "",
       t: this.props.t,
-      username: "ccuartas"
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
     this.setState(prevState => ({
       modal: !prevState.modal,
       idTipoTercero: id,
-      nombre: "",
-      useLogged: "ccuartas"
+      nombre: ""
     }));
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${TYPETHIRDPARTY}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -71,13 +87,15 @@ class ModalDeleteTipoTercero extends Component {
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/typethirdparty/${this.state.idTipoTercero}?code=${values.code}&username=${this.state.useLogged}`,
+                  `${TYPETHIRDPARTY}${this.state.idTipoTercero}?code=${values.code}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                      Authorization: "Bearer " + auth
                     }
                   }
                 )
@@ -219,7 +237,8 @@ ModalDeleteTipoTercero.propTypes = {
   modaldelete: PropTypes.bool.isRequired,
   updateTable: PropTypes.func.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalDeleteTipoTercero;

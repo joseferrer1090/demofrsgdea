@@ -3,6 +3,8 @@ import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik, ErrorMessage } from "formik";
+import { USER } from "../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalDeleteUser extends React.Component {
   state = {
@@ -12,10 +14,27 @@ class ModalDeleteUser extends React.Component {
     alertError: false,
     alertCode: false,
     identification: "",
-    useLogged: "jferrer",
+    useLogged: "",
     nameUser: "",
-    t: this.props.t
+    t: this.props.t,
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState(
@@ -25,16 +44,15 @@ class ModalDeleteUser extends React.Component {
       },
       () => this.props.updateTable()
     );
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/user/${id}?username=${this.state.useLogged}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${USER}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -68,13 +86,15 @@ class ModalDeleteUser extends React.Component {
             initialValues={dataInitial}
             onSubmit={(values, setSubmitting) => {
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/user/${this.state.id}?identification=${values.identificacion}&username=${this.state.useLogged}`,
+                  `${USER}${this.state.id}?identification=${values.identificacion}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                      Authorization: "Bearer " + auth
                     }
                   }
                 )
@@ -229,7 +249,8 @@ class ModalDeleteUser extends React.Component {
 ModalDeleteUser.propTypes = {
   modaldeletestate: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalDeleteUser;

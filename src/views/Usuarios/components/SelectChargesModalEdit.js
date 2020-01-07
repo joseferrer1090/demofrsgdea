@@ -1,14 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CONTRIES_STATUS } from "../../../services/EndPoints";
+import { CHARGES_STATUS } from "../../../services/EndPoints";
 
-class SelectCountry extends React.Component {
+class SelectCharges extends React.Component {
   state = {
-    dataCountry: [],
+    dataCharges: [],
     t: this.props.t,
     auth: this.props.authorization
   };
-
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
@@ -24,13 +23,12 @@ class SelectCountry extends React.Component {
       });
     }
   }
-
   componentDidMount() {
     this.getData();
   }
 
   getData = () => {
-    fetch(`${CONTRIES_STATUS}`, {
+    fetch(`${CHARGES_STATUS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -40,17 +38,18 @@ class SelectCountry extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataCountry: data
+          dataCharges: data
         });
-      });
+      })
+      .catch(Error => console.log(" ", Error));
   };
 
   handleChange = value => {
-    this.props.onChange("headquarter_country", value);
+    this.props.onChange("usuario_charge", value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("headquarter_country", true);
+    this.props.onBlur("usuario_charge", true);
   };
 
   render() {
@@ -65,10 +64,9 @@ class SelectCountry extends React.Component {
           onBlur={this.props.onBlur}
         >
           <option value={""}>
-            {" "}
-            -- {t("app_sedes_form_actualizar_select_pais")} --
+            -- {t("app_conglomerado_form_select_cargo_responsable")} --
           </option>
-          {this.state.dataCountry.map((aux, id) => {
+          {this.state.dataCharges.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
                 {aux.name}
@@ -80,9 +78,8 @@ class SelectCountry extends React.Component {
     );
   }
 }
-
-SelectCountry.propTypes = {
+SelectCharges.propTypes = {
   t: PropTypes.any,
   authorization: PropTypes.string.isRequired
 };
-export default SelectCountry;
+export default SelectCharges;

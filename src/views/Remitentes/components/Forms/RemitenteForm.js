@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import * as Yup from "yup";
 import {
   Card,
@@ -9,9 +9,7 @@ import {
   Col,
   CustomInput
 } from "reactstrap";
-import {
-  THIRDPARTYS,
-} from "../../../../services/EndPoints";
+import { THIRDPARTYS } from "../../../../services/EndPoints";
 import { withFormik, ErrorMessage } from "formik";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -23,6 +21,8 @@ import SelectCity from "./components/SelectCity";
 import PropTypes from "prop-types";
 import SelectTipoTercero from "./components/SelectTipoTercero";
 import { decode } from "jsonwebtoken";
+import IntlTelInput from "react-intl-tel-input";
+import "react-intl-tel-input/dist/main.css";
 
 const RemitenteForm = props => {
   const {
@@ -230,6 +230,7 @@ const RemitenteForm = props => {
                           {" "}
                           {t("app_tercero_form_registrar_telCelular")}{" "}
                         </label>
+
                         <input
                           name={"telefonoCelular"}
                           onChange={handleChange}
@@ -282,7 +283,7 @@ const RemitenteForm = props => {
                           <span className="text-danger"> * </span>{" "}
                         </label>
                         <SelectCountry
-                        authorization={props.authorization}
+                          authorization={props.authorization}
                           t={props.t}
                           name={"pais"}
                           onChange={e => setFieldValue("pais", e.target.value)}
@@ -308,7 +309,7 @@ const RemitenteForm = props => {
                           <span className="text-danger"> * </span>{" "}
                         </label>
                         <SelectDepartment
-                        authorization={props.authorization}
+                          authorization={props.authorization}
                           t={props.t}
                           pais={props.values.pais}
                           name="departamento"
@@ -337,7 +338,7 @@ const RemitenteForm = props => {
                           <span className="text-danger"> * </span>{" "}
                         </label>
                         <SelectCity
-                        authorization={props.authorization}
+                          authorization={props.authorization}
                           t={props.t}
                           departamento={props.values.departamento}
                           name={"ciudad"}
@@ -536,7 +537,7 @@ export default withTranslation("translations")(
       };
       setTimeout(() => {
         const auth = props.authorization;
-        const username = decode(auth)
+        const username = decode(auth);
         fetch(THIRDPARTYS, {
           method: "POST",
           headers: {

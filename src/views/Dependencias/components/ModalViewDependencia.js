@@ -15,6 +15,8 @@ import {
 } from "reactstrap";
 import IMGDEPENDENCIA from "./../../../assets/img/settings-work-tool.svg";
 import moment from "moment";
+import { DEPENDENCE } from "../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalViewDependencia extends Component {
   constructor(props) {
@@ -23,15 +25,29 @@ class ModalViewDependencia extends Component {
       modal: this.props.modalView,
       collapse: false,
       id: this.props.id,
-      userLogged: "jferrer",
       dataDependence: {},
       dataDependenceHeadquarter: {},
       dataDependenceHeadquarterCompany: {},
       dataDependenceHeadquarterCompanyConglomerate: {},
       dataDependenceCharge: {},
       t: this.props.t,
-      username: "ccuartas"
+      auth:this.props.authorization
     };
+  }
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -39,12 +55,14 @@ class ModalViewDependencia extends Component {
       modal: !this.state.modal,
       id: id
     });
+    const auth = this.state.auth;
+    const username = decode(auth);
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/dependence/${id}?username=${this.state.username}`,
+      `${DEPENDENCE}${id}?username=${username.user_name}`,
       {
         method: "GET",
         headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
+          Authorization: "Bearer " + auth,
           "Content-Type": "application/json"
         }
       }

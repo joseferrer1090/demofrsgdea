@@ -11,9 +11,10 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGTERCERO from "./../../../assets/img/supply.svg";
-import { TYPETHIRDPARTYS } from "./../../../services/EndPoints";
+import { TYPETHIRDPARTYS, TYPETHIRDPARTY } from "./../../../services/EndPoints";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import { decode } from "jsonwebtoken";
 
 class ModalEditTipoTercero extends React.Component {
   state = {
@@ -25,8 +26,24 @@ class ModalEditTipoTercero extends React.Component {
     alertError400: false,
     t: this.props,
     typethirdparty_status: 0,
-    username: "ccuartas"
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState({
@@ -37,16 +54,15 @@ class ModalEditTipoTercero extends React.Component {
   };
 
   getTipoTercerosByID = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/typethirdparty/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${TYPETHIRDPARTY}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -85,11 +101,13 @@ class ModalEditTipoTercero extends React.Component {
               };
 
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(TYPETHIRDPARTYS, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    Authorization: "Bearer " + auth
                   },
                   body: JSON.stringify({
                     id: this.state.idTipoTerceros,
@@ -97,7 +115,7 @@ class ModalEditTipoTercero extends React.Component {
                     name: values.typethirdparty_name,
                     description: values.typethirdparty_description,
                     status: tipoEstado(values.typethirdparty_status),
-                    userName: "ccuartas"
+                    userName: username.user_name
                   })
                 })
                   .then(response => {
@@ -358,7 +376,8 @@ ModalEditTipoTercero.propTypes = {
   modalupdate: PropTypes.bool.isRequired,
   t: PropTypes.any,
   updateTable: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalEditTipoTercero;

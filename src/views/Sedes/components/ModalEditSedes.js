@@ -15,11 +15,7 @@ import {
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGSEDE from "./../../../assets/img/teamwork.svg";
-import {
-  HEADQUARTERS,
-  CHARGES_STATUS,
-  HEADQUARTER
-} from "./../../../services/EndPoints";
+import { HEADQUARTERS, HEADQUARTER } from "./../../../services/EndPoints";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import SelectConglomerado from "./SelectConglomeradoModalEdit";
@@ -147,10 +143,9 @@ class ModalEditSedes extends React.Component {
               headquarter_name: Yup.string()
                 .required(" Por favor introduzca un nombre.")
                 .max(100, " Máximo 100 caracteres"),
-              headquarter_description: Yup.string().max(
-                250,
-                " Máximo 250 caracteres"
-              ),
+              headquarter_description: Yup.string()
+                .max(250, " Máximo 250 caracteres")
+                .nullable(),
               headquarter_prefix: Yup.string()
                 .required(" Por favor asigne un prefijo de radicación.")
                 .min(2, " Mínimo 2 caracteres.")
@@ -306,6 +301,7 @@ class ModalEditSedes extends React.Component {
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <SelectConglomerado
+                                authorization={this.state.auth}
                                 t={this.state.t}
                                 name={"headquarter_conglomerate"}
                                 onChange={e =>
@@ -343,6 +339,7 @@ class ModalEditSedes extends React.Component {
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <SelectCompany
+                                authorization={this.state.auth}
                                 t={this.state.t}
                                 headquarter_conglomerate={
                                   props.values.headquarter_conglomerate
@@ -440,7 +437,15 @@ class ModalEditSedes extends React.Component {
                                   touched.headquarter_description &&
                                   "is-invalid"}`}
                               />
-                              <ErrorMessage name={"headquarter_description"} />
+                              <div style={{ color: "#D54B4B" }}>
+                                {errors.headquarter_description &&
+                                touched.headquarter_description ? (
+                                  <i class="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage
+                                  name={"headquarter_description"}
+                                />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -566,6 +571,7 @@ class ModalEditSedes extends React.Component {
                                         </span>{" "}
                                       </label>
                                       <SelectCountry
+                                        authorization={this.state.auth}
                                         t={this.state.t}
                                         name={"headquarter_country"}
                                         onChange={e =>
@@ -602,6 +608,7 @@ class ModalEditSedes extends React.Component {
                                         <span className="text-danger">*</span>{" "}
                                       </label>
                                       <SelectDepartment
+                                        authorization={this.state.auth}
                                         t={this.state.t}
                                         headquarter_country={
                                           props.values.headquarter_country
@@ -644,6 +651,7 @@ class ModalEditSedes extends React.Component {
                                         <span className="text-danger">*</span>{" "}
                                       </label>
                                       <SelectCity
+                                        authorization={this.state.auth}
                                         t={this.state.t}
                                         headquarter_department={
                                           props.values.headquarter_department

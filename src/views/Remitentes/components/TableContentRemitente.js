@@ -255,11 +255,13 @@ class TableContentRemitente extends Component {
         </Col>
 
         <ModalView
+          authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalViewRemitente}
           ref="child"
         />
         <ModalDel
+          authorization={this.state.auth}
           updateTable={this.getDataTerceros}
           t={this.props.t}
           modaldel={this.state.modalDeleteRemitente}
@@ -273,6 +275,7 @@ class TableContentRemitente extends Component {
           ref="child3"
         />
         <ModalExport
+          authorization={this.state.auth}
           t={this.props.t}
           modalExport={this.state.modalexport}
           ref={"child4"}

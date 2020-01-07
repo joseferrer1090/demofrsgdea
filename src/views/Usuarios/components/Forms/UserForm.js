@@ -1,6 +1,6 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { Fragment } from "react";
 import { withFormik, ErrorMessage, Field } from "formik";
-import { CONGLOMERATES, USERS } from "./../../../../services/EndPoints";
+import { USERS } from "./../../../../services/EndPoints";
 import * as Yup from "yup";
 import axios from "axios";
 import {
@@ -23,7 +23,6 @@ import SelectCompany from "./components/SelectCompany";
 import SelectHeadquarter from "./components/SelectHeadquarter";
 import SelectDependence from "./components/SelectDependence";
 import SelectCharge from "./components/SelectCharge";
-
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 

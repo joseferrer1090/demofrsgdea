@@ -11,34 +11,52 @@ import {
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik } from "formik";
+import { decode } from "jsonwebtoken";
+import { USER, CHANGE_PASSWORD } from "../../../services/EndPoints";
 
 class ModalChangePasswordUser extends React.Component {
   state = {
     modal: this.props.modalpassword,
     id: this.props.id,
-    userLogged: "ccuartas",
+    userLogged: "",
     nameUser: "",
     alertSuccess: false,
     alertError: false,
     alertCode: false,
-    t: this.props.t
+    t: this.props.t,
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
       id: id
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/user/${id}?username=${this.state.userLogged}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${USER}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -68,22 +86,21 @@ class ModalChangePasswordUser extends React.Component {
           <Formik
             onSubmit={(values, setSubmitting) => {
               setTimeout(() => {
-                fetch(
-                  `http://192.168.10.180:7000/api/sgdea/user/change/password`,
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "Basic " + window.btoa("sgdea:123456")
-                    },
-                    body: JSON.stringify({
-                      id: this.state.id,
-                      password: values.newpassword,
-                      passwordConfirm: values.confirmpassword,
-                      userNameAuthenticate: this.state.userLogged
-                    })
-                  }
-                ).then(response => {
+                const auth = this.state.auth;
+                const username = decode(auth);
+                fetch(`${CHANGE_PASSWORD}`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + this.state.auth
+                  },
+                  body: JSON.stringify({
+                    id: this.state.id,
+                    password: values.newpassword,
+                    passwordConfirm: values.confirmpassword,
+                    userNameAuthenticate: username.user_name
+                  })
+                }).then(response => {
                   if (response.status === 500) {
                     this.setState({
                       alertError: true
@@ -222,7 +239,8 @@ class ModalChangePasswordUser extends React.Component {
 ModalChangePasswordUser.propTypes = {
   modalpassword: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalChangePasswordUser;

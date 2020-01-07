@@ -8,6 +8,7 @@ class SelectCharges extends React.Component {
     t: this.props.t,
     auth: this.props.authorization
   };
+
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
@@ -18,13 +19,13 @@ class SelectCharges extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
-      this.setState(
-        {
-          auth: this.props.authorization
-        },
-        this.getData()
-      );
+      this.setState({
+        auth: this.props.authorization
+      });
     }
+  }
+  componentDidMount() {
+    this.getData();
   }
 
   getData = () => {

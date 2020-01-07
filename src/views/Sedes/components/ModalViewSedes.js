@@ -14,6 +14,8 @@ import {
 } from "reactstrap";
 import IMGSEDE from "./../../../assets/img/teamwork.svg";
 import moment from "moment";
+import { HEADQUARTER } from "../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalViewSedes extends Component {
   constructor(props) {
@@ -30,8 +32,24 @@ class ModalViewSedes extends Component {
       dataCargo: {},
       t: this.props.t,
       dataPais: {},
-      username: "ccuartas"
+      username: "",
+      auth: this.props.authorization
     };
+  }
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -39,16 +57,15 @@ class ModalViewSedes extends Component {
       modal: !this.state.modal,
       id: id
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/headquarter/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${HEADQUARTER}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -328,7 +345,8 @@ class ModalViewSedes extends Component {
 ModalViewSedes.propTypes = {
   modalview: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalViewSedes;

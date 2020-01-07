@@ -3,6 +3,8 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik, ErrorMessage } from "formik";
+import { decode } from "jsonwebtoken";
+import { HEADQUARTER } from "../../../services/EndPoints";
 
 class ModalDeleteSedes extends Component {
   state = {
@@ -15,26 +17,41 @@ class ModalDeleteSedes extends Component {
     alertSuccess: false,
     nameSedes: "",
     t: this.props.t,
-    username: "ccuartas"
+    username: "",
+    auth: this.props.authorization
   };
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
       code: "",
       idSede: id,
-      useLogged: "ccuartas"
+      useLogged: ""
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/headquarter/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${HEADQUARTER}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -69,13 +86,15 @@ class ModalDeleteSedes extends Component {
             initialValues={dataPreview}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/headquarter/${this.state.idSede}?code=${values.code}&username=${this.state.useLogged}`,
+                  `${HEADQUARTER}${this.state.idSede}?code=${values.code}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "BASIC " + window.btoa("sgdea:123456")
+                      Authorization: "Bearer " + auth
                     }
                   }
                 )
@@ -123,11 +142,9 @@ class ModalDeleteSedes extends Component {
               const {
                 touched,
                 errors,
-
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                t
+                handleSubmit
               } = props;
               return (
                 <Fragment>
@@ -225,7 +242,8 @@ class ModalDeleteSedes extends Component {
 ModalDeleteSedes.propTypes = {
   modaldel: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalDeleteSedes;

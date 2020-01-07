@@ -22,7 +22,6 @@ class ModalEditDependencia extends React.Component {
   state = {
     modal: this.props.modaledit,
     id: this.props.id,
-    userLogged: "jferrer",
     dataDependence: {},
     dataCharge: {},
     dataDependenceConglomerate: {},
@@ -38,7 +37,6 @@ class ModalEditDependencia extends React.Component {
     alertError400: false,
     t: this.props.t,
     status: 0,
-    username: "",
     auth: this.props.authorization
   };
   static getDerivedStateFromProps(props, state) {
@@ -195,7 +193,9 @@ class ModalEditDependencia extends React.Component {
                 .min(2, " Mínimo 2 caracteres.")
                 .max(15, " Máximo 15 caracteres."),
               name: Yup.string().required(" Por favor introduzca un código."),
-              description: Yup.string().max(250, "Máximo 250 caracteres."),
+              description: Yup.string()
+                .max(250, "Máximo 250 caracteres.")
+                .nullable(),
               charge: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione el cargo."),
@@ -261,6 +261,7 @@ class ModalEditDependencia extends React.Component {
                                   <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectConglomerado
+                                  authorization={this.state.auth}
                                   t={this.state.t}
                                   name={"conglomerate"}
                                   onChange={e =>
@@ -296,6 +297,7 @@ class ModalEditDependencia extends React.Component {
                                   <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectCompany
+                                  authorization={this.state.auth}
                                   t={this.state.t}
                                   conglomerate={props.values.conglomerate}
                                   name="company"
@@ -328,6 +330,7 @@ class ModalEditDependencia extends React.Component {
                                   <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectHeadquarter
+                                  authorization={this.state.auth}
                                   t={this.state.t}
                                   company={props.values.company}
                                   name={"headquarter"}

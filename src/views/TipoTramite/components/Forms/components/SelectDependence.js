@@ -1,5 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { DEPENDENCIES_BY_HEADQUARTER } from "./../../../../../services/EndPoints";
+
 class SelectDependencia extends React.Component {
   state = {
     dataDependencia: [],
@@ -14,6 +16,11 @@ class SelectDependencia extends React.Component {
         id: props.idSede
       };
     }
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
     return null;
   }
 
@@ -22,24 +29,27 @@ class SelectDependencia extends React.Component {
       // Metodo para actualizar
       this.getDataDependencia();
     }
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        id: this.props.idSede,
+        auth: this.props.authorization
+      });
+    }
   }
 
-  componentDidMount() {
-    // metodo para refrezcer el compomente
-    this.getDataDependencia();
-  }
+  // componentDidMount() {
+  //   // metodo para refrezcer el compomente
+  //   this.getDataDependencia();
+  // }
 
   getDataDependencia = () => {
-    fetch(
-      `http://192.168.20.187:7000/api/sgdea/dependence/headquarter/${this.props.idSede}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    fetch(`${DEPENDENCIES_BY_HEADQUARTER}${this.props.idSede}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.state.auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({

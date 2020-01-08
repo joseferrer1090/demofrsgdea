@@ -19,6 +19,7 @@ import { TYPEPROCEDURE_POST } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
+import { USERS_BY_DEPENDENCE } from "./../../../../services/EndPoints";
 
 const TipoTramiteForm = props => {
   const { t } = props;
@@ -478,7 +479,11 @@ const TipoTramiteForm = props => {
                               </div>
                             </div>
                             <div className="col-md-12">
-                              <UserList id={values.dependencia} t={props.t} />
+                              <UserList
+                                authorization={props.authorization}
+                                id={values.dependencia}
+                                t={props.t}
+                              />
                             </div>
                           </div>
                         </div>
@@ -626,6 +631,7 @@ const TipoTramiteForm = props => {
 function UserList(props) {
   const t = props.t;
   const id = props.id;
+  const auth = props.authorization;
 
   const [data, setdata] = useState([]);
   const firstUpdate = useRef(true);
@@ -651,11 +657,11 @@ function UserList(props) {
       firstUpdate.current = false;
       return;
     }
-    fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`, {
+    fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + props.authorization
       }
     })
       .then(response => response.json())

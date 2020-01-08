@@ -10,69 +10,84 @@ import {
 } from "reactstrap";
 import IMGTRAMITE from "./../../../assets/img/folder.svg";
 import moment from "moment";
+import { TYPEPROCEDURE } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalViewTramite extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalviewtramit, 
-      id: this.props.id, 
-      username: "jferrer", 
-      dataTipoTramite: {}
+      modal: this.props.modalviewtramit,
+      id: this.props.id,
+      username: "jferrer",
+      dataTipoTramite: {},
+      auth: this.props.authorization
     };
   }
 
-  toggle = (id) => {
+  // static getDerivedStateFromProps(props, state) {
+  //   if (props.authorization !== state.auth) {
+  //     return {
+  //       auth: props.authorization
+  //     };
+  //   }
+  //   return null;
+  // }
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.props.authorization !== prevState.authorization) {
+  //     this.setState({
+  //       auth: this.props.authorization
+  //     });
+  //   }
+  // }
+
+  toggle = id => {
     this.setState(prevState => ({
-      modal: !prevState.modal, 
+      modal: !prevState.modal,
       id: id
     }));
     this.getDataTipoTramiteById(id);
   };
 
-  getDataTipoTramiteById = (id) => {
-    fetch(`http://192.168.20.187:7000/api/sgdea/typeprocedure/${id}?username=${this.state.username}`, {
-      method: "GET", 
+  getDataTipoTramiteById = id => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${TYPEPROCEDURE}${id}?username=${username.user_name}`, {
+      method: "GET",
       headers: {
-        "Content-Type" : "application/json", 
-        Authorization: "Basic " + window.btoa('sgdea:123456')
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    }).then(response => response.json()).then(data => {
-      this.setState({
-        dataTipoTramite: data
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataTipoTramite: data
+        });
       })
-    }).catch(err => console.log("Error", err));
-  }
+      .catch(err => console.log("Error", err));
+  };
 
   FechaCreacionTipoTramite(data) {
     let createdAt;
     createdAt = new Date(data);
-    return moment(createdAt).format('YYYY-MM-DD, h:mm:ss a');
+    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
   }
   FechaModificacionTipoTramite(data) {
     let updatedAt;
     updatedAt = new Date(data);
     // moment.locale(es);
-    return moment(updatedAt).format('YYYY-MM-DD, h:mm:ss a');
+    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
   }
 
   render() {
-     const statusTipoTramite = data => {
+    const statusTipoTramite = data => {
       let status;
       if (data === 1) {
-        status = (
-          <b className="text-success">
-            {' '}
-           Tramite activo
-          </b>
-        );
+        status = <b className="text-success"> Tramite activo</b>;
       } else if (data === 0) {
-        status = (
-          <b className="text-danger">
-            {' '}
-            Tramite inactivo
-          </b>
-        );
+        status = <b className="text-danger"> Tramite inactivo</b>;
       }
       return status;
     };
@@ -106,7 +121,10 @@ class ModalViewTramite extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Tipo de correspondencia </dt>
-                        <dd> {this.state.dataTipoTramite.typeCorrespondence} </dd>
+                        <dd>
+                          {" "}
+                          {this.state.dataTipoTramite.typeCorrespondence}{" "}
+                        </dd>
                       </dl>
                     </div>
                   </div>
@@ -130,7 +148,12 @@ class ModalViewTramite extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Estado </dt>
-                        <dd> {statusTipoTramite(this.state.dataTipoTramite.status)} </dd>
+                        <dd>
+                          {" "}
+                          {statusTipoTramite(
+                            this.state.dataTipoTramite.status
+                          )}{" "}
+                        </dd>
                       </dl>
                     </div>
                   </div>
@@ -138,7 +161,12 @@ class ModalViewTramite extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de creación </dt>
-                        <dd> {this.FechaCreacionTipoTramite(this.state.dataTipoTramite.createdAt)} </dd>
+                        <dd>
+                          {" "}
+                          {this.FechaCreacionTipoTramite(
+                            this.state.dataTipoTramite.createdAt
+                          )}{" "}
+                        </dd>
                       </dl>
                     </div>
                   </div>
@@ -146,7 +174,11 @@ class ModalViewTramite extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de modificación </dt>
-                        <dd>{this.FechaModificacionTipoTramite(this.state.dataTipoTramite.updatedAt)}</dd>
+                        <dd>
+                          {this.FechaModificacionTipoTramite(
+                            this.state.dataTipoTramite.updatedAt
+                          )}
+                        </dd>
                       </dl>
                     </div>
                   </div>

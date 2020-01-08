@@ -12,16 +12,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
 import SelectDependencia from "./components/SelectDependence";
-import SelectEmpresa from "./components/SelectDependence";
+import SelectEmpresa from "./components/SelectCompany";
 import SelectSede from "./components/SelectHeadquarter";
 import PropTypes from "prop-types";
-import { privateName } from "@babel/types";
+import { TYPEPROCEDURE_POST } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
 const TipoTramiteForm = props => {
   const { t } = props;
   const usersdata = useSelector(state => state.users);
   const aux = useSelector(state => state.users.assigned);
-
+  // console.log(props.authorization);
   return (
     <Formik
       initialValues={{
@@ -61,24 +64,68 @@ const TipoTramiteForm = props => {
           )
           .required(" Es necesario activar el tipo de trámite.")
       })}
-      onSubmit={(values, { setSubmitting, resetForm }) => {
+      onSubmit={(values, { setSubmitting, resetForm, props }) => {
         setTimeout(() => {
-          alert(
-            JSON.stringify(
-              {
-                tipocorrespondencia: values.tipocorrespondencia,
-                codigo: values.codigo,
-                nombre: values.nombre,
-                descripcion: values.descripcion,
-                d_maximos: values.d_maximos,
-                estado: values.estado,
-                user_enabled: usersdata.users,
-                original: usersdata.original
-              },
-              null,
-              2
-            )
-          );
+          fetch(TYPEPROCEDURE_POST, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: props.authorization
+            },
+            body: JSON.stringify({
+              tipocorrespondencia: values.tipocorrespondencia,
+              codigo: values.codigo,
+              nombre: values.nombre,
+              descripcion: values.descripcion,
+              d_maximos: values.d_maximos,
+              estado: values.estado,
+              user_enabled: usersdata.users,
+              original: usersdata.original
+            })
+              .then(response => {
+                response.json().then(data => {
+                  if (response.status === 201) {
+                    toast.success("Se creo el tipo de tramite con exito ", {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    });
+                  } else if (response.state === 500) {
+                    toast.error("El tipo de tramite ya exite.", {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    });
+                  }
+                });
+              })
+              .catch(error => {
+                toast.error(`Error ${error}.`, {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                });
+              })
+          });
+          // alert(
+          //   JSON.stringify(
+          //     {
+          //       tipocorrespondencia: values.tipocorrespondencia,
+          //       codigo: values.codigo,
+          //       nombre: values.nombre,
+          //       descripcion: values.descripcion,
+          //       d_maximos: values.d_maximos,
+          //       estado: values.estado,
+          //       user_enabled: usersdata.users,
+          //       original: usersdata.original
+          //     },
+          //     null,
+          //     2
+          //   )
+          // );
           setSubmitting(false);
           resetForm({
             tipocorrespondencia: "",
@@ -332,6 +379,7 @@ const TipoTramiteForm = props => {
                                   )}{" "}
                                 </label>
                                 <SelectConglomerado
+                                  authorization={props.authorization}
                                   t={props.t}
                                   name="conglomerado"
                                   value={values.conglomerado}
@@ -357,6 +405,7 @@ const TipoTramiteForm = props => {
                                   {t("app_tipoTramite_form_registrar_empresa")}{" "}
                                 </label>
                                 <SelectEmpresa
+                                  authorization={props.authorization}
                                   idConglomerado={values.conglomerado}
                                   t={props.t}
                                   name="empresa"
@@ -383,6 +432,7 @@ const TipoTramiteForm = props => {
                                   )}{" "}
                                 </label>
                                 <SelectSede
+                                  authorization={props.authorization}
                                   t={props.t}
                                   idEmpresa={values.empresa}
                                   name="sede"
@@ -409,6 +459,7 @@ const TipoTramiteForm = props => {
                                   )}{" "}
                                 </label>
                                 <SelectDependencia
+                                  authorization={props.authorization}
                                   t={props.t}
                                   idSede={values.sede}
                                   name="dependencia"
@@ -782,6 +833,7 @@ const UserListEnabled = props => {
 };
 
 TipoTramiteForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(TipoTramiteForm);

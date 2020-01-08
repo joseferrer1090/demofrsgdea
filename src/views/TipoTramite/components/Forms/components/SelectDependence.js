@@ -4,7 +4,8 @@ class SelectDependencia extends React.Component {
   state = {
     dataDependencia: [],
     id: this.props.idSede,
-    t: this.props.t
+    t: this.props.t,
+    auth: this.props.authorization
   };
 
   static getDerivedStateFormProps(props, state) {
@@ -77,6 +78,7 @@ class SelectDependencia extends React.Component {
 }
 SelectDependencia.propTypes = {
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default SelectDependencia;

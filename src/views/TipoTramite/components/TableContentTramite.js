@@ -162,6 +162,7 @@ class TableContentTramite extends Component {
 
   render() {
     const { t } = this.props;
+    const { auth } = this.state;
 
     const options = {
       btnGroup: this.createCustomButtonGroup,
@@ -246,6 +247,7 @@ class TableContentTramite extends Component {
           </Col>
         </Row>
         <ModalViewTramite
+          authorization={auth}
           modalviewtramit={this.state.modalview}
           ref={"child1"}
         />

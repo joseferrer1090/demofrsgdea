@@ -20,9 +20,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { USERS_BY_DEPENDENCE } from "./../../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 const TipoTramiteForm = props => {
-  const { t } = props;
+  const { t, authorization } = props;
   const usersdata = useSelector(state => state.users);
   const aux = useSelector(state => state.users.assigned);
   // console.log(props.authorization);
@@ -65,68 +66,58 @@ const TipoTramiteForm = props => {
           )
           .required(" Es necesario activar el tipo de trámite.")
       })}
-      onSubmit={(values, { setSubmitting, resetForm, props }) => {
+      onSubmit={(values, { setSubmitting, resetForm }) => {
         setTimeout(() => {
-          fetch(TYPEPROCEDURE_POST, {
+          const auth = props.authorization;
+          const username = decode(auth);
+          console.log(values);
+          fetch(`${TYPEPROCEDURE_POST}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
               Authorization: props.authorization
             },
             body: JSON.stringify({
-              tipocorrespondencia: values.tipocorrespondencia,
-              codigo: values.codigo,
-              nombre: values.nombre,
-              descripcion: values.descripcion,
-              d_maximos: values.d_maximos,
-              estado: values.estado,
-              user_enabled: usersdata.users,
+              code: values.codigo,
+              name: values.nombre,
+              description: values.descripcion,
+              answerDays: values.d_maximos,
+              issue: values.asunto,
+              status: value.estado,
+              typeCorrespondence: values.tipocorrespondencia,
+              templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+              userName: username.user_name,
+              users: usersdata.users,
               original: usersdata.original
             })
-              .then(response => {
-                response.json().then(data => {
-                  if (response.status === 201) {
-                    toast.success("Se creo el tipo de tramite con exito ", {
-                      position: toast.POSITION.TOP_RIGHT,
-                      className: css({
-                        marginTop: "60px"
-                      })
-                    });
-                  } else if (response.state === 500) {
-                    toast.error("El tipo de tramite ya exite.", {
-                      position: toast.POSITION.TOP_RIGHT,
-                      className: css({
-                        marginTop: "60px"
-                      })
-                    });
-                  }
-                });
-              })
-              .catch(error => {
-                toast.error(`Error ${error}.`, {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
-              })
-          });
-          // alert(
-          //   JSON.stringify(
-          //     {
-          //       tipocorrespondencia: values.tipocorrespondencia,
-          //       codigo: values.codigo,
-          //       nombre: values.nombre,
-          //       descripcion: values.descripcion,
-          //       d_maximos: values.d_maximos,
-          //       estado: values.estado,
-          //       user_enabled: usersdata.users,
-          //       original: usersdata.original
-          //     },
-          //     null,
-          //     2
-          //   )
-          // );
+          })
+            .then(response => {
+              response.json().then(data => {
+                if (response.status === 200) {
+                  toast.success("Se creo el tipo de tramite con exito ", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                } else if (response.state === 500) {
+                  toast.error("El tipo de tramite ya exite.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                }
+              });
+            })
+            .catch(error => {
+              toast.error(`Error ${error}.`, {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            });
           setSubmitting(false);
           resetForm({
             tipocorrespondencia: "",

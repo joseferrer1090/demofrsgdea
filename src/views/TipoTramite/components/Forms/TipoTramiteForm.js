@@ -83,7 +83,7 @@ const TipoTramiteForm = props => {
               description: values.descripcion,
               answerDays: values.d_maximos,
               issue: values.asunto,
-              status: value.estado,
+              status: values.estado,
               typeCorrespondence: values.tipocorrespondencia,
               templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
               userName: username.user_name,

@@ -25,22 +25,22 @@ class ModalViewTramite extends Component {
     };
   }
 
-  // static getDerivedStateFromProps(props, state) {
-  //   if (props.authorization !== state.auth) {
-  //     return {
-  //       auth: props.authorization
-  //     };
-  //   }
-  //   return null;
-  // }
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.authorization !== prevState.authorization) {
-  //     this.setState({
-  //       auth: this.props.authorization
-  //     });
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState(prevState => ({
@@ -48,6 +48,7 @@ class ModalViewTramite extends Component {
       id: id
     }));
     this.getDataTipoTramiteById(id);
+    console.log(this.state.auth);
   };
 
   getDataTipoTramiteById = id => {
@@ -91,6 +92,17 @@ class ModalViewTramite extends Component {
       }
       return status;
     };
+    const typeProcedure = data => {
+      let type;
+      if (data === 1) {
+        type = <p>Recibida</p>;
+      } else if (data === 2) {
+        type = <p>Despachada</p>;
+      } else if (data === 3) {
+        type = <p>Interna</p>;
+      }
+      return type;
+    };
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -123,7 +135,9 @@ class ModalViewTramite extends Component {
                         <dt>Tipo de correspondencia </dt>
                         <dd>
                           {" "}
-                          {this.state.dataTipoTramite.typeCorrespondence}{" "}
+                          {typeProcedure(
+                            this.state.dataTipoTramite.typeCorrespondence
+                          )}{" "}
                         </dd>
                       </dl>
                     </div>
@@ -185,7 +199,7 @@ class ModalViewTramite extends Component {
                 </div>
               </Col>
             </Row>
-            <Row>
+            {/* <Row>
               <Col sm="12">
                 <div className="">
                   {" "}
@@ -286,7 +300,7 @@ class ModalViewTramite extends Component {
                   </div>
                 </div>
               </Col>
-            </Row>
+            </Row> */}
           </ModalBody>
           <ModalFooter>
             <button

@@ -109,7 +109,7 @@ class ModalViewTramite extends Component {
     console.log(this.state.users);
     return (
       <div>
-        <Modal className="modal-lg" isOpen={this.state.modal}>
+        <Modal className="modal-xl" isOpen={this.state.modal}>
           <ModalHeader>
             Ver Tramite {this.state.dataTipoTramite.name}
           </ModalHeader>
@@ -225,108 +225,6 @@ class ModalViewTramite extends Component {
                 <TableComponent data={this.state.users} />
               </Col>
             </Row>
-            {/* <Row>
-              <Col sm="12">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Usuarios Disponibles{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Usuarios </dt>
-                        <dd> usuarios </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Sedes </dt>
-                        <dd> sedes</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Dependencias </dt>
-                        <dd> dependencias </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Original </dt>
-                        <dd> original </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col sm="4">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Asunto{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Asunto </dt>
-                        <dd> asunto </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col sm="4">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Plantilla{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Usuarios </dt>
-                        <dd> usuarios </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col sm="4">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Workflow{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Usuarios </dt>
-                        <dd> usuarios </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            </Row> */}
           </ModalBody>
           <ModalFooter>
             <button

@@ -103,7 +103,7 @@ class ModalDeleteTramite extends Component {
                 const auth = this.state.auth;
                 const username = decode(auth);
                 fetch(
-                  `${TYPEPROCEDURE_DELETE}${this.state.id}?code=${values.code}?username=${username.user_name}`,
+                  `${TYPEPROCEDURE_DELETE}${this.state.id}?code=${values.code}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
@@ -117,7 +117,7 @@ class ModalDeleteTramite extends Component {
                       this.setState({
                         alertError: true
                       });
-                    } else if (response.status === 200) {
+                    } else if (response.status === 204) {
                       setTimeout(() => {
                         this.setState(
                           {
@@ -126,7 +126,7 @@ class ModalDeleteTramite extends Component {
                           },
                           () => this.props.updateTable()
                         );
-                      }, 3000);
+                      }, 1000);
                     } else if (response.status === 400) {
                       this.setState({
                         alertCode: true

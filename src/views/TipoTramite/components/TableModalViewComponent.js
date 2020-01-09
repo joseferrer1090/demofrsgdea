@@ -10,6 +10,7 @@ const TableModalViewComponent = props => {
         pagination
         bordered={false}
         hover={true}
+        maxHeight={"150px"}
       >
         <TableHeaderColumn dataField={"identification"} isKey>
           {" "}
@@ -20,6 +21,12 @@ const TableModalViewComponent = props => {
         <TableHeaderColumn dataField={"dependence"}>
           {" "}
           Dependencia{" "}
+        </TableHeaderColumn>
+        <TableHeaderColumn dataField={"charge"}>Cargo</TableHeaderColumn>
+        <TableHeaderColumn dataField={"headquarter"}>Sede </TableHeaderColumn>
+        <TableHeaderColumn dataField={"company"}> Empresa </TableHeaderColumn>
+        <TableHeaderColumn dataField={"conglomerate"}>
+          Conglomerado
         </TableHeaderColumn>
       </BootstrapTable>
     </div>

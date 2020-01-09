@@ -106,7 +106,9 @@ class ModalViewTramite extends Component {
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver Tramite</ModalHeader>
+          <ModalHeader>
+            Ver Tramite {this.state.dataTipoTramite.name}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -168,6 +170,14 @@ class ModalViewTramite extends Component {
                             this.state.dataTipoTramite.status
                           )}{" "}
                         </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Asunto </dt>
+                        <dd> {this.state.dataTipoTramite.issue}</dd>
                       </dl>
                     </div>
                   </div>

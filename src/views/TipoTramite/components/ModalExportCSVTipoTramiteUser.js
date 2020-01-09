@@ -6,6 +6,11 @@ import { Table } from "reactstrap";
 import { CSVLink, CSVDownload } from "react-csv";
 import { Parser } from "json2csv";
 import { Trans } from "react-i18next";
+import {
+  TYPEPROCEDURES_EXPORT_USERS,
+  TYPEPROCEDURES_STATUS
+} from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalExportCSVTipoTramiteUser extends Component {
   constructor(props) {
@@ -46,12 +51,14 @@ class ModalExportCSVTipoTramiteUser extends Component {
 
   render() {
     // console.log(this.state.dataExportUSer);
+
     return (
       <Fragment>
         <Modal className="modal-xl" isOpen={this.state.modal}>
           <ModalHeader>Exportar usuarios por tipo de tramite</ModalHeader>
           <ModalBody>
             <SelectTipoTramite
+              token={this.state.auth}
               value={this.state.tipoTramite}
               onChange={e => {
                 this.setState({ tipoTramite: e.target.value });
@@ -100,20 +107,18 @@ ModalExportCSVTipoTramiteUser.propTypes = {
 export default ModalExportCSVTipoTramiteUser;
 
 const SelectTipoTramite = props => {
+  const token = props.token;
   const [data, setData] = useState([]);
-  const [username, setUsername] = useState("jferrer");
+  const username = decode(token);
 
   useEffect(() => {
-    fetch(
-      `http://192.168.20.187:7000/api/sgdea/typeprocedure/active?username=${username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    fetch(`${TYPEPROCEDURES_STATUS}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         setData(data);
@@ -155,7 +160,8 @@ class TableCSV extends React.Component {
   state = {
     data: this.props.data,
     idTipoTramite: this.props.id,
-    username: "jferrer"
+    username: "jferrer",
+    auth: this.props.authorization
   };
 
   getDataTipoTramiteByUser = () => {

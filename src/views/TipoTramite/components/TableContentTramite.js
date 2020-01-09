@@ -252,6 +252,7 @@ class TableContentTramite extends Component {
           ref={"child1"}
         />
         <ModalDeleteTramite
+          authorization={auth}
           updateTable={this.getDataConglomerates}
           modaldelete={this.state.modaldel}
           ref={"child2"}

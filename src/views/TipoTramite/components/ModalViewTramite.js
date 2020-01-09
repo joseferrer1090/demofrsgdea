@@ -12,6 +12,7 @@ import IMGTRAMITE from "./../../../assets/img/folder.svg";
 import moment from "moment";
 import { TYPEPROCEDURE } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import TableComponent from "./TableModalViewComponent";
 
 class ModalViewTramite extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class ModalViewTramite extends Component {
       id: this.props.id,
       username: "jferrer",
       dataTipoTramite: {},
+      users: [],
       auth: this.props.authorization
     };
   }
@@ -64,7 +66,8 @@ class ModalViewTramite extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataTipoTramite: data
+          dataTipoTramite: data.typeProcedure,
+          users: data.users
         });
       })
       .catch(err => console.log("Error", err));
@@ -103,6 +106,7 @@ class ModalViewTramite extends Component {
       }
       return type;
     };
+    console.log(this.state.users);
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -207,6 +211,11 @@ class ModalViewTramite extends Component {
                     </div>
                   </div>
                 </div>
+              </Col>
+            </Row>
+            <Row>
+              <Col sm="12">
+                <TableComponent data={this.state.users} />
               </Col>
             </Row>
             {/* <Row>
@@ -320,7 +329,7 @@ class ModalViewTramite extends Component {
               }}
               className="btn btn-secondary btn-sm"
             >
-              Cerrar
+              <i className="fa fa-times" /> Cerrar
             </button>
           </ModalFooter>
         </Modal>

@@ -215,6 +215,13 @@ class ModalViewTramite extends Component {
             </Row>
             <Row>
               <Col sm="12">
+                <div className="">
+                  {" "}
+                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
+                    {" "}
+                    Usuarios asignado al tramite{" "}
+                  </h5>{" "}
+                </div>
                 <TableComponent data={this.state.users} />
               </Col>
             </Row>

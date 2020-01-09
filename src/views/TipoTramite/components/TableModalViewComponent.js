@@ -3,8 +3,14 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
 const TableModalViewComponent = props => {
   return (
-    <div className="col-md-12">
-      <BootstrapTable data={props.data}>
+    <div className="">
+      <BootstrapTable
+        data={props.data}
+        options={{ noDataText: "No hay usuarios asignado a ese tramite" }}
+        pagination
+        bordered={false}
+        hover={true}
+      >
         <TableHeaderColumn dataField={"identification"} isKey>
           {" "}
           Identificacion{" "}

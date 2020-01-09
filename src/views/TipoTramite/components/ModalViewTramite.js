@@ -345,6 +345,8 @@ class ModalViewTramite extends Component {
   }
 }
 
-ModalViewTramite.propTypes = {};
+ModalViewTramite.propTypes = {
+  authorization: PropTypes.string.isRequired
+};
 
 export default ModalViewTramite;

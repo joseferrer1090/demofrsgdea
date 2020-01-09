@@ -69,7 +69,6 @@ class ModalExportCSV extends Component {
   };
 
   render() {
-    console.log(this.state.auth);
     const data = this.state.dataExport;
     const fields = [
       {
@@ -171,7 +170,8 @@ class ModalExportCSV extends Component {
 }
 
 ModalExportCSV.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalExportCSV;

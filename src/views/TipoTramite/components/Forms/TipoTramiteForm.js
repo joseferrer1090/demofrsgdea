@@ -67,15 +67,36 @@ const TipoTramiteForm = props => {
           .required(" Es necesario activar el tipo de trámite.")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        const tipoEstado = data => {
+          let tipo = null;
+          if (data === true) {
+            return (tipo = 1);
+          } else if (data === false) {
+            return (tipo = 0);
+          }
+          return null;
+        };
         setTimeout(() => {
           const auth = props.authorization;
           const username = decode(auth);
-          console.log(values);
+          // console.log({
+          //   code: values.codigo,
+          //   name: values.nombre,
+          //   description: values.descripcion,
+          //   answerDays: values.d_maximos,
+          //   issue: values.asunto,
+          //   status: tipoEstado(values.estado),
+          //   typeCorrespondence: values.tipocorrespondencia,
+          //   templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+          //   userName: username.user_name,
+          //   users: usersdata.users,
+          //   original: usersdata.original
+          // });
           fetch(`${TYPEPROCEDURE_POST}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: props.authorization
+              Authorization: "Bearer " + props.authorization
             },
             body: JSON.stringify({
               code: values.codigo,
@@ -83,7 +104,7 @@ const TipoTramiteForm = props => {
               description: values.descripcion,
               answerDays: values.d_maximos,
               issue: values.asunto,
-              status: values.estado,
+              status: tipoEstado(values.estado),
               typeCorrespondence: values.tipocorrespondencia,
               templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
               userName: username.user_name,
@@ -93,7 +114,7 @@ const TipoTramiteForm = props => {
           })
             .then(response => {
               response.json().then(data => {
-                if (response.status === 200) {
+                if (response.status === 201) {
                   toast.success("Se creo el tipo de tramite con exito ", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
@@ -182,19 +203,19 @@ const TipoTramiteForm = props => {
                                   )}
                                   --{" "}
                                 </option>
-                                <option value={"1"}>
+                                <option value={1}>
                                   {" "}
                                   {t(
                                     "app_tipoTramite_form_registrar_select_tipo_correspondencia_recibida"
                                   )}{" "}
                                 </option>
-                                <option value={"2"}>
+                                <option value={2}>
                                   {" "}
                                   {t(
                                     "app_tipoTramite_form_registrar_select_tipo_correspondencia_despachada"
                                   )}{" "}
                                 </option>
-                                <option value={"3"}>
+                                <option value={3}>
                                   {" "}
                                   {t(
                                     "app_tipoTramite_form_registrar_select_tipo_correspondencia_interna"

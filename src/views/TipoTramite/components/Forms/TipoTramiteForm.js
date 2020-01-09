@@ -114,7 +114,7 @@ const TipoTramiteForm = props => {
           })
             .then(response => {
               response.json().then(data => {
-                if (response.status === 201) {
+                if (response.status === 200) {
                   toast.success("Se creo el tipo de tramite con exito ", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({

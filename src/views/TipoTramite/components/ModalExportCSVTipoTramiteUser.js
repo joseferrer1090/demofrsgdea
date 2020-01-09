@@ -1,11 +1,16 @@
-import React, { Component, Fragment, useState, useEffect } from 'react';
-import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import PropTypes from 'prop-types';
-import { Table } from 'reactstrap';
+import React, { Component, Fragment, useState, useEffect } from "react";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import PropTypes from "prop-types";
+import { Table } from "reactstrap";
 //import './styles/table_fixed.css';
-import { CSVLink, CSVDownload } from 'react-csv';
-import { Parser } from 'json2csv';
-import { Trans } from 'react-i18next';
+import { CSVLink, CSVDownload } from "react-csv";
+import { Parser } from "json2csv";
+import { Trans } from "react-i18next";
+import {
+  TYPEPROCEDURES_EXPORT_USERS,
+  TYPEPROCEDURES_STATUS
+} from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalExportCSVTipoTramiteUser extends Component {
   constructor(props) {
@@ -14,10 +19,28 @@ class ModalExportCSVTipoTramiteUser extends Component {
       modal: this.props.modalexport2,
       dataExport: [],
       t: this.props.t,
-      username: 'ccuartas', 
+      username: "ccuartas",
       tipoTramite: "",
-      dataExportUSer: []
+      dataExportUSer: [],
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = () => {
@@ -27,20 +50,29 @@ class ModalExportCSVTipoTramiteUser extends Component {
   };
 
   render() {
-      // console.log(this.state.dataExportUSer);
+    // console.log(this.state.dataExportUSer);
+
     return (
       <Fragment>
         <Modal className="modal-xl" isOpen={this.state.modal}>
-          <ModalHeader>
-           Exportar usuarios por tipo de tramite
-          </ModalHeader>
+          <ModalHeader>Exportar usuarios por tipo de tramite</ModalHeader>
           <ModalBody>
-             <SelectTipoTramite value={this.state.tipoTramite} onChange={(e) =>{this.setState({ tipoTramite: e.target.value  })}} />
-           <div className="row">
-               <div className="col-md-12">
-               <TableCSV id={this.state.tipoTramite} data={this.state.dataExportUSer}/>
-               </div>
-           </div>
+            <SelectTipoTramite
+              token={this.state.auth}
+              value={this.state.tipoTramite}
+              onChange={e => {
+                this.setState({ tipoTramite: e.target.value });
+              }}
+            />
+            <div className="row">
+              <div className="col-md-12">
+                <TableCSV
+                  authorization={this.state.auth}
+                  id={this.state.tipoTramite}
+                  data={this.state.dataExportUSer}
+                />
+              </div>
+            </div>
           </ModalBody>
           <ModalFooter>
             <button
@@ -49,9 +81,8 @@ class ModalExportCSVTipoTramiteUser extends Component {
                 this.setState({ modal: false });
               }}
             >
-              {' '}
-              <i className="fa fa-times" />{' '}
-              cerrar{' '}
+              {" "}
+              <i className="fa fa-times" /> cerrar{" "}
             </button>
 
             {/* <button className="btn btn-secondary btn-sm"> Exportar  </button> */}
@@ -76,155 +107,175 @@ ModalExportCSVTipoTramiteUser.propTypes = {
 
 export default ModalExportCSVTipoTramiteUser;
 
-const SelectTipoTramite = (props) => {
-    
-    const [data, setData] = useState([]);
-    const [username, setUsername] = useState("jferrer");
+const SelectTipoTramite = props => {
+  const token = props.token;
+  const [data, setData] = useState([]);
+  const username = decode(token);
 
-
-    useEffect(() => {
-      fetch(`http://192.168.20.187:7000/api/sgdea/typeprocedure/active?username=${username}`, 
-        {
-            method: "GET", 
-            headers:{
-                "Content-Type": "application/json", 
-                Authorization: "Basic " + window.btoa('sgdea:123456')
-            }
-        }).then(response => response.json()).then(data => {
-            setData(data);
-        }).catch(err => console.log("Error", err));
-    }, [username])
-    return(
-          <div className="form-group row">
-                <label htmlFor="staticEmail" className="col-sm-3 col-form-label" style={{paddingLeft: "70px"}}>Tipo de tramite <span className="text-danger">*</span> :</label>
-                <div className="col-sm-8">
-                        <select className="form-control form-control-sm" value={props.value} onChange={props.onChange}>
-                            <option disabled value="">Seleccione tipo de tramite</option>
-                            {
-                                data.map((aux, id) => {
-                                    return(
-                                        <option key={id}  value={aux.id}>{aux.name}</option>
-                                    )
-                                } )
-                            }
-                        </select>
-                </div>
-            </div>
-    )
-}
+  useEffect(() => {
+    fetch(`${TYPEPROCEDURES_STATUS}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setData(data);
+      })
+      .catch(err => console.log("Error", err));
+  }, [username]);
+  return (
+    <div className="form-group row">
+      <label
+        htmlFor="staticEmail"
+        className="col-sm-3 col-form-label"
+        style={{ paddingLeft: "70px" }}
+      >
+        Tipo de tramite <span className="text-danger">*</span> :
+      </label>
+      <div className="col-sm-8">
+        <select
+          className="form-control form-control-sm"
+          value={props.value}
+          onChange={props.onChange}
+        >
+          <option disabled value="">
+            Seleccione tipo de tramite
+          </option>
+          {data.map((aux, id) => {
+            return (
+              <option key={id} value={aux.id}>
+                {aux.name}
+              </option>
+            );
+          })}
+        </select>
+      </div>
+    </div>
+  );
+};
 
 class TableCSV extends React.Component {
-    state = {
-        data: this.props.data, 
-        idTipoTramite: this.props.id, 
-        username: "jferrer"
-    }
+  state = {
+    data: this.props.data,
+    idTipoTramite: this.props.id,
+    username: "jferrer",
+    auth: this.props.authorization
+  };
 
-    getDataTipoTramiteByUser = () => {
-        fetch(`http://192.168.20.187:7000/api/sgdea/typeprocedure/export/${this.props.id}/users?username=${this.state.username}`, {
-            method: "GET", 
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: "Basic " + window.btoa('sgdea:123456')
-            }
-        }).then(response => response.json()).then(data => {
-            this.setState({
-                data: data
-            })
-        }).catch(err => console.log("Error", err));
-    }
-
-    static getDerivedStateFromProps(props, state){
-        if(props.id !== state.idTipoTramite ){
-            return{
-                idTipoTramite: props.id
-            };
+  getDataTipoTramiteByUser = () => {
+    fetch(
+      `${TYPEPROCEDURES_EXPORT_USERS}${this.props.id}/users?username=${this.state.username}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + this.props.authorization
         }
-        return null;
-    }
+      }
+    )
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          data: data
+        });
+      })
+      .catch(err => console.log("Error", err));
+  };
 
-    componentDidUpdate(prevProps, prevState) {
-        if(this.props.id !== prevProps.id){
-            this.getDataTipoTramiteByUser();
-        }
+  static getDerivedStateFromProps(props, state) {
+    if (props.id !== state.idTipoTramite) {
+      return {
+        idTipoTramite: props.id
+      };
     }
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
 
-    componentDidMount() {
-        this.getDataTipoTramiteByUser();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.id !== prevProps.id) {
+      this.getDataTipoTramiteByUser();
     }
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+        idTipoTramite: this.props.id
+      });
+    }
+  }
 
-    render() {
-      //  console.log(this.state.data);
-        const data = this.state.data;
-        const fields = [
-          {
-            label: 'CodeTypeProcedure', 
-            value: 'codeTypeProcedure'
-          }, 
-          {
-            label: 'email', 
-            value: 'email'
-          }, 
-          {
-            label: 'identification',
-            value: 'identification'
-          }, 
-          {
-            label: 'nombre', 
-            value: 'name'
-          }, 
-          {
-            label: 'original', 
-            value: 'original'
-          }
-        ];
-        const json2csvParser = new Parser({ fields, quote: '' });
-        const csv = json2csvParser.parse(data);
-        return (
-           <div>
-               <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
-                <thead className="">
-                    <tr className="">
-                    <th>
-                    CodeTypeProcedure
-                    </th>
-                    <th>
-                     Email
-                    </th>
-                    <th>
-                    Identificacion
-                    </th>
-                    <th>
-                    Nombre
-                    </th>
-                    <th>
-                    Original
-                    </th>     
-                    </tr>
-                </thead>
-              <tbody className="text-justify">
-                {
-                  (Object.keys(this.state.data).length === 0) ?  (<p className="text-center"> No hay dato para generar el CSV  </p>):
-                  
-                  (this.state.data.map((aux, id) => {
-                    return(
-                      <tr>
-                        <td>{aux.codeTypeProcedure}</td>
-                        <td>{aux.email}</td>
-                        <td>{aux.identification}</td>
-                        <td>{aux.name}</td>
-                        <td>{aux.original}</td>
-                      </tr>
-                    )
-                  }))
-                }
-              </tbody>
-            </table>
-           <CSVLink data={csv} className="btn btn-secondary btn-sm">
-              <i className="fa fa-download" />{' '}
-              Exportar csv
-            </CSVLink>
-           </div>
-        );
-    }
+  componentDidMount() {
+    this.getDataTipoTramiteByUser();
+  }
+
+  render() {
+    //  console.log(this.state.data);
+    const data = this.state.data;
+    const fields = [
+      {
+        label: "CodeTypeProcedure",
+        value: "codeTypeProcedure"
+      },
+      {
+        label: "email",
+        value: "email"
+      },
+      {
+        label: "identification",
+        value: "identification"
+      },
+      {
+        label: "nombre",
+        value: "name"
+      },
+      {
+        label: "original",
+        value: "original"
+      }
+    ];
+    const json2csvParser = new Parser({ fields, quote: "" });
+    const csv = json2csvParser.parse(data);
+    return (
+      <div>
+        <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
+          <thead className="">
+            <tr className="">
+              <th>CodeTypeProcedure</th>
+              <th>Email</th>
+              <th>Identificacion</th>
+              <th>Nombre</th>
+              <th>Original</th>
+            </tr>
+          </thead>
+          <tbody className="text-justify">
+            {Object.keys(this.state.data).length === 0 ? (
+              <p className="text-center"> No hay dato para generar el CSV </p>
+            ) : (
+              this.state.data.map((aux, id) => {
+                return (
+                  <tr>
+                    <td>{aux.codeTypeProcedure}</td>
+                    <td>{aux.email}</td>
+                    <td>{aux.identification}</td>
+                    <td>{aux.name}</td>
+                    <td>{aux.original}</td>
+                  </tr>
+                );
+              })
+            )}
+          </tbody>
+        </table>
+        <CSVLink data={csv} className="btn btn-secondary btn-sm">
+          <i className="fa fa-download" /> Exportar csv
+        </CSVLink>
+      </div>
+    );
+  }
 }

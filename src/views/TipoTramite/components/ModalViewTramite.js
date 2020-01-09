@@ -12,6 +12,7 @@ import IMGTRAMITE from "./../../../assets/img/folder.svg";
 import moment from "moment";
 import { TYPEPROCEDURE } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import TableComponent from "./TableModalViewComponent";
 
 class ModalViewTramite extends Component {
   constructor(props) {
@@ -21,26 +22,27 @@ class ModalViewTramite extends Component {
       id: this.props.id,
       username: "jferrer",
       dataTipoTramite: {},
+      users: [],
       auth: this.props.authorization
     };
   }
 
-  // static getDerivedStateFromProps(props, state) {
-  //   if (props.authorization !== state.auth) {
-  //     return {
-  //       auth: props.authorization
-  //     };
-  //   }
-  //   return null;
-  // }
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.authorization !== prevState.authorization) {
-  //     this.setState({
-  //       auth: this.props.authorization
-  //     });
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState(prevState => ({
@@ -48,6 +50,7 @@ class ModalViewTramite extends Component {
       id: id
     }));
     this.getDataTipoTramiteById(id);
+    console.log(this.state.auth);
   };
 
   getDataTipoTramiteById = id => {
@@ -63,7 +66,8 @@ class ModalViewTramite extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataTipoTramite: data
+          dataTipoTramite: data.typeProcedure,
+          users: data.users
         });
       })
       .catch(err => console.log("Error", err));
@@ -91,10 +95,24 @@ class ModalViewTramite extends Component {
       }
       return status;
     };
+    const typeProcedure = data => {
+      let type;
+      if (data === 1) {
+        type = <p>Recibida</p>;
+      } else if (data === 2) {
+        type = <p>Despachada</p>;
+      } else if (data === 3) {
+        type = <p>Interna</p>;
+      }
+      return type;
+    };
+    console.log(this.state.users);
     return (
       <div>
-        <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver Tramite</ModalHeader>
+        <Modal className="modal-xl" isOpen={this.state.modal}>
+          <ModalHeader>
+            Ver Tramite {this.state.dataTipoTramite.name}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -123,7 +141,9 @@ class ModalViewTramite extends Component {
                         <dt>Tipo de correspondencia </dt>
                         <dd>
                           {" "}
-                          {this.state.dataTipoTramite.typeCorrespondence}{" "}
+                          {typeProcedure(
+                            this.state.dataTipoTramite.typeCorrespondence
+                          )}{" "}
                         </dd>
                       </dl>
                     </div>
@@ -154,6 +174,14 @@ class ModalViewTramite extends Component {
                             this.state.dataTipoTramite.status
                           )}{" "}
                         </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Asunto </dt>
+                        <dd> {this.state.dataTipoTramite.issue}</dd>
                       </dl>
                     </div>
                   </div>
@@ -191,100 +219,10 @@ class ModalViewTramite extends Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Usuarios Disponibles{" "}
+                    Usuarios asignado al tramite{" "}
                   </h5>{" "}
                 </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Usuarios </dt>
-                        <dd> usuarios </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Sedes </dt>
-                        <dd> sedes</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Dependencias </dt>
-                        <dd> dependencias </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Original </dt>
-                        <dd> original </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col sm="4">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Asunto{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Asunto </dt>
-                        <dd> asunto </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col sm="4">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Plantilla{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Usuarios </dt>
-                        <dd> usuarios </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-              <Col sm="4">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Workflow{" "}
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Usuarios </dt>
-                        <dd> usuarios </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
+                <TableComponent data={this.state.users} />
               </Col>
             </Row>
           </ModalBody>
@@ -296,7 +234,7 @@ class ModalViewTramite extends Component {
               }}
               className="btn btn-secondary btn-sm"
             >
-              Cerrar
+              <i className="fa fa-times" /> Cerrar
             </button>
           </ModalFooter>
         </Modal>
@@ -305,6 +243,8 @@ class ModalViewTramite extends Component {
   }
 }
 
-ModalViewTramite.propTypes = {};
+ModalViewTramite.propTypes = {
+  authorization: PropTypes.string.isRequired
+};
 
 export default ModalViewTramite;

@@ -135,7 +135,7 @@ class ModalDeleteTramite extends Component {
                   })
                   .catch(Error => console.log("", Error));
                 // alert(JSON.stringify(values, "", 2))
-              }, 3000);
+              }, 1000);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required(

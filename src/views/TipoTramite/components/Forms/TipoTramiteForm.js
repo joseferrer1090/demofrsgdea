@@ -76,6 +76,17 @@ const TipoTramiteForm = props => {
           }
           return null;
         };
+        const tipoCorrespondencia = data => {
+          let tipo = null;
+          if (data === "1") {
+            return (tipo = 1);
+          } else if (data === "2") {
+            return (tipo = 2);
+          } else if (data === "3") {
+            return (tipo = 3);
+          }
+          return null;
+        };
         setTimeout(() => {
           const auth = props.authorization;
           const username = decode(auth);
@@ -105,32 +116,34 @@ const TipoTramiteForm = props => {
               answerDays: values.d_maximos,
               issue: values.asunto,
               status: tipoEstado(values.estado),
-              typeCorrespondence: values.tipocorrespondencia,
+              typeCorrespondence: tipoCorrespondencia(
+                values.tipocorrespondencia
+              ),
               templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
               userName: username.user_name,
               users: usersdata.users,
               original: usersdata.original
             })
           })
-            .then(response => {
+            .then(response =>
               response.json().then(data => {
-                if (response.status === 200) {
-                  toast.success("Se creo el tipo de tramite con exito ", {
+                if (response.status === 201) {
+                  toast.success("Tipo de tramite creado con exito.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px"
                     })
                   });
-                } else if (response.state === 500) {
-                  toast.error("El tipo de tramite ya exite.", {
+                } else if (response.status === 500) {
+                  toast.error("Tipo de tramite existente", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px"
                     })
                   });
                 }
-              });
-            })
+              })
+            )
             .catch(error => {
               toast.error(`Error ${error}.`, {
                 position: toast.POSITION.TOP_RIGHT,

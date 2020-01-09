@@ -225,7 +225,7 @@ export const TYPEPROCEDURES_PAGINATION = () => {
 export const TYPEPROCEDURES_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/export/data`;
 
 /* GET */
-export const TYPEPROCEDURES_EXPORT_USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/export/565b08fd-f26f-43a2-9f53-730fadae0676/users`;
+export const TYPEPROCEDURES_EXPORT_USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/procedures/export/`;
 
 //---------------------------------------------USUARIOS--------------------------------------------------//
 

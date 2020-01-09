@@ -67,6 +67,7 @@ class ModalExportCSVTipoTramiteUser extends Component {
             <div className="row">
               <div className="col-md-12">
                 <TableCSV
+                  authorization={this.state.auth}
                   id={this.state.tipoTramite}
                   data={this.state.dataExportUSer}
                 />
@@ -166,12 +167,12 @@ class TableCSV extends React.Component {
 
   getDataTipoTramiteByUser = () => {
     fetch(
-      `http://192.168.20.187:7000/api/sgdea/typeprocedure/export/${this.props.id}/users?username=${this.state.username}`,
+      `${TYPEPROCEDURES_EXPORT_USERS}${this.props.id}/users?username=${this.state.username}`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          Authorization: "Bearer " + this.props.authorization
         }
       }
     )
@@ -190,12 +191,23 @@ class TableCSV extends React.Component {
         idTipoTramite: props.id
       };
     }
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
     return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.id !== prevProps.id) {
       this.getDataTipoTramiteByUser();
+    }
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+        idTipoTramite: this.props.id
+      });
     }
   }
 

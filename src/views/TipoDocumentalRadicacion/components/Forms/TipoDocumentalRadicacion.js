@@ -11,6 +11,94 @@ const TipoDocumentalRadicacion = props => {
   const { t } = props;
   return (
     <Formik
+      initialValues={{
+        tipocorrespondencia: "",
+        codigo: "",
+        nombre: "",
+        descripcion: "",
+        d_maximos: "",
+        conglomerado: "",
+        empresa: "",
+        sede: "",
+        dependencia: "",
+        estado: false
+      }}
+      validationSchema={Yup.object().shape({
+        tipocorrespondencia: Yup.string()
+          .ensure()
+          .required(" Por favor seleccione el tipo de correspondencia."),
+        codigo: Yup.string()
+          .required(" Por favor introduzca un código.")
+          .matches(/^[0-9a-zA-Z]+$/, " No es un codigo alfanumerico")
+          .min(2, " minimo 2 caracteres para el codigo")
+          .max(15, " maximo 15 caracteres para el codigo"),
+        nombre: Yup.string().required(" Por favor introduzca un nombre."),
+        descripcion: Yup.string().required(
+          " Por favor introduzca una descripción."
+        ),
+        d_maximos: Yup.number()
+          .integer()
+          .positive()
+          .required(" Por favor introduzca los días máximos de respuesta."),
+        estado: Yup.bool()
+          .test(
+            "Activo",
+            "Es necesario activar el tipo de trámite",
+            value => value === true
+          )
+          .required(" Es necesario activar el tipo de trámite.")
+      })}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        const tipoEstado = data => {
+          let tipo = null;
+          if (data === true) {
+            return (tipo = 1);
+          } else if (data === false) {
+            return (tipo = 0);
+          }
+          return null;
+        };
+        const tipoCorrespondencia = data => {
+          let tipo = null;
+          if (data === "1") {
+            return (tipo = 1);
+          } else if (data === "2") {
+            return (tipo = 2);
+          } else if (data === "3") {
+            return (tipo = 3);
+          }
+          return null;
+        };
+        setTimeout(() => {
+          const auth = props.authorization;
+          const username = decode(auth);
+          console.log({
+            code: values.codigo,
+            name: values.nombre,
+            description: values.descripcion,
+            answerDays: values.d_maximos,
+            issue: values.asunto,
+            status: tipoEstado(values.estado),
+            typeCorrespondence: values.tipocorrespondencia,
+            templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d"
+            // userName: username.user_name
+            // users: usersdata.users,
+            // original: usersdata.original
+          });
+          setSubmitting(false);
+          resetForm({
+            tipocorrespondencia: "",
+            codigo: "",
+            nombre: "",
+            descripcion: "",
+            d_maximos: "",
+            conglomerado: "",
+            empresa: "",
+            sede: "",
+            dependencia: ""
+          });
+        }, 1000);
+      }}
       render={({
         values,
         touched,
@@ -21,83 +109,82 @@ const TipoDocumentalRadicacion = props => {
         handleBlur,
         handleSubmit,
         handleReset,
+        setFieldTouched,
         setFieldValue
       }) => (
         <div className="col-md-12">
-          <div className="card">
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="card">
-                    <div className="p-2 mb-1 bg-light text-dark">
-                      {t("app_documentalRadicacion_form_registrar_titulo_1")}
-                    </div>
-                    <div className="card-body">
-                      <form className="form">
+          <form className="form">
+            <div className="card">
+              <div className="card-body">
+                <div className="row">
+                  <div className="col-md-6">
+                    <div className="card">
+                      <div className="p-2 mb-1 bg-light text-dark">
+                        {t("app_tipoTramite_form_registrar_titulo_1")}
+                      </div>
+                      <div className="card-body">
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
                                 {t(
-                                  "app_documentalRadicacion_form_registrar_tipo_correspondencia"
+                                  "app_tipoTramite_form_registrar_tipo_correspondencia"
                                 )}{" "}
                                 <span className="text-danger">* </span>
                               </label>
                               <select
-                                name={"tipo_correspondencia"}
+                                name="tipocorrespondencia"
+                                value={values.tipocorrespondencia}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.tipo_correspondencia}
-                                className={`form-control form-control-sm ${errors.tipo_correspondencia &&
-                                  touched.tipo_correspondencia &&
+                                className={`form-control form-control-sm ${errors.tipocorrespondencia &&
+                                  touched.tipocorrespondencia &&
                                   "is-invalid"}`}
                               >
-                                <option disabled value={""}>
+                                <option value={""}>
                                   {" "}
+                                  --
+                                  {t(
+                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia"
+                                  )}
                                   --{" "}
-                                  {t(
-                                    "app_documentalRadicacion_form_registrar_select_tipo_correspondencia"
-                                  )}{" "}
-                                  --{" "}
                                 </option>
-                                <option value={"1"}>
+                                <option value={1}>
                                   {" "}
                                   {t(
-                                    "app_documentalRadicacion_form_registrar_select_tipo_correspondencia_recibida"
+                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia_recibida"
                                   )}{" "}
                                 </option>
-                                <option value={"2"}>
+                                <option value={2}>
                                   {" "}
                                   {t(
-                                    "app_documentalRadicacion_form_registrar_select_tipo_correspondencia_despachada"
+                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia_despachada"
                                   )}{" "}
                                 </option>
-                                <option value={"3"}>
+                                <option value={3}>
                                   {" "}
                                   {t(
-                                    "app_documentalRadicacion_form_registrar_select_tipo_correspondencia_interna"
+                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia_interna"
                                   )}{" "}
                                 </option>
                               </select>
                               <div style={{ color: "#D54B4B" }}>
-                                {errors.tipo_correspondencia &&
-                                touched.tipo_correspondencia ? (
+                                {errors.tipocorrespondencia &&
+                                touched.tipocorrespondencia ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
-                                <ErrorMessage name={"tipo_correspondencia"} />
+                                <ErrorMessage name="tipocorrespondencia" />
                               </div>
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {t(
-                                  "app_documentalRadicacion_form_registrar_codigo"
-                                )}{" "}
+                                {t("app_tipoTramite_form_registrar_codigo")}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <input
-                                name={"codigo"}
+                                name="codigo"
                                 onChange={e => {
                                   setFieldValue(
                                     "codigo",
@@ -105,7 +192,7 @@ const TipoDocumentalRadicacion = props => {
                                   );
                                 }}
                                 onBlur={handleBlur}
-                                values={values.codigo}
+                                value={values.codigo}
                                 type="text"
                                 className={`form-control form-control-sm ${errors.codigo &&
                                   touched.codigo &&
@@ -115,20 +202,17 @@ const TipoDocumentalRadicacion = props => {
                                 {errors.codigo && touched.codigo ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
-                                <ErrorMessage name={"codigo"} />
+                                <ErrorMessage name="codigo" />
                               </div>
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {t(
-                                  "app_documentalRadicacion_form_registrar_nombre"
-                                )}{" "}
+                                {t("app_tipoTramite_form_registrar_nombre")}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <input
-                                type="text"
                                 name={"nombre"}
                                 onChange={e => {
                                   setFieldValue(
@@ -138,6 +222,7 @@ const TipoDocumentalRadicacion = props => {
                                 }}
                                 onBlur={handleBlur}
                                 value={values.nombre}
+                                type="text"
                                 className={`form-control form-control-sm ${errors.nombre &&
                                   touched.nombre &&
                                   "is-invalid"}`}
@@ -154,12 +239,12 @@ const TipoDocumentalRadicacion = props => {
                             <div className="form-group">
                               <label>
                                 {t(
-                                  "app_documentalRadicacion_form_registrar_descripcion"
+                                  "app_tipoTramite_form_registrar_descripcion"
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <input
-                                name={"descripcion"}
+                                name="descripcion"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.descripcion}
@@ -172,7 +257,7 @@ const TipoDocumentalRadicacion = props => {
                                 {errors.descripcion && touched.descripcion ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
-                                <ErrorMessage name={"descripcion"} />
+                                <ErrorMessage name="descripcion" />
                               </div>
                             </div>
                           </div>
@@ -180,27 +265,26 @@ const TipoDocumentalRadicacion = props => {
                             <div className="form-group">
                               <label>
                                 {t(
-                                  "app_documentalRadicacion_form_registrar_dias_respuesta"
+                                  "app_tipoTramite_form_registrar_dias_respuesta"
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <input
-                                name={"d_maximos_respuesta"}
+                                name={"d_maximos"}
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.d_maximos_respuesta}
+                                value={values.d_maximos}
                                 type="number"
-                                min={0}
-                                className={`form-control form-control-sm ${errors.d_maximos_respuesta &&
-                                  touched.d_maximos_respuesta &&
+                                className={`form-control form-control-sm ${errors.d_maximos &&
+                                  touched.d_maximos &&
                                   "is-invalid"}`}
+                                min={0}
                               />
                               <div style={{ color: "#D54B4B" }}>
-                                {errors.d_maximos_respuesta &&
-                                touched.d_maximos_respuesta ? (
+                                {errors.d_maximos && touched.d_maximos ? (
                                   <i className="fa fa-exclamation-triangle" />
                                 ) : null}
-                                <ErrorMessage name={"d_maximos_respuesta"} />
+                                <ErrorMessage name={"d_maximos"} />
                               </div>
                             </div>
                           </div>
@@ -209,7 +293,7 @@ const TipoDocumentalRadicacion = props => {
                               <label>
                                 {" "}
                                 {t(
-                                  "app_documentalRadicacion_form_registrar_estado"
+                                  "app_tipoTramite_form_registrar_estado"
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
@@ -218,11 +302,11 @@ const TipoDocumentalRadicacion = props => {
                                   name={"estado"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.estados}
+                                  value={values.estado}
                                   type="checkbox"
                                   id="ExampleInputCheckbox"
                                   label={t(
-                                    "app_documentalRadicacion_form_registrar_descripcion_estado"
+                                    "app_tipoTramite_form_registrar_descripcion_estado"
                                   )}
                                   className={
                                     errors.estado &&
@@ -234,332 +318,274 @@ const TipoDocumentalRadicacion = props => {
                             </div>
                           </Col>
                         </div>
-                      </form>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="card">
-                    <div className="p-2 mb-1 bg-light text-dark">
-                      {t("app_documentalRadicacion_form_registrar_titulo_2")}
-                    </div>
-                    <div className="card-body">
-                      <form>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_documentalRadicacion_form_registrar_conglomerado"
-                                )}{" "}
-                              </label>
-                              {/* <select className="form-control form-control-sm">
-                            <option>
-                              --{" "}
-                              {t(
-                                "app_documentalRadicacion_form_registrar_select_conglomerado"
-                              )}{" "}
-                              --
-                            </option>
-                          </select> */}
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {t(
-                                  "app_documentalRadicacion_form_registrar_empresa"
-                                )}{" "}
-                              </label>
-                              <select className="form-control form-control-sm">
-                                <option>
-                                  --{" "}
+                  <div className="col-md-6">
+                    <div className="card">
+                      <div className="p-2 mb-1 bg-light text-dark">
+                        {t("app_tipoTramite_form_registrar_titulo_2")}
+                      </div>
+                      <div className="card-body">
+                        <div>
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
                                   {t(
-                                    "app_documentalRadicacion_form_registrar_select_empresa"
+                                    "app_tipoTramite_form_registrar_conglomerado"
                                   )}{" "}
-                                  --
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_documentalRadicacion_form_registrar_sede"
-                                )}{" "}
-                              </label>
-                              <select className="form-control form-control-sm">
-                                <option>
-                                  --{" "}
-                                  {t(
-                                    "app_documentalRadicacion_form_registrar_select_sede"
-                                  )}{" "}
-                                  --
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_documentalRadicacion_form_registrar_dependencia"
-                                )}{" "}
-                              </label>
-                              <select className="form-control form-control-sm">
-                                <option>
-                                  --{" "}
-                                  {t(
-                                    "app_documentalRadicacion_form_registrar_select_dependecia"
-                                  )}{" "}
-                                  --
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_documentalRadicacion_form_registrar_select_buscar_usuario"
-                                )}{" "}
-                              </label>
-                              <div className="input-group input-group-sm">
-                                <input
-                                  type="text"
+                                </label>
+                                {/* <SelectConglomerado
+                                  authorization={props.authorization}
+                                  t={props.t}
+                                  name="conglomerado"
+                                  value={values.conglomerado}
+                                  onChange={e => {
+                                    setFieldValue(
+                                      "conglomerado",
+                                      e.target.value
+                                    );
+                                  }}
+                                  onBlur={() => {
+                                    setFieldTouched("conglomerado", true);
+                                  }}
                                   className="form-control form-control-sm"
-                                  aria-label="Dollar amount (with dot and two decimal places)"
-                                />
-                                <div
-                                  className="input-group-append"
-                                  id="button-addon4"
-                                >
-                                  <button
-                                    className="btn btn-secondary"
-                                    type="button"
-                                  >
-                                    <i className="fa fa-search" />
-                                  </button>
-                                  <button
-                                    className="btn btn-secondary"
-                                    type="button"
-                                  >
-                                    <i className="fa fa-plus" />{" "}
-                                    {t(
-                                      "app_documentalRadicacion_form_registrar_select_buscar_usuario_agregar"
-                                    )}
-                                  </button>
-                                </div>
+                                /> */}
+                                {/* <select className="form-control form-control-sm">
+                              <option>Seleccione</option>
+                            </select> */}
                               </div>
                             </div>
-                            <textarea
-                              className="form-control form-control-sm"
-                              disabled
-                              placeholder={t(
-                                "app_documentalRadicacion_form_registrar_placeholder_select"
-                              )}
-                              rows={8}
-                            />
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {t("app_tipoTramite_form_registrar_empresa")}{" "}
+                                </label>
+                                {/* <SelectEmpresa
+                                  authorization={props.authorization}
+                                  idConglomerado={values.conglomerado}
+                                  t={props.t}
+                                  name="empresa"
+                                  value={values.empresa}
+                                  onChange={e => {
+                                    setFieldValue("empresa", e.target.value);
+                                  }}
+                                  onBlur={() => {
+                                    setFieldTouched("empresa", true);
+                                  }}
+                                  className={"form-control form-control-sm"}
+                                /> */}
+                                {/* <select className="form-control form-control-sm">
+                              <option>Seleccione</option>
+                            </select> */}
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_tipoTramite_form_registrar_sede"
+                                  )}{" "}
+                                </label>
+                                {/* <SelectSede
+                                  authorization={props.authorization}
+                                  t={props.t}
+                                  idEmpresa={values.empresa}
+                                  name="sede"
+                                  value={values.sede}
+                                  onChange={e => {
+                                    setFieldValue("sede", e.target.value);
+                                  }}
+                                  onBlur={() => {
+                                    setFieldTouched("sede", true);
+                                  }}
+                                  className="form-control form-control-sm"
+                                /> */}
+                                {/* <select className="form-control form-control-sm">
+                              <option>Seleccione</option>
+                            </select> */}
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_tipoTramite_form_registrar_dependencia"
+                                  )}{" "}
+                                </label>
+                                {/* <SelectDependencia
+                                  authorization={props.authorization}
+                                  t={props.t}
+                                  idSede={values.sede}
+                                  name="dependencia"
+                                  value={values.dependencia}
+                                  onChange={e => {
+                                    setFieldValue(
+                                      "dependencia",
+                                      e.target.value
+                                    );
+                                  }}
+                                  onBlur={() => {
+                                    setFieldTouched("dependencia", true);
+                                  }}
+                                  className={"form-control form-control-sm"}
+                                /> */}
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              {/* <UserList
+                                authorization={props.authorization}
+                                id={values.dependencia}
+                                t={props.t}
+                              /> */}
+                            </div>
                           </div>
                         </div>
-                      </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  {/* <UserListEnabled data={usersdata} t={props.t} /> */}
+                </div>
+                <div className="row">
+                  <div className="col-md-4">
+                    <div className="card">
+                      <div className="p-2 mb-1 bg-light text-dark">
+                        {t("app_tipoTramite_form_registrar_titulo_4")}
+                      </div>
+                      <div className="card-body">
+                        <div>
+                          <div className="row">
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>
+                                  {t("app_tipoTramite_form_registrar_asunto")}
+                                </label>
+                                <textarea
+                                  name={"asunto"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.asunto}
+                                  className="form-control form-control-sm"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="card">
+                      <div className="p-2 mb-1 bg-light text-dark">
+                        {t("app_tipoTramite_form_registrar_titulo_5")}
+                      </div>
+                      <div className="card-body">
+                        <div>
+                          <div className="row">
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>
+                                  {t(
+                                    "app_tipoTramite_form_registrar_plantilla"
+                                  )}
+                                </label>
+                                <select
+                                  name={"plantilla"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.plantilla}
+                                  className="form-control form-control-sm"
+                                >
+                                  <option>
+                                    --
+                                    {t(
+                                      "app_tipoTramite_form_registrar_select_plantilla"
+                                    )}
+                                    --
+                                  </option>
+                                  <option>Plantilla 1</option>
+                                  <option>Plantilla 2</option>
+                                  <option>Plantilla 3</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="card">
+                      <div className="p-2 mb-1 bg-light text-dark">
+                        {t("app_tipoTramite_form_registrar_titulo_6")}
+                      </div>
+                      <div className="card-body">
+                        <div>
+                          <div className="row">
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <label>
+                                  {t("app_tipoTramite_form_registrar_workflow")}
+                                </label>
+                                <select
+                                  name={"workflow"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.workflow}
+                                  className="form-control form-control-sm"
+                                >
+                                  <option>
+                                    --{" "}
+                                    {t(
+                                      "app_tipoTramite_form_registrar_select_workflow"
+                                    )}{" "}
+                                    --
+                                  </option>
+                                  <option>Workflow1</option>
+                                  <option>Workflow2</option>
+                                  <option>Workflow3</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="row">
-                <div className="col-md-12">
-                  <div className="card">
-                    <div className="p-2 mb-1 bg-light text-dark">
-                      {t("app_documentalRadicacion_form_registrar_titulo_3")}
-                    </div>
-                    <div className="card-body">
-                      <form>
-                        <div className="row">
-                          <div className="col-md-12">
-                            <table className="table table-bordered table-sm">
-                              <thead className="thead-light">
-                                <tr className="text-center">
-                                  <th scope="col">
-                                    {t(
-                                      "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_usuario"
-                                    )}
-                                  </th>
-                                  <th scope="col">
-                                    {t(
-                                      "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_sede"
-                                    )}
-                                  </th>
-                                  <th scope="col">
-                                    {t(
-                                      "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_dependencia"
-                                    )}
-                                  </th>
-                                  <th scope="col">
-                                    {t(
-                                      "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_original"
-                                    )}
-                                  </th>
-                                  <th scope="col">
-                                    {t(
-                                      "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_eliminar"
-                                    )}
-                                  </th>
-                                </tr>
-                              </thead>
-                              <tbody className="text-center">
-                                <tr>
-                                  <td scope="row">
-                                    NOMBRE COMPLETO DEL USUARIO
-                                  </td>
-                                  <td>SEDE I</td>
-                                  <td>DEPENDENCIA I</td>
-                                  <td>
-                                    <CustomInput
-                                      type="radio"
-                                      id="exampleCustomCheckbox2"
-                                    />{" "}
-                                  </td>
-                                  <td>
-                                    {" "}
-                                    <button
-                                      type="button"
-                                      className="btn btn-sm btn-danger"
-                                    >
-                                      <i className="fa fa-trash" />
-                                    </button>{" "}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="card">
-                    <div className="p-2 mb-1 bg-light text-dark">
-                      {t("app_documentalRadicacion_form_registrar_titulo_4")}
-                    </div>
-                    <div className="card-body">
-                      <form>
-                        <div className="row">
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {t(
-                                  "app_documentalRadicacion_form_registrar_asunto"
-                                )}
-                              </label>
-                              <textarea className="form-control form-control-sm" />
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="card">
-                    <div className="p-2 mb-1 bg-light text-dark">
-                      {t("app_documentalRadicacion_form_registrar_titulo_5")}
-                    </div>
-                    <div className="card-body">
-                      <form>
-                        <div className="row">
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {t(
-                                  "app_documentalRadicacion_form_registrar_plantilla"
-                                )}
-                              </label>
-                              <select className="form-control form-control-sm">
-                                <option>
-                                  --
-                                  {t(
-                                    "app_documentalRadicacion_form_registrar_select_plantilla"
-                                  )}
-                                  --
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="card">
-                    <div className="p-2 mb-1 bg-light text-dark">
-                      {t("app_documentalRadicacion_form_registrar_titulo_6")}
-                    </div>
-                    <div className="card-body">
-                      <form>
-                        <div className="row">
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {t(
-                                  "app_documentalRadicacion_form_registrar_workflow"
-                                )}
-                              </label>
-                              <select className="form-control form-control-sm">
-                                <option>
-                                  --
-                                  {t(
-                                    "app_documentalRadicacion_form_registrar_select_workflow"
-                                  )}
-                                  --
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
+              <div className="card-footer">
+                <div className="pull-right">
+                  <button
+                    type="submit"
+                    className="btn btn-outline-secondary btn-sm"
+                    disabled={isSubmitting}
+                    onClick={handleSubmit}
+                  >
+                    {isSubmitting ? (
+                      <i className=" fa fa-spinner fa-spin" />
+                    ) : (
+                      <div>
+                        <i className="fa fa-save" />{" "}
+                        {t("app_tipoTramite_form_registrar_boton_guardar")}
+                      </div>
+                    )}
+                  </button>
                 </div>
               </div>
             </div>
-            <div className="card-footer">
-              <div className="float-right">
-                <button
-                  type="submit"
-                  className="btn btn-outline-secondary btn-sm"
-                  disabled={isSubmitting}
-                  onClick={handleSubmit}
-                >
-                  {isSubmitting ? (
-                    <i className=" fa fa-spinner fa-spin" />
-                  ) : (
-                    <div>
-                      <i className="fa fa-save" />{" "}
-                      {t(
-                        "app_documentalRadicacion_form_registrar_boton_guardar"
-                      )}
-                    </div>
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
+          </form>
         </div>
       )}
-    ></Formik>
+    />
   );
 };
-
 TipoDocumentalRadicacion.propTypes = {};
 
 export default withTranslation("translations")(TipoDocumentalRadicacion);

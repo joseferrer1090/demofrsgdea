@@ -19,14 +19,18 @@ const FormCreateTipoTramite = props => {
   return (
     <div className="animated fadeIn">
       <div className="row">
-        <TipoDocumentalRadicacion tdocumentalradicacion={dataTipoDocumental} />
+        <TipoDocumentalRadicacion
+          authorization={props.authorization}
+          tdocumentalradicacion={dataTipoDocumental}
+        />
       </div>
     </div>
   );
 };
 
 FormCreateTipoTramite.propTypes = {
-  tdocumentalradicacion: PropTypes.object.isRequired
+  tdocumentalradicacion: PropTypes.object.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default FormCreateTipoTramite;

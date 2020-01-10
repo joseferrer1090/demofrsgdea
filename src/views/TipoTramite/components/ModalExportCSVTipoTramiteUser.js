@@ -51,14 +51,14 @@ class ModalExportCSVTipoTramiteUser extends Component {
 
   render() {
     // console.log(this.state.dataExportUSer);
-
+    //console.log(this.props.authorization);
     return (
       <Fragment>
         <Modal className="modal-xl" isOpen={this.state.modal}>
           <ModalHeader>Exportar usuarios por tipo de tramite</ModalHeader>
           <ModalBody>
             <SelectTipoTramite
-              token={this.state.auth}
+              token={this.props.authorization}
               value={this.state.tipoTramite}
               onChange={e => {
                 this.setState({ tipoTramite: e.target.value });
@@ -67,7 +67,7 @@ class ModalExportCSVTipoTramiteUser extends Component {
             <div className="row">
               <div className="col-md-12">
                 <TableCSV
-                  authorization={this.state.auth}
+                  authorization={this.props.authorization}
                   id={this.state.tipoTramite}
                   data={this.state.dataExportUSer}
                 />
@@ -125,7 +125,7 @@ const SelectTipoTramite = props => {
         setData(data);
       })
       .catch(err => console.log("Error", err));
-  }, [username]);
+  }, []);
   return (
     <div className="form-group row">
       <label
@@ -161,13 +161,14 @@ class TableCSV extends React.Component {
   state = {
     data: this.props.data,
     idTipoTramite: this.props.id,
-    username: "jferrer",
     auth: this.props.authorization
   };
 
   getDataTipoTramiteByUser = () => {
+    const auth = this.state.auth;
+    const username = decode(auth);
     fetch(
-      `${TYPEPROCEDURES_EXPORT_USERS}${this.props.id}/users?username=${this.state.username}`,
+      `${TYPEPROCEDURES_EXPORT_USERS}/${this.props.id}/users?username=${username.user_name}`,
       {
         method: "GET",
         headers: {
@@ -205,15 +206,14 @@ class TableCSV extends React.Component {
     }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization,
-        idTipoTramite: this.props.id
+        auth: this.props.authorization
       });
     }
   }
 
-  componentDidMount() {
-    this.getDataTipoTramiteByUser();
-  }
+  // componentDidMount() {
+  //   this.getDataTipoTramiteByUser();
+  // }
 
   render() {
     //  console.log(this.state.data);

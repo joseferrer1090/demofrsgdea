@@ -14,8 +14,26 @@ class ModalviewTipoDocumentoRadication extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modalviewtramit
+      modal: this.props.modalviewtramit,
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = () => {
@@ -222,6 +240,9 @@ class ModalviewTipoDocumentoRadication extends Component {
   }
 }
 
-ModalviewTipoDocumentoRadication.propTypes = {};
+ModalviewTipoDocumentoRadication.propTypes = {
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
+};
 
 export default ModalviewTipoDocumentoRadication;

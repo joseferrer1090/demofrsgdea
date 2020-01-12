@@ -141,9 +141,7 @@ const SelectTipoTramite = props => {
           value={props.value}
           onChange={props.onChange}
         >
-          <option disabled value="">
-            Seleccione tipo de tramite
-          </option>
+          <option value="">Seleccione tipo de tramite</option>
           {data.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

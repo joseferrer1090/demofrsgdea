@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { CsvToHtmlTable } from 'react-csv-to-table';
+import React from "react";
+import PropTypes from "prop-types";
+import { CsvToHtmlTable } from "react-csv-to-table";
 
 class PreviewFile extends React.Component {
   state = {

@@ -403,21 +403,29 @@ export const THIRDPARTY_PAGINATION = () => {
 
 //---------------------------------------------TIPO DOCUMENTAL RADICACIÓN--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const TYPEDOCUMENTARYS =
-  "http://192.168.10.180:7000/api/sgdea/typedocumentary";
+/* GET params => ID, username */
+export const TYPEPROCEDURE_SHOW = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/`;
 
-/* GET / DELETE */
-export const TYPEDOCUMENTARY =
-  "http://192.168.10.180:7000/api/sgdea/typedocumentary/c76861c5-3913-454c-bfcf-6ced7c235cc5/ccuartas";
+/* POST  */
+export const TYPEDOCUMENTARY_POST = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries`;
+
+/* PUT */
+export const TYPEDOCUMENTARY_PUT = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries`;
+
+/* DELETE  params => id */
+export const TYPEDOCUMENTARY_DELETE = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/`;
 
 /* GET */
-export const TYPEDOCUMENTARYS_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/typedocumentary/status/1";
+export const TYPEDOCUMENTARYS_STATUS = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/active`;
 
 /* GET */
-export const TYPEDOCUMENTARYS_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/typedocumentary/export/ccuartas";
+export const TYPEDOCUMENTARYS_STATUS_INACTIVE = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/inactive`;
+
+/* GET param => username */
+export const TYPEDOCUMENTARYS_EXPORT = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/export/data`;
+
+/* GET params id  */
+export const TYPEDOCUMENTARYS_EXPORT_USERS = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/export/`;
 
 /* GET */
 export const TYPEDOCUMENTARYS_PAGINATION = () => {

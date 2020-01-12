@@ -10,6 +10,7 @@ import SelectConglomerado from "./components/SelectConglomerado";
 import SelectEmpresa from "./components/SelectCompany";
 import SelectSede from "./components/SelectHeadquarter";
 import SelectDependencia from "./components/SelectDependence";
+import { TYPEDOCUMENTARY_POST } from "./../../../../services/EndPoints";
 
 const TipoDocumentalRadicacion = props => {
   const { t, authorization } = props;

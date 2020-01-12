@@ -117,7 +117,7 @@ class TipoDocumentalRadicacion extends React.Component {
   }
 }
 
-TipoDocumentalRadicacion.PropTypes {
+TipoDocumentalRadicacion.propTypes {
   t: PropTypes.any
 }
 

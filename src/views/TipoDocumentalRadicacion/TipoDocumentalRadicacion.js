@@ -13,6 +13,7 @@ import FormCreate from "./components/FormCreateTipoDocumentalRadicacion";
 import FormImport from "./components/FormUploadTipoDocumentalRadication";
 import TableContent from "./components/TableContentTipoDocumentalRadication";
 import { withTranslation } from "react-i18next";
+import PropTypes from 'prop-types';
 
 const asyncLocalStorage = {
   setItem: async function(key, value) {
@@ -115,4 +116,9 @@ class TipoDocumentalRadicacion extends React.Component {
     );
   }
 }
+
+TipoDocumentalRadicacion.PropTypes {
+  t: PropTypes.any
+}
+
 export default withTranslation("translation")(TipoDocumentalRadicacion);

@@ -36,8 +36,26 @@ class TableContentTramite extends Component {
     super(props);
     this.state = {
       modalview: false,
-      modaldel: false
+      modaldel: false,
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   accionesTramite = (cell, row) => {
@@ -164,6 +182,8 @@ class TableContentTramite extends Component {
   }
 }
 
-TableContentTramite.propTypes = {};
+TableContentTramite.propTypes = {
+  authorization: PropTypes.string.isRequired
+};
 
 export default TableContentTramite;

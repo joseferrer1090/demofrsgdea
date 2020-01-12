@@ -13,7 +13,6 @@ const FormCreateTipoTramite = props => {
 };
 
 FormCreateTipoTramite.propTypes = {
-  tdocumentalradicacion: PropTypes.object.isRequired,
   authorization: PropTypes.string.isRequired
 };
 

@@ -10,9 +10,27 @@ class ModalDeleteTramite extends Component {
     };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
+
   toggle = () => {
     this.setState(prevState => ({
-      modal: !prevState.modal
+      modal: !prevState.modal,
+      auth: this.props.authorization
     }));
   };
 
@@ -63,7 +81,8 @@ class ModalDeleteTramite extends Component {
 }
 
 ModalDeleteTramite.propTypes = {
-  modaldelte: PropTypes.bool.isRequired
+  modaldelte: PropTypes.bool.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalDeleteTramite;

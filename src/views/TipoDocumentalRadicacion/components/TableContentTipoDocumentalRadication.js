@@ -117,6 +117,7 @@ class TableContentTramite extends Component {
     this.refs.child2.toggle();
   }
   render() {
+    const { auth } = this.state;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -170,6 +171,7 @@ class TableContentTramite extends Component {
           </Col>
         </Row>
         <ModalViewTipoDocumentalRadication
+          authorization={auth}
           modalviewtramit={this.state.modalview}
           ref={"child1"}
         />

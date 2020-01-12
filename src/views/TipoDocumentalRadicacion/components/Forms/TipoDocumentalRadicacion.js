@@ -6,9 +6,13 @@ import { Col, CustomInput, Button, Alert } from "reactstrap";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
+import SelectConglomerado from "./components/SelectConglomerado";
+import SelectEmpresa from "./components/SelectCompany";
+import SelectSede from "./components/SelectHeadquarter";
+import SelectDependencia from "./components/SelectDependence";
 
 const TipoDocumentalRadicacion = props => {
-  const { t } = props;
+  const { t, authorization } = props;
   return (
     <Formik
       initialValues={{
@@ -337,7 +341,7 @@ const TipoDocumentalRadicacion = props => {
                                     "app_tipoTramite_form_registrar_conglomerado"
                                   )}{" "}
                                 </label>
-                                {/* <SelectConglomerado
+                                <SelectConglomerado
                                   authorization={props.authorization}
                                   t={props.t}
                                   name="conglomerado"
@@ -352,7 +356,7 @@ const TipoDocumentalRadicacion = props => {
                                     setFieldTouched("conglomerado", true);
                                   }}
                                   className="form-control form-control-sm"
-                                /> */}
+                                />
                                 {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
                             </select> */}
@@ -586,6 +590,9 @@ const TipoDocumentalRadicacion = props => {
     />
   );
 };
-TipoDocumentalRadicacion.propTypes = {};
+TipoDocumentalRadicacion.propTypes = {
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
+};
 
 export default withTranslation("translations")(TipoDocumentalRadicacion);

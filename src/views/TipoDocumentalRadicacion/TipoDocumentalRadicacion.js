@@ -25,6 +25,7 @@ const asyncLocalStorage = {
     return localStorage.getItem(key);
   }
 };
+
 class TipoDocumentalRadicacion extends React.Component {
   constructor(props) {
     super(props);
@@ -33,6 +34,10 @@ class TipoDocumentalRadicacion extends React.Component {
       activeTab: "1",
       authToken: ""
     };
+  }
+
+  componentDidMount() {
+    this.getDataLocal();
   }
 
   getDataLocal = () => {
@@ -55,6 +60,7 @@ class TipoDocumentalRadicacion extends React.Component {
       });
     }
   }
+
   render() {
     const { authToken } = this.state;
     const { t } = this.props;
@@ -121,4 +127,4 @@ TipoDocumentalRadicacion.propTypes = {
   t: PropTypes.any
 };
 
-export default withTranslation("translation")(TipoDocumentalRadicacion);
+export default withTranslation("translations")(TipoDocumentalRadicacion);

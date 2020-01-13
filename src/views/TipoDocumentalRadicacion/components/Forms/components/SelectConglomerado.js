@@ -34,7 +34,7 @@ class SelectConglomerado extends React.Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -56,7 +56,8 @@ class SelectConglomerado extends React.Component {
 
   render() {
     const data = this.state.dataConglomerado;
-    const { t } = this.props;
+    const { t, authorization } = this.props;
+    console.log(authorization);
     return (
       <div>
         <select

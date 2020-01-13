@@ -14,6 +14,7 @@ import { TYPEDOCUMENTARY_POST } from "./../../../../services/EndPoints";
 
 const TipoDocumentalRadicacion = props => {
   const { t, authorization } = props;
+  console.log(authorization);
   return (
     <Formik
       initialValues={{
@@ -368,7 +369,7 @@ const TipoDocumentalRadicacion = props => {
                                 <label>
                                   {t("app_tipoTramite_form_registrar_empresa")}{" "}
                                 </label>
-                                {/* <SelectEmpresa
+                                <SelectEmpresa
                                   authorization={props.authorization}
                                   idConglomerado={values.conglomerado}
                                   t={props.t}
@@ -381,7 +382,7 @@ const TipoDocumentalRadicacion = props => {
                                     setFieldTouched("empresa", true);
                                   }}
                                   className={"form-control form-control-sm"}
-                                /> */}
+                                />
                                 {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
                             </select> */}
@@ -395,7 +396,7 @@ const TipoDocumentalRadicacion = props => {
                                     "app_tipoTramite_form_registrar_sede"
                                   )}{" "}
                                 </label>
-                                {/* <SelectSede
+                                <SelectSede
                                   authorization={props.authorization}
                                   t={props.t}
                                   idEmpresa={values.empresa}
@@ -408,7 +409,7 @@ const TipoDocumentalRadicacion = props => {
                                     setFieldTouched("sede", true);
                                   }}
                                   className="form-control form-control-sm"
-                                /> */}
+                                />
                                 {/* <select className="form-control form-control-sm">
                               <option>Seleccione</option>
                             </select> */}
@@ -422,7 +423,7 @@ const TipoDocumentalRadicacion = props => {
                                     "app_tipoTramite_form_registrar_dependencia"
                                   )}{" "}
                                 </label>
-                                {/* <SelectDependencia
+                                <SelectDependencia
                                   authorization={props.authorization}
                                   t={props.t}
                                   idSede={values.sede}
@@ -438,7 +439,7 @@ const TipoDocumentalRadicacion = props => {
                                     setFieldTouched("dependencia", true);
                                   }}
                                   className={"form-control form-control-sm"}
-                                /> */}
+                                />
                               </div>
                             </div>
                             <div className="col-md-12">

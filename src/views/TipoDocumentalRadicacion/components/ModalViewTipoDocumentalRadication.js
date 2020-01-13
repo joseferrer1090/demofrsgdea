@@ -9,13 +9,18 @@ import {
   Col
 } from "reactstrap";
 import IMGTRAMITE from "./../../../assets/img/folder.svg";
+import { TYPEDOCUMENTARY_SHOW } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalviewTipoDocumentoRadication extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.id,
       modal: this.props.modalviewtramit,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      data: {},
+      users: []
     };
   }
 
@@ -25,6 +30,7 @@ class ModalviewTipoDocumentoRadication extends Component {
         auth: props.authorization
       };
     }
+
     return null;
   }
 
@@ -36,13 +42,43 @@ class ModalviewTipoDocumentoRadication extends Component {
     }
   }
 
-  toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+  getDataById = id => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${TYPEDOCUMENTARY_SHOW}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          data: data,
+          users: data.users
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
+  toggle = id => {
+    this.setState(
+      prevState => (
+        {
+          modal: !prevState.modal,
+          id: id
+        },
+        this.getDataById(id)
+      )
+    );
   };
 
   render() {
+    // console.log(this.state.auth);
+    // console.log(this.state.id);
+    console.log(this.state.data);
+    console.log(this.state.users);
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>

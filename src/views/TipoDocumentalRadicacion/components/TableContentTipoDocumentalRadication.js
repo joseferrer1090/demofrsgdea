@@ -8,30 +8,6 @@ import PropTypes from "prop-types";
 import "./../../../css/styleTableTipoDocumentalRadicacion.css";
 import { TYPEDOCUMENTARY_ALL } from "./../../../services/EndPoints";
 
-const dataExample = [
-  {
-    id: 1,
-    codigo: 12366,
-    nombre: "tipo tramite1",
-    descripcion: "Tramite 1",
-    estado: true
-  },
-  {
-    id: 2,
-    codigo: 12366,
-    nombre: "tipo tramite2",
-    descripcion: "Tramite 2",
-    estado: true
-  },
-  {
-    id: 3,
-    codigo: 12366,
-    nombre: "tipo tramite3",
-    descripcion: "Tramite 3",
-    estado: false
-  }
-];
-
 class TableContentTramite extends Component {
   constructor(props) {
     super(props);
@@ -90,7 +66,7 @@ class TableContentTramite extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           <i className="fa fa-eye" />
@@ -127,8 +103,8 @@ class TableContentTramite extends Component {
     return status;
   };
 
-  openModalView() {
-    this.refs.child1.toggle();
+  openModalView(id) {
+    this.refs.child1.toggle(id);
   }
 
   routeChange = () => {

@@ -407,7 +407,7 @@ export const THIRDPARTY_PAGINATION = () => {
 export const TYPEDOCUMENTARY_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries`;
 
 /* GET params => ID, username */
-export const TYPEPROCEDURE_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/`;
+export const TYPEDOCUMENTARY_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/`;
 
 /* POST  */
 export const TYPEDOCUMENTARY_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries`;

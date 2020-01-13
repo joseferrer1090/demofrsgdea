@@ -84,7 +84,7 @@ class TableContentTramite extends Component {
         <button
           className="btn btn-danger btn-sm"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           <i className="fa fa-trash" />
@@ -112,8 +112,8 @@ class TableContentTramite extends Component {
     window.location.replace(path);
   };
 
-  openModalDelete() {
-    this.refs.child2.toggle();
+  openModalDelete(id) {
+    this.refs.child2.toggle(id);
   }
 
   indexN(cell, row, enumObject, index) {
@@ -191,7 +191,9 @@ class TableContentTramite extends Component {
           ref={"child1"}
         />
         <ModalDeleteTipoDocumentalRadication
+          authorization={auth}
           modaldelete={this.state.modaldel}
+          updateTable={this.getData}
           ref={"child2"}
         />
       </div>

@@ -39,7 +39,8 @@ class TableContentTramite extends Component {
       modalview: false,
       modaldel: false,
       auth: this.props.authorization,
-      data: []
+      data: [],
+      hiddenColumnID: true
     };
   }
 
@@ -138,6 +139,11 @@ class TableContentTramite extends Component {
   openModalDelete() {
     this.refs.child2.toggle();
   }
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
   render() {
     const { auth } = this.state;
     return (
@@ -155,7 +161,18 @@ class TableContentTramite extends Component {
               exportCSV
               className="texto-TLlegada"
             >
-              <TableHeaderColumn isKey dataField={"id"} width="50">
+              <TableHeaderColumn
+                isKey
+                dataField={"id"}
+                width="50"
+                hidden={this.state.hiddenColumnID}
+              />
+
+              <TableHeaderColumn
+                dataField={"id"}
+                dataFormat={this.indexN}
+                width="50"
+              >
                 {" "}
                 #{" "}
               </TableHeaderColumn>

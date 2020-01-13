@@ -24,6 +24,8 @@ const TipoDocumentalRadicacion = props => {
   const { t, authorization } = props;
   const userData = useSelector(state => state.documentaryTypeReducer);
   console.log(useSelector(state => state.documentaryTypeReducer));
+  console.log(userData.users);
+  console.log(userData.original);
   return (
     <Formik
       initialValues={{
@@ -95,10 +97,10 @@ const TipoDocumentalRadicacion = props => {
             issue: values.asunto,
             status: tipoEstado(values.estado),
             typeCorrespondence: values.tipocorrespondencia,
-            templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d"
-            // userName: username.user_name
-            // users: usersdata.users,
-            // original: usersdata.original
+            templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+            userName: username.user_name,
+            users: userData.users,
+            original: userData.original
           });
           setSubmitting(false);
           resetForm({

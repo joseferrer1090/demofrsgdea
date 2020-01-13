@@ -130,6 +130,9 @@ class ModalDeleteTramite extends Component {
                 // alert(JSON.stringify(values, "", 2))
               }, 1000);
             }}
+            validationSchema={Yup.object().shape({
+              code: Yup.string().required("Por favor introduzca el codigo")
+            })}
           >
             {props => {
               const {

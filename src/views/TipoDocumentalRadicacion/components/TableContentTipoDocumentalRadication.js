@@ -6,6 +6,7 @@ import ModalViewTipoDocumentalRadication from "./ModalViewTipoDocumentalRadicati
 import ModalDeleteTipoDocumentalRadication from "./ModalDeleteTipoDocumentalRadication";
 import PropTypes from "prop-types";
 import "./../../../css/styleTableTipoDocumentalRadicacion.css";
+import { TYPEDOCUMENTARY_ALL } from "./../../../services/EndPoints";
 
 const dataExample = [
   {
@@ -37,7 +38,8 @@ class TableContentTramite extends Component {
     this.state = {
       modalview: false,
       modaldel: false,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      data: []
     };
   }
 
@@ -52,11 +54,31 @@ class TableContentTramite extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
-      this.setState({
-        auth: this.props.authorization
-      });
+      this.setState(
+        {
+          auth: this.props.authorization
+        },
+        this.getData()
+      );
     }
   }
+
+  getData = () => {
+    fetch(`${TYPEDOCUMENTARY_ALL}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          data: data
+        });
+      })
+      .catch(err => console.log(err));
+  };
 
   accionesTramite = (cell, row) => {
     return (
@@ -96,9 +118,9 @@ class TableContentTramite extends Component {
 
   estadoTipodocumentalradicacion = (cell, row) => {
     let status;
-    if (row.estado === true) {
+    if (row.status === 1) {
       status = <p className="text-success"> Activo </p>;
-    } else if (row.estado !== true) {
+    } else if (row.status === 0) {
       status = <p className="text-danger"> Inactivo </p>;
     }
     return status;
@@ -123,7 +145,7 @@ class TableContentTramite extends Component {
         <Row>
           <Col sm={12}>
             <BootstrapTable
-              data={dataExample}
+              data={this.state.data}
               bordered={false}
               hover
               pagination
@@ -137,20 +159,20 @@ class TableContentTramite extends Component {
                 {" "}
                 #{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"codigo"} dataAlign="center">
+              <TableHeaderColumn dataField={"code"} dataAlign="center">
                 {" "}
                 Código{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"nombre"} dataAlign="center">
+              <TableHeaderColumn dataField={"name"} dataAlign="center">
                 {" "}
                 Nombre{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"descripcion"} dataAlign="center">
+              <TableHeaderColumn dataField={"description"} dataAlign="center">
                 {" "}
                 Descripción{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField={"estado"}
+                dataField={"status"}
                 dataAlign="center"
                 dataFormat={(cell, row) =>
                   this.estadoTipodocumentalradicacion(cell, row)

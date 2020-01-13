@@ -3,6 +3,7 @@ import TipoDocumentalRadicacion from "./Forms/TipoDocumentalRadicacion";
 import PropTypes from "prop-types";
 
 const FormCreateTipoTramite = props => {
+  console.log(props.authorization);
   return (
     <div className="animated fadeIn">
       <div className="row">

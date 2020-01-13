@@ -19,6 +19,9 @@ import {
   borrarUsuarioDiponible,
   agregarUsuarioOriginal
 } from "./../../../../actions/documentaryTypeAction";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
 const TipoDocumentalRadicacion = props => {
   const { t, authorization } = props;
@@ -89,19 +92,72 @@ const TipoDocumentalRadicacion = props => {
         setTimeout(() => {
           const auth = props.authorization;
           const username = decode(auth);
-          console.log({
-            code: values.codigo,
-            name: values.nombre,
-            description: values.descripcion,
-            answerDays: values.d_maximos,
-            issue: values.asunto,
-            status: tipoEstado(values.estado),
-            typeCorrespondence: values.tipocorrespondencia,
-            templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
-            userName: username.user_name,
-            users: userData.users,
-            original: userData.original
-          });
+          fetch(`${TYPEDOCUMENTARY_POST}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + auth
+            },
+            body: JSON.stringify({
+              code: values.codigo,
+              name: values.nombre,
+              description: values.descripcion,
+              answerDays: values.d_maximos,
+              issue: values.asunto,
+              status: tipoEstado(values.estado),
+              typeCorrespondence: tipoCorrespondencia(
+                values.tipocorrespondencia
+              ),
+              templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+              userName: username.user_name,
+              users: userData.users,
+              original: userData.original
+            })
+          }).then(response =>
+            response
+              .json()
+              .then(data => {
+                if (response.status === 201) {
+                  toast.success(
+                    "Tipo documental de radicacion creado con exito. ",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
+                } else if (response.status === 500) {
+                  toast.error("tipo documental de radicacion existente. ", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                }
+              })
+              .catch(error => {
+                toast.error(`Error ${error} `, {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                });
+              })
+          );
+          // console.log({
+          //   code: values.codigo,
+          //   name: values.nombre,
+          //   description: values.descripcion,
+          //   answerDays: values.d_maximos,
+          //   issue: values.asunto,
+          //   status: tipoEstado(values.estado),
+          //   typeCorrespondence: tipoCorrespondencia(values.tipocorrespondencia),
+          //   templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+          //   userName: username.user_name,
+          //   users: userData.users,
+          //   original: userData.original
+          // });
           setSubmitting(false);
           resetForm({
             tipocorrespondencia: "",
@@ -112,7 +168,8 @@ const TipoDocumentalRadicacion = props => {
             conglomerado: "",
             empresa: "",
             sede: "",
-            dependencia: ""
+            dependencia: "",
+            asunto: ""
           });
         }, 1000);
       }}

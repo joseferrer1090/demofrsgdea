@@ -404,28 +404,28 @@ export const THIRDPARTY_PAGINATION = () => {
 //---------------------------------------------TIPO DOCUMENTAL RADICACIÓN--------------------------------------------------//
 
 /* GET params => ID, username */
-export const TYPEPROCEDURE_SHOW = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/`;
+export const TYPEPROCEDURE_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/`;
 
 /* POST  */
-export const TYPEDOCUMENTARY_POST = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries`;
+export const TYPEDOCUMENTARY_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries`;
 
 /* PUT */
-export const TYPEDOCUMENTARY_PUT = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries`;
+export const TYPEDOCUMENTARY_PUT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries`;
 
 /* DELETE  params => id */
-export const TYPEDOCUMENTARY_DELETE = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/`;
+export const TYPEDOCUMENTARY_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/`;
 
 /* GET */
-export const TYPEDOCUMENTARYS_STATUS = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/active`;
+export const TYPEDOCUMENTARYS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/active`;
 
 /* GET */
-export const TYPEDOCUMENTARYS_STATUS_INACTIVE = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/inactive`;
+export const TYPEDOCUMENTARYS_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/inactive`;
 
 /* GET param => username */
-export const TYPEDOCUMENTARYS_EXPORT = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/export/data`;
+export const TYPEDOCUMENTARYS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/export/data`;
 
 /* GET params id  */
-export const TYPEDOCUMENTARYS_EXPORT_USERS = `${config.IP}${config.PORT}/api/sgdea/service/configuration/type/documentaries/export/`;
+export const TYPEDOCUMENTARYS_EXPORT_USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/export/`;
 
 /* GET */
 export const TYPEDOCUMENTARYS_PAGINATION = () => {

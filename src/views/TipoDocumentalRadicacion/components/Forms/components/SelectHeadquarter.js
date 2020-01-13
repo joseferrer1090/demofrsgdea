@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { HEADQUARTER_BY_COMPANY } from "./../../../../../services/EndPoints";
 
 class SelectHeadquarter extends Component {
   state = {
@@ -54,6 +55,7 @@ class SelectHeadquarter extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div>
         <select
@@ -81,8 +83,8 @@ class SelectHeadquarter extends Component {
 
 SelectHeadquarter.propTypes = {
   idEmpresa: PropTypes.string.isRequired,
-  t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
+  t: PropTypes.any
 };
 
 export default SelectHeadquarter;

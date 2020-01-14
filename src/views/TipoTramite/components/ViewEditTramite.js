@@ -7,6 +7,10 @@ import {
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
+import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
+import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
+import SelectSede from "./component_viewEdit/SelectSede";
+import SelectDependencia from "./component_viewEdit/SelectDependencia";
 
 class ViewEditTable extends React.Component {
   state = {
@@ -322,37 +326,38 @@ class ViewEditTable extends React.Component {
                                       <div className="col-md-6">
                                         <div className="form-group">
                                           <label> Conglomerado </label>
-                                          <select className="form-control form-control-sm">
+                                          <SelectConglomerado className="form-control form-control-sm" />
+                                          {/* <select className="form-control form-control-sm">
                                             <option>Seleccione</option>
-                                          </select>
+                                          </select> */}
                                         </div>
                                       </div>
                                       <div className="col-md-6">
                                         <div className="form-group">
                                           <label>Empresa </label>
-                                          <select className="form-control form-control-sm">
+                                          <SelectEmpresa className="form-control form-control-sm" />
+                                          {/* <select className="form-control form-control-sm">
                                             <option>Seleccione</option>
-                                          </select>
+                                          </select> */}
                                         </div>
                                       </div>
                                       <div className="col-md-6">
                                         <div className="form-group">
                                           <label> Sede </label>
-                                          <select className="form-control form-control-sm">
+                                          <SelectSede className="form-control form-control-sm" />
+                                          {/* <select className="form-control form-control-sm">
                                             <option>Seleccione</option>
-                                          </select>
+                                          </select> */}
                                         </div>
                                       </div>
                                       <div className="col-md-6">
                                         <div className="form-group">
                                           <label> Dependencia </label>
-                                          <select className="form-control form-control-sm">
-                                            <option>Seleccione</option>
-                                          </select>
+                                          <SelectDependencia className="form-control form-control-sm" />
                                         </div>
                                       </div>
                                       <div className="col-md-12">
-                                        <div className="form-group">
+                                        {/* <div className="form-group">
                                           <label> Buscar usuario </label>
                                           <div className="input-group input-group-sm">
                                             <input
@@ -379,7 +384,7 @@ class ViewEditTable extends React.Component {
                                               </button>
                                             </div>
                                           </div>
-                                        </div>
+                                        </div> */}
                                         <textarea
                                           className="form-control form-control-sm"
                                           placeholder="Usuarios ya seleccionado"

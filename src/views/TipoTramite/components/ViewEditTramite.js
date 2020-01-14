@@ -14,7 +14,7 @@ import SelectDependencia from "./component_viewEdit/SelectDependencia";
 
 class ViewEditTable extends React.Component {
   state = {
-    t_correspondencia_selected: [],
+    tipocorrespondencia: "",
     codigo: "",
     nombre: "",
     descripcion: "",
@@ -28,42 +28,42 @@ class ViewEditTable extends React.Component {
     return;
   };
 
-  componentDidMount() {
-    this.getTipoTramiteInformation();
-    this.getTipoTramiteData();
-  }
+  // componentDidMount() {
+  //   this.getTipoTramiteInformation();
+  //   this.getTipoTramiteData();
+  // }
 
-  getTipoTramiteInformation() {
-    fetch(TIPO_TRAMITE_EDIT)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          t_correspondencia: data.t_correspondencia,
-          codigo: data.codigo,
-          nombre: data.nombre,
-          descripcion: data.descripcion,
-          d_maximos: data.d_maximos,
-          estado: data.estado
-        });
-        console.log(this.state);
-      })
-      .catch(error => console.log("Error", error));
-  }
+  // getTipoTramiteInformation() {
+  //   fetch(TIPO_TRAMITE_EDIT)
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       this.setState({
+  //         t_correspondencia: data.t_correspondencia,
+  //         codigo: data.codigo,
+  //         nombre: data.nombre,
+  //         descripcion: data.descripcion,
+  //         d_maximos: data.d_maximos,
+  //         estado: data.estado
+  //       });
+  //       console.log(this.state);
+  //     })
+  //     .catch(error => console.log("Error", error));
+  // }
 
-  getTipoTramiteData = () => {
-    fetch(TIPO_CORRESPONDENCIA_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          t_correspondencia_selected: data
-        });
-      })
-      .catch(error => console.log(error));
-  };
+  // getTipoTramiteData = () => {
+  //   fetch(TIPO_CORRESPONDENCIA_SELECTED)
+  //     .then(response => response.json())q
+  //     .then(data => {
+  //       this.setState({
+  //         t_correspondencia_selected: data
+  //       });
+  //     })
+  //     .catch(error => console.log(error));
+  // };
 
   render() {
     const dataPreview = {
-      t_correspondencia: this.state.t_correspondencia,
+      tipocorrespondencia: this.state.tipocorrespondencia,
       codigo: this.state.codigo,
       nombre: this.state.nombre,
       descripcion: this.state.descripcion,
@@ -71,13 +71,13 @@ class ViewEditTable extends React.Component {
       estado: this.state.estado
     };
 
-    const auxSelected = this.state.t_correspondencia_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
+    // const auxSelected = this.state.t_correspondencia_selected.map((aux, id) => {
+    //   return (
+    //     <option key={id} value={aux.id}>
+    //       {aux.nombre}
+    //     </option>
+    //   );
+    // });
 
     console.log(this.props);
     return (
@@ -91,7 +91,7 @@ class ViewEditTable extends React.Component {
             }, 500);
           }}
           validationSchema={Yup.object().shape({
-            t_correspondencia: Yup.string()
+            tipocorrespondencia: Yup.string()
               .ensure()
               .required(" Por favor seleccione el tipo de correspondencia."),
             codigo: Yup.string().required(" Por favor introduzca un código."),
@@ -140,23 +140,30 @@ class ViewEditTable extends React.Component {
                                             </span>
                                           </label>
                                           <select
-                                            name={"t_correspondencia"}
-                                            value={values.t_correspondencia}
+                                            name="tipocorrespondencia"
+                                            value={values.tipocorrespondencia}
                                             onChange={handleChange}
                                             onBlur={handleBlur}
-                                            className={`form-control form-control-sm ${errors.t_correspondencia &&
-                                              touched.t_correspondencia &&
+                                            className={`form-control form-control-sm ${errors.tipocorrespondencia &&
+                                              touched.tipocorrespondencia &&
                                               "is-invalid"}`}
                                           >
-                                            {auxSelected}
+                                            <option value={" "}>
+                                              -- Seleccione --
+                                            </option>
+                                            <option value={1}>Recibida</option>
+                                            <option value={2}>
+                                              Despachada
+                                            </option>
+                                            <option value={3}>Interna</option>
                                           </select>
                                           <div style={{ color: "#D54B4B" }}>
-                                            {errors.t_correspondencia &&
-                                            touched.t_correspondencia ? (
+                                            {errors.tipocorrespondencia &&
+                                            touched.tipocorrespondencia ? (
                                               <i className="fa fa-exclamation-triangle" />
                                             ) : null}
                                             <ErrorMessage
-                                              name={"t_correspondencia"}
+                                              name={"tipocorrespondencia"}
                                             />
                                           </div>
                                         </div>

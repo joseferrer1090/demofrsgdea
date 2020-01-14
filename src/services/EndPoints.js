@@ -428,7 +428,7 @@ export const TYPEDOCUMENTARYS_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api
 export const TYPEDOCUMENTARYS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/export/data`;
 
 /* GET params id  */
-export const TYPEDOCUMENTARYS_EXPORT_USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/export/`;
+export const TYPEDOCUMENTARYS_EXPORT_USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/documentaries/export`;
 
 /* GET */
 export const TYPEDOCUMENTARYS_PAGINATION = () => {

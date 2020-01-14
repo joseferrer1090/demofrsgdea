@@ -4,6 +4,8 @@ import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewTipoDocumentalRadication from "./ModalViewTipoDocumentalRadication";
 import ModalDeleteTipoDocumentalRadication from "./ModalDeleteTipoDocumentalRadication";
+import ModalExport from "./ModalExport";
+import ModalExportUsers from "./ModalExportTDRUser";
 import PropTypes from "prop-types";
 import "./../../../css/styleTableTipoDocumentalRadicacion.css";
 import { TYPEDOCUMENTARY_ALL } from "./../../../services/EndPoints";
@@ -14,6 +16,8 @@ class TableContentTramite extends Component {
     this.state = {
       modalview: false,
       modaldel: false,
+      modalexport: false,
+      modalexport2: false,
       auth: this.props.authorization,
       data: [],
       hiddenColumnID: true
@@ -116,12 +120,48 @@ class TableContentTramite extends Component {
     this.refs.child2.toggle(id);
   }
 
+  openModalExport() {
+    this.refs.child3.toogle();
+  }
+
+  openModalExport2() {
+    this.refs.child4.toogle();
+  }
+
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
+  createCustomButtonGroup = props => {
+    return (
+      <div>
+        <button
+          type="button"
+          className={`btn btn-secondary btn-sm`}
+          onClick={() => this.openModalExport()}
+        >
+          <i className="fa fa-download" /> Exportar
+        </button>
+        &nbsp;
+        <button
+          type="button"
+          className={`btn btn-secondary btn-sm`}
+          onClick={() => this.openModalExport2()}
+        >
+          <i className="fa fa-download" /> Exportar usuarios por tipo documental
+          de radicacion
+        </button>
+      </div>
+    );
+  };
+
   render() {
     const { auth } = this.state;
+    const options = {
+      btnGroup: this.createCustomButtonGroup,
+      pagination: true,
+      exportCSV: true
+    };
     return (
       <div className="animated fadeIn">
         <Row>
@@ -136,6 +176,7 @@ class TableContentTramite extends Component {
               searchPlaceholder="Buscar"
               exportCSV
               className="texto-TLlegada"
+              options={options}
             >
               <TableHeaderColumn
                 isKey
@@ -195,6 +236,16 @@ class TableContentTramite extends Component {
           modaldelete={this.state.modaldel}
           updateTable={this.getData}
           ref={"child2"}
+        />
+        <ModalExport
+          authorization={auth}
+          ref={"child3"}
+          modalexport={this.state.modalexport}
+        />
+        <ModalExportUsers
+          modal={this.state.modalexport2}
+          authorization={auth}
+          ref={"child4"}
         />
       </div>
     );

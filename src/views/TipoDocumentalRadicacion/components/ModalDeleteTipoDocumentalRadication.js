@@ -20,6 +20,7 @@ class ModalDeleteTramite extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      t: this.props.t,
       modal: this.props.modaldelete,
       id: this.props.id,
       dataTypeDocumental: {},
@@ -78,7 +79,7 @@ class ModalDeleteTramite extends Component {
 
   render() {
     const aux = this.state.dataTypeDocumental;
-    console.log(this.state.auth);
+    const { t } = this.props;
     const dataInitial = {
       code: ""
     };
@@ -87,7 +88,7 @@ class ModalDeleteTramite extends Component {
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
             {" "}
-            Eliminar tipo documental de radicación {aux.name}
+            {t("app_documentalRadicacion_eliminar_titulo")} {aux.name}
           </ModalHeader>
           <Formik
             initialValues={dataInitial}
@@ -155,30 +156,32 @@ class ModalDeleteTramite extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        Error, al eliminar el tipo de tramite {values.code}
+                        {t("app_documentalRadicacion_eliminar_alert_error")}{" "}
+                        {values.code}
                       </Alert>
                       <Alert
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        Se elimino de manera satisfactoria el tipo de tramite
+                        {t("app_documentalRadicacion_eliminar_alert_success")}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        El codigo para eliminar tipo de tramite no corresponde
+                        {t("app_documentalRadicacion_eliminar_alert_code")}
                       </Alert>
                       <p className="text-center">
                         {" "}
-                        Confirmar el <code> codigo </code> para eliminar el tipo
-                        de tramite{" "}
+                        {t("app_documentalRadicacion_eliminar_titulo_2")}
                       </p>
                       <input
                         type="text"
-                        placeholder="codigo del tipo de tramite"
+                        placeholder={t(
+                          "app_documentalRadicacion_eliminar_placeholder"
+                        )}
                         style={{ textAlign: "center" }}
                         name="code"
                         onChange={handleChange}
@@ -196,7 +199,7 @@ class ModalDeleteTramite extends Component {
                       </div>
                       <br />
                       <p className="text-center text-danger">
-                        El tipo de tramite quedara eliminado permanentemente.
+                        {t("app_documentalRadicacion_eliminar_titulo_3")}
                       </p>
                     </ModalBody>
                     <ModalFooter>
@@ -209,7 +212,8 @@ class ModalDeleteTramite extends Component {
                         }}
                       >
                         {" "}
-                        <i className="fa fa-trash" /> Eliminar
+                        <i className="fa fa-trash" />{" "}
+                        {t("app_documentalRadicacion_eliminar_boton_eliminar")}
                       </button>
                       <Button
                         type="button"
@@ -218,7 +222,8 @@ class ModalDeleteTramite extends Component {
                           this.setState({ modal: false });
                         }}
                       >
-                        <i className="fa fa-times" /> Cerrar{" "}
+                        <i className="fa fa-times" />{" "}
+                        {t("app_documentalRadicacion_eliminar_boton_cerrar")}{" "}
                       </Button>
                     </ModalFooter>
                   </form>

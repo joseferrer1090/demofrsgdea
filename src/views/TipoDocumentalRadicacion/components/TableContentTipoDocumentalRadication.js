@@ -9,6 +9,8 @@ import ModalExportUsers from "./ModalExportTDRUser";
 import PropTypes from "prop-types";
 import "./../../../css/styleTableTipoDocumentalRadicacion.css";
 import { TYPEDOCUMENTARY_ALL } from "./../../../services/EndPoints";
+import { withTranslation } from "react-i18next";
+import moment from "moment";
 
 class TableContentTramite extends Component {
   constructor(props) {
@@ -98,14 +100,25 @@ class TableContentTramite extends Component {
   };
 
   estadoTipodocumentalradicacion = (cell, row) => {
+    const { t } = this.props;
     let status;
     if (row.status === 1) {
-      status = <p className="text-success"> Activo </p>;
+      status = (
+        <b className="text-success"> {t("app_tablas_estado_activo")} </b>
+      );
     } else if (row.status === 0) {
-      status = <p className="text-danger"> Inactivo </p>;
+      status = (
+        <b className="text-danger"> {t("app_tablas_estado_inactivo")} </b>
+      );
     }
     return status;
   };
+
+  FechaCreacion(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("DD-MM-YYYY");
+  }
 
   openModalView(id) {
     this.refs.child1.toggle(id);
@@ -133,6 +146,7 @@ class TableContentTramite extends Component {
   }
 
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <div>
         <button
@@ -140,7 +154,8 @@ class TableContentTramite extends Component {
           className={`btn btn-secondary btn-sm`}
           onClick={() => this.openModalExport()}
         >
-          <i className="fa fa-download" /> Exportar
+          <i className="fa fa-download" />{" "}
+          {t("app_documentalRadicacion_table_administrar_exportar")}
         </button>
         &nbsp;
         <button
@@ -148,8 +163,8 @@ class TableContentTramite extends Component {
           className={`btn btn-secondary btn-sm`}
           onClick={() => this.openModalExport2()}
         >
-          <i className="fa fa-download" /> Exportar usuarios por tipo documental
-          de radicacion
+          <i className="fa fa-download" />{" "}
+          {t("app_documentalRadicacion_table_administrar_exportar_usuarios")}
         </button>
       </div>
     );
@@ -162,6 +177,7 @@ class TableContentTramite extends Component {
       pagination: true,
       exportCSV: true
     };
+    const { t } = this.props;
     return (
       <div className="animated fadeIn">
         <Row>
@@ -173,7 +189,9 @@ class TableContentTramite extends Component {
               pagination
               search
               striped
-              searchPlaceholder="Buscar"
+              searchPlaceholder={t(
+                "app_documentalRadicacion_table_administrar_placeholder"
+              )}
               exportCSV
               className="texto-TLlegada"
               options={options}
@@ -188,24 +206,53 @@ class TableContentTramite extends Component {
               <TableHeaderColumn
                 dataField={"id"}
                 dataFormat={this.indexN}
-                width="50"
+                width={"40"}
+              >
+                #
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                width={"100"}
+                dataField={"code"}
+                dataAlign="center"
               >
                 {" "}
-                #{" "}
+                {t("app_documentalRadicacion_table_administrar_codigo")}{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"code"} dataAlign="center">
+              <TableHeaderColumn
+                width={"205"}
+                dataField={"name"}
+                dataAlign="center"
+              >
                 {" "}
-                Código{" "}
-              </TableHeaderColumn>
-              <TableHeaderColumn dataField={"name"} dataAlign="center">
-                {" "}
-                Nombre{" "}
+                {t("app_documentalRadicacion_table_administrar_nombre")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn dataField={"description"} dataAlign="center">
                 {" "}
-                Descripción{" "}
+                {t(
+                  "app_documentalRadicacion_table_administrar_descripcion"
+                )}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
+                width={"170"}
+                dataField={"answerDays"}
+                dataAlign="center"
+              >
+                {t(
+                  "app_documentalRadicacion_table_administrar_tiempo_respuesta"
+                )}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataField={"createdAt"}
+                dataAlign="center"
+                dataFormat={(cell, row) => this.FechaCreacion(cell, row)}
+              >
+                {" "}
+                {t(
+                  "app_documentalRadicacion_table_administrar_fecha_creacion"
+                )}{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                width={"100"}
                 dataField={"status"}
                 dataAlign="center"
                 dataFormat={(cell, row) =>
@@ -213,7 +260,7 @@ class TableContentTramite extends Component {
                 }
               >
                 {" "}
-                Estado{" "}
+                {t("app_documentalRadicacion_table_administrar_estado")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
                 export={false}
@@ -221,28 +268,32 @@ class TableContentTramite extends Component {
                 dataFormat={(cell, row) => this.accionesTramite(cell, row)}
               >
                 {" "}
-                Acciones{" "}
+                {t("app_documentalRadicacion_table_administrar_acciones")}{" "}
               </TableHeaderColumn>
             </BootstrapTable>
           </Col>
         </Row>
         <ModalViewTipoDocumentalRadication
+          t={this.props.t}
           authorization={auth}
           modalviewtramit={this.state.modalview}
           ref={"child1"}
         />
         <ModalDeleteTipoDocumentalRadication
+          t={this.props.t}
           authorization={auth}
           modaldelete={this.state.modaldel}
           updateTable={this.getData}
           ref={"child2"}
         />
         <ModalExport
+          t={this.props.t}
           authorization={auth}
           ref={"child3"}
           modalexport={this.state.modalexport}
         />
         <ModalExportUsers
+          t={this.props.t}
           modal={this.state.modalexport2}
           authorization={auth}
           ref={"child4"}
@@ -253,7 +304,8 @@ class TableContentTramite extends Component {
 }
 
 TableContentTramite.propTypes = {
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
+  t: PropTypes.any.isRequired
 };
 
-export default TableContentTramite;
+export default withTranslation("translations")(TableContentTramite);

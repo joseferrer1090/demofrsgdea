@@ -48,15 +48,16 @@ class ModalExportTDRUser extends Component {
   };
 
   render() {
-    console.log(this.props.id);
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-xl" isOpen={this.state.modal}>
           <ModalHeader>
-            Exportar usuarios por tipo documental de radicacion
+            {t("app_documentalRadicacion_exportar_usuarios_titulo")}
           </ModalHeader>
           <ModalBody>
             <SelectTipoTramite
+              t={this.state.t}
               token={this.props.authorization}
               value={this.state.tipoTramite}
               onChange={e => {
@@ -66,6 +67,7 @@ class ModalExportTDRUser extends Component {
             <div className="row">
               <div className="col-md-12">
                 <TableCSV
+                  t={this.state.t}
                   authorization={this.props.authorization}
                   id={this.state.tipoTramite}
                   data={this.state.dataExportUSer}
@@ -81,7 +83,8 @@ class ModalExportTDRUser extends Component {
               }}
             >
               {" "}
-              <i className="fa fa-times" /> cerrar{" "}
+              <i className="fa fa-times" />{" "}
+              {t("app_documentalRadicacion_exportar_usuarios_boton_cerrar")}{" "}
             </button>
 
             {/* <button className="btn btn-secondary btn-sm"> Exportar  </button> */}
@@ -108,6 +111,7 @@ ModalExportTDRUser.propTypes = {
 export default ModalExportTDRUser;
 
 const SelectTipoTramite = props => {
+  const { t } = props;
   const token = props.token;
   const [data, setData] = useState([]);
   const username = decode(token);
@@ -133,7 +137,8 @@ const SelectTipoTramite = props => {
         className="col-sm-3 col-form-label"
         style={{ paddingLeft: "70px" }}
       >
-        Tipo documental de radicacion <span className="text-danger">*</span> :
+        {t("app_documentalRadicacion_exportar_usuarios_label_select")}
+        <span className="text-danger">*</span> :
       </label>
       <div className="col-sm-8">
         <select
@@ -141,7 +146,9 @@ const SelectTipoTramite = props => {
           value={props.value}
           onChange={props.onChange}
         >
-          <option value="">Seleccione tipo documental de radicacion</option>
+          <option value="">
+            {t("app_documentalRadicacion_exportar_usuarios_placeholder_select")}
+          </option>
           {data.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -159,7 +166,8 @@ class TableCSV extends React.Component {
   state = {
     data: this.props.data,
     idTipoTramite: this.props.id,
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    t: this.props.t
   };
 
   getDataTipoTramiteByUser = () => {
@@ -240,21 +248,29 @@ class TableCSV extends React.Component {
     ];
     const json2csvParser = new Parser({ fields, quote: "" });
     const csv = json2csvParser.parse(data);
+    const { t } = this.props;
     return (
       <div>
         <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
           <thead className="">
             <tr className="">
-              <th>CodeTypeProcedure</th>
-              <th>Email</th>
-              <th>Identificacion</th>
-              <th>Nombre</th>
-              <th>Original</th>
+              <th>{t("app_documentalRadicacion_exportar_usuarios_codigo")}</th>
+              <th>{t("app_documentalRadicacion_exportar_usuarios_email")}</th>
+              <th>
+                {t("app_documentalRadicacion_exportar_usuarios_identifiacion")}
+              </th>
+              <th>{t("app_documentalRadicacion_exportar_usuarios_nombre")}</th>
+              <th>
+                {t("app_documentalRadicacion_exportar_usuarios_original")}
+              </th>
             </tr>
           </thead>
           <tbody className="text-justify">
             {Object.keys(this.state.data).length === 0 ? (
-              <p className="text-center"> No hay dato para generar el CSV </p>
+              <p className="text-center">
+                {" "}
+                {t("app_documentalRadicacion_exportar_usuarios_sin_datos")}{" "}
+              </p>
             ) : (
               this.state.data.map((aux, id) => {
                 return (
@@ -265,9 +281,13 @@ class TableCSV extends React.Component {
                     <td>{aux.name}</td>
                     <td>
                       {aux.original === true ? (
-                        <p className="text-success">Activo</p>
+                        <p className="text-success">
+                          {t("app_tablas_estado_activo")}
+                        </p>
                       ) : (
-                        <p className="text-danger">Inactivo</p>
+                        <p className="text-danger">
+                          {t("app_tablas_estado_inactivo")}
+                        </p>
                       )}
                     </td>
                   </tr>
@@ -277,7 +297,8 @@ class TableCSV extends React.Component {
           </tbody>
         </table>
         <CSVLink data={csv} className="btn btn-secondary btn-sm">
-          <i className="fa fa-download" /> Exportar csv
+          <i className="fa fa-download" />{" "}
+          {t("app_documentalRadicacion_exportar_usuarios_boton_exportar")}
         </CSVLink>
       </div>
     );

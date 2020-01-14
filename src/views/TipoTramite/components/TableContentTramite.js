@@ -14,6 +14,7 @@ class TableContentTramite extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      t: this.props.t,
       dataTipoTramite: [],
       modalview: false,
       modaldel: false,
@@ -100,15 +101,20 @@ class TableContentTramite extends Component {
   FechaCreacionTipoTramite(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
   estadotramite = (cell, row) => {
+    const { t } = this.props;
     let status;
     if (row.status === 1) {
-      status = <div className="text-success"> Activo </div>;
+      status = (
+        <b className="text-success"> {t("app_tablas_estado_activo")} </b>
+      );
     } else if (row.status === 0) {
-      status = <div className="text-danger"> Inactivo </div>;
+      status = (
+        <b className="text-danger"> {t("app_tablas_estado_inactivo")} </b>
+      );
     }
     return status;
   };
@@ -139,6 +145,7 @@ class TableContentTramite extends Component {
   }
 
   createCustomButtonGroup = props => {
+    const { t } = this.props;
     return (
       <div>
         <button
@@ -146,7 +153,8 @@ class TableContentTramite extends Component {
           className={`btn btn-secondary btn-sm`}
           onClick={() => this.openModalExport()}
         >
-          <i className="fa fa-download" /> Exportar
+          <i className="fa fa-download" />{" "}
+          {t("app_tipoTramite_table_administrar_exportar")}
         </button>
         &nbsp;
         <button
@@ -154,7 +162,8 @@ class TableContentTramite extends Component {
           className={`btn btn-secondary btn-sm`}
           onClick={() => this.openModalExportUsers()}
         >
-          <i className="fa fa-download" /> Exportar usuarios por tramite
+          <i className="fa fa-download" />{" "}
+          {t("app_tipoTramite_table_administrar_exportar_usuarios")}
         </button>
       </div>
     );
@@ -195,17 +204,25 @@ class TableContentTramite extends Component {
               />
               <TableHeaderColumn
                 dataField={"id"}
-                width="50"
+                width="40"
                 dataFormat={this.indexN}
               >
                 {" "}
                 #{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"code"} dataAlign="center">
+              <TableHeaderColumn
+                width={"100"}
+                dataField={"code"}
+                dataAlign="center"
+              >
                 {" "}
                 {t("app_tipoTramite_table_administrar_codigo")}{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"name"} dataAlign="center">
+              <TableHeaderColumn
+                width={"205"}
+                dataField={"name"}
+                dataAlign="center"
+              >
                 {" "}
                 {t("app_tipoTramite_table_administrar_nombre")}{" "}
               </TableHeaderColumn>
@@ -213,7 +230,11 @@ class TableContentTramite extends Component {
                 {" "}
                 {t("app_tipoTramite_table_administrar_descripcion")}{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"answerDays"} dataAlign={"center"}>
+              <TableHeaderColumn
+                width={"170"}
+                dataField={"answerDays"}
+                dataAlign={"center"}
+              >
                 {" "}
                 {t("app_tipoTramite_table_administrar_tiempo_respuesta")}{" "}
               </TableHeaderColumn>
@@ -228,6 +249,7 @@ class TableContentTramite extends Component {
                 {t("app_tipoTramite_table_administrar_fecha_creacion")}
               </TableHeaderColumn>
               <TableHeaderColumn
+                width={"100"}
                 dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.estadotramite(cell, row)}
@@ -247,22 +269,26 @@ class TableContentTramite extends Component {
           </Col>
         </Row>
         <ModalViewTramite
+          t={this.state.t}
           authorization={auth}
           modalviewtramit={this.state.modalview}
           ref={"child1"}
         />
         <ModalDeleteTramite
+          t={this.state.t}
           authorization={auth}
           updateTable={this.getDataTipoTramite}
           modaldelete={this.state.modaldel}
           ref={"child2"}
         />
         <ModalExport
+          t={this.state.t}
           authorization={auth}
           modalexport={this.state.modalexport}
           ref={"child3"}
         />
         <ModalExport2
+          t={this.state.t}
           authorization={auth}
           modalexport2={this.state.modalexport2}
           ref={"child4"}

@@ -18,9 +18,9 @@ class ModalViewTramite extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      t: this.props.t,
       modal: this.props.modalviewtramit,
       id: this.props.id,
-      username: "jferrer",
       dataTipoTramite: {},
       users: [],
       auth: this.props.authorization
@@ -76,33 +76,46 @@ class ModalViewTramite extends Component {
   FechaCreacionTipoTramite(data) {
     let createdAt;
     createdAt = new Date(data);
-    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(createdAt).format("DD-MM-YYYY, h:mm:ss a");
   }
   FechaModificacionTipoTramite(data) {
     let updatedAt;
     updatedAt = new Date(data);
     // moment.locale(es);
-    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(updatedAt).format("DD-MM-YYYY, h:mm:ss a");
   }
 
   render() {
+    const { t } = this.props;
     const statusTipoTramite = data => {
       let status;
       if (data === 1) {
-        status = <b className="text-success"> Tramite activo</b>;
+        status = (
+          <b className="text-success">
+            {" "}
+            {t("app_tipoTramite_ver_estado_activo")}
+          </b>
+        );
       } else if (data === 0) {
-        status = <b className="text-danger"> Tramite inactivo</b>;
+        status = (
+          <b className="text-danger">
+            {" "}
+            {t("app_tipoTramite_ver_estado_inactivo")}
+          </b>
+        );
       }
       return status;
     };
     const typeProcedure = data => {
       let type;
       if (data === 1) {
-        type = <p>Recibida</p>;
+        type = <p>{t("app_tipoTramite_ver_tipo_correspondencia_recibida")}</p>;
       } else if (data === 2) {
-        type = <p>Despachada</p>;
+        type = (
+          <p>{t("app_tipoTramite_ver_tipo_correspondencia_despachada")}</p>
+        );
       } else if (data === 3) {
-        type = <p>Interna</p>;
+        type = <p>{t("app_tipoTramite_ver_tipo_correspondencia_interna")}</p>;
       }
       return type;
     };
@@ -111,34 +124,38 @@ class ModalViewTramite extends Component {
       <div>
         <Modal className="modal-xl" isOpen={this.state.modal}>
           <ModalHeader>
-            Ver Tramite {this.state.dataTipoTramite.name}
+            {t("app_tipoTramite_ver_titulo")} {this.state.dataTipoTramite.name}
           </ModalHeader>
           <ModalBody>
             <Row>
-              <Col sm="3">
-                <img src={IMGTRAMITE} />
+              <Col sm="2">
+                <img
+                  src={IMGTRAMITE}
+                  className="img-thumbnail"
+                  style={{ width: "169px", height: "169px" }}
+                />
               </Col>
-              <Col sm="9">
+              <Col>
                 <div className="">
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Informacion básica{" "}
+                    {t("app_tipoTramite_ver_titulo_2")}{" "}
                   </h5>{" "}
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Código </dt>
+                        <dt>{t("app_tipoTramite_ver_codigo")} </dt>
                         <dd>{this.state.dataTipoTramite.code}</dd>
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Tipo de correspondencia </dt>
+                        <dt>{t("app_tipoTramite_ver_tipo_correspondencia")}</dt>
                         <dd>
                           {" "}
                           {typeProcedure(
@@ -148,26 +165,26 @@ class ModalViewTramite extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
+                        <dt>{t("app_tipoTramite_ver_nombre")} </dt>
                         <dd> {this.state.dataTipoTramite.name} </dd>
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Descripción </dt>
+                        <dt>{t("app_tipoTramite_ver_descripcion")} </dt>
                         <dd> {this.state.dataTipoTramite.description} </dd>
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Estado </dt>
+                        <dt>{t("app_tipoTramite_ver_estado")} </dt>
                         <dd>
                           {" "}
                           {statusTipoTramite(
@@ -177,18 +194,18 @@ class ModalViewTramite extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Asunto </dt>
+                        <dt>{t("app_tipoTramite_ver_asunto")} </dt>
                         <dd> {this.state.dataTipoTramite.issue}</dd>
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de creación </dt>
+                        <dt>{t("app_tipoTramite_ver_fecha_creacion")} </dt>
                         <dd>
                           {" "}
                           {this.FechaCreacionTipoTramite(
@@ -198,10 +215,10 @@ class ModalViewTramite extends Component {
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de modificación </dt>
+                        <dt>{t("app_tipoTramite_ver_fecha_modificacion")} </dt>
                         <dd>
                           {this.FechaModificacionTipoTramite(
                             this.state.dataTipoTramite.updatedAt
@@ -219,10 +236,10 @@ class ModalViewTramite extends Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Usuarios asignado al tramite{" "}
+                    {t("app_tipoTramite_ver_titulo_3")}{" "}
                   </h5>{" "}
                 </div>
-                <TableComponent data={this.state.users} />
+                <TableComponent t={this.state.t} data={this.state.users} />
               </Col>
             </Row>
           </ModalBody>
@@ -234,7 +251,7 @@ class ModalViewTramite extends Component {
               }}
               className="btn btn-secondary btn-sm"
             >
-              <i className="fa fa-times" /> Cerrar
+              <i className="fa fa-times" /> {t("app_tipoTramite_ver_cerrar")}
             </button>
           </ModalFooter>
         </Modal>
@@ -244,6 +261,7 @@ class ModalViewTramite extends Component {
 }
 
 ModalViewTramite.propTypes = {
+  t: PropTypes.any.isRequired,
   authorization: PropTypes.string.isRequired
 };
 

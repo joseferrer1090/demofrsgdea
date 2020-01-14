@@ -4,41 +4,62 @@ import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import ModalViewTipoDocumentalRadication from "./ModalViewTipoDocumentalRadication";
 import ModalDeleteTipoDocumentalRadication from "./ModalDeleteTipoDocumentalRadication";
+import ModalExport from "./ModalExport";
+import ModalExportUsers from "./ModalExportTDRUser";
 import PropTypes from "prop-types";
 import "./../../../css/styleTableTipoDocumentalRadicacion.css";
-
-const dataExample = [
-  {
-    id: 1,
-    codigo: 12366,
-    nombre: "tipo tramite1",
-    descripcion: "Tramite 1",
-    estado: true
-  },
-  {
-    id: 2,
-    codigo: 12366,
-    nombre: "tipo tramite2",
-    descripcion: "Tramite 2",
-    estado: true
-  },
-  {
-    id: 3,
-    codigo: 12366,
-    nombre: "tipo tramite3",
-    descripcion: "Tramite 3",
-    estado: false
-  }
-];
+import { TYPEDOCUMENTARY_ALL } from "./../../../services/EndPoints";
 
 class TableContentTramite extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modalview: false,
-      modaldel: false
+      modaldel: false,
+      modalexport: false,
+      modalexport2: false,
+      auth: this.props.authorization,
+      data: [],
+      hiddenColumnID: true
     };
   }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState(
+        {
+          auth: this.props.authorization
+        },
+        this.getData()
+      );
+    }
+  }
+
+  getData = () => {
+    fetch(`${TYPEDOCUMENTARY_ALL}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          data: data
+        });
+      })
+      .catch(err => console.log(err));
+  };
 
   accionesTramite = (cell, row) => {
     return (
@@ -49,7 +70,7 @@ class TableContentTramite extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.openModalView();
+            this.openModalView(row.id);
           }}
         >
           <i className="fa fa-eye" />
@@ -67,7 +88,7 @@ class TableContentTramite extends Component {
         <button
           className="btn btn-danger btn-sm"
           onClick={() => {
-            this.openModalDelete();
+            this.openModalDelete(row.id);
           }}
         >
           <i className="fa fa-trash" />
@@ -78,16 +99,16 @@ class TableContentTramite extends Component {
 
   estadoTipodocumentalradicacion = (cell, row) => {
     let status;
-    if (row.estado === true) {
+    if (row.status === 1) {
       status = <p className="text-success"> Activo </p>;
-    } else if (row.estado !== true) {
+    } else if (row.status === 0) {
       status = <p className="text-danger"> Inactivo </p>;
     }
     return status;
   };
 
-  openModalView() {
-    this.refs.child1.toggle();
+  openModalView(id) {
+    this.refs.child1.toggle(id);
   }
 
   routeChange = () => {
@@ -95,16 +116,58 @@ class TableContentTramite extends Component {
     window.location.replace(path);
   };
 
-  openModalDelete() {
-    this.refs.child2.toggle();
+  openModalDelete(id) {
+    this.refs.child2.toggle(id);
   }
+
+  openModalExport() {
+    this.refs.child3.toogle();
+  }
+
+  openModalExport2() {
+    this.refs.child4.toogle();
+  }
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
+  createCustomButtonGroup = props => {
+    return (
+      <div>
+        <button
+          type="button"
+          className={`btn btn-secondary btn-sm`}
+          onClick={() => this.openModalExport()}
+        >
+          <i className="fa fa-download" /> Exportar
+        </button>
+        &nbsp;
+        <button
+          type="button"
+          className={`btn btn-secondary btn-sm`}
+          onClick={() => this.openModalExport2()}
+        >
+          <i className="fa fa-download" /> Exportar usuarios por tipo documental
+          de radicacion
+        </button>
+      </div>
+    );
+  };
+
   render() {
+    const { auth } = this.state;
+    const options = {
+      btnGroup: this.createCustomButtonGroup,
+      pagination: true,
+      exportCSV: true
+    };
     return (
       <div className="animated fadeIn">
         <Row>
           <Col sm={12}>
             <BootstrapTable
-              data={dataExample}
+              data={this.state.data}
               bordered={false}
               hover
               pagination
@@ -113,25 +176,37 @@ class TableContentTramite extends Component {
               searchPlaceholder="Buscar"
               exportCSV
               className="texto-TLlegada"
+              options={options}
             >
-              <TableHeaderColumn isKey dataField={"id"} width="50">
+              <TableHeaderColumn
+                isKey
+                dataField={"id"}
+                width="50"
+                hidden={this.state.hiddenColumnID}
+              />
+
+              <TableHeaderColumn
+                dataField={"id"}
+                dataFormat={this.indexN}
+                width="50"
+              >
                 {" "}
                 #{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"codigo"} dataAlign="center">
+              <TableHeaderColumn dataField={"code"} dataAlign="center">
                 {" "}
                 Código{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"nombre"} dataAlign="center">
+              <TableHeaderColumn dataField={"name"} dataAlign="center">
                 {" "}
                 Nombre{" "}
               </TableHeaderColumn>
-              <TableHeaderColumn dataField={"descripcion"} dataAlign="center">
+              <TableHeaderColumn dataField={"description"} dataAlign="center">
                 {" "}
                 Descripción{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField={"estado"}
+                dataField={"status"}
                 dataAlign="center"
                 dataFormat={(cell, row) =>
                   this.estadoTipodocumentalradicacion(cell, row)
@@ -152,18 +227,33 @@ class TableContentTramite extends Component {
           </Col>
         </Row>
         <ModalViewTipoDocumentalRadication
+          authorization={auth}
           modalviewtramit={this.state.modalview}
           ref={"child1"}
         />
         <ModalDeleteTipoDocumentalRadication
+          authorization={auth}
           modaldelete={this.state.modaldel}
+          updateTable={this.getData}
           ref={"child2"}
+        />
+        <ModalExport
+          authorization={auth}
+          ref={"child3"}
+          modalexport={this.state.modalexport}
+        />
+        <ModalExportUsers
+          modal={this.state.modalexport2}
+          authorization={auth}
+          ref={"child4"}
         />
       </div>
     );
   }
 }
 
-TableContentTramite.propTypes = {};
+TableContentTramite.propTypes = {
+  authorization: PropTypes.string.isRequired
+};
 
 export default TableContentTramite;

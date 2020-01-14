@@ -8,6 +8,7 @@ import ModalExport from "./ModalExportCSV";
 import ModalExport2 from "./ModalExportCSVTipoTramiteUser";
 import moment from "moment";
 import { withTranslation } from "react-i18next";
+import { TYPEPROCEDURES } from "./../../../services/EndPoints";
 
 class TableContentTramite extends Component {
   constructor(props) {
@@ -18,20 +19,37 @@ class TableContentTramite extends Component {
       modaldel: false,
       modalexport: false,
       modalexport2: false,
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataTipoTramite();
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState(
+        {
+          auth: this.props.authorization
+        },
+        this.getDataTipoTramite()
+      );
+    }
   }
 
   getDataTipoTramite = () => {
-    fetch(`http://192.168.20.187:7000/api/sgdea/typeprocedure`, {
+    fetch(`${TYPEPROCEDURES}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.state.auth
       }
     })
       .then(response => response.json())
@@ -144,6 +162,7 @@ class TableContentTramite extends Component {
 
   render() {
     const { t } = this.props;
+    const { auth } = this.state;
 
     const options = {
       btnGroup: this.createCustomButtonGroup,
@@ -228,16 +247,26 @@ class TableContentTramite extends Component {
           </Col>
         </Row>
         <ModalViewTramite
+          authorization={auth}
           modalviewtramit={this.state.modalview}
           ref={"child1"}
         />
         <ModalDeleteTramite
-          updateTable={this.getDataConglomerates}
+          authorization={auth}
+          updateTable={this.getDataTipoTramite}
           modaldelete={this.state.modaldel}
           ref={"child2"}
         />
-        <ModalExport modalexport={this.state.modalexport} ref={"child3"} />
-        <ModalExport2 modalexport2={this.state.modalexport2} ref={"child4"} />
+        <ModalExport
+          authorization={auth}
+          modalexport={this.state.modalexport}
+          ref={"child3"}
+        />
+        <ModalExport2
+          authorization={auth}
+          modalexport2={this.state.modalexport2}
+          ref={"child4"}
+        />
       </div>
     );
   }

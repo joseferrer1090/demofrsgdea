@@ -22,7 +22,7 @@ class SelectCountry extends React.Component {
         {
           auth: this.props.authorization
         },
-        this.getData()
+        () => this.getData()
       );
     }
   }
@@ -78,6 +78,7 @@ class SelectCountry extends React.Component {
   }
 }
 SelectCountry.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default SelectCountry;

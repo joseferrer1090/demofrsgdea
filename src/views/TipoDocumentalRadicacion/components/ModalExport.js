@@ -1,21 +1,20 @@
 import React, { Component, Fragment } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Table } from "reactstrap";
 import PropTypes from "prop-types";
-//import './styles/table_fixed.css';
 import { CSVLink, CSVDownload } from "react-csv";
 import { Parser } from "json2csv";
-import { GROUPUSERS_EXPORT_USERS } from "./../../../services/EndPoints";
+import { Trans } from "react-i18next";
+import { TYPEDOCUMENTARYS_EXPORT } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
-//const XMLHttpRequest = require("xmlhttprequest");
 
-class ModalExportCSV extends Component {
+class ModalExport extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: this.props.modalexport,
       dataExport: [],
-      username: "ccuartas",
-      id: this.props.id,
+      t: this.props.t,
+      username: "",
       auth: this.props.authorization
     };
   }
@@ -37,98 +36,101 @@ class ModalExportCSV extends Component {
     }
   }
 
-  toggle = id => {
-    this.setState({
-      modal: !this.state.modal,
-      id: id
-    });
-    this.getDataExportCSV(id);
-  };
-  //http://192.168.10.180:7000/api/sgdea/groupuser/export/${id}/users?username=${username.user_name}
-  getDataExportCSV = id => {
+  getDataExportCSV = () => {
     const auth = this.state.auth;
     const username = decode(auth);
-    console.log(auth);
-    fetch(
-      `${GROUPUSERS_EXPORT_USERS}${id}/users?username=${username.user_name}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + this.state.auth
-        }
+    fetch(`${TYPEDOCUMENTARYS_EXPORT}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
           dataExport: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(error => console.log(" ", error));
+  };
 
-    // const xhttp = new XMLHttpRequest();
-
-    // xhttp.onreadystatechange = function(e){
-    //     if (xhttp.readyState === 4 && xhttp.status === 200){
-    //         console.log("ok, response :", this.response);
-    //         this.setState({
-    //         dataExport: this.response
-    //         });
-    //     }
-    // }
-
-    // xhttp.open("get",`http://192.168.10.180:7000/api/sgdea/groupuser/export/${id}/users?username=${this.state.username}`, true);
-    // xhttp.setRequestHeader("Content-Type", "application/json");
-    // xhttp.setRequestHeader("Authorization", `Basic ` + window.btoa('sgdea:123456'));
+  toogle = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+    this.getDataExportCSV();
   };
 
   render() {
     const data = this.state.dataExport;
     const fields = [
       {
-        label: "identification",
-        value: "identification"
+        label: "Code",
+        value: "code"
       },
       {
-        label: "name",
+        label: "Name",
         value: "name"
       },
       {
-        label: "email",
-        value: "email"
+        label: "Description",
+        value: "description"
       },
       {
-        label: "codeGroupUser",
-        value: "codeGroupUser"
+        label: "answerDays",
+        value: "answerDays"
+      },
+      {
+        label: "issue",
+        value: "issue"
+      },
+      {
+        label: "status",
+        value: "status"
+      },
+      {
+        label: "typeCorrespondence",
+        value: "typeCorrespondence"
+      },
+      {
+        label: "codeTemplate",
+        value: "codeTemplate"
       }
     ];
 
     const json2csvParser = new Parser({ fields, quote: "" });
     const csv = json2csvParser.parse(data);
-    // console.log(csv);
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Modal Exportar Grupo</ModalHeader>
+          <ModalHeader>Exportar tipo de tramites</ModalHeader>
           <ModalBody>
             <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
               <thead className="">
                 <tr className="">
-                  <th>identificacion</th>
+                  <th>código</th>
                   <th>nombre</th>
-                  <th>email</th>
-                  <th>codigoGrupo</th>
+                  <th>descripción</th>
+                  <th>respuesta</th>
+                  <th>Asunto</th>
+                  <th>Estado</th>
+                  <th>tipo de correspondecia</th>
+                  <th>codigo template</th>
                 </tr>
               </thead>
               <tbody className="text-justify">
                 {data.map((aux, id) => {
                   return [
                     <tr key={id}>
-                      <td>{aux.identification}</td>
+                      <td>{aux.code}</td>
                       <td>{aux.name}</td>
-                      <td>{aux.email}</td>
-                      <td>{aux.codeGroupUser}</td>
+                      <td>{aux.description}</td>
+                      <td>{aux.answerDays}</td>
+                      <td>{aux.issue}</td>
+                      <td>{aux.status}</td>
+                      <td>{aux.typeCorrespondence}</td>
+                      <td>{aux.codeTemplate}</td>
                     </tr>
                   ];
                 })}
@@ -143,11 +145,16 @@ class ModalExportCSV extends Component {
               }}
             >
               {" "}
-              <i className="fa fa-times" /> Cerrar
+              <i className="fa fa-times" /> cerrar{" "}
             </button>
+
             <CSVLink data={csv} className="btn btn-secondary btn-sm">
-              <i className="fa fa-download" /> Exportar
+              <i className="fa fa-download" /> Exportar csv
             </CSVLink>
+            {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
+              {" "}
+              <i className="fa fa-download" /> Exportar CSV{" "}
+            </CSVDownload> */}
           </ModalFooter>
         </Modal>
       </Fragment>
@@ -155,9 +162,9 @@ class ModalExportCSV extends Component {
   }
 }
 
-ModalExportCSV.propTypes = {
-  modalexport: PropTypes.bool.isRequired,
-  id: PropTypes.string.isRequired
+ModalExport.propTypes = {
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
-export default ModalExportCSV;
+export default ModalExport;

@@ -1,25 +1,23 @@
 import React, { Component, Fragment, useState, useEffect } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import PropTypes from "prop-types";
-import { Table } from "reactstrap";
-//import './styles/table_fixed.css';
+import { Table, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { CSVLink, CSVDownload } from "react-csv";
 import { Parser } from "json2csv";
 import { Trans } from "react-i18next";
 import {
-  TYPEPROCEDURES_EXPORT_USERS,
-  TYPEPROCEDURES_STATUS
+  TYPEDOCUMENTARYS_EXPORT_USERS,
+  TYPEDOCUMENTARYS_STATUS
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 
-class ModalExportCSVTipoTramiteUser extends Component {
+class ModalExportTDRUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: this.props.modalexport2,
       dataExport: [],
       t: this.props.t,
-      username: "ccuartas",
+      username: "",
       tipoTramite: "",
       dataExportUSer: [],
       auth: this.props.authorization
@@ -43,19 +41,20 @@ class ModalExportCSVTipoTramiteUser extends Component {
     }
   }
 
-  toggle = () => {
+  toogle = () => {
     this.setState({
       modal: !this.state.modal
     });
   };
 
   render() {
-    // console.log(this.state.dataExportUSer);
-    //console.log(this.props.authorization);
+    console.log(this.props.id);
     return (
       <Fragment>
         <Modal className="modal-xl" isOpen={this.state.modal}>
-          <ModalHeader>Exportar usuarios por tipo de tramite</ModalHeader>
+          <ModalHeader>
+            Exportar usuarios por tipo documental de radicacion
+          </ModalHeader>
           <ModalBody>
             <SelectTipoTramite
               token={this.props.authorization}
@@ -101,11 +100,12 @@ class ModalExportCSVTipoTramiteUser extends Component {
   }
 }
 
-ModalExportCSVTipoTramiteUser.propTypes = {
-  t: PropTypes.any
+ModalExportTDRUser.propTypes = {
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
-export default ModalExportCSVTipoTramiteUser;
+export default ModalExportTDRUser;
 
 const SelectTipoTramite = props => {
   const token = props.token;
@@ -113,7 +113,7 @@ const SelectTipoTramite = props => {
   const username = decode(token);
 
   useEffect(() => {
-    fetch(`${TYPEPROCEDURES_STATUS}?username=${username.user_name}`, {
+    fetch(`${TYPEDOCUMENTARYS_STATUS}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -133,7 +133,7 @@ const SelectTipoTramite = props => {
         className="col-sm-3 col-form-label"
         style={{ paddingLeft: "70px" }}
       >
-        Tipo de tramite <span className="text-danger">*</span> :
+        Tipo documental de radicacion <span className="text-danger">*</span> :
       </label>
       <div className="col-sm-8">
         <select
@@ -141,7 +141,7 @@ const SelectTipoTramite = props => {
           value={props.value}
           onChange={props.onChange}
         >
-          <option value="">Seleccione tipo de tramite</option>
+          <option value="">Seleccione tipo documental de radicacion</option>
           {data.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -166,7 +166,7 @@ class TableCSV extends React.Component {
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(
-      `${TYPEPROCEDURES_EXPORT_USERS}/${this.props.id}/users?username=${username.user_name}`,
+      `${TYPEDOCUMENTARYS_EXPORT_USERS}/${this.props.id}/users?username=${username.user_name}`,
       {
         method: "GET",
         headers: {
@@ -259,11 +259,17 @@ class TableCSV extends React.Component {
               this.state.data.map((aux, id) => {
                 return (
                   <tr>
-                    <td>{aux.codeTypeProcedure}</td>
+                    <td>{aux.codeTypeDocumentary}</td>
                     <td>{aux.email}</td>
                     <td>{aux.identification}</td>
                     <td>{aux.name}</td>
-                    <td>{aux.original}</td>
+                    <td>
+                      {aux.original === true ? (
+                        <p className="text-success">Activo</p>
+                      ) : (
+                        <p className="text-danger">Inactivo</p>
+                      )}
+                    </td>
                   </tr>
                 );
               })

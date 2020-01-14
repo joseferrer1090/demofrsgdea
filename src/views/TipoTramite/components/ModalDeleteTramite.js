@@ -1,26 +1,55 @@
-import React, { Component, Fragment} from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter, Button, Alert } from "reactstrap";
+import React, { Component, Fragment } from "react";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Button,
+  Alert
+} from "reactstrap";
 import PropTypes from "prop-types";
-import {Formik, withFormik, ErrorMessage, Field, Form} from "formik";
+import { Formik, withFormik, ErrorMessage, Field, Form } from "formik";
 import * as Yup from "yup";
-
+import {
+  TYPEPROCEDURE_DELETE,
+  TYPEPROCEDURE
+} from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalDeleteTramite extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modal: this.props.modaldelete,
-      id: this.props.id, 
-      username: "jferrer", 
-      dataProcedure: {}, 
-       alertSuccess: false,
-    alertError: false,
-    alertCode: false,
-    code: ""
+      id: this.props.id,
+      dataProcedure: {},
+      alertSuccess: false,
+      alertError: false,
+      alertCode: false,
+      code: "",
+      auth: this.props.authorization
     };
   }
 
-   onDismiss = () => {
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+        id: this.props.id
+      });
+    }
+  }
+
+  onDismiss = () => {
     this.setState({
       alertError: false,
       alertCode: false,
@@ -28,22 +57,32 @@ class ModalDeleteTramite extends Component {
     });
   };
 
-  toggle = (id) => {
+  getData = id => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${TYPEPROCEDURE}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataProcedure: data.typeProcedure
+        });
+        console.log(this.state.dataProcedure);
+      })
+      .catch(err => console.log("Error", err));
+  };
+
+  toggle = id => {
     this.setState(prevState => ({
-      modal: !prevState.modal, 
+      modal: !prevState.modal,
       id: id
     }));
-    fetch(`http://192.168.20.187:7000/api/sgdea/typeprocedure/${id}?username=${this.state.username}`,{
-      method: "GET", 
-      headers:{
-        "Content-Type":"application/json", 
-        Authorization: "Basic " + window.btoa('sgdea:123456')
-      }
-    }).then(response => response.json()).then(data => {
-      this.setState({
-        dataProcedure: data
-      })
-    }).catch(err => console.log("Error", err));
+    this.getData(id);
   };
 
   render() {
@@ -52,19 +91,24 @@ class ModalDeleteTramite extends Component {
     };
     return (
       <Fragment>
-      <Modal isOpen={this.state.modal}>
-        <ModalHeader> Eliminar tramite {this.state.dataProcedure.name} </ModalHeader>
-        <Formik  
-        initialValues={dataInitial}
-         onSubmit={(values, setSubmitting) => {
+        <Modal isOpen={this.state.modal}>
+          <ModalHeader>
+            {" "}
+            Eliminar tramite {this.state.dataProcedure.name}{" "}
+          </ModalHeader>
+          <Formik
+            initialValues={dataInitial}
+            onSubmit={(values, setSubmitting) => {
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
-                  `http://192.168.20.187:7000/api/sgdea/typeprocedure/${this.state.id}?code=${values.code}?username=${this.state.username}`,
+                  `${TYPEPROCEDURE_DELETE}${this.state.id}?code=${values.code}&username=${username.user_name}`,
                   {
-                    method: 'DELETE',
+                    method: "DELETE",
                     headers: {
-                      'Content-Type': 'application/json',
-                      Authorization: 'BASIC ' + window.btoa('sgdea:123456')
+                      "Content-Type": "application/json",
+                      Authorization: "Bearer " + auth
                     }
                   }
                 )
@@ -73,47 +117,49 @@ class ModalDeleteTramite extends Component {
                       this.setState({
                         alertError: true
                       });
-                    } else if (response.status === 200) {
+                    } else if (response.status === 204) {
                       setTimeout(() => {
                         this.setState(
                           {
                             alertSuccess: true,
                             modal: false
                           },
-                         () => this.props.updateTable()
+                          () => this.props.updateTable()
                         );
-                      }, 3000);
+                      }, 1000);
                     } else if (response.status === 400) {
                       this.setState({
                         alertCode: true
                       });
                     }
                   })
-                  .catch(Error => console.log('', Error));
+                  .catch(Error => console.log("", Error));
                 // alert(JSON.stringify(values, "", 2))
-              }, 3000);
+              }, 1000);
             }}
-          validationSchema={Yup.object().shape({
-            code: Yup.string().required('Por favor introduzca el codigo el tipo de tramite')
-          })}>
-            {
-              props => {
-                const {
-                  values,
-                  touched,
-                  errors,
-                  dirty,
-                  isSubmitting,
-                  handleChange,
-                  handleBlur,
-                  handleSubmit,
-                  handleReset
-                } = props;
-                return(
-                  <Fragment>
-                    <form className="form">
-                      <ModalBody>
-                         <Alert
+            validationSchema={Yup.object().shape({
+              code: Yup.string().required(
+                "Por favor introduzca el codigo el tipo de tramite"
+              )
+            })}
+          >
+            {props => {
+              const {
+                values,
+                touched,
+                errors,
+                dirty,
+                isSubmitting,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                handleReset
+              } = props;
+              return (
+                <Fragment>
+                  <form className="form">
+                    <ModalBody>
+                      <Alert
                         color="danger"
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
@@ -132,26 +178,26 @@ class ModalDeleteTramite extends Component {
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        El codigo para eliminar tipo de tramite  no corresponde
+                        El codigo para eliminar tipo de tramite no corresponde
                       </Alert>
-                       <p className="text-center">
-                          {" "}
-                            Confirmar el <code> codigo </code> para eliminar el tipo de
-                            tramite{" "}
+                      <p className="text-center">
+                        {" "}
+                        Confirmar el <code> codigo </code> para eliminar el tipo
+                        de tramite{" "}
                       </p>
                       <input
                         type="text"
                         placeholder="codigo del tipo de tramite"
-                        style={{ textAlign: 'center' }}
+                        style={{ textAlign: "center" }}
                         name="code"
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.code}
                         className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
                           touched.code &&
-                          'is-invalid'}`}
+                          "is-invalid"}`}
                       />
-                      <div className="text-center" style={{ color: '#D54B4B' }}>
+                      <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
                           <i class="fa fa-exclamation-triangle" />
                         ) : null}
@@ -159,12 +205,11 @@ class ModalDeleteTramite extends Component {
                       </div>
                       <br />
                       <p className="text-center text-danger">
-                          El tipo de tramite quedara eliminado permanentemente.
-                          
+                        El tipo de tramite quedara eliminado permanentemente.
                       </p>
-                      </ModalBody>
-                      <ModalFooter>
-                          <button
+                    </ModalBody>
+                    <ModalFooter>
+                      <button
                         type="submit"
                         className="btn btn-outline-danger btn-sm"
                         onClick={e => {
@@ -172,26 +217,25 @@ class ModalDeleteTramite extends Component {
                           handleSubmit();
                         }}
                       >
-                        {' '}
+                        {" "}
                         <i className="fa fa-trash" /> Eliminar
                       </button>
-                          <Button
-                            type="button"
-                            className="btn btn-secondary btn-sm"
-                            onClick={() => {
-                              this.setState({ modal: false });
-                            }}
-                          >
-                            <i className="fa fa-times" /> Cerrar{" "}
-                          </Button>
-                      </ModalFooter>
-                    </form>
-                  </Fragment>
-                )
-              }
-            }
-        </Formik>
-      </Modal>
+                      <Button
+                        type="button"
+                        className="btn btn-secondary btn-sm"
+                        onClick={() => {
+                          this.setState({ modal: false });
+                        }}
+                      >
+                        <i className="fa fa-times" /> Cerrar{" "}
+                      </Button>
+                    </ModalFooter>
+                  </form>
+                </Fragment>
+              );
+            }}
+          </Formik>
+        </Modal>
       </Fragment>
     );
   }

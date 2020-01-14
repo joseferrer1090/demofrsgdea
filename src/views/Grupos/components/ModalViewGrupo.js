@@ -14,6 +14,8 @@ import {
 } from "reactstrap";
 import IMGGROUPOS from "./../../../assets/img/multiple-users-silhouette.svg";
 import moment from "moment";
+import { GROUPUSER } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalViewPais extends Component {
   constructor(props) {
@@ -24,8 +26,26 @@ class ModalViewPais extends Component {
       id: this.props.id,
       username: "jferrer",
       dataGroup: {},
-      dataUsers: []
+      dataUsers: [],
+      authorization: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -33,20 +53,15 @@ class ModalViewPais extends Component {
       modal: !this.state.modal,
       id: id
     });
-    this.getDataGroupById(id);
-  };
-
-  getDataGroupById = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/groupuser/${id}?username=${this.state.username}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${GROUPUSER}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.state.auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -234,7 +249,8 @@ class ModalViewPais extends Component {
 ModalViewPais.propTypes = {
   modalview: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalViewPais;

@@ -1,17 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import TipoTramiteForm from './Forms/TipoTramiteForm';
+import React from "react";
+import PropTypes from "prop-types";
+import TipoTramiteForm from "./Forms/TipoTramiteForm";
 
-const FormCreateTipoTramite = () => {
+const FormCreateTipoTramite = props => {
   return (
     <div className="animated fadeIn">
       <div className="row">
-        <TipoTramiteForm />
+        <TipoTramiteForm authorization={props.authorization} />
       </div>
     </div>
   );
 };
 
-FormCreateTipoTramite.propTypes = {};
+FormCreateTipoTramite.propTypes = {
+  authorization: PropTypes.string.isRequired
+};
 
 export default FormCreateTipoTramite;

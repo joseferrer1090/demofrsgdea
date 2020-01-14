@@ -12,16 +12,21 @@ import "react-toastify/dist/ReactToastify.css";
 import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
 import SelectDependencia from "./components/SelectDependence";
-import SelectEmpresa from "./components/SelectDependence";
+import SelectEmpresa from "./components/SelectCompany";
 import SelectSede from "./components/SelectHeadquarter";
 import PropTypes from "prop-types";
-import { privateName } from "@babel/types";
+import { TYPEPROCEDURE_POST } from "./../../../../services/EndPoints";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
+import { USERS_BY_DEPENDENCE } from "./../../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 const TipoTramiteForm = props => {
-  const { t } = props;
+  const { t, authorization } = props;
   const usersdata = useSelector(state => state.users);
   const aux = useSelector(state => state.users.assigned);
-
+  // console.log(props.authorization);
   return (
     <Formik
       initialValues={{
@@ -62,23 +67,91 @@ const TipoTramiteForm = props => {
           .required(" Es necesario activar el tipo de trámite.")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
+        const tipoEstado = data => {
+          let tipo = null;
+          if (data === true) {
+            return (tipo = 1);
+          } else if (data === false) {
+            return (tipo = 0);
+          }
+          return null;
+        };
+        const tipoCorrespondencia = data => {
+          let tipo = null;
+          if (data === "1") {
+            return (tipo = 1);
+          } else if (data === "2") {
+            return (tipo = 2);
+          } else if (data === "3") {
+            return (tipo = 3);
+          }
+          return null;
+        };
         setTimeout(() => {
-          alert(
-            JSON.stringify(
-              {
-                tipocorrespondencia: values.tipocorrespondencia,
-                codigo: values.codigo,
-                nombre: values.nombre,
-                descripcion: values.descripcion,
-                d_maximos: values.d_maximos,
-                estado: values.estado,
-                user_enabled: usersdata.users,
-                original: usersdata.original
-              },
-              null,
-              2
+          const auth = props.authorization;
+          const username = decode(auth);
+          // console.log({
+          //   code: values.codigo,
+          //   name: values.nombre,
+          //   description: values.descripcion,
+          //   answerDays: values.d_maximos,
+          //   issue: values.asunto,
+          //   status: tipoEstado(values.estado),
+          //   typeCorrespondence: values.tipocorrespondencia,
+          //   templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+          //   userName: username.user_name,
+          //   users: usersdata.users,
+          //   original: usersdata.original
+          // });
+          fetch(`${TYPEPROCEDURE_POST}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + props.authorization
+            },
+            body: JSON.stringify({
+              code: values.codigo,
+              name: values.nombre,
+              description: values.descripcion,
+              answerDays: values.d_maximos,
+              issue: values.asunto,
+              status: tipoEstado(values.estado),
+              typeCorrespondence: tipoCorrespondencia(
+                values.tipocorrespondencia
+              ),
+              templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+              userName: username.user_name,
+              users: usersdata.users,
+              original: usersdata.original
+            })
+          })
+            .then(response =>
+              response.json().then(data => {
+                if (response.status === 201) {
+                  toast.success("Tipo de tramite creado con exito.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                } else if (response.status === 500) {
+                  toast.error("Tipo de tramite existente", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                }
+              })
             )
-          );
+            .catch(error => {
+              toast.error(`Error ${error}.`, {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            });
           setSubmitting(false);
           resetForm({
             tipocorrespondencia: "",
@@ -143,19 +216,19 @@ const TipoTramiteForm = props => {
                                   )}
                                   --{" "}
                                 </option>
-                                <option value={"1"}>
+                                <option value={1}>
                                   {" "}
                                   {t(
                                     "app_tipoTramite_form_registrar_select_tipo_correspondencia_recibida"
                                   )}{" "}
                                 </option>
-                                <option value={"2"}>
+                                <option value={2}>
                                   {" "}
                                   {t(
                                     "app_tipoTramite_form_registrar_select_tipo_correspondencia_despachada"
                                   )}{" "}
                                 </option>
-                                <option value={"3"}>
+                                <option value={3}>
                                   {" "}
                                   {t(
                                     "app_tipoTramite_form_registrar_select_tipo_correspondencia_interna"
@@ -332,6 +405,7 @@ const TipoTramiteForm = props => {
                                   )}{" "}
                                 </label>
                                 <SelectConglomerado
+                                  authorization={props.authorization}
                                   t={props.t}
                                   name="conglomerado"
                                   value={values.conglomerado}
@@ -357,6 +431,7 @@ const TipoTramiteForm = props => {
                                   {t("app_tipoTramite_form_registrar_empresa")}{" "}
                                 </label>
                                 <SelectEmpresa
+                                  authorization={props.authorization}
                                   idConglomerado={values.conglomerado}
                                   t={props.t}
                                   name="empresa"
@@ -383,6 +458,7 @@ const TipoTramiteForm = props => {
                                   )}{" "}
                                 </label>
                                 <SelectSede
+                                  authorization={props.authorization}
                                   t={props.t}
                                   idEmpresa={values.empresa}
                                   name="sede"
@@ -409,6 +485,7 @@ const TipoTramiteForm = props => {
                                   )}{" "}
                                 </label>
                                 <SelectDependencia
+                                  authorization={props.authorization}
                                   t={props.t}
                                   idSede={values.sede}
                                   name="dependencia"
@@ -427,7 +504,11 @@ const TipoTramiteForm = props => {
                               </div>
                             </div>
                             <div className="col-md-12">
-                              <UserList id={values.dependencia} t={props.t} />
+                              <UserList
+                                authorization={props.authorization}
+                                id={values.dependencia}
+                                t={props.t}
+                              />
                             </div>
                           </div>
                         </div>
@@ -575,6 +656,7 @@ const TipoTramiteForm = props => {
 function UserList(props) {
   const t = props.t;
   const id = props.id;
+  const auth = props.authorization;
 
   const [data, setdata] = useState([]);
   const firstUpdate = useRef(true);
@@ -600,11 +682,11 @@ function UserList(props) {
       firstUpdate.current = false;
       return;
     }
-    fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`, {
+    fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + props.authorization
       }
     })
       .then(response => response.json())
@@ -782,6 +864,7 @@ const UserListEnabled = props => {
 };
 
 TipoTramiteForm.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(TipoTramiteForm);

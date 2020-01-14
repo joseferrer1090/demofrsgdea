@@ -1,19 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { HEADQUARTER_BY_COMPANY } from "./../../../../services/EndPoints";
+import { COMPANY_BY_CONGLOMERATE } from "./../../../../../services/EndPoints";
 
-class SelectSedes extends React.Component {
+class SelectCompany extends React.Component {
   state = {
-    dataHeadquarter: [],
-    id: this.props.company,
+    dataEmpresa: [],
+    id: this.props.idConglomerado,
     t: this.props.t,
     auth: this.props.authorization
   };
 
   static getDerivedStateFromProps(props, state) {
-    if (props.company !== state.id) {
+    if (props.idConglomerado !== state.id) {
       return {
-        company: props.company
+        id: props.idConglomerado
       };
     }
     if (props.authorization !== state.auth) {
@@ -23,55 +23,57 @@ class SelectSedes extends React.Component {
     }
     return null;
   }
+
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.company !== prevProps.company) {
-      // metodo del fetch()
-      this.getDataHeadquarter();
+    if (this.props.idConglomerado !== prevProps.idConglomerado) {
+      // METODO
+      this.getDataEmpresa();
     }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
         {
-          auth: this.props.authorization
+          auth: this.props.authorization,
+          id: this.props.idConglomerado
         },
-        this.getDataHeadquarter()
+        this.getDataEmpresa()
       );
     }
   }
 
-  // componentDidMount() {
-  //   this.getDataHeadquarter();
-  // }
-
-  getDataHeadquarter = () => {
-    fetch(`${HEADQUARTER_BY_COMPANY}${this.props.company}`, {
+  getDataEmpresa = () => {
+    fetch(`${COMPANY_BY_CONGLOMERATE}${this.state.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataHeadquarter: data
+          dataEmpresa: data
         });
       })
       .catch(err => console.log("Error", err));
   };
+
   render() {
     const { t } = this.props;
+
     return (
       <div>
         <select
           name={this.props.name}
           value={this.props.value}
-          className={this.props.className}
           onChange={this.props.onChange}
+          onBlur={this.props.onBlur}
+          className={this.props.className}
         >
-          <option value={""}>
-            -- {t("app_grupoUsuarios_form_registrar_select_sede")} --{" "}
+          <option value={" "}>
+            {" "}
+            -- {t("app_tipoTramite_form_registrar_select_empresa")} --{" "}
           </option>
-          {this.state.dataHeadquarter.map((aux, id) => {
+          {this.state.dataEmpresa.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
                 {aux.name}
@@ -83,9 +85,11 @@ class SelectSedes extends React.Component {
     );
   }
 }
-SelectSedes.propTypes = {
-  id: PropTypes.string.isRequired,
+
+SelectCompany.propTypes = {
   t: PropTypes.any,
+  idConglomerado: PropTypes.string.isRequired,
   authorization: PropTypes.string.isRequired
 };
-export default SelectSedes;
+
+export default SelectCompany;

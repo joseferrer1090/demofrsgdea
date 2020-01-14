@@ -13,7 +13,7 @@ import FormCreate from "./components/FormCreateTipoDocumentalRadicacion";
 import FormImport from "./components/FormUploadTipoDocumentalRadication";
 import TableContent from "./components/TableContentTipoDocumentalRadication";
 import { withTranslation } from "react-i18next";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 const asyncLocalStorage = {
   setItem: async function(key, value) {
@@ -25,6 +25,7 @@ const asyncLocalStorage = {
     return localStorage.getItem(key);
   }
 };
+
 class TipoDocumentalRadicacion extends React.Component {
   constructor(props) {
     super(props);
@@ -33,6 +34,10 @@ class TipoDocumentalRadicacion extends React.Component {
       activeTab: "1",
       authToken: ""
     };
+  }
+
+  componentDidMount() {
+    this.getDataLocal();
   }
 
   getDataLocal = () => {
@@ -55,6 +60,7 @@ class TipoDocumentalRadicacion extends React.Component {
       });
     }
   }
+
   render() {
     const { authToken } = this.state;
     const { t } = this.props;
@@ -117,8 +123,8 @@ class TipoDocumentalRadicacion extends React.Component {
   }
 }
 
-TipoDocumentalRadicacion.propTypes {
+TipoDocumentalRadicacion.propTypes = {
   t: PropTypes.any
-}
+};
 
-export default withTranslation("translation")(TipoDocumentalRadicacion);
+export default withTranslation("translations")(TipoDocumentalRadicacion);

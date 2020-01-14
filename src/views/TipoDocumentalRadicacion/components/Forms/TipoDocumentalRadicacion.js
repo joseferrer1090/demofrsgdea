@@ -10,10 +10,25 @@ import SelectConglomerado from "./components/SelectConglomerado";
 import SelectEmpresa from "./components/SelectCompany";
 import SelectSede from "./components/SelectHeadquarter";
 import SelectDependencia from "./components/SelectDependence";
-import { TYPEDOCUMENTARY_POST } from "./../../../../services/EndPoints";
+import {
+  TYPEDOCUMENTARY_POST,
+  USERS_BY_DEPENDENCE
+} from "./../../../../services/EndPoints";
+import {
+  agregarUsuarioDisponible,
+  borrarUsuarioDiponible,
+  agregarUsuarioOriginal
+} from "./../../../../actions/documentaryTypeAction";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
 const TipoDocumentalRadicacion = props => {
   const { t, authorization } = props;
+  const userData = useSelector(state => state.documentaryTypeReducer);
+  console.log(useSelector(state => state.documentaryTypeReducer));
+  console.log(userData.users);
+  console.log(userData.original);
   return (
     <Formik
       initialValues={{
@@ -77,19 +92,72 @@ const TipoDocumentalRadicacion = props => {
         setTimeout(() => {
           const auth = props.authorization;
           const username = decode(auth);
-          console.log({
-            code: values.codigo,
-            name: values.nombre,
-            description: values.descripcion,
-            answerDays: values.d_maximos,
-            issue: values.asunto,
-            status: tipoEstado(values.estado),
-            typeCorrespondence: values.tipocorrespondencia,
-            templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d"
-            // userName: username.user_name
-            // users: usersdata.users,
-            // original: usersdata.original
-          });
+          fetch(`${TYPEDOCUMENTARY_POST}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + auth
+            },
+            body: JSON.stringify({
+              code: values.codigo,
+              name: values.nombre,
+              description: values.descripcion,
+              answerDays: values.d_maximos,
+              issue: values.asunto,
+              status: tipoEstado(values.estado),
+              typeCorrespondence: tipoCorrespondencia(
+                values.tipocorrespondencia
+              ),
+              templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+              userName: username.user_name,
+              users: userData.users,
+              original: userData.original
+            })
+          }).then(response =>
+            response
+              .json()
+              .then(data => {
+                if (response.status === 201) {
+                  toast.success(
+                    "Tipo documental de radicacion creado con exito. ",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
+                } else if (response.status === 500) {
+                  toast.error("tipo documental de radicacion existente. ", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                }
+              })
+              .catch(error => {
+                toast.error(`Error ${error} `, {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                });
+              })
+          );
+          // console.log({
+          //   code: values.codigo,
+          //   name: values.nombre,
+          //   description: values.descripcion,
+          //   answerDays: values.d_maximos,
+          //   issue: values.asunto,
+          //   status: tipoEstado(values.estado),
+          //   typeCorrespondence: tipoCorrespondencia(values.tipocorrespondencia),
+          //   templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+          //   userName: username.user_name,
+          //   users: userData.users,
+          //   original: userData.original
+          // });
           setSubmitting(false);
           resetForm({
             tipocorrespondencia: "",
@@ -100,7 +168,8 @@ const TipoDocumentalRadicacion = props => {
             conglomerado: "",
             empresa: "",
             sede: "",
-            dependencia: ""
+            dependencia: "",
+            asunto: ""
           });
         }, 1000);
       }}
@@ -358,9 +427,6 @@ const TipoDocumentalRadicacion = props => {
                                   }}
                                   className="form-control form-control-sm"
                                 />
-                                {/* <select className="form-control form-control-sm">
-                              <option>Seleccione</option>
-                            </select> */}
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -368,7 +434,7 @@ const TipoDocumentalRadicacion = props => {
                                 <label>
                                   {t("app_tipoTramite_form_registrar_empresa")}{" "}
                                 </label>
-                                {/* <SelectEmpresa
+                                <SelectEmpresa
                                   authorization={props.authorization}
                                   idConglomerado={values.conglomerado}
                                   t={props.t}
@@ -381,10 +447,7 @@ const TipoDocumentalRadicacion = props => {
                                     setFieldTouched("empresa", true);
                                   }}
                                   className={"form-control form-control-sm"}
-                                /> */}
-                                {/* <select className="form-control form-control-sm">
-                              <option>Seleccione</option>
-                            </select> */}
+                                />
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -395,7 +458,7 @@ const TipoDocumentalRadicacion = props => {
                                     "app_tipoTramite_form_registrar_sede"
                                   )}{" "}
                                 </label>
-                                {/* <SelectSede
+                                <SelectSede
                                   authorization={props.authorization}
                                   t={props.t}
                                   idEmpresa={values.empresa}
@@ -408,10 +471,7 @@ const TipoDocumentalRadicacion = props => {
                                     setFieldTouched("sede", true);
                                   }}
                                   className="form-control form-control-sm"
-                                /> */}
-                                {/* <select className="form-control form-control-sm">
-                              <option>Seleccione</option>
-                            </select> */}
+                                />
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -422,7 +482,7 @@ const TipoDocumentalRadicacion = props => {
                                     "app_tipoTramite_form_registrar_dependencia"
                                   )}{" "}
                                 </label>
-                                {/* <SelectDependencia
+                                <SelectDependencia
                                   authorization={props.authorization}
                                   t={props.t}
                                   idSede={values.sede}
@@ -438,15 +498,15 @@ const TipoDocumentalRadicacion = props => {
                                     setFieldTouched("dependencia", true);
                                   }}
                                   className={"form-control form-control-sm"}
-                                /> */}
+                                />
                               </div>
                             </div>
                             <div className="col-md-12">
-                              {/* <UserList
+                              <UserList
                                 authorization={props.authorization}
                                 id={values.dependencia}
                                 t={props.t}
-                              /> */}
+                              />
                             </div>
                           </div>
                         </div>
@@ -455,7 +515,7 @@ const TipoDocumentalRadicacion = props => {
                   </div>
                 </div>
                 <div className="row">
-                  {/* <UserListEnabled data={usersdata} t={props.t} /> */}
+                  <UserListEnabled data={userData} t={props.t} />
                 </div>
                 <div className="row">
                   <div className="col-md-4">
@@ -591,6 +651,217 @@ const TipoDocumentalRadicacion = props => {
     />
   );
 };
+
+function UserList(props) {
+  const t = props.t;
+  const id = props.id;
+  const auth = props.authorization;
+
+  const [data, setdata] = useState([]);
+  const firstUpdate = useRef(true);
+
+  const dispatch = useDispatch();
+  const AgregarUsuario = user => dispatch(agregarUsuarioDisponible(user));
+
+  // const getDataUsers = () => {
+  //   fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type":"application/json",
+  //       Authorization: "Basic " + window.btoa('sgdea:123456')
+  //     }
+  //   }).then(response => response.json()).then(data => {
+  //     setdata(data);
+  //     console.log(data);
+  //   }).catch(err => console.log("Error", err));
+  // };
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetch(`${USERS_BY_DEPENDENCE}${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setdata(data);
+        // console.log(data);
+      })
+      .catch(err => console.log("Error", err));
+    //console.log("componentDidUpdate");
+  }, [id]);
+
+  //console.log(id);
+
+  return (
+    <div>
+      {/* <div className="form-group">
+            <label> Buscar usuario <span className="text-danger">*</span> </label>
+            <div className="input-group input-group-sm">
+              <input
+                type="text"
+                className="form-control form-control-sm"
+                aria-label="Dollar amount (with dot and two decimal places)"
+              />
+              <div
+                className="input-group-append"
+                id="button-addon4"
+              >
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                >
+                  <i className="fa fa-search" />
+                </button>
+                
+              </div>
+            </div>
+          </div> */}
+      <div
+        style={{
+          height: "140px",
+          overflow: "scroll",
+          overflowX: "hidden",
+          border: "1px solid #e3e3e3",
+          background: "#e3e3e3",
+          padding: "10px"
+        }}
+      >
+        {data.length > 0 ? (
+          data.map((aux, id) => {
+            return (
+              <ul className="list-unstyled">
+                <li className="media">
+                  <img
+                    className="mr-2"
+                    src="https://via.placeholder.com/40"
+                    alt="Generic placeholder image"
+                  />
+                  <div className="media-body">
+                    <p className="mt-0 mb-1">{aux.name}</p>
+                    <Button
+                      style={{ marginTop: "-13px", marginLeft: "-12px" }}
+                      color={"link"}
+                      onClick={() =>
+                        AgregarUsuario({ id: aux.id, name: aux.name })
+                      }
+                    >
+                      <h6 className="badge badge-secondary">agregar</h6>
+                    </Button>
+                  </div>
+                </li>
+              </ul>
+            );
+          })
+        ) : (
+          <p>{t("app_tipoTramite_form_registrar_placeholder_select")}</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const UserListEnabled = props => {
+  const x = useSelector(state => state.users.assigned);
+
+  const notificacion = ({ x, visible }) => {
+    if (x === null) {
+      return;
+    } else if (x === true) {
+      return (
+        <Alert isOpen={x} color="success" fade={true}>
+          Usuario Asignado para recibir original
+        </Alert>
+      );
+    } else if (x === false) {
+      return (
+        <Alert isOpen={x} color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original
+        </Alert>
+      );
+    }
+    return x;
+  };
+  const dispatch = useDispatch();
+  const users = props.data;
+  const t = props.t;
+  // console.log(users.users);
+  return (
+    <div className="col-md-12">
+      {notificacion({ x })}
+      <div className="card">
+        <div className="p-2 mb-1 bg-light text-dark">
+          {t("app_tipoTramite_form_registrar_titulo_3")}
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="row">
+              <div className="col-md-12">
+                {Object.keys(users.users).length === 0 ? (
+                  <p className="text-center">
+                    {" "}
+                    <b>
+                      {t("app_tipoTramite_form_registrar_usuarios_disponibles")}{" "}
+                    </b>{" "}
+                  </p>
+                ) : (
+                  <table className="table table-bordered table-sm">
+                    <thead className="thead-light">
+                      <tr className="text-center">
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Original</th>
+                        <th scope="col">Eliminar</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-center">
+                      {users.users.map((aux, id) => {
+                        return (
+                          <tr>
+                            <td scope="row">{aux.name}</td>
+                            <td>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  dispatch(agregarUsuarioOriginal(aux.id))
+                                }
+                              >
+                                {" "}
+                                asignar original{" "}
+                              </button>
+                            </td>
+                            <td>
+                              {" "}
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-danger"
+                                onClick={() =>
+                                  dispatch(borrarUsuarioDiponible(aux.id))
+                                }
+                              >
+                                <i className="fa fa-trash" />
+                              </button>{" "}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 TipoDocumentalRadicacion.propTypes = {
   t: PropTypes.any,
   authorization: PropTypes.string.isRequired

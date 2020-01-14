@@ -9,13 +9,20 @@ import {
   Col
 } from "reactstrap";
 import IMGTRAMITE from "./../../../assets/img/folder.svg";
+import { TYPEDOCUMENTARY_SHOW } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
+import TableModal from "./TableModalViewTipoDocumental";
+import moment from "moment";
 
 class ModalviewTipoDocumentoRadication extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: this.props.id,
       modal: this.props.modalviewtramit,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      data: {},
+      users: []
     };
   }
 
@@ -25,6 +32,7 @@ class ModalviewTipoDocumentoRadication extends Component {
         auth: props.authorization
       };
     }
+
     return null;
   }
 
@@ -36,17 +44,78 @@ class ModalviewTipoDocumentoRadication extends Component {
     }
   }
 
-  toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+  getDataById = id => {
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${TYPEDOCUMENTARY_SHOW}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          data: data.typeDocumentary,
+          users: data.users
+        });
+      })
+      .catch(err => console.log(err));
   };
 
+  toggle = id => {
+    this.setState(prevState => ({
+      modal: !prevState.modal,
+      id: id
+    }));
+    this.getDataById(id);
+  };
+
+  FechaCreacionTipoTramite(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+  }
+  FechaModificacionTipoTramite(data) {
+    let updatedAt;
+    updatedAt = new Date(data);
+    // moment.locale(es);
+    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+  }
+
   render() {
+    // console.log(this.state.auth);
+    // console.log(this.state.id);
+    console.log(this.state.data);
+    console.log(this.state.users);
+    const { data } = this.state;
+    const statusTipoDocumentalRadicacion = data => {
+      let status;
+      if (data === 1) {
+        status = <b className="text-success"> Tramite activo</b>;
+      } else if (data === 0) {
+        status = <b className="text-danger"> Tramite inactivo</b>;
+      }
+      return status;
+    };
+    const TypeCorrespondence = data => {
+      let type;
+      if (data === 1) {
+        type = <p>Recibida</p>;
+      } else if (data === 2) {
+        type = <p>Despachada</p>;
+      } else if (data === 3) {
+        type = <p>Interna</p>;
+      }
+      return type;
+    };
     return (
       <div>
-        <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver tipo documental de radicacion</ModalHeader>
+        <Modal className="modal-xl" isOpen={this.state.modal}>
+          <ModalHeader>
+            Ver tipo documental de radicacion {data.name}
+          </ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -65,7 +134,7 @@ class ModalviewTipoDocumentoRadication extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Código </dt>
-                        <dd> Código </dd>
+                        <dd> {data.code} </dd>
                       </dl>
                     </div>
                   </div>
@@ -73,7 +142,7 @@ class ModalviewTipoDocumentoRadication extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Tipo de correspondencia </dt>
-                        <dd> tipo de correspondencia </dd>
+                        <dd> {TypeCorrespondence(data.TypeCorrespondence)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -81,7 +150,7 @@ class ModalviewTipoDocumentoRadication extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Nombre </dt>
-                        <dd> nombre </dd>
+                        <dd> {data.name} </dd>
                       </dl>
                     </div>
                   </div>
@@ -89,7 +158,7 @@ class ModalviewTipoDocumentoRadication extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Descripción </dt>
-                        <dd> descripción </dd>
+                        <dd> {data.description} </dd>
                       </dl>
                     </div>
                   </div>
@@ -97,7 +166,7 @@ class ModalviewTipoDocumentoRadication extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Estado </dt>
-                        <dd> estado </dd>
+                        <dd> {statusTipoDocumentalRadicacion(data.status)} </dd>
                       </dl>
                     </div>
                   </div>
@@ -105,7 +174,10 @@ class ModalviewTipoDocumentoRadication extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de creación </dt>
-                        <dd> Fecha de creación </dd>
+                        <dd>
+                          {" "}
+                          {this.FechaCreacionTipoTramite(data.createdAt)}{" "}
+                        </dd>
                       </dl>
                     </div>
                   </div>
@@ -113,13 +185,27 @@ class ModalviewTipoDocumentoRadication extends Component {
                     <div className="form-group">
                       <dl className="param">
                         <dt>Fecha de modificación </dt>
-                        <dd> Fecha de modificación </dd>
+                        <dd>
+                          {" "}
+                          {this.FechaModificacionTipoTramite(
+                            data.updatedAt
+                          )}{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Asunto </dt>
+                        <dd> {data.issue} </dd>
                       </dl>
                     </div>
                   </div>
                 </div>
               </Col>
             </Row>
+            <br />
             <Row>
               <Col sm="12">
                 <div className="">
@@ -130,41 +216,10 @@ class ModalviewTipoDocumentoRadication extends Component {
                   </h5>{" "}
                 </div>
                 <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Usuarios </dt>
-                        <dd> usuarios </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Sedes </dt>
-                        <dd> sedes</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Dependencias </dt>
-                        <dd> dependencias </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Original </dt>
-                        <dd> original </dd>
-                      </dl>
-                    </div>
-                  </div>
+                  <TableModal data={this.state.users} />
                 </div>
               </Col>
-              <Col sm="4">
+              {/* <Col sm="4">
                 <div className="">
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
@@ -220,7 +275,7 @@ class ModalviewTipoDocumentoRadication extends Component {
                     </div>
                   </div>
                 </div>
-              </Col>
+              </Col> */}
             </Row>
           </ModalBody>
           <ModalFooter>
@@ -231,7 +286,7 @@ class ModalviewTipoDocumentoRadication extends Component {
               }}
               className="btn btn-secondary btn-sm"
             >
-              Cerrar
+              <i className="fa fa-times" /> Cerrar
             </button>
           </ModalFooter>
         </Modal>

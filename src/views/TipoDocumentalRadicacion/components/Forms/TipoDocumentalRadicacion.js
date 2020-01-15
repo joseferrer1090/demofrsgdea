@@ -119,7 +119,7 @@ const TipoDocumentalRadicacion = props => {
               .then(data => {
                 if (response.status === 201) {
                   toast.success(
-                    "Tipo documental de radicacion creado con exito. ",
+                    "Se creo el tipo documental de radicación con éxito. ",
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
@@ -127,13 +127,16 @@ const TipoDocumentalRadicacion = props => {
                       })
                     }
                   );
-                } else if (response.status === 500) {
-                  toast.error("tipo documental de radicacion existente. ", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  });
+                } else if (response.status === 400) {
+                  toast.error(
+                    "Error, el tipo documental de radicación ya existe.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
                 }
               })
               .catch(error => {
@@ -193,6 +196,7 @@ const TipoDocumentalRadicacion = props => {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="card">
+                      <ToastContainer />
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_tipoTramite_form_registrar_titulo_1")}
                       </div>
@@ -313,32 +317,6 @@ const TipoDocumentalRadicacion = props => {
                             <div className="form-group">
                               <label>
                                 {t(
-                                  "app_tipoTramite_form_registrar_descripcion"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                name="descripcion"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.descripcion}
-                                type="text"
-                                className={`form-control form-control-sm ${errors.descripcion &&
-                                  touched.descripcion &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.descripcion && touched.descripcion ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="descripcion" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {t(
                                   "app_tipoTramite_form_registrar_dias_respuesta"
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
@@ -362,6 +340,33 @@ const TipoDocumentalRadicacion = props => {
                               </div>
                             </div>
                           </div>
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label>
+                                {t(
+                                  "app_tipoTramite_form_registrar_descripcion"
+                                )}{" "}
+                                <span className="text-danger">*</span>{" "}
+                              </label>
+                              <textarea
+                                name="descripcion"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.descripcion}
+                                type="text"
+                                className={`form-control form-control-sm ${errors.descripcion &&
+                                  touched.descripcion &&
+                                  "is-invalid"}`}
+                              />
+                              <div style={{ color: "#D54B4B" }}>
+                                {errors.descripcion && touched.descripcion ? (
+                                  <i className="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name="descripcion" />
+                              </div>
+                            </div>
+                          </div>
+                       
                           <Col sm="12">
                             <div className="form-group">
                               <label>

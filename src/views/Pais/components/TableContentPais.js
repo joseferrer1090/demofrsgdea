@@ -42,7 +42,6 @@ class TableContentPais extends Component {
     }
   }
 
-
   getDataPais = () => {
     fetch(COUNTRIES, {
       method: "GET",
@@ -74,7 +73,7 @@ class TableContentPais extends Component {
   FechaCreacionPais(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
   accionesPais(cell, row) {

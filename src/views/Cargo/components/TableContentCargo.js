@@ -74,7 +74,7 @@ class TableContentCargo extends Component {
   FechaCreacionCargo(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
   accionesCargo(cell, row) {

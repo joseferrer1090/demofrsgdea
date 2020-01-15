@@ -68,7 +68,7 @@ class ModalViewAuditoria extends Component {
   FechaAuditoria(data) {
     let date;
     date = new Date(data);
-    return moment(date).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(date).format("DD-MM-YYYY, h:mm:ss a");
   }
 
   render() {

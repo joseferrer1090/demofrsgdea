@@ -131,7 +131,7 @@ class TableContentSedes extends Component {
   FechaCreacionSede(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
   createCustomButtonGroup = props => {

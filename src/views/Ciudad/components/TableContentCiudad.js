@@ -62,7 +62,7 @@ class TableContentCiudad extends Component {
   FechaCreacionCiudad(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
   accionesPais(cell, row) {
@@ -287,7 +287,7 @@ class TableContentCiudad extends Component {
 }
 TableContentCiudad.propTypes = {
   t: PropTypes.any,
-  authorization:PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(TableContentCiudad);

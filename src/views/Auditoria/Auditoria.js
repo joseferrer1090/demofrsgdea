@@ -104,7 +104,7 @@ class Auditoria extends Component {
   FechaAuditoria(cell, row) {
     let date;
     date = new Date(row.date);
-    return moment(date).format("YYYY-MM-DD");
+    return moment(date).format("DD-MM-YYYY");
   }
 
   indexN(cell, row, enumObject, index) {

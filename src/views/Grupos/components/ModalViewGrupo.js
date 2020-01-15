@@ -102,7 +102,7 @@ class ModalViewPais extends Component {
     };
 
     const data = this.state.dataUsers;
-
+    console.log(this.state.dataGroup);
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>

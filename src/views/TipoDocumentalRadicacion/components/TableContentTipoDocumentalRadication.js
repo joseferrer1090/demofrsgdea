@@ -66,8 +66,8 @@ class TableContentTramite extends Component {
   accionesTramite = (cell, row) => {
     return (
       <div
-        className="table-actionMenuTLlegada"
-        style={{ textAlign: "center", padding: "0", marginRight: "0px" }}
+        className="table-actionMenuTDocRadicacion"
+        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

@@ -6,9 +6,10 @@ import thunk from "redux-thunk";
 
 const store = createStore(
   reducer,
-  applyMiddleware(thunk)
   //initialState,
-  //window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  // applyMiddleware(thunk).__REDUX_DEVTOOLS_EXTENSION__ &&
+  //   window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 export default store;

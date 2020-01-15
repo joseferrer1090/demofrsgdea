@@ -2,7 +2,7 @@ import {
   AGREGAR_USUARIO_TIPO_TRAMITE,
   BORRAR_USUARIO_DISPONIBLE_TIPO_TRAMITE,
   AGREGAR_USUARIO_ORIGINAL_TIPO_TRAMITE
-} from "./../types/index";
+} from "../types/index";
 
 export const agregarUserAction = user => {
   return {

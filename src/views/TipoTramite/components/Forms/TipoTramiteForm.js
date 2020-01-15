@@ -7,7 +7,7 @@ import {
   agregarUserAction,
   borrarUserAction,
   agregarOriginal
-} from "./../../../../actions/usersActions";
+} from "../../../../actions/typeProcedureAction";
 import "react-toastify/dist/ReactToastify.css";
 import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
@@ -27,7 +27,7 @@ const TipoTramiteForm = props => {
   const usersdata = useSelector(state => state.users);
   const aux = useSelector(state => state.users.assigned);
   // console.log(props.authorization);
-  console.log(useSelector(state => state.users));
+  console.log(aux);
   return (
     <Formik
       initialValues={{

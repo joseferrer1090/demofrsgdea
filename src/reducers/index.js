@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import usersReducers from "./usersReducer";
+import typeProcedureReducer from "./typeProcedureReducer";
 import authenticationReducer from "./authenticationReducer";
 import documentaryTypeReducer from "./documentaryTypeReducer";
 
 export default combineReducers({
-  users: usersReducers,
+  users: typeProcedureReducer,
   authenticationReducer,
   documentaryTypeReducer
 });

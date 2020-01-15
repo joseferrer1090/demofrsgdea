@@ -128,14 +128,14 @@ const TipoTramiteForm = props => {
             .then(response =>
               response.json().then(data => {
                 if (response.status === 201) {
-                  toast.success("Tipo de tramite creado con exito.", {
+                  toast.success("Se creo el tipo de trámite con éxito.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px"
                     })
                   });
-                } else if (response.status === 500) {
-                  toast.error("Tipo de tramite existente", {
+                } else if (response.status === 400) {
+                  toast.error("Error, el tipo de trámite ya existe.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px"
@@ -185,6 +185,7 @@ const TipoTramiteForm = props => {
               <div className="card-body">
                 <div className="row">
                   <div className="col-md-6">
+                    <ToastContainer />
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
                         {t("app_tipoTramite_form_registrar_titulo_1")}
@@ -306,32 +307,6 @@ const TipoTramiteForm = props => {
                             <div className="form-group">
                               <label>
                                 {t(
-                                  "app_tipoTramite_form_registrar_descripcion"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                name="descripcion"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.descripcion}
-                                type="text"
-                                className={`form-control form-control-sm ${errors.descripcion &&
-                                  touched.descripcion &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.descripcion && touched.descripcion ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="descripcion" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {t(
                                   "app_tipoTramite_form_registrar_dias_respuesta"
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
@@ -355,6 +330,33 @@ const TipoTramiteForm = props => {
                               </div>
                             </div>
                           </div>
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label>
+                                {t(
+                                  "app_tipoTramite_form_registrar_descripcion"
+                                )}{" "}
+                                <span className="text-danger">*</span>{" "}
+                              </label>
+                              <textarea
+                                name="descripcion"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.descripcion}
+                                type="text"
+                                className={`form-control form-control-sm ${errors.descripcion &&
+                                  touched.descripcion &&
+                                  "is-invalid"}`}
+                              />
+                              <div style={{ color: "#D54B4B" }}>
+                                {errors.descripcion && touched.descripcion ? (
+                                  <i className="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name="descripcion" />
+                              </div>
+                            </div>
+                          </div>
+
                           <Col sm="12">
                             <div className="form-group">
                               <label>

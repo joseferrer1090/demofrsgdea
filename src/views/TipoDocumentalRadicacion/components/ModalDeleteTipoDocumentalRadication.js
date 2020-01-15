@@ -112,15 +112,18 @@ class ModalDeleteTramite extends Component {
                         alertError: true
                       });
                     } else if (response.status === 204) {
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
                       setTimeout(() => {
-                        this.setState(
-                          {
-                            alertSuccess: true,
-                            modal: false
-                          },
-                          () => this.props.updateTable()
-                        );
-                      }, 1000);
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false
+                        });
+                      }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
                         alertCode: true

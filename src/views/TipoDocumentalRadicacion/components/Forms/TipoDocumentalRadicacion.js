@@ -366,7 +366,7 @@ const TipoDocumentalRadicacion = props => {
                               </div>
                             </div>
                           </div>
-                       
+
                           <Col sm="12">
                             <div className="form-group">
                               <label>
@@ -773,7 +773,7 @@ function UserList(props) {
 }
 
 const UserListEnabled = props => {
-  const x = useSelector(state => state.users.assigned);
+  const x = useSelector(state => state.documentaryTypeReducer.assigned);
 
   const notificacion = ({ x, visible }) => {
     if (x === null) {

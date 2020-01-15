@@ -7,7 +7,7 @@ import {
   agregarUserAction,
   borrarUserAction,
   agregarOriginal
-} from "./../../../../actions/usersActions";
+} from "../../../../actions/typeProcedureAction";
 import "react-toastify/dist/ReactToastify.css";
 import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";

@@ -2,6 +2,7 @@ import React from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
 const TableModalViewComponent = props => {
+  const { t } = props;
   return (
     <div className="">
       <BootstrapTable
@@ -12,21 +13,33 @@ const TableModalViewComponent = props => {
         hover={true}
         maxHeight={"150px"}
       >
-        <TableHeaderColumn dataField={"identification"} isKey>
+        <TableHeaderColumn width={"170"} dataField={"identification"} isKey>
           {" "}
-          Identificacion{" "}
+          {t("app_tipoTramite_ver_table_identificacion")}{" "}
         </TableHeaderColumn>
-        <TableHeaderColumn dataField={"charge"}> Cargo </TableHeaderColumn>
-        <TableHeaderColumn dataField={"name"}> Nombre </TableHeaderColumn>
+
+        <TableHeaderColumn dataField={"name"}>
+          {" "}
+          {t("app_tipoTramite_ver_table_nombre")}{" "}
+        </TableHeaderColumn>
+        <TableHeaderColumn dataField={"charge"}>
+          {" "}
+          {t("app_tipoTramite_ver_table_cargo")}{" "}
+        </TableHeaderColumn>
         <TableHeaderColumn dataField={"dependence"}>
           {" "}
-          Dependencia{" "}
+          {t("app_tipoTramite_ver_table_dependencia")}{" "}
         </TableHeaderColumn>
-        <TableHeaderColumn dataField={"charge"}>Cargo</TableHeaderColumn>
-        <TableHeaderColumn dataField={"headquarter"}>Sede </TableHeaderColumn>
-        <TableHeaderColumn dataField={"company"}> Empresa </TableHeaderColumn>
+
+        <TableHeaderColumn dataField={"headquarter"}>
+          {t("app_tipoTramite_ver_table_sede")}{" "}
+        </TableHeaderColumn>
+        <TableHeaderColumn dataField={"company"}>
+          {" "}
+          {t("app_tipoTramite_ver_table_empresa")}{" "}
+        </TableHeaderColumn>
         <TableHeaderColumn dataField={"conglomerate"}>
-          Conglomerado
+          {t("app_tipoTramite_ver_table_conglomerado")}
         </TableHeaderColumn>
       </BootstrapTable>
     </div>

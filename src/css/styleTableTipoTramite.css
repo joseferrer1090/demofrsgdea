@@ -1,0 +1,29 @@
+.table-actionMenuTTramite {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+    display: inline;
+  
+  } */
+
+tr:hover td .table-actionMenuTTramite,
+tr:hover th .table-actionMenuTTramite {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}
+
+/* .texto-TDoc {
+  font-size: 14px !important;
+  font-weight: 450 !important;
+} */
+/* .tableTTramite table > tbody > tr > td,
+.tableTTramite table > tbody > tr > th,
+.tableTTramite table > tfoot > tr > td,
+.tableTTramite table > tfoot > tr > th,
+.tableTTramite table > thead > tr > td,
+.tableTTramite table > thead > tr > th {
+  padding-bottom: 10px !important;
+} */

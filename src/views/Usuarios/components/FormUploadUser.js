@@ -9,14 +9,32 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { withTranslation } from "react-i18next";
 import fileUser from "./../../../assets/files/FilesImportCSV/user.csv";
+import { USERS_IMPORT } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class FormImportUsers extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       file: null,
-      username: "ccuartas"
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   onChange = e => {
@@ -80,14 +98,16 @@ class FormImportUsers extends React.Component {
                 formData.append("file", file);
                 formData.append("separator", separator(values.separador_csv));
                 setTimeout(() => {
+                  const auth = this.state.auth;
+                  const username = decode(auth);
                   axios
                     .post(
-                      `http://192.168.10.180:7014/api/sgdea/user/import/?username=${this.state.username}`,
+                      `${USERS_IMPORT}import?username=${username.user_name}`,
                       formData,
                       {
                         headers: {
                           "Content-Type": "multipart/form-data",
-                          Authorization: "Basic " + window.btoa("sgdea:123456")
+                          Authorization: "Bearer " + auth
                         }
                       }
                     )
@@ -258,7 +278,8 @@ class FormImportUsers extends React.Component {
 }
 
 FormImportUsers.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(FormImportUsers);

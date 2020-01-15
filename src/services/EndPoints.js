@@ -12,6 +12,9 @@ export const CONGLOMERATES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/servi
 
 export const CONGLOMERATES_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/conglomerates/inactive`;
 
+/* POST IMPORT */
+export const CONGLOMERATE_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/conglomerates/`;
+
 /* GET param username */
 export const CONGLOMERATE_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/conglomerates/export/data`;
 
@@ -37,6 +40,9 @@ export const COMPANY_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/con
 
 /* GET param => idConglomerate */
 export const COMPANY_BY_CONGLOMERATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/companies/conglomerate/`;
+
+/* POST IMPORT */
+export const COMPANY_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/companies/`;
 
 /* GET */
 export const COMPANY_PAGINATION = () => {
@@ -74,6 +80,9 @@ export const HEADQUARTER_BY_CITY = `${config.IP}:${config.PORT}/api/sgdea/servic
 /* GET param idCompany */
 export const HEADQUARTER_BY_COMPANY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/headquarters/company/`;
 
+/* POST IMPORT */
+export const HEADQUARTER_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/headquarters/`;
+
 /* GET */
 export const HEADQUARTER_PAGINATION = () => {
   //const page = 0; => param page
@@ -103,7 +112,8 @@ export const DEPENDENCIES_BY_CHARGE = `${config.IP}:${config.PORT}/api/sgdea/ser
 
 /* GET  */
 export const DEPENDENCE_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/dependencies/export/data`;
-
+/* POST IMPORT */
+export const DEPENDENCE_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/dependencies/`;
 /* GET */
 export const DEPENDENCE_PAGINATION = () => {
   const page = 0;
@@ -125,6 +135,8 @@ export const CHARGES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/con
 /* GET */
 export const CHARGE_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/charges/export/data`;
 
+/* POST IMPORT */
+export const CHARGES_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/charges/`;
 /* GET */
 export const CHARGE_PAGINATION = () => {
   //const page = 0; // => param que tienen que ir en la url
@@ -145,11 +157,13 @@ export const MESSENGER = `${config.IP}:${config.PORT}/api/sgdea/service/configur
 export const MESSENGERS_STATUS_ACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers/active`;
 
 /* GET */
-
 export const MESSENGERS_STATUS_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers/inactive`;
 
 /* GET  params => username  */
 export const MESSENGER_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/messengers/export/data`;
+
+/* POST IMPORT */
+export const MESSENGER_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/messengers/`;
 
 /* GET params => {page, size} */
 export const MESSENGER_PAGINATION = () => {
@@ -181,6 +195,8 @@ export const TYPESHIPMENTARRIVAL_UPDATE = `${config.IP}:${config.PORT}/api/sgdea
 /* DELETE params identification, username */
 export const TYPESHIPMENTARRIVAL_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/shipments/arrivals/`;
 
+/* POST IMPORT */
+export const TYPESHIPMENTARRIVAL_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/types/shipment/arrival/`;
 /* GET */
 export const TYPESHIPMENTARRIVAL_PAGINATION = () => {
   // const page = 0; params page
@@ -293,6 +309,8 @@ export const PASSWORD_RESET_REQUEST = `${config.IP}:${config.PORT}/api/sgdea/ser
 /* POST */
 export const PASSWORD_RESET = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/user/password-reset`;
 
+/* POST IMPORT */
+export const USERS_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/users/`;
 //---------------------------------------------TIPO DE TERCERO--------------------------------------------------//
 
 /* GET */
@@ -315,6 +333,9 @@ export const TYPETHIRDPARTY_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/serv
 
 /* DELETE  params => id, code, username  */
 export const TYPETHIRDPARTY_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/type/third/parties/`;
+
+/* POST IMPORT */
+export const TYPETHIRDPARTYS_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/types/third/party/`;
 
 /* GET params => page, size*/
 export const TYPETHIRDPARTYS_PAGINATION = () => {
@@ -394,6 +415,8 @@ export const THIRDPARTYS_STATUS =
 /* GET */
 export const THIRDPARTYS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/third/parties/export/data`;
 
+/* POST IMPORT */
+export const THIRDPARTY_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/third/parties/`;
 /* GET */
 export const THIRDPARTY_PAGINATION = () => {
   const page = 0;
@@ -451,6 +474,9 @@ export const CONTRIES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/co
 /* GET */
 export const COUNTRIES_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/countries/export/data`;
 
+/* POST IMPORT */
+export const COUNTRIES_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/countries/`;
+
 /* GET */
 export const COUNTRIES_PAGINATION = () => {
   const page = 0;
@@ -475,6 +501,9 @@ export const DEPARTMENTS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service
 /* GET */
 export const DEPARTMENTS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/departments/export/data`;
 
+/* POST IMPORT */
+export const DEPARTMENTS_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/departments/`;
+
 /* GET */
 export const DEPARTMENTS_PAGINATION = () => {
   const page = 0;
@@ -497,6 +526,9 @@ export const CITIES_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/conf
 export const CITIES_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/cities/export/data`;
 
 export const CITIES_BY_DEPARTMENT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/cities/department/`;
+
+/* POST IMPORT */
+export const CITYS_IMPORT = `${config.IP}:${config.PORT}/api/sgdea/service/import/cities/`;
 
 /* GET */
 export const CITIES_PAGINATION = () => {

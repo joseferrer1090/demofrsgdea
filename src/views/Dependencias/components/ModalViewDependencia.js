@@ -31,7 +31,7 @@ class ModalViewDependencia extends Component {
       dataDependenceHeadquarterCompanyConglomerate: {},
       dataDependenceCharge: {},
       t: this.props.t,
-      auth:this.props.authorization
+      auth: this.props.authorization
     };
   }
   static getDerivedStateFromProps(props, state) {
@@ -57,16 +57,13 @@ class ModalViewDependencia extends Component {
     });
     const auth = this.state.auth;
     const username = decode(auth);
-    fetch(
-      `${DEPENDENCE}${id}?username=${username.user_name}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + auth,
-          "Content-Type": "application/json"
-        }
+    fetch(`${DEPENDENCE}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -89,12 +86,12 @@ class ModalViewDependencia extends Component {
   FechaCreacionDependencia(data) {
     let createdAt;
     createdAt = new Date(data);
-    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(createdAt).format("DD-MM-YYYY, h:mm:ss a");
   }
   FechaModificacionDependencia(data) {
     let updatedAt;
     updatedAt = new Date(data);
-    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(updatedAt).format("DD-MM-YYYY, h:mm:ss a");
   }
   render() {
     const statusDependence = data => {

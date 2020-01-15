@@ -81,13 +81,13 @@ class ModalViewPais extends Component {
   FechaCreacionGrupo = data => {
     let createdAt;
     createdAt = new Date(data);
-    return moment(createdAt).format("YYYY-MM-DD, h:mm:ss a");
+    return moment(createdAt).format("DD-MM-YYYY, h:mm:ss a");
   };
   FechaModificacionGrupo = data => {
     let updatedAt;
     updatedAt = new Date(data);
-    // moment.locale(es);
-    return moment(updatedAt).format("YYYY-MM-DD, h:mm:ss a");
+    // moment.locale(es);D
+    return moment(updatedAt).format("DD-MM-YYYY, h:mm:ss a");
   };
 
   render() {
@@ -102,7 +102,7 @@ class ModalViewPais extends Component {
     };
 
     const data = this.state.dataUsers;
-
+    console.log(this.state.dataGroup);
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>

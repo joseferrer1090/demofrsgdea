@@ -9,13 +9,30 @@ import { withTranslation } from "react-i18next";
 import fileCompany from "./../../../assets/files/FilesImportCSV/company.csv";
 import PreviewFile from "./PreviewFile";
 import PropTypes from "prop-types";
+import { COMPANY_IMPORT } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class FormUpload extends React.Component {
   state = {
     file: null,
-    username: "jferrer"
+    auth: this.props.authorization
   };
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
   onChange = e => {
     this.setState({ file: e.target.files[0] });
   };
@@ -81,11 +98,18 @@ class FormUpload extends React.Component {
                 formData.append("file", file);
                 formData.append("separator", separator(values.separador_csv));
                 setTimeout(() => {
+                  const auth = this.state.auth;
+                  const username = decode(auth);
                   axios
                     .post(
-                      `http://192.168.10.180:7002/api/sgdea/company/import/?username=${this.state.username}`,
+                      `${COMPANY_IMPORT}import?username=${username.user_name}`,
                       formData,
-                      { headers: { "Content-Type": "multipart/form-data" } }
+                      {
+                        headers: {
+                          Authorization: `Bearer ${auth}`,
+                          "Content-Type": "multipart/form-data"
+                        }
+                      }
                     )
                     .then(response => {
                       if (response.status === 200) {
@@ -253,7 +277,8 @@ class FormUpload extends React.Component {
 
 FormUpload.propTypes = {
   t: PropTypes.any,
-  file: PropTypes.any
+  file: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 
 export default withTranslation("translations")(FormUpload);

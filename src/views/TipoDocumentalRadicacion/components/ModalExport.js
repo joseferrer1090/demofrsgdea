@@ -101,22 +101,31 @@ class ModalExport extends Component {
 
     const json2csvParser = new Parser({ fields, quote: "" });
     const csv = json2csvParser.parse(data);
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Exportar tipo de tramites</ModalHeader>
+          <ModalHeader>
+            {t("app_documentalRadicacion_exportar_titulo")}
+          </ModalHeader>
           <ModalBody>
             <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
               <thead className="">
                 <tr className="">
-                  <th>código</th>
-                  <th>nombre</th>
-                  <th>descripción</th>
-                  <th>respuesta</th>
-                  <th>Asunto</th>
-                  <th>Estado</th>
-                  <th>tipo de correspondecia</th>
-                  <th>codigo template</th>
+                  <th>{t("app_documentalRadicacion_exportar_codigo")}</th>
+                  <th>{t("app_documentalRadicacion_exportar_nombre")}</th>
+                  <th>{t("app_documentalRadicacion_exportar_descripcion")}</th>
+                  <th>{t("app_documentalRadicacion_exportar_respuesta")}</th>
+                  <th>{t("app_documentalRadicacion_exportar_asunto")}</th>
+                  <th>{t("app_documentalRadicacion_exportar_estado")}</th>
+                  <th>
+                    {t(
+                      "app_documentalRadicacion_exportar_tipo_correspondencia"
+                    )}
+                  </th>
+                  <th>
+                    {t("app_documentalRadicacion_exportar_codigo_plantilla")}
+                  </th>
                 </tr>
               </thead>
               <tbody className="text-justify">
@@ -145,11 +154,13 @@ class ModalExport extends Component {
               }}
             >
               {" "}
-              <i className="fa fa-times" /> cerrar{" "}
+              <i className="fa fa-times" />{" "}
+              {t("app_documentalRadicacion_exportar_boton_cerrar")}{" "}
             </button>
 
             <CSVLink data={csv} className="btn btn-secondary btn-sm">
-              <i className="fa fa-download" /> Exportar csv
+              <i className="fa fa-download" />{" "}
+              {t("app_documentalRadicacion_exportar_boton_exportar")}
             </CSVLink>
             {/* <CSVDownload className="btn btn-secondary btn-sm" data={records}>
               {" "}

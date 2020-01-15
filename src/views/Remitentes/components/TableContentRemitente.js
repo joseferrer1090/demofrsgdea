@@ -63,7 +63,7 @@ class TableContentRemitente extends Component {
   FechaCreacionTercero(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
-    return moment(createdAt).format("YYYY-MM-DD");
+    return moment(createdAt).format("DD-MM-YYYY");
   }
 
   accionesRemitente(cel, row) {

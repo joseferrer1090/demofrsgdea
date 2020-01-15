@@ -9,12 +9,30 @@ import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import fileConglomerate from "./../../../assets/files/FilesImportCSV/conglomerate.csv";
 import PreviewFile from "./PreviewFile";
+import { CONGLOMERATE_IMPORT } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class FormUploadFile extends React.Component {
   state = {
     file: null,
-    username: "jferrer"
+    auth: this.props.authorization
   };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   onChange = e => {
     this.setState({ file: e.target.files[0] });
@@ -28,7 +46,6 @@ class FormUploadFile extends React.Component {
 
   render() {
     const { t } = this.props;
-    //
     return (
       <Fragment>
         <Row>
@@ -89,12 +106,15 @@ class FormUploadFile extends React.Component {
                 formData.append("file", file);
                 formData.append("separator", separator(values.separador_csv));
                 setTimeout(() => {
+                  const auth = this.state.auth;
+                  const username = decode(auth);
                   axios
                     .post(
-                      `http://192.168.10.180:7001/api/sgdea/conglomerate/import/?username=${this.state.username}`,
+                      `${CONGLOMERATE_IMPORT}import?username=${username.user_name}`,
                       formData,
                       {
                         headers: {
+                          Authorization: `Bearer ${auth}`,
                           "Content-Type": "multipart/form-data"
                         }
                       }
@@ -102,7 +122,7 @@ class FormUploadFile extends React.Component {
                     .then(response => {
                       if (response.status === 200) {
                         toast.success(
-                          "La importación de conglomerado se hizo satisfactoriamente.",
+                          "La importación del conglomerado se hizo satisfactoriamente.",
                           {
                             position: toast.POSITION.TOP_RIGHT,
                             className: css({
@@ -110,7 +130,7 @@ class FormUploadFile extends React.Component {
                             })
                           }
                         );
-                      } else if (response.status === 500) {
+                      } else if (response === 500) {
                         toast(
                           "No se pudo realizar la importación, por favor verifique el archivo CSV.",
                           {
@@ -123,14 +143,13 @@ class FormUploadFile extends React.Component {
                       }
                     })
                     .catch(error => {
-                      toast.error(`${error}.`, {
+                      toast.error(`${error}`, {
                         position: toast.POSITION.TOP_RIGHT,
                         className: css({
                           marginTop: "60px"
                         })
                       });
                     });
-                  setSubmitting(false);
                 }, 1000);
               }}
               validationSchema={Yup.object().shape({
@@ -278,6 +297,7 @@ class FormUploadFile extends React.Component {
 }
 
 FormUploadFile.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(FormUploadFile);

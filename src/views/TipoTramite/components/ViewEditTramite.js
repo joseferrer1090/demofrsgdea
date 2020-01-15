@@ -1,9 +1,5 @@
 import React, { Fragment } from "react";
 import { Col, CustomInput } from "reactstrap";
-import {
-  TIPO_TRAMITE_EDIT,
-  TIPO_CORRESPONDENCIA_SELECTED
-} from "./../../../data/JSON-SERVER";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
@@ -11,6 +7,8 @@ import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
 import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
 import SelectSede from "./component_viewEdit/SelectSede";
 import SelectDependencia from "./component_viewEdit/SelectDependencia";
+import { TYPEPROCEDURE } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ViewEditTable extends React.Component {
   state = {
@@ -19,7 +17,50 @@ class ViewEditTable extends React.Component {
     nombre: "",
     descripcion: "",
     d_maximos: "",
-    estado: ""
+    estado: "",
+    auth: this.props.authorization,
+    id: ""
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+    this.getDateTipoTramite(this.state.id);
+  }
+
+  componentDidMount() {
+    this.setState({
+      id: this.props.match.params.id
+    });
+  }
+
+  getDateTipoTramite = id => {
+    const { auth } = this.state;
+    const username = decode(auth);
+    fetch(`${TYPEPROCEDURE}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => console.log(`err => ${err}`));
   };
 
   handleSubmit = (values, { props = this.props, setSubmitting }) => {
@@ -78,8 +119,10 @@ class ViewEditTable extends React.Component {
     //     </option>
     //   );
     // });
-    console.log(this.props.match.params.id);
-    console.log(this.props.authorization);
+    // console.log(this.props.match.params.id);
+    // console.log(this.props.authorization);
+    console.log(this.state.id);
+    console.log(this.state.auth);
     return (
       <Formik
         initialValues={dataPreview}

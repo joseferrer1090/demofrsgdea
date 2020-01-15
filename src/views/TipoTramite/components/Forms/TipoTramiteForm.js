@@ -24,9 +24,10 @@ import { decode } from "jsonwebtoken";
 
 const TipoTramiteForm = props => {
   const { t, authorization } = props;
-  const usersdata = useSelector(state => state.users);
-  const aux = useSelector(state => state.users.assigned);
+  const usersdata = useSelector(state => state.typeProcedureReducer);
+  const aux = useSelector(state => state.typeProcedureReducer.assigned);
   // console.log(props.authorization);
+  console.log(useSelector(state => state.typeProcedureReducer.users));
   console.log(aux);
   return (
     <Formik
@@ -772,7 +773,7 @@ function UserList(props) {
 }
 
 const UserListEnabled = props => {
-  const x = useSelector(state => state.users.assigned);
+  const x = useSelector(state => state.typeProcedureReducer.assigned);
 
   const notificacion = ({ x, visible }) => {
     if (x === null) {

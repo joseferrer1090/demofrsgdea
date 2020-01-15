@@ -9,6 +9,7 @@ import ModalExport2 from "./ModalExportCSVTipoTramiteUser";
 import moment from "moment";
 import { withTranslation } from "react-i18next";
 import { TYPEPROCEDURES } from "./../../../services/EndPoints";
+import { Link, Redirect } from "react-router-dom";
 
 class TableContentTramite extends Component {
   constructor(props) {
@@ -79,7 +80,7 @@ class TableContentTramite extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.routeChange();
+            this.routeChange(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -117,8 +118,8 @@ class TableContentTramite extends Component {
     this.refs.child1.toggle(id);
   }
 
-  routeChange = () => {
-    let path = `/#/configuracion/tipotramite/edit`;
+  routeChange = id => {
+    let path = `/#/configuracion/tipotramite/edit/${id}`;
     window.location.replace(path);
   };
 

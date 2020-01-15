@@ -12,7 +12,7 @@ import AddIndexPlantilla from "./views/Plantilla/components/AddIndexPlantilla";
 import { Route, Redirect } from "react-router-dom";
 
 const isAuthenticated = () => {
-  const token = sessionStorage.getItem("access_token");
+  const token = localStorage.getItem("access_token");
   try {
     if (token != null) {
       return true;
@@ -251,10 +251,15 @@ const routes = [
     component: TipoTramite
   },
   {
-    path: "/configuracion/tipotramite/edit",
+    path: "/configuracion/tipotramite/edit/:id",
     exact: true,
     name: "Editar tipo de tramite",
-    component: EditTramite
+    component: props => (
+      <EditTramite
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   },
   {
     path: "/configuracion/tipotercero",

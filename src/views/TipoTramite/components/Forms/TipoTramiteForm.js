@@ -27,6 +27,7 @@ const TipoTramiteForm = props => {
   const usersdata = useSelector(state => state.users);
   const aux = useSelector(state => state.users.assigned);
   // console.log(props.authorization);
+  console.log(useSelector(state => state.users));
   return (
     <Formik
       initialValues={{

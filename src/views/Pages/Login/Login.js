@@ -160,7 +160,7 @@ const formikEnhancer = withFormik({
     password: "",
     grant_type: "password"
   }),
-  handleSubmit: (values, { props, setSubmitting, resetForm }) => {
+  handleSubmit: (values, { setSubmitting, resetForm, props }) => {
     setTimeout(() => {
       const username = values.username;
       const password = values.password;

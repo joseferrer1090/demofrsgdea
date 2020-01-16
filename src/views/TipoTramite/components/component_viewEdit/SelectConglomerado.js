@@ -26,12 +26,16 @@ class SelectConglomerado extends React.Component {
     }
   }
 
+  componentDidMount() {
+    this.getDataConglomerado();
+  }
+
   getDataConglomerado = () => {
     fetch(`${CONGLOMERATES_STATUS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -54,7 +58,6 @@ class SelectConglomerado extends React.Component {
   render() {
     const data = this.state.dataConglomerado;
     const { t } = this.props;
-
     return (
       <div>
         <select

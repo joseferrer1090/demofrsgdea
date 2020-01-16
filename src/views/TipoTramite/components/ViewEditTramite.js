@@ -1,5 +1,10 @@
-import React, { Fragment } from "react";
-import { Col, CustomInput } from "reactstrap";
+import React, { Fragment, useState, useEffect, useRef } from "react";
+import {
+  agregarUserAction,
+  borrarUserAction,
+  agregarOriginal
+} from "./../../../actions/typeProcedureAction";
+import { Col, CustomInput, ToastBody, Alert, Button } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
@@ -7,8 +12,13 @@ import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
 import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
 import SelectSede from "./component_viewEdit/SelectSede";
 import SelectDependencia from "./component_viewEdit/SelectDependencia";
-import { TYPEPROCEDURE } from "./../../../services/EndPoints";
+import {
+  TYPEPROCEDURE,
+  USERS_BY_DEPENDENCE
+} from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import { useSelector, useDispatch } from "react-redux";
+import { withTranslation } from "react-i18next";
 
 // Tener en cuenta hacer por redux el editar
 // Agregar los types OBTENER_TIPO_TRAMITE, EDITAR_TIPO_TRAMITE
@@ -131,6 +141,7 @@ class ViewEditTable extends React.Component {
     // console.log(this.props.authorization);
     console.log(this.state.id);
     console.log(this.state.auth);
+    const { t } = this.props;
     return (
       <Formik
         initialValues={dataPreview}
@@ -163,7 +174,9 @@ class ViewEditTable extends React.Component {
             errors,
             handleChange,
             handleBlur,
-            handleSubmit
+            handleSubmit,
+            setFieldTouched,
+            setFieldValue
           } = props;
           return (
             <Fragment>
@@ -373,7 +386,25 @@ class ViewEditTable extends React.Component {
                                     <div className="col-md-6">
                                       <div className="form-group">
                                         <label> Conglomerado </label>
-                                        <SelectConglomerado className="form-control form-control-sm" />
+                                        <SelectConglomerado
+                                          authorization={this.state.auth}
+                                          t={t}
+                                          name="conglomerado"
+                                          value={values.conglomerado}
+                                          onChange={e => {
+                                            setFieldValue(
+                                              "conglomerado",
+                                              e.target.value
+                                            );
+                                          }}
+                                          onBlur={() => {
+                                            setFieldTouched(
+                                              "conglomerado",
+                                              true
+                                            );
+                                          }}
+                                          className="form-control form-control-sm"
+                                        />
                                         {/* <select className="form-control form-control-sm">
                                             <option>Seleccione</option>
                                           </select> */}
@@ -382,7 +413,25 @@ class ViewEditTable extends React.Component {
                                     <div className="col-md-6">
                                       <div className="form-group">
                                         <label>Empresa </label>
-                                        <SelectEmpresa className="form-control form-control-sm" />
+                                        <SelectEmpresa
+                                          authorization={this.state.auth}
+                                          idConglomerado={values.conglomerado}
+                                          t={props.t}
+                                          name="empresa"
+                                          value={values.empresa}
+                                          onChange={e => {
+                                            setFieldValue(
+                                              "empresa",
+                                              e.target.value
+                                            );
+                                          }}
+                                          onBlur={() => {
+                                            setFieldTouched("empresa", true);
+                                          }}
+                                          className={
+                                            "form-control form-control-sm"
+                                          }
+                                        />
                                         {/* <select className="form-control form-control-sm">
                                             <option>Seleccione</option>
                                           </select> */}
@@ -391,7 +440,23 @@ class ViewEditTable extends React.Component {
                                     <div className="col-md-6">
                                       <div className="form-group">
                                         <label> Sede </label>
-                                        <SelectSede className="form-control form-control-sm" />
+                                        <SelectSede
+                                          authorization={this.state.auth}
+                                          t={props.t}
+                                          idEmpresa={values.empresa}
+                                          name="sede"
+                                          value={values.sede}
+                                          onChange={e => {
+                                            setFieldValue(
+                                              "sede",
+                                              e.target.value
+                                            );
+                                          }}
+                                          onBlur={() => {
+                                            setFieldTouched("sede", true);
+                                          }}
+                                          className="form-control form-control-sm"
+                                        />
                                         {/* <select className="form-control form-control-sm">
                                             <option>Seleccione</option>
                                           </select> */}
@@ -400,7 +465,28 @@ class ViewEditTable extends React.Component {
                                     <div className="col-md-6">
                                       <div className="form-group">
                                         <label> Dependencia </label>
-                                        <SelectDependencia className="form-control form-control-sm" />
+                                        <SelectDependencia
+                                          authorization={this.state.auth}
+                                          t={props.t}
+                                          idSede={values.sede}
+                                          name="dependencia"
+                                          value={values.dependencia}
+                                          onChange={e => {
+                                            setFieldValue(
+                                              "dependencia",
+                                              e.target.value
+                                            );
+                                          }}
+                                          onBlur={() => {
+                                            setFieldTouched(
+                                              "dependencia",
+                                              true
+                                            );
+                                          }}
+                                          className={
+                                            "form-control form-control-sm"
+                                          }
+                                        />
                                       </div>
                                     </div>
                                     <div className="col-md-12">
@@ -432,11 +518,10 @@ class ViewEditTable extends React.Component {
                                             </div>
                                           </div>
                                         </div> */}
-                                      <textarea
-                                        className="form-control form-control-sm"
-                                        placeholder="Usuarios ya seleccionado"
-                                        rows={8}
-                                        disabled
+                                      <UserList
+                                        authorization={this.state.auth}
+                                        id={values.dependencia}
+                                        t={t}
                                       />
                                     </div>
                                   </div>
@@ -591,4 +676,214 @@ class ViewEditTable extends React.Component {
   }
 }
 
-export default ViewEditTable;
+function UserList(props) {
+  const t = props.t;
+  const id = props.id;
+  const auth = props.authorization;
+
+  const [data, setdata] = useState([]);
+  const firstUpdate = useRef(true);
+
+  const dispatch = useDispatch();
+  const AgregarUsuario = user => dispatch(agregarUserAction(user));
+
+  // const getDataUsers = () => {
+  //   fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type":"application/json",
+  //       Authorization: "Basic " + window.btoa('sgdea:123456')
+  //     }
+  //   }).then(response => response.json()).then(data => {
+  //     setdata(data);
+  //     console.log(data);
+  //   }).catch(err => console.log("Error", err));
+  // };
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetch(`${USERS_BY_DEPENDENCE}${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setdata(data);
+        // console.log(data);
+      })
+      .catch(err => console.log("Error", err));
+    //console.log("componentDidUpdate");
+  }, [id]);
+
+  //console.log(id);
+
+  return (
+    <div>
+      {/* <div className="form-group">
+            <label> Buscar usuario <span className="text-danger">*</span> </label>
+            <div className="input-group input-group-sm">
+              <input
+                type="text"
+                className="form-control form-control-sm"
+                aria-label="Dollar amount (with dot and two decimal places)"
+              />
+              <div
+                className="input-group-append"
+                id="button-addon4"
+              >
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                >
+                  <i className="fa fa-search" />
+                </button>
+                
+              </div>
+            </div>
+          </div> */}
+      <div
+        style={{
+          height: "140px",
+          overflow: "scroll",
+          overflowX: "hidden",
+          border: "1px solid #e3e3e3",
+          background: "#e3e3e3",
+          padding: "10px"
+        }}
+      >
+        {data.length > 0 ? (
+          data.map((aux, id) => {
+            return (
+              <ul className="list-unstyled">
+                <li className="media">
+                  <img
+                    className="mr-2"
+                    src="https://via.placeholder.com/40"
+                    alt="Generic placeholder image"
+                  />
+                  <div className="media-body">
+                    <p className="mt-0 mb-1">{aux.name}</p>
+                    <Button
+                      style={{ marginTop: "-13px", marginLeft: "-12px" }}
+                      color={"link"}
+                      onClick={() =>
+                        AgregarUsuario({ id: aux.id, name: aux.name })
+                      }
+                    >
+                      <h6 className="badge badge-secondary">agregar</h6>
+                    </Button>
+                  </div>
+                </li>
+              </ul>
+            );
+          })
+        ) : (
+          <p>{t("app_tipoTramite_form_registrar_placeholder_select")}</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+const UserListEnabled = props => {
+  const x = useSelector(state => state.typeProcedureReducer.assigned);
+
+  const notificacion = ({ x, visible }) => {
+    if (x === null) {
+      return;
+    } else if (x === true) {
+      return (
+        <Alert isOpen={x} color="success" fade={true}>
+          Usuario Asignado para recibir original
+        </Alert>
+      );
+    } else if (x === false) {
+      return (
+        <Alert isOpen={x} color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original
+        </Alert>
+      );
+    }
+    return x;
+  };
+  const dispatch = useDispatch();
+  const users = props.data;
+  const t = props.t;
+  // console.log(users.users);
+  return (
+    <div className="col-md-12">
+      {notificacion({ x })}
+      <div className="card">
+        <div className="p-2 mb-1 bg-light text-dark">
+          {t("app_tipoTramite_form_registrar_titulo_3")}
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="row">
+              <div className="col-md-12">
+                {Object.keys(users.users).length === 0 ? (
+                  <p className="text-center">
+                    {" "}
+                    <b>
+                      {t("app_tipoTramite_form_registrar_usuarios_disponibles")}{" "}
+                    </b>{" "}
+                  </p>
+                ) : (
+                  <table className="table table-bordered table-sm">
+                    <thead className="thead-light">
+                      <tr className="text-center">
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Original</th>
+                        <th scope="col">Eliminar</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-center">
+                      {users.users.map((aux, id) => {
+                        return (
+                          <tr>
+                            <td scope="row">{aux.name}</td>
+                            <td>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  dispatch(agregarOriginal(aux.id))
+                                }
+                              >
+                                {" "}
+                                asignar original{" "}
+                              </button>
+                            </td>
+                            <td>
+                              {" "}
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-danger"
+                                onClick={() =>
+                                  dispatch(borrarUserAction(aux.id))
+                                }
+                              >
+                                <i className="fa fa-trash" />
+                              </button>{" "}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default withTranslation("translations")(ViewEditTable);

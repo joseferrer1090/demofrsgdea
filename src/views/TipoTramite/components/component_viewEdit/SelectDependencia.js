@@ -27,6 +27,7 @@ class SelectDependencia extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.idSede !== prevProps.idSede) {
       // METODO
+      this.getDataDependencia();
     }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({

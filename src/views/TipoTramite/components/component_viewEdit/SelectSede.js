@@ -27,6 +27,7 @@ class SelectSede extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.idEmpresa !== prevProps.idEmpresa) {
       // METODO
+      this.getDataSede();
     }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({

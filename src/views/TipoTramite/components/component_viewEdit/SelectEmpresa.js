@@ -27,6 +27,7 @@ class SelectEmpresa extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.idConglomerado !== prevProps.idConglomerado) {
       // METODO
+      this.getDataEmpresa();
     }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({

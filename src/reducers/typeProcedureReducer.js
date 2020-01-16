@@ -1,13 +1,21 @@
 import {
   AGREGAR_USUARIO_TIPO_TRAMITE,
   BORRAR_USUARIO_DISPONIBLE_TIPO_TRAMITE,
-  AGREGAR_USUARIO_ORIGINAL_TIPO_TRAMITE
+  AGREGAR_USUARIO_ORIGINAL_TIPO_TRAMITE,
+  OBTENER_TIPO_TRAMITE_EDITAR,
+  TIPO_TRAMITE_EDITAR_EXITO,
+  TIPO_TRAMITE_EDITAR_ERROR,
+  COMENZAR_EDICION_TIPO_TRAMITE,
+  TIPO_TRAMITE_EDITADO_EXITO,
+  TIPO_TRAMITE_EDITADO_ERROR
 } from "./../types/index";
 
 const initialState = {
   users: [],
   original: {},
-  assigned: null
+  assigned: null,
+  tramite: {},
+  error: null
 };
 
 export default function(state = initialState, action) {
@@ -30,6 +38,35 @@ export default function(state = initialState, action) {
         original: action.payload,
         assigned: true
       };
+
+    case OBTENER_TIPO_TRAMITE_EDITAR:
+      return {
+        ...state,
+        error: null
+      };
+
+    case TIPO_TRAMITE_EDITAR_EXITO:
+      return {
+        ...state,
+        error: null,
+        tramite: action.payload
+      };
+    case TIPO_TRAMITE_EDITAR_ERROR:
+      return {
+        ...state,
+        error: true
+      };
+    case COMENZAR_EDICION_TIPO_TRAMITE:
+      return {
+        ...state,
+        error: null
+      };
+    case TIPO_TRAMITE_EDITADO_EXITO:
+      return {
+        ...state,
+        error: null
+      };
+
     default:
       return state;
   }

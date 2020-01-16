@@ -24,7 +24,7 @@ function login(username, password, grant_type) {
       Authorization: "Basic " + window.btoa("frontendapp:12345")
     },
     data: qs.stringify({ username, password, grant_type }),
-    url: "http://192.168.10.180:8090/api/security/oauth/token"
+    url: `${url}/api/security/oauth/token`
   };
 
   return axios(requestOptions)

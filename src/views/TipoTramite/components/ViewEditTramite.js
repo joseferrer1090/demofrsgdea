@@ -17,7 +17,7 @@ import {
   USERS_BY_DEPENDENCE
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { withTranslation } from "react-i18next";
 
 // Tener en cuenta hacer por redux el editar
@@ -37,7 +37,8 @@ class ViewEditTable extends React.Component {
     d_maximos: "",
     estado: "",
     auth: this.props.authorization,
-    id: ""
+    id: "",
+    usersData: []
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -63,6 +64,10 @@ class ViewEditTable extends React.Component {
       id: this.props.match.params.id
     });
   }
+
+  getDataUsers = () => {
+    console.log(useSelector(state => state.typeProcedureReducer));
+  };
 
   getDateTipoTramite = id => {
     const { auth } = this.state;
@@ -129,7 +134,6 @@ class ViewEditTable extends React.Component {
       d_maximos: this.state.d_maximos,
       estado: this.state.estado
     };
-
     // const auxSelected = this.state.t_correspondencia_selected.map((aux, id) => {
     //   return (
     //     <option key={id} value={aux.id}>
@@ -142,6 +146,8 @@ class ViewEditTable extends React.Component {
     console.log(this.state.id);
     console.log(this.state.auth);
     const { t } = this.props;
+    // const usersdata = useSelector(state => state.typeProcedureReducer);
+    // const aux = useSelector(state => state.typeProcedureReducer.assigned);
     return (
       <Formik
         initialValues={dataPreview}
@@ -531,56 +537,7 @@ class ViewEditTable extends React.Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-12">
-                            <div className="card">
-                              <div className="p-2 mb-1 bg-light text-dark">
-                                Usuarios disponibles
-                              </div>
-                              <div className="card-body">
-                                <form>
-                                  <div className="row">
-                                    <div className="col-md-12">
-                                      <table className="table table-bordered table-sm">
-                                        <thead className="thead-light">
-                                          <tr className="text-center">
-                                            <th scope="col">Usuario</th>
-                                            <th scope="col">Sede</th>
-                                            <th scope="col">Dependencia</th>
-                                            <th scope="col">Original</th>
-                                            <th scope="col">Eliminar</th>
-                                          </tr>
-                                        </thead>
-                                        <tbody className="text-center">
-                                          <tr>
-                                            <td scope="row">
-                                              NOMBRE COMPLETO DEL USUARIO
-                                            </td>
-                                            <td>SEDE I</td>
-                                            <td>DEPENDENCIA I</td>
-                                            <td>
-                                              <CustomInput
-                                                type="radio"
-                                                id="exampleCustomCheckbox2"
-                                              />{" "}
-                                            </td>
-                                            <td>
-                                              {" "}
-                                              <button
-                                                type="button"
-                                                className="btn btn-sm btn-danger"
-                                              >
-                                                <i className="fa fa-trash" />
-                                              </button>{" "}
-                                            </td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                    </div>
-                                  </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
+                          {/* <UserListEnabled data={this.state.usersData} t={t} /> */}
                         </div>
                         <div className="row">
                           <div className="col-md-4">
@@ -821,6 +778,7 @@ const UserListEnabled = props => {
       {notificacion({ x })}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
+          Tabla de usuarios asignados
           {t("app_tipoTramite_form_registrar_titulo_3")}
         </div>
         <div className="card-body">

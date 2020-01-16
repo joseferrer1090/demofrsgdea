@@ -188,7 +188,12 @@ const routes = [
     path: "/configuracion/tipodocumentalradication/edit",
     exact: true,
     name: "Configuración / Tipo documental de radicación",
-    component: EditTipoDocumentalRadication
+    component: props => (
+      <EditTipoDocumentalRadication
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   },
   {
     path: "/configuracion/pais",

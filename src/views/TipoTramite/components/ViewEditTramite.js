@@ -10,6 +10,14 @@ import SelectDependencia from "./component_viewEdit/SelectDependencia";
 import { TYPEPROCEDURE } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 
+// Tener en cuenta hacer por redux el editar
+// Agregar los types OBTENER_TIPO_TRAMITE, EDITAR_TIPO_TRAMITE
+// OBETENER_TIPO_TRAMITE => debo traer toda la data y llenar todo el objecto
+// EDITAR_TIPO_TRAMITE => debo editar el tramite por redux y hacer fetch para el put
+// TOKEN => ya esta en la y la informaciuon del token para la peticon.
+// Verificar como puedo pasar la informacion del token en el Action del TypeProceduteActions.
+// Integrar redux en el formulario y verificar los state que se estan formando de manera global en la app
+
 class ViewEditTable extends React.Component {
   state = {
     tipocorrespondencia: "",

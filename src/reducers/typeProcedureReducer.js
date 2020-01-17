@@ -38,7 +38,7 @@ export default function(state = initialState, action) {
         original: action.payload,
         assigned: true
       };
-
+    // Reducers para Editar el Tramite
     case OBTENER_TIPO_TRAMITE_EDITAR:
       return {
         ...state,
@@ -66,6 +66,7 @@ export default function(state = initialState, action) {
         ...state,
         error: null
       };
+    // Fin
 
     default:
       return state;

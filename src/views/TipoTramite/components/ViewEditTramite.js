@@ -14,34 +14,49 @@ import {
 import { decode } from "jsonwebtoken";
 import { useDispatch, useSelector } from "react-redux";
 import { withTranslation } from "react-i18next";
+import {
+  agregarUserAction,
+  borrarUserAction,
+  agregarOriginal,
+  obtenerTipoTramite
+} from "./../../../actions/typeProcedureAction";
 
-const ViewEditTramite = ({ match, history, authorization }) => {
+const ViewEditTramite = ({ match, history, authorization, props }) => {
   const [auth, setAuth] = useState(authorization);
   const [id, setId] = useState(match.params.id);
-  const [data, setData] = useState({});
+  const [dataResult, setDataResult] = useState({});
 
-  const getDataTipoTramite = () => {
-    const username = decode(auth);
-    fetch(`${TYPEPROCEDURE}${id}?username=${username.user_name}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-      })
-      .catch(err => console.log(`err => ${err}`));
-  };
+  const usersData = useSelector(state => state.typeProcedureReducer);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    getDataTipoTramite();
-  }, [data]);
+    dispatch(obtenerTipoTramite(id));
+
+    //getDataTipoTramite();
+  }, [id]);
+
+  // const getDataTipoTramite = () => {
+  //   const username = decode(auth);
+  //   fetch(`${TYPEPROCEDURE}${id}?username=${username.user_name}`, {
+  //     method: "GET",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + auth
+  //     }
+  //   })
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       console.log(data);
+  //       console.log(data.users);
+  //       setDataUsers(data.users);
+  //       //setData(data);
+  //     })
+  //     .catch(err => console.log(`err => ${err}`));
+  // };
 
   console.log(auth);
   console.log(id);
+  console.log(usersData);
 
   return (
     <Formik
@@ -377,7 +392,7 @@ const ViewEditTramite = ({ match, history, authorization }) => {
                                     </div>
                                   </div>
                                   <div className="col-md-12">
-                                    <div className="form-group">
+                                    {/* <div className="form-group">
                                       <label> Buscar usuario </label>
                                       <div className="input-group input-group-sm">
                                         <input
@@ -403,7 +418,11 @@ const ViewEditTramite = ({ match, history, authorization }) => {
                                           </button>
                                         </div>
                                       </div>
-                                    </div>
+                                    </div> */}
+                                    <UserList
+                                      authorization={auth}
+                                      id={values.dependencia}
+                                    />
                                   </div>
                                 </div>
                               </form>
@@ -412,7 +431,7 @@ const ViewEditTramite = ({ match, history, authorization }) => {
                         </div>
                       </div>
                       <div className="row">
-                        {/* <UserListEnabled data={this.state.usersData} t={t} /> */}
+                        {/* <UserListEnabled data={usersData} /> */}
                       </div>
                       <div className="row">
                         <div className="col-md-4">
@@ -507,4 +526,211 @@ const ViewEditTramite = ({ match, history, authorization }) => {
   );
 };
 
-export default ViewEditTramite;
+function UserList(props) {
+  const t = props.t;
+  const id = props.id;
+  const auth = props.authorization;
+
+  const [data, setData] = useState([]);
+  const firstUpdate = useRef(true);
+
+  const dispatch = useDispatch();
+  const AgregarUsuario = user => dispatch(agregarUserAction(user));
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetch(`${USERS_BY_DEPENDENCE}${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setData(data);
+        // console.log(data);
+      })
+      .catch(err => console.log("Error", err));
+    //console.log("componentDidUpdate");
+  }, [id]);
+
+  return (
+    <div>
+      {/* <div className="form-group">
+            <label> Buscar usuario <span className="text-danger">*</span> </label>
+            <div className="input-group input-group-sm">
+              <input
+                type="text"
+                className="form-control form-control-sm"
+                aria-label="Dollar amount (with dot and two decimal places)"
+              />
+              <div
+                className="input-group-append"
+                id="button-addon4"
+              >
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                >
+                  <i className="fa fa-search" />
+                </button>
+                
+              </div>
+            </div>
+          </div> */}
+      <div
+        style={{
+          height: "140px",
+          overflow: "scroll",
+          overflowX: "hidden",
+          border: "1px solid #e3e3e3",
+          background: "#e3e3e3",
+          padding: "10px"
+        }}
+      >
+        {data.length > 0 ? (
+          data.map((aux, id) => {
+            return (
+              <ul className="list-unstyled">
+                <li className="media">
+                  <img
+                    className="mr-2"
+                    src="https://via.placeholder.com/40"
+                    alt="Generic placeholder image"
+                  />
+                  <div className="media-body">
+                    <p className="mt-0 mb-1">{aux.name}</p>
+                    <Button
+                      style={{ marginTop: "-13px", marginLeft: "-12px" }}
+                      color={"link"}
+                      onClick={() =>
+                        AgregarUsuario({ id: aux.id, name: aux.name })
+                      }
+                    >
+                      <h6 className="badge badge-secondary">agregar</h6>
+                    </Button>
+                  </div>
+                </li>
+              </ul>
+            );
+          })
+        ) : (
+          <p>No hay usuarios</p>
+          // <p>{t("app_tipoTramite_form_registrar_placeholder_select")}</p>
+        )}
+      </div>
+    </div>
+  );
+}
+const UserListEnabled = props => {
+  // const [users, setUser] = useState(props.data);
+  const x = useSelector(state => state.typeProcedureReducer.assigned);
+  const users = useSelector(state => state.typeProcedureReducer.tramite);
+
+  // useEffect(() => {
+  //   if (props.data !== users) {
+  //     setUser(props.data);
+  //   }
+  // }, [props.data]);
+
+  // console.log(users);
+
+  const notificacion = ({ x, visible }) => {
+    if (x === null) {
+      return;
+    } else if (x === true) {
+      return (
+        <Alert isOpen={x} color="success" fade={true}>
+          Usuario Asignado para recibir original
+        </Alert>
+      );
+    } else if (x === false) {
+      return (
+        <Alert isOpen={x} color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original
+        </Alert>
+      );
+    }
+    return x;
+  };
+  const dispatch = useDispatch();
+  const t = props.t;
+  // console.log(useSelector(state => state.typeProcedureReducer));
+  // console.log(users.users);
+  return (
+    <div className="col-md-12">
+      {notificacion({ x })}
+      <div className="card">
+        <div className="p-2 mb-1 bg-light text-dark">
+          Tabla de usuarios asignados
+          {/* {t("app_tipoTramite_form_registrar_titulo_3")} */}
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="row">
+              <div className="col-md-12">
+                {Object.keys(users).length === 0 ? (
+                  <p className="text-center">
+                    {" "}
+                    <b>
+                      Usuarios asiganado
+                      {/* {t("app_tipoTramite_form_registrar_usuarios_disponibles")}{" "} */}
+                    </b>{" "}
+                  </p>
+                ) : (
+                  <table className="table table-bordered table-sm">
+                    <thead className="thead-light">
+                      <tr className="text-center">
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Original</th>
+                        <th scope="col">Eliminar</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-center">
+                      {users.map((aux, id) => {
+                        return (
+                          <tr>
+                            <td scope="row">{aux.name}</td>
+                            <td>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  dispatch(agregarOriginal(aux.id))
+                                }
+                              >
+                                {" "}
+                                asignar original{" "}
+                              </button>
+                            </td>
+                            <td>
+                              {" "}
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-danger"
+                                onClick={() =>
+                                  dispatch(borrarUserAction(aux.id))
+                                }
+                              >
+                                <i className="fa fa-trash" />
+                              </button>{" "}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default withTranslation("translations")(ViewEditTramite);

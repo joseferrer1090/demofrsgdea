@@ -30,6 +30,15 @@ export const agregarOriginal = id => {
   };
 };
 
+export const obtenerTramiteEditar = () => ({
+  type: OBTENER_TIPO_TRAMITE_EDITAR
+});
+
+export const tipoTramiteEditar = tramite => ({
+  type: TIPO_TRAMITE_EDITAR_EXITO,
+  payload: tramite
+});
+
 export function obtenerTipoTramite(id) {
   const auth = localStorage.getItem("auth_token");
   const username = decode(auth);
@@ -50,12 +59,3 @@ export function obtenerTipoTramite(id) {
       .catch(err => console.log(err));
   };
 }
-
-export const obtenerTramiteEditar = () => ({
-  type: OBTENER_TIPO_TRAMITE_EDITAR
-});
-
-export const tipoTramiteEditar = tramite => ({
-  type: TIPO_TRAMITE_EDITAR_EXITO,
-  payload: tramite
-});

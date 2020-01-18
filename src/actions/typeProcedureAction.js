@@ -44,8 +44,8 @@ export function obtenerTipoTramite(id) {
     })
       .then(response => response.json())
       .then(data => {
-        dispatch(tipoTramiteEditar(data));
-        console.log(data);
+        //dispatch(tipoTramiteEditar(data));
+        //console.log(data);
       })
       .catch(err => console.log(err));
   };

@@ -54,9 +54,9 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
   //     .catch(err => console.log(`err => ${err}`));
   // };
 
-  console.log(auth);
-  console.log(id);
-  console.log(usersData);
+  //console.log(auth);
+  //console.log(id);
+  //console.log(usersData);
 
   return (
     <Formik

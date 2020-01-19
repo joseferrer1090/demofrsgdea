@@ -39,7 +39,7 @@ export const tipoTramiteEditar = tramite => ({
   payload: tramite
 });
 
-export function obtenerTipoTramite(id) {
+export function obtenerTramiteEditarAction(id) {
   const auth = localStorage.getItem("auth_token");
   const username = decode(auth);
   return dispatch => {

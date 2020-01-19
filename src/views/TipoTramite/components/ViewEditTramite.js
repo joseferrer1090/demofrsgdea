@@ -39,8 +39,8 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
   //console.log(datainitial);
   //console.log(datainitialusers);
 
-  useEffect(dataResult => {
-    //dispatch(obtenerTramiteEditarAction(id));
+  useEffect(() => {
+    dispatch(obtenerTramiteEditarAction(id));
     getDataTipoTramite();
   }, []);
 
@@ -454,7 +454,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                         </div>
                       </div>
                       <div className="row">
-                        {/*<UserListEnabled data={response.users} />*/}
+                        <UserListEnabled />
                       </div>
                       <div className="row">
                         <div className="col-md-4">
@@ -653,9 +653,9 @@ function UserList(props) {
   );
 }
 const UserListEnabled = props => {
-  const [users, setUser] = useState(props.data);
+  //const [users, setUser] = useState(props.data);
   const x = useSelector(state => state.typeProcedureReducer.assigned);
-  //const users = useSelector(state => state.typeProcedureReducer.tramite);
+  const users = useSelector(state => state.typeProcedureReducer.tramite);
 
   // useEffect(() => {
   //   if (props.data !== users) {
@@ -663,7 +663,7 @@ const UserListEnabled = props => {
   //   }
   // }, [props.data]);
 
-  // console.log(users);
+  console.log(users.users);
 
   const notificacion = ({ x, visible }) => {
     if (x === null) {
@@ -685,7 +685,6 @@ const UserListEnabled = props => {
   };
   const dispatch = useDispatch();
   const t = props.t;
-  console.log(users);
   // console.log(useSelector(state => state.typeProcedureReducer));
   // console.log(users.users);
   return (
@@ -718,7 +717,7 @@ const UserListEnabled = props => {
                       </tr>
                     </thead>
                     <tbody className="text-center">
-                      {users.map((aux, id) => {
+                      {users.users.map((aux, id) => {
                         return (
                           <tr>
                             <td scope="row">{aux.name}</td>

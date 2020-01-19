@@ -45,7 +45,7 @@ export function obtenerTramiteEditarAction(id) {
       .then(response => response.json())
       .then(data => {
         dispatch(obtenerTipoTramiteExito(data));
-        console.log(data);
+        //console.log(data);
       })
       .catch(err => console.log(err));
   };
@@ -55,7 +55,7 @@ export const obtenerTramiteEditar = () => ({
   type: OBTENER_TIPO_TRAMITE_EDITAR
 });
 
-export const obtenerTipoTramiteExito = id => ({
+export const obtenerTipoTramiteExito = tramite => ({
   type: TIPO_TRAMITE_EDITAR_EXITO,
-  payload: id
+  payload: tramite
 });

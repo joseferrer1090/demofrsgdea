@@ -22,44 +22,68 @@ import {
 } from "./../../../actions/typeProcedureAction";
 
 const ViewEditTramite = ({ match, history, authorization, props }) => {
+  const { users, data } = useSelector(state => ({
+    users: state.typeProcedureReducer.tramite.users,
+    data: state.typeProcedureReducer.tramite.typeProcedure
+  }));
   const [auth, setAuth] = useState(authorization);
   const [id, setId] = useState(match.params.id);
-  const [dataResult, setDataResult] = useState({});
+  const [response, setResponse] = useState({});
 
   const usersData = useSelector(state => state.typeProcedureReducer);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(obtenerTramiteEditarAction(id));
-    //getDataTipoTramite();
+  console.log(users);
+  console.log(data);
+
+  //console.log(datainitial);
+  //console.log(datainitialusers);
+
+  useEffect(dataResult => {
+    //dispatch(obtenerTramiteEditarAction(id));
+    getDataTipoTramite();
   }, []);
 
-  // const getDataTipoTramite = () => {
-  //   const username = decode(auth);
-  //   fetch(`${TYPEPROCEDURE}${id}?username=${username.user_name}`, {
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + auth
-  //     }
-  //   })
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       console.log(data);
-  //       console.log(data.users);
-  //       setDataUsers(data.users);
-  //       //setData(data);
-  //     })
-  //     .catch(err => console.log(`err => ${err}`));
-  // };
-
+  const getDataTipoTramite = () => {
+    const username = decode(auth);
+    fetch(`${TYPEPROCEDURE}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setResponse(data.typeProcedure);
+        console.log(data.users);
+        //console.log(data.users);
+        //setDataUsers(data.users);
+        //setData(data);
+      })
+      .catch(err => console.log(`err => ${err}`));
+  };
+  console.log(response.code);
+  console.log(response.name);
+  console.log(response.description);
+  console.log(response.issue);
+  console.log(response);
   //console.log(auth);
   //console.log(id);
   //console.log(usersData);
 
   return (
     <Formik
-      initialValues={{}}
+      enableReinitialize={true}
+      initialValues={{
+        codigo: response.code,
+        tipocorrespondencia: response.typeCorrespondence,
+        nombre: response.name,
+        descripcion: response.description,
+        d_maximos: response.answerDays,
+        estado: response.status,
+        asunto: response.issue
+      }}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
@@ -200,7 +224,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                         name={"descripcion"}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
-                                        value={values.description}
+                                        value={values.descripcion}
                                         type="text"
                                         className={`form-control form-control-sm ${errors.descripcion &&
                                           touched.descripcion &&
@@ -430,7 +454,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                         </div>
                       </div>
                       <div className="row">
-                        {/* <UserListEnabled data={usersData} /> */}
+                        {/*<UserListEnabled data={response.users} />*/}
                       </div>
                       <div className="row">
                         <div className="col-md-4">
@@ -445,6 +469,9 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                     <div className="form-group">
                                       <label>Asunto</label>
                                       <textarea
+                                        value={values.asunto}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
                                         className="form-control form-control-sm"
                                         placeholder="Asunto ya cargado"
                                       />
@@ -626,9 +653,9 @@ function UserList(props) {
   );
 }
 const UserListEnabled = props => {
-  // const [users, setUser] = useState(props.data);
+  const [users, setUser] = useState(props.data);
   const x = useSelector(state => state.typeProcedureReducer.assigned);
-  const users = useSelector(state => state.typeProcedureReducer.tramite);
+  //const users = useSelector(state => state.typeProcedureReducer.tramite);
 
   // useEffect(() => {
   //   if (props.data !== users) {
@@ -658,6 +685,7 @@ const UserListEnabled = props => {
   };
   const dispatch = useDispatch();
   const t = props.t;
+  console.log(users);
   // console.log(useSelector(state => state.typeProcedureReducer));
   // console.log(users.users);
   return (

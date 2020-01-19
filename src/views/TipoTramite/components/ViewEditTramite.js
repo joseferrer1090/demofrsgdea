@@ -18,7 +18,7 @@ import {
   agregarUserAction,
   borrarUserAction,
   agregarOriginal,
-  obtenerTipoTramite
+  obtenerTramiteEditarAction
 } from "./../../../actions/typeProcedureAction";
 
 const ViewEditTramite = ({ match, history, authorization, props }) => {
@@ -30,8 +30,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(obtenerTipoTramite(id));
-
+    dispatch(obtenerTramiteEditarAction(id));
     //getDataTipoTramite();
   }, [id]);
 

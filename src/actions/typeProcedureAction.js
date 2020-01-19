@@ -55,7 +55,7 @@ export const obtenerTramiteEditar = () => ({
   type: OBTENER_TIPO_TRAMITE_EDITAR
 });
 
-export const obtenerTipoTramiteExito = tramite => ({
+export const obtenerTipoTramiteExito = id => ({
   type: TIPO_TRAMITE_EDITAR_EXITO,
-  payload: tramite
+  payload: id
 });

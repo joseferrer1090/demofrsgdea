@@ -44,7 +44,6 @@ export default function(state = initialState, action) {
         ...state,
         error: null
       };
-
     case TIPO_TRAMITE_EDITAR_EXITO:
       return {
         ...state,

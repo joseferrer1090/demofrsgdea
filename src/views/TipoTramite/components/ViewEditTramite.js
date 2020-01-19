@@ -32,7 +32,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
   useEffect(() => {
     dispatch(obtenerTramiteEditarAction(id));
     //getDataTipoTramite();
-  }, [id]);
+  }, []);
 
   // const getDataTipoTramite = () => {
   //   const username = decode(auth);

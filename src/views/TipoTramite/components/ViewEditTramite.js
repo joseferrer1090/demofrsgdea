@@ -18,7 +18,8 @@ import {
   agregarUserAction,
   borrarUserAction,
   agregarOriginal,
-  obtenerTramiteEditarAction
+  obtenerTramiteEditarAction,
+  agregarUsuarioEditar
 } from "./../../../actions/typeProcedureAction";
 
 const ViewEditTramite = ({ match, history, authorization, props }) => {
@@ -543,7 +544,7 @@ function UserList(props) {
   const firstUpdate = useRef(true);
 
   const dispatch = useDispatch();
-  const AgregarUsuario = user => dispatch(agregarUserAction(user));
+  const AgregarUserEditar = user => dispatch(agregarUsuarioEditar(user));
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -616,7 +617,7 @@ function UserList(props) {
                       style={{ marginTop: "-13px", marginLeft: "-12px" }}
                       color={"link"}
                       onClick={() =>
-                        AgregarUsuario({ id: aux.id, name: aux.name })
+                        AgregarUserEditar({ id: aux.id, name: aux.name })
                       }
                     >
                       <h6 className="badge badge-secondary">agregar</h6>
@@ -692,7 +693,7 @@ const UserListEnabled = props => {
                       {users.users.map((aux, id) => {
                         return (
                           <tr>
-                            <td scope="row">{aux.name}</td>
+                            <td scope="row"> {aux.name} </td>
                             <td>
                               <button
                                 type="button"

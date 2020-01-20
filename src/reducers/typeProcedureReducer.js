@@ -7,14 +7,19 @@ import {
   TIPO_TRAMITE_EDITAR_ERROR,
   COMENZAR_EDICION_TIPO_TRAMITE,
   TIPO_TRAMITE_EDITADO_EXITO,
-  TIPO_TRAMITE_EDITADO_ERROR
+  TIPO_TRAMITE_EDITADO_ERROR,
+  AGREGAR_USUARIO_DISPONIBLE_EDITAR,
+  BORRAR_USUARIO_DISPONIBLE_EDITAR,
+  AGREGAR_USUARIO_ORIGINAL_EDITAR
 } from "./../types/index";
+import { object } from "prop-types";
 
 const initialState = {
   users: [],
   original: {},
   assigned: null,
   tramite: {},
+  aux: null,
   error: null
 };
 
@@ -66,6 +71,16 @@ export default function(state = initialState, action) {
         error: null
       };
     // Fin
+
+    // Reducers para editar el array de users que esta en tramite
+    case AGREGAR_USUARIO_DISPONIBLE_EDITAR:
+      return {
+        ...state,
+        tramite: {
+          ...state.tramite,
+          users: [...state.tramite.users, action.payload]
+        }
+      };
 
     default:
       return state;

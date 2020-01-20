@@ -33,12 +33,6 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
   const usersData = useSelector(state => state.typeProcedureReducer);
   const dispatch = useDispatch();
 
-  console.log(users);
-  console.log(data);
-
-  //console.log(datainitial);
-  //console.log(datainitialusers);
-
   useEffect(() => {
     dispatch(obtenerTramiteEditarAction(id));
     getDataTipoTramite();
@@ -56,21 +50,9 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
       .then(response => response.json())
       .then(data => {
         setResponse(data.typeProcedure);
-        console.log(data.users);
-        //console.log(data.users);
-        //setDataUsers(data.users);
-        //setData(data);
       })
       .catch(err => console.log(`err => ${err}`));
   };
-  console.log(response.code);
-  console.log(response.name);
-  console.log(response.description);
-  console.log(response.issue);
-  console.log(response);
-  //console.log(auth);
-  //console.log(id);
-  //console.log(usersData);
 
   return (
     <Formik
@@ -653,17 +635,8 @@ function UserList(props) {
   );
 }
 const UserListEnabled = props => {
-  //const [users, setUser] = useState(props.data);
   const x = useSelector(state => state.typeProcedureReducer.assigned);
   const users = useSelector(state => state.typeProcedureReducer.tramite);
-
-  // useEffect(() => {
-  //   if (props.data !== users) {
-  //     setUser(props.data);
-  //   }
-  // }, [props.data]);
-
-  console.log(users.users);
 
   const notificacion = ({ x, visible }) => {
     if (x === null) {
@@ -685,8 +658,7 @@ const UserListEnabled = props => {
   };
   const dispatch = useDispatch();
   const t = props.t;
-  // console.log(useSelector(state => state.typeProcedureReducer));
-  // console.log(users.users);
+
   return (
     <div className="col-md-12">
       {notificacion({ x })}

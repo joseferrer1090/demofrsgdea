@@ -19,7 +19,6 @@ const initialState = {
   original: {},
   assigned: null,
   tramite: {},
-  aux: null,
   error: null
 };
 

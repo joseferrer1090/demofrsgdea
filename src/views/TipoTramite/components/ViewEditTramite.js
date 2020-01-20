@@ -19,7 +19,8 @@ import {
   borrarUserAction,
   agregarOriginal,
   obtenerTramiteEditarAction,
-  agregarUsuarioEditar
+  agregarUsuarioEditar,
+  borrarUsuarioEditar
 } from "./../../../actions/typeProcedureAction";
 
 const ViewEditTramite = ({ match, history, authorization, props }) => {
@@ -31,7 +32,9 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
   const [id, setId] = useState(match.params.id);
   const [response, setResponse] = useState({});
 
-  const usersData = useSelector(state => state.typeProcedureReducer);
+  const usersData = useSelector(
+    state => state.typeProcedureReducer.tramite.users
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -67,9 +70,39 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
         estado: response.status,
         asunto: response.issue
       }}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={(values, { setSubmitting, props }) => {
+        const token = auth;
+        const userName = decode(auth);
+        const TipoEstado = data => {
+          let tipo;
+          if (data === true || data === 1) {
+            return (tipo = 1);
+          } else if (data === false || data === 0) {
+            return (tipo = 0);
+          }
+          return 0;
+        };
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
+          console.log(
+            JSON.stringify(
+              {
+                id: id,
+                code: values.codigo,
+                name: values.nombre,
+                description: values.descripcion,
+                answerDays: values.d_maximos,
+                issue: values.asunto,
+                status: TipoEstado(values.estado),
+                typeCorrespondence: values.tipocorrespondencia,
+                templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+                userName: userName.user_name,
+                users: usersData,
+                original: "original"
+              },
+              null,
+              2
+            )
+          );
           setSubmitting(false);
         }, 500);
       }}
@@ -711,7 +744,7 @@ const UserListEnabled = props => {
                                 type="button"
                                 className="btn btn-sm btn-outline-danger"
                                 onClick={() =>
-                                  dispatch(borrarUserAction(aux.id))
+                                  dispatch(borrarUsuarioEditar(aux.id))
                                 }
                               >
                                 <i className="fa fa-trash" />

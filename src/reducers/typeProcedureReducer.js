@@ -19,7 +19,6 @@ const initialState = {
   original: {},
   assigned: null,
   tramite: {},
-  aux: null,
   error: null
 };
 
@@ -79,6 +78,15 @@ export default function(state = initialState, action) {
         tramite: {
           ...state.tramite,
           users: [...state.tramite.users, action.payload]
+        }
+      };
+
+    case BORRAR_USUARIO_DISPONIBLE_EDITAR:
+      return {
+        ...state,
+        tramite: {
+          ...state.tramite,
+          users: state.tramite.users.filter(user => user.id !== action.payload)
         }
       };
 

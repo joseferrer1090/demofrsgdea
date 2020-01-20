@@ -19,7 +19,8 @@ import {
   borrarUserAction,
   agregarOriginal,
   obtenerTramiteEditarAction,
-  agregarUsuarioEditar
+  agregarUsuarioEditar,
+  borrarUsuarioEditar
 } from "./../../../actions/typeProcedureAction";
 
 const ViewEditTramite = ({ match, history, authorization, props }) => {
@@ -743,7 +744,7 @@ const UserListEnabled = props => {
                                 type="button"
                                 className="btn btn-sm btn-outline-danger"
                                 onClick={() =>
-                                  dispatch(borrarUserAction(aux.id))
+                                  dispatch(borrarUsuarioEditar(aux.id))
                                 }
                               >
                                 <i className="fa fa-trash" />

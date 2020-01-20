@@ -81,6 +81,15 @@ export default function(state = initialState, action) {
         }
       };
 
+    case BORRAR_USUARIO_DISPONIBLE_EDITAR:
+      return {
+        ...state,
+        tramite: {
+          ...state.tramite,
+          users: state.tramite.users.filter(user => user.id !== action.payload)
+        }
+      };
+
     default:
       return state;
   }

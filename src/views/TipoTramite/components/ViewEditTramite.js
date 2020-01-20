@@ -709,7 +709,7 @@ const UserListEnabled = props => {
                   <p className="text-center">
                     {" "}
                     <b>
-                      Usuarios asiganado
+                      Usuarios asignados
                       {/* {t("app_tipoTramite_form_registrar_usuarios_disponibles")}{" "} */}
                     </b>{" "}
                   </p>

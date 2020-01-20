@@ -3,7 +3,8 @@ import {
   BORRAR_USUARIO_DISPONIBLE_TIPO_TRAMITE,
   AGREGAR_USUARIO_ORIGINAL_TIPO_TRAMITE,
   OBTENER_TIPO_TRAMITE_EDITAR,
-  TIPO_TRAMITE_EDITAR_EXITO
+  TIPO_TRAMITE_EDITAR_EXITO,
+  AGREGAR_USUARIO_DISPONIBLE_EDITAR
 } from "../types/index";
 
 import { TYPEPROCEDURE } from "./../services/EndPoints";
@@ -58,4 +59,9 @@ export const obtenerTramiteEditar = () => ({
 export const obtenerTipoTramiteExito = tramite => ({
   type: TIPO_TRAMITE_EDITAR_EXITO,
   payload: tramite
+});
+
+export const agregarUsuarioEditar = user => ({
+  type: AGREGAR_USUARIO_DISPONIBLE_EDITAR,
+  payload: user
 });

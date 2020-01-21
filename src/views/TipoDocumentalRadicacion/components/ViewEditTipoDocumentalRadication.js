@@ -8,7 +8,7 @@ import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
 import SelectSede from "./component_viewEdit/SelectSede";
 import SelectDependencia from "./component_viewEdit/SelectDependencia";
 
-const viewEditTipoDocumental = () => {
+const viewEditTipoDocumental = ({ match, history, props, authorization }) => {
   return (
     <Formik>
       {props => {

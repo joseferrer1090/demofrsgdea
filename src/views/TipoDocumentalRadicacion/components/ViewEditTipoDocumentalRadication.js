@@ -9,6 +9,8 @@ import SelectSede from "./component_viewEdit/SelectSede";
 import SelectDependencia from "./component_viewEdit/SelectDependencia";
 
 const viewEditTipoDocumental = ({ match, history, props, authorization }) => {
+  const [auth, setAuth] = useState(authorization);
+  console.log(auth);
   return (
     <Formik>
       {props => {

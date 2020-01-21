@@ -1,8 +1,11 @@
 import {
   AGREGAR_USUARIO_DISPONIBLE,
   AGREGAR_USUARIO_ORIGINAL,
-  BORRAR_USUARIO_DISPONIBLE
+  BORRAR_USUARIO_DISPONIBLE,
+  OBTENER_TIPO_DOCUMENTAL_RADICACION
 } from "./../types/index";
+import { decode } from "jsonwebtoken";
+import { TYPEDOCUMENTARY_SHOW } from "./../services/EndPoints";
 
 export const agregarUsuarioDisponible = user => {
   return {
@@ -24,3 +27,27 @@ export const agregarUsuarioOriginal = id => {
     payload: id
   };
 };
+
+export function obtenerTipoDocumentalAction(id) {
+  const auth = localStorage.getItem("auth_token");
+  const username = decode(auth);
+  return dispatch => {
+    dispatch(obtenerTipoDocumental());
+    fetch(`${TYPEDOCUMENTARY_SHOW}${id}?username=${username.user_nameh}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => console.log(err));
+  };
+}
+
+const obtenerTipoDocumental = () => ({
+  type: OBTENER_TIPO_DOCUMENTAL_RADICACION
+});

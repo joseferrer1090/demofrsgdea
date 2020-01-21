@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { COMPANY_BY_CONGLOMERATE } from "./../../../../services/EndPoints";
 
-export default class SelectEmpresa extends Component {
+class SelectEmpresa extends Component {
   state = {
     dataEmpresa: [],
     id: this.props.idConglomerado,
@@ -86,3 +86,5 @@ SelectEmpresa.propTypes = {
   id: PropTypes.string.isRequired,
   authorization: PropTypes.string.isRequired
 };
+
+export default SelectEmpresa;

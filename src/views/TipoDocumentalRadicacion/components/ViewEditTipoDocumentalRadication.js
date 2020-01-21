@@ -8,9 +8,7 @@ import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
 import SelectSede from "./component_viewEdit/SelectSede";
 import SelectDependencia from "./component_viewEdit/SelectDependencia";
 
-const viewEditTipoDocumental = ({ match, history, props, authorization }) => {
-  const [auth, setAuth] = useState(authorization);
-  console.log(auth);
+const viewEditTipoDocumental = ({ match, history, authorization, props }) => {
   return (
     <Formik>
       {props => {
@@ -231,7 +229,7 @@ const viewEditTipoDocumental = ({ match, history, props, authorization }) => {
                                     <div className="form-group">
                                       <label> Conglomerado </label>
                                       <SelectConglomerado
-                                        authorization={auth}
+                                        //authorization={auth}
                                         name="conglomerado"
                                         value={values.conglomerado}
                                         onChange={e => {
@@ -254,7 +252,7 @@ const viewEditTipoDocumental = ({ match, history, props, authorization }) => {
                                     <div className="form-group">
                                       <label>Empresa </label>
                                       <SelectEmpresa
-                                        authorization={auth}
+                                        //authorization={auth}
                                         idConglomerado={values.conglomerado}
                                         t={props.t}
                                         name="empresa"
@@ -281,7 +279,7 @@ const viewEditTipoDocumental = ({ match, history, props, authorization }) => {
                                     <div className="form-group">
                                       <label> Sede </label>
                                       <SelectSede
-                                        authorization={auth}
+                                        //authorization={auth}
                                         idEmpresa={values.empresa}
                                         name="sede"
                                         value={values.sede}
@@ -302,7 +300,7 @@ const viewEditTipoDocumental = ({ match, history, props, authorization }) => {
                                     <div className="form-group">
                                       <label> Dependencia </label>
                                       <SelectDependencia
-                                        authorization={auth}
+                                        //authorization={auth}
                                         idSede={values.sede}
                                         name="dependencia"
                                         value={values.dependencia}

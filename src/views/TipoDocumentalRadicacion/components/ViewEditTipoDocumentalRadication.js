@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { obtenerTipoDocumentalAction } from "./../../../actions/documentaryTypeAction";
 import { TYPEDOCUMENTARY_SHOW } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import { withTranslation } from "react-i18next";
 
 const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
   const [auth, setAuth] = useState(authorization);
@@ -92,7 +93,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
                 issue: values.asunto,
                 status: TipoEstado(values.estado),
                 typeCorrespondence: values.tipocorrespondencia,
-                templateId: "",
+                templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
                 userName: userName.user_name,
                 users: "",
                 original: "original"
@@ -550,4 +551,4 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
   );
 };
 
-export default ViewEditTipodocumental;
+export default withTranslation("translations")(ViewEditTipodocumental);

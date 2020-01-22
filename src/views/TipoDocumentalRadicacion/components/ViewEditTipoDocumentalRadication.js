@@ -34,7 +34,8 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        setResponse(data.typeDocumentary);
+        console.log(response);
       })
       .catch(err => console.log(`error ${err}`));
   };

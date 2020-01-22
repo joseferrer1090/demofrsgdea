@@ -1,5 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useRef, useEffect, useState, Fragment } from "react";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { Col, CustomInput } from "reactstrap";
@@ -8,7 +7,8 @@ import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
 import SelectSede from "./component_viewEdit/SelectSede";
 import SelectDependencia from "./component_viewEdit/SelectDependencia";
 
-const viewEditTipoDocumental = ({ match, history, authorization, props }) => {
+const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
+  const [id, setId] = useState(match.params.id);
   return (
     <Formik>
       {props => {
@@ -455,4 +455,4 @@ const viewEditTipoDocumental = ({ match, history, authorization, props }) => {
   );
 };
 
-export default viewEditTipoDocumental;
+export default ViewEditTipodocumental;

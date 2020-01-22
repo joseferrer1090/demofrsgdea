@@ -9,15 +9,16 @@ class SelectEmpresa extends Component {
     t: this.props.t,
     auth: this.props.authorization
   };
+
   static getDerivedStateFromProps(props, state) {
-    if (props.idConglomerado !== state.id) {
-      return {
-        id: props.idConglomerado
-      };
-    }
     if (props.authorization !== state.auth) {
       return {
         auth: props.authorization
+      };
+    }
+    if (props.idConglomerado !== state.id) {
+      return {
+        id: props.idConglomerado
       };
     }
     return null;
@@ -37,7 +38,7 @@ class SelectEmpresa extends Component {
   }
 
   getDataEmpresa = () => {
-    fetch(`${COMPANY_BY_CONGLOMERATE}`, {
+    fetch(`${COMPANY_BY_CONGLOMERATE}${this.state.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -84,8 +85,8 @@ class SelectEmpresa extends Component {
 
 SelectEmpresa.propTypes = {
   t: PropTypes.any,
-  idConglomerado: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
+  idConglomerado: PropTypes.string.isRequired
 };
 
 export default SelectEmpresa;

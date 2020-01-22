@@ -8,6 +8,7 @@ class SelectConglomerado extends React.Component {
     t: this.props.t,
     auth: this.props.authorization
   };
+
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
@@ -16,6 +17,7 @@ class SelectConglomerado extends React.Component {
     }
     return null;
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
@@ -23,8 +25,8 @@ class SelectConglomerado extends React.Component {
       });
     }
   }
+
   componentDidMount() {
-    // METODO PARA LA DATA
     this.getDataConglomerado();
   }
 
@@ -46,8 +48,9 @@ class SelectConglomerado extends React.Component {
   };
 
   handleChange = value => {
-    this.props.onChange("congolomerado", value);
+    this.props.onChange("conglomerado", value);
   };
+
   handleBlur = () => {
     this.props.onBlur("conglomerado", true);
   };
@@ -59,12 +62,16 @@ class SelectConglomerado extends React.Component {
       <div>
         <select
           name={this.props.name}
-          onChange={this.props.onchange}
+          onChange={this.props.onChange}
           onBlur={this.props.onBlur}
           value={this.props.value}
           className={this.props.className}
         >
-          <option value={" "}>-- Seleccione --</option>
+          <option value={" "}>
+            {" "}
+            -- Seleccione --
+            {/* -- {t("app_tipoTramite_form_registrar_select_conglomerado")} -- */}
+          </option>
           {data.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

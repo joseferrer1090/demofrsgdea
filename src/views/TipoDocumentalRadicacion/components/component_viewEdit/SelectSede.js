@@ -9,6 +9,7 @@ class SelectSede extends Component {
     t: this.props.t,
     auth: this.props.authorization
   };
+
   static getDerivedStateFromProps(props, state) {
     if (props.idEmpresa !== state.id) {
       return {
@@ -22,6 +23,7 @@ class SelectSede extends Component {
     }
     return null;
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.idEmpresa !== prevProps.idEmpresa) {
       // METODO
@@ -29,11 +31,12 @@ class SelectSede extends Component {
     }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        id: this.props.idEmpresa,
-        auth: this.props.authorization
+        auth: this.props.authorization,
+        id: this.props.idEmpresa
       });
     }
   }
+
   getDataSede = () => {
     fetch(`${HEADQUARTER_BY_COMPANY}${this.state.id}`, {
       method: "GET",
@@ -50,6 +53,7 @@ class SelectSede extends Component {
       })
       .catch(err => console.log(`err => ${err}`));
   };
+
   render() {
     const { t } = this.props;
     return (

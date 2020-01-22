@@ -1,14 +1,15 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { DEPENDENCIES_BY_HEADQUARTER } from "./../../../../services/EndPoints";
 
-class SelectDependencia extends Component {
+class SelectDependencia extends React.Component {
   state = {
     dataDependencia: [],
     id: this.props.idSede,
     t: this.props.t,
     auth: this.props.authorization
   };
+
   static getDerivedStateFromProps(props, state) {
     if (props.idSede !== state.id) {
       return {
@@ -22,6 +23,7 @@ class SelectDependencia extends Component {
     }
     return null;
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.idSede !== prevProps.idSede) {
       // METODO
@@ -29,11 +31,12 @@ class SelectDependencia extends Component {
     }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        id: this.props.idSede,
-        auth: this.props.authorization
+        auth: this.props.authorization,
+        id: this.props.idSede
       });
     }
   }
+
   getDataDependencia = () => {
     fetch(`${DEPENDENCIES_BY_HEADQUARTER}${this.state.id}`, {
       method: "GET",
@@ -81,9 +84,9 @@ class SelectDependencia extends Component {
 }
 
 SelectDependencia.propTypes = {
-  idSede: PropTypes.string.isRequired,
+  t: PropTypes.any,
   authorization: PropTypes.string.isRequired,
-  t: PropTypes.any
+  idSede: PropTypes.string.isRequired
 };
 
 export default SelectDependencia;

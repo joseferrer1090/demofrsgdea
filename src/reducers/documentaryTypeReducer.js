@@ -6,7 +6,10 @@ import {
   TIPO_DOCUMENTAL_RADICACION_EDITAR_EXITO,
   TIPO_DOCUMENTAL_RADICACION_EDITAR_ERROR,
   TIPO_DOCUMENTAL_RADICACION_EDITADO_EXITO,
-  TIPO_DOCUMENTAL_RADICACION_EDITADO_ERROR
+  TIPO_DOCUMENTAL_RADICACION_EDITADO_ERROR,
+  AGREGAR_USUARIO_TIPO_DOCUMENTAL_RADICACION_EDITAR,
+  BORRAR_USUARIO_TIPO_DOCUMENTAL_RADICACION_EDITAR,
+  ASIGNAR_USUARIO_ORIGINAL_TIPO_DOCUMENTAL_RADICACION_EDITAR
 } from "./../types/index";
 
 // defino los estado
@@ -14,7 +17,8 @@ const initialState = {
   users: [],
   original: {},
   assigned: null,
-  tipodocumental: {}
+  tipodocumental: {},
+  error: null
 };
 
 // la funcion principal dependiendo de las acciones
@@ -57,6 +61,36 @@ export default function(state = initialState, action) {
         ...state,
         error: true
       };
+
+    case AGREGAR_USUARIO_TIPO_DOCUMENTAL_RADICACION_EDITAR:
+      return {
+        ...state,
+        tipodocumental: {
+          ...state.tipodocumental,
+          users: [...state.tipodocumental.users, action.payload]
+        }
+      };
+
+    case BORRAR_USUARIO_TIPO_DOCUMENTAL_RADICACION_EDITAR:
+      return {
+        ...state,
+        tipodocumental: {
+          ...state.tipodocumental,
+          users: state.tipodocumental.users.filter(
+            user => user.id !== action.payload
+          )
+        }
+      };
+    case ASIGNAR_USUARIO_ORIGINAL_TIPO_DOCUMENTAL_RADICACION_EDITAR:
+      return {
+        ...state,
+        tipodocumental: {
+          ...state.tipodocumental,
+          original: action.payload
+        },
+        assigned: true
+      };
+
     default:
       return state;
   }

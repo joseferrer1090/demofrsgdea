@@ -7,7 +7,12 @@ import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
 import SelectSede from "./component_viewEdit/SelectSede";
 import SelectDependencia from "./component_viewEdit/SelectDependencia";
 import { useSelector, useDispatch } from "react-redux";
-import { obtenerTipoDocumentalAction } from "./../../../actions/documentaryTypeAction";
+import {
+  obtenerTipoDocumentalAction,
+  agregarusuarioTipodocumentaleditar,
+  borrarusuarioTipodocumentaleditar,
+  asignarOriginalTipodocumentaleditar
+} from "./../../../actions/documentaryTypeAction";
 import {
   TYPEDOCUMENTARY_SHOW,
   USERS_BY_DEPENDENCE
@@ -22,6 +27,9 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
   const [response, setResponse] = useState({});
 
   const dispatch = useDispatch();
+  const usersData = useSelector(
+    state => state.documentaryTypeReducer.tipodocumental.users
+  );
 
   useEffect(() => {
     dispatch(obtenerTipoDocumentalAction(id));
@@ -99,7 +107,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
                 typeCorrespondence: values.tipocorrespondencia,
                 templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
                 userName: userName.user_name,
-                users: "",
+                users: usersData,
                 original: "original"
               },
               2,
@@ -565,7 +573,7 @@ function UserList(props) {
   const [data, setData] = useState([]);
   const firstUpdate = useRef(true);
 
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
   //const AgregarUserEditar = user => dispatch(agregarUsuarioEditar(user));
 
   useEffect(() => {
@@ -638,7 +646,14 @@ function UserList(props) {
                     <Button
                       style={{ marginTop: "-13px", marginLeft: "-12px" }}
                       color={"link"}
-                      onClick={() => console.log("probando")}
+                      onClick={() => {
+                        dispatch(
+                          agregarusuarioTipodocumentaleditar({
+                            id: aux.id,
+                            name: aux.name
+                          })
+                        );
+                      }}
                     >
                       <h6 className="badge badge-secondary">agregar</h6>
                     </Button>
@@ -720,7 +735,11 @@ const UserListEnabled = props => {
                             <td>
                               <button
                                 type="button"
-                                onClick={() => console.log("probando")}
+                                onClick={() => {
+                                  dispatch(
+                                    asignarOriginalTipodocumentaleditar(aux.id)
+                                  );
+                                }}
                               >
                                 {" "}
                                 asignar original{" "}
@@ -731,7 +750,11 @@ const UserListEnabled = props => {
                               <button
                                 type="button"
                                 className="btn btn-sm btn-outline-danger"
-                                onClick={() => console.log("probando")}
+                                onClick={() => {
+                                  dispatch(
+                                    borrarusuarioTipodocumentaleditar(aux.id)
+                                  );
+                                }}
                               >
                                 <i className="fa fa-trash" />
                               </button>{" "}

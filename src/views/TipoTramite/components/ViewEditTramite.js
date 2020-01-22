@@ -9,7 +9,8 @@ import SelectSede from "./component_viewEdit/SelectSede";
 import SelectDependencia from "./component_viewEdit/SelectDependencia";
 import {
   TYPEPROCEDURE,
-  USERS_BY_DEPENDENCE
+  USERS_BY_DEPENDENCE,
+  TYPEPROCEDURE_UPDATE
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,8 +21,12 @@ import {
   agregarOriginal,
   obtenerTramiteEditarAction,
   agregarUsuarioEditar,
-  borrarUsuarioEditar
+  borrarUsuarioEditar,
+  asignarOriginalTipoTramiteeditar
 } from "./../../../actions/typeProcedureAction";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
 const ViewEditTramite = ({ match, history, authorization, props }) => {
   const { users, data } = useSelector(state => ({
@@ -34,6 +39,9 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
 
   const usersData = useSelector(
     state => state.typeProcedureReducer.tramite.users
+  );
+  const userOriginal = useSelector(
+    state => state.typeProcedureReducer.tramite.original
   );
   const dispatch = useDispatch();
 
@@ -70,7 +78,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
         estado: response.status,
         asunto: response.issue
       }}
-      onSubmit={(values, { setSubmitting, props }) => {
+      onSubmit={(values, { setSubmitting, resetForm }) => {
         const token = auth;
         const userName = decode(auth);
         const TipoEstado = data => {
@@ -83,27 +91,83 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
           return 0;
         };
         setTimeout(() => {
-          console.log(
-            JSON.stringify(
-              {
-                id: id,
-                code: values.codigo,
-                name: values.nombre,
-                description: values.descripcion,
-                answerDays: values.d_maximos,
-                issue: values.asunto,
-                status: TipoEstado(values.estado),
-                typeCorrespondence: values.tipocorrespondencia,
-                templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
-                userName: userName.user_name,
-                users: usersData,
-                original: "original"
-              },
-              null,
-              2
+          fetch(`${TYPEPROCEDURE_UPDATE}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + authorization
+            },
+            body: JSON.stringify({
+              id: id,
+              code: values.codigo,
+              name: values.nombre,
+              description: values.descripcion,
+              answerDays: values.d_maximos,
+              issue: values.asunto,
+              status: TipoEstado(values.estado),
+              typeCorrespondence: values.tipocorrespondencia,
+              templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+              userName: userName.user_name,
+              users: usersData,
+              original: userOriginal
+            })
+          })
+            .then(response =>
+              response.json().then(data => {
+                if (response.status === 201) {
+                  toast.success("Se creo el tipo de trámite con éxito.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                } else if (response.status === 400) {
+                  toast.error("Error, el tipo de trámite ya existe.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                }
+              })
             )
-          );
+            .catch(error => {
+              toast.error(`Error ${error}.`, {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            });
+          // console.log(
+          //   JSON.stringify(
+          //     {
+          //       id: id,
+          //       code: values.codigo,
+          //       name: values.nombre,
+          //       description: values.descripcion,
+          //       answerDays: values.d_maximos,
+          //       issue: values.asunto,
+          //       status: TipoEstado(values.estado),
+          //       typeCorrespondence: values.tipocorrespondencia,
+          //       templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+          //       userName: userName.user_name,
+          //       users: usersData,
+          //       original: userOriginal
+          //     },
+          //     null,
+          //     2
+          //   )
+          // );
           setSubmitting(false);
+          resetForm({
+            codigo: "",
+            nombre: "",
+            asunto: "",
+            tipocorrespondencia: "",
+            estado: "",
+            d_maximos: ""
+          });
         }, 500);
       }}
       validationSchema={Yup.object().shape({
@@ -730,9 +794,11 @@ const UserListEnabled = props => {
                             <td>
                               <button
                                 type="button"
-                                onClick={() =>
-                                  dispatch(agregarOriginal(aux.id))
-                                }
+                                onClick={() => {
+                                  dispatch(
+                                    asignarOriginalTipoTramiteeditar(aux.id)
+                                  );
+                                }}
                               >
                                 {" "}
                                 asignar original{" "}

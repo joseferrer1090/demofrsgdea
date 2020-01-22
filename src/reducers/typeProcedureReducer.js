@@ -10,7 +10,7 @@ import {
   TIPO_TRAMITE_EDITADO_ERROR,
   AGREGAR_USUARIO_DISPONIBLE_EDITAR,
   BORRAR_USUARIO_DISPONIBLE_EDITAR,
-  AGREGAR_USUARIO_ORIGINAL_EDITAR
+  ASIGNAR_USUARIO_ORIGINAL_EDITAR
 } from "./../types/index";
 import { object } from "prop-types";
 
@@ -88,6 +88,16 @@ export default function(state = initialState, action) {
           ...state.tramite,
           users: state.tramite.users.filter(user => user.id !== action.payload)
         }
+      };
+
+    case ASIGNAR_USUARIO_ORIGINAL_EDITAR:
+      return {
+        ...state,
+        tramite: {
+          ...state.tramite,
+          original: action.payload
+        },
+        assigned: true
       };
 
     default:

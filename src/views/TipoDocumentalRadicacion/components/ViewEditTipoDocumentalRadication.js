@@ -9,6 +9,7 @@ import SelectDependencia from "./component_viewEdit/SelectDependencia";
 
 const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
   const [id, setId] = useState(match.params.id);
+  console.log(id);
   return (
     <Formik>
       {props => {

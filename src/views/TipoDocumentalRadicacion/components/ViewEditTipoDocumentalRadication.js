@@ -8,16 +8,37 @@ import SelectSede from "./component_viewEdit/SelectSede";
 import SelectDependencia from "./component_viewEdit/SelectDependencia";
 import { useSelector, useDispatch } from "react-redux";
 import { obtenerTipoDocumentalAction } from "./../../../actions/documentaryTypeAction";
+import { TYPEDOCUMENTARY_SHOW } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
   const [auth, setAuth] = useState(authorization);
   const [id, setId] = useState(match.params.id);
   const [response, setResponse] = useState({});
+
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(obtenerTipoDocumentalAction(id));
+    getDataTypeDocumentary();
   }, []);
+
+  const getDataTypeDocumentary = () => {
+    const username = decode(auth);
+    fetch(`${TYPEDOCUMENTARY_SHOW}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + auth
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => console.log(`error ${err}`));
+  };
+
   return (
     <Formik>
       {props => {

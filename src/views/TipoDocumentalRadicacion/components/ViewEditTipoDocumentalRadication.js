@@ -6,9 +6,12 @@ import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
 import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
 import SelectSede from "./component_viewEdit/SelectSede";
 import SelectDependencia from "./component_viewEdit/SelectDependencia";
+import { useSelector } from "react-redux";
 
 const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
+  const [auth, setAuth] = useState(authorization);
   const [id, setId] = useState(match.params.id);
+  const [response, setResponse] = useState({});
   return (
     <Formik>
       {props => {

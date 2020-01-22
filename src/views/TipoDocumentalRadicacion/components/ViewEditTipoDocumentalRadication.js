@@ -254,7 +254,7 @@ const viewEditTipoDocumental = ({ match, history, authorization, props }) => {
                                       <SelectEmpresa
                                         //authorization={auth}
                                         idConglomerado={values.conglomerado}
-                                        t={props.t}
+                                        //t={props.t}
                                         name="empresa"
                                         value={values.empresa}
                                         onChange={e => {
@@ -280,7 +280,7 @@ const viewEditTipoDocumental = ({ match, history, authorization, props }) => {
                                       <label> Sede </label>
                                       <SelectSede
                                         //authorization={auth}
-                                        idEmpresa={values.empresa}
+                                        //idEmpresa={values.empresa}
                                         name="sede"
                                         value={values.sede}
                                         onChange={e => {
@@ -301,7 +301,7 @@ const viewEditTipoDocumental = ({ match, history, authorization, props }) => {
                                       <label> Dependencia </label>
                                       <SelectDependencia
                                         //authorization={auth}
-                                        idSede={values.sede}
+                                        //idSede={values.sede}
                                         name="dependencia"
                                         value={values.dependencia}
                                         onChange={e => {

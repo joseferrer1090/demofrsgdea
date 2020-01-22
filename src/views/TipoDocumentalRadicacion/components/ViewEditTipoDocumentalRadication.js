@@ -35,7 +35,6 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
       .then(response => response.json())
       .then(data => {
         setResponse(data.typeDocumentary);
-        console.log(response);
       })
       .catch(err => console.log(`error ${err}`));
   };
@@ -43,7 +42,18 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
   console.log(response);
 
   return (
-    <Formik>
+    <Formik
+      enableReinitialize={true}
+      initialValues={{
+        codigo: response.code,
+        tipocorrespondencia: response.typeCorrespondence,
+        nombre: response.name,
+        descripcion: response.description,
+        d_maximos: response.answerDays,
+        estado: response.status,
+        asunto: response.issue
+      }}
+    >
       {props => {
         const {
           values,

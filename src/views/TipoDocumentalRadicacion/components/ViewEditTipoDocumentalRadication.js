@@ -53,6 +53,57 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
         estado: response.status,
         asunto: response.issue
       }}
+      validationSchema={Yup.object().shape({
+        tipocorrespondencia: Yup.string()
+          .ensure()
+          .required("Por favor seleccione el tipo de correspondencia."),
+        codigo: Yup.string().required("Por favor introduzca el código."),
+        nombre: Yup.string().required("Por favor introduzaca el nombre."),
+        descripcion: Yup.string().required(
+          "Por favor introduzca la descripcion."
+        ),
+        d_maximos: Yup.number()
+          .integer()
+          .positive()
+          .required("Por favor introduzca los dias maximos de respuesta."),
+        estado: Yup.bool().test("Activado", "", value => value === true)
+      })}
+      onSubmit={(values, { setSubmitting, props }) => {
+        const token = auth;
+        const userName = decode(auth);
+        const TipoEstado = data => {
+          let tipo;
+          if (data === true || data === 1) {
+            return (tipo = 1);
+          } else if (data === false || data === 0) {
+            return (tipo = 0);
+          }
+          return 0;
+        };
+        setTimeout(() => {
+          console.log(
+            JSON.stringify(
+              {
+                id: id,
+                code: values.codigo,
+                name: values.nombre,
+                description: values.descripcion,
+                answerDays: values.d_maximos,
+                issue: values.asunto,
+                status: TipoEstado(values.estado),
+                typeCorrespondence: values.tipocorrespondencia,
+                templateId: "",
+                userName: userName.user_name,
+                users: "",
+                original: "original"
+              },
+              2,
+              null
+            )
+          );
+          setSubmitting(false);
+        }, 1000);
+      }}
     >
       {props => {
         const {
@@ -63,7 +114,8 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
           handleBlur,
           handleSubmit,
           setFieldValue,
-          setFieldTouched
+          setFieldTouched,
+          setSubmitting
         } = props;
         return (
           <Fragment>

@@ -15,11 +15,15 @@ import {
 } from "./../../../actions/documentaryTypeAction";
 import {
   TYPEDOCUMENTARY_SHOW,
-  USERS_BY_DEPENDENCE
+  USERS_BY_DEPENDENCE,
+  TYPEDOCUMENTARY_PUT
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import { withTranslation } from "react-i18next";
 import { Button, Alert, UncontrolledAlert } from "reactstrap";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
 const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
   const [auth, setAuth] = useState(authorization);
@@ -84,7 +88,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
           .required("Por favor introduzca los dias maximos de respuesta."),
         estado: Yup.bool().test("Activado", "", value => value === true)
       })}
-      onSubmit={(values, { setSubmitting, props }) => {
+      onSubmit={(values, { setSubmitting, props, resetForm }) => {
         const token = auth;
         const userName = decode(auth);
         const TipoEstado = data => {
@@ -97,27 +101,86 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
           return 0;
         };
         setTimeout(() => {
-          console.log(
-            JSON.stringify(
-              {
-                id: id,
-                code: values.codigo,
-                name: values.nombre,
-                description: values.descripcion,
-                answerDays: values.d_maximos,
-                issue: values.asunto,
-                status: TipoEstado(values.estado),
-                typeCorrespondence: values.tipocorrespondencia,
-                templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
-                userName: userName.user_name,
-                users: usersData,
-                original: userOriginal
-              },
-              2,
-              null
+          const token = authorization;
+          const username = decode(token);
+          fetch(`${TYPEDOCUMENTARY_PUT}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + token
+            },
+            body: JSON.stringify({
+              id: id,
+              code: values.codigo,
+              name: values.nombre,
+              description: values.descripcion,
+              answerDays: values.d_maximos,
+              issue: values.asunto,
+              status: TipoEstado(values.estado),
+              typeCorrespondence: values.tipocorrespondencia,
+              templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+              userName: username.user_name,
+              users: usersData,
+              original: userOriginal
+            })
+          })
+            .then(response =>
+              response.json().then(data => {
+                if (response.status === 201) {
+                  toast.success("Se creo el tipo de trámite con éxito.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                } else if (response.status === 400) {
+                  toast.error("Error, el tipo de trámite ya existe.", {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
+                }
+              })
             )
-          );
+            .catch(error => {
+              toast.error(`Error ${error}.`, {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            });
+          // console.log(
+          //   JSON.stringify(
+          //     {
+          //       id: id,
+          //       code: values.codigo,
+          //       name: values.nombre,
+          //       description: values.descripcion,
+          //       answerDays: values.d_maximos,
+          //       issue: values.asunto,
+          //       status: TipoEstado(values.estado),
+          //       typeCorrespondence: values.tipocorrespondencia,
+          //       templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+          //       userName: userName.user_name,
+          //       users: usersData,
+          //       original: userOriginal
+          //     },
+          //     2,
+          //     null
+          //   )
+          // );
           setSubmitting(false);
+          resetForm({
+            codigo: "",
+            tipocorrespondencia: "",
+            nombre: "",
+            descripcion: "",
+            d_maximos: "",
+            estado: "",
+            asunto: ""
+          });
         }, 1000);
       }}
     >

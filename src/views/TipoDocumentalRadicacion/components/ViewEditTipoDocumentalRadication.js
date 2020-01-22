@@ -229,7 +229,7 @@ const viewEditTipoDocumental = ({ match, history, authorization, props }) => {
                                     <div className="form-group">
                                       <label> Conglomerado </label>
                                       <SelectConglomerado
-                                        //authorization={auth}
+                                        authorization={authorization}
                                         name="conglomerado"
                                         value={values.conglomerado}
                                         onChange={e => {
@@ -252,7 +252,7 @@ const viewEditTipoDocumental = ({ match, history, authorization, props }) => {
                                     <div className="form-group">
                                       <label>Empresa </label>
                                       <SelectEmpresa
-                                        //authorization={auth}
+                                        authorization={authorization}
                                         idConglomerado={values.conglomerado}
                                         //t={props.t}
                                         name="empresa"
@@ -279,8 +279,8 @@ const viewEditTipoDocumental = ({ match, history, authorization, props }) => {
                                     <div className="form-group">
                                       <label> Sede </label>
                                       <SelectSede
-                                        //authorization={auth}
-                                        //idEmpresa={values.empresa}
+                                        authorization={authorization}
+                                        idEmpresa={values.empresa}
                                         name="sede"
                                         value={values.sede}
                                         onChange={e => {
@@ -300,8 +300,8 @@ const viewEditTipoDocumental = ({ match, history, authorization, props }) => {
                                     <div className="form-group">
                                       <label> Dependencia </label>
                                       <SelectDependencia
-                                        //authorization={auth}
-                                        //idSede={values.sede}
+                                        authorization={authorization}
+                                        idSede={values.sede}
                                         name="dependencia"
                                         value={values.dependencia}
                                         onChange={e => {

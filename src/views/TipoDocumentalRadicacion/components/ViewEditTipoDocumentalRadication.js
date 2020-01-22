@@ -635,9 +635,7 @@ function UserList(props) {
                     <Button
                       style={{ marginTop: "-13px", marginLeft: "-12px" }}
                       color={"link"}
-                      onClick={() =>
-                       // AgregarUserEditar({ id: aux.id, name: aux.name })
-                      }
+                      onClick={() => console.log("probando")}
                     >
                       <h6 className="badge badge-secondary">agregar</h6>
                     </Button>

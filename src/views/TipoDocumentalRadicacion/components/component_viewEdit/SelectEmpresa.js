@@ -84,7 +84,7 @@ class SelectEmpresa extends Component {
 
 SelectEmpresa.propTypes = {
   t: PropTypes.any,
-  id: PropTypes.string.isRequired,
+  idConglomerado: PropTypes.string.isRequired,
   authorization: PropTypes.string.isRequired
 };
 

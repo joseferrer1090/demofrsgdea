@@ -80,7 +80,7 @@ class SelectSede extends Component {
 
 SelectSede.propTypes = {
   t: PropTypes.any,
-  id: PropTypes.string.isRequired,
+  idEmpresa: PropTypes.string.isRequired,
   authorization: PropTypes.string.isRequired
 };
 

@@ -2,7 +2,8 @@ import {
   AGREGAR_USUARIO_DISPONIBLE,
   AGREGAR_USUARIO_ORIGINAL,
   BORRAR_USUARIO_DISPONIBLE,
-  OBTENER_TIPO_DOCUMENTAL_RADICACION
+  OBTENER_TIPO_DOCUMENTAL_RADICACION,
+  TIPO_DOCUMENTAL_RADICACION_EDITAR_EXITO
 } from "./../types/index";
 import { decode } from "jsonwebtoken";
 import { TYPEDOCUMENTARY_SHOW } from "./../services/EndPoints";
@@ -32,7 +33,7 @@ export function obtenerTipoDocumentalAction(id) {
   const auth = localStorage.getItem("auth_token");
   const username = decode(auth);
   return dispatch => {
-    dispatch(obtenerTipoDocumental());
+    dispatch(obtenerTipoDocumentalEditar());
     fetch(`${TYPEDOCUMENTARY_SHOW}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
@@ -42,13 +43,18 @@ export function obtenerTipoDocumentalAction(id) {
     })
       .then(response => response.json())
       .then(data => {
-        dispatch(obtenerTipoDocumental(data));
+        dispatch(obtenerTipoDocumentalEditatExito(data));
         console.log(data);
       })
       .catch(err => console.log(err));
   };
 }
 
-const obtenerTipoDocumental = () => ({
+const obtenerTipoDocumentalEditar = () => ({
   type: OBTENER_TIPO_DOCUMENTAL_RADICACION
+});
+
+const obtenerTipoDocumentalEditatExito = tipodocumental => ({
+  type: TIPO_DOCUMENTAL_RADICACION_EDITAR_EXITO,
+  payload: tipodocumental
 });

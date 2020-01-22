@@ -14,7 +14,7 @@ import {
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import { withTranslation } from "react-i18next";
-import { Button } from "reactstrap";
+import { Button, Alert } from "reactstrap";
 
 const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
   const [auth, setAuth] = useState(authorization);
@@ -458,7 +458,9 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
                           </div>
                         </div>
                       </div>
-                      <div className="row">{/* <UserListEnabled />*/}</div>
+                      <div className="row">
+                        <UserListEnabled />
+                      </div>
                       <div className="row">
                         <div className="col-md-4">
                           <div className="card">
@@ -653,5 +655,100 @@ function UserList(props) {
     </div>
   );
 }
+
+const UserListEnabled = props => {
+  const x = useSelector(state => state.typeProcedureReducer.assigned);
+  const users = useSelector(
+    state => state.documentaryTypeReducer.tipodocumental
+  );
+
+  const notificacion = ({ x, visible }) => {
+    if (x === null) {
+      return;
+    } else if (x === true) {
+      return (
+        <Alert isOpen={x} color="success" fade={true}>
+          Usuario Asignado para recibir original
+        </Alert>
+      );
+    } else if (x === false) {
+      return (
+        <Alert isOpen={x} color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original
+        </Alert>
+      );
+    }
+    return x;
+  };
+  const dispatch = useDispatch();
+  const t = props.t;
+
+  return (
+    <div className="col-md-12">
+      {notificacion({ x })}
+      <div className="card">
+        <div className="p-2 mb-1 bg-light text-dark">
+          Tabla de usuarios asignados
+          {/* {t("app_tipoTramite_form_registrar_titulo_3")} */}
+        </div>
+        <div className="card-body">
+          <div>
+            <div className="row">
+              <div className="col-md-12">
+                {Object.keys(users).length === 0 ? (
+                  <p className="text-center">
+                    {" "}
+                    <b>
+                      Usuarios asignados
+                      {/* {t("app_tipoTramite_form_registrar_usuarios_disponibles")}{" "} */}
+                    </b>{" "}
+                  </p>
+                ) : (
+                  <table className="table table-bordered table-sm">
+                    <thead className="thead-light">
+                      <tr className="text-center">
+                        <th scope="col">Usuario</th>
+                        <th scope="col">Original</th>
+                        <th scope="col">Eliminar</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-center">
+                      {users.users.map((aux, id) => {
+                        return (
+                          <tr>
+                            <td scope="row"> {aux.name} </td>
+                            <td>
+                              <button
+                                type="button"
+                                onClick={() => console.log("probando")}
+                              >
+                                {" "}
+                                asignar original{" "}
+                              </button>
+                            </td>
+                            <td>
+                              {" "}
+                              <button
+                                type="button"
+                                className="btn btn-sm btn-outline-danger"
+                                onClick={() => console.log("probando")}
+                              >
+                                <i className="fa fa-trash" />
+                              </button>{" "}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default withTranslation("translations")(ViewEditTipodocumental);

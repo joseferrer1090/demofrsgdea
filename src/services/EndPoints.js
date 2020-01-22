@@ -1,4 +1,15 @@
 import config from "./configRequest/config";
+//---------------------------------------------AUDITORIA--------------------------------------------------//
+
+/* GET params id */
+export const AUDIT_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/audits/`;
+
+/* GET params page and size */
+export const AUDIT_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/audits/pagination`;
+
+/* POST */
+export const AUDIT_CONSULT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/audits/consult`;
+
 //---------------------------------------------CONGLOMERADO--------------------------------------------------//
 
 /* GET */

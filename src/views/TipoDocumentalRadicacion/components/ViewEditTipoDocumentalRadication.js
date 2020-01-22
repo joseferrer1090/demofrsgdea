@@ -1,530 +1,657 @@
-import React, { Fragment } from "react";
-import { Col, CustomInput } from "reactstrap";
-import PropTypes from "prop-types";
-import {
-  TIPO_DOCUMENTAL_RADICACION_EDIT,
-  TIPO_CORRESPONDENCIA_SELECTED
-} from './../../../data/JSON-SERVER';
-import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
+import React, { useRef, useEffect, useState, Fragment } from "react";
+import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import { Col, CustomInput } from "reactstrap";
+import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
+import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
+import SelectSede from "./component_viewEdit/SelectSede";
+import SelectDependencia from "./component_viewEdit/SelectDependencia";
+import { useSelector, useDispatch } from "react-redux";
+import { obtenerTipoDocumentalAction } from "./../../../actions/documentaryTypeAction";
+import {
+  TYPEDOCUMENTARY_SHOW,
+  USERS_BY_DEPENDENCE
+} from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
+import { withTranslation } from "react-i18next";
+import { Button } from "reactstrap";
 
-class ViewEditTable extends React.Component {
-  state = {
-    tipo_correspondencia: "",
-    tipo_correspondencia_selected:[],
-    codigo: "",
-    nombre: "",
-    descripcion: "",
-    d_maximos_respuesta: "",
-    estado: ""
-  };
+const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
+  const [auth, setAuth] = useState(authorization);
+  const [id, setId] = useState(match.params.id);
+  const [response, setResponse] = useState({});
 
-  handleSubmit = (values, { props = this.props, setSubmitting }) => {
-    alert(JSON.stringify(values, null, 2));
-    setSubmitting(false);
-    return;
-  };
+  const dispatch = useDispatch();
 
-  componentDidMount() {
-    this.getTipoRadicacionInformation();
-    this.getTipoCorrespondenciaData();
-  }
+  useEffect(() => {
+    dispatch(obtenerTipoDocumentalAction(id));
+    getDataTypeDocumentary();
+  }, []);
 
-  getTipoRadicacionInformation() {
-    fetch(TIPO_DOCUMENTAL_RADICACION_EDIT)
+  const getDataTypeDocumentary = () => {
+    const username = decode(auth);
+    fetch(`${TYPEDOCUMENTARY_SHOW}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + auth
+      }
+    })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
-        this.setState({
-          tipo_correspondencia: data.tipo_correspondencia,
-          d_maximos_respuesta: data.d_maximos_respuesta,
-          descripcion: data.descripcion,
-          codigo: data.codigo,
-          nombre: data.nombre,
-          estado: data.estado
-        });
-        console.log(this.state);
+        setResponse(data.typeDocumentary);
       })
-      .catch(error => console.log("Error", error));
-  }
-
-  getTipoCorrespondenciaData = () => {
-    fetch(TIPO_CORRESPONDENCIA_SELECTED)
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          tipo_correspondencia_selected: data
-        });
-      })
-      .catch(error => console.log(error));
+      .catch(err => console.log(`error ${err}`));
   };
 
-  render() {
-    const dataPreview = {
-      tipo_correspondencia: this.state.tipo_correspondencia,
-      d_maximos_respuesta: this.state.d_maximos_respuesta,
-      descripcion: this.state.descripcion,
-      codigo: this.state.codigo,
-      nombre: this.state.nombre,
-      estado: this.state.estado
-    };
-    const auxSelected = this.state.tipo_correspondencia_selected.map((aux, id) => {
-      return (
-        <option key={id} value={aux.id}>
-          {aux.nombre}
-        </option>
-      );
-    });
-    return (
-      <Fragment>
-                  <Formik
-                    initialValues={dataPreview}
-                    onSubmit={(values, {setSubmitting}) =>{
-                      setTimeout(()=>{
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false)
-                      },500)
-                    }}
-                    validationSchema={Yup.object().shape({
-                      tipo_correspondencia: Yup.string()
-                      .ensure()
-                      .required(" Por favor seleccione el tipo de correspondencia."),
-                      codigo: Yup.string()
-                        .required(" Por favor introduzca un código. "),
-                      nombre: Yup.string()
-                        .required(" Por favor introduzca un nombre."),
-                      descripcion: Yup.string()
-                        .required(" Por favor introduzca una descripción."),
-                      d_maximos_respuesta: Yup.number()
-                        .positive()
-                        .integer()
-                        .required(" Por favor introduzca el número de días de respuesta."),
-                      estado: Yup.bool()
-                        .test(
-                          "Activado",
-                          "",
-                          value=> value === true
-                        ),
-                    })}
-                  >
-                  {props => {
-                    const {
-                      values,
-                      touched,
-                      errors,
-                      dirty,
-                      isSubmitting,
-                      handleChange,
-                      handleBlur,
-                      handleSubmit,
-                      handleReset
-                    } = props;
-                    return(
-                      <Fragment>
-                      <div className="animated fadeIn">
-      <div className="row">
-        <div className="col-md-12">
-          <div className="card">
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="card">
-                      <div className="p-2 mb-1 bg-light text-dark">
-                    Información básica
-                  </div>
-                  <div className="card-body">
-                    <form className="form">
-                      <div className="row">
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label>
-                              Tipo de correspondencia{" "}
-                              <span className="text-danger">* </span>
-                            </label>
-                            <select
-                            name={"tipo_correspondencia"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.tipo_correspondencia}
-                            className={`form-control form-control-sm ${errors.tipo_correspondencia &&
-                              touched.tipo_correspondencia &&
-                              "is-invalid"}`}
-                          >
-                          {auxSelected}
-                          </select>
-                          <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.tipo_correspondencia && touched.tipo_correspondencia ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                          <ErrorMessage name={"tipo_correspondencia"} />
-                          </div>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label>
-                              Código <span className="text-danger">*</span>{" "}
-                            </label>
-                            <input
-                            name={"codigo"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            values={values.codigo}
-                            type="text"
-                            className={`form-control form-control-sm ${errors.codigo &&
-                              touched.codigo &&
-                              "is-invalid"}`}
-                          />
-                          <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.codigo && touched.codigo ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                          <ErrorMessage name={"codigo"} />
-                          </div>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label>
-                              Nombre <span className="text-danger">*</span>{" "}
-                            </label>
-                            <input
-                            type="text"
-                            name={"nombre"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.nombre}
-                            className={`form-control form-control-sm ${errors.nombre &&
-                              touched.nombre &&
-                              "is-invalid"}`}
-                          />
-                          <div style={{ color: '#D54B4B' }}>
-                          {
-                            errors.nombre && touched.nombre ?
-                            <i className="fa fa-exclamation-triangle"/> :
-                            null
-                          }
-                          <ErrorMessage name={"nombre"} />
-                          </div>
-                          </div>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label>
-                              Descripción{" "}
-                              <span className="text-danger">*</span>{" "}
-                            </label>
-                            <input
-                            name={"descripcion"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.descripcion}
-                            type="text"
-                            className={`form-control form-control-sm ${errors.descripcion &&
-                              touched.descripcion &&
-                              "is-invalid"}`}
-                          />
-                          <div style={{ color: '#D54B4B' }}>
-                          {
-                            errors.descripcion && touched.descripcion ?
-                            <i className="fa fa-exclamation-triangle"/> :
-                            null
-                          }
-                          <ErrorMessage name={"descripcion"} />
-                          </div>
-                          </div>
-                        </div>
-                        <div className="col-md-12">
-                          <div className="form-group">
-                            <label>
-                              {" "}
-                              Días máximos de respuesta{" "}
-                              <span className="text-danger">*</span>{" "}
-                            </label>
-                            <input
-                            name={"d_maximos_respuesta"}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.d_maximos_respuesta}
-                            type="number"
-                            min={0}
-                            className={`form-control form-control-sm ${errors.d_maximos_respuesta &&
-                              touched.d_maximos_respuesta &&
-                              "is-invalid"}`}
-                          />
-                          <div style={{ color: '#D54B4B' }}>
-                            {
-                              errors.d_maximos_respuesta && touched.d_maximos_respuesta ?
-                              <i className="fa fa-exclamation-triangle"/> :
-                              null
-                            }
-                          <ErrorMessage name={"d_maximos_respuesta"} />
-                          </div>
-                          </div>
-                        </div>
-                        <Col sm="12">
-                          <div className="form-group">
-                            <label>
-                              {" "}
-                              Estado <span className="text-danger">
-                                *
-                              </span>{" "}
-                            </label>
-                            <div className=" text-justify">
-                            <Field
-                            name="estado"
-                              render={({field, form})=>{
-                                return(
-                                  <CustomInput
-                                type="checkbox"
-                                id="ExampleInputCheckbox"
-                                label="Si esta opción se encuentra activada, Representa que
-                                el tipo documental de radicacion es visible en el sistema y se podrán
-                                realizar operaciones entre cada uno de los módulos
-                                correspondientes de la aplicación. En caso contrario
-                                la sede no se elimina del sistema solo quedará
-                                inactiva e invisibles para cada uno de los módulos
-                                correspondiente del sistema."
-                                {...field}
-                                checked={field.value}
-                                className={
-                                  errors.estado &&
-                                  touched.estado &&
-                                  "invalid-feedback"
-                                }
-                              />
-                                );
-                              }}
-                            />
-                              <ErrorMessage name="estado"/>
-                            </div>
-                            {/* <p
-                      className="text-muted"
-                      style={{ textAlign: "justify" }}
-                    >
-                      {" "}
-                      Si esta opción se encuentra activada, Representa que
-                      la sede es visible en el sistema y se podrán
-                      realizar operaciones entre cada uno de los módulos
-                      correspondientes de la aplicación. En caso contrario
-                      la sede no se elimina del sistema solo quedará
-                      inactiva e invisibles para cada uno de los módulos
-                      correspondiente del sistema.
-                    </p> */}
-                          </div>
-                        </Col>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6">
-                  <div className="card">
-                    <div className="p-2 mb-1 bg-light text-dark">
-                      Usuarios disponibles
-                    </div>
-                    <div className="card-body">
-                      <form>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label> Conglomerado </label>
-                              <select className="form-control form-control-sm">
-                                <option>Seleccione</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>Empresa </label>
-                              <select className="form-control form-control-sm">
-                                <option>Seleccione</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label> Sede </label>
-                              <select className="form-control form-control-sm">
-                                <option>Seleccione</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label> Dependencia </label>
-                              <select className="form-control form-control-sm">
-                                <option>Seleccione</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label> Buscar usuario </label>
-                              <div className="input-group input-group-sm">
-                                <input
-                                  type="text"
-                                  className="form-control form-control-sm"
-                                  aria-label="Dollar amount (with dot and two decimal places)"
-                                />
-                                <div
-                                  className="input-group-append"
-                                  id="button-addon4"
-                                >
-                                  <button
-                                    className="btn btn-secondary"
-                                    type="button"
-                                  >
-                                    <i className="fa fa-search" />
-                                  </button>
-                                  <button
-                                    className="btn btn-secondary"
-                                    type="button"
-                                  >
-                                    <i className="fa fa-plus" /> Agregar
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                            <textarea
-                              className="form-control form-control-sm"
-                              placeholder="Usuarios ya seleccionado"
-                              rows={8}
-                              disabled
-                            />
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
+  console.log(response);
+
+  return (
+    <Formik
+      enableReinitialize={true}
+      initialValues={{
+        codigo: response.code,
+        tipocorrespondencia: response.typeCorrespondence,
+        nombre: response.name,
+        descripcion: response.description,
+        d_maximos: response.answerDays,
+        estado: response.status,
+        asunto: response.issue
+      }}
+      validationSchema={Yup.object().shape({
+        tipocorrespondencia: Yup.string()
+          .ensure()
+          .required("Por favor seleccione el tipo de correspondencia."),
+        codigo: Yup.string().required("Por favor introduzca el código."),
+        nombre: Yup.string().required("Por favor introduzaca el nombre."),
+        descripcion: Yup.string().required(
+          "Por favor introduzca la descripcion."
+        ),
+        d_maximos: Yup.number()
+          .integer()
+          .positive()
+          .required("Por favor introduzca los dias maximos de respuesta."),
+        estado: Yup.bool().test("Activado", "", value => value === true)
+      })}
+      onSubmit={(values, { setSubmitting, props }) => {
+        const token = auth;
+        const userName = decode(auth);
+        const TipoEstado = data => {
+          let tipo;
+          if (data === true || data === 1) {
+            return (tipo = 1);
+          } else if (data === false || data === 0) {
+            return (tipo = 0);
+          }
+          return 0;
+        };
+        setTimeout(() => {
+          console.log(
+            JSON.stringify(
+              {
+                id: id,
+                code: values.codigo,
+                name: values.nombre,
+                description: values.descripcion,
+                answerDays: values.d_maximos,
+                issue: values.asunto,
+                status: TipoEstado(values.estado),
+                typeCorrespondence: values.tipocorrespondencia,
+                templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
+                userName: userName.user_name,
+                users: "",
+                original: "original"
+              },
+              2,
+              null
+            )
+          );
+          setSubmitting(false);
+        }, 1000);
+      }}
+    >
+      {props => {
+        const {
+          values,
+          touched,
+          errors,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+          setFieldTouched,
+          setSubmitting
+        } = props;
+        return (
+          <Fragment>
+            <div className="animated fadeIn">
               <div className="row">
                 <div className="col-md-12">
                   <div className="card">
-                    <div className="p-2 mb-1 bg-light text-dark">
-                      Usuarios disponibles
-                    </div>
                     <div className="card-body">
-                      <form>
-                        <div className="row">
-                          <div className="col-md-12">
-                            <table className="table table-bordered table-sm">
-                              <thead className="thead-light">
-                                <tr className="text-center">
-                                  <th scope="col">Usuario</th>
-                                  <th scope="col">Sede</th>
-                                  <th scope="col">Dependencia</th>
-                                  <th scope="col">Original</th>
-                                  <th scope="col">Eliminar</th>
-                                </tr>
-                              </thead>
-                              <tbody className="text-center">
-                                <tr>
-                                  <td scope="row">
-                                    NOMBRE COMPLETO DEL USUARIO
-                                  </td>
-                                  <td>SEDE I</td>
-                                  <td>DEPENDENCIA I</td>
-                                  <td>
-                                    <CustomInput
-                                      type="radio"
-                                      id="exampleCustomCheckbox2"
-                                    />{" "}
-                                  </td>
-                                  <td>
-                                    {" "}
-                                    <button
-                                      type="button"
-                                      className="btn btn-sm btn-danger"
-                                    >
-                                      <i className="fa fa-trash" />
-                                    </button>{" "}
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="card">
-                    <div className="p-2 mb-1 bg-light text-dark">Asunto</div>
-                    <div className="card-body">
-                      <form>
-                        <div className="row">
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>Asunto</label>
-                              <textarea
-                                className="form-control form-control-sm"
-                                placeholder="Asunto ya cargado"
-                              />
+                      <div className="row">
+                        <div className="col-md-6">
+                          <div className="card">
+                            <div className="p-2 mb-1 bg-light text-dark">
+                              Información básica
+                            </div>
+                            <div className="card-body">
+                              <form className="form">
+                                <div className="row">
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <label>
+                                        Tipo de correspondencia{" "}
+                                        <span className="text-danger">* </span>
+                                      </label>
+                                      <select
+                                        name="tipocorrespondencia"
+                                        value={values.tipocorrespondencia}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        className={`form-control form-control-sm ${errors.tipocorrespondencia &&
+                                          touched.tipocorrespondencia &&
+                                          "is-invalid"}`}
+                                      >
+                                        <option value={" "}>
+                                          -- Seleccione --
+                                        </option>
+                                        <option value={1}>Recibida</option>
+                                        <option value={2}>Despachada</option>
+                                        <option value={3}>Interna</option>
+                                      </select>
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.tipocorrespondencia &&
+                                        touched.tipocorrespondencia ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage
+                                          name={"tipocorrespondencia"}
+                                        />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <label>
+                                        Código{" "}
+                                        <span className="text-danger">*</span>{" "}
+                                      </label>
+                                      <input
+                                        name={"codigo"}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.codigo}
+                                        type="text"
+                                        className={`form-control form-control-sm ${errors.codigo &&
+                                          touched.codigo &&
+                                          "is-invalid"}`}
+                                      />
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.codigo && touched.codigo ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name={"codigo"} />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <label>
+                                        Nombre{" "}
+                                        <span className="text-danger">*</span>{" "}
+                                      </label>
+                                      <input
+                                        name={"nombre"}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.nombre}
+                                        type="text"
+                                        className={`form-control form-control-sm ${errors.nombre &&
+                                          touched.nombre &&
+                                          "is-invalid"}`}
+                                      />
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.nombre && touched.nombre ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name={"nombre"} />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <label>
+                                        Descripción{" "}
+                                        <span className="text-danger">*</span>{" "}
+                                      </label>
+                                      <input
+                                        name={"descripcion"}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.descripcion}
+                                        type="text"
+                                        className={`form-control form-control-sm ${errors.descripcion &&
+                                          touched.descripcion &&
+                                          "is-invalid"}`}
+                                      />
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.descripcion &&
+                                        touched.descripcion ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name={"descripcion"} />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="col-md-12">
+                                    <div className="form-group">
+                                      <label>
+                                        {" "}
+                                        Días máximos de respuesta{" "}
+                                        <span className="text-danger">
+                                          *
+                                        </span>{" "}
+                                      </label>
+                                      <input
+                                        name={"d_maximos"}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.d_maximos}
+                                        type="number"
+                                        className={`form-control form-control-sm ${errors.d_maximos &&
+                                          touched.d_maximos &&
+                                          "is-invalid"}`}
+                                        min={0}
+                                      />
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.d_maximos &&
+                                        touched.d_maximos ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name={"d_maximos"} />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <Col sm="12">
+                                    <div className="form-group">
+                                      <label>
+                                        {" "}
+                                        Estado{" "}
+                                        <span className="text-danger">
+                                          *
+                                        </span>{" "}
+                                      </label>
+                                      <div className=" text-justify">
+                                        <Field
+                                          name="estado"
+                                          render={({ field, form }) => {
+                                            return (
+                                              <CustomInput
+                                                type="checkbox"
+                                                id="CheckBoxEditRoles"
+                                                label=" Si esta opción se encuentra activada, representa
+                                  que el rol es visible en el sistema y se podrán
+                                  realizar operaciones entre cada uno de los módulos
+                                  correspondientes de la aplicación. En caso
+                                  contrario el rol no se elimina del sistema solo
+                                  quedará inactivo e invisibles para cada uno de los
+                                  módulos correspondiente del sistema."
+                                                {...field}
+                                                checked={field.value}
+                                                className={
+                                                  errors.estado &&
+                                                  touched.estado &&
+                                                  "invalid-feedback"
+                                                }
+                                              />
+                                            );
+                                          }}
+                                        />
+                                        <ErrorMessage name="estado" />
+                                      </div>
+                                    </div>
+                                  </Col>
+                                </div>
+                              </form>
                             </div>
                           </div>
                         </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="card">
-                    <div className="p-2 mb-1 bg-light text-dark">
-                      Workflow
-                    </div>
-                    <div className="card-body">
-                      <form>
-                        <div className="row">
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>Asunto</label>
-                              <select className="form-control form-control-sm">
-                                <option>Seleccione</option>
-                              </select>
+                        <div className="col-md-6">
+                          <div className="card">
+                            <div className="p-2 mb-1 bg-light text-dark">
+                              Usuarios disponibles
+                            </div>
+                            <div className="card-body">
+                              <form>
+                                <div className="row">
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <label> Conglomerado </label>
+                                      <SelectConglomerado
+                                        authorization={authorization}
+                                        name="conglomerado"
+                                        value={values.conglomerado}
+                                        onChange={e => {
+                                          setFieldValue(
+                                            "conglomerado",
+                                            e.target.value
+                                          );
+                                        }}
+                                        onBlur={() => {
+                                          setFieldTouched("conglomerado", true);
+                                        }}
+                                        className="form-control form-control-sm"
+                                      />
+                                      {/* <select className="form-control form-control-sm">
+                                            <option>Seleccione</option>
+                                          </select> */}
+                                    </div>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <label>Empresa </label>
+                                      <SelectEmpresa
+                                        authorization={authorization}
+                                        idConglomerado={values.conglomerado}
+                                        t={props.t}
+                                        name="empresa"
+                                        value={values.empresa}
+                                        onChange={e => {
+                                          setFieldValue(
+                                            "empresa",
+                                            e.target.value
+                                          );
+                                        }}
+                                        onBlur={() => {
+                                          setFieldTouched("empresa", true);
+                                        }}
+                                        className={
+                                          "form-control form-control-sm"
+                                        }
+                                      />
+                                      {/* <select className="form-control form-control-sm">
+                                            <option>Seleccione</option>
+                                          </select> */}
+                                    </div>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <label> Sede </label>
+                                      <SelectSede
+                                        authorization={authorization}
+                                        idEmpresa={values.empresa}
+                                        name="sede"
+                                        value={values.sede}
+                                        onChange={e => {
+                                          setFieldValue("sede", e.target.value);
+                                        }}
+                                        onBlur={() => {
+                                          setFieldTouched("sede", true);
+                                        }}
+                                        className="form-control form-control-sm"
+                                      />
+                                      {/* <select className="form-control form-control-sm">
+                                            <option>Seleccione</option>
+                                          </select> */}
+                                    </div>
+                                  </div>
+                                  <div className="col-md-6">
+                                    <div className="form-group">
+                                      <label> Dependencia </label>
+                                      <SelectDependencia
+                                        authorization={authorization}
+                                        idSede={values.sede}
+                                        name="dependencia"
+                                        value={values.dependencia}
+                                        onChange={e => {
+                                          setFieldValue(
+                                            "dependencia",
+                                            e.target.value
+                                          );
+                                        }}
+                                        onBlur={() => {
+                                          setFieldTouched("dependencia", true);
+                                        }}
+                                        className={
+                                          "form-control form-control-sm"
+                                        }
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-md-12">
+                                    {/* <div className="form-group">
+                                      <label> Buscar usuario </label>
+                                      <div className="input-group input-group-sm">
+                                        <input
+                                          type="text"
+                                          className="form-control form-control-sm"
+                                          aria-label="Dollar amount (with dot and two decimal places)"
+                                        />
+                                        <div
+                                          className="input-group-append"
+                                          id="button-addon4"
+                                        >
+                                          <button
+                                            className="btn btn-secondary"
+                                            type="button"
+                                          >
+                                            <i className="fa fa-search" />
+                                          </button>
+                                          <button
+                                            className="btn btn-secondary"
+                                            type="button"
+                                          >
+                                            <i className="fa fa-plus" /> Agregar
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div> */}
+                                    <UserList
+                                      authorization={auth}
+                                      id={values.dependencia}
+                                    />
+                                  </div>
+                                </div>
+                              </form>
                             </div>
                           </div>
                         </div>
-                      </form>
+                      </div>
+                      <div className="row">{/* <UserListEnabled />*/}</div>
+                      <div className="row">
+                        <div className="col-md-4">
+                          <div className="card">
+                            <div className="p-2 mb-1 bg-light text-dark">
+                              Asunto
+                            </div>
+                            <div className="card-body">
+                              <form>
+                                <div className="row">
+                                  <div className="col-md-12">
+                                    <div className="form-group">
+                                      <label>Asunto</label>
+                                      <textarea
+                                        value={values.asunto}
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        className="form-control form-control-sm"
+                                        placeholder="Asunto ya cargado"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="card">
+                            <div className="p-2 mb-1 bg-light text-dark">
+                              Plantilla
+                            </div>
+                            <div className="card-body">
+                              <form>
+                                <div className="row">
+                                  <div className="col-md-12">
+                                    <div className="form-group">
+                                      <label>Plantilla</label>
+                                      <select className="form-control form-control-sm">
+                                        <option>Seleccione</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="card">
+                            <div className="p-2 mb-1 bg-light text-dark">
+                              Workflow
+                            </div>
+                            <div className="card-body">
+                              <form>
+                                <div className="row">
+                                  <div className="col-md-12">
+                                    <div className="form-group">
+                                      <label>Workflow</label>
+                                      <select className="form-control form-control-sm">
+                                        <option>Seleccione</option>
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="card-footer">
+                      <div className="float-right">
+                        <button
+                          type="button"
+                          className="btn btn-outline-success btn-sm"
+                          onClick={e => {
+                            e.preventDefault();
+                            handleSubmit();
+                          }}
+                        >
+                          {" "}
+                          <i className="fa fa-pencil" /> Actualizar{" "}
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="card-footer">
-              <div className="float-right">
+          </Fragment>
+        );
+      }}
+    </Formik>
+  );
+};
+
+function UserList(props) {
+  const t = props.t;
+  const id = props.id;
+  const auth = props.authorization;
+
+  const [data, setData] = useState([]);
+  const firstUpdate = useRef(true);
+
+  //const dispatch = useDispatch();
+  //const AgregarUserEditar = user => dispatch(agregarUsuarioEditar(user));
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetch(`${USERS_BY_DEPENDENCE}${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setData(data);
+        // console.log(data);
+      })
+      .catch(err => console.log("Error", err));
+    //console.log("componentDidUpdate");
+  }, [id]);
+
+  return (
+    <div>
+      {/* <div className="form-group">
+            <label> Buscar usuario <span className="text-danger">*</span> </label>
+            <div className="input-group input-group-sm">
+              <input
+                type="text"
+                className="form-control form-control-sm"
+                aria-label="Dollar amount (with dot and two decimal places)"
+              />
+              <div
+                className="input-group-append"
+                id="button-addon4"
+              >
                 <button
+                  className="btn btn-secondary"
                   type="button"
-                  className="btn btn-outline-success btn-sm"
-                  onClick={e=>{
-                    e.preventDefault();
-                    handleSubmit();
-                  }}
                 >
-                  {" "}
-                  <i className="fa fa-pencil" /> Actualizar{" "}
+                  <i className="fa fa-search" />
                 </button>
+                
               </div>
             </div>
-          </div>
-        </div>
+          </div> */}
+      <div
+        style={{
+          height: "140px",
+          overflow: "scroll",
+          overflowX: "hidden",
+          border: "1px solid #e3e3e3",
+          background: "#e3e3e3",
+          padding: "10px"
+        }}
+      >
+        {data.length > 0 ? (
+          data.map((aux, id) => {
+            return (
+              <ul className="list-unstyled">
+                <li className="media">
+                  <img
+                    className="mr-2"
+                    src="https://via.placeholder.com/40"
+                    alt="Generic placeholder image"
+                  />
+                  <div className="media-body">
+                    <p className="mt-0 mb-1">{aux.name}</p>
+                    <Button
+                      style={{ marginTop: "-13px", marginLeft: "-12px" }}
+                      color={"link"}
+                      onClick={() => console.log("probando")}
+                    >
+                      <h6 className="badge badge-secondary">agregar</h6>
+                    </Button>
+                  </div>
+                </li>
+              </ul>
+            );
+          })
+        ) : (
+          <p>No hay usuarios</p>
+          // <p>{t("app_tipoTramite_form_registrar_placeholder_select")}</p>
+        )}
       </div>
     </div>
-    </Fragment>
-    );
-      }}
-      </Formik>
-      </Fragment>
-    );
-  }
+  );
 }
 
-export default ViewEditTable;
+export default withTranslation("translations")(ViewEditTipodocumental);

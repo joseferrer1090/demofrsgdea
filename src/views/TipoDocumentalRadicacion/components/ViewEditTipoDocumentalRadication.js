@@ -8,7 +8,10 @@ import SelectSede from "./component_viewEdit/SelectSede";
 import SelectDependencia from "./component_viewEdit/SelectDependencia";
 import { useSelector, useDispatch } from "react-redux";
 import { obtenerTipoDocumentalAction } from "./../../../actions/documentaryTypeAction";
-import { TYPEDOCUMENTARY_SHOW } from "./../../../services/EndPoints";
+import {
+  TYPEDOCUMENTARY_SHOW,
+  USERS_BY_DEPENDENCE
+} from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import { withTranslation } from "react-i18next";
 
@@ -443,10 +446,10 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
                                         </div>
                                       </div>
                                     </div> */}
-                                    {/*<UserList
+                                    <UserList
                                       authorization={auth}
                                       id={values.dependencia}
-                                    />*/}
+                                    />
                                   </div>
                                 </div>
                               </form>
@@ -550,5 +553,106 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
     </Formik>
   );
 };
+
+function UserList(props) {
+  const t = props.t;
+  const id = props.id;
+  const auth = props.authorization;
+
+  const [data, setData] = useState([]);
+  const firstUpdate = useRef(true);
+
+  //const dispatch = useDispatch();
+  //const AgregarUserEditar = user => dispatch(agregarUsuarioEditar(user));
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetch(`${USERS_BY_DEPENDENCE}${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        setData(data);
+        // console.log(data);
+      })
+      .catch(err => console.log("Error", err));
+    //console.log("componentDidUpdate");
+  }, [id]);
+
+  return (
+    <div>
+      {/* <div className="form-group">
+            <label> Buscar usuario <span className="text-danger">*</span> </label>
+            <div className="input-group input-group-sm">
+              <input
+                type="text"
+                className="form-control form-control-sm"
+                aria-label="Dollar amount (with dot and two decimal places)"
+              />
+              <div
+                className="input-group-append"
+                id="button-addon4"
+              >
+                <button
+                  className="btn btn-secondary"
+                  type="button"
+                >
+                  <i className="fa fa-search" />
+                </button>
+                
+              </div>
+            </div>
+          </div> */}
+      <div
+        style={{
+          height: "140px",
+          overflow: "scroll",
+          overflowX: "hidden",
+          border: "1px solid #e3e3e3",
+          background: "#e3e3e3",
+          padding: "10px"
+        }}
+      >
+        {data.length > 0 ? (
+          data.map((aux, id) => {
+            return (
+              <ul className="list-unstyled">
+                <li className="media">
+                  <img
+                    className="mr-2"
+                    src="https://via.placeholder.com/40"
+                    alt="Generic placeholder image"
+                  />
+                  <div className="media-body">
+                    <p className="mt-0 mb-1">{aux.name}</p>
+                    <Button
+                      style={{ marginTop: "-13px", marginLeft: "-12px" }}
+                      color={"link"}
+                      onClick={() =>
+                       // AgregarUserEditar({ id: aux.id, name: aux.name })
+                      }
+                    >
+                      <h6 className="badge badge-secondary">agregar</h6>
+                    </Button>
+                  </div>
+                </li>
+              </ul>
+            );
+          })
+        ) : (
+          <p>No hay usuarios</p>
+          // <p>{t("app_tipoTramite_form_registrar_placeholder_select")}</p>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default withTranslation("translations")(ViewEditTipodocumental);

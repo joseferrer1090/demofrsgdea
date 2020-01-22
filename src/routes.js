@@ -103,6 +103,12 @@ const EditTipoDocumentalRadication = React.lazy(() =>
 const RadicacionEmail = React.lazy(() =>
   import("./views/RadicacionEmail/RadicacionEmail")
 );
+const PlantillaEmail = React.lazy(() =>
+  import("./views/PlantillaEmail/PlantillaEmail")
+);
+const ParametrosGenerales = React.lazy(() =>
+  import("./views/ParametrosGenerales/ParametrosGenerales")
+);
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -293,8 +299,20 @@ const routes = [
   {
     path: "/configuracion/radicacionemail",
     exact: true,
-    name: "Cofiguración / Radicación por email",
+    name: "Configuración / Radicación por email",
     component: RadicacionEmail
+  },
+  {
+    path: "/configuracion/plantillaemail",
+    exact: true,
+    name: "Configuración / Plantilla de correo electrónico",
+    component: PlantillaEmail
+  },
+  {
+    path: "/configuracion/parametrosgenerales",
+    exact: true,
+    name: " Configuración / Parámetros generales",
+    component: ParametrosGenerales
   }
 ];
 

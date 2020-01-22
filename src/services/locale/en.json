@@ -87,15 +87,18 @@
     "nav_app_grupo_usuarios": "User group",
     "nav_app_terceros": "Third parties",
     "nav_app_tipo_radicacion": "Documentary type of establishment",
+    "nav_app_radicacion_email": "Filing via email",
     "nav_app_pais": "Country",
     "nav_app_departamento": "Department",
     "nav_app_ciudad": "City",
     "nav_app_auditoria": "Audit",
     "nav_app_auditoria_consultar": "Consult",
     "nav_app_auditoria_mover": "Move to historical",
+    "nav_app_email_template": "Email template",
     "nav_app_plantilla": "Template",
     "nav_app_tema": "Theme",
     "nav_app_tipo_llegada": "Arrival type",
+    "nav_app_parametros_generales": "General parameters",
 
     "app_tablas_estado_activo": "Active",
     "app_tablas_estado_inactivo": "Inactive",
@@ -1868,6 +1871,15 @@
     "app_radicacion_email_import_form_titulos_label": "(The first record contains the column titles)",
     "app_radicacion_email_import_form_archivo": "File to import in extension",
     "app_radicacion_email_import_from_boton": "Import file",
-    "app_radicacion_email_import_form_file": "Select file in the required extension"
+    "app_radicacion_email_import_form_file": "Select file in the required extension",
+
+    "app_plantilla_email_tab": "Register",
+    "app_plantilla_email_tab_2": "Manage",
+    "app_plantilla_email_tab_3": "Import",
+    "app_plantilla_email_tab_title": "E-mail template registration.",
+
+    "app_parametros_generales_tab": "Register",
+    "app_parametros_generales_tab_2": "Manage",
+    "app_parametros_generales_tab_3": "Import"
   }
 }

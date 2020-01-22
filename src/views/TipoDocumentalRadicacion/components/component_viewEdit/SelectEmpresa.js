@@ -22,6 +22,7 @@ class SelectEmpresa extends Component {
     }
     return null;
   }
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.idConglomerado !== prevProps.idConglomerado) {
       // METODO

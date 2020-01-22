@@ -19,7 +19,7 @@ import {
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import { withTranslation } from "react-i18next";
-import { Button, Alert } from "reactstrap";
+import { Button, Alert, UncontrolledAlert } from "reactstrap";
 
 const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
   const [auth, setAuth] = useState(authorization);
@@ -29,6 +29,9 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
   const dispatch = useDispatch();
   const usersData = useSelector(
     state => state.documentaryTypeReducer.tipodocumental.users
+  );
+  const userOriginal = useSelector(
+    state => state.documentaryTypeReducer.tipodocumental.original
   );
 
   useEffect(() => {
@@ -108,7 +111,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
                 templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
                 userName: userName.user_name,
                 users: usersData,
-                original: "original"
+                original: userOriginal
               },
               2,
               null
@@ -672,35 +675,43 @@ function UserList(props) {
 }
 
 const UserListEnabled = props => {
-  const x = useSelector(state => state.typeProcedureReducer.assigned);
+  const x = useSelector(state => state.documentaryTypeReducer.assigned);
+  const [visible, setVisible] = useState(true);
   const users = useSelector(
     state => state.documentaryTypeReducer.tipodocumental
   );
 
-  const notificacion = ({ x, visible }) => {
-    if (x === null) {
-      return;
-    } else if (x === true) {
-      return (
-        <Alert isOpen={x} color="success" fade={true}>
-          Usuario Asignado para recibir original
-        </Alert>
-      );
-    } else if (x === false) {
-      return (
-        <Alert isOpen={x} color="danger" fade={true}>
-          Se deshabilito el usuario para recibir original
-        </Alert>
-      );
-    }
-    return x;
-  };
+  const onDismiss = () => setVisible(false);
+
+  // const notificacion = ({ x, visible }) => {
+  //   if (x === null) {
+  //     return;
+  //   } else if (x === true) {
+  //     return (
+  //       <UncontrolledAlert
+  //         isOpen={x}
+  //         color="success"
+  //         fade={true}
+  //         toggle={onDismiss}
+  //       >
+  //         Usuario Asignado para recibir original
+  //       </UncontrolledAlert>
+  //     );
+  //   } else if (x === false) {
+  //     return (
+  //       <UncontrolledAlert isOpen={x} color="danger" fade={true}>
+  //         Se deshabilito el usuario para recibir original
+  //       </UncontrolledAlert>
+  //     );
+  //   }
+  //   return x;
+  // };
   const dispatch = useDispatch();
   const t = props.t;
 
   return (
     <div className="col-md-12">
-      {notificacion({ x })}
+      {/* {notificacion({ x, visible })} */}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
           Tabla de usuarios asignados

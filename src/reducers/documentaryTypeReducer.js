@@ -79,7 +79,8 @@ export default function(state = initialState, action) {
           users: state.tipodocumental.users.filter(
             user => user.id !== action.payload
           )
-        }
+        },
+        assigned: false
       };
     case ASIGNAR_USUARIO_ORIGINAL_TIPO_DOCUMENTAL_RADICACION_EDITAR:
       return {

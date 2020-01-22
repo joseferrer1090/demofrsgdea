@@ -27,7 +27,7 @@ class SelectSede extends Component {
       // METODO
       this.getDataSede();
     }
-    if (this.props.authorization !== prevState.authorization) {
+    if (this.props.authorization !== prevProps.authorization) {
       this.setState({
         id: this.props.idEmpresa,
         auth: this.props.authorization

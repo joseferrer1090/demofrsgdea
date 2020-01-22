@@ -33,7 +33,7 @@ export function obtenerTipoDocumentalAction(id) {
   const username = decode(auth);
   return dispatch => {
     dispatch(obtenerTipoDocumental());
-    fetch(`${TYPEDOCUMENTARY_SHOW}${id}?username=${username.user_nameh}`, {
+    fetch(`${TYPEDOCUMENTARY_SHOW}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

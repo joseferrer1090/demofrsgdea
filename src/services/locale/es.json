@@ -87,15 +87,18 @@
     "nav_app_grupo_usuarios": "Grupo de usuarios",
     "nav_app_terceros": "Terceros",
     "nav_app_tipo_radicacion": "Tipo documental radicación",
+    "nav_app_radicacion_email": "Radicación vía correo electrónico",
     "nav_app_pais": "Pais",
     "nav_app_departamento": "Departamento",
     "nav_app_ciudad": "Ciudad",
     "nav_app_auditoria": "Auditoria",
     "nav_app_auditoria_consultar": "Consultar",
     "nav_app_auditoria_mover": "Mover a historico",
+    "nav_app_email_template": "Plantilla de correo electrónico",
     "nav_app_plantilla": "Plantilla",
     "nav_app_tema": "Tema",
     "nav_app_tipo_llegada": "Tipo llegada",
+    "nav_app_parametros_generales": "Parámetros generales",
 
     "app_tablas_estado_activo": "Activo",
     "app_tablas_estado_inactivo": "Inactivo",
@@ -162,7 +165,6 @@
     "app_conglomerado_modal_actualizar_cargo_responsable": "Cargo responsbale",
     "app_conglomerado_modal_actualizar_botom_actualizar": "Actualizar",
     "app_conglomerado_modal_actualizar_botom_cerrar": "Cerrar",
-    "{/**/}": "",
     "app_conglomerado_modal_actualizar_alert_success": "Se actualizo el conglomerado con éxito.",
     "app_conglomerado_modal_actualizar_alert_error": "Error al actualizar el conglomerado.",
     "app_conglomerado_modal_Actualizar_alert_error400": "Error, el conglomerado ya esta asignado.",
@@ -173,7 +175,6 @@
     "app_conglomerado_modal_eliminar_placeholder": "Código del conglomerado a eliminar",
     "app_conglomerado_modal_eliminar_boton": "Eliminar",
     "app_conglomerado_modal_eliminar_boton_2": "Cerrar",
-    "{/**/}": "",
     "app_conglomerado_modal_eliminar_alert_success": "Se elimino de manera satisfactoria el conglomerado.",
     "app_conglomerado_modal_eliminar_alert_error": "Error, al eliminar el conglomerado.",
     "app_conglomerado_modal_eliminar_alert_errorCode": "Error, el código no es válido para eliminar el conglomerado.",
@@ -1867,6 +1868,15 @@
     "app_radicacion_email_import_form_titulos_label": "(El primer registro contiene los títulos de las columnas)",
     "app_radicacion_email_import_form_archivo": "Archivo a importar en extesión",
     "app_radicacion_email_import_from_boton": "Importar archivo",
-    "app_radicacion_email_import_form_file": "Seleccione archivo en la extension requerida"
+    "app_radicacion_email_import_form_file": "Seleccione archivo en la extension requerida",
+
+    "app_plantilla_email_tab": "Registrar",
+    "app_plantilla_email_tab_2": "Administrar",
+    "app_plantilla_email_tab_3": "Importar",
+    "app_plantilla_email_tab_title": "Registro de plantilla de correo electrónico.",
+
+    "app_parametros_generales_tab": "Registrar",
+    "app_parametros_generales_tab_2": "Administrar",
+    "app_parametros_generales_tab_3": "Importar"
   }
 }

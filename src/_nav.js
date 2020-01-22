@@ -76,6 +76,11 @@ export default {
       url: "/configuracion/tipodocumentalradicacion"
     },
     {
+      name: "Radicación vía email",
+      icon: "icon-settings",
+      url: "/configuracion/radicacionemail"
+    },
+    {
       name: "País",
       icon: "icon-settings",
       url: "/configuracion/pais"
@@ -108,14 +113,25 @@ export default {
       ]
     },
     {
+      name: "Plantilla correo electrónico",
+      icon: "icon-settings",
+      url: "/configuracion/plantillaemail"
+    },
+    {
       name: "Plantilla",
       url: "/configuracion/plantilla",
       icon: "fa fa-puzzle-piece"
     },
+
     {
       name: "Tema",
       icon: "icon-pencil",
       url: "/configuracion/tema"
+    },
+    {
+      name: "Parámetros generales",
+      icon: "icon-pencil",
+      url: "/configuracion/parametrosgenerales"
     }
   ]
 };

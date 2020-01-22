@@ -591,7 +591,7 @@ function UserList(props) {
     <div>
       {/* <div className="form-group">
             <label> Buscar usuario <span className="text-danger">*</span> </label>
-            <div className="input-group input-group-sm">
+            <div className="input-group input-group-exit sm">
               <input
                 type="text"
                 className="form-control form-control-sm"

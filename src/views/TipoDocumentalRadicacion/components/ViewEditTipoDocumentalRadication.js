@@ -254,7 +254,7 @@ const viewEditTipoDocumental = ({ match, history, authorization, props }) => {
                                       <SelectEmpresa
                                         authorization={authorization}
                                         idConglomerado={values.conglomerado}
-                                        //t={props.t}
+                                        t={props.t}
                                         name="empresa"
                                         value={values.empresa}
                                         onChange={e => {

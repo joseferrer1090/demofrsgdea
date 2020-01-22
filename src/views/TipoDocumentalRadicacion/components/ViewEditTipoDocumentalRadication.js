@@ -40,6 +40,8 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
       .catch(err => console.log(`error ${err}`));
   };
 
+  console.log(response);
+
   return (
     <Formik>
       {props => {

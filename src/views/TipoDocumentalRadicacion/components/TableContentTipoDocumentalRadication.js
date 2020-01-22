@@ -81,7 +81,7 @@ class TableContentTramite extends Component {
         <button
           className="btn btn-secondary btn-sm"
           onClick={() => {
-            this.routeChange();
+            this.routeChange(row.id);
           }}
         >
           <i className="fa fa-pencil" />
@@ -124,8 +124,8 @@ class TableContentTramite extends Component {
     this.refs.child1.toggle(id);
   }
 
-  routeChange = () => {
-    let path = `#/configuracion/tipodocumentalradication/edit`;
+  routeChange = id => {
+    let path = `#/configuracion/tipodocumentalradication/edit/${id}`;
     window.location.replace(path);
   };
 

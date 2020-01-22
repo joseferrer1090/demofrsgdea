@@ -191,7 +191,7 @@ const routes = [
     component: TipoDocumentalesRadicacion
   },
   {
-    path: "/configuracion/tipodocumentalradication/edit",
+    path: "/configuracion/tipodocumentalradication/edit/:id",
     exact: true,
     name: "Configuración / Tipo documental de radicación",
     component: props => (

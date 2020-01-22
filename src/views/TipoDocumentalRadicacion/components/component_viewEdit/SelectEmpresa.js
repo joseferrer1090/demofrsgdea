@@ -1,10 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { CONGLOMERATES_STATUS } from "./../../../../services/EndPoints";
+import { COMPANY_BY_CONGLOMERATE } from "./../../../../services/EndPoints";
 
-class SelectConglomerado extends React.Component {
+class SelectEmpresa extends Component {
   state = {
-    dataConglomerado: [],
+    dataEmpresa: [],
+    id: this.props.idConglomerado,
     t: this.props.t,
     auth: this.props.authorization
   };
@@ -15,23 +16,29 @@ class SelectConglomerado extends React.Component {
         auth: props.authorization
       };
     }
+    if (props.idConglomerado !== state.id) {
+      return {
+        id: props.idConglomerado
+      };
+    }
     return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (this.props.idConglomerado !== prevProps.idConglomerado) {
+      // METODO
+      this.getDataEmpresa();
+    }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
+        id: this.props.idConglomerado
       });
     }
   }
 
-  componentDidMount() {
-    this.getDataConglomerado();
-  }
-
-  getDataConglomerado = () => {
-    fetch(`${CONGLOMERATES_STATUS}`, {
+  getDataEmpresa = () => {
+    fetch(`${COMPANY_BY_CONGLOMERATE}${this.state.id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -41,38 +48,29 @@ class SelectConglomerado extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataConglomerado: data
+          dataEmpresa: data
         });
       })
-      .catch(err => console.log(err));
-  };
-
-  handleChange = value => {
-    this.props.onChange("conglomerado", value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur("conglomerado", true);
+      .catch(err => console.log(`err => ${err}`));
   };
 
   render() {
-    const data = this.state.dataConglomerado;
     const { t } = this.props;
     return (
       <div>
         <select
           name={this.props.name}
+          value={this.props.value}
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
-          value={this.props.value}
           className={this.props.className}
         >
           <option value={" "}>
             {" "}
             -- Seleccione --
-            {/* -- {t("app_tipoTramite_form_registrar_select_conglomerado")} -- */}
+            {/* -- {t("app_tipoTramite_form_registrar_select_empresa")} --{" "} */}
           </option>
-          {data.map((aux, id) => {
+          {this.state.dataEmpresa.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
                 {aux.name}
@@ -85,9 +83,10 @@ class SelectConglomerado extends React.Component {
   }
 }
 
-SelectConglomerado.propTypes = {
+SelectEmpresa.propTypes = {
   t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
+  idConglomerado: PropTypes.string.isRequired
 };
 
-export default SelectConglomerado;
+export default SelectEmpresa;

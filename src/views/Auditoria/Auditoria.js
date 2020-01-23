@@ -132,7 +132,6 @@ class Auditoria extends Component {
       btnGroup: this.createButtonCustom
     };
     const { t } = this.props;
-    console.log(this.props.authorization);
     return (
       <div className="animated fadeIn">
         <div className="row">

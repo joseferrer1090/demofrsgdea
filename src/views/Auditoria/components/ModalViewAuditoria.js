@@ -46,7 +46,6 @@ class ModalViewAuditoria extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataAudit: data,
           dataModulo: data.pageAction.pageEntity.pageModule,

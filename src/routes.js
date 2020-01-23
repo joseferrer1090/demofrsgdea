@@ -317,7 +317,12 @@ const routes = [
     path: "/configuracion/parametrosgenerales",
     exact: true,
     name: " Configuración / Parámetros generales",
-    component: ParametrosGenerales
+    component: props => (
+      <ParametrosGenerales
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   }
 ];
 

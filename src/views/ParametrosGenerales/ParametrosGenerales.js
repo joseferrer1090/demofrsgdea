@@ -21,6 +21,8 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import { withTranslation } from "react-i18next";
+import { MODULE_ALL } from "./../../services/EndPoints";
+import Listmodules from "./components/ListModules";
 
 class ParametrosGenerales extends Component {
   constructor(props) {
@@ -31,6 +33,10 @@ class ParametrosGenerales extends Component {
     };
   }
 
+  componentDidMount() {
+    this.getModules();
+  }
+
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
@@ -38,6 +44,11 @@ class ParametrosGenerales extends Component {
       });
     }
   }
+
+  getModules = () => {
+    console.log("Probando");
+    console.log(this.props.authorization);
+  };
 
   render() {
     const { t } = this.props;
@@ -52,38 +63,7 @@ class ParametrosGenerales extends Component {
               </CardHeader>
               <CardBody>
                 <Row>
-                  <Col xs="4">
-                    <ListGroup id="list-tab" role="tablist">
-                      <ListGroupItem
-                        onClick={() => this.toggle(0)}
-                        action
-                        active={this.state.activeTab === 0}
-                      >
-                        Home
-                      </ListGroupItem>
-                      <ListGroupItem
-                        onClick={() => this.toggle(1)}
-                        action
-                        active={this.state.activeTab === 1}
-                      >
-                        Profile
-                      </ListGroupItem>
-                      <ListGroupItem
-                        onClick={() => this.toggle(2)}
-                        action
-                        active={this.state.activeTab === 2}
-                      >
-                        Messages
-                      </ListGroupItem>
-                      <ListGroupItem
-                        onClick={() => this.toggle(3)}
-                        action
-                        active={this.state.activeTab === 3}
-                      >
-                        Settings
-                      </ListGroupItem>
-                    </ListGroup>
-                  </Col>
+                  <Listmodules />
                   <Col xs="8">
                     <TabContent activeTab={this.state.activeTab}>
                       <TabPane tabId={0}>

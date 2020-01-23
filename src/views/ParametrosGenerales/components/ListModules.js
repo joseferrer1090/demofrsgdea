@@ -1,14 +1,42 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Row, ListGroup, ListGroupItem, Col } from "reactstrap";
+import { MODULE_ALL } from "./../../../services/EndPoints";
 
-const ListModules = () => {
+const ListModules = props => {
+  const [auth, setAuht] = useState(props.authorization);
+  const [response, setResponse] = useState([]);
+
+  useEffect(() => {
+    console.log("Probando");
+    getDataModules();
+  }, []);
+
+  const getDataModules = () => {
+    fetch(`${MODULE_ALL}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
+      }
+    })
+      .then(response =>
+        response.json().then(data => {
+          setResponse(data);
+        })
+      )
+      .catch(err => console.log(`error => ${err}`));
+  };
   return (
     <Col xs="4">
       <ListGroup>
-        <ListGroupItem active>Cras justo odio</ListGroupItem>
-        <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-        <ListGroupItem>Morbi leo risus</ListGroupItem>
+        {response.map((aux, id) => {
+          return (
+            <ListGroupItem tag={"button"} action>
+              {aux.name}
+            </ListGroupItem>
+          );
+        })}
       </ListGroup>
     </Col>
   );

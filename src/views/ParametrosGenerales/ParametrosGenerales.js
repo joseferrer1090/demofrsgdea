@@ -63,7 +63,12 @@ class ParametrosGenerales extends Component {
               </CardHeader>
               <CardBody>
                 <Row>
-                  <Listmodules />
+                  <Listmodules
+                    authorization={this.props.authorization}
+                    onClick={() => {
+                      console.log("hola mundo");
+                    }}
+                  />
                   <Col xs="8">
                     <TabContent activeTab={this.state.activeTab}>
                       <TabPane tabId={0}>

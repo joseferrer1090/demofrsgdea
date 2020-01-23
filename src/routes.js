@@ -229,7 +229,12 @@ const routes = [
     path: "/configuracion/auditoria",
     exact: true,
     name: " Configuración / Auditoria ",
-    component: Auditoria
+    component: props => (
+      <Auditoria
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   },
   {
     path: "/configuracion/auditoria/moverhistorico",

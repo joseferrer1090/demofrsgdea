@@ -14,16 +14,7 @@ import {
   TabPane,
   Alert
 } from "reactstrap";
-import {
-  MODULES,
-  ACTIONS,
-  ENTITIES,
-  CONGLOMERATES_STATUS,
-  COMPANYS_STATUS,
-  HEADQUARTERS_STATUS,
-  DEPENDENCIES_STATUS,
-  USERS_STATUS
-} from "./../../../services/EndPoints";
+
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import classnames from "classnames";
@@ -31,6 +22,24 @@ import SelectConglomerado from "./components/SelectConglomerado";
 import SelectCompany from "./components/SelectCompany";
 import SelectHeadquarter from "./components/SelectHeadquarter";
 import SelectDependence from "./components/SelectDependence";
+import {
+  MODULE_ALL,
+  MODULE_SHOW,
+  MODULE_ENTITIES_BY_MODULE,
+  ENTITIES_ALL,
+  ENTITIES_SHOW,
+  ENTITIES_BY_MODULE,
+  ACTIONS_ALL,
+  ACTIONS_SHOW,
+  ACTIONS_BY_ENTITY,
+  CONGLOMERATES_STATUS,
+  COMPANYS_STATUS,
+  HEADQUARTERS_STATUS,
+  DEPENDENCIES_STATUS,
+  USERS_STATUS,
+  AUDIT_CONSULT
+} from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalSearchAuditoria extends Component {
   constructor(props) {
@@ -49,7 +58,8 @@ class ModalSearchAuditoria extends Component {
       dataDependencias: [],
       dataUsers: [],
       activeTab: "1",
-      alertSucces: false
+      alertSucces: false,
+      auth: this.props.authorization
     };
   }
 
@@ -82,11 +92,11 @@ class ModalSearchAuditoria extends Component {
   };
 
   getDataModule = data => {
-    fetch(MODULES, {
+    fetch(MODULE_ALL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -99,11 +109,11 @@ class ModalSearchAuditoria extends Component {
   };
 
   getDataEntity = data => {
-    fetch(ENTITIES, {
+    fetch(ENTITIES_ALL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -116,11 +126,11 @@ class ModalSearchAuditoria extends Component {
   };
 
   getDataActions = data => {
-    fetch(ACTIONS, {
+    fetch(ACTIONS_ALL, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -137,7 +147,7 @@ class ModalSearchAuditoria extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -154,7 +164,7 @@ class ModalSearchAuditoria extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -171,7 +181,7 @@ class ModalSearchAuditoria extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -188,7 +198,7 @@ class ModalSearchAuditoria extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -205,7 +215,7 @@ class ModalSearchAuditoria extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -253,12 +263,14 @@ class ModalSearchAuditoria extends Component {
           <ModalHeader>{t("app_auditoria_modal_consultar_titulo")}</ModalHeader>
           <Formik
             onSubmit={(values, { setSubmitting }) => {
+              const token = this.props.authorization;
+              const username = decode(token);
               setTimeout(() => {
-                fetch(`http://192.168.10.180:7000/api/sgdea/audit/consult`, {
+                fetch(`${AUDIT_CONSULT}`, {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    Authorization: "Bearer " + this.props.authorization
                   },
                   body: JSON.stringify({
                     actionId: values.audit_accciones,
@@ -267,8 +279,8 @@ class ModalSearchAuditoria extends Component {
                     page: 0,
                     size: 50,
                     to: values.audit_fechaHasta,
-                    userNameAuthenticate: "ccuartas",
-                    username: "ccuartas"
+                    userNameAuthenticate: username.user_name,
+                    username: username.user_name
                   })
                 })
                   .then(response => response.json())

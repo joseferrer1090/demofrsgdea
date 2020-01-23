@@ -229,7 +229,12 @@ const routes = [
     path: "/configuracion/auditoria",
     exact: true,
     name: " Configuración / Auditoria ",
-    component: Auditoria
+    component: props => (
+      <Auditoria
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   },
   {
     path: "/configuracion/auditoria/moverhistorico",
@@ -312,7 +317,12 @@ const routes = [
     path: "/configuracion/parametrosgenerales",
     exact: true,
     name: " Configuración / Parámetros generales",
-    component: ParametrosGenerales
+    component: props => (
+      <ParametrosGenerales
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   }
 ];
 

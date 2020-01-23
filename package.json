@@ -22,6 +22,7 @@
     "chai": "^4.2.0",
     "chart.js": "^2.7.3",
     "classnames": "^2.2.6",
+    "codemirror": "^5.51.0",
     "core-js": "^2.6.1",
     "csv-writer": "^1.5.0",
     "enzyme": "^3.7.0",

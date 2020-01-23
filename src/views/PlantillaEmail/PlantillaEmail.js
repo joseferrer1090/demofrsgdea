@@ -10,7 +10,8 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import { withTranslation } from "react-i18next";
-
+import FormCreateTemplateEmail from "./components/FormCreatePlantillaEmail";
+import PlantillaEmailForm from "./components/Forms/PlantillaEmailForm";
 class PlantillaEmail extends Component {
   constructor(props) {
     super(props);
@@ -66,7 +67,9 @@ class PlantillaEmail extends Component {
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <Row>
-              <Col sm="12">Registrar</Col>
+              <Col sm="12">
+                <PlantillaEmailForm />
+              </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">

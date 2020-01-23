@@ -219,6 +219,7 @@ class Auditoria extends Component {
           onDataFetch={this.onDataFetch}
           modalSearch={this.state.modalSearch}
           ref={"child2"}
+          authorization={this.props.authorization}
         />
       </div>
     );

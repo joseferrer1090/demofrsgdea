@@ -238,6 +238,16 @@ export default withTranslation("translations")(
                   })
                 });
               } else if (response.status === 400) {
+                toast.error(
+                  "Error al crear el tipo de tercero. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
+              } else if (response.status === 500) {
                 toast.error("Error, el tipo de tercero ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({

@@ -564,14 +564,14 @@ export default withTranslation("translations")(
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, la sede ya existe.", {
+                toast.error("Error al crear la sede. Inténtelo nuevamente.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear la sede.", {
+                toast.error("Error, la sede ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

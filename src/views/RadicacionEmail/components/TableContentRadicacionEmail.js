@@ -19,24 +19,35 @@ class TableContentRadicacionEmail extends Component {
       modaldelte: false,
       modalexport: false,
       dataRadicacionEmail: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      auth: this.props.authorization
     };
   }
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
-  componentDidMount() {
-    this.getDataRadicacionEmail();
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getDataRadicacionEmail();
+    }
   }
 
   getDataRadicacionEmail = () => {
     fetch(
-      "http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing",
+      "http://192.168.20.187:8090/api/sgdea/service/configuration/email/accounts/filing",
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
+          Authorization: "Bearer " + this.props.authorization
         }
       }
     )
@@ -245,11 +256,13 @@ class TableContentRadicacionEmail extends Component {
           </Col>
         </Row>
         <ModalViewRadicacionEmail
+          authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalView}
           ref={"child"}
         />
         <ModalUpdateRadicacionEmail
+          authorization={this.state.auth}
           t={this.props.t}
           modalupdate={this.state.modalUpdate}
           updateTable={this.getDataRadicacionEmail}
@@ -257,12 +270,14 @@ class TableContentRadicacionEmail extends Component {
         />
 
         <ModalDeleteRadicacionEmail
+          authorization={this.state.auth}
           t={this.props.t}
           modaldelete={this.state.modaldelte}
           updateTable={this.getDataRadicacionEmail}
           ref={"child3"}
         />
         <ModalExportCSV
+          authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref={"child4"}

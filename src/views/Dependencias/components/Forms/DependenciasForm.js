@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { withFormik, ErrorMessage } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
@@ -11,7 +11,7 @@ import {
   Col,
   CustomInput
 } from "reactstrap";
-import { DEPENDENCIES, CHARGES_STATUS } from "./../../../../services/EndPoints";
+import { DEPENDENCIES } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
@@ -385,14 +385,17 @@ export default withTranslation("translations")(
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, la dependencia  ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  "Error al crear la dependencia. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear la dependencia.", {
+                toast.error("Error, la dependencia ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

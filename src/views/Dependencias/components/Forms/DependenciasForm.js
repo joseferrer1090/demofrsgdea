@@ -378,7 +378,7 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo la dependencia con éxito.", {
+                toast.success("Se registro la dependencia con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
@@ -386,7 +386,7 @@ export default withTranslation("translations")(
                 });
               } else if (response.status === 400) {
                 toast.error(
-                  "Error al crear la dependencia. Inténtelo nuevamente.",
+                  "Error al registrar la dependencia. Inténtelo nuevamente.",
                   {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({

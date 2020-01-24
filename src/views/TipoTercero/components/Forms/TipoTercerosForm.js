@@ -231,7 +231,7 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo el tipo de tercero con éxito.", {
+                toast.success("Se registro el tipo de tercero con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
@@ -239,7 +239,7 @@ export default withTranslation("translations")(
                 });
               } else if (response.status === 400) {
                 toast.error(
-                  "Error al crear el tipo de tercero. Inténtelo nuevamente.",
+                  "Error al registrar el tipo de tercero. Inténtelo nuevamente.",
                   {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({

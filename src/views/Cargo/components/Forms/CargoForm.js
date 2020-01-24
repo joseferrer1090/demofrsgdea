@@ -221,19 +221,22 @@ export default withTranslation("translations")(
             response.json().then(data => {
               console.log(response);
               if (response.status === 201) {
-                toast.success("Se creo el cargo con éxito.", {
+                toast.success("Se registro el cargo con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error al crear el cargo. Inténtelo nuevamente.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  "Error al registrar el cargo. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
                 toast.error("Error, el cargo ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,

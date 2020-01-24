@@ -361,7 +361,7 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo el conglomerado con éxito.", {
+                toast.success("Se registro el conglomerado con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
@@ -369,7 +369,7 @@ export default withTranslation("translations")(
                 });
               } else if (response.status === 400) {
                 toast.error(
-                  "Error al crear el conglomerado. Inténtelo nuevamente.",
+                  "Error al registrar el conglomerado. Inténtelo nuevamente.",
                   {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({

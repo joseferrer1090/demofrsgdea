@@ -479,7 +479,7 @@ export default withTranslation("translations")(
         })
           .then(response => {
             if (response.status === 201) {
-              toast.success("Se creo el grupo de usuarios con éxito.", {
+              toast.success("Se registro el grupo de usuarios con éxito.", {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: "60px"
@@ -487,7 +487,7 @@ export default withTranslation("translations")(
               });
             } else if (response.status === 400) {
               toast.error(
-                "Error al crear el grupo de usuarios. Inténtelo nuevamente.",
+                "Error al registrar el grupo de usuarios. Inténtelo nuevamente.",
                 {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({

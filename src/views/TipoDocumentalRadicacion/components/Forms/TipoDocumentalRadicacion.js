@@ -119,7 +119,7 @@ const TipoDocumentalRadicacion = props => {
               .then(data => {
                 if (response.status === 201) {
                   toast.success(
-                    "Se creo el tipo documental de radicación con éxito.",
+                    "Se registro el tipo documental de radicación con éxito.",
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({
@@ -129,7 +129,7 @@ const TipoDocumentalRadicacion = props => {
                   );
                 } else if (response.status === 400) {
                   toast.error(
-                    "Error al crear el tipo documental. Inténtelo nuevamente.",
+                    "Error al registrar el tipo documental. Inténtelo nuevamente.",
                     {
                       position: toast.POSITION.TOP_RIGHT,
                       className: css({

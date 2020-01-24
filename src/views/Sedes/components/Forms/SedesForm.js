@@ -557,14 +557,14 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo la sede con éxito.", {
+                toast.success("Se registro la sede con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error al crear la sede. Inténtelo nuevamente.", {
+                toast.error("Error al registrar la sede. Inténtelo nuevamente.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

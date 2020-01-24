@@ -232,7 +232,7 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
-        const auth  = props.authorization;
+        const auth = props.authorization;
         const username = decode(auth);
         fetch(DEPARTMENTS, {
           method: "POST",
@@ -251,21 +251,24 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo el departamento con éxito.", {
+                toast.success("Se registro el departamento con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, el departamento ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  "Error al registrar  el departamento. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear el departamento.", {
+                toast.error("Error, el departamento ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

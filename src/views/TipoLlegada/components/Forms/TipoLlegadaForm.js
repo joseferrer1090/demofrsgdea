@@ -220,15 +220,18 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo el tipo de envío / llegada con éxito.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.success(
+                  "Se registro el tipo de envío / llegada con éxito.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 400) {
                 toast.error(
-                  "Error al crear el tipo de envío / llegada. Inténtelo nuevamente.",
+                  "Error al registrar el tipo de envío / llegada. Inténtelo nuevamente.",
                   {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({

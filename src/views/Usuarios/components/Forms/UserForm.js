@@ -654,8 +654,15 @@ export default withTranslation("translations")(
                   marginTop: "60px"
                 })
               });
+            } else if (response.status === 400) {
+              toast.error("Error al crear el usuario. Inténtelo nuevamente.", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
             } else if (response.status === 500) {
-              toast.error("El usuario ya existe.", {
+              toast.error("Error, el usuario ya existe.", {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: "60px"

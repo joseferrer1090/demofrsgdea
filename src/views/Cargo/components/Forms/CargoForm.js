@@ -227,14 +227,14 @@ export default withTranslation("translations")(
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, el cargo ya existe.", {
+                toast.error("Error al crear el cargo. Inténtelo nuevamente.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear el cargo.", {
+                toast.error("Error, el cargo ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

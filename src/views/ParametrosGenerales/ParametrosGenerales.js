@@ -78,7 +78,10 @@ class ParametrosGenerales extends Component {
                   />
                   <Col xs="8">
                     <TabContent>
-                      <GroupParameter id={this.state.idListModule} />
+                      <GroupParameter
+                        moduleID={this.state.idListModule}
+                        authorization={this.props.authorization}
+                      />
                     </TabContent>
                   </Col>
                 </Row>

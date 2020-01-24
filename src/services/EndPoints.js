@@ -1,4 +1,18 @@
 import config from "./configRequest/config";
+//---------------------------------------------GENERAL_PARAMETERS--------------------------------------------------//
+
+/* GET */
+export const PARAMETERS_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters`;
+
+/* GET */
+export const PARAMETERS_FIND_BY_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters/`;
+
+/* GET params => idGroup */
+export const PARAMETERS_FIND_BY_PARAMETER_GROUP_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters/parameter/group/`;
+
+/* PUT */
+export const PARAMTERS_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters`;
+
 //---------------------------------------------AUDITORIA--------------------------------------------------//
 
 /* GET params id */

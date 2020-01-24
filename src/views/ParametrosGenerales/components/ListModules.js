@@ -23,6 +23,7 @@ const ListModules = props => {
       .then(response => response.json())
       .then(data => {
         setResponse(data);
+        console.log(data);
       })
       .catch(err => console.log(`error => ${err}`));
   };

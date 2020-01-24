@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {} from "./../../../services/EndPoints";
+import { PARAMETER_GROUP_FIND_BY_MODULE_ID } from "./../../../services/EndPoints";
 
 class GroupParameters extends React.Component {
   constructor(props) {
@@ -28,7 +28,6 @@ class GroupParameters extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.moduleID !== prevProps.moduleID) {
       // METODO
-      this.getDataParameter(this.props.moduleID);
     }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
@@ -38,7 +37,7 @@ class GroupParameters extends React.Component {
     }
   }
 
-  getDataParameter = id => {};
+  getDataParamatersByModules = id => {};
 
   render() {
     console.log(this.props);

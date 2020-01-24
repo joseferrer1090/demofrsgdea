@@ -64,7 +64,7 @@ class ParametrosGenerales extends Component {
     return (
       <div className="animated fadeIn">
         <Row>
-          <Col md={{ size: 10, offset: 1 }}>
+          <Col md={{ size: 12 }}>
             <Card>
               <CardHeader>
                 <i className="fa fa-cogs"></i>
@@ -90,13 +90,13 @@ class ParametrosGenerales extends Component {
           </Col>
         </Row>
         <Row>
-          <Col md={{ size: 10, offset: 1 }}>
+          {/* <Col md={{ size: 10, offset: 1 }}>
             <Card>
               <CardBody>
                 <p>Informacion de todos los parametos</p>
               </CardBody>
             </Card>
-          </Col>
+          </Col> */}
         </Row>
       </div>
     );

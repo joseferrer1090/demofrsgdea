@@ -415,15 +415,14 @@ export default withTranslation("translations")(
                     marginTop: "60px"
                   })
                 });
-              }else if (response.status === 500) {
-                toast.error("Error, no se pudo crear el rol.", {
+              } else if (response.status === 500) {
+                toast.error("Error, el rol ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               }
-
             })
             .catch(err => {
               toast.error(`Error ${err}.`, {

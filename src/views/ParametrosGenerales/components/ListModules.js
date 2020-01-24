@@ -6,9 +6,9 @@ import { MODULE_ALL } from "./../../../services/EndPoints";
 const ListModules = props => {
   const [auth, setAuht] = useState(props.authorization);
   const [response, setResponse] = useState([]);
+  const [ID, setID] = useState("");
 
   useEffect(() => {
-    console.log("Probando");
     getDataModules();
   }, []);
 
@@ -20,19 +20,30 @@ const ListModules = props => {
         Authorization: "Bearer " + auth
       }
     })
-      .then(response =>
-        response.json().then(data => {
-          setResponse(data);
-        })
-      )
+      .then(response => response.json())
+      .then(data => {
+        setResponse(data);
+        console.log(data);
+      })
       .catch(err => console.log(`error => ${err}`));
   };
+
   return (
     <Col xs="4">
       <ListGroup>
-        {response.map((aux, id) => {
+        {response.map(aux => {
           return (
-            <ListGroupItem tag={"button"} action>
+            <ListGroupItem
+              tag={"button"}
+              action
+              dataId={aux.id}
+              onClick={
+                (function() {
+                  setID(aux.id);
+                },
+                () => props.onDataSelected(aux.id))
+              }
+            >
               {aux.name}
             </ListGroupItem>
           );

@@ -367,8 +367,18 @@ export default withTranslation("translations")(
                     marginTop: "60px"
                   })
                 });
+              } else if (response.status === 400) {
+                toast.error(
+                  "Error al crear el conglomerado. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
-                toast.error("El conglomerado ya existe.", {
+                toast.error("Error, el conglomerado ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

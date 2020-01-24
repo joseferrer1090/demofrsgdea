@@ -208,7 +208,8 @@ export default withTranslation("translations")(
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Bearer " + auth          },
+            Authorization: "Bearer " + auth
+          },
           body: JSON.stringify({
             identification: values.identification,
             name: values.name,
@@ -227,14 +228,17 @@ export default withTranslation("translations")(
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, el mensajero ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  "Error al crear el mensajero. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear el mensajero.", {
+                toast.error("Error, el mensajero ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

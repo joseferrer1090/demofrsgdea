@@ -402,20 +402,28 @@ export default withTranslation("translations")(
             .json()
             .then(data => {
               if (response.status === 201) {
-                toast.success("Se creo el rol con exito.", {
+                toast.success("Se creo el rol con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
-              } else if (response.status === 500) {
-                toast.error("El rol ya existe.", {
+              } else if (response.status === 400) {
+                toast.error("Error al crear el rol. Inténtelo nuevamente.", {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                });
+              }else if (response.status === 500) {
+                toast.error("Error, no se pudo crear el rol.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               }
+
             })
             .catch(err => {
               toast.error(`Error ${err}.`, {

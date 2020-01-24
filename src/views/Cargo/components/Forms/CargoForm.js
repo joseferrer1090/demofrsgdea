@@ -219,6 +219,7 @@ export default withTranslation("translations")(
         })
           .then(response =>
             response.json().then(data => {
+              console.log(response);
               if (response.status === 201) {
                 toast.success("Se creo el cargo con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,

@@ -20,7 +20,8 @@ class GroupParameters extends React.Component {
     this.state = {
       id: this.props.moduleID,
       auth: this.props.authorization,
-      listGroup: []
+      listGroup: [],
+      selectedGroup: ""
     };
   }
 
@@ -68,14 +69,31 @@ class GroupParameters extends React.Component {
       .catch(err => console.log(`Error => ${err}`));
   };
 
+  send = data => {
+    this.setState(
+      {
+        selectedGroup: data.id
+      },
+      this.props.onDataFetch
+    );
+  };
+
   render() {
-    console.log(this.props);
+    // console.log(this.props);
+    console.log(this.state.selectedGroup);
     const listGroup = this.state.listGroup;
     return (
       <div className="animated animated-fadeIn">
         <Row>
           {listGroup.length ? (
-            listGroup.map((aux, id) => <CardGroupItem name={aux.name} />)
+            listGroup.map((aux, id) => (
+              <CardGroupItem
+                name={aux.name}
+                onClick={() => {
+                  this.send(aux);
+                }}
+              />
+            ))
           ) : (
             <Col sm={{ size: 12 }}>
               <Card body>
@@ -102,7 +120,10 @@ const CardGroupItem = props => {
             Some quick example text to build on the card title and make up the
             bulk of the card's content.
           </CardText> */}
-          <button className="btn btn-secondary btn-sm btn-block">
+          <button
+            onClick={props.onClick}
+            className="btn btn-secondary btn-sm btn-block"
+          >
             Seleccionar
           </button>
         </CardBody>

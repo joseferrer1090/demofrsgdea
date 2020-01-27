@@ -1,18 +1,117 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
+import PropTypes, { resetWarningCache } from "prop-types";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import {
+  PARAMETERS_FIND_BY_PARAMETER_GROUP_ID,
+  PARAMETERS_ALL
+} from "./../../../services/EndPoints";
 
 class TableContentParameter extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      auth: this.props.authorization,
+      id: this.props.idGroup,
+      dataParameters: []
+    };
   }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.idGroup !== state.id) {
+      return {
+        id: props.idGroup
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.idGroup !== prevProps.idGroup) {
+      this.setState({
+        id: this.props.idGroup
+      });
+    }
+  }
+
+  getDataParameterByIdGroup = id => {
+    fetch(`${PARAMETERS_FIND_BY_PARAMETER_GROUP_ID}${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => console.log(`err => ${err}`));
+  };
+
+  componentDidMount() {
+    this.getDataParameters();
+  }
+
+  getDataParameters = () => {
+    fetch(`${PARAMETERS_ALL}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataParameters: data
+        });
+      })
+      .catch(err => `err => ${err}`);
+  };
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
   render() {
+    console.log(this.state.dataParameters);
     return (
-      <div>
-        <p className="text-center">Lista de los parametros por grupo</p>
+      <div className="row">
+        <div className="col-md-12">
+          <BootstrapTable
+            data={this.state.dataParameters}
+            search
+            searchPlaceholder={"Buscar Parametro"}
+            pagination
+            striped
+            hover
+            bordered={false}
+          >
+            <TableHeaderColumn isKey dataField={"parameter"} dataAlign="center">
+              Parametro
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"description"} dataAlign={"center"}>
+              {" "}
+              Descripcion{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"parameterType"} dataAlign={"center"}>
+              Tipo de parametro{" "}
+            </TableHeaderColumn>
+            <TableHeaderColumn dataField={"value"} dataAlign={"center"}>
+              {" "}
+              Valor del parametro
+            </TableHeaderColumn>
+            <TableHeaderColumn dataAlign={"center"}>Accion</TableHeaderColumn>
+          </BootstrapTable>
+        </div>
       </div>
     );
   }
 }
+
+TableContentParameter.propTypes = {
+  authorization: PropTypes.string.isRequired,
+  idGroup: PropTypes.string.isRequired
+};
 
 export default TableContentParameter;

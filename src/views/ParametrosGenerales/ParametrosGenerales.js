@@ -59,9 +59,13 @@ class ParametrosGenerales extends Component {
     });
   };
 
+  onDataFetch = props => {
+    console.log(props);
+  };
+
   render() {
     const { t } = this.props;
-    console.log(this.state.idListModule);
+    // console.log(this.state.idListModule);
     return (
       <div className="animated fadeIn">
         <Row>
@@ -81,12 +85,15 @@ class ParametrosGenerales extends Component {
                     <GroupParameter
                       moduleID={this.state.idListModule}
                       authorization={this.props.authorization}
+                      onDataFetch={this.onDataFetch}
                     />
                   </Col>
                 </Row>
               </CardBody>
               <CardBody>
-                <TableContentParameters />
+                <TableContentParameters
+                  authorization={this.props.authorization}
+                />
               </CardBody>
             </Card>
           </Col>

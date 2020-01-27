@@ -87,7 +87,15 @@ class TableContentParameter extends Component {
             hover
             bordered={false}
           >
-            <TableHeaderColumn isKey dataField={"parameter"} dataAlign="center">
+            <TableHeaderColumn dataFormat={this.indexN} width={"40"}>
+              #
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              isKey
+              dataField={"parameter"}
+              dataAlign="center"
+              width={"300"}
+            >
               Parametro
             </TableHeaderColumn>
             <TableHeaderColumn dataField={"description"} dataAlign={"center"}>

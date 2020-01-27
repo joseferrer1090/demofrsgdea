@@ -24,6 +24,7 @@ import { withTranslation } from "react-i18next";
 import { MODULE_ALL } from "./../../services/EndPoints";
 import Listmodules from "./components/ListModules";
 import GroupParameter from "./components/GroupParameters";
+import TableContentParameters from "./components/TableContentParameters";
 
 class ParametrosGenerales extends Component {
   constructor(props) {
@@ -77,14 +78,15 @@ class ParametrosGenerales extends Component {
                     onDataSelected={this.onDataSelected}
                   />
                   <Col xs="8">
-                    <TabContent>
-                      <GroupParameter
-                        moduleID={this.state.idListModule}
-                        authorization={this.props.authorization}
-                      />
-                    </TabContent>
+                    <GroupParameter
+                      moduleID={this.state.idListModule}
+                      authorization={this.props.authorization}
+                    />
                   </Col>
                 </Row>
+              </CardBody>
+              <CardBody>
+                <TableContentParameters />
               </CardBody>
             </Card>
           </Col>

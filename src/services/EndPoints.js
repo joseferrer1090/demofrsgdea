@@ -13,6 +13,11 @@ export const PARAMETERS_FIND_BY_PARAMETER_GROUP_ID = `${config.IP}:${config.PORT
 /* PUT */
 export const PARAMTERS_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters`;
 
+//---------------------------------------------PARAMETERS_GROUP--------------------------------------------------//
+
+/* GET params idModule */
+export const PARAMETER_GROUP_FIND_BY_MODULE_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/parameter/group/module`;
+
 //---------------------------------------------AUDITORIA--------------------------------------------------//
 
 /* GET params id */

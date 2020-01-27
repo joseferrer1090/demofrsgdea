@@ -5,6 +5,7 @@ import {
   PARAMETERS_FIND_BY_PARAMETER_GROUP_ID,
   PARAMETERS_ALL
 } from "./../../../services/EndPoints";
+import ModalEdit from "./../components/ModalEditParameter";
 
 class TableContentParameter extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class TableContentParameter extends Component {
     this.state = {
       auth: this.props.authorization,
       id: this.props.idGroup,
-      dataParameters: []
+      dataParameters: [],
+      modal: false
     };
   }
 
@@ -73,8 +75,22 @@ class TableContentParameter extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
+  accionesParametros(cell, row) {
+    return (
+      <button
+        className="btn btn-secondary btn-sm"
+        onClick={() => this.openModalEdit()}
+      >
+        <i className="fa fa-edit" />
+      </button>
+    );
+  }
+
+  openModalEdit = () => {
+    this.refs.child.toggle();
+  };
+
   render() {
-    console.log(this.state.dataParameters);
     return (
       <div className="row">
         <div className="col-md-12">
@@ -109,9 +125,15 @@ class TableContentParameter extends Component {
               {" "}
               Valor del parametro
             </TableHeaderColumn>
-            <TableHeaderColumn dataAlign={"center"}>Accion</TableHeaderColumn>
+            <TableHeaderColumn
+              dataAlign={"center"}
+              dataFormat={(cell, row) => this.accionesParametros(cell, row)}
+            >
+              Accion
+            </TableHeaderColumn>
           </BootstrapTable>
         </div>
+        <ModalEdit modalEditParameter={this.state.modal} ref={"child"} />
       </div>
     );
   }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import {
   Modal,
@@ -14,7 +14,9 @@ class ShowTemplate extends React.Component {
     super(props);
     this.state = {
       modal: this.props.modal,
-      template: this.props.template
+      template: this.props.template,
+      html: this.props.html,
+      css: this.props.css
     };
   }
 
@@ -22,6 +24,7 @@ class ShowTemplate extends React.Component {
     this.setState({
       modal: !this.state.modal
     });
+    // console.log(this.props.template);
 
     setTimeout(() => {
       document.getElementById("divView").innerHTML = this.props.template;
@@ -30,7 +33,7 @@ class ShowTemplate extends React.Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>Vista previa</ModalHeader>
           <ModalBody>
@@ -43,11 +46,11 @@ class ShowTemplate extends React.Component {
                 this.setState({ modal: false });
               }}
             >
-              Close
+              <i className="fa fa-times" /> Close
             </button>
           </ModalFooter>
         </Modal>
-      </div>
+      </Fragment>
     );
   }
 }

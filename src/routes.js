@@ -106,6 +106,9 @@ const RadicacionEmail = React.lazy(() =>
 const PlantillaEmail = React.lazy(() =>
   import("./views/PlantillaEmail/PlantillaEmail")
 );
+const EditPlantillaEmail = React.lazy(() =>
+  import("./views/PlantillaEmail/components/ModalEditPlantillaEmail")
+);
 const ParametrosGenerales = React.lazy(() =>
   import("./views/ParametrosGenerales/ParametrosGenerales")
 );
@@ -307,6 +310,17 @@ const routes = [
     exact: true,
     name: "Configuración / Plantilla de correo electrónico",
     component: PlantillaEmail
+  },
+  {
+    path: "/configuracion/plantillaemail/edit/:id",
+    exact: true,
+    name: "Configuración / Plantilla de correo electrónico",
+    component: props => (
+      <EditPlantillaEmail
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   },
   {
     path: "/configuracion/parametrosgenerales",

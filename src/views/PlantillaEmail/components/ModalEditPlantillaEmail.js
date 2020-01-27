@@ -1,12 +1,117 @@
+// import React, { useState, useEffect, useRef } from "react";
+// import ShowTemplate from "./Forms/ShowTemplate";
+// import CodeMirror from "codemirror";
+// import { withTranslation } from "react-i18next";
+// import PropTypes from "prop-types";
+// import "./../../../../node_modules/codemirror/lib/codemirror.css";
+// import "./../../../../node_modules/codemirror/theme/ambiance.css";
+// import "./../../../../node_modules/codemirror/mode/xml/xml";
+// import "./../../../../node_modules/codemirror/mode/css/css";
+// import "react-toastify/dist/ReactToastify.css";
+// import { Alert } from "reactstrap";
+// import { decode } from "jsonwebtoken";
+// import { ToastContainer, toast } from "react-toastify";
+// import { css } from "glamor";
+// import { TEMPLATE_EMAIL } from "../../../services/EndPoints";
+// import { renderSync } from "node-sass";
+
+// const PlantillaEmailForm = ({ match, authorization, props }) => {
+//   const { t } = props;
+//   const [response, setResponse] = useState({});
+//   const [CodeCSS, setCodeCSS] = useState("");
+//   const [codeBody, setCodeBody] = useState("");
+//   const [showTemplate, setShowTemplate] = useState("");
+//   const [visible, setVisible] = useState(true);
+//   const [auth, setAuth] = useState(authorization);
+//   const [id, setId] = useState(match.params.id);
+//   const [modalPreviewTemplate, setmodalPreviewTemplate] = useState(false);
+
+//   const getDataTemplateEmail = () => {
+//     const username = decode(auth);
+//     fetch(`${TEMPLATE_EMAIL}${id}?username=${username.user_name}`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//         authorization: "Bearer " + auth
+//       }
+//     })
+//       .then(response => response.json())
+//       .then(data => {
+//         setResponse(data);
+//       })
+//       .catch(err => console.log(`error ${err}`));
+//   };
+
+//   const onDismiss = () => setVisible(false);
+
+//   const processTemplate = (renderHTML, renderCSS) => {
+//     renderHTML = codeBody;
+//     renderCSS = CodeCSS;
+//     let template = `<!DOCTYPE html>
+//           <html lang="en">
+//           <head>
+//           <meta charset="UTF-8">
+//           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+//           <meta http-equiv="X-UA-Compatible" content="ie=edge">
+//           <title>Document</title>
+//           <style type="text/css">${renderCSS}</style>
+//           </head>
+//           <body></body>
+//           </html>`;
+//     setTimeout(() => {
+//       Template((template += renderHTML));
+//     }, 2000);
+//     return template;
+//   };
+
+//   const Template = value => {
+//     setShowTemplate(value);
+//   };
+
+//   const editor = () => {
+//     CodeMirror.fromTextArea(document.getElementById("txthtml"), {
+//       mode: "text/html",
+//       theme: "ambiance",
+//       lineNumbers: true
+//     }).on("change", value => {
+//       setCodeBody(value.getValue());
+//     });
+//     CodeMirror.fromTextArea(document.getElementById("txtcss"), {
+//       mode: "css",
+//       theme: "ambiance",
+//       lineNumbers: true
+//     }).on("change", value => {
+//       setCodeCSS(value.getValue());
+//     });
+//   };
+
+//   useEffect(() => {
+//     editor();
+//     getDataTemplateEmail();
+//   }, []);
+
+//   const openModalTemplate = () => {
+//     ref.current.toggle();
+//   };
+
+//   const ref = useRef("child");
+//   const template = processTemplate();
+
+//   return <div className="col-md-12">hola</div>;
+// };
+// PlantillaEmailForm.propTypes = {
+//   t: PropTypes.string.isRequired
+// };
+// export default withTranslation("translations")(PlantillaEmailForm);
 import React, { useState, useEffect, useRef } from "react";
-import ShowTemplate from "./ShowTemplate";
+import ShowTemplate from "./Forms/ShowTemplate";
 import CodeMirror from "codemirror";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
-import "./../../../../../node_modules/codemirror/lib/codemirror.css";
-import "./../../../../../node_modules/codemirror/theme/ambiance.css";
-import "./../../../../../node_modules/codemirror/mode/xml/xml";
-import "./../../../../../node_modules/codemirror/mode/css/css";
+import "./../../../../node_modules/codemirror/lib/codemirror.css";
+import "./../../../../node_modules/codemirror/theme/ambiance.css";
+import "./../../../../node_modules/codemirror/mode/xml/xml";
+import "./../../../../node_modules/codemirror/mode/css/css";
 import "react-toastify/dist/ReactToastify.css";
 import { Alert } from "reactstrap";
 import { decode } from "jsonwebtoken";
@@ -14,7 +119,6 @@ import { ToastContainer, toast } from "react-toastify";
 import { css } from "glamor";
 
 const PlantillaEmailForm = props => {
-  const { t } = props;
   const [CodeCSS, setCodeCSS] = useState("");
   const [codeBody, setCodeBody] = useState("");
   const [showTemplate, setShowTemplate] = useState("");
@@ -77,9 +181,7 @@ const PlantillaEmailForm = props => {
     <div className="col-md-12">
       <form className="form">
         <div className="card">
-          <div className="card-header">
-            {t("app_plantilla_email_tab_title")}
-          </div>
+          <div className="card-header">AAAA</div>
           <div className="card-body">
             <div className="row">
               <div className="col-12">
@@ -142,7 +244,5 @@ const PlantillaEmailForm = props => {
     </div>
   );
 };
-PlantillaEmailForm.propTypes = {
-  t: PropTypes.string.isRequired
-};
+PlantillaEmailForm.propTypes = {};
 export default withTranslation("translations")(PlantillaEmailForm);

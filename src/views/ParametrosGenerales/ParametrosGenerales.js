@@ -32,7 +32,8 @@ class ParametrosGenerales extends Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: 1,
-      idListModule: {}
+      idListModule: {},
+      idGroup: {}
     };
   }
 
@@ -59,13 +60,9 @@ class ParametrosGenerales extends Component {
     });
   };
 
-  onDataFetch = props => {
-    console.log(props);
-  };
-
   render() {
     const { t } = this.props;
-    // console.log(this.state.idListModule);
+    //console.log(this.state.idListModule);
     return (
       <div className="animated fadeIn">
         <Row>
@@ -85,13 +82,19 @@ class ParametrosGenerales extends Component {
                     <GroupParameter
                       moduleID={this.state.idListModule}
                       authorization={this.props.authorization}
-                      onDataFetch={this.onDataFetch}
+                      onDataFetch={props => {
+                        this.setState({
+                          idGroup: props
+                        });
+                        // console.log(props);
+                      }}
                     />
                   </Col>
                 </Row>
               </CardBody>
               <CardBody>
                 <TableContentParameters
+                  idGroup={this.state.idGroup}
                   authorization={this.props.authorization}
                 />
               </CardBody>

@@ -1,9 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { PARAMETERS_FIND_BY_ID } from "./../../../services/EndPoints";
+import {
+  PARAMETERS_FIND_BY_ID,
+  PARAMTERS_UPDATE
+} from "./../../../services/EndPoints";
 import { Fomrik, ErrorMessage, Formik, Field } from "formik";
 import * as Yup from "yup";
+import Input from "./../components/InputDynamics";
+import { decode } from "jsonwebtoken";
 
 class ModalEditParameter extends Component {
   constructor(props) {
@@ -41,74 +46,140 @@ class ModalEditParameter extends Component {
       .catch(err => console.log(`err => ${err}`));
   };
 
+  // handleSubmit = (values, { props = this.props, setSubmitting }) => {
+  //   alert(JSON.stringify(values, null, 2));
+  //   setSubmitting(false);
+  //   return;
+  // };
+
   render() {
     return (
       <Modal className="" isOpen={this.state.modal} onClick={() => this.toggle}>
-        <ModalHeader> Nombre del parametro </ModalHeader>
-        <ModalBody>
-          <Formik
-            enableReinitialize={true}
-            initialValues={{
-              parameter: this.state.dataResult.parameter,
-              description: this.state.dataResult.description,
-              valueparameter: this.state.value
-            }}
-            onSubmit={(values, { setSubmitting }) => {
-              setTimeout(() => {
-                console.log(JSON.stringify({ values }));
-                setSubmitting(false);
-              }, 1000);
-            }}
-          >
-            {props => {
-              const {
-                values,
-                touched,
-                errors,
-                handleChange,
-                handleBlur,
-                handleSubmit,
-                handleReset,
-                setFieldValue,
-                setFieldTouched
-              } = props;
-              return (
-                <React.Fragment>
-                  <div className="table-responsive">
-                    <table className="table table-striped">
-                      <tbody>
-                        <tr>
-                          <td>Parametro</td>
-                          <td>
-                            {" "}
-                            <input
-                              type={"text"}
-                              className="form-control form-control-sm"
-                              value={values.parameter}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              disabled
-                            />{" "}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Descripcion</td>
-                          <td>
-                            {" "}
-                            <textarea
-                              className="form-control form-control-sm"
-                              rows={4}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.description}
-                              disabled
-                            ></textarea>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Valor</td>
-                          <td>
-                            {/* <Field
+        <ModalHeader> Parametro {this.state.dataResult.parameter} </ModalHeader>
+        <Formik
+          enableReinitialize={true}
+          initialValues={{
+            parameter: this.state.dataResult.parameter,
+            description: this.state.dataResult.description,
+            valueparameter: this.state.dataResult.value
+          }}
+          validationSchema={Yup.object().shape({
+            valueparameter: Yup.string().required(
+              "Valor del parametro no puede ir vacio"
+            )
+          })}
+          onSubmit={(values, { setSubmitting }) => {
+            setTimeout(() => {
+              const token = this.state.auth;
+              const username = decode(token);
+              // fetch(`${PARAMTERS_UPDATE}`, {
+              //   method: "PUT",
+              //   headers: {
+              //     "Content-type": "application/json",
+              //     Authorization: "Bearer " + token
+              //   },
+              //   body: JSON.stringify({
+              //     parameter: values.parameter,
+              //     value: values.valueparameter,
+              //     username: username.use_name
+              //   })
+              // }).then(response => {
+              //   if (response.status === 200) {
+              //     // Notification verde
+              //   } else if (response.status === 400) {
+              //     // Notificacion Roja
+              //   } else if (response.status === 500) {
+              //     // Notificacion Roja
+              //   }
+              // });
+              console.log(
+                JSON.stringify(
+                  {
+                    parameter: values.parameter,
+                    value: values.valueparameter,
+                    username: username.user_name
+                  },
+                  null,
+                  2
+                )
+              );
+              setSubmitting(false);
+            }, 1000);
+          }}
+        >
+          {props => {
+            const {
+              values,
+              touched,
+              errors,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              handleReset,
+              setFieldValue,
+              setFieldTouched
+            } = props;
+            return (
+              <React.Fragment>
+                <ModalBody>
+                  <form className="form">
+                    <div className="table-responsive">
+                      <table className="table table-striped">
+                        <tbody>
+                          <tr>
+                            <td>Parametro:</td>
+                            <td>
+                              {" "}
+                              <input
+                                type={"text"}
+                                className="form-control form-control-sm"
+                                value={values.parameter}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                disabled
+                              />{" "}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Descripcion:</td>
+                            <td>
+                              {" "}
+                              <textarea
+                                className="form-control form-control-sm"
+                                rows={4}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.description}
+                                disabled
+                              ></textarea>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Valor:</td>
+                            <td>
+                              <Field name="valueparameter">
+                                {({}) => (
+                                  <div>
+                                    <Input
+                                      onChange={e =>
+                                        setFieldValue(
+                                          "valueparameter",
+                                          e.target.value
+                                        )
+                                      }
+                                      onBlur={() =>
+                                        setFieldTouched("valueparameter", true)
+                                      }
+                                      value={values.valueparameter}
+                                      formType={
+                                        this.state.dataResult.parameterType
+                                      }
+                                    />
+                                  </div>
+                                )}
+                              </Field>
+
+                              {/* <Field
                               value={values.valueparameter}
                               type={this.state.dataResult.typeParameter}
                               onChange={handleChange}
@@ -116,39 +187,44 @@ class ModalEditParameter extends Component {
                               className={"form-control form-control-sm"}
                               
                             ></Field> */}
-                            {/* <input
+                              {/* <input
                               type={"text"}
                               className="form-control form-control-sm"
                               onChange={handleChange}
                               onBlur={handleBlur}
                               value={values.valueparameter}
                             /> */}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </React.Fragment>
-              );
-            }}
-          </Formik>
-        </ModalBody>
-        <ModalFooter>
-          <button className="btn btn-secondary btn-sm">
-            {" "}
-            Editar <i className="fa fa-pencil" />{" "}
-          </button>
-          <button
-            className="btn btn-secondary btn-sm"
-            type={"button"}
-            onClick={() => {
-              this.setState({ modal: false });
-            }}
-          >
-            {" "}
-            <i className="fa fa-times" /> Cerrar{" "}
-          </button>
-        </ModalFooter>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </form>
+                </ModalBody>
+                <ModalFooter>
+                  <button
+                    type={"button"}
+                    className="btn btn-secondary btn-sm"
+                    onClick={e => {
+                      e.preventDefault();
+                      handleSubmit();
+                    }}
+                  >
+                    Editar <i className="fa fa-pencil" />
+                  </button>
+                  <button
+                    type={"button"}
+                    onClick={() => this.setState({ modal: false })}
+                    className="btn btn-secondary btn-sm"
+                  >
+                    {" "}
+                    Cerrar <i className="fa fa-times" />{" "}
+                  </button>
+                </ModalFooter>
+              </React.Fragment>
+            );
+          }}
+        </Formik>
       </Modal>
     );
   }
@@ -160,7 +236,3 @@ ModalEditParameter.propTypes = {
 };
 
 export default ModalEditParameter;
-
-const MyInput = ({ field, form, ...props }) => {
-  return <input {...field} type={props.type} {...props} />;
-};

@@ -1,10 +1,14 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { PARAMETERS_FIND_BY_ID } from "./../../../services/EndPoints";
+import {
+  PARAMETERS_FIND_BY_ID,
+  PARAMTERS_UPDATE
+} from "./../../../services/EndPoints";
 import { Fomrik, ErrorMessage, Formik, Field } from "formik";
 import * as Yup from "yup";
 import Input from "./../components/InputDynamics";
+import { decode } from "jsonwebtoken";
 
 class ModalEditParameter extends Component {
   constructor(props) {
@@ -61,7 +65,29 @@ class ModalEditParameter extends Component {
           }}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
+              const token = this.state.auth;
+              const username = decode(token);
+              fetch(`${PARAMTERS_UPDATE}`, {
+                method: "PUT",
+                headers: {
+                  "Content-type": "application/json",
+                  Authorization: "Bearer " + token
+                },
+                body: JSON.stringify({
+                  parameter: values.parameter,
+                  value: values.valueparameter,
+                  username: username.use_name
+                })
+              }).then(response => {
+                if (response.status === 200) {
+                  // Notification verde
+                } else if (response.status === 400) {
+                  // Notificacion Roja
+                } else if (response.status === 500) {
+                  // Notificacion Roja
+                }
+              });
+              // alert(JSON.stringify(values, null, 2));
               setSubmitting(false);
             }, 1000);
           }}
@@ -86,7 +112,7 @@ class ModalEditParameter extends Component {
                       <table className="table table-striped">
                         <tbody>
                           <tr>
-                            <td>Parametro</td>
+                            <td>Parametro:</td>
                             <td>
                               {" "}
                               <input
@@ -100,7 +126,7 @@ class ModalEditParameter extends Component {
                             </td>
                           </tr>
                           <tr>
-                            <td>Descripcion</td>
+                            <td>Descripcion:</td>
                             <td>
                               {" "}
                               <textarea
@@ -114,7 +140,7 @@ class ModalEditParameter extends Component {
                             </td>
                           </tr>
                           <tr>
-                            <td>Valor</td>
+                            <td>Valor:</td>
                             <td>
                               <Field name="valueparameter">
                                 {({}) => (

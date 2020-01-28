@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Row, ListGroup, ListGroupItem, Col } from "reactstrap";
 import { MODULE_ALL } from "./../../../services/EndPoints";
+import classNames from "classnames";
 
 const ListModules = props => {
   const [auth, setAuht] = useState(props.authorization);
@@ -43,8 +44,14 @@ const ListModules = props => {
                 },
                 () => props.onDataSelected(aux.id))
               }
+              className={classNames({
+                "list-group-item": true
+              })}
             >
               {aux.name}
+              <span className="badge bad">
+                <i className="fa fa-arrow-circle-right " />
+              </span>
             </ListGroupItem>
           );
         })}

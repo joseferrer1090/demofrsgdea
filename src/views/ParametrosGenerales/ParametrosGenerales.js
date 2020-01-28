@@ -24,6 +24,7 @@ import { withTranslation } from "react-i18next";
 import { MODULE_ALL } from "./../../services/EndPoints";
 import Listmodules from "./components/ListModules";
 import GroupParameter from "./components/GroupParameters";
+import TableContentParameters from "./components/TableContentParameters";
 
 class ParametrosGenerales extends Component {
   constructor(props) {
@@ -58,9 +59,13 @@ class ParametrosGenerales extends Component {
     });
   };
 
+  onDataFetch = props => {
+    console.log(props);
+  };
+
   render() {
     const { t } = this.props;
-    console.log(this.state.idListModule);
+    // console.log(this.state.idListModule);
     return (
       <div className="animated fadeIn">
         <Row>
@@ -77,14 +82,18 @@ class ParametrosGenerales extends Component {
                     onDataSelected={this.onDataSelected}
                   />
                   <Col xs="8">
-                    <TabContent>
-                      <GroupParameter
-                        moduleID={this.state.idListModule}
-                        authorization={this.props.authorization}
-                      />
-                    </TabContent>
+                    <GroupParameter
+                      moduleID={this.state.idListModule}
+                      authorization={this.props.authorization}
+                      onDataFetch={this.onDataFetch}
+                    />
                   </Col>
                 </Row>
+              </CardBody>
+              <CardBody>
+                <TableContentParameters
+                  authorization={this.props.authorization}
+                />
               </CardBody>
             </Card>
           </Col>

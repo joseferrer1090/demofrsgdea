@@ -79,15 +79,15 @@ class TableContentParameter extends Component {
     return (
       <button
         className="btn btn-secondary btn-sm"
-        onClick={() => this.openModalEdit()}
+        onClick={() => this.openModalEdit(row.parameter)}
       >
         <i className="fa fa-edit" />
       </button>
     );
   }
 
-  openModalEdit = () => {
-    this.refs.child.toggle();
+  openModalEdit = id => {
+    this.refs.child.toggle(id);
   };
 
   render() {
@@ -133,7 +133,11 @@ class TableContentParameter extends Component {
             </TableHeaderColumn>
           </BootstrapTable>
         </div>
-        <ModalEdit modalEditParameter={this.state.modal} ref={"child"} />
+        <ModalEdit
+          authorization={this.state.auth}
+          modalEditParameter={this.state.modal}
+          ref={"child"}
+        />
       </div>
     );
   }

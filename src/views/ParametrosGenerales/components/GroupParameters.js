@@ -80,7 +80,6 @@ class GroupParameters extends React.Component {
 
   render() {
     // console.log(this.props);
-    console.log(this.state.selectedGroup);
     const listGroup = this.state.listGroup;
     return (
       <div className="animated animated-fadeIn">

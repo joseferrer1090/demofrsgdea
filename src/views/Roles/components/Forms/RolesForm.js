@@ -402,14 +402,24 @@ export default withTranslation("translations")(
             .json()
             .then(data => {
               if (response.status === 201) {
-                toast.success("Se creo el rol con exito.", {
+                toast.success("Se registro el rol con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
+              } else if (response.status === 400) {
+                toast.error(
+                  "Error al registrar el rol. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
-                toast.error("El rol ya existe.", {
+                toast.error("Error, el rol ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

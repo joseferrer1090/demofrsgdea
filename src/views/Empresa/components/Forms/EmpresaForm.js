@@ -420,21 +420,24 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo la empresa con éxito.", {
+                toast.success("Se registro la empresa con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, la empresa ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  "Error al registrar la empresa. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear la empresa.", {
+                toast.error("Error, la empresa ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

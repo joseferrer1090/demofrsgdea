@@ -3,6 +3,7 @@ import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik, withFormik, ErrorMessage, Field, From } from "formik";
+import { decode } from "jsonwebtoken";
 
 class ModalDeleteRadicacionEmail extends Component {
   constructor(props) {
@@ -16,8 +17,24 @@ class ModalDeleteRadicacionEmail extends Component {
       alertError: false,
       alertemail: false,
       t: this.props.t,
-      username: "ccuartas"
+      auth: this.props.authorization
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle = id => {
@@ -27,15 +44,16 @@ class ModalDeleteRadicacionEmail extends Component {
       idRadicacionEmail: id,
       useLogged: "jferrer"
     });
+    const auth = this.state.auth;
+    const username = decode(auth);
+
     fetch(
-      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${id}?username=${this.state.username}`,
+      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${id}?username=${username.user_name}`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
+          Authorization: "Bearer " + auth
         }
       }
     )
@@ -72,15 +90,15 @@ class ModalDeleteRadicacionEmail extends Component {
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
-                  `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${this.state.idRadicacionEmail}?email=${values.email}&username=${this.state.useLogged}`,
+                  `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${this.state.idRadicacionEmail}?email=${values.email}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization:
-                        "Bearer " +
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
+                      Authorization: "Bearer " + auth
                     }
                   }
                 )

@@ -557,21 +557,21 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo la sede con éxito.", {
+                toast.success("Se registro la sede con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, la sede ya existe.", {
+                toast.error("Error al registrar la sede. Inténtelo nuevamente.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear la sede.", {
+                toast.error("Error, la sede ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"

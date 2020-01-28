@@ -220,22 +220,8 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo el tipo de envío / llegada con éxito.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
-              } else if (response.status === 400) {
-                toast.error("Error, el tipo de envío / llegada ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
-              } else if (response.status === 500) {
-                toast.error(
-                  "Error, no se pudo crear el tipo de envío / llegada.",
+                toast.success(
+                  "Se registro el tipo de envío / llegada con éxito.",
                   {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
@@ -243,6 +229,23 @@ export default withTranslation("translations")(
                     })
                   }
                 );
+              } else if (response.status === 400) {
+                toast.error(
+                  "Error al registrar el tipo de envío / llegada. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
+              } else if (response.status === 500) {
+                toast.error("Error, el tipo de envío / llegada ya existe.", {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                });
               }
             })
           )

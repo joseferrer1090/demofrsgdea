@@ -600,6 +600,11 @@ export const CITIES_PAGINATION = () => {
   return `http://192.168.10.180:7000/api/sgdea/city/pagination?page=${page}&size=${size}`;
 };
 
+//---------------------------------------------PLANTILLA EMAIL-----------------------------------------------------//
+/* GET */
+export const TEMPLATES_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/templates`;
+export const TEMPLATE_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/templates/`;
+
 //---------------------------------------------PLANTILLA DE DATOS--------------------------------------------------//
 
 /* GET / POST / PUT */

@@ -10,6 +10,7 @@ import {
 import ImgRadicacionEmail from "./../../../assets/img/message.svg";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { decode } from "jsonwebtoken";
 
 class ModalViewRadicacionEmail extends Component {
   constructor(props) {
@@ -19,24 +20,38 @@ class ModalViewRadicacionEmail extends Component {
       id: this.props.id,
       dataRadicacionEmail: {},
       t: this.props.t,
-      username: "ccuartas"
+      auth: this.props.authorization
     };
   }
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
   toggle = id => {
     this.setState(prevState => ({
       modal: !prevState.modal,
       id: id
     }));
+    const auth = this.state.auth;
+    const username = decode(auth);
     fetch(
-      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${id}?username=${this.state.username}`,
+      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${id}?username=${username.user_name}`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
+          Authorization: "Bearer " + auth
         }
       }
     )
@@ -197,6 +212,7 @@ class ModalViewRadicacionEmail extends Component {
 }
 
 ModalViewRadicacionEmail.propTypes = {
+  authorization: PropTypes.string.isRequired,
   modalview: PropTypes.bool.isRequired,
   t: PropTypes.any
 };

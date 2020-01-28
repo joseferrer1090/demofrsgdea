@@ -563,19 +563,22 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo el tercero con éxito.", {
+                toast.success("Se registro el tercero con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, el tercero ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  "Error al registrar el tercero. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
                 toast.error("Error, no se pudo crear el tercero.", {
                   position: toast.POSITION.TOP_RIGHT,

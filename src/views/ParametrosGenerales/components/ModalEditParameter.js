@@ -63,31 +63,46 @@ class ModalEditParameter extends Component {
             description: this.state.dataResult.description,
             valueparameter: this.state.dataResult.value
           }}
+          validationSchema={Yup.object().shape({
+            valueparameter: Yup.string().required(
+              "Valor del parametro no puede ir vacio"
+            )
+          })}
           onSubmit={(values, { setSubmitting }) => {
             setTimeout(() => {
               const token = this.state.auth;
               const username = decode(token);
-              fetch(`${PARAMTERS_UPDATE}`, {
-                method: "PUT",
-                headers: {
-                  "Content-type": "application/json",
-                  Authorization: "Bearer " + token
-                },
-                body: JSON.stringify({
-                  parameter: values.parameter,
-                  value: values.valueparameter,
-                  username: username.use_name
-                })
-              }).then(response => {
-                if (response.status === 200) {
-                  // Notification verde
-                } else if (response.status === 400) {
-                  // Notificacion Roja
-                } else if (response.status === 500) {
-                  // Notificacion Roja
-                }
-              });
-              // alert(JSON.stringify(values, null, 2));
+              // fetch(`${PARAMTERS_UPDATE}`, {
+              //   method: "PUT",
+              //   headers: {
+              //     "Content-type": "application/json",
+              //     Authorization: "Bearer " + token
+              //   },
+              //   body: JSON.stringify({
+              //     parameter: values.parameter,
+              //     value: values.valueparameter,
+              //     username: username.use_name
+              //   })
+              // }).then(response => {
+              //   if (response.status === 200) {
+              //     // Notification verde
+              //   } else if (response.status === 400) {
+              //     // Notificacion Roja
+              //   } else if (response.status === 500) {
+              //     // Notificacion Roja
+              //   }
+              // });
+              console.log(
+                JSON.stringify(
+                  {
+                    parameter: values.parameter,
+                    value: values.valueparameter,
+                    username: username.user_name
+                  },
+                  null,
+                  2
+                )
+              );
               setSubmitting(false);
             }, 1000);
           }}

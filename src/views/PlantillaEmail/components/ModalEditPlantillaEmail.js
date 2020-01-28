@@ -121,12 +121,14 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
         templateEmail_name: dataPlantillaEmail.name,
         templateEmail_description: dataPlantillaEmail.description,
         templateEmail_subject: dataPlantillaEmail.subject,
-        templateEmail_from: dataPlantillaEmail.from
+        templateEmail_from: dataPlantillaEmail.from,
+        txtxhtml:CodeBody,
+        txtcss:CodeCSS
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const userName = decode(auth);
         setTimeout(() => {
-          alert(JSON.stringify(values, "", 2));
+          console.log(JSON.stringify(values, "", 2));
           fetch(`${TEMPLATES_EMAIL}`, {
             method: "PUT",
             headers: {
@@ -200,6 +202,12 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
         ),
         templateEmail_from: Yup.string().required(
           " Por favor introduzca el remitente."
+        ),
+        txtxhtml: Yup.string().required(
+          " Por favor introduzca el cuerpo de la plantilla."
+        ),
+        txtcss: Yup.string().required(
+          " Por favor introduzca el estilo de la plantilla."
         )
       })}
     >
@@ -358,7 +366,14 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                           </u>
                         </b>{" "}
                       </label>
-                      <textarea id="txthtml"></textarea>
+                      <textarea id="txthtml" name="txthtml"></textarea>
+                      <div style={{ color: "#D54B4B" }}>
+                              {errors.txthtml &&
+                              touched.txthtml ? (
+                                <i className="fa fa-exclamation-triangle" />
+                              ) : null}
+                              <ErrorMessage name="txthtml" />
+                            </div>
                     </div>
                     <div className="col-6" style={{ padding: 1 }}>
                       <label>
@@ -367,7 +382,14 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                           <code>CSS</code>
                         </u>
                       </label>
-                      <textarea id="txtcss"></textarea>
+                      <textarea id="txtcss" name="txtcss"></textarea>
+                      <div style={{ color: "#D54B4B" }}>
+                              {errors.txtcss &&
+                              touched.txtcss ? (
+                                <i className="fa fa-exclamation-triangle" />
+                              ) : null}
+                              <ErrorMessage name="txtcss" />
+                            </div>
                     </div>
                   </div>
                 </div>

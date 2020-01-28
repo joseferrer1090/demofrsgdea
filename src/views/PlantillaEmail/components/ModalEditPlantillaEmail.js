@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import ShowTemplate from "./Forms/ShowTemplate";
 import CodeMirror from "codemirror";
 import { withTranslation } from "react-i18next";
-import { TEMPLATE_EMAIL } from "../../../services/EndPoints";
+import { TEMPLATE_EMAIL, TEMPLATES_EMAIL } from "../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import { Alert } from "reactstrap";
 import "./../../../../node_modules/codemirror/lib/codemirror.css";
@@ -11,10 +11,11 @@ import "./../../../../node_modules/codemirror/mode/xml/xml";
 import "./../../../../node_modules/codemirror/mode/htmlmixed/htmlmixed";
 import "./../../../../node_modules/codemirror/mode/css/css";
 import "react-toastify/dist/ReactToastify.css";
-import PropTypes from "prop-types";
 import { ToastContainer, toast } from "react-toastify";
+import { Formik, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import PropTypes from "prop-types";
 import { css } from "glamor";
-import { NonceProvider } from "react-select";
 
 const PlantillaEmailForm = ({ match, authorization, props }) => {
   /* Estado data HTML-BODY STYLES-CSS */
@@ -114,167 +115,298 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
 
   const template = processTemplate();
   return (
-    <div className="col-md-12">
-      <form className="form">
-        <div className="card">
-          <div className="card-header">
-            Editar plantilla de correo electrónico
-          </div>
-          <div className="card-body">
-            <div className="row">
-              <div className="col-12">
-                <Alert color="secondary" isOpen={visible} toggle={onDismiss}>
-                  En este apartado podrá editar una plantilla de correo
-                  electrónico y almacenarla para su posterior utilización
-                  (newsletter, comunicados, listas, circulares, boletines,
-                  etc.).
-                </Alert>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <dl className="param">
-                    Nombre
-                    <span className="text-danger">*</span>{" "}
-                    <dd>
-                      {" "}
-                      <input
-                        type="text"
-                        name={"templateEmail_name"}
-                        value={dataPlantillaEmail.name}
-                        disabled
-                        className={`form-control form-control-sm`}
-                      />
-                      {/* <div style={{ color: "#D54B4B" }}>
-                        {errors.templateEmail_name && touched.templateEmail_name ? (
-                          <i className="fa fa-exclamation-triangle" />
-                        ) : null}
-                        <ErrorMessage name="templateEmail_name" />
-                      </div> */}
-                    </dd>
-                  </dl>
+    <Formik
+      enableReinitialize={true}
+      initialValues={{
+        templateEmail_name: dataPlantillaEmail.name,
+        templateEmail_description: dataPlantillaEmail.description,
+        templateEmail_subject: dataPlantillaEmail.subject,
+        templateEmail_from: dataPlantillaEmail.from
+      }}
+      onSubmit={(values, { setSubmitting, resetForm }) => {
+        const userName = decode(auth);
+        setTimeout(() => {
+          alert(JSON.stringify(values, "", 2));
+          fetch(`${TEMPLATES_EMAIL}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + authorization
+            },
+            body: JSON.stringify({
+              id: id,
+              name: "",
+              description: "",
+              subject: "",
+              from: "",
+              body: "",
+              html: "",
+              userName: userName.user_name
+            })
+          })
+            .then(response =>
+              response.json().then(data => {
+                if (response.status === 201) {
+                  toast.success(
+                    "Se edito la plantilla de correo electrónico con éxito.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
+                } else if (response.status === 400) {
+                  toast.error(
+                    "Error, la plantilla de correo electrónico ya existe.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
+                }
+              })
+            )
+            .catch(error => {
+              toast.error(`Error ${error}.`, {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            });
+          setSubmitting(false);
+          resetForm({
+            name: "",
+            description: "",
+            subject: "",
+            from: "",
+            body: "",
+            html: ""
+          });
+        }, 500);
+      }}
+      validationSchema={Yup.object().shape({
+        templateEmail_name: Yup.string().required(
+          " Por favor introduzca un nombre."
+        ),
+        templateEmail_description: Yup.string().required(
+          " Por favor introduzca una descripción."
+        ),
+        templateEmail_subject: Yup.string().required(
+          " Por favor introduzca el asunto."
+        ),
+        templateEmail_from: Yup.string().required(
+          " Por favor introduzca el remitente."
+        )
+      })}
+    >
+      {props => {
+        const {
+          values,
+          touched,
+          errors,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldTouched,
+          setFieldValue
+        } = props;
+        return (
+          <div className="col-md-12">
+            <form className="form">
+              <div className="card">
+                <div className="card-header">
+                  Editar plantilla de correo electrónico
                 </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <dl className="param">
-                    Descripción
-                    <span className="text-danger">*</span>{" "}
-                    <dd>
-                      {" "}
-                      <textarea
-                        style={{ resize: "none", overflow: "auto" }}
-                        type="text"
-                        name={"templateEmail_description"}
-                        value={dataPlantillaEmail.description}
-                        className={`form-control form-control-sm`}
-                      />
-                      {/* <div style={{ color: "#D54B4B" }}>
-                        {errors.templateEmail_description && touched.templateEmail_description ? (
-                          <i className="fa fa-exclamation-triangle" />
-                        ) : null}
-                        <ErrorMessage name="templateEmail_description" />
-                      </div> */}
-                    </dd>
-                  </dl>
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-12">
+                      <Alert
+                        color="secondary"
+                        isOpen={visible}
+                        toggle={onDismiss}
+                      >
+                        En este apartado podrá editar una plantilla de correo
+                        electrónico y almacenarla para su posterior utilización
+                        (newsletter, comunicados, listas, circulares, boletines,
+                        etc.).
+                      </Alert>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          Nombre
+                          <span className="text-danger">*</span>{" "}
+                          <dd>
+                            {" "}
+                            <input
+                              type="text"
+                              name={"templateEmail_name"}
+                              value={values.templateEmail_name}
+                              disabled
+                              className={`form-control form-control-sm ${errors.templateEmail_name &&
+                                touched.templateEmail_name &&
+                                "is-invalid"}`}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                            />
+                            <div style={{ color: "#D54B4B" }}>
+                              {errors.templateEmail_name &&
+                              touched.templateEmail_name ? (
+                                <i className="fa fa-exclamation-triangle" />
+                              ) : null}
+                              <ErrorMessage name="templateEmail_name" />
+                            </div>
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          Descripción
+                          <span className="text-danger">*</span>{" "}
+                          <dd>
+                            {" "}
+                            <textarea
+                              style={{ resize: "none", overflow: "auto" }}
+                              type="text"
+                              name={"templateEmail_description"}
+                              value={values.templateEmail_description}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              className={`form-control form-control-sm ${errors.templateEmail_description &&
+                                touched.templateEmail_description &&
+                                "is-invalid"}`}
+                            />
+                            <div style={{ color: "#D54B4B" }}>
+                              {errors.templateEmail_description &&
+                              touched.templateEmail_description ? (
+                                <i className="fa fa-exclamation-triangle" />
+                              ) : null}
+                              <ErrorMessage name="templateEmail_description" />
+                            </div>
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          Asunto
+                          <span className="text-danger">*</span>{" "}
+                          <dd>
+                            {" "}
+                            <input
+                              type="text"
+                              name={"templateEmail_subject"}
+                              value={values.templateEmail_subject}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              className={`form-control form-control-sm ${errors.templateEmail_subject &&
+                                touched.templateEmail_subject &&
+                                "is-invalid"}`}
+                            />
+                            <div style={{ color: "#D54B4B" }}>
+                              {errors.templateEmail_subject &&
+                              touched.templateEmail_subject ? (
+                                <i className="fa fa-exclamation-triangle" />
+                              ) : null}
+                              <ErrorMessage name="templateEmail_subject" />
+                            </div>
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <dl className="param">
+                          De parte de
+                          <span className="text-danger">*</span>{" "}
+                          <dd>
+                            {" "}
+                            <input
+                              type="text"
+                              name={"templateEmail_from"}
+                              value={values.templateEmail_from}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              className={`form-control form-control-sm ${errors.templateEmail_from &&
+                                touched.templateEmail_from &&
+                                "is-invalid"}`}
+                            />
+                            <div style={{ color: "#D54B4B" }}>
+                              {errors.templateEmail_from &&
+                              touched.templateEmail_from ? (
+                                <i className="fa fa-exclamation-triangle" />
+                              ) : null}
+                              <ErrorMessage name="templateEmail_from" />
+                            </div>
+                          </dd>
+                        </dl>
+                      </div>
+                    </div>
+                    <div className="col-6" style={{ padding: 1 }}>
+                      <label>
+                        <b>
+                          Cuerpo de la plantilla{" "}
+                          <u style={{ color: "red" }}>
+                            <code>HTML</code>
+                          </u>
+                        </b>{" "}
+                      </label>
+                      <textarea id="txthtml"></textarea>
+                    </div>
+                    <div className="col-6" style={{ padding: 1 }}>
+                      <label>
+                        <b>Estilos de la plantilla</b>{" "}
+                        <u style={{ color: "red" }}>
+                          <code>CSS</code>
+                        </u>
+                      </label>
+                      <textarea id="txtcss"></textarea>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <dl className="param">
-                    Asunto
-                    <span className="text-danger">*</span>{" "}
-                    <dd>
-                      {" "}
-                      <input
-                        type="text"
-                        name={"templateEmail_subject"}
-                        value={dataPlantillaEmail.subject}
-                        className={`form-control form-control-sm`}
-                      />
-                      {/* <div style={{ color: "#D54B4B" }}>
-                        {errors.templateEmail_subject && touched.templateEmail_subject ? (
-                          <i className="fa fa-exclamation-triangle" />
-                        ) : null}
-                        <ErrorMessage name="templateEmail_subject" />
-                      </div> */}
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-group">
-                  <dl className="param">
-                    De parte de
-                    <span className="text-danger">*</span>{" "}
-                    <dd>
-                      {" "}
-                      <input
-                        type="text"
-                        name={"templateEmail_from"}
-                        value={dataPlantillaEmail.from}
-                        className={`form-control form-control-sm`}
-                      />
-                      {/* <div style={{ color: "#D54B4B" }}>
-                        {errors.templateEmail_from && touched.templateEmail_from ? (
-                          <i className="fa fa-exclamation-triangle" />
-                        ) : null}
-                        <ErrorMessage name="templateEmail_from" />
-                      </div> */}
-                    </dd>
-                  </dl>
-                </div>
-              </div>
-              <div className="col-6" style={{ padding: 1 }}>
-                <label>
-                  <b>
-                    Cuerpo de la plantilla{" "}
-                    <u style={{ color: "red" }}>
-                      <code>HTML</code>
-                    </u>
-                  </b>{" "}
-                </label>
-                <textarea id="txthtml"></textarea>
-              </div>
-              <div className="col-6" style={{ padding: 1 }}>
-                <label>
-                  <b>Estilos de la plantilla</b>{" "}
-                  <u style={{ color: "red" }}>
-                    <code>CSS</code>
-                  </u>
-                </label>
-                <textarea id="txtcss"></textarea>
-              </div>
-            </div>
-          </div>
-          <ShowTemplate
-            ref={ref}
-            template={showTemplate}
-            modal={modalPreviewTemplate}
-          />
+                <ShowTemplate
+                  ref={ref}
+                  template={showTemplate}
+                  modal={modalPreviewTemplate}
+                />
 
-          <div className="card-footer">
-            <div className="pull-right">
-              <button
-                className="btn btn-warning btn-sm"
-                onClick={e => {
-                  openModalTemplate(e);
-                }}
-                style={{ margin: "1px" }}
-              >
-                Vista previa
-              </button>
-              <button
-                className="btn btn-outline-secondary btn-sm"
-                data-trigger="hover"
-                onClick={() => console.log({ html: CodeBody, css: CodeCSS })}
-              >
-                Guardar
-              </button>
-            </div>
+                <div className="card-footer">
+                  <div className="pull-right">
+                    <button
+                      className="btn btn-warning btn-sm"
+                      onClick={e => {
+                        openModalTemplate(e);
+                      }}
+                      style={{ margin: "1px" }}
+                    >
+                      Vista previa
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-success btn-sm"
+                      onClick={e => {
+                        e.preventDefault();
+                        handleSubmit();
+                      }}
+                    >
+                      {" "}
+                      <i className="fa fa-pencil" /> Actualizar{" "}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>
-        </div>
-      </form>
-    </div>
+        );
+      }}
+    </Formik>
   );
 };
 PlantillaEmailForm.propTypes = {};

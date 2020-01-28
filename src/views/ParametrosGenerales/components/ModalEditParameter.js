@@ -72,37 +72,43 @@ class ModalEditParameter extends Component {
             setTimeout(() => {
               const token = this.state.auth;
               const username = decode(token);
-              // fetch(`${PARAMTERS_UPDATE}`, {
-              //   method: "PUT",
-              //   headers: {
-              //     "Content-type": "application/json",
-              //     Authorization: "Bearer " + token
-              //   },
-              //   body: JSON.stringify({
-              //     parameter: values.parameter,
-              //     value: values.valueparameter,
-              //     username: username.use_name
-              //   })
-              // }).then(response => {
-              //   if (response.status === 200) {
-              //     // Notification verde
-              //   } else if (response.status === 400) {
-              //     // Notificacion Roja
-              //   } else if (response.status === 500) {
-              //     // Notificacion Roja
-              //   }
-              // });
-              console.log(
-                JSON.stringify(
-                  {
-                    parameter: values.parameter,
-                    value: values.valueparameter,
-                    username: username.user_name
-                  },
-                  null,
-                  2
-                )
-              );
+              fetch(`${PARAMTERS_UPDATE}`, {
+                method: "PUT",
+                headers: {
+                  "Content-type": "application/json",
+                  Authorization: "Bearer " + token
+                },
+                body: JSON.stringify({
+                  parameter: values.parameter,
+                  value: values.valueparameter,
+                  username: username.user_name
+                })
+              }).then(response => {
+                if (response.status === 200) {
+                  // Notification verde
+                  this.setState(
+                    {
+                      modal: false
+                    },
+                    () => this.props.updateData()
+                  );
+                } else if (response.status === 400) {
+                  // Notificacion Roja
+                } else if (response.status === 500) {
+                  // Notificacion Roja
+                }
+              });
+              // console.log(
+              //   JSON.stringify(
+              //     {
+              //       parameter: values.parameter,
+              //       value: values.valueparameter,
+              //       username: username.user_name
+              //     },
+              //     null,
+              //     2
+              //   )
+              // );
               setSubmitting(false);
             }, 1000);
           }}

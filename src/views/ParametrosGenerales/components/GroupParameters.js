@@ -89,16 +89,19 @@ class GroupParameters extends React.Component {
             listGroup.map((aux, id) => (
               <CardGroupItem
                 name={aux.name}
-                onClick={() => {
-                  this.send(aux);
-                }}
+                onClick={
+                  (() => {
+                    this.send(aux);
+                  },
+                  () => this.props.onDataFetch(aux.id))
+                }
               />
             ))
           ) : (
             <Col sm={{ size: 12 }}>
               <Card body>
                 <p className="text-center">
-                  Seleccione un modulo para cargar lista de grupo de parametros
+                  Seleccione un modulo para filtrar la lista de parametros
                 </p>
               </Card>
             </Col>

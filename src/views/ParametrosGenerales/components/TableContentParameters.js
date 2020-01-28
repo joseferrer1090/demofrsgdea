@@ -32,6 +32,7 @@ class TableContentParameter extends Component {
       this.setState({
         id: this.props.idGroup
       });
+      this.getDataParameterByIdGroup(this.state.id);
     }
   }
 
@@ -45,7 +46,9 @@ class TableContentParameter extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          dataParameters: data
+        });
       })
       .catch(err => console.log(`err => ${err}`));
   };
@@ -136,6 +139,7 @@ class TableContentParameter extends Component {
         <ModalEdit
           authorization={this.state.auth}
           modalEditParameter={this.state.modal}
+          updateData={this.getDataParameters}
           ref={"child"}
         />
       </div>

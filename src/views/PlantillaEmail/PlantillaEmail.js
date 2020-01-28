@@ -71,7 +71,7 @@ class PlantillaEmail extends Component {
                 this.toggle("1");
               }}
             >
-              <i className="fa fa-plus " /> {t("app_plantilla_email_tab")}
+              <i className="fa fa-plus " /> {t("app_plantilla_email_tab_2")}
             </NavLink>
           </NavItem>
           <NavItem>
@@ -81,17 +81,7 @@ class PlantillaEmail extends Component {
                 this.toggle("2");
               }}
             >
-              <i className={"fa fa-gear"} /> {t("app_plantilla_email_tab_2")}
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: this.state.activeTab === "3" })}
-              onClick={() => {
-                this.toggle("3");
-              }}
-            >
-              <i className={"fa fa-upload"} /> {t("app_plantilla_email_tab_3")}
+              <i className={"fa fa-gear"} /> {t("app_plantilla_email_tab_3")}
             </NavLink>
           </NavItem>
         </Nav>
@@ -99,20 +89,15 @@ class PlantillaEmail extends Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <PlantillaEmailForm />
+                <TableContentPlantillaEmail authorization={authToken} />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <TableContentPlantillaEmail authorization={authToken} />
+                <Col sm="12">Importar</Col>
               </Col>
-            </Row>
-          </TabPane>
-          <TabPane tabId="3">
-            <Row>
-              <Col sm="12">Importar</Col>
             </Row>
           </TabPane>
         </TabContent>

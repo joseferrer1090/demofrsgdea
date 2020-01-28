@@ -14,9 +14,7 @@ class ShowTemplate extends React.Component {
     super(props);
     this.state = {
       modal: this.props.modal,
-      template: this.props.template,
-      html: this.props.html,
-      css: this.props.css
+      template: this.props.template
     };
   }
 
@@ -24,8 +22,6 @@ class ShowTemplate extends React.Component {
     this.setState({
       modal: !this.state.modal
     });
-    // console.log(this.props.template);
-
     setTimeout(() => {
       document.getElementById("divView").innerHTML = this.props.template;
     }, 1000);

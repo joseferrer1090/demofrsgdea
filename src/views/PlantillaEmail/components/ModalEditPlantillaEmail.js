@@ -122,13 +122,13 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
         templateEmail_description: dataPlantillaEmail.description,
         templateEmail_subject: dataPlantillaEmail.subject,
         templateEmail_from: dataPlantillaEmail.from,
-        txtxhtml:CodeBody,
-        txtcss:CodeCSS
+        txthtml: CodeBody,
+        txtcss: CodeCSS
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const userName = decode(auth);
         setTimeout(() => {
-          console.log(JSON.stringify(values, "", 2));
+         
           fetch(`${TEMPLATES_EMAIL}`, {
             method: "PUT",
             headers: {
@@ -137,13 +137,13 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
             },
             body: JSON.stringify({
               id: id,
-              name: "",
-              description: "",
-              subject: "",
-              from: "",
-              body: "",
-              html: "",
-              userName: userName.user_name
+              name: values.templateEmail_name,
+              description: values.templateEmail_description,
+              subject: values.templateEmail_subject,
+              from: values.templateEmail_from,
+              body: values.txthtml,
+              css: values.txtcss,
+              username: userName.user_name
             })
           })
             .then(response =>
@@ -203,7 +203,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
         templateEmail_from: Yup.string().required(
           " Por favor introduzca el remitente."
         ),
-        txtxhtml: Yup.string().required(
+        txthtml: Yup.string().required(
           " Por favor introduzca el cuerpo de la plantilla."
         ),
         txtcss: Yup.string().required(
@@ -366,30 +366,42 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                           </u>
                         </b>{" "}
                       </label>
-                      <textarea id="txthtml" name="txthtml"></textarea>
+                      <textarea
+                        id="txthtml"
+                        name="txthtml"
+                        className={`form-control form-control-sm ${errors.txthtml &&
+                          touched.txthtml &&
+                          "is-invalid"}`}
+                      ></textarea>
                       <div style={{ color: "#D54B4B" }}>
-                              {errors.txthtml &&
-                              touched.txthtml ? (
-                                <i className="fa fa-exclamation-triangle" />
-                              ) : null}
-                              <ErrorMessage name="txthtml" />
-                            </div>
+                        {errors.txthtml && touched.txthtml ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="txthtml" />
+                      </div>
                     </div>
                     <div className="col-6" style={{ padding: 1 }}>
                       <label>
-                        <b>Estilos de la plantilla</b>{" "}
-                        <u style={{ color: "red" }}>
-                          <code>CSS</code>
-                        </u>
+                        <b>
+                          Estilos de la plantilla{" "}
+                          <u style={{ color: "red" }}>
+                            <code>CSS</code>
+                          </u>
+                        </b>
                       </label>
-                      <textarea id="txtcss" name="txtcss"></textarea>
+                      <textarea
+                        id="txtcss"
+                        name="txtcss"
+                        className={`form-control form-control-sm ${errors.txtcss &&
+                          touched.txtcss &&
+                          "is-invalid"}`}
+                      ></textarea>
                       <div style={{ color: "#D54B4B" }}>
-                              {errors.txtcss &&
-                              touched.txtcss ? (
-                                <i className="fa fa-exclamation-triangle" />
-                              ) : null}
-                              <ErrorMessage name="txtcss" />
-                            </div>
+                        {errors.txtcss && touched.txtcss ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="txtcss" />
+                      </div>
                     </div>
                   </div>
                 </div>

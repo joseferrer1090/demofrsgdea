@@ -168,6 +168,11 @@ class AppSidebarNav extends Component {
           name: `${props.t("nav_app_parametros_generales")}`,
           icon: "icon-settings",
           url: "/configuracion/parametrosgenerales"
+        },
+        {
+          name: `${props.t("nav_app_metadatos")}`,
+          icon: "icon-settings",
+          url: "/configuracion/metadatos"
         }
       ],
       t: this.props.t

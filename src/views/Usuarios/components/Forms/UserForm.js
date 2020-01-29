@@ -648,14 +648,21 @@ export default withTranslation("translations")(
           })
           .then(response => {
             if (response.status === 201) {
-              toast.success("Se creo el usuario con éxito.", {
+              toast.success("Se registro el usuario con éxito.", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            } else if (response.status === 400) {
+              toast.error("Error al registrar el usuario. Inténtelo nuevamente.", {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: "60px"
                 })
               });
             } else if (response.status === 500) {
-              toast.error("El usuario ya existe.", {
+              toast.error("Error, el usuario ya existe.", {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: "60px"

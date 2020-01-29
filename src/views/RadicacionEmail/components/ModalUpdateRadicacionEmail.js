@@ -13,6 +13,7 @@ import PropTypes from "prop-types";
 import ImgRadicacionEmail from "./../../../assets/img/message.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
+import { decode } from "jsonwebtoken";
 
 class ModalUpdateRadicacionEmail extends React.Component {
   state = {
@@ -24,8 +25,23 @@ class ModalUpdateRadicacionEmail extends React.Component {
     alertError400: false,
     t: this.props.t,
     messenger_status: 0,
-    username: "ccuartas"
+    auth: this.props.authorization,
   };
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState({
@@ -36,15 +52,15 @@ class ModalUpdateRadicacionEmail extends React.Component {
   };
 
   getRadiacionEmailByID = id => {
+    const auth = this.state.auth;
+    const username = decode(auth);
     fetch(
-      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${id}?username=${this.state.username}`,
+      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${id}?username=${username.user_name}`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization:
-            "Bearer " +
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
+          Authorization: "Bearer " + auth
         }
       }
     )
@@ -112,15 +128,15 @@ class ModalUpdateRadicacionEmail extends React.Component {
               };
 
               setTimeout(() => {
+                const auth = this.state.auth;
+                const username = decode(auth);
                 fetch(
                   "http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/",
                   {
                     method: "PUT",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization:
-                        "Bearer " +
-                        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1NzUzMDk3MzYsInVzZXJfbmFtZSI6ImNjdWFydGFzIiwiYXV0aG9yaXRpZXMiOlsiQVNJU1RFTlRFIEFETUlOSVNUUkFUSVZPIl0sImp0aSI6ImY4MGU3Njg4LWM0YjQtNDJlNS04ZWM5LWYyMWU2MDUwYzQ0NyIsImNsaWVudF9pZCI6ImZyb250ZW5kYXBwIiwic2NvcGUiOlsicmVhZCIsIndyaXRlIl19.-qYzRQYh7B4Si7NwfJUQGjh1L1jHxdeld8XK_hh8GMo"
+                      Authorization: "Bearer " + auth
                     },
                     body: JSON.stringify({
                       id: this.state.idRadicacionEmail,
@@ -130,7 +146,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
                       email: values.radicacionemail_email,
                       password: values.radicacionemail_password,
                       status: values.radicacionemail_status,
-                      username: "ccuartas"
+                      username: username.user_name
                     })
                   }
                 )

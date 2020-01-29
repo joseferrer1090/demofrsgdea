@@ -479,21 +479,24 @@ export default withTranslation("translations")(
         })
           .then(response => {
             if (response.status === 201) {
-              toast.success("Se creo el grupo de usuario con éxito.", {
+              toast.success("Se registro el grupo de usuarios con éxito.", {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: "60px"
                 })
               });
             } else if (response.status === 400) {
-              toast.error("Error.", {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: "60px"
-                })
-              });
+              toast.error(
+                "Error al registrar el grupo de usuarios. Inténtelo nuevamente.",
+                {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                }
+              );
             } else if (response.status === 500) {
-              toast.error("El grupo de usuario ya existe.", {
+              toast.error("Error, el grupo de usuarios ya existe.", {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: "60px"

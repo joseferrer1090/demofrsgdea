@@ -270,21 +270,24 @@ export default withTranslation("translations")(
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
-                toast.success("Se creo la ciudad con éxito.", {
+                toast.success("Se registro la ciudad con éxito.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error, la ciudad ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  "Error al registrar la ciudad. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
-                toast.error("Error, no se pudo crear la ciudad.", {
+                toast.error("Error, la ciudad ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,
                   className: css({
                     marginTop: "60px"
@@ -310,5 +313,5 @@ export default withTranslation("translations")(
 
 CiudadForm.propTypes = {
   t: PropTypes.any,
-  authorization:PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };

@@ -12,6 +12,7 @@ import "./../../css/styleTableAuditoria.css";
 import moment from "moment";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { AUDIT_ALL } from "./../../services/EndPoints";
 
 class Auditoria extends Component {
   constructor(props) {
@@ -34,16 +35,13 @@ class Auditoria extends Component {
   }
 
   getDataAudit = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/audit/pagination?page=${this.state.page}&size=${this.state.size}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    fetch(`${AUDIT_ALL}?page=${this.state.page}&size=${this.state.size}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -134,7 +132,6 @@ class Auditoria extends Component {
       btnGroup: this.createButtonCustom
     };
     const { t } = this.props;
-
     return (
       <div className="animated fadeIn">
         <div className="row">
@@ -215,12 +212,14 @@ class Auditoria extends Component {
           t={this.props.t}
           modalview={this.state.modalviewauditoria}
           ref={"child1"}
+          authorization={this.props.authorization}
         />
         <ModalSearch
           t={this.props.t}
           onDataFetch={this.onDataFetch}
           modalSearch={this.state.modalSearch}
           ref={"child2"}
+          authorization={this.props.authorization}
         />
       </div>
     );

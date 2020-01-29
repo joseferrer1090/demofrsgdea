@@ -1,4 +1,67 @@
 import config from "./configRequest/config";
+//---------------------------------------------GENERAL_PARAMETERS--------------------------------------------------//
+
+/* GET */
+export const PARAMETERS_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters`;
+
+/* GET */
+export const PARAMETERS_FIND_BY_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters/`;
+
+/* GET params => idGroup */
+export const PARAMETERS_FIND_BY_PARAMETER_GROUP_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters/parameter/group/`;
+
+/* PUT */
+export const PARAMTERS_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters`;
+
+//---------------------------------------------PARAMETERS_GROUP--------------------------------------------------//
+
+/* GET params idModule */
+export const PARAMETER_GROUP_FIND_BY_MODULE_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/parameter/group/module`;
+
+//---------------------------------------------AUDITORIA--------------------------------------------------//
+
+/* GET params id */
+export const AUDIT_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/audits/`;
+
+/* GET params page and size */
+export const AUDIT_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/audits/pagination`;
+
+/* POST */
+export const AUDIT_CONSULT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/audits/consult`;
+
+//---------------------------------------------MODULO--------------------------------------------------//
+
+/* GET */
+export const MODULE_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/modules`;
+
+/* GET params username idModule */
+export const MODULE_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/modules/`;
+
+/* GET */
+export const MODULE_ENTITIES_BY_MODULE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/modules/active`;
+
+//---------------------------------------------ENTIDADES--------------------------------------------------//
+
+/* GET */
+export const ENTITIES_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/entities`;
+
+/* GET username id  */
+export const ENTITIES_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/entities/`;
+
+/* GET idModule */
+export const ENTITIES_BY_MODULE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/entities/module/`;
+
+//---------------------------------------------ACCIONES--------------------------------------------------//
+
+/* GET */
+export const ACTIONS_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/actions`;
+
+/* GET username idAction */
+export const ACTIONS_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/actions/`;
+
+/* GET  idEntitie*/
+export const ACTIONS_BY_ENTITY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/actions/entity/`;
+
 //---------------------------------------------CONGLOMERADO--------------------------------------------------//
 
 /* GET */
@@ -565,39 +628,3 @@ export const TEMPLATES_PAGINATION = () => {
   const size = 1;
   return `http://192.168.10.180:7000/api/sgdea/template/pagination?page=${page}&size=${size}`;
 };
-
-//---------------------------------------------MÓDULOS--------------------------------------------------//
-
-/* GET */
-export const MODULES = "http://192.168.10.180:7000/api/sgdea/module";
-
-/* GET */
-export const MODULE = "http://192.168.10.180:7000/api/sgdea/module/1";
-
-/* GET */
-export const MODULES_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/module/status/1";
-
-//---------------------------------------------ENTIDADES--------------------------------------------------//
-
-/* GET */
-export const ENTITIES = "http://192.168.10.180:7000/api/sgdea/entity";
-
-/* GET */
-export const ENTITY = "http://192.168.10.180:7000/api/sgdea/entity/1";
-
-/* GET */
-export const ENTITY_MODULE_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/entity/module/1/status/1";
-
-//---------------------------------------------ACCIONES--------------------------------------------------//
-
-/* GET */
-export const ACTIONS = "http://192.168.10.180:7000/api/sgdea/action";
-
-/* GET */
-export const ACTION = "http://192.168.10.180:7000/api/sgdea/action/1";
-
-/* GET */
-export const ACTION_ENTITY_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/action/entity/1/status/1";

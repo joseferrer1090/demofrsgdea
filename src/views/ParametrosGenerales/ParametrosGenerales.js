@@ -6,82 +6,110 @@ import {
   NavItem,
   NavLink,
   Row,
-  Col
+  Col,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  CardTitle,
+  CardText,
+  ListGroup,
+  ListGroupItem,
+  Badge,
+  ListGroupItemHeading,
+  ListGroupItemText
 } from "reactstrap";
 import classnames from "classnames";
 import { withTranslation } from "react-i18next";
+import { MODULE_ALL } from "./../../services/EndPoints";
+import Listmodules from "./components/ListModules";
+import GroupParameter from "./components/GroupParameters";
+import TableContentParameters from "./components/TableContentParameters";
 
 class ParametrosGenerales extends Component {
   constructor(props) {
     super(props);
+    this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: "1"
+      activeTab: 1,
+      idListModule: {},
+      idGroup: {}
     };
   }
 
-  toggle = tab => {
-    if (this.state.activeTab !== "tab") {
+  componentDidMount() {
+    //this.getModules();
+  }
+
+  toggle(tab) {
+    if (this.state.activeTab !== tab) {
       this.setState({
         activeTab: tab
       });
     }
+  }
+
+  getModules = () => {
+    console.log("Probando");
+    console.log(this.props.authorization);
+  };
+
+  onDataSelected = props => {
+    this.setState({
+      idListModule: props
+    });
   };
 
   render() {
     const { t } = this.props;
+    //console.log(this.state.idListModule);
     return (
       <div className="animated fadeIn">
-        <Nav tabs>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: this.state.activeTab === "1" })}
-              onClick={() => {
-                this.toggle("1");
-              }}
-            >
-              <i className="fa fa-plus " /> {t("app_parametros_generales_tab")}
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: this.state.activeTab === "2" })}
-              onClick={() => {
-                this.toggle("2");
-              }}
-            >
-              <i className={"fa fa-gear"} />{" "}
-              {t("app_parametros_generales_tab_2")}
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: this.state.activeTab === "3" })}
-              onClick={() => {
-                this.toggle("3");
-              }}
-            >
-              <i className={"fa fa-upload"} />{" "}
-              {t("app_parametros_generales_tab_3")}
-            </NavLink>
-          </NavItem>
-        </Nav>
-        <TabContent activeTab={this.state.activeTab}>
-          <TabPane tabId="1">
-            <Row>
-              <Col sm="12">Registrar</Col>
-            </Row>
-          </TabPane>
-          <TabPane tabId="2">
-            <Row>
-              <Col sm="12">Administrar</Col>
-            </Row>
-          </TabPane>
-          <TabPane tabId="3">
-            <Row>
-              <Col sm="12">Importar</Col>
-            </Row>
-          </TabPane>
-        </TabContent>
+        <Row>
+          <Col md={{ size: 12 }}>
+            <Card>
+              <CardHeader>
+                <i className="fa fa-cogs"></i>
+                Parametro generales del Sistema{" "}
+              </CardHeader>
+              <CardBody>
+                <Row>
+                  <Listmodules
+                    authorization={this.props.authorization}
+                    onDataSelected={this.onDataSelected}
+                  />
+                  <Col xs="8">
+                    <GroupParameter
+                      moduleID={this.state.idListModule}
+                      authorization={this.props.authorization}
+                      onDataFetch={props => {
+                        this.setState({
+                          idGroup: props
+                        });
+                        // console.log(props);
+                      }}
+                    />
+                  </Col>
+                </Row>
+              </CardBody>
+              <CardBody>
+                <TableContentParameters
+                  idGroup={this.state.idGroup}
+                  authorization={this.props.authorization}
+                />
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          {/* <Col md={{ size: 10, offset: 1 }}>
+            <Card>
+              <CardBody>
+                <p>Informacion de todos los parametos</p>
+              </CardBody>
+            </Card>
+          </Col> */}
+        </Row>
       </div>
     );
   }

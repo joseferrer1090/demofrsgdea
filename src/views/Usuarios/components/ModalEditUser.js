@@ -302,7 +302,7 @@ class ModalEditUser extends React.Component {
                     </Alert>
                     <form className="form">
                       <div className="row">
-                        <Col sm="3" style={{ border: "1px solid red" }}>
+                        <Col sm="3">
                           <ComponentPhoto
                             authorization={this.state.auth}
                             id={this.state.id}

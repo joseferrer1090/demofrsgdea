@@ -29,6 +29,7 @@ import SelectDependence from "./SelectDependenceModalEdit";
 import SelectCharges from "./SelectChargesModalEdit";
 import { USER, USER_PUT, USER_PHOTO } from "../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import ComponentPhoto from "./ComponentPhotoUser";
 
 class ModalEditUser extends React.Component {
   constructor(props) {
@@ -302,7 +303,11 @@ class ModalEditUser extends React.Component {
                     <form className="form">
                       <div className="row">
                         <Col sm="3">
-                          <img
+                          <ComponentPhoto
+                            authorization={this.state.auth}
+                            id={this.state.id}
+                          />
+                          {/* <img
                             src={`${USER_PHOTO}${this.state.id}`}
                             className="img-thumbnail"
                           />
@@ -318,7 +323,7 @@ class ModalEditUser extends React.Component {
                           >
                             <i className="fa fa-camera" />{" "}
                             {t("app_usuarios_modal_editar_boton_cargar_imagen")}{" "}
-                          </button>
+                          </button> */}
                         </Col>
                         <Col sm="9">
                           <div className="">

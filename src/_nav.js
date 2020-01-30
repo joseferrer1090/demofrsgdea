@@ -132,6 +132,11 @@ export default {
       name: "Parámetros generales",
       icon: "icon-pencil",
       url: "/configuracion/parametrosgenerales"
+    },
+    {
+      name: "Meta datos",
+      icon: "icon-settings",
+      url: "/configuracion/metadatos"
     }
   ]
 };

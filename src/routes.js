@@ -112,6 +112,7 @@ const EditPlantillaEmail = React.lazy(() =>
 const ParametrosGenerales = React.lazy(() =>
   import("./views/ParametrosGenerales/ParametrosGenerales")
 );
+const MetaDatos = React.lazy(() => import("./views/MetaDatos/MetaDatos"));
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -337,6 +338,12 @@ const routes = [
         authorization={localStorage.getItem("auth_token")}
       />
     )
+  },
+  {
+    path: "/configuracion/metadatos",
+    exact: true,
+    name: "Configuración / Metadatos",
+    component: MetaDatos
   }
 ];
 

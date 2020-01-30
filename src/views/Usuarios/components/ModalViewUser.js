@@ -30,7 +30,8 @@ class ModalViewUser extends Component {
       userlogged: "",
       activeTab: "1",
       t: this.props.t,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      photo: ""
     };
   }
 
@@ -75,12 +76,30 @@ class ModalViewUser extends Component {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        this.setState({
-          data: data,
-          dataRoles: data.listRoleResponses
-        });
+        this.setState(
+          {
+            data: data,
+            dataRoles: data.listRoleResponses
+          },
+          () => this.getPhoto(this.state.id)
+        );
       })
       .catch(Error => console.log(" ", Error));
+
+    //this.getPhoto(this.state.id);
+  };
+
+  getPhoto = id => {
+    fetch(`${USER_PHOTO}${id}`, {
+      method: "GET"
+    })
+      .then(response => response.text())
+      .then(data => {
+        this.setState({
+          photo: data
+        });
+      })
+      .catch(err => console.log(`err => ${err}`));
   };
 
   toggleCollapse = () => {
@@ -122,10 +141,7 @@ class ModalViewUser extends Component {
         <ModalBody role="document">
           <Row>
             <Col sm="3">
-              <img
-                src={`${USER_PHOTO}${this.state.id}`}
-                className="img-thumbnail"
-              />
+              <img src={`${this.state.photo}`} className="img-thumbnail" />
             </Col>
             <Col sm="9">
               <div className="">

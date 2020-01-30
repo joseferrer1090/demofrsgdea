@@ -85,8 +85,6 @@ class ModalViewUser extends Component {
         );
       })
       .catch(Error => console.log(" ", Error));
-
-    //this.getPhoto(this.state.id);
   };
 
   getPhoto = id => {
@@ -141,7 +139,11 @@ class ModalViewUser extends Component {
         <ModalBody role="document">
           <Row>
             <Col sm="3">
-              <img src={`${this.state.photo}`} className="img-thumbnail" />
+              <img
+                src={`${this.state.photo}`}
+                className="img-thumbnail"
+                width={"80%"}
+              />
             </Col>
             <Col sm="9">
               <div className="">

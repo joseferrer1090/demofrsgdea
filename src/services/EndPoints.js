@@ -314,8 +314,8 @@ export const USERS = `${config.IP}:${config.PORT}/api/sgdea/service/configuratio
 /* GET  params => idUser, username  */
 export const USER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/`;
 
-/* SRC PHOTO USER */
-export const USER_PHOTO = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/photo/view/`;
+/* SRC PHOTO USER idUser */
+export const USER_PHOTO = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/photo/view/base64/`;
 
 /* GET */
 export const USERS_STATUS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/active`;

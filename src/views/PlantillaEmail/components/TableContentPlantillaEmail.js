@@ -5,8 +5,9 @@ import { withTranslation } from "react-i18next";
 import ShowTemplate from "./Forms/ShowTemplate";
 import moment from "moment";
 import PropTypes from "prop-types";
-import "./../../../css/styleTablePais.css";
+import "./../../../css/styleTablePlantillaEmail.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+import ModalViewInfoTemplateEmail from "./ModalViewPlantillaEmail";
 
 class TableContentPlantillaEmail extends Component {
   constructor(props) {
@@ -16,8 +17,6 @@ class TableContentPlantillaEmail extends Component {
       ModalEdit: false,
       ModalDel: false,
       dataPlantillas: [],
-      codeHTML: "",
-      codeCSS: "",
       templatePreview: "",
       hiddenColumnID: true,
       auth: this.props.authorization
@@ -54,38 +53,8 @@ class TableContentPlantillaEmail extends Component {
         this.setState({
           dataPlantillas: data
         });
-        this.state.dataPlantillas.map((aux, idx) => {
-          this.setState({
-            codeHTML: aux.body,
-            codeCSS: aux.css
-          });
-        });
-        this.processTemplate(this.state.codeHTML, this.state.codeCSS);
       })
       .catch(Error => console.log(" ", Error));
-  };
-
-  processTemplate = (renderHTML, renderCSS) => {
-    let template = `<!DOCTYPE html>
-        <html lang="en">
-        <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
-        <style type="text/css">${renderCSS}</style>
-        </head>
-        <body>${renderHTML}</body>
-        </html>`;
-    // console.log(template);
-    this.Template(template);
-    return template;
-  };
-
-  Template = value => {
-    this.setState({
-      templatePreview: value
-    });
   };
 
   FechaCreacionPlantillasEmail(cell, row) {
@@ -97,14 +66,25 @@ class TableContentPlantillaEmail extends Component {
   accionesPlantillasEmail(cell, row) {
     return (
       <div
-        className="table-actionMenuPais"
-        style={{ textAlign: "center", padding: "0", marginRight: "75px" }}
+        className="table-actionMenuPlantillaEmail"
+        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
       >
+        <button
+          className="btn btn-dark btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModalViewInfo(row.id);
+          }}
+        >
+          {" "}
+          <i className="fa fa-info-circle" />{" "}
+        </button>
+        &nbsp;
         <button
           className="btn btn-warning btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView(row.id);
+            this.openModalPreview(row.id);
           }}
         >
           {" "}
@@ -120,36 +100,21 @@ class TableContentPlantillaEmail extends Component {
         >
           <i className="fa fa-pencil" />
         </button>
-        &nbsp;
-        <button
-          className="btn btn-danger btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalDelete(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-trash" />{" "}
-        </button>
       </div>
     );
   }
 
-  openModalView(id) {
+  openModalViewInfo = id => {
+    this.refs.child2.toggle(id);
+  };
+
+  openModalPreview(id) {
     this.refs.child.toggle(id);
   }
 
   openModalEdit = id => {
     let path = `#/configuracion/plantillaemail/edit/${id}`;
     window.location.replace(path);
-  };
-
-  openModalDelete(id) {
-    this.refs.child2.toggle(id);
-  }
-
-  openModalExport = () => {
-    this.refs.child4.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
@@ -162,16 +127,14 @@ class TableContentPlantillaEmail extends Component {
       <div className="animated fadeIn">
         <div className="col-md-12">
           <BootstrapTable
-            // options={options}
             striped
-            exportCSV
             pagination
             search
             searchPlaceholder={t("app_pais_administrar_table_placeholder")}
             data={this.state.dataPlantillas}
             hover
             bordered={false}
-            className="tablePais texto-Pais"
+            className="tablePlantillaEmail texto-PlantillaEmail"
           >
             <TableHeaderColumn
               export={false}
@@ -210,7 +173,7 @@ class TableContentPlantillaEmail extends Component {
                 this.FechaCreacionPlantillasEmail(cell, row)
               }
               dataAlign="center"
-              width={"120"}
+              width={"150"}
             >
               {t("app_pais_administrar_table_fecha_creacion")}
             </TableHeaderColumn>
@@ -228,29 +191,14 @@ class TableContentPlantillaEmail extends Component {
         </div>
         <ShowTemplate
           ref={"child"}
-          template={this.state.templatePreview}
           modal={this.state.ModalPreview}
-        />
-        {/* <ModalView
-          t={this.props.t}
-          modalview={this.state.ModalViewPais}
-          ref="child"
           authorization={this.state.auth}
         />
-        <ModalEdit
-          t={this.props.t}
-          modaledit={this.state.ModalEdit}
-          updateTable={this.getDataPais}
-          ref="child3"
+        <ModalViewInfoTemplateEmail
+          ref={"child2"}
+          modal={this.state.ModalPreview}
           authorization={this.state.auth}
         />
-        <ModalDelete
-          t={this.props.t}
-          modaldel={this.state.ModalDelete}
-          updateTable={this.getDataPais}
-          ref="child2"
-          authorization={this.state.auth}
-        /> */}
       </div>
     );
   }

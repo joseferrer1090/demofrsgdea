@@ -142,7 +142,7 @@ class ModalViewUser extends Component {
               <img
                 src={`${this.state.photo}`}
                 className="img-thumbnail"
-                width={"80%"}
+                width={"180px"}
               />
             </Col>
             <Col sm="9">

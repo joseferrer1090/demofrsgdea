@@ -31,6 +31,21 @@ class ComponentPhotoUser extends Component {
       .catch(err => console.log(`err => ${err}`));
   };
 
+  _handleImageChange = e => {
+    e.preventDefault();
+
+    let reader = new FileReader();
+    let file = e.target.files[0];
+
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    };
+    reader.readAsDataURL(file);
+  };
+
   // componentDidMount() {
   //   fetch(
   //     `http://192.168.10.180:8090/api/sgdea/service/configuration/users/photo/view/base64/0dd61056-02bb-4114-bb07-59f284cb50de`,
@@ -49,47 +64,38 @@ class ComponentPhotoUser extends Component {
 
   render() {
     console.log(this.state.photo);
+    console.log(this.state.file);
+    let { imagePreviewUrl } = this.state;
+    let $imagePreviewUrl = null;
+    if (imagePreviewUrl) {
+      $imagePreviewUrl = (
+        <img className="img-thumbnail" src={imagePreviewUrl} />
+      );
+    } else {
+      $imagePreviewUrl = (
+        <img className="img-thumbnail" src={this.state.photo} />
+      );
+    }
     return (
-      <div className="col-md-4">
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            {/* <svg className="glyph stroked download">
-              <use xlinkHref="#stroked-download" />
-            </svg>
-            Cambiar Imagen */}
-          </div>
-          <div className="previewComponent">
-            <div className="row">
-              <form onSubmit={e => this._handleSubmit(e)}>
-                <div className="col-md-3">
-                  <div>
-                    <input
-                      type="file"
-                      style={{ display: "none" }}
-                      ref={"fileUploader"}
-                    />
-                    <input
-                      type="button"
-                      className="btn btn-secondary btn-sm"
-                      defaultValue="Browse..."
-                      onClick={() => {
-                        this.refs.fileUploader.click();
-                      }}
-                    />
-                  </div>
-                </div>
-              </form>
-            </div>
-            {/* <div className="imgPreview">{$imagePreview}</div> */}
-          </div>
-          {/* <button
-            className="submitButton"
-            type="submit"
-            onClick={e => this._handleSubmit(e)}
+      <div>
+        <form>
+          <input
+            type="file"
+            style={{ display: "none" }}
+            ref={"uploadFile"}
+            onChange={e => this._handleImageChange(e)}
+          />
+          {$imagePreviewUrl}
+          <button
+            type="button"
+            className="btn btn-secondary btn-sm btn-block"
+            onClick={() => {
+              this.refs.uploadFile.click();
+            }}
           >
-            Aceptar cambios
-          </button> */}
-        </div>
+            <i className="fa fa-image" /> Cambiar imagen
+          </button>
+        </form>
       </div>
     );
   }

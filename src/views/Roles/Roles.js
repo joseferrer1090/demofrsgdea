@@ -16,6 +16,17 @@ import data from "../../data/data";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 
+const asynLocalStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return localStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return localStorage.getItem(key);
+  }
+};
+
 class Roles extends React.Component {
   constructor(props) {
     super(props);
@@ -23,9 +34,27 @@ class Roles extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       activeTab: "1",
-      t: this.props.t
+      t: this.props.t,
+      authToken: ""
     };
   }
+
+  componentDidMount() {
+    this.getDataLocal();
+  }
+
+  getDataLocal = () => {
+    asynLocalStorage
+      .getItem("user")
+      .then(resp => {
+        return JSON.parse(resp);
+      })
+      .then(resp => {
+        this.setState({
+          authToken: resp.data.access_token
+        });
+      });
+  };
 
   toggle(tab) {
     if (this.state.activeTab !== tab) {
@@ -37,6 +66,8 @@ class Roles extends React.Component {
 
   render() {
     const { t } = this.props;
+    const { authToken } = this.state;
+    console.log(authToken);
     return (
       <div>
         <Nav tabs>
@@ -73,7 +104,7 @@ class Roles extends React.Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <FormCreate data={data} />
+            <FormCreate authorization={authToken} data={data} />
           </TabPane>
           <TabPane tabId="2">
             <Row>

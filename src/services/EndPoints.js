@@ -34,6 +34,9 @@ export const AUDIT_CONSULT = `${config.IP}:${config.PORT}/api/sgdea/service/conf
 /* GET */
 export const MODULE_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/modules`;
 
+/* GET */
+export const MODULE_ALL_ACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/modules/active`;
+
 /* GET params username idModule */
 export const MODULE_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/modules/`;
 
@@ -613,6 +616,7 @@ export const CITIES_PAGINATION = () => {
 };
 
 //---------------------------------------------PLANTILLA EMAIL-----------------------------------------------------//
+
 /* GET */
 export const TEMPLATES_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/templates`;
 export const TEMPLATE_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/templates/`;
@@ -640,3 +644,11 @@ export const TEMPLATES_PAGINATION = () => {
   const size = 1;
   return `http://192.168.10.180:7000/api/sgdea/template/pagination?page=${page}&size=${size}`;
 };
+
+//---------------------------------------------PERMISOS-----------------------------------------------------//
+
+/* GET params => idEntidad */
+export const PERMISSIONS_BY_PAGE_ENTITY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/permissions/page/entity/`;
+
+/* GET params => username */
+export const PERMISSIONS_BY_USER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/permissions/user`;

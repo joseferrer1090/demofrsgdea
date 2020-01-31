@@ -262,34 +262,34 @@ class TableContentRoles extends Component {
           </Col>
         </Row>
 
-        <ModalView
+        {/* <ModalView
           t={this.props.t}
           modalviewroles={this.state.modalview}
           ref="child"
-        />
-        <ModalEdit
+        /> */}
+        {/* <ModalEdit
           t={this.props.t}
           modaledit={this.state.modaledit}
           ref="child2"
           updateTable={this.getDataRoles}
-        />
-        <ModalDelete
+        /> */}
+        {/* <ModalDelete
           t={this.props.t}
           modaldelete={this.state.modaldel}
           ref="child3"
           updateTable={this.getDataRoles}
-        />
-        <ModalPermission
+        /> */}
+        {/* <ModalPermission
           t={this.props.t}
           datamodal={this.state.data}
           modaleditpermission={this.state.modalpermission}
           ref="child4"
-        />
-        <ModalExport
+        /> */}
+        {/* <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref="child5"
-        />
+        /> */}
       </div>
     );
   }

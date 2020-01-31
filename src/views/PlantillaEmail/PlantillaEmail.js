@@ -89,7 +89,7 @@ class PlantillaEmail extends Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <TableContentPlantillaEmail authorization={authToken} />
+                <TableContentPlantillaEmail authorization={authToken} t={t} />
               </Col>
             </Row>
           </TabPane>

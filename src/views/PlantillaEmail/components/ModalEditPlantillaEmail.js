@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import ShowTemplate from "./ShowTemplateEdit";
 import CodeMirror from "codemirror";
 import { withTranslation } from "react-i18next";
 import { TEMPLATE_EMAIL, TEMPLATES_EMAIL } from "../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
-import { Alert } from "reactstrap";
+import { Alert, Toast, ToastBody, ToastHeader, Row, Col } from "reactstrap";
 import "./../../../../node_modules/codemirror/lib/codemirror.css";
 import "./../../../../node_modules/codemirror/theme/ambiance.css";
 import "./../../../../node_modules/codemirror/mode/xml/xml";
@@ -47,6 +46,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
 
   useEffect(() => {
     getDataTemplateEmail();
+    console.log(props.t);
   }, []);
 
   const getDataTemplateEmail = () => {
@@ -119,6 +119,136 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
   const back = () => {
     let path = `#/configuracion/plantillaemail`;
     window.location.replace(path);
+  };
+
+  const instruccionesEdit = () => {
+    if (dataPlantillaEmail.name === "filing-email-answer-template") {
+      return (
+        <div className="col-12">
+          <Alert color="secondary" isOpen={visible} toggle={onDismiss}>
+            En este apartado podrá editar una plantilla de correo electrónico y
+            almacenarla para su posterior utilización.
+            <div className="p-3 my-2 rounded">
+              <Row>
+                <Col md="4">
+                  <Toast>
+                    <ToastHeader>
+                      Campo <b>Asunto</b>
+                    </ToastHeader>
+                    <ToastBody>
+                      Podra modificar el mensaje para que se adecúe al tipo de
+                      respuesta según el asunto.
+                      <hr></hr>
+                      Recomendamos <b>no</b> modificar el valor{" "}
+                      <b>
+                        <code style={{ color: "#FA1818" }}>
+                          ${"{subject_received}"}
+                        </code>
+                      </b>{" "}
+                      ya que hace parte del proceso de respuesta en la
+                      utilización de la plantilla.
+                    </ToastBody>
+                  </Toast>
+                </Col>
+                <Col md="4">
+                  <Toast>
+                    <ToastHeader>
+                      {" "}
+                      Campo <b>Cuerpo de la plantilla HTML</b>
+                    </ToastHeader>
+                    <ToastBody>
+                      En este apartado podrá modificar el código HTML de la
+                      plantilla de correo electrónico.
+                      <hr></hr>
+                      Recomendamos <b>no</b> modificar los siguientes valores:{" "}
+                      <br></br>
+                      <b>
+                        <code style={{ color: "#FA1818" }}>${"{sender}"}</code>,
+                        &nbsp;
+                        <code style={{ color: "#FA1818" }}>
+                          ${"{subject_received}"}
+                        </code>
+                        , &nbsp;
+                        <code style={{ color: "#FA1818" }}>
+                          ${"{body_received}"}
+                        </code>
+                        , &nbsp;
+                        <code style={{ color: "#FA1818" }}>
+                          ${"{attacheds}"}
+                        </code>
+                      </b>{" "}
+                      ya que hace parte del proceso de respuesta en la
+                      utilización de la plantilla.
+                    </ToastBody>
+                  </Toast>
+                </Col>
+                <Col md="4">
+                  <Toast>
+                    <ToastHeader>
+                      {" "}
+                      Campo <b>Estilos de la plantilla CSS</b>
+                    </ToastHeader>
+                    <ToastBody>
+                      En este apartado podrá modificar el código CSS asigando
+                      estilos a la plantilla de correo electrónico .
+                    </ToastBody>
+                  </Toast>
+                </Col>
+              </Row>
+            </div>
+          </Alert>
+        </div>
+      );
+    } else if (dataPlantillaEmail.name === "password-reset-request-template") {
+      return (
+        <div className="col-12">
+          <Alert color="secondary" isOpen={visible} toggle={onDismiss}>
+            En este apartado podrá editar una plantilla de correo electrónico y
+            almacenarla para su posterior utilización.
+            <div className="p-3 my-2 rounded">
+              <Row>
+                <Col md="6">
+                  <Toast>
+                    <ToastHeader>
+                      {" "}
+                      Campo <b>Cuerpo de la plantilla HTML</b>
+                    </ToastHeader>
+                    <ToastBody>
+                      En este apartado podrá modificar el código HTML de la
+                      plantilla de correo electrónico.
+                      <hr></hr>
+                      Recomendamos <b>no</b> modificar los siguientes valores:{" "}
+                      <br></br>
+                      <b>
+                        <code style={{ color: "#FA1818" }}>${"{user}"}</code>,
+                        &nbsp;
+                        <code style={{ color: "#FA1818" }}>
+                          ${"{resetUrl}"}
+                        </code>
+                      </b>{" "}
+                      ya que hace parte del proceso de respuesta en la
+                      utilización de la plantilla.
+                    </ToastBody>
+                  </Toast>
+                </Col>
+                <Col md="6">
+                  <Toast>
+                    <ToastHeader>
+                      {" "}
+                      Campo <b>Estilos de la plantilla CSS</b>
+                    </ToastHeader>
+                    <ToastBody>
+                      En este apartado podrá modificar el código CSS asigando
+                      estilos a la plantilla de correo electrónico .
+                    </ToastBody>
+                  </Toast>
+                </Col>
+              </Row>
+            </div>
+          </Alert>
+        </div>
+      );
+    }
   };
 
   return (
@@ -234,23 +364,12 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
               <ToastContainer />
               <div className="card">
                 <div className="card-header">
-                  Actualizar plantilla de correo electrónico{" "}
+                  a {/* {t("app_plantilla_email_modal_editar_titulo")} */}
                   {values.templateEmail_name}
                 </div>
                 <div className="card-body">
                   <div className="row">
-                    <div className="col-12">
-                      <Alert
-                        color="secondary"
-                        isOpen={visible}
-                        toggle={onDismiss}
-                      >
-                        En este apartado podrá editar una plantilla de correo
-                        electrónico y almacenarla para su posterior utilización
-                        (newsletter, comunicados, listas, circulares, boletines,
-                        etc.).
-                      </Alert>
-                    </div>
+                    {instruccionesEdit()}
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
@@ -464,5 +583,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
     </Formik>
   );
 };
-PlantillaEmailForm.propTypes = {};
-export default withTranslation("translations")(PlantillaEmailForm);
+PlantillaEmailForm.propTypes = {
+  authorization: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
+};
+export default PlantillaEmailForm;

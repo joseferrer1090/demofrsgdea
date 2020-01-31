@@ -9,6 +9,7 @@ import {
 } from "reactstrap";
 import { decode } from "jsonwebtoken";
 import { TEMPLATE_EMAIL } from "./../../../../services/EndPoints";
+import { withTranslation } from "react-i18next";
 
 class ShowTemplate extends React.Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class ShowTemplate extends React.Component {
       codeCSS: "",
       auth: this.props.authorization,
       id: this.props.id,
-      spinner: true
+      spinner: true,
+      t: this.props.t
     };
   }
 
@@ -98,11 +100,13 @@ class ShowTemplate extends React.Component {
 
   render() {
     const { template_name } = this.state;
-
+    const { t } = this.state;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Vista previa {template_name}</ModalHeader>
+          <ModalHeader>
+            {t("app_plantilla_email_modal_preview_titulo")} {template_name}
+          </ModalHeader>
           <ModalBody>
             {this.Loadingspinner()}
             <div id="divView"></div>
@@ -114,7 +118,8 @@ class ShowTemplate extends React.Component {
                 this.setState({ modal: false, spinner: true });
               }}
             >
-              <i className="fa fa-times" /> Cerrar
+              <i className="fa fa-times" />{" "}
+              {t("app_plantilla_email_modal_preview_btn_cerrar")}
             </button>
           </ModalFooter>
         </Modal>

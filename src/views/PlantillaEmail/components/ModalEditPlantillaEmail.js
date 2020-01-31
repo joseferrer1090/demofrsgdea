@@ -46,6 +46,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
 
   useEffect(() => {
     getDataTemplateEmail();
+    console.log(props.t);
   }, []);
 
   const getDataTemplateEmail = () => {
@@ -363,7 +364,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
               <ToastContainer />
               <div className="card">
                 <div className="card-header">
-                  Actualizar
+                  a {/* {t("app_plantilla_email_modal_editar_titulo")} */}
                   {values.templateEmail_name}
                 </div>
                 <div className="card-body">
@@ -586,4 +587,4 @@ PlantillaEmailForm.propTypes = {
   authorization: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired
 };
-export default withTranslation("translations")(PlantillaEmailForm);
+export default PlantillaEmailForm;

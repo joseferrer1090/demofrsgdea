@@ -324,6 +324,7 @@ const routes = [
     component: props => (
       <EditPlantillaEmail
         {...props}
+        t={props.t}
         authorization={localStorage.getItem("auth_token")}
       />
     )

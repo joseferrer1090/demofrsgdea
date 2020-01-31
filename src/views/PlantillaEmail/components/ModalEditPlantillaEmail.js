@@ -363,7 +363,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
               <ToastContainer />
               <div className="card">
                 <div className="card-header">
-                  Actualizar plantilla de correo electrónico{" "}
+                  Actualizar
                   {values.templateEmail_name}
                 </div>
                 <div className="card-body">

@@ -308,6 +308,11 @@ class AppSidebarNav extends Component {
           ]
         },
         {
+          name: `${t("nav_app_email_template")}`,
+          url: "/configuracion/plantillaemail",
+          icon: "fa fa-puzzle-piece"
+        },
+        {
           name: `${t("nav_app_plantilla")}`,
           url: "/configuracion/plantilla",
           icon: "fa fa-puzzle-piece"
@@ -316,6 +321,16 @@ class AppSidebarNav extends Component {
           name: `${t("nav_app_tema")}`,
           icon: "icon-pencil",
           url: "/configuracion/tema"
+        },
+        {
+          name: `${t("nav_app_parametros_generales")}`,
+          icon: "icon-settings",
+          url: "/configuracion/parametrosgenerales"
+        },
+        {
+          name: `${t("nav_app_metadatos")}`,
+          icon: "icon-settings",
+          url: "/configuracion/metadatos"
         }
       ]
     });

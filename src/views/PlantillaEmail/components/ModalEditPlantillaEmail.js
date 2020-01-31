@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import ShowTemplate from "./Forms/ShowTemplate";
+import ShowTemplate from "./ShowTemplateEdit";
 import CodeMirror from "codemirror";
 import { withTranslation } from "react-i18next";
 import { TEMPLATE_EMAIL, TEMPLATES_EMAIL } from "../../../services/EndPoints";
@@ -16,6 +16,7 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import PropTypes from "prop-types";
 import { css } from "glamor";
+import ShowTemplateEdit from "./ShowTemplateEdit";
 
 const PlantillaEmailForm = ({ match, authorization, props }) => {
   /* Estado data HTML-BODY STYLES-CSS */
@@ -114,6 +115,12 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
   };
 
   const template = processTemplate();
+
+  const back = () => {
+    let path = `#/configuracion/plantillaemail`;
+    window.location.replace(path);
+  };
+
   return (
     <Formik
       enableReinitialize={true}
@@ -122,13 +129,12 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
         templateEmail_description: dataPlantillaEmail.description,
         templateEmail_subject: dataPlantillaEmail.subject,
         templateEmail_from: dataPlantillaEmail.from,
-        txtxhtml:CodeBody,
-        txtcss:CodeCSS
+        txthtml: CodeBody,
+        txtcss: CodeCSS
       }}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const userName = decode(auth);
         setTimeout(() => {
-          console.log(JSON.stringify(values, "", 2));
           fetch(`${TEMPLATES_EMAIL}`, {
             method: "PUT",
             headers: {
@@ -137,18 +143,18 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
             },
             body: JSON.stringify({
               id: id,
-              name: "",
-              description: "",
-              subject: "",
-              from: "",
-              body: "",
-              html: "",
-              userName: userName.user_name
+              name: values.templateEmail_name,
+              description: values.templateEmail_description,
+              subject: values.templateEmail_subject,
+              from: values.templateEmail_from,
+              body: values.txthtml,
+              css: values.txtcss,
+              username: userName.user_name
             })
           })
             .then(response =>
               response.json().then(data => {
-                if (response.status === 201) {
+                if (response.status === 200) {
                   toast.success(
                     "Se edito la plantilla de correo electrónico con éxito.",
                     {
@@ -203,7 +209,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
         templateEmail_from: Yup.string().required(
           " Por favor introduzca el remitente."
         ),
-        txtxhtml: Yup.string().required(
+        txthtml: Yup.string().required(
           " Por favor introduzca el cuerpo de la plantilla."
         ),
         txtcss: Yup.string().required(
@@ -225,9 +231,11 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
         return (
           <div className="col-md-12">
             <form className="form">
+              <ToastContainer />
               <div className="card">
                 <div className="card-header">
-                  Editar plantilla de correo electrónico
+                  Actualizar plantilla de correo electrónico{" "}
+                  {values.templateEmail_name}
                 </div>
                 <div className="card-body">
                   <div className="row">
@@ -366,53 +374,66 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                           </u>
                         </b>{" "}
                       </label>
-                      <textarea id="txthtml" name="txthtml"></textarea>
+                      <textarea
+                        id="txthtml"
+                        name="txthtml"
+                        className={`form-control form-control-sm ${errors.txthtml &&
+                          touched.txthtml &&
+                          "is-invalid"}`}
+                      ></textarea>
                       <div style={{ color: "#D54B4B" }}>
-                              {errors.txthtml &&
-                              touched.txthtml ? (
-                                <i className="fa fa-exclamation-triangle" />
-                              ) : null}
-                              <ErrorMessage name="txthtml" />
-                            </div>
+                        {errors.txthtml && touched.txthtml ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="txthtml" />
+                      </div>
                     </div>
                     <div className="col-6" style={{ padding: 1 }}>
                       <label>
-                        <b>Estilos de la plantilla</b>{" "}
-                        <u style={{ color: "red" }}>
-                          <code>CSS</code>
-                        </u>
+                        <b>
+                          Estilos de la plantilla{" "}
+                          <u style={{ color: "red" }}>
+                            <code>CSS</code>
+                          </u>
+                        </b>
                       </label>
-                      <textarea id="txtcss" name="txtcss"></textarea>
+                      <textarea
+                        id="txtcss"
+                        name="txtcss"
+                        className={`form-control form-control-sm ${errors.txtcss &&
+                          touched.txtcss &&
+                          "is-invalid"}`}
+                      ></textarea>
                       <div style={{ color: "#D54B4B" }}>
-                              {errors.txtcss &&
-                              touched.txtcss ? (
-                                <i className="fa fa-exclamation-triangle" />
-                              ) : null}
-                              <ErrorMessage name="txtcss" />
-                            </div>
+                        {errors.txtcss && touched.txtcss ? (
+                          <i className="fa fa-exclamation-triangle" />
+                        ) : null}
+                        <ErrorMessage name="txtcss" />
+                      </div>
+                    </div>
+                    <div className="col-12" style={{ padding: 5 }}>
+                      <button
+                        className="btn btn-dark btn-sm btn-block"
+                        onClick={e => {
+                          openModalTemplate(e);
+                        }}
+                        style={{ margin: "1px" }}
+                      >
+                        <i className="fa fa-eye" /> Vista previa
+                      </button>
                     </div>
                   </div>
                 </div>
-                <ShowTemplate
+                <ShowTemplateEdit
                   ref={ref}
                   template={showTemplate}
                   modal={modalPreviewTemplate}
                 />
-
                 <div className="card-footer">
                   <div className="pull-right">
                     <button
-                      className="btn btn-warning btn-sm"
-                      onClick={e => {
-                        openModalTemplate(e);
-                      }}
-                      style={{ margin: "1px" }}
-                    >
-                      Vista previa
-                    </button>
-                    <button
                       type="button"
-                      className="btn btn-outline-success btn-sm"
+                      className="btn btn-success btn-sm"
                       onClick={e => {
                         e.preventDefault();
                         handleSubmit();
@@ -420,6 +441,18 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     >
                       {" "}
                       <i className="fa fa-pencil" /> Actualizar{" "}
+                    </button>
+
+                    <button
+                      style={{ margin: 5 }}
+                      type="button"
+                      className="btn btn-outline-secondary btn-sm"
+                      onClick={e => {
+                        back(e);
+                      }}
+                    >
+                      {" "}
+                      <i className="fa fa-times" /> Cerrar{" "}
                     </button>
                   </div>
                 </div>

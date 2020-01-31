@@ -1,0 +1,32 @@
+.tablePlantillaEmail table > tbody > tr > td,
+.tablePlantillaEmail table > tbody > tr > th {
+  padding-bottom: 15px !important;
+}
+.tablePlantillaEmail table > tfoot > tr > td,
+.tablePlantillaEmail table > tfoot > tr > th {
+}
+.tablePlantillaEmail table > thead > tr > td,
+.tablePlantillaEmail table > thead > tr > th {
+  padding-bottom: 15px !important;
+}
+
+.texto-PlantillaEmail {
+  font-size: 14px !important;
+  font-weight: 450 !important;
+}
+.table-actionMenuPlantillaEmail {
+  display: none;
+}
+
+/* .table-actionMenuEmpre {
+  display: inline;
+
+} */
+
+tr:hover td .table-actionMenuPlantillaEmail,
+tr:hover th .table-actionMenuPlantillaEmail {
+  display: inline;
+  float: right;
+  position: absolute;
+  right: 0;
+}

@@ -34,6 +34,9 @@ export const AUDIT_CONSULT = `${config.IP}:${config.PORT}/api/sgdea/service/conf
 /* GET */
 export const MODULE_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/modules`;
 
+/* GET */
+export const MODULE_ALL_ACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/modules/active`;
+
 /* GET params username idModule */
 export const MODULE_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/modules/`;
 
@@ -412,29 +415,41 @@ export const TYPETHIRDPARTYS_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/ser
 
 //---------------------------------------------ROLES--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const ROLES = "http://192.168.10.180:7000/api/sgdea/role";
+/* GET */
+export const ROLES_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles`;
 
-/* GET / DELETE */
-export const ROLE =
-  "http://192.168.10.180:7000/api/sgdea/role/bc01f1eb-dd48-4911-99d5-7af6c95595cb/ccuartas";
+/* GET param => idRol */
+export const ROLES_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles/`;
 
 /* GET */
-export const ROLES_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/role/status/1";
+export const ROLES_ACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles/active`;
 
 /* GET */
-export const ROLES_STATUS_ACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles/active`;
+export const ROLES_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles/inactive`;
+
+/* POST */
+export const ROLES_CREATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles`;
+
+/* PUT */
+export const ROLES_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles`;
+
+/* PUT */
+export const ROLES_UPDATE_PERMISSION_BY_ROL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles/permissions`;
+
+/* GET param => idRol */
+export const ROLES_PERMISSION_BY_ROL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles/permissions/`;
+
+/* DELETE params => idRol */
+export const ROLES_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles/`;
 
 /* GET */
-export const ROLES_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/role/export/ccuartas";
+export const ROLES_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles/export/data`;
 
-/* GET */
+/* GET params => page , size */
 export const ROLES_PAGINATION = () => {
   const page = 0;
   const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/role/pagination?page=${page}&size=${size}`;
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/roles/pagination?page=${page}&size=${size}`;
 };
 
 //---------------------------------------------GRUPO DE USUARIOS--------------------------------------------------//
@@ -601,6 +616,7 @@ export const CITIES_PAGINATION = () => {
 };
 
 //---------------------------------------------PLANTILLA EMAIL-----------------------------------------------------//
+
 /* GET */
 export const TEMPLATES_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/templates`;
 export const TEMPLATE_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/templates/`;
@@ -628,3 +644,11 @@ export const TEMPLATES_PAGINATION = () => {
   const size = 1;
   return `http://192.168.10.180:7000/api/sgdea/template/pagination?page=${page}&size=${size}`;
 };
+
+//---------------------------------------------PERMISOS-----------------------------------------------------//
+
+/* GET params => idEntidad */
+export const PERMISSIONS_BY_PAGE_ENTITY = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/permissions/page/entity/`;
+
+/* GET params => username */
+export const PERMISSIONS_BY_USER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/permissions/user`;

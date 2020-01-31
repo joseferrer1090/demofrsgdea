@@ -11,6 +11,7 @@ import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-tab
 import moment from "moment";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
+import { ROLES_ALL } from "./../../../services/EndPoints";
 
 class TableContentRoles extends Component {
   constructor(props) {
@@ -23,20 +24,32 @@ class TableContentRoles extends Component {
       modalexport: false,
       dataRoles: [],
       hiddenColumnID: true,
-      t: this.props.t
+      t: this.props.t,
+      auth: this.props.authorization
     };
   }
 
-  componentDidMount() {
-    this.getDataRoles();
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.getDataRoles();
+    }
   }
 
   getDataRoles = () => {
-    fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
+    fetch(`${ROLES_ALL}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Basic " + window.btoa("sgdea:123456")
+        Authorization: "Bearer " + this.state.auth
       }
     })
       .then(response => response.json())
@@ -265,6 +278,7 @@ class TableContentRoles extends Component {
         <ModalView
           t={this.props.t}
           modalviewroles={this.state.modalview}
+          authorization={this.props.authorization}
           ref="child"
         />
         <ModalEdit
@@ -272,29 +286,31 @@ class TableContentRoles extends Component {
           modaledit={this.state.modaledit}
           ref="child2"
           updateTable={this.getDataRoles}
+          authorization={this.props.authorization}
         />
-        <ModalDelete
+        {/* <ModalDelete
           t={this.props.t}
           modaldelete={this.state.modaldel}
           ref="child3"
           updateTable={this.getDataRoles}
-        />
-        <ModalPermission
+        /> */}
+        {/* <ModalPermission
           t={this.props.t}
           datamodal={this.state.data}
           modaleditpermission={this.state.modalpermission}
           ref="child4"
-        />
-        <ModalExport
+        /> */}
+        {/* <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref="child5"
-        />
+        /> */}
       </div>
     );
   }
 }
 TableContentRoles.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default withTranslation("translations")(TableContentRoles);

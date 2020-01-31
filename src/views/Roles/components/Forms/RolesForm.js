@@ -17,7 +17,7 @@ import {
   NavLink
 } from "reactstrap";
 import classnames from "classnames";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
@@ -25,14 +25,19 @@ import MySelectModulos from "./components/SelectModulos";
 import MySelectEntidades from "./components/SelectEntidades";
 import Assignedpermissions from "./components/AsignarPermisos";
 import PropTypes from "prop-types";
+import { ROLES_CREATE } from "./../../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 const RolesForm = props => {
   const [activeTab, toggleTab] = useState("1");
+  const auth = props.authorization;
   const toggle = tab => {
     if (activeTab !== tab) {
       toggleTab(tab);
     }
   };
+
+  console.log(props.authorization);
 
   const {
     values,
@@ -44,12 +49,14 @@ const RolesForm = props => {
     isSubmitting,
     setFieldTouched,
     setFieldValue,
-    t
+    t,
+    authorization
   } = props;
 
   return (
     <div>
       <div className="row">
+        <ToastContainer />
         <div className="col-md-8 offset-md-2">
           <form className="form" noValidate>
             <Card>
@@ -171,6 +178,7 @@ const RolesForm = props => {
                                   <span className="text-danger">*</span>{" "}
                                 </label>
                                 <MySelectModulos
+                                  authorization={props.authorization}
                                   t={props.t}
                                   name={"modulos"}
                                   value={values.modulos}
@@ -206,6 +214,7 @@ const RolesForm = props => {
                                 </label>
                                 <MySelectEntidades
                                   t={props.t}
+                                  authorization={props.authorization}
                                   modulo={props.values.modulos}
                                   name={"entidades"}
                                   value={values.entidades}
@@ -245,6 +254,7 @@ const RolesForm = props => {
                             </label>
                             <Assignedpermissions
                               t={props.t}
+                              authorization={props.authorization}
                               entidad={props.values.entidades}
                               name={"permisos"}
                               value={values.permisos}
@@ -371,7 +381,7 @@ export default withTranslation("translations")(
         )
         .required("Es necesario asignar permisos")
     }),
-    handleSubmit: (values, { setSubmitting, resetForm }) => {
+    handleSubmit: (values, { setSubmitting, resetForm, props }) => {
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -382,62 +392,64 @@ export default withTranslation("translations")(
         return null;
       };
       setTimeout(() => {
-        // alert(JSON.stringify(values, null, 2));
-        fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
+        //alert(JSON.stringify(values, null, 2));
+        const token = props.authorization;
+        const username = decode(token);
+        fetch(`${ROLES_CREATE}`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + window.btoa("sgdea:123456")
+            Authorization: "Bearer " + props.authorization
           },
           body: JSON.stringify({
             code: values.codigo,
             name: values.nombre,
-            descripcion: values.descripcion,
+            description: values.descripcion,
             permissions: values.permisos,
             status: tipoEstado(values.estado),
-            userName: "jferrer"
+            userName: username.user_name
           })
-        }).then(response => {
-          response
-            .json()
-            .then(data => {
-              if (response.status === 201) {
-                toast.success("Se registro el rol con éxito.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
-              } else if (response.status === 400) {
-                toast.error(
-                  "Error al registrar el rol. Inténtelo nuevamente.",
-                  {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  }
-                );
-              } else if (response.status === 500) {
-                toast.error("Error, el rol ya existe.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
-              }
-            })
-            .catch(err => {
-              toast.error(`Error ${err}.`, {
+        })
+          .then(response => {
+            if (response.status === 201) {
+              console.log("exito");
+              toast.success("Se registro el rol con éxito.", {
                 position: toast.POSITION.TOP_RIGHT,
                 className: css({
                   marginTop: "60px"
                 })
               });
+            } else if (response.status === 400) {
+              toast.error("Error al registrar el rol. Inténtelo nuevamente.", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            } else if (response.status === 500) {
+              toast.error("Error, el rol ya existe.", {
+                position: toast.POSITION.TOP_RIGHT,
+                className: css({
+                  marginTop: "60px"
+                })
+              });
+            }
+          })
+          .catch(err => {
+            toast.error(`Error ${err}.`, {
+              position: toast.POSITION.TOP_RIGHT,
+              className: css({
+                marginTop: "60px"
+              })
             });
-        });
+          });
         setSubmitting(false);
-        resetForm();
+        resetForm({
+          codigo: "",
+          nombre: "",
+          descripcion: "",
+          estado: false
+        });
       }, 1000);
     }
   })(RolesForm)

@@ -1,18 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import RolesForm from './Forms/RolesForm';
+import React from "react";
+import PropTypes from "prop-types";
+import RolesForm from "./Forms/RolesForm";
 
 // import ListaRoles from "./../componentsPermission/ListaRoles";
 // import NuevaListaRoles from "./../componentsPermission/NuevaListaRoles";
 
 const dataRoles = {
-  codigo: '',
-  nombre: '',
-  descripcion: '',
+  codigo: "",
+  nombre: "",
+  descripcion: "",
   modulos: [],
   entidades: [],
   entidades_search: [],
-  estado: '',
+  estado: "",
   permisos: []
 };
 
@@ -37,17 +37,19 @@ const FormCreateRoles = props => {
   //   });
   // }
 
+  console.log(props);
   return (
     <div className="animated fadeIn">
       <div className="container">
-        <RolesForm roles={dataRoles} />
+        <RolesForm authorization={props.authorization} roles={dataRoles} />
       </div>
     </div>
   );
 };
 
 FormCreateRoles.propTypes = {
-  roles: PropTypes.object.isRequired
+  roles: PropTypes.object.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default FormCreateRoles;

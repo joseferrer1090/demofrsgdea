@@ -10,6 +10,8 @@ import {
 import PropTypes from "prop-types";
 import IMGROLES from "./../../../assets/img/shield.svg";
 import moment from "moment";
+import { ROLES_SHOW } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalViewRoles extends Component {
   constructor(props) {
@@ -18,8 +20,9 @@ class ModalViewRoles extends Component {
       modal: this.props.modalviewroles,
       id: this.props.id,
       data: [],
-      userName: "jferrer",
-      t: this.props.t
+      userName: "",
+      t: this.props.t,
+      auth: this.props.authorization
     };
   }
   toggleCollapse = () => {
@@ -29,20 +32,19 @@ class ModalViewRoles extends Component {
   };
 
   toggle = id => {
+    const token = this.props.authorization;
+    const username = decode(token);
     this.setState({
       modal: !this.state.modal,
       id: id
     });
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/role/${id}?username=${this.state.userName}`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Basic " + window.btoa("sgdea:123456"),
-          "Content-Type": "application/json"
-        }
+    fetch(`${ROLES_SHOW}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -64,7 +66,7 @@ class ModalViewRoles extends Component {
   }
 
   render() {
-    const { t } = this.props;
+    const { t, authorization } = this.props;
     const statusRol = data => {
       let status;
       if (data === 1) {
@@ -177,7 +179,8 @@ class ModalViewRoles extends Component {
 ModalViewRoles.propTypes = {
   modalviewroles: PropTypes.bool.isRequired,
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalViewRoles;

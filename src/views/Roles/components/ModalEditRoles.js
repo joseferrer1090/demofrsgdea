@@ -23,7 +23,8 @@ class ModalEditRoles extends React.Component {
     alertSuccess: false,
     alertError: false,
     alertError400: "",
-    t: this.props.t
+    t: this.props.t,
+    auth: this.props.authorization
   };
 
   toggle = id => {

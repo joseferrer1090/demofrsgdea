@@ -109,7 +109,7 @@ class Roles extends React.Component {
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <TableContent data={data} />
+                <TableContent authorization={authToken} data={data} />
               </Col>
             </Row>
           </TabPane>

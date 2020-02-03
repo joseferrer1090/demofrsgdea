@@ -7,8 +7,8 @@ export const userService = {
   logout
 };
 
-const url = `http://192.168.10.180:8090`;
-//const url = `http://192.168.20.187:8090`;
+//const url = `http://192.168.10.180:8090`;
+const url = `http://192.168.20.187:8090`;
 
 function login(username, password, grant_type) {
   //console.log(`voy por este lado =>`, username, password, grant_type);

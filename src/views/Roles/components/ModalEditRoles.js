@@ -13,6 +13,7 @@ import {
 import IMGROLES from "./../../../assets/img/shield.svg";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
+import { ROLES_SHOW } from "./../../../services/EndPoints";
 
 class ModalEditRoles extends React.Component {
   state = {
@@ -36,21 +37,19 @@ class ModalEditRoles extends React.Component {
   };
 
   getRoleByID = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/role/${id}?username=${this.state.userName}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    fetch(`${ROLES_SHOW}${id}?username=${this.state.userName}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorizarion
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
           dataResult: data
         });
+        console.log(data);
       });
   };
 
@@ -68,6 +67,7 @@ class ModalEditRoles extends React.Component {
       estado: this.state.dataResult.status
     };
     const { t } = this.props;
+    console.log();
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>

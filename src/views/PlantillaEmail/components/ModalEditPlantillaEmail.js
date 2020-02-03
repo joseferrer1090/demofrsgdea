@@ -46,7 +46,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
 
   useEffect(() => {
     getDataTemplateEmail();
-    console.log(props.t);
+    
   }, []);
 
   const getDataTemplateEmail = () => {
@@ -128,6 +128,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
           <Alert color="secondary" isOpen={visible} toggle={onDismiss}>
             En este apartado podrá editar una plantilla de correo electrónico y
             almacenarla para su posterior utilización.
+            <br/>
+            Por favor tenga en cuenta las siguientes especificaciones y recomendaciones:
             <div className="p-3 my-2 rounded">
               <Row>
                 <Col md="4">
@@ -136,7 +138,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                       Campo <b>Asunto</b>
                     </ToastHeader>
                     <ToastBody>
-                      Podra modificar el mensaje para que se adecúe al tipo de
+                      Podrá modificar el mensaje para que se adecue al tipo de
                       respuesta según el asunto.
                       <hr></hr>
                       Recomendamos <b>no</b> modificar el valor{" "}
@@ -189,8 +191,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                       Campo <b>Estilos de la plantilla CSS</b>
                     </ToastHeader>
                     <ToastBody>
-                      En este apartado podrá modificar el código CSS asigando
-                      estilos a la plantilla de correo electrónico .
+                      En este apartado podrá modificar el código CSS asignando
+                      estilos a la plantilla de correo electrónico.
                     </ToastBody>
                   </Toast>
                 </Col>
@@ -205,6 +207,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
           <Alert color="secondary" isOpen={visible} toggle={onDismiss}>
             En este apartado podrá editar una plantilla de correo electrónico y
             almacenarla para su posterior utilización.
+            <br/>
+            Por favor tenga en cuenta las siguientes especificaciones y recomendaciones:
             <div className="p-3 my-2 rounded">
               <Row>
                 <Col md="6">
@@ -238,8 +242,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                       Campo <b>Estilos de la plantilla CSS</b>
                     </ToastHeader>
                     <ToastBody>
-                      En este apartado podrá modificar el código CSS asigando
-                      estilos a la plantilla de correo electrónico .
+                      En este apartado podrá modificar el código CSS asignando
+                      estilos a la plantilla de correo electrónico.
                     </ToastBody>
                   </Toast>
                 </Col>

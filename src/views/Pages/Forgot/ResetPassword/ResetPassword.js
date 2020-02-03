@@ -16,9 +16,10 @@ import {
   InputGroupAddon,
   InputGroupText,
   Row,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
-import {NEW_PASSWORD} from './../../../../services/EndPoints';
+import { NEW_PASSWORD } from "./../../../../services/EndPoints";
 
 class ResetPassword extends Component {
   constructor(props) {
@@ -78,24 +79,25 @@ class ResetPassword extends Component {
             })}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                fetch(
-                  `${NEW_PASSWORD}`,
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                      password: values.password_one,
-                      token: this.state.access_token
-                    })
-                  }
-                )
+                this.setState({
+                  spinner: true
+                });
+                fetch(`${NEW_PASSWORD}`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    password: values.password_one,
+                    token: this.state.access_token
+                  })
+                })
                   .then(response => {
                     if (response.status === 200) {
                       console.log(response.status);
                       this.setState({
-                        LoginPage: true
+                        LoginPage: true,
+                        spinner: false
                       });
                     } else if (response.status === 500) {
                       this.setState({
@@ -103,7 +105,8 @@ class ResetPassword extends Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: true
+                          alertError: true,
+                          spinner: false
                         });
                       }, 1000);
                     }
@@ -115,12 +118,13 @@ class ResetPassword extends Component {
                     });
                     setTimeout(() => {
                       this.setState({
-                        failed: true
+                        failed: true,
+                        spinner: false
                       });
                     }, 1000);
                   });
                 setSubmitting(false);
-              }, 500);
+              }, 2000);
             }}
           >
             {props => {
@@ -155,6 +159,7 @@ class ResetPassword extends Component {
                                       Por favor introduzca una nueva contraseña:
                                     </p>
                                     <br />
+
                                     <Alert
                                       toggle={this.onDismiss}
                                       color="danger"
@@ -257,9 +262,11 @@ class ResetPassword extends Component {
                                   </Fragment>
                                 ) : (
                                   <Fragment>
-                                    <h1 className="text-center">
-                                      Restablecer constraseña
-                                    </h1>
+                                    <h3 className="text-center">
+                                      Su contraseña se ha restablecido
+                                      exitosamente.
+                                    </h3>
+                                    <br />
                                     <Row>
                                       <Col xs="12">
                                         <Link

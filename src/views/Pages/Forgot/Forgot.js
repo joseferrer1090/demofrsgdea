@@ -17,7 +17,8 @@ import {
   InputGroupAddon,
   InputGroupText,
   Row,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 import { PASSWORD_RETRIEVAL_REQUEST } from "./../../../services/EndPoints";
 class Forgot extends Component {
@@ -29,9 +30,27 @@ class Forgot extends Component {
       failed: false,
       alertError404: false,
       alertError400: false,
-      alertSuccess: false
+      alertSuccess: false,
+      spinner: false
     };
   }
+
+  Loadingspinner = () => {
+    const { spinner } = this.state;
+    if (spinner === true) {
+      return (
+        <center>
+          <Spinner
+            style={{ width: "3rem", height: "3rem" }}
+            type="grow"
+            color="primary"
+          />
+        </center>
+      );
+    } else if (spinner === false) {
+      return null;
+    }
+  };
 
   onDismiss = () => {
     this.setState({
@@ -62,6 +81,9 @@ class Forgot extends Component {
             })}
             onSubmit={(values, { setSubmitting, resetForm }) => {
               setTimeout(() => {
+                this.setState({
+                  spinner: true
+                });
                 fetch(`${PASSWORD_RETRIEVAL_REQUEST}`, {
                   method: "POST",
                   headers: {
@@ -79,7 +101,8 @@ class Forgot extends Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinner: false
                         });
                       }, 1000);
                       console.log(response.status);
@@ -89,7 +112,8 @@ class Forgot extends Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError404: true
+                          alertError404: true,
+                          spinner: false
                         });
                       }, 1000);
                       console.log(response.status);
@@ -99,7 +123,8 @@ class Forgot extends Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: true
+                          alertError: true,
+                          spinner: false
                         });
                       }, 1000);
                       console.log(response.status);
@@ -109,7 +134,8 @@ class Forgot extends Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: true
+                          alertError400: true,
+                          spinner: false
                         });
                       }, 1000);
                       console.log(response.status);
@@ -122,7 +148,8 @@ class Forgot extends Component {
                     });
                     setTimeout(() => {
                       this.setState({
-                        failed: true
+                        failed: true,
+                        spinner: false
                       });
                     }, 1000);
                   });
@@ -155,6 +182,7 @@ class Forgot extends Component {
                                   Se enviará un correo electrónico para generar
                                   una nueva contraseña.
                                 </p>
+                                {this.Loadingspinner()}
                                 <Alert
                                   toggle={this.onDismiss}
                                   color="danger"
@@ -245,6 +273,9 @@ class Forgot extends Component {
                                       onClick={e => {
                                         e.preventDefault();
                                         handleSubmit();
+                                        // this.setState({
+                                        //   spinner: true
+                                        // })
                                       }}
                                       type="button"
                                       className="btn btn-secondary btn-block"

@@ -54,6 +54,11 @@ export const ENTITIES_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/conf
 /* GET idModule */
 export const ENTITIES_BY_MODULE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/entities/module/`;
 
+//---------------------------------------------RESTABLECER CONTRASEÑA--------------------------------------------------//
+/* POST EMAIL */
+export const PASSWORD_RETRIEVAL_REQUEST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/password-reset-request`;
+/* POST NEW PASSWORD */
+export const NEW_PASSWORD = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/password-reset`;
 //---------------------------------------------ACCIONES--------------------------------------------------//
 
 /* GET */

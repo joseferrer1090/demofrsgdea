@@ -10,8 +10,6 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import { withTranslation } from "react-i18next";
-import FormCreateTemplateEmail from "./components/FormCreatePlantillaEmail";
-import PlantillaEmailForm from "./components/Forms/PlantillaEmailForm";
 import TableContentPlantillaEmail from "./components/TableContentPlantillaEmail";
 
 const asyncLocalStorage = {

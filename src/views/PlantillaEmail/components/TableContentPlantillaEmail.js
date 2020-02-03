@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { TEMPLATES_EMAIL } from "./../../../services/EndPoints";
 import { withTranslation } from "react-i18next";

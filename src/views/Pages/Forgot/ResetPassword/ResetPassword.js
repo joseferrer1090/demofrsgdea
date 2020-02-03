@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { Formik, ErrorMessage, Field } from 'formik';
-import SIGNIN from './../../../../assets/img/favicon.ico';
-import * as Yup from 'yup';
+import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
+import { Formik, ErrorMessage } from "formik";
+import SIGNIN from "./../../../../assets/img/favicon.ico";
+import * as Yup from "yup";
 import {
   Button,
   Card,
@@ -16,15 +16,17 @@ import {
   InputGroupAddon,
   InputGroupText,
   Row,
-  Alert
-} from 'reactstrap';
+  Alert,
+  Spinner
+} from "reactstrap";
+import { NEW_PASSWORD } from "./../../../../services/EndPoints";
 
 class ResetPassword extends Component {
   constructor(props) {
     super(props);
     this.state = {
       LoginPage: false,
-      access_token: '',
+      access_token: "",
       alertError: false,
       alertError400: false,
       alertError404: false,
@@ -45,7 +47,8 @@ class ResetPassword extends Component {
 
   componentDidMount() {
     const url = new URLSearchParams(this.props.location.search);
-    const token = url.get('token');
+    const token = url.get("token");
+
     this.setState({
       access_token: token
     });
@@ -60,40 +63,41 @@ class ResetPassword extends Component {
               password_one: Yup.string()
                 .matches(
                   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,15}$/, // esta expresion regular valida la contraseña
-                  ' Contraseña no valida, asegúrese de que lleve al menos una letra en mayuscula, un digito, y un caracter especial.'
+                  " Contraseña no valida, asegúrese de que lleve al menos una letra en mayuscula, un digito, y un caracter especial."
                 )
-                .required(' Por favor introduzca una contraseña.')
-                .min(8, '  Mínimo 8 caracteres. ')
-                .max(15, ' Máximo 15 caracteres.'),
+                .required(" Por favor introduzca una contraseña.")
+                .min(8, "  Mínimo 8 caracteres. ")
+                .max(15, " Máximo 15 caracteres."),
               password_two: Yup.string()
                 .oneOf(
-                  [Yup.ref('password_one'), null],
-                  ' Las contraseñas no coinciden.'
+                  [Yup.ref("password_one"), null],
+                  " Las contraseñas no coinciden."
                 )
-                .required(' Por favor confirme la contraseña.')
-                .min(10, ' Mínimo 10 caracteres.')
+                .required(" Por favor confirme la contraseña.")
+                .min(10, " Mínimo 10 caracteres.")
                 .max(200)
             })}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                fetch(
-                  `http://192.168.10.180:8090/api/sgdea/service/configuration/user/password-reset`,
-                  {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                      password: values.password_one,
-                      token: this.state.access_token
-                    })
-                  }
-                )
+                this.setState({
+                  spinner: true
+                });
+                fetch(`${NEW_PASSWORD}`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json"
+                  },
+                  body: JSON.stringify({
+                    password: values.password_one,
+                    token: this.state.access_token
+                  })
+                })
                   .then(response => {
                     if (response.status === 200) {
                       console.log(response.status);
                       this.setState({
-                        LoginPage: true
+                        LoginPage: true,
+                        spinner: false
                       });
                     } else if (response.status === 500) {
                       this.setState({
@@ -101,24 +105,26 @@ class ResetPassword extends Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: true
+                          alertError: true,
+                          spinner: false
                         });
                       }, 1000);
                     }
                   })
                   .catch(error => {
-                    console.log('', error);
+                    console.log("", error);
                     this.setState({
                       failed: false
                     });
                     setTimeout(() => {
                       this.setState({
-                        failed: true
+                        failed: true,
+                        spinner: false
                       });
                     }, 1000);
                   });
                 setSubmitting(false);
-              }, 500);
+              }, 2000);
             }}
           >
             {props => {
@@ -153,6 +159,7 @@ class ResetPassword extends Component {
                                       Por favor introduzca una nueva contraseña:
                                     </p>
                                     <br />
+
                                     <Alert
                                       toggle={this.onDismiss}
                                       color="danger"
@@ -178,7 +185,7 @@ class ResetPassword extends Component {
                                       </InputGroupAddon>
                                       <Input
                                         id="password_one"
-                                        name={'password_one'}
+                                        name={"password_one"}
                                         type="password"
                                         placeholder="Contraseña"
                                         onChange={handleChange}
@@ -186,11 +193,11 @@ class ResetPassword extends Component {
                                         value={values.password_one}
                                         className={`form-control form-control-sm ${errors.password_one &&
                                           touched.password_one &&
-                                          'is-invalid'}`}
+                                          "is-invalid"}`}
                                       />
                                     </InputGroup>
                                     <Row>
-                                      <div style={{ color: '#D54B4B' }}>
+                                      <div style={{ color: "#D54B4B" }}>
                                         {errors.password_one &&
                                         touched.password_one ? (
                                           <i className="fa fa-exclamation-triangle" />
@@ -207,7 +214,7 @@ class ResetPassword extends Component {
                                       </InputGroupAddon>
                                       <Input
                                         id="password_two"
-                                        name={'password_two'}
+                                        name={"password_two"}
                                         type="password"
                                         placeholder="Confirmar contraseña"
                                         onChange={handleChange}
@@ -215,11 +222,11 @@ class ResetPassword extends Component {
                                         value={values.password_two}
                                         className={`form-control form-control-sm ${errors.password_two &&
                                           touched.password_two &&
-                                          'is-invalid'}`}
+                                          "is-invalid"}`}
                                       />
                                     </InputGroup>
                                     <Row>
-                                      <div style={{ color: '#D54B4B' }}>
+                                      <div style={{ color: "#D54B4B" }}>
                                         {errors.password_two &&
                                         touched.password_two ? (
                                           <i className="fa fa-exclamation-triangle" />
@@ -247,7 +254,7 @@ class ResetPassword extends Component {
                                           type="button"
                                           className="btn btn-secondary btn-block"
                                         >
-                                          <i className="fa fa-send" />{' '}
+                                          <i className="fa fa-send" />{" "}
                                           Restablecer constraseña
                                         </Button>
                                       </Col>
@@ -255,9 +262,11 @@ class ResetPassword extends Component {
                                   </Fragment>
                                 ) : (
                                   <Fragment>
-                                    <h1 className="text-center">
-                                      Restablecer constraseña
-                                    </h1>
+                                    <h3 className="text-center">
+                                      Su contraseña se ha restablecido
+                                      exitosamente.
+                                    </h3>
+                                    <br />
                                     <Row>
                                       <Col xs="12">
                                         <Link

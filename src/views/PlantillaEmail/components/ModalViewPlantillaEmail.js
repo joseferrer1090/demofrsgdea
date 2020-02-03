@@ -64,6 +64,7 @@ class ModalViewInfoTemplateEmail extends React.Component {
       })
       .catch(Error => console.log(Error));
   };
+  
   FechaCreacionPlantillaEmail(data) {
     let createdAt;
     createdAt = new Date(data);

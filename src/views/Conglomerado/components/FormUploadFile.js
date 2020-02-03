@@ -120,6 +120,7 @@ class FormUploadFile extends React.Component {
                       }
                     )
                     .then(response => {
+                      console.log(response);
                       if (response.status === 200) {
                         toast.success(
                           "La importación del conglomerado se hizo satisfactoriamente.",
@@ -133,6 +134,17 @@ class FormUploadFile extends React.Component {
                       } else if (response === 500) {
                         toast(
                           "No se pudo realizar la importación, por favor verifique el archivo CSV.",
+                          {
+                            position: toast.POSITION.TOP_RIGHT,
+                            className: css({
+                              marginTop: "60px"
+                            })
+                          }
+                        );
+                      }
+                      else if (response === 400) {
+                        toast(
+                          "No se pudo realizar la importación, por favor verifique los campos e inténtelo nuevamente.",
                           {
                             position: toast.POSITION.TOP_RIGHT,
                             className: css({

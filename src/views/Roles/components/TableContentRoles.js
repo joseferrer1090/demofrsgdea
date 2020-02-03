@@ -294,12 +294,13 @@ class TableContentRoles extends Component {
           ref="child3"
           updateTable={this.getDataRoles}
         /> */}
-        {/* <ModalPermission
+        <ModalPermission
           t={this.props.t}
           datamodal={this.state.data}
           modaleditpermission={this.state.modalpermission}
           ref="child4"
-        /> */}
+          authorization={this.props.authorization}
+        />
         {/* <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}

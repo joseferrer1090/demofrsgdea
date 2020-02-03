@@ -7,6 +7,9 @@ export const PARAMETERS_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/con
 /* GET */
 export const PARAMETERS_FIND_BY_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters/`;
 
+/* GET INPUTS idParameter */
+export const PARAMETERS_INPUTS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters/input/`;
+
 /* GET params => idGroup */
 export const PARAMETERS_FIND_BY_PARAMETER_GROUP_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/general/parameters/parameter/group/`;
 

@@ -1,14 +1,23 @@
 import React from "react";
 import Select from "react-select";
 import PropTypes from "prop-types";
+import { PERMISSIONS_BY_PAGE_ENTITY } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
+
 class PermisosAsignados extends React.Component {
   state = {
     dataPermisos: [],
     id: this.props.entidad,
-    t: this.props.t
+    t: this.props.t,
+    auth: this.props.authorization
   };
 
   static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
     if (props.entidad !== state.id) {
       return {
         id: props.entidad
@@ -21,6 +30,11 @@ class PermisosAsignados extends React.Component {
     if (this.props.entidad !== prevProps.entidad) {
       this.getPermissionById();
     }
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   componentDidMount() {
@@ -28,13 +42,15 @@ class PermisosAsignados extends React.Component {
   }
 
   getPermissionById = () => {
+    const token = this.state.auth;
+    const username = decode(token);
     fetch(
-      `http://192.168.10.180:7000/api/sgdea/permission/page/entity/${this.state.id}`,
+      `${PERMISSIONS_BY_PAGE_ENTITY}${this.state.id}?username=${username.user_name}`,
       {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
+          Authorization: "Bearer " + token
         }
       }
     )
@@ -77,6 +93,7 @@ class PermisosAsignados extends React.Component {
 }
 PermisosAsignados.propTypes = {
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
+  authorization: PropTypes.string.isRequired
 };
 export default PermisosAsignados;

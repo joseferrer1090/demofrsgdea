@@ -1,14 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { ENTITIES_BY_MODULE } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class MySelectEntidades extends React.Component {
-  state = {
-    dataEntidades: [],
-    id: this.props.modulo,
-    t: this.props.t
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      dataEntidades: [],
+      id: this.props.modulo,
+      t: this.props.t,
+      auth: this.props.authorization
+    };
+  }
 
   static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
     if (props.modulo !== state.id) {
       return {
         id: props.modulo
@@ -21,23 +32,28 @@ class MySelectEntidades extends React.Component {
     if (this.props.modulo !== prevProps.modulo) {
       this.getDataEntity();
     }
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
-  componentDidMount() {
-    this.getDataEntity();
-  }
+  // componentDidMount() {
+  //   this.getDataEntity();
+  // }
 
   getDataEntity = () => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/entity/module/${this.state.id}/active`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const token = this.state.auth;
+    const username = decode(token);
+
+    fetch(`${ENTITIES_BY_MODULE}${this.state.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -84,6 +100,7 @@ class MySelectEntidades extends React.Component {
 }
 MySelectEntidades.propTypes = {
   t: PropTypes.any,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 export default MySelectEntidades;

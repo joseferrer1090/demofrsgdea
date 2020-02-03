@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import { Formik, ErrorMessage, Field } from 'formik';
-import * as Yup from 'yup';
-import SIGNIN from './../../../assets/img/favicon.ico';
+import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { Formik, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
+import SIGNIN from "./../../../assets/img/favicon.ico";
 import {
   Button,
   Card,
@@ -18,13 +18,13 @@ import {
   InputGroupText,
   Row,
   Alert
-} from 'reactstrap';
+} from "reactstrap";
 
 class Forgot extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      email: "",
       alertError: false,
       failed: false,
       alertError404: false,
@@ -57,18 +57,18 @@ class Forgot extends Component {
           <Formik
             validationSchema={Yup.object().shape({
               user_email: Yup.string()
-                .email(' Por favor introduzca un email valido.')
-                .required(' Por favor introduzca un email.')
+                .email(" Por favor introduzca un email valido.")
+                .required(" Por favor introduzca un email.")
             })}
             onSubmit={(values, { setSubmitting, resetForm }) => {
               setTimeout(() => {
                 fetch(
-                  `http://192.168.10.180:8090/api/sgdea/service/configuration/user/password-reset-request`,
+                  `http://192.168.20.187:8090/api/sgdea/service/configuration/users/password-reset-request`,
                   {
-                    method: 'POST',
+                    method: "POST",
                     headers: {
-                      'Content-Type': 'application/json',
-                      'Access-Control-Allow-Origin': '*'
+                      "Content-Type": "application/json",
+                      "Access-Control-Allow-Origin": "*"
                     },
                     body: JSON.stringify({
                       email: values.user_email
@@ -119,7 +119,7 @@ class Forgot extends Component {
                     }
                   })
                   .catch(error => {
-                    console.log('', error);
+                    console.log("", error);
                     this.setState({
                       failed: false
                     });
@@ -212,7 +212,7 @@ class Forgot extends Component {
                                   </InputGroupAddon>
                                   <Input
                                     id="email"
-                                    name={'user_email'}
+                                    name={"user_email"}
                                     type="text"
                                     placeholder="Email"
                                     // onChange={e => this.handleChangeInput(e)}
@@ -221,7 +221,7 @@ class Forgot extends Component {
                                     value={values.user_email}
                                     className={`form-control form-control-md ${errors.user_email &&
                                       touched.user_email &&
-                                      'is-invalid'}`}
+                                      "is-invalid"}`}
                                     /*
                                     name={'usuario_email'}
                                     onChange={handleChange}
@@ -234,7 +234,7 @@ class Forgot extends Component {
                                   />
                                 </InputGroup>
                                 <div className="text-center">
-                                  <div style={{ color: '#D54B4B' }}>
+                                  <div style={{ color: "#D54B4B" }}>
                                     {errors.user_email && touched.user_email ? (
                                       <i className="fa fa-exclamation-triangle" />
                                     ) : null}

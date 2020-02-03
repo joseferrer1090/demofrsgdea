@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
 import { css } from "glamor";
 import ShowTemplateEdit from "./ShowTemplateEdit";
 
-const PlantillaEmailForm = ({ match, authorization, props }) => {
+const PlantillaEmailForm = ({ match, authorization, t }) => {
   /* Estado data HTML-BODY STYLES-CSS */
   const [CodeCSS, setCodeCSS] = useState("");
   const [CodeBody, setCodeBody] = useState("");
@@ -46,7 +46,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
 
   useEffect(() => {
     getDataTemplateEmail();
-    
+    console.log(t);
   }, []);
 
   const getDataTemplateEmail = () => {
@@ -126,29 +126,42 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
       return (
         <div className="col-12">
           <Alert color="secondary" isOpen={visible} toggle={onDismiss}>
-            En este apartado podrá editar una plantilla de correo electrónico y
-            almacenarla para su posterior utilización.
-            <br/>
-            Por favor tenga en cuenta las siguientes especificaciones y recomendaciones:
+            {t("app_plantilla_email_modal_editar_alert_msg")}
+            <br />
+            {t("app_plantilla_email_modal_editar_alert_msg_2")}
             <div className="p-3 my-2 rounded">
               <Row>
                 <Col md="4">
                   <Toast>
                     <ToastHeader>
-                      Campo <b>Asunto</b>
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_template_filing_asunto_"
+                      )}
                     </ToastHeader>
                     <ToastBody>
-                      Podrá modificar el mensaje para que se adecue al tipo de
-                      respuesta según el asunto.
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_template_filing_asunto_2"
+                      )}
                       <hr></hr>
-                      Recomendamos <b>no</b> modificar el valor{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_template_filing_asunto_3"
+                      )}{" "}
+                      <b>
+                        {t(
+                          "app_plantilla_email_modal_editar_alert_template_filing_asunto_4"
+                        )}
+                      </b>{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_template_filing_asunto_5"
+                      )}{" "}
                       <b>
                         <code style={{ color: "#FA1818" }}>
                           ${"{subject_received}"}
                         </code>
                       </b>{" "}
-                      ya que hace parte del proceso de respuesta en la
-                      utilización de la plantilla.
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_template_filing_asunto_6"
+                      )}
                     </ToastBody>
                   </Toast>
                 </Col>
@@ -156,13 +169,24 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                   <Toast>
                     <ToastHeader>
                       {" "}
-                      Campo <b>Cuerpo de la plantilla HTML</b>
+                      {t("app_plantilla_email_modal_editar_alert_cuerpo_html")}
                     </ToastHeader>
                     <ToastBody>
-                      En este apartado podrá modificar el código HTML de la
-                      plantilla de correo electrónico.
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_2"
+                      )}
                       <hr></hr>
-                      Recomendamos <b>no</b> modificar los siguientes valores:{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_3"
+                      )}{" "}
+                      <b>
+                        {t(
+                          "app_plantilla_email_modal_editar_alert_cuerpo_html_4"
+                        )}
+                      </b>{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_5"
+                      )}{" "}
                       <br></br>
                       <b>
                         <code style={{ color: "#FA1818" }}>${"{sender}"}</code>,
@@ -179,8 +203,9 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                           ${"{attacheds}"}
                         </code>
                       </b>{" "}
-                      ya que hace parte del proceso de respuesta en la
-                      utilización de la plantilla.
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_6"
+                      )}
                     </ToastBody>
                   </Toast>
                 </Col>
@@ -188,11 +213,12 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                   <Toast>
                     <ToastHeader>
                       {" "}
-                      Campo <b>Estilos de la plantilla CSS</b>
+                      {t("app_plantilla_email_modal_editar_alert_estilos_css")}
                     </ToastHeader>
                     <ToastBody>
-                      En este apartado podrá modificar el código CSS asignando
-                      estilos a la plantilla de correo electrónico.
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_estilos_css_2"
+                      )}
                     </ToastBody>
                   </Toast>
                 </Col>
@@ -205,23 +231,33 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
       return (
         <div className="col-12">
           <Alert color="secondary" isOpen={visible} toggle={onDismiss}>
-            En este apartado podrá editar una plantilla de correo electrónico y
-            almacenarla para su posterior utilización.
-            <br/>
-            Por favor tenga en cuenta las siguientes especificaciones y recomendaciones:
+            {t("app_plantilla_email_modal_editar_alert_msg")}
+            <br />
+            {t("app_plantilla_email_modal_editar_alert_msg_2")}
             <div className="p-3 my-2 rounded">
               <Row>
                 <Col md="6">
                   <Toast>
                     <ToastHeader>
                       {" "}
-                      Campo <b>Cuerpo de la plantilla HTML</b>
+                      {t("app_plantilla_email_modal_editar_alert_cuerpo_html")}
                     </ToastHeader>
                     <ToastBody>
-                      En este apartado podrá modificar el código HTML de la
-                      plantilla de correo electrónico.
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_2"
+                      )}
                       <hr></hr>
-                      Recomendamos <b>no</b> modificar los siguientes valores:{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_3"
+                      )}{" "}
+                      <b>
+                        {t(
+                          "app_plantilla_email_modal_editar_alert_cuerpo_html_4"
+                        )}
+                      </b>{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_5"
+                      )}{" "}
                       <br></br>
                       <b>
                         <code style={{ color: "#FA1818" }}>${"{user}"}</code>,
@@ -230,8 +266,9 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                           ${"{resetUrl}"}
                         </code>
                       </b>{" "}
-                      ya que hace parte del proceso de respuesta en la
-                      utilización de la plantilla.
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_6"
+                      )}
                     </ToastBody>
                   </Toast>
                 </Col>
@@ -239,11 +276,12 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                   <Toast>
                     <ToastHeader>
                       {" "}
-                      Campo <b>Estilos de la plantilla CSS</b>
+                      {t("app_plantilla_email_modal_editar_alert_estilos_css")}
                     </ToastHeader>
                     <ToastBody>
-                      En este apartado podrá modificar el código CSS asignando
-                      estilos a la plantilla de correo electrónico.
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_estilos_css_2"
+                      )}
                     </ToastBody>
                   </Toast>
                 </Col>
@@ -368,7 +406,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
               <ToastContainer />
               <div className="card">
                 <div className="card-header">
-                  a {/* {t("app_plantilla_email_modal_editar_titulo")} */}
+                  {t("app_plantilla_email_modal_editar_titulo")}{" "}
                   {values.templateEmail_name}
                 </div>
                 <div className="card-body">
@@ -377,7 +415,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          Nombre
+                          {t("app_plantilla_email_modal_editar_nombre")}
                           <span className="text-danger">*</span>{" "}
                           <dd>
                             {" "}
@@ -406,7 +444,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          Descripción
+                          {t("app_plantilla_email_modal_editar_descripcion")}
                           <span className="text-danger">*</span>{" "}
                           <dd>
                             {" "}
@@ -435,7 +473,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          Asunto
+                          {t("app_plantilla_email_modal_editar_asunto")}
                           <span className="text-danger">*</span>{" "}
                           <dd>
                             {" "}
@@ -463,7 +501,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          De parte de
+                          {t("app_plantilla_email_modal_editar_from")}
                           <span className="text-danger">*</span>{" "}
                           <dd>
                             {" "}
@@ -491,9 +529,13 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     <div className="col-6" style={{ padding: 1 }}>
                       <label>
                         <b>
-                          Cuerpo de la plantilla{" "}
+                          {t("app_plantilla_email_modal_editar_cuerpo_html")}{" "}
                           <u style={{ color: "red" }}>
-                            <code>HTML</code>
+                            <code>
+                              {t(
+                                "app_plantilla_email_modal_editar_cuerpo_html_2"
+                              )}
+                            </code>
                           </u>
                         </b>{" "}
                       </label>
@@ -514,9 +556,13 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     <div className="col-6" style={{ padding: 1 }}>
                       <label>
                         <b>
-                          Estilos de la plantilla{" "}
+                          {t("app_plantilla_email_modal_editar_estilos_css")}{" "}
                           <u style={{ color: "red" }}>
-                            <code>CSS</code>
+                            <code>
+                              {t(
+                                "app_plantilla_email_modal_editar_estilos_css_2"
+                              )}
+                            </code>
                           </u>
                         </b>
                       </label>
@@ -542,7 +588,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                         }}
                         style={{ margin: "1px" }}
                       >
-                        <i className="fa fa-eye" /> Vista previa
+                        <i className="fa fa-eye" />{" "}
+                        {t("app_plantilla_email_modal_editar_btn_vista_previa")}
                       </button>
                     </div>
                   </div>
@@ -563,7 +610,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                       }}
                     >
                       {" "}
-                      <i className="fa fa-pencil" /> Actualizar{" "}
+                      <i className="fa fa-pencil" />{" "}
+                      {t("app_plantilla_email_modal_editar_btn_actualizar")}{" "}
                     </button>
 
                     <button
@@ -575,7 +623,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                       }}
                     >
                       {" "}
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_plantilla_email_modal_editar_btn_cerrar")}{" "}
                     </button>
                   </div>
                 </div>
@@ -591,4 +640,4 @@ PlantillaEmailForm.propTypes = {
   authorization: PropTypes.string.isRequired,
   id: PropTypes.string.isRequired
 };
-export default PlantillaEmailForm;
+export default withTranslation("translations")(PlantillaEmailForm);

@@ -56,7 +56,6 @@ class MySelectModulos extends React.Component {
 
   render() {
     const { t } = this.props;
-    console.log(this.props.authorization);
     return (
       <div>
         <select

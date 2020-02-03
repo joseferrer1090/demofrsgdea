@@ -37,7 +37,6 @@ const FormCreateRoles = props => {
   //   });
   // }
 
-  console.log(props);
   return (
     <div className="animated fadeIn">
       <div className="container">

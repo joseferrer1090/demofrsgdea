@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Formik, ErrorMessage, Field } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import SIGNIN from "./../../../../assets/img/favicon.ico";
 import * as Yup from "yup";
 import {
@@ -18,6 +18,7 @@ import {
   Row,
   Alert
 } from "reactstrap";
+import {NEW_PASSWORD} from './../../../../services/EndPoints';
 
 class ResetPassword extends Component {
   constructor(props) {
@@ -78,7 +79,7 @@ class ResetPassword extends Component {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 fetch(
-                  `http://192.168.20.187:8090/api/sgdea/service/configuration/users/password-reset`,
+                  `${NEW_PASSWORD}`,
                   {
                     method: "POST",
                     headers: {

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { Formik, ErrorMessage, Field } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import SIGNIN from "./../../../assets/img/favicon.ico";
 import {
@@ -19,7 +19,7 @@ import {
   Row,
   Alert
 } from "reactstrap";
-
+import { PASSWORD_RETRIEVAL_REQUEST } from "./../../../services/EndPoints";
 class Forgot extends Component {
   constructor(props) {
     super(props);
@@ -62,19 +62,16 @@ class Forgot extends Component {
             })}
             onSubmit={(values, { setSubmitting, resetForm }) => {
               setTimeout(() => {
-                fetch(
-                  `http://192.168.20.187:8090/api/sgdea/service/configuration/users/password-reset-request`,
-                  {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                      "Access-Control-Allow-Origin": "*"
-                    },
-                    body: JSON.stringify({
-                      email: values.user_email
-                    })
-                  }
-                )
+                fetch(`${PASSWORD_RETRIEVAL_REQUEST}`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*"
+                  },
+                  body: JSON.stringify({
+                    email: values.user_email
+                  })
+                })
                   .then(response => {
                     if (response.status === 200) {
                       this.setState({

@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Formik, ErrorMessage, Field } from "formik";
-import { Col, CustomInput, ToastBody, Alert, Button } from "reactstrap";
+import { Col, CustomInput, Alert, Button } from "reactstrap";
 import * as Yup from "yup";
 import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
 import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
@@ -28,7 +28,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 
-const ViewEditTramite = ({ match, history, authorization, props }) => {
+const ViewEditTramite = ({ match, history, authorization, t }) => {
   const { users, data } = useSelector(state => ({
     users: state.typeProcedureReducer.tramite.users,
     data: state.typeProcedureReducer.tramite.typeProcedure
@@ -64,6 +64,12 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
         setResponse(data.typeProcedure);
       })
       .catch(err => console.log(`err => ${err}`));
+  };
+
+  const back = e => {
+    e.preventDefault();
+    let path = `#/configuracion/tipotramite`;
+    window.location.replace(path);
   };
 
   return (
@@ -114,15 +120,26 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
           })
             .then(response =>
               response.json().then(data => {
-                if (response.status === 201) {
-                  toast.success("Se creo el tipo de trámite con éxito.", {
+                console.log(response);
+                if (response.status === 200) {
+                  toast.success("Se actualizo el tipo de trámite con éxito.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px"
                     })
                   });
                 } else if (response.status === 400) {
-                  toast.error("Error, el tipo de trámite ya existe.", {
+                  toast.error(
+                    "Error al actualizar el tipo de trámite. Inténtelo nuevamente.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
+                } else if (response.status === 500) {
+                  toast.error("Error, el tipo de trámite ya esta asignado.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px"
@@ -200,6 +217,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
         return (
           <Fragment>
             <div className="animated fadeIn">
+              <ToastContainer />
               <div className="row">
                 <div className="col-md-12">
                   <div className="card">
@@ -618,6 +636,17 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                         >
                           {" "}
                           <i className="fa fa-pencil" /> Actualizar{" "}
+                        </button>
+                        <button
+                          style={{ margin: 5 }}
+                          type="button"
+                          className="btn btn-outline-secondary btn-sm"
+                          onClick={e => {
+                            back(e);
+                          }}
+                        >
+                          {" "}
+                          <i className="fa fa-times" /> Cerrar
                         </button>
                       </div>
                     </div>

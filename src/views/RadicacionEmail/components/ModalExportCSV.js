@@ -6,6 +6,7 @@ import "./styles/table_fixed.css";
 import { CSVLink, CSVDownload } from "react-csv";
 import { Parser } from "json2csv";
 import { decode } from "jsonwebtoken";
+import { EMAIL_FILING_EXPORT } from "../../../services/EndPoints";
 
 class ModalExportCSV extends Component {
   constructor(props) {
@@ -44,16 +45,13 @@ class ModalExportCSV extends Component {
   getDataExportCSV = () => {
     const auth = this.state.auth;
     const username = decode(auth);
-    fetch(
-      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/export/data?username=${username.user_name}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth
-        }
+    fetch(`${EMAIL_FILING_EXPORT}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response =>
         response.json().then(data => {
           this.setState({

@@ -66,6 +66,11 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
       .catch(err => console.log(`err => ${err}`));
   };
 
+  const back = () => {
+    let path = `#/configuracion/tipotramite`;
+    window.location.replace(path);
+  };
+
   return (
     <Formik
       enableReinitialize={true}
@@ -630,6 +635,17 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                         >
                           {" "}
                           <i className="fa fa-pencil" /> Actualizar{" "}
+                        </button>
+                        <button
+                          style={{ margin: 5 }}
+                          type="button"
+                          className="btn btn-outline-secondary btn-sm"
+                          onClick={e => {
+                            back(e);
+                          }}
+                        >
+                          {" "}
+                          <i className="fa fa-times" /> Cerrar
                         </button>
                       </div>
                     </div>

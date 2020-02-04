@@ -20,16 +20,90 @@ class ModalEditParameter extends Component {
       auth: this.props.authorization
     };
   }
+
+  toggle = id => {
+    this.setState({
+      id: id,
+      modal: !this.state.modal
+    });
+    this.getDataParametar(id);
+  };
+
+  getDataParametar = id => {
+    fetch(`${PARAMETERS_INPUTS}${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataResult: data
+        });
+      })
+      .catch(err => console.log(`err => ${err}`));
+  };
+
   render() {
+    console.log(this.state.dataResult);
     return (
-      <Modal className="" isOpen={this.state.modal}>
-        <ModalHeader>Parametro</ModalHeader>
-        <Formik>
-          <React.Fragment>
-            <ModalBody>
-              <p>Probando</p>
-            </ModalBody>
-          </React.Fragment>
+      <Modal className="" isOpen={this.state.modal} onClick={() => this.toogle}>
+        <ModalHeader>Parametro {this.state.dataResult.parameter}</ModalHeader>
+        <Formik
+          enableReinitialize={true}
+          validationSchema={Yup.object().shape({})}
+        >
+          {props => {
+            const {
+              values,
+              touched,
+              errors,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              handleReset,
+              setFieldValue,
+              setFieldTouched
+            } = props;
+            return (
+              <React.Fragment>
+                <ModalBody>
+                  <form className="form">
+                    <div className="table-responseive">
+                      <table className="table table-striped">
+                        <tbody>
+                          <tr>
+                            <td> Parametro </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </form>
+                </ModalBody>
+                <ModalFooter>
+                  <button
+                    type={"button"}
+                    className="btn btn-secondary btn-sm"
+                    onClick={e => {
+                      e.preventDefault();
+                    }}
+                  >
+                    {" "}
+                    Editar <i className="fa fa-pencil" />{" "}
+                  </button>
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => this.setState({ modal: false })}
+                  >
+                    {" "}
+                    Cerrar <i className="fa fa-times" />{" "}
+                  </button>
+                </ModalFooter>
+              </React.Fragment>
+            );
+          }}
         </Formik>
       </Modal>
     );

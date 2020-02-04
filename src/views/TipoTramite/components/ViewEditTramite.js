@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Formik, ErrorMessage, Field } from "formik";
-import { Col, CustomInput, ToastBody, Alert, Button } from "reactstrap";
+import { Col, CustomInput, Alert, Button } from "reactstrap";
 import * as Yup from "yup";
 import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
 import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
@@ -114,15 +114,26 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
           })
             .then(response =>
               response.json().then(data => {
-                if (response.status === 201) {
-                  toast.success("Se creo el tipo de trámite con éxito.", {
+                console.log(response);
+                if (response.status === 200) {
+                  toast.success("Se actualizo el tipo de trámite con éxito.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px"
                     })
                   });
                 } else if (response.status === 400) {
-                  toast.error("Error, el tipo de trámite ya existe.", {
+                  toast.error(
+                    "Error al actualizar el tipo de trámite. Inténtelo nuevamente.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
+                } else if (response.status === 500) {
+                  toast.error("Error, el tipo de trámite ya esta asignado.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px"
@@ -200,6 +211,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
         return (
           <Fragment>
             <div className="animated fadeIn">
+              <ToastContainer />
               <div className="row">
                 <div className="col-md-12">
                   <div className="card">

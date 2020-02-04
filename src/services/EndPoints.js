@@ -542,6 +542,11 @@ export const TYPEDOCUMENTARYS_PAGINATION = () => {
   const size = 1;
   return `http://192.168.10.180:7000/api/sgdea/typedocumentary/pagination?page=${page}&size=${size}`;
 };
+//---------------------------------------------RADICACIÓN VÍA CORREO ELECTRÓNICO--------------------------------------------------//
+/* GET - POST - PUT - DELETE*/
+export const EMAIL_FILING = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/accounts/filing`;
+/* EXPORT */
+export const EMAIL_FILING_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/accounts/filing/export/data`;
 
 //---------------------------------------------PAÍS--------------------------------------------------//
 

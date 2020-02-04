@@ -15,7 +15,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import decode from "jsonwebtoken";
-
+import { EMAIL_FILING } from "./../../../../services/EndPoints";
 const RadicacionEmailForm = props => {
   const {
     values,
@@ -266,25 +266,22 @@ export default withTranslation("translations")(
         const auth = props.authorization;
         const username = decode(auth);
 
-        fetch(
-          "http://192.168.20.187:8090/api/sgdea/service/configuration/email/accounts/filing",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: "Bearer " + auth
-            },
-            body: JSON.stringify({
-              protocol: values.protocolo,
-              host: values.host,
-              port: values.puerto,
-              email: values.email,
-              password: values.password,
-              username: username.user_name,
-              status: values.status
-            })
-          }
-        )
+        fetch(`${EMAIL_FILING}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + auth
+          },
+          body: JSON.stringify({
+            protocol: values.protocolo,
+            host: values.host,
+            port: values.puerto,
+            email: values.email,
+            password: values.password,
+            username: username.user_name,
+            status: values.status
+          })
+        })
           .then(response =>
             response.json().then(data => {
               if (response.status === 201) {
@@ -295,15 +292,8 @@ export default withTranslation("translations")(
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error al registrar el correo electrónico. Inténtelo nuevamente.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
-              } else if (response.status === 500) {
                 toast.error(
-                  "Error, el correo electrónico ya existe.",
+                  "Error al registrar el correo electrónico. Inténtelo nuevamente.",
                   {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
@@ -311,6 +301,13 @@ export default withTranslation("translations")(
                     })
                   }
                 );
+              } else if (response.status === 500) {
+                toast.error("Error, el correo electrónico ya existe.", {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                });
               }
             })
           )

@@ -126,20 +126,36 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
           })
             .then(response =>
               response.json().then(data => {
-                if (response.status === 201) {
-                  toast.success("Se creo el tipo de trámite con éxito.", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  });
+                if (response.status === 200) {
+                  toast.success(
+                    "Se actualizo el tipo documental de radicación con éxito.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
                 } else if (response.status === 400) {
-                  toast.error("Error, el tipo de trámite ya existe.", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  });
+                  toast.error(
+                    "Error al actualizar el tipo documental de radicación. Inténtelo nuevamente.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
+                } else if (response.status === 500) {
+                  toast.error(
+                    "Error, el tipo documental de radicación ya esta asignado.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
                 }
               })
             )
@@ -199,6 +215,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
         return (
           <Fragment>
             <div className="animated fadeIn">
+              <ToastContainer />
               <div className="row">
                 <div className="col-md-12">
                   <div className="card">

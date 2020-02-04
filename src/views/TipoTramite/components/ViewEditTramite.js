@@ -28,7 +28,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 
-const ViewEditTramite = ({ match, history, authorization, props }) => {
+const ViewEditTramite = ({ match, history, authorization, t }) => {
   const { users, data } = useSelector(state => ({
     users: state.typeProcedureReducer.tramite.users,
     data: state.typeProcedureReducer.tramite.typeProcedure
@@ -66,7 +66,8 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
       .catch(err => console.log(`err => ${err}`));
   };
 
-  const back = () => {
+  const back = e => {
+    e.preventDefault();
     let path = `#/configuracion/tipotramite`;
     window.location.replace(path);
   };

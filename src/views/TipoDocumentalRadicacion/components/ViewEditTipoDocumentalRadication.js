@@ -59,7 +59,11 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
       .catch(err => console.log(`error ${err}`));
   };
 
-  console.log(response);
+  const back = e => {
+    e.preventDefault();
+    let path = `#/configuracion/tipodocumentalradicacion`;
+    window.location.replace(path);
+  };
 
   return (
     <Formik
@@ -634,6 +638,17 @@ const ViewEditTipodocumental = ({ match, history, authorization, props }) => {
                         >
                           {" "}
                           <i className="fa fa-pencil" /> Actualizar{" "}
+                        </button>
+                        <button
+                          style={{ margin: 5 }}
+                          type="button"
+                          className="btn btn-outline-secondary btn-sm"
+                          onClick={e => {
+                            back(e);
+                          }}
+                        >
+                          {" "}
+                          <i className="fa fa-times" /> Cerrar
                         </button>
                       </div>
                     </div>

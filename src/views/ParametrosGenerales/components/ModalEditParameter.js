@@ -9,6 +9,55 @@ import {
 } from "./../../../services/EndPoints";
 import * as Yup from "yup";
 import { decode } from "jsonwebtoken";
+import InpuDynamics from "./InputDynamics";
+
+const DataForm = {
+  name: {
+    type: "input",
+    elementConfig: {
+      name: "name",
+      type: "text",
+      placeholder: "Nombre Parametro"
+    },
+    value: "Nombre del parametro desde el API",
+    validity: {
+      required: true
+    },
+    valid: false,
+    touched: false,
+    disabled: true
+  },
+  description: {
+    type: "textarea",
+    elementConfig: {
+      name: "description",
+      type: "textarea",
+      placeholder: ""
+    },
+    value: "la descripcion del parametro general",
+    validity: {
+      required: true
+    },
+    valid: false,
+    touched: false,
+    disabled: true
+  },
+  valueParameter: {
+    type: "input",
+    elementConfig: {
+      name: "value",
+      type: "text",
+      placeholder: "value"
+    },
+    value: "Valor desde el api que se va a modificar",
+    validity: {
+      required: true
+    },
+    valid: false,
+    touched: false,
+    disabled: false
+  }
+};
 
 class ModalEditParameter extends Component {
   constructor(props) {
@@ -16,7 +65,7 @@ class ModalEditParameter extends Component {
     this.state = {
       modal: this.props.modalEditParameter,
       idParameter: this.props.id,
-      dataResult: {},
+      dataResult: DataForm,
       auth: this.props.authorization
     };
   }
@@ -26,7 +75,8 @@ class ModalEditParameter extends Component {
       id: id,
       modal: !this.state.modal
     });
-    this.getDataParametar(id);
+    console.log(this.state.dataResult);
+    // this.getDataParametar(id);
   };
 
   getDataParametar = id => {
@@ -47,13 +97,33 @@ class ModalEditParameter extends Component {
   };
 
   render() {
-    console.log(this.state.dataResult);
+    const aux = [];
+    for (const key in this.state.dataResult) {
+      aux.push({
+        id: key,
+        inputInfo: this.state.dataResult[key]
+      });
+    }
+    console.log(aux);
+    // console.log(
+    //   aux.map(element => console.log(`${element.inputInfo.elementConfig.name}`))
+    // );
+
     return (
       <Modal className="" isOpen={this.state.modal} onClick={() => this.toogle}>
         <ModalHeader>Parametro {this.state.dataResult.parameter}</ModalHeader>
         <Formik
           enableReinitialize={true}
+          // initialValues={aux.map(element =>
+          //   console.log(`${element.inputInfo.elementConfig.name}`)
+          // )}
           validationSchema={Yup.object().shape({})}
+          onSubmit={(values, { setSubmitting, props }) => {
+            setTimeout(() => {
+              alert(JSON.stringify({ value: values.value }, null, 2));
+              setSubmitting(false);
+            }, 10);
+          }}
         >
           {props => {
             const {
@@ -74,9 +144,31 @@ class ModalEditParameter extends Component {
                     <div className="table-responseive">
                       <table className="table table-striped">
                         <tbody>
-                          <tr>
-                            <td> Parametro </td>
-                          </tr>
+                          {aux.map((element, id) => (
+                            <tr>
+                              <td> {element.id} </td>
+                              <td>
+                                <Field name={`${element.id}`}>
+                                  {({}) => (
+                                    <InpuDynamics
+                                      key={element.id}
+                                      formType={element.inputInfo.type}
+                                      onChange={handleChange}
+                                      name={
+                                        element.inputInfo.elementConfig.name
+                                      }
+                                      defaultValue={element.inputInfo.value}
+                                      disable={
+                                        element.inputInfo.disabled
+                                          ? true
+                                          : false
+                                      }
+                                    />
+                                  )}
+                                </Field>
+                              </td>
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </div>
@@ -88,6 +180,7 @@ class ModalEditParameter extends Component {
                     className="btn btn-secondary btn-sm"
                     onClick={e => {
                       e.preventDefault();
+                      handleSubmit();
                     }}
                   >
                     {" "}

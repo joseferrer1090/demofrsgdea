@@ -35,7 +35,8 @@ class ModalEditGrupos extends React.Component {
     alertError: false,
     alertError400: false,
     alertSuccess: false,
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    t:this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -131,12 +132,13 @@ class ModalEditGrupos extends React.Component {
       }),
       estado: this.state.datagroup.status
     };
+    const {t} = this.state;
 
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            Editar Grupo de usuario {this.state.datagroup.name}
+            {t("app_grupoUsuarios_modal_editar_titulo")} {this.state.datagroup.name}
           </ModalHeader>
           <Formik
             enableReinitialize={true}
@@ -265,13 +267,13 @@ class ModalEditGrupos extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      Error al actualizar el gruoo de usuarios.
+                      {t("app_grupoUsuarios_modal_editar_alert_error_500")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      Error, grupo de usuarios ya asignados.
+                      {t("app_grupoUsuarios_modal_editar_alert_error_400")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
-                      Se actualizo el grupo de usuarios con éxito.
+                      {t("app_grupoUsuarios_modal_editar_alert_success")}
                     </Alert>
                     <form className="form">
                       <div className="container">
@@ -280,7 +282,7 @@ class ModalEditGrupos extends React.Component {
                             <div className="form-group">
                               <label>
                                 {" "}
-                                Código <span className="text-danger">
+                                {t("app_grupoUsuarios_modal_editar_codigo")} <span className="text-danger">
                                   *
                                 </span>{" "}
                               </label>
@@ -304,7 +306,7 @@ class ModalEditGrupos extends React.Component {
                             <div className="form-group">
                               <label>
                                 {" "}
-                                Nombre <span className="text-danger">
+                                {t("app_grupoUsuarios_modal_editar_nombre")} <span className="text-danger">
                                   *
                                 </span>{" "}
                               </label>
@@ -325,7 +327,7 @@ class ModalEditGrupos extends React.Component {
                           </div>
                           <div className="col-md-12">
                             <div className="form-group">
-                              <label> Descripción </label>
+                              <label> {t("app_grupoUsuarios_modal_editar_descripcion")} </label>
                               <textarea
                                 name="descripcion"
                                 value={values.descripcion}
@@ -346,7 +348,7 @@ class ModalEditGrupos extends React.Component {
                           <div className="col-sm-12">
                             <Card>
                               <CardBody>
-                                <h5 className=""> Búsqueda de usuarios </h5>
+                                <h5 className=""> {t("app_grupoUsuarios_modal_editar_titulo_toast")} </h5>
                                 <hr />
                                 <br />
                                 <div className="row">
@@ -354,12 +356,13 @@ class ModalEditGrupos extends React.Component {
                                     <div className="form-group">
                                       <label>
                                         {" "}
-                                        Conglomerado{" "}
+                                        {t("app_grupoUsuarios_modal_editar_conglomerado")}{" "}
                                         <span className="text-danger">
                                           *
                                         </span>{" "}
                                       </label>
                                       <SelectConglomerado
+                                      t={t}
                                         token={this.props.authorization}
                                         name={"conglomerado"}
                                         onChange={e =>
@@ -389,12 +392,13 @@ class ModalEditGrupos extends React.Component {
                                     <div className="form-group">
                                       <label>
                                         {" "}
-                                        Empresa{" "}
+                                        {t("app_grupoUsuarios_modal_editar_empresa")}{" "}
                                         <span className="text-danger">
                                           *
                                         </span>{" "}
                                       </label>
                                       <SelectCompany
+                                      t={t}
                                         token={this.props.authorization}
                                         usuario_conglomerate={
                                           props.values.conglomerado
@@ -428,12 +432,13 @@ class ModalEditGrupos extends React.Component {
                                     <div className="form-group">
                                       <label>
                                         {" "}
-                                        Sede{" "}
+                                        {t("app_grupoUsuarios_modal_editar_sede")}{" "}
                                         <span className="text-danger">
                                           *
                                         </span>{" "}
                                       </label>
                                       <SelectHeadquarter
+                                      t={t}
                                         token={this.props.authorization}
                                         usuario_company={props.values.empresa}
                                         name={"sede"}
@@ -462,12 +467,13 @@ class ModalEditGrupos extends React.Component {
                                     <div className="form-group">
                                       <label>
                                         {" "}
-                                        Dependencia{" "}
+                                        {t("app_grupoUsuarios_modal_editar_dependencia")}{" "}
                                         <span className="text-danger">
                                           *
                                         </span>{" "}
                                       </label>
                                       <SelectDependence
+                                      t={t}
                                         token={this.props.authorization}
                                         usuario_headquarter={props.values.sede}
                                         name={"dependencia"}
@@ -505,7 +511,7 @@ class ModalEditGrupos extends React.Component {
                             <div className="form-group">
                               <label>
                                 {" "}
-                                Seleccione usuario(s) asignados{" "}
+                                {t("app_grupoUsuarios_modal_editar_usuarios_asignados")}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <UsuariosAsignados
@@ -534,7 +540,7 @@ class ModalEditGrupos extends React.Component {
                             <div className="form-group">
                               <label>
                                 {" "}
-                                Estado <span className="text-danger">
+                                {t("app_grupoUsuarios_modal_editar_estado")} <span className="text-danger">
                                   *
                                 </span>{" "}
                               </label>
@@ -546,14 +552,7 @@ class ModalEditGrupos extends React.Component {
                                       <CustomInput
                                         type="checkbox"
                                         id="CheckBoxEditGrupos"
-                                        label="Si esta opción se encuentra activada, Representa
-                            que el grupo es visible en el sistema y se
-                            podrán realizar operaciones entre cada uno de
-                            los módulos correspondientes de la aplicación.
-                            En caso contrario el grupo no se elimina del
-                            sistema solo quedará inactiva e invisibles para
-                            cada uno de los módulos correspondiente del
-                            sistema."
+                                        label={t("app_grupoUsuarios_modal_editar_descripcion_estado")}
                                         {...field}
                                         checked={field.value}
                                         className={
@@ -583,7 +582,7 @@ class ModalEditGrupos extends React.Component {
                       }}
                     >
                       {" "}
-                      <i className="fa fa-pencil" /> Actualizar grupo{" "}
+                      <i className="fa fa-pencil" /> {t("app_grupoUsuarios_modal_editar_btn_actualizar")}{" "}
                     </button>
                     <button
                       type="button"
@@ -593,7 +592,7 @@ class ModalEditGrupos extends React.Component {
                       }}
                     >
                       {" "}
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      <i className="fa fa-times" /> {t("app_grupoUsuarios_modal_editar_btn_cerrar")}{" "}
                     </button>
                   </ModalFooter>
                 </Fragment>
@@ -618,7 +617,8 @@ export default ModalEditGrupos;
 class SelectConglomerado extends React.Component {
   state = {
     dataConglomerate: [],
-    auth: this.props.token
+    auth: this.props.token,
+    t:this.props.t
   };
 
   componentDidMount() {
@@ -655,6 +655,7 @@ class SelectConglomerado extends React.Component {
     //     return <option value={aux.id}>{aux.name}</option>;
     //   }
     // );
+    const {t} = this.state
     return (
       <div>
         <select
@@ -664,7 +665,7 @@ class SelectConglomerado extends React.Component {
           value={this.props.value}
           className={this.props.className}
         >
-          <option value={""}>-- Seleccione --</option>
+          <option value={""}>-- {t("app_grupoUsuarios_modal_editar_select_conglomerado")} --</option>
           {this.state.dataConglomerate.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -683,7 +684,8 @@ class SelectCompany extends React.Component {
   state = {
     dataCompany: [],
     id: this.props.usuario_conglomerate,
-    auth: this.props.token
+    auth: this.props.token,
+    t:this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -734,6 +736,7 @@ class SelectCompany extends React.Component {
       .catch(err => console.log("Error", err));
   };
   render() {
+    const {t} = this.state
     return (
       <div>
         <select
@@ -743,7 +746,7 @@ class SelectCompany extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={""}>-- Seleccione --</option>
+          <option value={""}>-- {t("app_grupoUsuarios_modal_editar_select_empresa")} --</option>
           {this.state.dataCompany.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -772,7 +775,8 @@ class SelectHeadquarter extends React.Component {
   state = {
     dataHeadquarter: [],
     id: this.props.usuario_company,
-    auth: this.props.token
+    auth: this.props.token,
+    t:this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -823,6 +827,7 @@ class SelectHeadquarter extends React.Component {
   };
 
   render() {
+    const {t} = this.state
     return (
       <div>
         <select
@@ -832,7 +837,7 @@ class SelectHeadquarter extends React.Component {
           onChange={this.props.onChange}
           onBlur={this.props.onBlur}
         >
-          <option value={""}>-- Seleccione --</option>
+          <option value={""}>-- {t("app_grupoUsuarios_modal_editar_select_sede")} --</option>
           {this.state.dataHeadquarter.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
@@ -852,7 +857,8 @@ class SelectDependence extends React.Component {
   state = {
     dataDependence: [],
     id: this.props.usuario_headquarter,
-    auth: this.props.token
+    auth: this.props.token,
+    t:this.props.t
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -903,6 +909,7 @@ class SelectDependence extends React.Component {
   };
 
   render() {
+    const {t} = this.state
     return (
       <div>
         <select
@@ -912,7 +919,7 @@ class SelectDependence extends React.Component {
           className={this.props.className}
           onBlur={this.props.onBlur}
         >
-          <option value={""}>-- Seleccione --</option>
+          <option value={""}>-- {t("app_grupoUsuarios_modal_editar_select_dependencia")} --</option>
           {this.state.dataDependence.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>

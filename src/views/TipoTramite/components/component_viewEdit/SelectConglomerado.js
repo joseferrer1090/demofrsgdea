@@ -69,7 +69,7 @@ class SelectConglomerado extends React.Component {
         >
           <option value={" "}>
             {" "}
-            -- Seleccione --
+            -- {t("app_tipoTramite_actualizar_placeholder_conglomerado")} --
             {/* -- {t("app_tipoTramite_form_registrar_select_conglomerado")} -- */}
           </option>
           {data.map((aux, id) => {

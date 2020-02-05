@@ -16,10 +16,7 @@ import {
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import IMGEMPRESA from "./../../../assets/img/company.svg";
-import {
-  CONGLOMERATES_STATUS,
-  COMPANYS
-} from "../../../services/EndPoints";
+import { CONGLOMERATES_STATUS, COMPANYS } from "../../../services/EndPoints";
 import SelectCountry from "./SelectCountryModalEdit";
 import SelectDepartment from "./SelectDepartmentModalEdit";
 import SelectCity from "./SelecCityModalEdit";
@@ -164,7 +161,7 @@ class ModalEditEmpresa extends React.Component {
 
               setTimeout(() => {
                 const auth = this.state.auth;
-                const username =decode(auth);
+                const username = decode(auth);
                 fetch(`${COMPANYS}`, {
                   method: "PUT",
                   headers: {
@@ -278,13 +275,13 @@ class ModalEditEmpresa extends React.Component {
                   <ModalBody>
                     <form className="form">
                       <Alert color="danger" isOpen={this.state.alertError}>
-                        {t("app_empresa_modal_actualizar_alert_error")}
+                        {t("app_empresa_modal_actualizar_alert_error_500")}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
                         {t("app_empresa_modal_actualizar_alert_success")}
                       </Alert>
                       <Alert color="danger" isOpen={this.state.alertError400}>
-                        {t("app_empresa_modal_Actualizar_alert_error400")}
+                        {t("app_empresa_modal_actualizar_alert_error_400")}
                       </Alert>
                       <Row>
                         <Col sm="3">

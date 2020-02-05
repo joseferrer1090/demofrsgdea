@@ -17,7 +17,8 @@ class ModalDeletePais extends Component {
       alertSuccess: false,
       alertError: false,
       alertCode: false,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      t: this.props.t
     };
   }
 
@@ -68,12 +69,14 @@ class ModalDeletePais extends Component {
     const dataInitial = {
       code: ""
     };
+    const { t } = this.state;
     return (
       <div>
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
             {" "}
-            Eliminar grupo de usuarios {this.state.dataGroup.name}{" "}
+            {t("app_grupoUsuarios_modal_eliminar_titulo")}{" "}
+            {this.state.dataGroup.name}{" "}
           </ModalHeader>
           <Formik
             initialValues={dataInitial}
@@ -163,13 +166,14 @@ class ModalDeletePais extends Component {
                       <form className="form">
                         <p className="text-center">
                           {" "}
-                          Confirmar el <code> Codigp </code> para eliminar el
-                          grupo de usuarios{" "}
+                          {t("app_grupoUsuarios_modal_eliminar_encabezado")}
                         </p>
 
                         <input
                           type="text"
-                          placeholder={"codigo"}
+                          placeholder={t(
+                            "app_grupoUsuarios_modal_eliminar_placeholder"
+                          )}
                           style={{ textAlign: "center" }}
                           name="code"
                           onChange={handleChange}
@@ -182,8 +186,7 @@ class ModalDeletePais extends Component {
                         <br />
                         <p className="text-center text-danger">
                           {" "}
-                          El grupo de usuarios quedará eliminado de manera
-                          permanente.{" "}
+                          {t("app_grupoUsuarios_modal_eliminar_texto")}
                         </p>
                       </form>
                     </ModalBody>
@@ -196,7 +199,8 @@ class ModalDeletePais extends Component {
                         }}
                       >
                         {" "}
-                        <i className="fa fa-trash" /> Eliminar{" "}
+                        <i className="fa fa-trash" />{" "}
+                        {t("app_grupoUsuarios_modal_eliminar_btn_eliminar")}{" "}
                       </button>
                       <button
                         className="btn btn-secondary btn-sm"
@@ -206,7 +210,8 @@ class ModalDeletePais extends Component {
                         }}
                       >
                         {" "}
-                        <i className="fa fa-times" /> Cerrar{" "}
+                        <i className="fa fa-times" />{" "}
+                        {t("app_grupoUsuarios_modal_eliminar_btn_cerrar")}{" "}
                       </button>
                     </ModalFooter>
                   </form>

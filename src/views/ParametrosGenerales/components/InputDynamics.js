@@ -27,7 +27,9 @@ const InputDynamics = props => {
             className="form-control form-control-sm"
             onChange={props.onChange}
             value={props.value}
+            name={props.name}
           >
+            <option>Seleccione</option>
             {props.elementConfig.options.map((option, id) => (
               <option key={id} value={option.value}>
                 {" "}
@@ -49,6 +51,24 @@ const InputDynamics = props => {
             name={props.name}
             disabled={props.disable}
           ></textarea>
+        </React.Fragment>
+      );
+      break;
+
+    case "radiobutton":
+      formElement = (
+        <React.Fragment>
+          {props.elementConfig.options.map((option, id) => (
+            <label>
+              <input
+                type="radio"
+                value={option.value}
+                name={option.name}
+                onChange={props.onChange}
+              />
+              {option.name}
+            </label>
+          ))}
         </React.Fragment>
       );
       break;

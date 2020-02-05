@@ -56,6 +56,30 @@ const DataForm = {
     valid: false,
     touched: false,
     disabled: false
+  },
+  selectValue: {
+    type: "select",
+    elementConfig: {
+      name: "exampleSelect",
+      options: [
+        { value: "reactjs", displayname: "React js" },
+        { value: "spring", displayname: "Java Spring" }
+      ]
+    },
+    value: "",
+    valid: true
+  },
+  selectRadio: {
+    type: "radiobutton",
+    elementConfig: {
+      name: "exampleRadio",
+      options: [
+        { name: "parameter", value: "value1" },
+        { name: "parameter", value: "value2" }
+      ]
+    },
+    value: "",
+    valid: true
   }
 };
 
@@ -120,7 +144,7 @@ class ModalEditParameter extends Component {
           validationSchema={Yup.object().shape({})}
           onSubmit={(values, { setSubmitting, props }) => {
             setTimeout(() => {
-              alert(JSON.stringify({ value: values.value }, null, 2));
+              alert(JSON.stringify({ values }, null, 2));
               setSubmitting(false);
             }, 10);
           }}
@@ -162,6 +186,9 @@ class ModalEditParameter extends Component {
                                         element.inputInfo.disabled
                                           ? true
                                           : false
+                                      }
+                                      elementConfig={
+                                        element.inputInfo.elementConfig
                                       }
                                     />
                                   )}

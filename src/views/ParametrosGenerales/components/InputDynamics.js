@@ -73,6 +73,25 @@ const InputDynamics = props => {
       );
       break;
 
+    case "checkbox":
+      formElement = (
+        <React.Fragment>
+          {props.elementConfig.options.map((check, id) => (
+            <label>
+              <input
+                type="checkbox"
+                name={check.name}
+                id={check.id}
+                value={check.value}
+                onChange={props.onChange}
+              />
+              {check.name}
+            </label>
+          ))}
+        </React.Fragment>
+      );
+      break;
+
     default:
       formElement = <input />;
   }

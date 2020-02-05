@@ -80,6 +80,18 @@ const DataForm = {
     },
     value: "",
     valid: true
+  },
+  selectCheckbox: {
+    type: "checkbox",
+    elementConfig: {
+      name: "exampleCheckBox",
+      options: [
+        { name: "vehile1", value: "Car", id: "1" },
+        { name: "vehicle2", value: "Bike", id: "2" }
+      ]
+    },
+    value: "",
+    valid: true
   }
 };
 

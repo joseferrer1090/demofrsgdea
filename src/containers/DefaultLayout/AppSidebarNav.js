@@ -113,7 +113,7 @@ class AppSidebarNav extends Component {
           url: "/configuracion/tipodocumentalradicacion"
         },
         {
-          name: `${props.t("nav_app_radicacion_email")}`,
+          name: `${props.t("nav_app_cuentas_radicacion_email")}`,
           icon: "icon-book-open",
           url: "/configuracion/radicacionemail"
         },
@@ -269,6 +269,11 @@ class AppSidebarNav extends Component {
           name: `${t("nav_app_terceros")}`,
           icon: "icon-settings",
           url: "/configuracion/terceros"
+        },
+        {
+          name: `${t("nav_app_cuentas_radicacion_email")}`,
+          icon: "icon-book-open",
+          url: "/configuracion/radicacionemail"
         },
         {
           name: `${t("nav_app_tipo_radicacion")}`,

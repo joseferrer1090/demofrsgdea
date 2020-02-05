@@ -16,7 +16,8 @@ class ModalExportCSV extends Component {
       dataExport: [],
       username: "ccuartas",
       id: this.props.id,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      t: this.props.t
     };
   }
 
@@ -107,18 +108,23 @@ class ModalExportCSV extends Component {
     const json2csvParser = new Parser({ fields, quote: "" });
     const csv = json2csvParser.parse(data);
     // console.log(csv);
+    const { t } = this.state;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Modal Exportar Grupo</ModalHeader>
+          <ModalHeader>
+            {t("app_grupoUsuarios_modal_exportar_titulo")}
+          </ModalHeader>
           <ModalBody>
             <table className="table table-responsive table-bordered  table-hover table-striped fixed_header">
               <thead className="">
                 <tr className="">
-                  <th>identificacion</th>
-                  <th>nombre</th>
-                  <th>email</th>
-                  <th>codigoGrupo</th>
+                  <th>
+                    {t("app_grupoUsuarios_modal_exportar_identificacion")}
+                  </th>
+                  <th>{t("app_grupoUsuarios_modal_exportar_nombre")}</th>
+                  <th>{t("app_grupoUsuarios_modal_exportar_email")}</th>
+                  <th>{t("app_grupoUsuarios_modal_exportar_codigo_grupo")}</th>
                 </tr>
               </thead>
               <tbody className="text-justify">
@@ -136,6 +142,10 @@ class ModalExportCSV extends Component {
             </table>
           </ModalBody>
           <ModalFooter>
+            <CSVLink data={csv} className="btn btn-secondary btn-sm">
+              <i className="fa fa-download" />{" "}
+              {t("app_grupoUsuarios_modal_exportar_btn_exportar")}
+            </CSVLink>
             <button
               className="btn btn-secondary btn-sm"
               onClick={() => {
@@ -143,11 +153,9 @@ class ModalExportCSV extends Component {
               }}
             >
               {" "}
-              <i className="fa fa-times" /> Cerrar
+              <i className="fa fa-times" />{" "}
+              {t("app_grupoUsuarios_modal_exportar_btn_cerrar")}
             </button>
-            <CSVLink data={csv} className="btn btn-secondary btn-sm">
-              <i className="fa fa-download" /> Exportar
-            </CSVLink>
           </ModalFooter>
         </Modal>
       </Fragment>

@@ -27,7 +27,8 @@ class ModalViewPais extends Component {
       username: "jferrer",
       dataGroup: {},
       dataUsers: [],
-      authorization: this.props.authorization
+      authorization: this.props.authorization,
+      t: this.props.t
     };
   }
 
@@ -92,23 +93,30 @@ class ModalViewPais extends Component {
 
   render() {
     const statusGrupo = data => {
+      const { t } = this.state;
       let status;
       if (data === 1) {
-        status = <b className="text-success">Activo</b>;
+        status = (
+          <b className="text-success">{t("app_tablas_estado_activo")}</b>
+        );
       } else if (data === 0) {
-        status = <b className="text-danger">Inactivo</b>;
+        status = (
+          <b className="text-danger">{t("app_tablas_estado_inactivo")}</b>
+        );
       }
       return status;
     };
 
     const data = this.state.dataUsers;
     console.log(this.state.dataGroup);
+    const { t } = this.state;
     return (
       <div>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
             {" "}
-            Ver grupo de usuarios {this.state.dataGroup.name}{" "}
+            {t("app_grupoUsuarios_modal_ver_titulo")}{" "}
+            {this.state.dataGroup.name}{" "}
           </ModalHeader>
           <ModalBody>
             <Row>
@@ -120,14 +128,14 @@ class ModalViewPais extends Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Datos{" "}
+                    {t("app_grupoUsuarios_modal_ver_titulo_2")}{" "}
                   </h5>{" "}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Código </dt>
+                        <dt> {t("app_grupoUsuarios_modal_ver_codigo")} </dt>
                         <dd> {this.state.dataGroup.code} </dd>
                       </dl>
                     </div>
@@ -135,7 +143,7 @@ class ModalViewPais extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Nombre </dt>
+                        <dt> {t("app_grupoUsuarios_modal_ver_nombre")} </dt>
                         <dd> {this.state.dataGroup.name} </dd>
                       </dl>
                     </div>
@@ -143,7 +151,10 @@ class ModalViewPais extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Descripción </dt>
+                        <dt>
+                          {" "}
+                          {t("app_grupoUsuarios_modal_ver_descripcion")}{" "}
+                        </dt>
                         <dd> {this.state.dataGroup.description} </dd>
                       </dl>
                     </div>
@@ -151,7 +162,7 @@ class ModalViewPais extends Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Estado </dt>
+                        <dt> {t("app_grupoUsuarios_modal_ver_estado")} </dt>
                         <dd> {statusGrupo(this.state.dataGroup.status)} </dd>
                       </dl>
                     </div>
@@ -172,7 +183,7 @@ class ModalViewPais extends Component {
                       style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      Más informacion{" "}
+                      {t("app_grupoUsuarios_modal_ver_titulo_collapse")}{" "}
                     </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapse}>
@@ -181,7 +192,12 @@ class ModalViewPais extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Fecha de creaciónn </dt>
+                              <dt>
+                                {" "}
+                                {t(
+                                  "app_grupoUsuarios_modal_ver_fecha_creacion"
+                                )}{" "}
+                              </dt>
                               <dd>
                                 {this.FechaCreacionGrupo(
                                   this.state.dataGroup.createdAt
@@ -193,7 +209,12 @@ class ModalViewPais extends Component {
                         <div className="col-md-6">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Fecha de modificación </dt>
+                              <dt>
+                                {" "}
+                                {t(
+                                  "app_grupoUsuarios_modal_ver_fecha_modificacion"
+                                )}
+                              </dt>
                               <dd>
                                 {this.FechaModificacionGrupo(
                                   this.state.dataGroup.updatedAt
@@ -205,7 +226,13 @@ class ModalViewPais extends Component {
                         <div className="col-md-12">
                           <div className="form-group">
                             <dl className="param">
-                              <dt> Usuarios asigandos: </dt>
+                              <dt>
+                                {" "}
+                                {t(
+                                  "app_grupoUsuarios_modal_ver_usuarios_asignados"
+                                )}
+                                :{" "}
+                              </dt>
                               <dd>
                                 {""}
 
@@ -215,7 +242,9 @@ class ModalViewPais extends Component {
                                   })
                                 ) : (
                                   <p className="text-danger">
-                                    No en este grupo hay usuarios asignados
+                                    {t(
+                                      "app_grupoUsuarios_modal_ver_usuarios_no_asignados"
+                                    )}
                                   </p>
                                 )}
                               </dd>
@@ -237,7 +266,8 @@ class ModalViewPais extends Component {
               }}
             >
               {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
+              <i className="fa fa-times" />{" "}
+              {t("app_grupoUsuarios_modal_ver_btn_cerrar")}{" "}
             </button>
           </ModalFooter>
         </Modal>

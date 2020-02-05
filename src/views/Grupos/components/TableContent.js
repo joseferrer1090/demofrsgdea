@@ -69,7 +69,7 @@ class TableContent extends Component {
     return (
       <div
         className="table-actionMenuGUsu"
-        style={{ textAlign: "center", padding: "0", marginRight: "195px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "120px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -118,11 +118,22 @@ class TableContent extends Component {
   };
 
   EstadoGrupo(cell, row) {
+    const t = this.props.t;
     let status;
     if (row.status === 1) {
-      status = <p className="text-success"> Activo </p>;
+      status = (
+        <p className="text-success">
+          {" "}
+          <b>{t("app_tablas_estado_activo")}</b>{" "}
+        </p>
+      );
     } else if (row.status === 0) {
-      status = <p className="text-danger"> Inactivo </p>;
+      status = (
+        <p className="text-danger">
+          {" "}
+          <b>{t("app_tablas_estado_inactivo")}</b>{" "}
+        </p>
+      );
     }
     return status;
   }
@@ -247,23 +258,27 @@ class TableContent extends Component {
           authorization={this.state.auth}
           modalview={this.state.modalview}
           ref="child"
+          t={this.props.t}
         />
         <ModalDelete
           authorization={this.state.auth}
           updateTable={this.getDataGroup}
           modaldel={this.state.modaldelete}
           ref="child2"
+          t={this.props.t}
         />
         <ModalEdit
           authorization={this.state.auth}
           updateTable={this.getDataGroup}
           modaledit={this.state.modaledit}
           ref="child3"
+          t={this.props.t}
         />
         <ModalExport
           authorization={this.state.auth}
           modalexport={this.state.modalexport}
           ref="child4"
+          t={this.props.t}
         />
       </div>
     );

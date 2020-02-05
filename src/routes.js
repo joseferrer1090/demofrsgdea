@@ -200,6 +200,7 @@ const routes = [
     name: "Configuración / Tipo documental de radicación",
     component: props => (
       <EditTipoDocumentalRadication
+        t={props.t}
         {...props}
         authorization={localStorage.getItem("auth_token")}
       />

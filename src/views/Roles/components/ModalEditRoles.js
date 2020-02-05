@@ -166,13 +166,13 @@ class ModalEditRoles extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {t("app_roles_modal_actualizar_alert_error")}
+                      {t("app_roles_modal_actualizar_alert_error_500")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
                       {t("app_roles_modal_actualizar_alert_success")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t("app_roles_modal_actualizar_alert_error400")}
+                      {t("app_roles_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
                       <Col sm="3">

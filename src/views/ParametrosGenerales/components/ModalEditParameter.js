@@ -92,6 +92,15 @@ const DataForm = {
     },
     value: "",
     valid: true
+  },
+  passwordParameter: {
+    type: "password",
+    elementConfig: {
+      name: "passwordParameter",
+      type: "password"
+    },
+    value: "EstaEsLaContraseña",
+    valid: true
   }
 };
 

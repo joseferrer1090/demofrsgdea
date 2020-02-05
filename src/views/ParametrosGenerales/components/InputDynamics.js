@@ -1,6 +1,27 @@
 import React, { useState, Fragment } from "react";
 import PropTypes from "prop-types";
 
+const pass = {
+  WebkitTextSecurity: "disc",
+  textSecurity: "disc"
+};
+
+const PasswordInput = props => {
+  return (
+    <input
+      type={"password"}
+      className="form-control form-control-sm"
+      {...props.elementConfig}
+      onChange={props.onChange}
+      onBlur={props.onBlur}
+      value={props.value}
+      name={props.name}
+      defaultValue={props.defaultValue}
+      style={pass}
+    />
+  );
+};
+
 const InputDynamics = props => {
   let formElement = null;
 
@@ -89,6 +110,18 @@ const InputDynamics = props => {
             </label>
           ))}
         </React.Fragment>
+      );
+      break;
+
+    case "password":
+      formElement = (
+        <PasswordInput
+          onChange={props.onChange}
+          onBlur={props.onBlur}
+          value={props.value}
+          name={props.name}
+          defaultValue={props.defaultValue}
+        />
       );
       break;
 

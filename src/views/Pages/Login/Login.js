@@ -8,11 +8,13 @@ import {
   CardBody,
   CardGroup,
   Container,
-  Form
+  Form,
+  Alert
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { userActions } from "./../../../actions";
+import { alertActions } from "./../../../actions/alertActions";
 
 const ErrorMessage = ({ errorValue }) => (
   <div style={{ margin: 0, color: "red" }}>
@@ -25,6 +27,24 @@ const ErrorMessage = ({ errorValue }) => (
 );
 
 class LoginForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      visible: true,
+      alertType: ""
+    };
+  }
+
+  componentDidMount() {
+    console.log(this.state.alertType);
+  }
+
+  onDismiss = () => {
+    this.setState({
+      visible: false
+    });
+  };
+
   render() {
     const {
       values,
@@ -35,7 +55,8 @@ class LoginForm extends React.Component {
       handleBlur,
       handleSubmit,
       handleReset,
-      isSubmitting
+      isSubmitting,
+      alertType
     } = this.props;
     return (
       <div className="app flex-row align-items-center">
@@ -57,11 +78,21 @@ class LoginForm extends React.Component {
                           </div>
                         </div>
                       </div>
+                      {/* <Alert
+                        color={this.state.alert}
+                        isOpen={this.state.visible}
+                        toggle={this.onDismiss}
+                      >
+                        This is a primary alert with{" "}
+                        <a href="#" className="alert-link">
+                          an example link
+                        </a>
+                        . Give it a click if you like.
+                      </Alert> */}
                       <h1 className="text-center">Iniciar sesión</h1>
                       <p className="text-muted text-center">
                         Ingresa al administrador general SGDEA
                       </p>
-
                       <div className="form-group">
                         <div className="input-group input-group mb-3">
                           <div className="input-group-prepend">
@@ -106,7 +137,6 @@ class LoginForm extends React.Component {
                         />
                       </div>
                       <ErrorMessage errorValue={errors.password} />
-
                       {/* <input type="hidden" value={grant_type} /> */}
                       <Row>
                         <Col xs="6">
@@ -166,21 +196,24 @@ const formikEnhancer = withFormik({
       const password = values.password;
       const grant_type = values.grant_type;
       // alert(JSON.stringify(values, null, 2));
+
       props.login(username, password, grant_type);
+
       setSubmitting(true);
       resetForm();
     }, 1500);
   }
 })(LoginForm);
 
-function mapStateToProps(state) {
-  //const { loggingIn } = state.authentication;
-  console.log(state);
-  return { state };
-}
+const mapStateToProps = state => {
+  return {
+    alertType: state.alertReducer
+  };
+};
 
 const actionCreators = {
-  login: userActions.login
+  login: userActions.login,
+  clearAlerts: alertActions.clear
 };
 
 const Login = connect(mapStateToProps, actionCreators)(formikEnhancer);

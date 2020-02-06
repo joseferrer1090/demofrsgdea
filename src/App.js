@@ -25,6 +25,20 @@ const isAuthenticate = () => {
   return true;
 };
 
+// const isLogged = () => {
+//   const token = localStorage.getItem("auth_token");
+//   try {
+//     if (token !== null) {
+//       return <Redirect to={{ pathname: "/middleware" }} />;
+//     } else {
+//       return <Redirect to={{ pathname: "/" }} />;
+//       console.log("Error no hay token ");
+//     }
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}

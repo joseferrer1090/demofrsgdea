@@ -84,7 +84,7 @@ class DefaultHeader extends Component {
   };
 
   logout = () => {
-    return <Redirect to="/logout" />;
+    history.push("/logout");
     // dispatch = useDispatch();
     // dispatch(userActions.userlogout());
     //localStorage.removeItem("auth_token");

@@ -5,9 +5,8 @@ import { connect } from "react-redux";
 
 class Logout extends Component {
   componentDidMount() {
-    this.props.dispatch({
-      type: types.userConstants.LOGOUT
-    });
+    localStorage.clear();
+    this.props.history.replace("/");
   }
   render() {
     return null;

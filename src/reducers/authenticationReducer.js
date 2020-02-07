@@ -9,7 +9,7 @@ export default function authentication(state = initialState, action) {
   switch (action.type) {
     case userConstants.LOGIN_REQUEST:
       return {
-        loggingIn: true,
+        loggingIn: null,
         user: action.user,
         permisos: {}
       };
@@ -20,9 +20,13 @@ export default function authentication(state = initialState, action) {
         permissions: action.permissions
       };
     case userConstants.LOGIN_FAILURE:
-      return {};
+      return {
+        loggedIn: false
+      };
     case userConstants.LOGOUT:
-      return {};
+      return {
+        loggedIn: null
+      };
     default:
       return state;
   }

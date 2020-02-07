@@ -57,7 +57,6 @@ class TableContentRoles extends Component {
         this.setState({
           dataRoles: data
         });
-        console.log(this.state.dataRoles);
       })
       .catch(err => console.log("Error", err));
   };
@@ -288,23 +287,26 @@ class TableContentRoles extends Component {
           updateTable={this.getDataRoles}
           authorization={this.props.authorization}
         />
-        {/* <ModalDelete
+        <ModalDelete
           t={this.props.t}
           modaldelete={this.state.modaldel}
           ref="child3"
           updateTable={this.getDataRoles}
-        /> */}
-        {/* <ModalPermission
+          authorization={this.props.authorization}
+        />
+        <ModalPermission
           t={this.props.t}
           datamodal={this.state.data}
           modaleditpermission={this.state.modalpermission}
           ref="child4"
-        /> */}
-        {/* <ModalExport
+          authorization={this.props.authorization}
+        />
+        <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
           ref="child5"
-        /> */}
+          authorization={this.props.authorization}
+        />
       </div>
     );
   }

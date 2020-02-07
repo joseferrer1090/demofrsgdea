@@ -1,8 +1,7 @@
 import { userService } from "./../services/auth/user.services";
 import { userConstants } from "./../constants/user.constants";
-import { alertConstant } from "./../constants/alerts.constants";
 import { history } from "./../helpers/history";
-
+import { alertActions } from "./alertActions";
 export const userActions = {
   login,
   logout
@@ -13,15 +12,16 @@ function login(username, password, grant_type) {
     dispatch(request({ username, password, grant_type }));
     userService.login(username, password, grant_type).then(
       user => {
-        console.log(user);
+        // console.log(user);
         localStorage.setItem("auth_token", user.data.access_token);
         dispatch(success(user));
         history.push("/#/middleware");
         window.location.reload(true);
       },
       error => {
-        console.log(error);
-        //dispatch(failure(error));
+        //console.log(error);
+        dispatch(failure(error));
+        dispatch(alertActions.error("Problemas al ingresar"));
       }
     );
   };

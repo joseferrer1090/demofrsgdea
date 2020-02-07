@@ -13,35 +13,60 @@ import {
 import IMGROLES from "./../../../assets/img/shield.svg";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
-import { ROLES_SHOW } from "./../../../services/EndPoints";
+import { ROLES_SHOW, ROLES_UPDATE } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalEditRoles extends React.Component {
-  state = {
-    modal: this.props.modaledit,
-    dataResult: {},
-    id: this.props.id,
-    userName: "jferrer",
-    alertSuccess: false,
-    alertError: false,
-    alertError400: "",
-    t: this.props.t,
-    auth: this.props.authorization
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      modal: this.props.modaledit,
+      dataResult: {},
+      id: this.props.id,
+      userName: "jferrer",
+      alertSuccess: false,
+      alertError: false,
+      alertError400: "",
+      t: this.props.t,
+      auth: this.props.authorization
+    };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
       id: id
     });
+    console.log(id);
+    console.log(this.props.authorization);
     this.getRoleByID(id);
   };
 
   getRoleByID = id => {
-    fetch(`${ROLES_SHOW}${id}?username=${this.state.userName}`, {
+    const token = this.state.auth;
+    const username = decode(token);
+    fetch(`${ROLES_SHOW}${id}?username=${username.user_name}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorizarion
+        Authorization: "Bearer " + token
       }
     })
       .then(response => response.json())
@@ -67,7 +92,6 @@ class ModalEditRoles extends React.Component {
       estado: this.state.dataResult.status
     };
     const { t } = this.props;
-    console.log();
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -89,11 +113,13 @@ class ModalEditRoles extends React.Component {
                 return 0;
               };
               setTimeout(() => {
-                fetch(`http://192.168.10.180:7000/api/sgdea/role`, {
+                const token = this.state.auth;
+                const username = decode(token);
+                fetch(`${ROLES_UPDATE}`, {
                   method: "PUT",
                   headers: {
                     "Content-Type": "application/json",
-                    Authorization: "Basic " + window.btoa("sgdea:123456")
+                    Authorization: "Bearer " + token
                   },
                   body: JSON.stringify({
                     id: this.state.id,

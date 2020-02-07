@@ -1,14 +1,108 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Formik, ErrorMessage, Field } from "formik";
 import {
   PARAMETERS_FIND_BY_ID,
-  PARAMTERS_UPDATE
+  PARAMTERS_UPDATE,
+  PARAMETERS_INPUTS
 } from "./../../../services/EndPoints";
-import { Fomrik, ErrorMessage, Formik, Field } from "formik";
 import * as Yup from "yup";
-import Input from "./../components/InputDynamics";
 import { decode } from "jsonwebtoken";
+import InpuDynamics from "./InputDynamics";
+
+const DataForm = {
+  name: {
+    type: "input",
+    elementConfig: {
+      name: "name",
+      type: "text",
+      placeholder: "Nombre Parametro"
+    },
+    value: "Nombre del parametro desde el API",
+    validity: {
+      required: true
+    },
+    valid: false,
+    touched: false,
+    disabled: true
+  },
+  description: {
+    type: "textarea",
+    elementConfig: {
+      name: "description",
+      type: "textarea",
+      placeholder: ""
+    },
+    value: "la descripcion del parametro general",
+    validity: {
+      required: true
+    },
+    valid: false,
+    touched: false,
+    disabled: true
+  },
+  valueParameter: {
+    type: "input",
+    elementConfig: {
+      name: "value",
+      type: "text",
+      placeholder: "value"
+    },
+    value: "Valor desde el api que se va a modificar",
+    validity: {
+      required: true
+    },
+    valid: false,
+    touched: false,
+    disabled: false
+  },
+  selectValue: {
+    type: "select",
+    elementConfig: {
+      name: "exampleSelect",
+      options: [
+        { value: "reactjs", displayname: "React js" },
+        { value: "spring", displayname: "Java Spring" }
+      ]
+    },
+    value: "",
+    valid: true
+  },
+  selectRadio: {
+    type: "radiobutton",
+    elementConfig: {
+      name: "exampleRadio",
+      options: [
+        { name: "parameter", value: "value1" },
+        { name: "parameter", value: "value2" }
+      ]
+    },
+    value: "",
+    valid: true
+  },
+  selectCheckbox: {
+    type: "checkbox",
+    elementConfig: {
+      name: "exampleCheckBox",
+      options: [
+        { name: "vehile1", value: "Car", id: "1" },
+        { name: "vehicle2", value: "Bike", id: "2" }
+      ]
+    },
+    value: "",
+    valid: true
+  },
+  passwordParameter: {
+    type: "password",
+    elementConfig: {
+      name: "passwordParameter",
+      type: "password"
+    },
+    value: "EstaEsLaContraseña",
+    valid: true
+  }
+};
 
 class ModalEditParameter extends Component {
   constructor(props) {
@@ -16,25 +110,26 @@ class ModalEditParameter extends Component {
     this.state = {
       modal: this.props.modalEditParameter,
       idParameter: this.props.id,
-      dataResult: {},
+      dataResult: DataForm,
       auth: this.props.authorization
     };
   }
 
   toggle = id => {
     this.setState({
-      modal: !this.state.modal,
-      idParameter: id
+      id: id,
+      modal: !this.state.modal
     });
-    this.getDataParameterByID(id);
+    console.log(this.state.dataResult);
+    // this.getDataParametar(id);
   };
 
-  getDataParameterByID = id => {
-    fetch(`${PARAMETERS_FIND_BY_ID}${id}`, {
+  getDataParametar = id => {
+    fetch(`${PARAMETERS_INPUTS}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
+        Authorization: "Bearer " + this.props.authorization
       }
     })
       .then(response => response.json())
@@ -46,71 +141,33 @@ class ModalEditParameter extends Component {
       .catch(err => console.log(`err => ${err}`));
   };
 
-  // handleSubmit = (values, { props = this.props, setSubmitting }) => {
-  //   alert(JSON.stringify(values, null, 2));
-  //   setSubmitting(false);
-  //   return;
-  // };
-
   render() {
+    const aux = [];
+    for (const key in this.state.dataResult) {
+      aux.push({
+        id: key,
+        inputInfo: this.state.dataResult[key]
+      });
+    }
+    console.log(aux);
+    // console.log(
+    //   aux.map(element => console.log(`${element.inputInfo.elementConfig.name}`))
+    // );
+
     return (
-      <Modal className="" isOpen={this.state.modal} onClick={() => this.toggle}>
-        <ModalHeader> Parametro {this.state.dataResult.parameter} </ModalHeader>
+      <Modal className="" isOpen={this.state.modal} onClick={() => this.toogle}>
+        <ModalHeader>Parametro {this.state.dataResult.parameter}</ModalHeader>
         <Formik
           enableReinitialize={true}
-          initialValues={{
-            parameter: this.state.dataResult.parameter,
-            description: this.state.dataResult.description,
-            valueparameter: this.state.dataResult.value
-          }}
-          validationSchema={Yup.object().shape({
-            valueparameter: Yup.string().required(
-              "Valor del parametro no puede ir vacio"
-            )
-          })}
-          onSubmit={(values, { setSubmitting }) => {
+          // initialValues={aux.map(element =>
+          //   console.log(`${element.inputInfo.elementConfig.name}`)
+          // )}
+          validationSchema={Yup.object().shape({})}
+          onSubmit={(values, { setSubmitting, props }) => {
             setTimeout(() => {
-              const token = this.state.auth;
-              const username = decode(token);
-              fetch(`${PARAMTERS_UPDATE}`, {
-                method: "PUT",
-                headers: {
-                  "Content-type": "application/json",
-                  Authorization: "Bearer " + token
-                },
-                body: JSON.stringify({
-                  parameter: values.parameter,
-                  value: values.valueparameter,
-                  username: username.user_name
-                })
-              }).then(response => {
-                if (response.status === 200) {
-                  // Notification verde
-                  this.setState(
-                    {
-                      modal: false
-                    },
-                    () => this.props.updateData()
-                  );
-                } else if (response.status === 400) {
-                  // Notificacion Roja
-                } else if (response.status === 500) {
-                  // Notificacion Roja
-                }
-              });
-              // console.log(
-              //   JSON.stringify(
-              //     {
-              //       parameter: values.parameter,
-              //       value: values.valueparameter,
-              //       username: username.user_name
-              //     },
-              //     null,
-              //     2
-              //   )
-              // );
+              alert(JSON.stringify({ values }, null, 2));
               setSubmitting(false);
-            }, 1000);
+            }, 10);
           }}
         >
           {props => {
@@ -129,79 +186,37 @@ class ModalEditParameter extends Component {
               <React.Fragment>
                 <ModalBody>
                   <form className="form">
-                    <div className="table-responsive">
+                    <div className="table-responseive">
                       <table className="table table-striped">
                         <tbody>
-                          <tr>
-                            <td>Parametro:</td>
-                            <td>
-                              {" "}
-                              <input
-                                type={"text"}
-                                className="form-control form-control-sm"
-                                value={values.parameter}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                disabled
-                              />{" "}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Descripcion:</td>
-                            <td>
-                              {" "}
-                              <textarea
-                                className="form-control form-control-sm"
-                                rows={4}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.description}
-                                disabled
-                              ></textarea>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td>Valor:</td>
-                            <td>
-                              <Field name="valueparameter">
-                                {({}) => (
-                                  <div>
-                                    <Input
-                                      onChange={e =>
-                                        setFieldValue(
-                                          "valueparameter",
-                                          e.target.value
-                                        )
+                          {aux.map((element, id) => (
+                            <tr>
+                              <td> {element.id} </td>
+                              <td>
+                                <Field name={`${element.id}`}>
+                                  {({}) => (
+                                    <InpuDynamics
+                                      key={element.id}
+                                      formType={element.inputInfo.type}
+                                      onChange={handleChange}
+                                      name={
+                                        element.inputInfo.elementConfig.name
                                       }
-                                      onBlur={() =>
-                                        setFieldTouched("valueparameter", true)
+                                      defaultValue={element.inputInfo.value}
+                                      disable={
+                                        element.inputInfo.disabled
+                                          ? true
+                                          : false
                                       }
-                                      value={values.valueparameter}
-                                      formType={
-                                        this.state.dataResult.parameterType
+                                      elementConfig={
+                                        element.inputInfo.elementConfig
                                       }
                                     />
-                                  </div>
-                                )}
-                              </Field>
-
-                              {/* <Field
-                              value={values.valueparameter}
-                              type={this.state.dataResult.typeParameter}
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              className={"form-control form-control-sm"}
-                              
-                            ></Field> */}
-                              {/* <input
-                              type={"text"}
-                              className="form-control form-control-sm"
-                              onChange={handleChange}
-                              onBlur={handleBlur}
-                              value={values.valueparameter}
-                            /> */}
-                            </td>
-                          </tr>
+                                  )}
+                                </Field>
+                              </td>
+                            </tr>
+                          ))}
                         </tbody>
                       </table>
                     </div>
@@ -216,12 +231,12 @@ class ModalEditParameter extends Component {
                       handleSubmit();
                     }}
                   >
-                    Editar <i className="fa fa-pencil" />
+                    {" "}
+                    Editar <i className="fa fa-pencil" />{" "}
                   </button>
                   <button
-                    type={"button"}
-                    onClick={() => this.setState({ modal: false })}
                     className="btn btn-secondary btn-sm"
+                    onClick={() => this.setState({ modal: false })}
                   >
                     {" "}
                     Cerrar <i className="fa fa-times" />{" "}

@@ -67,7 +67,6 @@ class Roles extends React.Component {
   render() {
     const { t } = this.props;
     const { authToken } = this.state;
-    console.log(authToken);
     return (
       <div>
         <Nav tabs>

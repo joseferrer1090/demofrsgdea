@@ -37,8 +37,6 @@ const RolesForm = props => {
     }
   };
 
-  console.log(props.authorization);
-
   const {
     values,
     errors,

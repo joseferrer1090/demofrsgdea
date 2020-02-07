@@ -3,6 +3,8 @@ import { Modal, ModalHeader, ModalFooter, ModalBody, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik, ErrorMessage } from "formik";
+import { ROLES_SHOW, ROLES_DELETE } from "./../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class ModalDeleteRoles extends Component {
   constructor(props) {
@@ -15,7 +17,8 @@ class ModalDeleteRoles extends Component {
       t: this.props.t,
       alertError: false,
       alertSuccess: false,
-      alertCode: false
+      alertCode: false,
+      auth: this.props.authorization
     };
   }
 
@@ -28,16 +31,15 @@ class ModalDeleteRoles extends Component {
   };
 
   getDataRolById = id => {
-    fetch(
-      `http://192.168.10.180:7000/api/sgdea/role/${id}?username=${this.state.userName}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Basic " + window.btoa("sgdea:123456")
-        }
+    const token = this.props.authorization;
+    const username = decode(token);
+    fetch(`${ROLES_SHOW}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -51,7 +53,8 @@ class ModalDeleteRoles extends Component {
     const dataInitial = {
       codigo: ""
     };
-    const { t } = this.props;
+    const { t, authorization } = this.props;
+
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
@@ -64,13 +67,15 @@ class ModalDeleteRoles extends Component {
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
                 //alert(JSON.stringify(values));
+                const token = this.props.authorization;
+                const username = decode(token);
                 fetch(
-                  `http://192.168.10.180:7000/api/sgdea/role/${this.state.id}?code=${values.codigo}&username=${this.state.userName}`,
+                  `${ROLES_DELETE}${this.state.id}?code=${values.codigo}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "Basic " + window.btoa("sgdea:123456")
+                      Authorization: "Bearer " + token
                     }
                   }
                 )

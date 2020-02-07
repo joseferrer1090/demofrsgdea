@@ -53,7 +53,6 @@ class MySelectEntidades extends React.Component {
         this.setState({
           dataEntidades: data
         });
-        console.log(data);
       })
       .catch(err => console.log("Error", err));
   };

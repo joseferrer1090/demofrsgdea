@@ -1,31 +1,58 @@
 import { userConstants } from "./../constants/user.constants";
 let user = JSON.parse(localStorage.getItem("user"));
 
-// permisos
-const initialState = user ? { loggedIn: true, user, permissions: {} } : {};
+const initialState = user
+  ? {
+      isLogginIn: true,
+      isLogginOut: false,
+      isVerifying: true,
+      loginError: false,
+      logoutError: false,
+      isAuthenticated: true,
+      user,
+      permissions: {}
+    }
+  : {
+      isLogginIn: false,
+      isLogginOut: false,
+      isVerifying: false,
+      loginError: false,
+      logoutError: false,
+      isAuthenticated: false,
+      user,
+      permissions: null
+    };
 
 // fucnion principal
 export default function authentication(state = initialState, action) {
   switch (action.type) {
     case userConstants.LOGIN_REQUEST:
       return {
-        loggingIn: null,
         user: action.user,
-        permisos: {}
+        permisos: {},
+        isLogginIn: true,
+        loginError: false
       };
     case userConstants.LOGIN_SUCCESS:
       return {
-        loggedIn: true,
         user: action.user,
-        permissions: action.permissions
+        permissions: action.permissions,
+        isAuthenticated: true,
+        isLogginIn: false
       };
     case userConstants.LOGIN_FAILURE:
       return {
-        loggedIn: false
+        ...state,
+        isLogginIn: false,
+        isAuthenticated: false,
+        loginError: true
       };
     case userConstants.LOGOUT:
       return {
-        loggedIn: null
+        ...state,
+        user: {},
+        isAuthenticated: false,
+        isLogginOut: false
       };
     default:
       return state;

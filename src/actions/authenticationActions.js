@@ -2,6 +2,7 @@ import { userService } from "./../services/auth/user.services";
 import { userConstants } from "./../constants/user.constants";
 import { history } from "./../helpers/history";
 import { alertActions } from "./alertActions";
+
 export const userActions = {
   login,
   logout
@@ -15,13 +16,12 @@ function login(username, password, grant_type) {
         // console.log(user);
         localStorage.setItem("auth_token", user.data.access_token);
         dispatch(success(user));
-        history.push("/#/middleware");
+        history.replace("/#/middleware");
         window.location.reload(true);
       },
       error => {
-        //console.log(error);
         dispatch(failure(error));
-        dispatch(alertActions.error("Problemas al ingresar"));
+        console.log(error);
       }
     );
   };

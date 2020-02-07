@@ -112,6 +112,11 @@ const ViewMiddleware = Loadable({
   loading
 });
 
+const Logout = Loadable({
+  loader: () => import("./views/Pages/Logout/Logout"),
+  loading
+});
+
 class App extends Component {
   render() {
     return (
@@ -126,6 +131,7 @@ class App extends Component {
             component={ResetPassword}
           />
           <Route path="/404" name="Page 404" component={Page404} />
+          <Route path="/logout" name="Logout" component={Logout} />
           <PrivateRoute
             exact
             path="/middleware"

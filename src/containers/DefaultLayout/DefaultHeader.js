@@ -84,11 +84,13 @@ class DefaultHeader extends Component {
   };
 
   logout = () => {
+    history.push("/#/logout");
+    window.location.reload();
     // dispatch = useDispatch();
     // dispatch(userActions.userlogout());
-    localStorage.removeItem("auth_token");
-    history.push("/");
-    window.location.reload();
+    //localStorage.removeItem("auth_token");
+    //history.push("/");
+    //window.location.reload();
   };
 
   render() {

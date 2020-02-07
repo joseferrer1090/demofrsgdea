@@ -56,7 +56,9 @@ class LoginForm extends React.Component {
       handleSubmit,
       handleReset,
       isSubmitting,
-      alertType
+      isAuthenticated,
+      loginError,
+      isLogginIn
     } = this.props;
     return (
       <div className="app flex-row align-items-center">
@@ -78,6 +80,12 @@ class LoginForm extends React.Component {
                           </div>
                         </div>
                       </div>
+                      {loginError && (
+                        <Alert color="danger" isOpen={loginError}>
+                          {" "}
+                          Error al ingresar a la plataforma{" "}
+                        </Alert>
+                      )}
                       {/* <Alert
                         color={this.state.alert}
                         isOpen={this.state.visible}
@@ -207,13 +215,14 @@ const formikEnhancer = withFormik({
 
 const mapStateToProps = state => {
   return {
-    alertType: state.alertReducer
+    loginError: state.authenticationReducer.loginError,
+    isLogginIn: state.authenticationReducer.isLogginIn,
+    isAuthenticated: state.authenticationReducer.isAuthenticated
   };
 };
 
 const actionCreators = {
-  login: userActions.login,
-  clearAlerts: alertActions.clear
+  login: userActions.login
 };
 
 const Login = connect(mapStateToProps, actionCreators)(formikEnhancer);

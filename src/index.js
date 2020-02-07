@@ -10,6 +10,10 @@ import * as serviceWorker from "./serviceWorker";
 import store from "./store/store";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./config/i18n";
+import createHistory from "history/createBrowserHistory";
+
+const history = createHistory();
+
 // import {loadConglomerados} from "./actions/actionsCreators";
 
 // store.dispatch(loadConglomerados());
@@ -17,9 +21,9 @@ import i18n from "./config/i18n";
 ReactDOM.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
-      <App />
+      <App history={history} />
     </I18nextProvider>
-    </Provider>,
+  </Provider>,
   document.getElementById("root")
 );
 

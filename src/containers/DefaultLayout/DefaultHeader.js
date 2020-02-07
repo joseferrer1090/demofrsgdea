@@ -21,6 +21,7 @@ import sygnet from "../../assets/img/sevenet_ori.svg";
 import { useTranslation, Trans } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { userActions } from "./../../actions/authenticationActions";
+import { history } from "./../../helpers/history";
 
 import decode from "jwt-decode";
 
@@ -82,9 +83,12 @@ class DefaultHeader extends Component {
     i18n.changeLanguage(lang);
   };
 
-  logout = dispatch => {
-    dispatch = useDispatch();
-    dispatch(userActions.userlogout());
+  logout = () => {
+    // dispatch = useDispatch();
+    // dispatch(userActions.userlogout());
+    localStorage.removeItem("auth_token");
+    history.push("/");
+    window.location.reload();
   };
 
   render() {
@@ -146,8 +150,6 @@ class DefaultHeader extends Component {
                 alt="administratos@image"
               />
               {/*
-              
-
                 
               */}
             </DropdownToggle>
@@ -181,7 +183,7 @@ class DefaultHeader extends Component {
                   <i className="fa fa-wrench" /> {t("homePage")}{" "}
                 </Link>
               </DropdownItem>
-              <DropdownItem onClick={() => this.logout}>
+              <DropdownItem onClick={this.logout}>
                 <i className="fa fa-lock" /> {t("goOut")}
               </DropdownItem>
             </DropdownMenu>

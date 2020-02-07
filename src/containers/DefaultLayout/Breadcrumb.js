@@ -29,7 +29,7 @@ let routes = [
     exact: true,
     name: " Configuración / Empresa ",
     component: null
-  },  
+  },
   {
     path: "/configuracion/sedes",
     exact: true,
@@ -330,6 +330,12 @@ class AppBreadcrumb extends Component {
           path: "/configuracion/tipodocumentalradication/edit",
           exact: true,
           name: "Configuración / Tipo documental de radicación",
+          component: null
+        },
+        {
+          path: "/configuracion/radicacionemail",
+          exact: true,
+          name: "Configuración / Cuenta de correo electrónico para radicación",
           component: null
         },
         {

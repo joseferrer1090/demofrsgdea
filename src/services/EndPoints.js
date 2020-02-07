@@ -57,6 +57,11 @@ export const ENTITIES_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/conf
 /* GET idModule */
 export const ENTITIES_BY_MODULE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/entities/module/`;
 
+//---------------------------------------------RESTABLECER CONTRASEÑA--------------------------------------------------//
+/* POST EMAIL */
+export const PASSWORD_RETRIEVAL_REQUEST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/password-reset-request`;
+/* POST NEW PASSWORD */
+export const NEW_PASSWORD = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/password-reset`;
 //---------------------------------------------ACCIONES--------------------------------------------------//
 
 /* GET */
@@ -540,6 +545,11 @@ export const TYPEDOCUMENTARYS_PAGINATION = () => {
   const size = 1;
   return `http://192.168.10.180:7000/api/sgdea/typedocumentary/pagination?page=${page}&size=${size}`;
 };
+//---------------------------------------------RADICACIÓN VÍA CORREO ELECTRÓNICO--------------------------------------------------//
+/* GET - POST - PUT - DELETE*/
+export const EMAIL_FILING = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/accounts/filing`;
+/* EXPORT */
+export const EMAIL_FILING_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/accounts/filing/export/data`;
 
 //---------------------------------------------PAÍS--------------------------------------------------//
 

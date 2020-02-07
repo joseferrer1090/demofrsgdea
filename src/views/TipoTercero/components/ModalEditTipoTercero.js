@@ -193,13 +193,13 @@ class ModalEditTipoTercero extends React.Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {t("app_tipoTerecero_modal_actualizar_alert_error")}
+                      {t("app_tipoTerecero_modal_actualizar_alert_error_500")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
                       {t("app_tipoTerecero_modal_actualizar_alert_success")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t("app_tipoTerecero_modal_actualizar_alert_error400")}
+                      {t("app_tipoTerecero_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
                       <Col sm={3}>

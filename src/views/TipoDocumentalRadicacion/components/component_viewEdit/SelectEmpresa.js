@@ -67,7 +67,7 @@ class SelectEmpresa extends Component {
         >
           <option value={" "}>
             {" "}
-            -- Seleccione --
+            -- {t("app_documentalRadicacion_actualizar_placeholder_empresa")} --
             {/* -- {t("app_tipoTramite_form_registrar_select_empresa")} --{" "} */}
           </option>
           {this.state.dataEmpresa.map((aux, id) => {

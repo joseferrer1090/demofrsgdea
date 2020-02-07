@@ -9,6 +9,7 @@ import ModalDeleteRadicacionEmail from "./ModalDeleteRadicacionEmail";
 import ModalExportCSV from "./ModalExportCSV";
 import moment from "moment";
 import { withTranslation } from "react-i18next";
+import { EMAIL_FILING } from "../../../services/EndPoints";
 
 class TableContentRadicacionEmail extends Component {
   constructor(props) {
@@ -41,16 +42,13 @@ class TableContentRadicacionEmail extends Component {
   }
 
   getDataRadicacionEmail = () => {
-    fetch(
-      "http://192.168.20.187:8090/api/sgdea/service/configuration/email/accounts/filing",
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + this.props.authorization
-        }
+    fetch(`${EMAIL_FILING}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.props.authorization
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({

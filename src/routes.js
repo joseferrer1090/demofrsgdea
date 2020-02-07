@@ -200,6 +200,7 @@ const routes = [
     name: "Configuración / Tipo documental de radicación",
     component: props => (
       <EditTipoDocumentalRadication
+        t={props.t}
         {...props}
         authorization={localStorage.getItem("auth_token")}
       />
@@ -277,6 +278,7 @@ const routes = [
     component: props => (
       <EditTramite
         {...props}
+        t={props.t}
         authorization={localStorage.getItem("auth_token")}
       />
     )
@@ -324,6 +326,7 @@ const routes = [
     component: props => (
       <EditPlantillaEmail
         {...props}
+        t={props.t}
         authorization={localStorage.getItem("auth_token")}
       />
     )

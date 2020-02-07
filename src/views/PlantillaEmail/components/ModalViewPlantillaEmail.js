@@ -20,7 +20,8 @@ class ModalViewInfoTemplateEmail extends React.Component {
       modal: this.props.modal,
       dataTemplate: {},
       auth: this.props.authorization,
-      id: this.props.id
+      id: this.props.id,
+      t: this.props.t
     };
   }
 
@@ -63,6 +64,7 @@ class ModalViewInfoTemplateEmail extends React.Component {
       })
       .catch(Error => console.log(Error));
   };
+  
   FechaCreacionPlantillaEmail(data) {
     let createdAt;
     createdAt = new Date(data);
@@ -76,11 +78,12 @@ class ModalViewInfoTemplateEmail extends React.Component {
 
   render() {
     const { dataTemplate } = this.state;
+    const { t } = this.state;
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>
-            Plantilla de correo electrónico {dataTemplate.name}
+            {t("app_plantilla_email_modal_info_titulo")} {dataTemplate.name}
           </ModalHeader>
           <ModalBody>
             <Row>
@@ -92,14 +95,14 @@ class ModalViewInfoTemplateEmail extends React.Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Datos
+                    {t("app_plantilla_email_modal_info_titulo_2")}
                   </h5>{" "}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Nombre </dt>
+                        <dt>{t("app_plantilla_email_modal_info__nombre")} </dt>
                         <dd>{dataTemplate.name}</dd>
                       </dl>
                     </div>
@@ -107,7 +110,9 @@ class ModalViewInfoTemplateEmail extends React.Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Descripción </dt>
+                        <dt>
+                          {t("app_plantilla_email_modal_info_descripcion")}{" "}
+                        </dt>
                         <dd> {dataTemplate.description} </dd>
                       </dl>
                     </div>
@@ -115,7 +120,7 @@ class ModalViewInfoTemplateEmail extends React.Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Asunto </dt>
+                        <dt>{t("app_plantilla_email_modal_info_asunto")} </dt>
                         <dd> {dataTemplate.subject} </dd>
                       </dl>
                     </div>
@@ -123,7 +128,7 @@ class ModalViewInfoTemplateEmail extends React.Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>De parte de</dt>
+                        <dt>{t("app_plantilla_email_modal_info_from")}</dt>
                         <dd> {dataTemplate.from} </dd>
                       </dl>
                     </div>
@@ -131,7 +136,10 @@ class ModalViewInfoTemplateEmail extends React.Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Fecha de creación</dt>
+                        <dt>
+                          {" "}
+                          {t("app_plantilla_email_modal_info_fecha_creacion")}
+                        </dt>
                         <dd>
                           {" "}
                           {this.FechaCreacionPlantillaEmail(
@@ -144,7 +152,12 @@ class ModalViewInfoTemplateEmail extends React.Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt> Fecha de modificación</dt>
+                        <dt>
+                          {" "}
+                          {t(
+                            "app_plantilla_email_modal_info_fecha_modificacion"
+                          )}
+                        </dt>
                         <dd>
                           {" "}
                           {this.FechaModificacionPlantillaEmail(
@@ -165,7 +178,8 @@ class ModalViewInfoTemplateEmail extends React.Component {
                 this.setState({ modal: false });
               }}
             >
-              <i className="fa fa-times" /> Cerrar
+              <i className="fa fa-times" />{" "}
+              {t("app_plantilla_email_modal_info_btn_cerrar")}
             </button>
           </ModalFooter>
         </Modal>

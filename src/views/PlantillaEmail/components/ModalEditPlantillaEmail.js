@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
-import ShowTemplate from "./ShowTemplateEdit";
 import CodeMirror from "codemirror";
 import { withTranslation } from "react-i18next";
 import { TEMPLATE_EMAIL, TEMPLATES_EMAIL } from "../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
-import { Alert } from "reactstrap";
+import { Alert, Toast, ToastBody, ToastHeader, Row, Col } from "reactstrap";
 import "./../../../../node_modules/codemirror/lib/codemirror.css";
 import "./../../../../node_modules/codemirror/theme/ambiance.css";
 import "./../../../../node_modules/codemirror/mode/xml/xml";
@@ -18,7 +17,7 @@ import PropTypes from "prop-types";
 import { css } from "glamor";
 import ShowTemplateEdit from "./ShowTemplateEdit";
 
-const PlantillaEmailForm = ({ match, authorization, props }) => {
+const PlantillaEmailForm = ({ match, authorization, t }) => {
   /* Estado data HTML-BODY STYLES-CSS */
   const [CodeCSS, setCodeCSS] = useState("");
   const [CodeBody, setCodeBody] = useState("");
@@ -47,6 +46,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
 
   useEffect(() => {
     getDataTemplateEmail();
+    console.log(t);
   }, []);
 
   const getDataTemplateEmail = () => {
@@ -119,6 +119,178 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
   const back = () => {
     let path = `#/configuracion/plantillaemail`;
     window.location.replace(path);
+  };
+
+  const instruccionesEdit = () => {
+    if (dataPlantillaEmail.name === "filing-email-answer-template") {
+      return (
+        <div className="col-12">
+          <Alert color="secondary" isOpen={visible} toggle={onDismiss}>
+            {t("app_plantilla_email_modal_editar_alert_msg")}
+            <br />
+            {t("app_plantilla_email_modal_editar_alert_msg_2")}
+            <div className="p-3 my-2 rounded">
+              <Row>
+                <Col md="4">
+                  <Toast>
+                    <ToastHeader>
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_template_filing_asunto_"
+                      )}
+                    </ToastHeader>
+                    <ToastBody>
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_template_filing_asunto_2"
+                      )}
+                      <hr></hr>
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_template_filing_asunto_3"
+                      )}{" "}
+                      <b>
+                        {t(
+                          "app_plantilla_email_modal_editar_alert_template_filing_asunto_4"
+                        )}
+                      </b>{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_template_filing_asunto_5"
+                      )}{" "}
+                      <b>
+                        <code style={{ color: "#FA1818" }}>
+                          ${"{subject_received}"}
+                        </code>
+                      </b>{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_template_filing_asunto_6"
+                      )}
+                    </ToastBody>
+                  </Toast>
+                </Col>
+                <Col md="4">
+                  <Toast>
+                    <ToastHeader>
+                      {" "}
+                      {t("app_plantilla_email_modal_editar_alert_cuerpo_html")}
+                    </ToastHeader>
+                    <ToastBody>
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_2"
+                      )}
+                      <hr></hr>
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_3"
+                      )}{" "}
+                      <b>
+                        {t(
+                          "app_plantilla_email_modal_editar_alert_cuerpo_html_4"
+                        )}
+                      </b>{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_5"
+                      )}{" "}
+                      <br></br>
+                      <b>
+                        <code style={{ color: "#FA1818" }}>${"{sender}"}</code>,
+                        &nbsp;
+                        <code style={{ color: "#FA1818" }}>
+                          ${"{subject_received}"}
+                        </code>
+                        , &nbsp;
+                        <code style={{ color: "#FA1818" }}>
+                          ${"{body_received}"}
+                        </code>
+                        , &nbsp;
+                        <code style={{ color: "#FA1818" }}>
+                          ${"{attacheds}"}
+                        </code>
+                      </b>{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_6"
+                      )}
+                    </ToastBody>
+                  </Toast>
+                </Col>
+                <Col md="4">
+                  <Toast>
+                    <ToastHeader>
+                      {" "}
+                      {t("app_plantilla_email_modal_editar_alert_estilos_css")}
+                    </ToastHeader>
+                    <ToastBody>
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_estilos_css_2"
+                      )}
+                    </ToastBody>
+                  </Toast>
+                </Col>
+              </Row>
+            </div>
+          </Alert>
+        </div>
+      );
+    } else if (dataPlantillaEmail.name === "password-reset-request-template") {
+      return (
+        <div className="col-12">
+          <Alert color="secondary" isOpen={visible} toggle={onDismiss}>
+            {t("app_plantilla_email_modal_editar_alert_msg")}
+            <br />
+            {t("app_plantilla_email_modal_editar_alert_msg_2")}
+            <div className="p-3 my-2 rounded">
+              <Row>
+                <Col md="6">
+                  <Toast>
+                    <ToastHeader>
+                      {" "}
+                      {t("app_plantilla_email_modal_editar_alert_cuerpo_html")}
+                    </ToastHeader>
+                    <ToastBody>
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_2"
+                      )}
+                      <hr></hr>
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_3"
+                      )}{" "}
+                      <b>
+                        {t(
+                          "app_plantilla_email_modal_editar_alert_cuerpo_html_4"
+                        )}
+                      </b>{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_5"
+                      )}{" "}
+                      <br></br>
+                      <b>
+                        <code style={{ color: "#FA1818" }}>${"{user}"}</code>,
+                        &nbsp;
+                        <code style={{ color: "#FA1818" }}>
+                          ${"{resetUrl}"}
+                        </code>
+                      </b>{" "}
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_cuerpo_html_6"
+                      )}
+                    </ToastBody>
+                  </Toast>
+                </Col>
+                <Col md="6">
+                  <Toast>
+                    <ToastHeader>
+                      {" "}
+                      {t("app_plantilla_email_modal_editar_alert_estilos_css")}
+                    </ToastHeader>
+                    <ToastBody>
+                      {t(
+                        "app_plantilla_email_modal_editar_alert_estilos_css_2"
+                      )}
+                    </ToastBody>
+                  </Toast>
+                </Col>
+              </Row>
+            </div>
+          </Alert>
+        </div>
+      );
+    }
   };
 
   return (
@@ -234,27 +406,16 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
               <ToastContainer />
               <div className="card">
                 <div className="card-header">
-                  Actualizar plantilla de correo electrónico{" "}
+                  {t("app_plantilla_email_modal_editar_titulo")}{" "}
                   {values.templateEmail_name}
                 </div>
                 <div className="card-body">
                   <div className="row">
-                    <div className="col-12">
-                      <Alert
-                        color="secondary"
-                        isOpen={visible}
-                        toggle={onDismiss}
-                      >
-                        En este apartado podrá editar una plantilla de correo
-                        electrónico y almacenarla para su posterior utilización
-                        (newsletter, comunicados, listas, circulares, boletines,
-                        etc.).
-                      </Alert>
-                    </div>
+                    {instruccionesEdit()}
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          Nombre
+                          {t("app_plantilla_email_modal_editar_nombre")}
                           <span className="text-danger">*</span>{" "}
                           <dd>
                             {" "}
@@ -283,7 +444,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          Descripción
+                          {t("app_plantilla_email_modal_editar_descripcion")}
                           <span className="text-danger">*</span>{" "}
                           <dd>
                             {" "}
@@ -312,7 +473,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          Asunto
+                          {t("app_plantilla_email_modal_editar_asunto")}
                           <span className="text-danger">*</span>{" "}
                           <dd>
                             {" "}
@@ -340,7 +501,7 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     <div className="col-md-6">
                       <div className="form-group">
                         <dl className="param">
-                          De parte de
+                          {t("app_plantilla_email_modal_editar_from")}
                           <span className="text-danger">*</span>{" "}
                           <dd>
                             {" "}
@@ -368,9 +529,13 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     <div className="col-6" style={{ padding: 1 }}>
                       <label>
                         <b>
-                          Cuerpo de la plantilla{" "}
+                          {t("app_plantilla_email_modal_editar_cuerpo_html")}{" "}
                           <u style={{ color: "red" }}>
-                            <code>HTML</code>
+                            <code>
+                              {t(
+                                "app_plantilla_email_modal_editar_cuerpo_html_2"
+                              )}
+                            </code>
                           </u>
                         </b>{" "}
                       </label>
@@ -391,9 +556,13 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                     <div className="col-6" style={{ padding: 1 }}>
                       <label>
                         <b>
-                          Estilos de la plantilla{" "}
+                          {t("app_plantilla_email_modal_editar_estilos_css")}{" "}
                           <u style={{ color: "red" }}>
-                            <code>CSS</code>
+                            <code>
+                              {t(
+                                "app_plantilla_email_modal_editar_estilos_css_2"
+                              )}
+                            </code>
                           </u>
                         </b>
                       </label>
@@ -419,7 +588,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                         }}
                         style={{ margin: "1px" }}
                       >
-                        <i className="fa fa-eye" /> Vista previa
+                        <i className="fa fa-eye" />{" "}
+                        {t("app_plantilla_email_modal_editar_btn_vista_previa")}
                       </button>
                     </div>
                   </div>
@@ -440,7 +610,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                       }}
                     >
                       {" "}
-                      <i className="fa fa-pencil" /> Actualizar{" "}
+                      <i className="fa fa-pencil" />{" "}
+                      {t("app_plantilla_email_modal_editar_btn_actualizar")}{" "}
                     </button>
 
                     <button
@@ -452,7 +623,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
                       }}
                     >
                       {" "}
-                      <i className="fa fa-times" /> Cerrar{" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_plantilla_email_modal_editar_btn_cerrar")}{" "}
                     </button>
                   </div>
                 </div>
@@ -464,5 +636,8 @@ const PlantillaEmailForm = ({ match, authorization, props }) => {
     </Formik>
   );
 };
-PlantillaEmailForm.propTypes = {};
+PlantillaEmailForm.propTypes = {
+  authorization: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired
+};
 export default withTranslation("translations")(PlantillaEmailForm);

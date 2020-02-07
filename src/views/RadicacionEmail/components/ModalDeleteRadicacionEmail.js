@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import * as Yup from "yup";
 import { Formik, withFormik, ErrorMessage, Field, From } from "formik";
 import { decode } from "jsonwebtoken";
-
+import { EMAIL_FILING } from "./../../../services/EndPoints";
 class ModalDeleteRadicacionEmail extends Component {
   constructor(props) {
     super(props);
@@ -47,16 +47,13 @@ class ModalDeleteRadicacionEmail extends Component {
     const auth = this.state.auth;
     const username = decode(auth);
 
-    fetch(
-      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${id}?username=${username.user_name}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth
-        }
+    fetch(`${EMAIL_FILING}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -93,7 +90,7 @@ class ModalDeleteRadicacionEmail extends Component {
                 const auth = this.state.auth;
                 const username = decode(auth);
                 fetch(
-                  `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${this.state.idRadicacionEmail}?email=${values.email}&username=${username.user_name}`,
+                  `${EMAIL_FILING}/${this.state.idRadicacionEmail}?email=${values.email}&username=${username.user_name}`,
                   {
                     method: "DELETE",
                     headers: {

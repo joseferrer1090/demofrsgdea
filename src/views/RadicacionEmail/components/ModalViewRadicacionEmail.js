@@ -11,6 +11,7 @@ import ImgRadicacionEmail from "./../../../assets/img/message.svg";
 import PropTypes from "prop-types";
 import moment from "moment";
 import { decode } from "jsonwebtoken";
+import { EMAIL_FILING } from "../../../services/EndPoints";
 
 class ModalViewRadicacionEmail extends Component {
   constructor(props) {
@@ -45,16 +46,13 @@ class ModalViewRadicacionEmail extends Component {
     }));
     const auth = this.state.auth;
     const username = decode(auth);
-    fetch(
-      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${id}?username=${username.user_name}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth
-        }
+    fetch(`${EMAIL_FILING}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({

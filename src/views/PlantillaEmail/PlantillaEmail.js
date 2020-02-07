@@ -10,8 +10,6 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 import { withTranslation } from "react-i18next";
-import FormCreateTemplateEmail from "./components/FormCreatePlantillaEmail";
-import PlantillaEmailForm from "./components/Forms/PlantillaEmailForm";
 import TableContentPlantillaEmail from "./components/TableContentPlantillaEmail";
 
 const asyncLocalStorage = {
@@ -89,7 +87,7 @@ class PlantillaEmail extends Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <TableContentPlantillaEmail authorization={authToken} />
+                <TableContentPlantillaEmail authorization={authToken} t={t} />
               </Col>
             </Row>
           </TabPane>

@@ -217,14 +217,14 @@ class ModalEditDependencia extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError400}>
-                      {t("app_dependencia_modal_actualizar_alert_error400")}
+                      {t("app_dependencia_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Alert
                       color="danger"
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {t("app_dependencia_modal_actualizar_alert_error")}
+                      {t("app_dependencia_modal_actualizar_alert_error_500")}
                     </Alert>
                     <Alert
                       color="success"

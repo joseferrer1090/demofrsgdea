@@ -14,6 +14,7 @@ import ImgRadicacionEmail from "./../../../assets/img/message.svg";
 import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
 import * as Yup from "yup";
 import { decode } from "jsonwebtoken";
+import { EMAIL_FILING } from "../../../services/EndPoints";
 
 class ModalUpdateRadicacionEmail extends React.Component {
   state = {
@@ -25,7 +26,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
     alertError400: false,
     t: this.props.t,
     messenger_status: 0,
-    auth: this.props.authorization,
+    auth: this.props.authorization
   };
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
@@ -54,16 +55,13 @@ class ModalUpdateRadicacionEmail extends React.Component {
   getRadiacionEmailByID = id => {
     const auth = this.state.auth;
     const username = decode(auth);
-    fetch(
-      `http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/${id}?username=${username.user_name}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + auth
-        }
+    fetch(`${EMAIL_FILING}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + auth
       }
-    )
+    })
       .then(response => response.json())
       .then(data => {
         this.setState({
@@ -130,26 +128,23 @@ class ModalUpdateRadicacionEmail extends React.Component {
               setTimeout(() => {
                 const auth = this.state.auth;
                 const username = decode(auth);
-                fetch(
-                  "http://192.168.10.180:8090/api/sgdea/service/configuration/email/accounts/filing/",
-                  {
-                    method: "PUT",
-                    headers: {
-                      "Content-Type": "application/json",
-                      Authorization: "Bearer " + auth
-                    },
-                    body: JSON.stringify({
-                      id: this.state.idRadicacionEmail,
-                      protocol: values.radicacionemail_protocol,
-                      host: values.radicacionemail_host,
-                      port: values.radicacionemail_port,
-                      email: values.radicacionemail_email,
-                      password: values.radicacionemail_password,
-                      status: values.radicacionemail_status,
-                      username: username.user_name
-                    })
-                  }
-                )
+                fetch(`${EMAIL_FILING}`, {
+                  method: "PUT",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: "Bearer " + auth
+                  },
+                  body: JSON.stringify({
+                    id: this.state.idRadicacionEmail,
+                    protocol: values.radicacionemail_protocol,
+                    host: values.radicacionemail_host,
+                    port: values.radicacionemail_port,
+                    email: values.radicacionemail_email,
+                    password: values.radicacionemail_password,
+                    status: values.radicacionemail_status,
+                    username: username.user_name
+                  })
+                })
                   .then(response => {
                     if (response.status === 200) {
                       this.setState(
@@ -206,14 +201,16 @@ class ModalUpdateRadicacionEmail extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert color="danger" isOpen={this.state.alertError}>
-                      {t("app_radicacion_email_modal_actualizar_alert_error")}
+                      {t(
+                        "app_radicacion_email_modal_actualizar_alert_error_500"
+                      )}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
                       {t("app_radicacion_email_modal_actualizar_alert_success")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>
                       {t(
-                        "app_radicacion_email_modal_actualizar_alert_error400"
+                        "app_radicacion_email_modal_actualizar_alert_error_400"
                       )}
                     </Alert>
                     <Row>

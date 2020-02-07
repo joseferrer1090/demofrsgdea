@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useRef } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { TEMPLATES_EMAIL } from "./../../../services/EndPoints";
 import { withTranslation } from "react-i18next";
@@ -19,7 +19,8 @@ class TableContentPlantillaEmail extends Component {
       dataPlantillas: [],
       templatePreview: "",
       hiddenColumnID: true,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      t: this.props.t
     };
   }
 
@@ -157,14 +158,14 @@ class TableContentPlantillaEmail extends Component {
               dataAlign="center"
               width={"300"}
             >
-              Nombre
+              {t("app_plantilla_email_table_nombre")}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="description"
               dataAlign="center"
               width={"300"}
             >
-              Descripción
+              {t("app_plantilla_email_table_descripcion")}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataSort={true}
@@ -175,7 +176,7 @@ class TableContentPlantillaEmail extends Component {
               dataAlign="center"
               width={"150"}
             >
-              {t("app_pais_administrar_table_fecha_creacion")}
+              {t("app_plantilla_email_table_fecha_creacion")}
             </TableHeaderColumn>
 
             <TableHeaderColumn
@@ -185,7 +186,7 @@ class TableContentPlantillaEmail extends Component {
               dataFormat={(cel, row) => this.accionesPlantillasEmail(cel, row)}
             >
               {" "}
-              {t("app_pais_administrar_table_acciones")}{" "}
+              {t("app_plantilla_email_table_acciones")}{" "}
             </TableHeaderColumn>
           </BootstrapTable>
         </div>
@@ -193,11 +194,13 @@ class TableContentPlantillaEmail extends Component {
           ref={"child"}
           modal={this.state.ModalPreview}
           authorization={this.state.auth}
+          t={this.state.t}
         />
         <ModalViewInfoTemplateEmail
           ref={"child2"}
           modal={this.state.ModalPreview}
           authorization={this.state.auth}
+          t={this.state.t}
         />
       </div>
     );

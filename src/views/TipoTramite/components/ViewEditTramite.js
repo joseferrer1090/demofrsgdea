@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, Fragment } from "react";
 import PropTypes from "prop-types";
 import { Formik, ErrorMessage, Field } from "formik";
-import { Col, CustomInput, ToastBody, Alert, Button } from "reactstrap";
+import { Col, CustomInput, Alert, Button } from "reactstrap";
 import * as Yup from "yup";
 import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
 import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
@@ -28,7 +28,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 
-const ViewEditTramite = ({ match, history, authorization, props }) => {
+const ViewEditTramite = ({ match, history, authorization, t }) => {
   const { users, data } = useSelector(state => ({
     users: state.typeProcedureReducer.tramite.users,
     data: state.typeProcedureReducer.tramite.typeProcedure
@@ -64,6 +64,12 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
         setResponse(data.typeProcedure);
       })
       .catch(err => console.log(`err => ${err}`));
+  };
+
+  const back = e => {
+    e.preventDefault();
+    let path = `#/configuracion/tipotramite`;
+    window.location.replace(path);
   };
 
   return (
@@ -114,15 +120,26 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
           })
             .then(response =>
               response.json().then(data => {
-                if (response.status === 201) {
-                  toast.success("Se creo el tipo de trámite con éxito.", {
+                console.log(response);
+                if (response.status === 200) {
+                  toast.success("Se actualizo el tipo de trámite con éxito.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px"
                     })
                   });
                 } else if (response.status === 400) {
-                  toast.error("Error, el tipo de trámite ya existe.", {
+                  toast.error(
+                    "Error al actualizar el tipo de trámite. Inténtelo nuevamente.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
+                } else if (response.status === 500) {
+                  toast.error("Error, el tipo de trámite ya esta asignado.", {
                     position: toast.POSITION.TOP_RIGHT,
                     className: css({
                       marginTop: "60px"
@@ -200,6 +217,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
         return (
           <Fragment>
             <div className="animated fadeIn">
+              <ToastContainer />
               <div className="row">
                 <div className="col-md-12">
                   <div className="card">
@@ -208,7 +226,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                         <div className="col-md-6">
                           <div className="card">
                             <div className="p-2 mb-1 bg-light text-dark">
-                              Información básica
+                              {t("app_tipoTramite_actualizar_titulo")}
                             </div>
                             <div className="card-body">
                               <form className="form">
@@ -216,7 +234,9 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                   <div className="col-md-6">
                                     <div className="form-group">
                                       <label>
-                                        Tipo de correspondencia{" "}
+                                        {t(
+                                          "app_tipoTramite_actualizar_tipo_correspondencia"
+                                        )}{" "}
                                         <span className="text-danger">* </span>
                                       </label>
                                       <select
@@ -229,11 +249,27 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                           "is-invalid"}`}
                                       >
                                         <option value={" "}>
-                                          -- Seleccione --
+                                          --{" "}
+                                          {t(
+                                            "app_tipoTramite_actualizar_select_tipo_correspondencia"
+                                          )}{" "}
+                                          --
                                         </option>
-                                        <option value={1}>Recibida</option>
-                                        <option value={2}>Despachada</option>
-                                        <option value={3}>Interna</option>
+                                        <option value={1}>
+                                          {t(
+                                            "app_tipoTramite_actualizar_select_tipo_correspondencia_recibida"
+                                          )}
+                                        </option>
+                                        <option value={2}>
+                                          {t(
+                                            "app_tipoTramite_actualizar_select_tipo_correspondencia_despachada"
+                                          )}
+                                        </option>
+                                        <option value={3}>
+                                          {t(
+                                            "app_tipoTramite_actualizar_select_tipo_correspondencia_interna"
+                                          )}
+                                        </option>
                                       </select>
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.tipocorrespondencia &&
@@ -249,7 +285,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                   <div className="col-md-6">
                                     <div className="form-group">
                                       <label>
-                                        Código{" "}
+                                        {t("app_tipoTramite_actualizar_codigo")}{" "}
                                         <span className="text-danger">*</span>{" "}
                                       </label>
                                       <input
@@ -273,7 +309,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                   <div className="col-md-6">
                                     <div className="form-group">
                                       <label>
-                                        Nombre{" "}
+                                        {t("app_tipoTramite_actualizar_nombre")}{" "}
                                         <span className="text-danger">*</span>{" "}
                                       </label>
                                       <input
@@ -297,7 +333,9 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                   <div className="col-md-6">
                                     <div className="form-group">
                                       <label>
-                                        Descripción{" "}
+                                        {t(
+                                          "app_tipoTramite_actualizar_descripcion"
+                                        )}{" "}
                                         <span className="text-danger">*</span>{" "}
                                       </label>
                                       <input
@@ -323,10 +361,10 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                     <div className="form-group">
                                       <label>
                                         {" "}
-                                        Días máximos de respuesta{" "}
-                                        <span className="text-danger">
-                                          *
-                                        </span>{" "}
+                                        {t(
+                                          "app_tipoTramite_actualizar_dias_respuesta"
+                                        )}{" "}
+                                        <span className="text-danger">*</span>{" "}
                                       </label>
                                       <input
                                         name={"d_maximos"}
@@ -352,10 +390,10 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                     <div className="form-group">
                                       <label>
                                         {" "}
-                                        Estado{" "}
-                                        <span className="text-danger">
-                                          *
-                                        </span>{" "}
+                                        {t(
+                                          "app_tipoTramite_actualizar_estado"
+                                        )}{" "}
+                                        <span className="text-danger">*</span>{" "}
                                       </label>
                                       <div className=" text-justify">
                                         <Field
@@ -365,13 +403,9 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                               <CustomInput
                                                 type="checkbox"
                                                 id="CheckBoxEditRoles"
-                                                label=" Si esta opción se encuentra activada, representa
-                                  que el rol es visible en el sistema y se podrán
-                                  realizar operaciones entre cada uno de los módulos
-                                  correspondientes de la aplicación. En caso
-                                  contrario el rol no se elimina del sistema solo
-                                  quedará inactivo e invisibles para cada uno de los
-                                  módulos correspondiente del sistema."
+                                                label={t(
+                                                  "app_tipoTramite_actualizar_estado_descripcion"
+                                                )}
                                                 {...field}
                                                 checked={field.value}
                                                 className={
@@ -395,15 +429,21 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                         <div className="col-md-6">
                           <div className="card">
                             <div className="p-2 mb-1 bg-light text-dark">
-                              Usuarios disponibles
+                              {t("app_tipoTramite_actualizar_titulo_2")}
                             </div>
                             <div className="card-body">
                               <form>
                                 <div className="row">
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <label> Conglomerado </label>
+                                      <label>
+                                        {" "}
+                                        {t(
+                                          "app_tipoTramite_actualizar_conglomerado"
+                                        )}{" "}
+                                      </label>
                                       <SelectConglomerado
+                                        t={t}
                                         authorization={auth}
                                         name="conglomerado"
                                         value={values.conglomerado}
@@ -425,11 +465,15 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                   </div>
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <label>Empresa </label>
+                                      <label>
+                                        {t(
+                                          "app_tipoTramite_actualizar_empresa"
+                                        )}{" "}
+                                      </label>
                                       <SelectEmpresa
                                         authorization={auth}
                                         idConglomerado={values.conglomerado}
-                                        t={props.t}
+                                        t={t}
                                         name="empresa"
                                         value={values.empresa}
                                         onChange={e => {
@@ -452,8 +496,14 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                   </div>
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <label> Sede </label>
+                                      <label>
+                                        {" "}
+                                        {t(
+                                          "app_tipoTramite_actualizar_sede"
+                                        )}{" "}
+                                      </label>
                                       <SelectSede
+                                        t={t}
                                         authorization={auth}
                                         idEmpresa={values.empresa}
                                         name="sede"
@@ -473,8 +523,14 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                   </div>
                                   <div className="col-md-6">
                                     <div className="form-group">
-                                      <label> Dependencia </label>
+                                      <label>
+                                        {" "}
+                                        {t(
+                                          "app_tipoTramite_actualizar_dependencia"
+                                        )}{" "}
+                                      </label>
                                       <SelectDependencia
+                                        t={t}
                                         authorization={auth}
                                         idSede={values.sede}
                                         name="dependencia"
@@ -523,6 +579,7 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                                       </div>
                                     </div> */}
                                     <UserList
+                                      t={t}
                                       authorization={auth}
                                       id={values.dependencia}
                                     />
@@ -534,26 +591,28 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                         </div>
                       </div>
                       <div className="row">
-                        <UserListEnabled />
+                        <UserListEnabled t={t} />
                       </div>
                       <div className="row">
                         <div className="col-md-4">
                           <div className="card">
                             <div className="p-2 mb-1 bg-light text-dark">
-                              Asunto
+                              {t("app_tipoTramite_actualizar_titulo_4")}
                             </div>
                             <div className="card-body">
                               <form>
                                 <div className="row">
                                   <div className="col-md-12">
                                     <div className="form-group">
-                                      <label>Asunto</label>
+                                      <label>
+                                        {t("app_tipoTramite_actualizar_asunto")}
+                                      </label>
                                       <textarea
                                         value={values.asunto}
                                         onChange={handleChange}
                                         onBlur={handleBlur}
                                         className="form-control form-control-sm"
-                                        placeholder="Asunto ya cargado"
+                                        // placeholder="Asunto ya cargado"
                                       />
                                     </div>
                                   </div>
@@ -565,16 +624,26 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                         <div className="col-md-4">
                           <div className="card">
                             <div className="p-2 mb-1 bg-light text-dark">
-                              Plantilla
+                              {t("app_tipoTramite_actualizar_titulo_5")}
                             </div>
                             <div className="card-body">
                               <form>
                                 <div className="row">
                                   <div className="col-md-12">
                                     <div className="form-group">
-                                      <label>Plantilla</label>
+                                      <label>
+                                        {t(
+                                          "app_tipoTramite_actualizar_plantilla"
+                                        )}
+                                      </label>
                                       <select className="form-control form-control-sm">
-                                        <option>Seleccione</option>
+                                        <option>
+                                          --{" "}
+                                          {t(
+                                            "app_tipoTramite_actualizar_plantilla_placeholder"
+                                          )}{" "}
+                                          --
+                                        </option>
                                       </select>
                                     </div>
                                   </div>
@@ -586,16 +655,26 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                         <div className="col-md-4">
                           <div className="card">
                             <div className="p-2 mb-1 bg-light text-dark">
-                              Workflow
+                              {t("app_tipoTramite_actualizar_titulo_6")}
                             </div>
                             <div className="card-body">
                               <form>
                                 <div className="row">
                                   <div className="col-md-12">
                                     <div className="form-group">
-                                      <label>Workflow</label>
+                                      <label>
+                                        {t(
+                                          "app_tipoTramite_actualizar_workflow"
+                                        )}
+                                      </label>
                                       <select className="form-control form-control-sm">
-                                        <option>Seleccione</option>
+                                        <option>
+                                          --{" "}
+                                          {t(
+                                            "app_tipoTramite_actualizar_workflow_placeholder"
+                                          )}{" "}
+                                          --
+                                        </option>
                                       </select>
                                     </div>
                                   </div>
@@ -617,7 +696,20 @@ const ViewEditTramite = ({ match, history, authorization, props }) => {
                           }}
                         >
                           {" "}
-                          <i className="fa fa-pencil" /> Actualizar{" "}
+                          <i className="fa fa-pencil" />{" "}
+                          {t("app_tipoTramite_actualizar_boton_actualizar")}{" "}
+                        </button>
+                        <button
+                          style={{ margin: 5 }}
+                          type="button"
+                          className="btn btn-outline-secondary btn-sm"
+                          onClick={e => {
+                            back(e);
+                          }}
+                        >
+                          {" "}
+                          <i className="fa fa-times" />{" "}
+                          {t("app_tipoTramite_actualizar_boton_cerrar")}
                         </button>
                       </div>
                     </div>
@@ -717,7 +809,9 @@ function UserList(props) {
                         AgregarUserEditar({ id: aux.id, name: aux.name })
                       }
                     >
-                      <h6 className="badge badge-secondary">agregar</h6>
+                      <h6 className="badge badge-secondary">
+                        {t("app_tipoTramite_actualizar_user_list_btn_agregar")}
+                      </h6>
                     </Button>
                   </div>
                 </li>
@@ -725,7 +819,7 @@ function UserList(props) {
             );
           })
         ) : (
-          <p>No hay usuarios</p>
+          <p>{t("app_tipoTramite_actualizar_placeholder_textarea_usuarios")}</p>
           // <p>{t("app_tipoTramite_form_registrar_placeholder_select")}</p>
         )}
       </div>
@@ -733,6 +827,7 @@ function UserList(props) {
   );
 }
 const UserListEnabled = props => {
+  const t = props.t;
   const x = useSelector(state => state.typeProcedureReducer.assigned);
   const users = useSelector(state => state.typeProcedureReducer.tramite);
 
@@ -742,28 +837,25 @@ const UserListEnabled = props => {
     } else if (x === true) {
       return (
         <Alert isOpen={x} color="success" fade={true}>
-          Usuario Asignado para recibir original
+          {t("app_tipoTramite_actualizar_user_list_enable_alert_success")}
         </Alert>
       );
     } else if (x === false) {
       return (
         <Alert isOpen={x} color="danger" fade={true}>
-          Se deshabilito el usuario para recibir original
+          {t("app_tipoTramite_actualizar_user_list_enable_alert_danger")}
         </Alert>
       );
     }
     return x;
   };
   const dispatch = useDispatch();
-  const t = props.t;
-
   return (
     <div className="col-md-12">
       {notificacion({ x })}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
-          Tabla de usuarios asignados
-          {/* {t("app_tipoTramite_form_registrar_titulo_3")} */}
+          {t("app_tipoTramite_actualizar_titulo_3")}
         </div>
         <div className="card-body">
           <div>
@@ -773,7 +865,7 @@ const UserListEnabled = props => {
                   <p className="text-center">
                     {" "}
                     <b>
-                      Usuarios asignados
+                      {t("app_tipoTramite_actualizar_user_list_titulo")}
                       {/* {t("app_tipoTramite_form_registrar_usuarios_disponibles")}{" "} */}
                     </b>{" "}
                   </p>
@@ -781,9 +873,15 @@ const UserListEnabled = props => {
                   <table className="table table-bordered table-sm">
                     <thead className="thead-light">
                       <tr className="text-center">
-                        <th scope="col">Usuario</th>
-                        <th scope="col">Original</th>
-                        <th scope="col">Eliminar</th>
+                        <th scope="col">
+                          {t("app_tipoTramite_actualizar_table_usuario")}
+                        </th>
+                        <th scope="col">
+                          {t("app_tipoTramite_actualizar_table_original")}
+                        </th>
+                        <th scope="col">
+                          {t("app_tipoTramite_actualizar_table_eliminar")}
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="text-center">
@@ -801,7 +899,9 @@ const UserListEnabled = props => {
                                 }}
                               >
                                 {" "}
-                                asignar original{" "}
+                                {t(
+                                  "app_tipoTramite_actualizar_table_boton_orignal"
+                                )}{" "}
                               </button>
                             </td>
                             <td>

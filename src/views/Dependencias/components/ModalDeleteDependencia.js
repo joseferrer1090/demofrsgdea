@@ -12,8 +12,8 @@ class ModalDeleteDependencia extends Component {
     code: "",
     id: this.props.id,
     userLogged: "",
-    alertError: false,
-    alertCode: false,
+    alertError500: false,
+    alertError400: false,
     alertSuccess: false,
     nameDependence: "",
     t: this.props.t,
@@ -63,8 +63,8 @@ class ModalDeleteDependencia extends Component {
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       alertSuccess: false
     });
   };
@@ -100,11 +100,11 @@ class ModalDeleteDependencia extends Component {
                   .then(response => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError500: false,
                           modal: false
                         });
                       }, 2000);
@@ -123,11 +123,11 @@ class ModalDeleteDependencia extends Component {
                       }, 2000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertCode: false,
+                          alertError400: false,
                           modal: false
                         });
                       }, 2000);
@@ -159,17 +159,17 @@ class ModalDeleteDependencia extends Component {
                       <Alert
                         className="text-center"
                         color="danger"
-                        isOpen={this.state.alertError}
+                        isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
-                        {t("app_dependencia_modal_eliminar_alert_error")}
+                        {t("app_dependencia_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertCode}
+                        isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
-                        {t("app_dependencia_modal_eliminar_alert_errorCode")}
+                        {t("app_dependencia_modal_eliminar_alert_error_400")}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>
                         {t("app_dependencia_modal_eliminar_alert_success")}

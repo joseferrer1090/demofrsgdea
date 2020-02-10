@@ -21,7 +21,7 @@ class ModalEditCargo extends React.Component {
     modal: this.props.modaledit,
     id: this.props.id,
     dataCharge: {},
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
@@ -74,7 +74,7 @@ class ModalEditCargo extends React.Component {
   };
   onDismiss = () => {
     this.setState({
-      alertError: false,
+      alertError500: false,
       alertSuccess: false
     });
   };
@@ -158,11 +158,11 @@ class ModalEditCargo extends React.Component {
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError500: false,
                           modal: !this.state.modal
                         });
                       }, 500);
@@ -185,7 +185,7 @@ class ModalEditCargo extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError}>
+                    <Alert color="danger" isOpen={this.state.alertError500}>
                       {t("app_cargo_modal_actualizar_alert_error_500")}
                     </Alert>
                     <Alert color="danger" isOpen={this.state.alertError400}>

@@ -25,8 +25,8 @@ class ModalDeleteTramite extends Component {
       id: this.props.id,
       dataProcedure: {},
       alertSuccess: false,
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       code: "",
       auth: this.props.authorization
     };
@@ -52,8 +52,8 @@ class ModalDeleteTramite extends Component {
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       alertSuccess: false
     });
   };
@@ -96,7 +96,7 @@ class ModalDeleteTramite extends Component {
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
             {" "}
-            {t("app_tipoTramite_eliminar_titulo")}{" "}
+            {t("app_tipoTramite_modal_eliminar_titulo")}{" "}
             {this.state.dataProcedure.name}{" "}
           </ModalHeader>
           <Formik
@@ -118,7 +118,7 @@ class ModalDeleteTramite extends Component {
                   .then(response => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                     } else if (response.status === 204) {
                       this.setState(
@@ -135,7 +135,7 @@ class ModalDeleteTramite extends Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
                     }
                   })
@@ -167,10 +167,10 @@ class ModalDeleteTramite extends Component {
                     <ModalBody>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertError}
+                        isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
-                        {t("app_tipoTramite_eliminar_alert_error")}{" "}
+                        {t("app_tipoTramite_modal_eliminar_alert_error_500")}{" "}
                         {values.code}
                       </Alert>
                       <Alert
@@ -178,22 +178,24 @@ class ModalDeleteTramite extends Component {
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        {t("app_tipoTramite_eliminar_alert_success")}
+                        {t("app_tipoTramite_modal_eliminar_alert_success")}
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertCode}
+                        isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
-                        {t("app_tipoTramite_eliminar_alert_code")}
+                        {t("app_tipoTramite_modal_eliminar_alert_error_400")}
                       </Alert>
                       <p className="text-center">
                         {" "}
-                        {t("app_tipoTramite_eliminar_titulo_2")}
+                        {t("app_tipoTramite_modal_eliminar_titulo_2")}
                       </p>
                       <input
                         type="text"
-                        placeholder={t("app_tipoTramite_eliminar_placeholder")}
+                        placeholder={t(
+                          "app_tipoTramite_modal_eliminar_placeholder"
+                        )}
                         style={{ textAlign: "center" }}
                         name="code"
                         onChange={handleChange}
@@ -211,7 +213,7 @@ class ModalDeleteTramite extends Component {
                       </div>
                       <br />
                       <p className="text-center text-danger">
-                        {t("app_tipoTramite_eliminar_titulo_3")}
+                        {t("app_tipoTramite_modal_eliminar_titulo_3")}
                       </p>
                     </ModalBody>
                     <ModalFooter>
@@ -225,7 +227,7 @@ class ModalDeleteTramite extends Component {
                       >
                         {" "}
                         <i className="fa fa-trash" />{" "}
-                        {t("app_tipoTramite_eliminar_boton_eliminar")}
+                        {t("app_tipoTramite_modal_eliminar_boton_eliminar")}
                       </button>
                       <Button
                         type="button"
@@ -235,7 +237,7 @@ class ModalDeleteTramite extends Component {
                         }}
                       >
                         <i className="fa fa-times" />{" "}
-                        {t("app_tipoTramite_eliminar_boton_cerrar")}{" "}
+                        {t("app_tipoTramite_modal_eliminar_boton_cerrar")}{" "}
                       </Button>
                     </ModalFooter>
                   </form>

@@ -15,8 +15,8 @@ class ModalDeletePais extends Component {
       dataGroup: {},
       useLogged: "jferrer",
       alertSuccess: false,
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       auth: this.props.authorization,
       t: this.props.t
     };
@@ -97,7 +97,7 @@ class ModalDeletePais extends Component {
                   .then(response => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                     } else if (response.status === 204) {
                       setTimeout(() => {
@@ -111,7 +111,7 @@ class ModalDeletePais extends Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
                     }
                   })
@@ -140,81 +140,79 @@ class ModalDeletePais extends Component {
 
               return (
                 <Fragment>
-                  <form className="form">
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertError}
-                      toggle={this.onDismiss}
-                    >
-                      Error, al eliminar el grupo {values.code}
-                    </Alert>
-                    <Alert
-                      color="success"
-                      isOpen={this.state.alertSuccess}
-                      toggle={this.onDismiss}
-                    >
-                      Se elimino de manera satisfactoria el grupo de usuarios
-                    </Alert>
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertCode}
-                      toggle={this.onDismiss}
-                    >
-                      El codigo para eliminar no corresponde al grupo
-                    </Alert>
-                    <ModalBody>
-                      <form className="form">
-                        <p className="text-center">
-                          {" "}
-                          {t("app_grupoUsuarios_modal_eliminar_encabezado")}
-                        </p>
+                  <ModalBody>
+                    <form className="form">
+                      <Alert
+                        color="danger"
+                        isOpen={this.state.alertError500}
+                        toggle={this.onDismiss}
+                      >
+                        {t("app_grupoUsuarios_modal_eliminar_alert_error_500")}
+                      </Alert>
+                      <Alert
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                        toggle={this.onDismiss}
+                      >
+                        {t("app_grupoUsuarios_modal_eliminar_alert_success")}
+                      </Alert>
+                      <Alert
+                        color="danger"
+                        isOpen={this.state.alertError400}
+                        toggle={this.onDismiss}
+                      >
+                        {t("app_grupoUsuarios_modal_eliminar_alert_error_400")}
+                      </Alert>
+                      <p className="text-center">
+                        {" "}
+                        {t("app_grupoUsuarios_modal_eliminar_encabezado")}
+                      </p>
 
-                        <input
-                          type="text"
-                          placeholder={t(
-                            "app_grupoUsuarios_modal_eliminar_placeholder"
-                          )}
-                          style={{ textAlign: "center" }}
-                          name="code"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.code}
-                          className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
-                            touched.code &&
-                            "is-invalid"}`}
-                        />
-                        <br />
-                        <p className="text-center text-danger">
-                          {" "}
-                          {t("app_grupoUsuarios_modal_eliminar_texto")}
-                        </p>
-                      </form>
-                    </ModalBody>
-                    <ModalFooter>
-                      <button
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={e => {
-                          e.preventDefault();
-                          handleSubmit();
-                        }}
-                      >
+                      <input
+                        type="text"
+                        placeholder={t(
+                          "app_grupoUsuarios_modal_eliminar_placeholder"
+                        )}
+                        style={{ textAlign: "center" }}
+                        name="code"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.code}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
+                          touched.code &&
+                          "is-invalid"}`}
+                      />
+                      <br />
+                      <p className="text-center text-danger">
                         {" "}
-                        <i className="fa fa-trash" />{" "}
-                        {t("app_grupoUsuarios_modal_eliminar_btn_eliminar")}{" "}
-                      </button>
-                      <button
-                        className="btn btn-secondary btn-sm"
-                        onClick={e => {
-                          e.preventDefault();
-                          this.setState({ modal: false });
-                        }}
-                      >
-                        {" "}
-                        <i className="fa fa-times" />{" "}
-                        {t("app_grupoUsuarios_modal_eliminar_btn_cerrar")}{" "}
-                      </button>
-                    </ModalFooter>
-                  </form>
+                        {t("app_grupoUsuarios_modal_eliminar_texto")}
+                      </p>
+                    </form>
+                  </ModalBody>
+                  <ModalFooter>
+                    <button
+                      className="btn btn-outline-danger btn-sm"
+                      onClick={e => {
+                        e.preventDefault();
+                        handleSubmit();
+                      }}
+                    >
+                      {" "}
+                      <i className="fa fa-trash" />{" "}
+                      {t("app_grupoUsuarios_modal_eliminar_btn_eliminar")}{" "}
+                    </button>
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      onClick={e => {
+                        e.preventDefault();
+                        this.setState({ modal: false });
+                      }}
+                    >
+                      {" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_grupoUsuarios_modal_eliminar_btn_cerrar")}{" "}
+                    </button>
+                  </ModalFooter>
                 </Fragment>
               );
             }}

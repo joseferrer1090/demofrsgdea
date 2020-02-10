@@ -21,7 +21,7 @@ class ModalEditTipoTercero extends React.Component {
     modal: this.props.modalupdate,
     idTipoTerceros: this.props.id,
     dataResult: {},
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props,
@@ -143,11 +143,11 @@ class ModalEditTipoTercero extends React.Component {
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError500: false,
                           modal: !this.state.modal
                         });
                       }, 3000);
@@ -190,7 +190,7 @@ class ModalEditTipoTercero extends React.Component {
                   <ModalBody>
                     <Alert
                       color="danger"
-                      isOpen={this.state.alertError}
+                      isOpen={this.state.alertError500}
                       toggle={this.onDismiss}
                     >
                       {t("app_tipoTerecero_modal_actualizar_alert_error_500")}

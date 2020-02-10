@@ -205,7 +205,7 @@ const TipoDocumentalRadicacion = props => {
                     <div className="card">
                       <ToastContainer />
                       <div className="p-2 mb-1 bg-light text-dark">
-                        {t("app_tipoTramite_form_registrar_titulo_1")}
+                        {t("app_documentalRadicacion_form_registrar_titulo_1")}
                       </div>
                       <div className="card-body">
                         <div className="row">
@@ -213,7 +213,7 @@ const TipoDocumentalRadicacion = props => {
                             <div className="form-group">
                               <label>
                                 {t(
-                                  "app_tipoTramite_form_registrar_tipo_correspondencia"
+                                  "app_documentalRadicacion_form_registrar_tipo_correspondencia"
                                 )}{" "}
                                 <span className="text-danger">* </span>
                               </label>
@@ -230,26 +230,26 @@ const TipoDocumentalRadicacion = props => {
                                   {" "}
                                   --
                                   {t(
-                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia"
+                                    "app_documentalRadicacion_form_registrar_select_tipo_correspondencia"
                                   )}
                                   --{" "}
                                 </option>
                                 <option value={1}>
                                   {" "}
                                   {t(
-                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia_recibida"
+                                    "app_documentalRadicacion_form_registrar_select_tipo_correspondencia_recibida"
                                   )}{" "}
                                 </option>
                                 <option value={2}>
                                   {" "}
                                   {t(
-                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia_despachada"
+                                    "app_documentalRadicacion_form_registrar_select_tipo_correspondencia_despachada"
                                   )}{" "}
                                 </option>
                                 <option value={3}>
                                   {" "}
                                   {t(
-                                    "app_tipoTramite_form_registrar_select_tipo_correspondencia_interna"
+                                    "app_documentalRadicacion_form_registrar_select_tipo_correspondencia_interna"
                                   )}{" "}
                                 </option>
                               </select>
@@ -265,7 +265,9 @@ const TipoDocumentalRadicacion = props => {
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {t("app_tipoTramite_form_registrar_codigo")}{" "}
+                                {t(
+                                  "app_documentalRadicacion_form_registrar_codigo"
+                                )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <input
@@ -294,7 +296,9 @@ const TipoDocumentalRadicacion = props => {
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>
-                                {t("app_tipoTramite_form_registrar_nombre")}{" "}
+                                {t(
+                                  "app_documentalRadicacion_form_registrar_nombre"
+                                )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <input
@@ -324,7 +328,7 @@ const TipoDocumentalRadicacion = props => {
                             <div className="form-group">
                               <label>
                                 {t(
-                                  "app_tipoTramite_form_registrar_dias_respuesta"
+                                  "app_documentalRadicacion_form_registrar_dias_respuesta"
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
@@ -351,7 +355,7 @@ const TipoDocumentalRadicacion = props => {
                             <div className="form-group">
                               <label>
                                 {t(
-                                  "app_tipoTramite_form_registrar_descripcion"
+                                  "app_documentalRadicacion_form_registrar_descripcion"
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
@@ -379,7 +383,7 @@ const TipoDocumentalRadicacion = props => {
                               <label>
                                 {" "}
                                 {t(
-                                  "app_tipoTramite_form_registrar_estado"
+                                  "app_documentalRadicacion_form_registrar_estado"
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
@@ -392,7 +396,7 @@ const TipoDocumentalRadicacion = props => {
                                   type="checkbox"
                                   id="ExampleInputCheckbox"
                                   label={t(
-                                    "app_tipoTramite_form_registrar_descripcion_estado"
+                                    "app_documentalRadicacion_form_registrar_descripcion_estado"
                                   )}
                                   className={
                                     errors.estado &&
@@ -410,7 +414,7 @@ const TipoDocumentalRadicacion = props => {
                   <div className="col-md-6">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
-                        {t("app_tipoTramite_form_registrar_titulo_2")}
+                        {t("app_documentalRadicacion_form_registrar_titulo_2")}
                       </div>
                       <div className="card-body">
                         <div>
@@ -420,7 +424,7 @@ const TipoDocumentalRadicacion = props => {
                                 <label>
                                   {" "}
                                   {t(
-                                    "app_tipoTramite_form_registrar_conglomerado"
+                                    "app_documentalRadicacion_form_registrar_conglomerado"
                                   )}{" "}
                                 </label>
                                 <SelectConglomerado
@@ -444,7 +448,9 @@ const TipoDocumentalRadicacion = props => {
                             <div className="col-md-6">
                               <div className="form-group">
                                 <label>
-                                  {t("app_tipoTramite_form_registrar_empresa")}{" "}
+                                  {t(
+                                    "app_documentalRadicacion_form_registrar_empresa"
+                                  )}{" "}
                                 </label>
                                 <SelectEmpresa
                                   authorization={props.authorization}
@@ -467,7 +473,7 @@ const TipoDocumentalRadicacion = props => {
                                 <label>
                                   {" "}
                                   {t(
-                                    "app_tipoTramite_form_registrar_sede"
+                                    "app_documentalRadicacion_form_registrar_sede"
                                   )}{" "}
                                 </label>
                                 <SelectSede
@@ -491,7 +497,7 @@ const TipoDocumentalRadicacion = props => {
                                 <label>
                                   {" "}
                                   {t(
-                                    "app_tipoTramite_form_registrar_dependencia"
+                                    "app_documentalRadicacion_form_registrar_dependencia"
                                   )}{" "}
                                 </label>
                                 <SelectDependencia
@@ -533,7 +539,7 @@ const TipoDocumentalRadicacion = props => {
                   <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
-                        {t("app_tipoTramite_form_registrar_titulo_4")}
+                        {t("app_documentalRadicacion_form_registrar_titulo_4")}
                       </div>
                       <div className="card-body">
                         <div>
@@ -541,7 +547,9 @@ const TipoDocumentalRadicacion = props => {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {t("app_tipoTramite_form_registrar_asunto")}
+                                  {t(
+                                    "app_documentalRadicacion_form_registrar_asunto"
+                                  )}
                                 </label>
                                 <textarea
                                   name={"asunto"}
@@ -560,7 +568,7 @@ const TipoDocumentalRadicacion = props => {
                   <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
-                        {t("app_tipoTramite_form_registrar_titulo_5")}
+                        {t("app_documentalRadicacion_form_registrar_titulo_5")}
                       </div>
                       <div className="card-body">
                         <div>
@@ -569,7 +577,7 @@ const TipoDocumentalRadicacion = props => {
                               <div className="form-group">
                                 <label>
                                   {t(
-                                    "app_tipoTramite_form_registrar_plantilla"
+                                    "app_documentalRadicacion_form_registrar_plantilla"
                                   )}
                                 </label>
                                 <select
@@ -582,7 +590,7 @@ const TipoDocumentalRadicacion = props => {
                                   <option>
                                     --
                                     {t(
-                                      "app_tipoTramite_form_registrar_select_plantilla"
+                                      "app_documentalRadicacion_form_registrar_select_plantilla"
                                     )}
                                     --
                                   </option>
@@ -600,7 +608,7 @@ const TipoDocumentalRadicacion = props => {
                   <div className="col-md-4">
                     <div className="card">
                       <div className="p-2 mb-1 bg-light text-dark">
-                        {t("app_tipoTramite_form_registrar_titulo_6")}
+                        {t("app_documentalRadicacion_form_registrar_titulo_6")}
                       </div>
                       <div className="card-body">
                         <div>
@@ -608,7 +616,9 @@ const TipoDocumentalRadicacion = props => {
                             <div className="col-md-12">
                               <div className="form-group">
                                 <label>
-                                  {t("app_tipoTramite_form_registrar_workflow")}
+                                  {t(
+                                    "app_documentalRadicacion_form_registrar_workflow"
+                                  )}
                                 </label>
                                 <select
                                   name={"workflow"}
@@ -620,7 +630,7 @@ const TipoDocumentalRadicacion = props => {
                                   <option>
                                     --{" "}
                                     {t(
-                                      "app_tipoTramite_form_registrar_select_workflow"
+                                      "app_documentalRadicacion_form_registrar_select_workflow"
                                     )}{" "}
                                     --
                                   </option>
@@ -650,7 +660,9 @@ const TipoDocumentalRadicacion = props => {
                     ) : (
                       <div>
                         <i className="fa fa-save" />{" "}
-                        {t("app_tipoTramite_form_registrar_boton_guardar")}
+                        {t(
+                          "app_documentalRadicacion_form_registrar_boton_guardar"
+                        )}
                       </div>
                     )}
                   </button>
@@ -764,7 +776,11 @@ function UserList(props) {
                         AgregarUsuario({ id: aux.id, name: aux.name })
                       }
                     >
-                      <h6 className="badge badge-secondary">agregar</h6>
+                      <h6 className="badge badge-secondary">
+                        {t(
+                          "app_documentalRadicacion_form_registrar_select_buscar_usuario_agregar"
+                        )}
+                      </h6>
                     </Button>
                   </div>
                 </li>
@@ -772,7 +788,9 @@ function UserList(props) {
             );
           })
         ) : (
-          <p>{t("app_tipoTramite_form_registrar_placeholder_select")}</p>
+          <p>
+            {t("app_documentalRadicacion_form_registrar_placeholder_select")}
+          </p>
         )}
       </div>
     </div>
@@ -809,7 +827,7 @@ const UserListEnabled = props => {
       {notificacion({ x })}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
-          {t("app_tipoTramite_form_registrar_titulo_3")}
+          {t("app_documentalRadicacion_form_registrar_titulo_3")}
         </div>
         <div className="card-body">
           <div>
@@ -819,16 +837,30 @@ const UserListEnabled = props => {
                   <p className="text-center">
                     {" "}
                     <b>
-                      {t("app_tipoTramite_form_registrar_usuarios_disponibles")}{" "}
+                      {t(
+                        "app_documentalRadicacion_form_registrar_usuarios_disponibles"
+                      )}{" "}
                     </b>{" "}
                   </p>
                 ) : (
                   <table className="table table-bordered table-sm">
                     <thead className="thead-light">
                       <tr className="text-center">
-                        <th scope="col">Usuario</th>
-                        <th scope="col">Original</th>
-                        <th scope="col">Eliminar</th>
+                        <th scope="col">
+                          {t(
+                            "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_usuario"
+                          )}
+                        </th>
+                        <th scope="col">
+                          {t(
+                            "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_original"
+                          )}
+                        </th>
+                        <th scope="col">
+                          {t(
+                            "app_documentalRadicacion_form_registrar_table_usuarios_disponibles_eliminar"
+                          )}
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="text-center">
@@ -844,7 +876,9 @@ const UserListEnabled = props => {
                                 }
                               >
                                 {" "}
-                                asignar original{" "}
+                                {t(
+                                  "app_documentalRadicacion_form_registrar_btn_asignar_original"
+                                )}{" "}
                               </button>
                             </td>
                             <td>

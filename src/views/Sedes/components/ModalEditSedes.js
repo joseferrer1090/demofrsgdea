@@ -32,7 +32,7 @@ class ModalEditSedes extends React.Component {
     collapse: false,
     idSedes: this.props.id,
     dataResult: {},
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
@@ -58,7 +58,7 @@ class ModalEditSedes extends React.Component {
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
+      alertError500: false,
       alertSuccess: false
     });
   };
@@ -235,11 +235,11 @@ class ModalEditSedes extends React.Component {
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError500: false,
                           modal: !this.state.modal
                         });
                       }, 500);
@@ -266,7 +266,7 @@ class ModalEditSedes extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError}>
+                    <Alert color="danger" isOpen={this.state.alertError500}>
                       {t("app_sedes_modal_actualizar_alert_error_500")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>

@@ -66,7 +66,7 @@ class SelectHeadquarter extends Component {
           className={this.props.className}
         >
           <option>
-            -- {t("app_tipoTramite_form_registrar_select_sede")} --
+            -- {t("app_documentalRadicacion_form_registrar_select_sede")} --
           </option>
           {this.state.dataSede.map((aux, id) => {
             return (

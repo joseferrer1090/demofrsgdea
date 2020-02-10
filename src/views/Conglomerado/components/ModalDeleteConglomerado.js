@@ -11,8 +11,8 @@ class ModalDeleteConglomerado extends React.Component {
     modal: this.props.modaldeletestate,
     idConglomerado: this.props.id,
     alertSuccess: false,
-    alertError: false,
-    alertCode: false,
+    alertError500: false,
+    alertError400: false,
     t: this.props.t,
     code: "",
     nameCompany: "",
@@ -63,8 +63,8 @@ class ModalDeleteConglomerado extends React.Component {
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       alertSuccess: false
     });
   };
@@ -103,7 +103,7 @@ class ModalDeleteConglomerado extends React.Component {
                     console.log(response);
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                     } else if (response.status === 204) {
                       this.setState(
@@ -120,7 +120,7 @@ class ModalDeleteConglomerado extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
                     }
                   })
@@ -149,11 +149,10 @@ class ModalDeleteConglomerado extends React.Component {
                     <ModalBody>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertError}
+                        isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
-                        {t("app_conglomerado_modal_eliminar_alert_error")}{" "}
-                        {values.code}.
+                        {t("app_conglomerado_modal_eliminar_alert_error_500")}{" "}
                       </Alert>
                       <Alert
                         color="success"
@@ -164,10 +163,10 @@ class ModalDeleteConglomerado extends React.Component {
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertCode}
+                        isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
-                        {t("app_conglomerado_modal_eliminar_alert_errorCode")}
+                        {t("app_conglomerado_modal_eliminar_alert_error_400")}
                       </Alert>
                       <p className="text-center">
                         {" "}
@@ -211,7 +210,8 @@ class ModalDeleteConglomerado extends React.Component {
                         }}
                       >
                         {" "}
-                        <i className="fa fa-trash" /> Eliminar
+                        <i className="fa fa-trash" />{" "}
+                        {t("app_conglomerado_modal_eliminar_boton")}
                       </button>
                       <button
                         type="button"
@@ -219,8 +219,8 @@ class ModalDeleteConglomerado extends React.Component {
                         onClick={() => {
                           this.setState({
                             modal: false,
-                            alertError: false,
-                            alertCode: false,
+                            alertError500: false,
+                            alertError400: false,
                             alertSuccess: false
                           });
                         }}

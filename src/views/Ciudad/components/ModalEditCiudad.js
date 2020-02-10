@@ -30,7 +30,7 @@ class ModalEditCiudad extends React.Component {
     dataResult: {},
     optionsCountries: [0],
     optionsDepartment: [0],
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
@@ -55,7 +55,7 @@ class ModalEditCiudad extends React.Component {
   }
   onDismiss = () => {
     this.setState({
-      alertError: false,
+      alertError500: false,
       alertSuccess: false
     });
   };
@@ -161,11 +161,11 @@ class ModalEditCiudad extends React.Component {
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError500: false,
                           modal: !this.state.modal
                         });
                       }, 3000);
@@ -214,7 +214,7 @@ class ModalEditCiudad extends React.Component {
                   <ModalBody>
                     <Alert
                       color="danger"
-                      isOpen={this.state.alertError}
+                      isOpen={this.state.alertError500}
                       toggle={this.onDismiss}
                     >
                       {t("app_ciudad_modal_actualizar_alert_error_500")}

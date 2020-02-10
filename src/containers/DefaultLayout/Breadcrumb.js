@@ -91,6 +91,12 @@ let routes = [
     component: null
   },
   {
+    path: "/configuracion/radicacionemail",
+    exact: true,
+    name: "Configuración / Cuenta de correo electrónico para radicación",
+    component: null
+  },
+  {
     path: "/configuracion/pais",
     exact: true,
     name: " Configuración / País ",
@@ -163,9 +169,27 @@ let routes = [
     component: null
   },
   {
+    path: "/configuracion/plantillaemail",
+    exact: true,
+    name: "Configuración / Plantilla de correo electrónico",
+    component: null
+  },
+  {
     path: "/configuracion/plantilla",
     exact: true,
     name: "Configuración / Plantilla de datos",
+    component: null
+  },
+  {
+    path: "/configuracion/parametrosgenerales",
+    exact: true,
+    name: "Parámetros generales del sistema",
+    component: null
+  },
+  {
+    path: "/configuracion/metadatos",
+    exact: true,
+    name: "Bolsa de metadatos",
     component: null
   },
   {

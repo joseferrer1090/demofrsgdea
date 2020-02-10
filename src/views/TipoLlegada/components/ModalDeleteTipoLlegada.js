@@ -15,8 +15,8 @@ class ModalDeleteTipoLlegada extends Component {
       code: "",
 
       alertSuccess: false,
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       nameTipoLlegada: "",
       t: this.props.t,
       auth: this.props.authorization
@@ -65,8 +65,8 @@ class ModalDeleteTipoLlegada extends Component {
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       alertSuccess: false
     });
   };
@@ -102,7 +102,7 @@ class ModalDeleteTipoLlegada extends Component {
                   .then(response => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                     } else if (response.status === 204) {
                       this.setState(
@@ -119,7 +119,7 @@ class ModalDeleteTipoLlegada extends Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
                     }
                   })
@@ -148,17 +148,17 @@ class ModalDeleteTipoLlegada extends Component {
                       <Alert
                         className="text-center"
                         color="danger"
-                        isOpen={this.state.alertError}
+                        isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
-                        {t("app_tipoLlegada_modal_eliminar_alert_error")}
+                        {t("app_tipoLlegada_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertCode}
+                        isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
-                        {t("app_tipoLlegada_modal_eliminar_alert_errorCode")}
+                        {t("app_tipoLlegada_modal_eliminar_alert_error_400")}
                       </Alert>
                       <Alert
                         className="text-center"
@@ -217,8 +217,8 @@ class ModalDeleteTipoLlegada extends Component {
                       onClick={() => {
                         this.setState({
                           modal: false,
-                          alertError: false,
-                          alertCode: false,
+                          alertError500: false,
+                          alertError400: false,
                           alertSuccess: false
                         });
                       }}

@@ -32,7 +32,7 @@ class ModalEditDependencia extends React.Component {
     dataCompany: [0],
     dataChargeList: [0],
     dataHeadquarterList: [0],
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
@@ -164,11 +164,11 @@ class ModalEditDependencia extends React.Component {
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError500: false,
                           modal: !this.state.modal
                         });
                       }, 3000);
@@ -221,7 +221,7 @@ class ModalEditDependencia extends React.Component {
                     </Alert>
                     <Alert
                       color="danger"
-                      isOpen={this.state.alertError}
+                      isOpen={this.state.alertError500}
                       toggle={this.onDismiss}
                     >
                       {t("app_dependencia_modal_actualizar_alert_error_500")}

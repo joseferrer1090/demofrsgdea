@@ -71,7 +71,9 @@ class SelectCompany extends React.Component {
         >
           <option value={" "}>
             {" "}
-            -- {t("app_tipoTramite_form_registrar_select_empresa")} --{" "}
+            -- {t(
+              "app_documentalRadicacion_form_registrar_select_empresa"
+            )} --{" "}
           </option>
           {this.state.dataEmpresa.map((aux, id) => {
             return (

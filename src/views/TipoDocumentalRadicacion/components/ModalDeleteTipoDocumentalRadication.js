@@ -25,8 +25,8 @@ class ModalDeleteTramite extends Component {
       id: this.props.id,
       dataTypeDocumental: {},
       alertSuccess: false,
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       code: "",
       auth: this.props.authorization
     };
@@ -88,7 +88,7 @@ class ModalDeleteTramite extends Component {
         <Modal isOpen={this.state.modal}>
           <ModalHeader>
             {" "}
-            {t("app_documentalRadicacion_eliminar_titulo")} {aux.name}
+            {t("app_documentalRadicacion_modal_eliminar_titulo")} {aux.name}
           </ModalHeader>
           <Formik
             initialValues={dataInitial}
@@ -109,7 +109,7 @@ class ModalDeleteTramite extends Component {
                   .then(response => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                     } else if (response.status === 204) {
                       this.setState(
@@ -126,7 +126,7 @@ class ModalDeleteTramite extends Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
                     }
                   })
@@ -156,10 +156,12 @@ class ModalDeleteTramite extends Component {
                     <ModalBody>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertError}
+                        isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
-                        {t("app_documentalRadicacion_eliminar_alert_error")}{" "}
+                        {t(
+                          "app_documentalRadicacion_modal_eliminar_alert_error_500"
+                        )}{" "}
                         {values.code}
                       </Alert>
                       <Alert
@@ -167,23 +169,27 @@ class ModalDeleteTramite extends Component {
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        {t("app_documentalRadicacion_eliminar_alert_success")}
+                        {t(
+                          "app_documentalRadicacion_modal_eliminar_alert_success"
+                        )}
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertCode}
+                        isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
-                        {t("app_documentalRadicacion_eliminar_alert_code")}
+                        {t(
+                          "app_documentalRadicacion_modal_eliminar_alert_error_400"
+                        )}
                       </Alert>
                       <p className="text-center">
                         {" "}
-                        {t("app_documentalRadicacion_eliminar_titulo_2")}
+                        {t("app_documentalRadicacion_modal_eliminar_titulo_2")}
                       </p>
                       <input
                         type="text"
                         placeholder={t(
-                          "app_documentalRadicacion_eliminar_placeholder"
+                          "app_documentalRadicacion_modal_eliminar_placeholder"
                         )}
                         style={{ textAlign: "center" }}
                         name="code"
@@ -202,7 +208,7 @@ class ModalDeleteTramite extends Component {
                       </div>
                       <br />
                       <p className="text-center text-danger">
-                        {t("app_documentalRadicacion_eliminar_titulo_3")}
+                        {t("app_documentalRadicacion_modal_eliminar_titulo_3")}
                       </p>
                     </ModalBody>
                     <ModalFooter>
@@ -216,7 +222,9 @@ class ModalDeleteTramite extends Component {
                       >
                         {" "}
                         <i className="fa fa-trash" />{" "}
-                        {t("app_documentalRadicacion_eliminar_boton_eliminar")}
+                        {t(
+                          "app_documentalRadicacion_modal_eliminar_boton_eliminar"
+                        )}
                       </button>
                       <Button
                         type="button"
@@ -226,7 +234,9 @@ class ModalDeleteTramite extends Component {
                         }}
                       >
                         <i className="fa fa-times" />{" "}
-                        {t("app_documentalRadicacion_eliminar_boton_cerrar")}{" "}
+                        {t(
+                          "app_documentalRadicacion_modal_eliminar_boton_cerrar"
+                        )}{" "}
                       </Button>
                     </ModalFooter>
                   </form>

@@ -8,8 +8,9 @@ import { decode } from "jwt-decode";
 // isAuthenticate
 const isAuthenticate = () => {
   const token = localStorage.getItem("auth_token");
+  const auth = sessionStorage.getItem("auth_token");
   try {
-    if (token !== null) {
+    if (token !== null && auth !== null) {
       return true;
     } else {
       return false;
@@ -22,7 +23,6 @@ const isAuthenticate = () => {
     console.log(err);
     return false;
   }
-  return true;
 };
 
 // const isLogged = () => {

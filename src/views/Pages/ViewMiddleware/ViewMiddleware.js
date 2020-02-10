@@ -41,14 +41,25 @@ const asyncLocalStorage = {
   }
 };
 
+const asyncSessionStorage = {
+  setItem: async function(key, value) {
+    await null;
+    return sessionStorage.setItem(key, value);
+  },
+  getItem: async function(key) {
+    await null;
+    return sessionStorage.getItem(key);
+  }
+};
+
 class ViewMiddleware extends Component {
   constructor(props) {
     super(props);
-    this.state = { isOpen: false, datalocal: {} };
+    this.state = { isOpen: false, datalocal: {}, datasession: {} };
   }
 
   componentDidMount() {
-    this.getDataLocalStorage();
+    this.getDataStorage();
   }
 
   toggle = () => {
@@ -66,7 +77,7 @@ class ViewMiddleware extends Component {
     this.props.logout();
   };
 
-  getDataLocalStorage = () => {
+  getDataStorage = () => {
     asyncLocalStorage
       .getItem("user")
       .then(resp => {

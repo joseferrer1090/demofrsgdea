@@ -40,6 +40,7 @@ function login(username, password, grant_type) {
 function logout() {
   localStorage.removeItem("auth_token");
   localStorage.removeItem("user");
+  sessionStorage.removeItem("auth_token");
   window.location.replace("/");
 }
 

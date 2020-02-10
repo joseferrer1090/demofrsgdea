@@ -43,7 +43,8 @@ export default function authentication(state = initialState, action) {
         user: action.user,
         permissions: action.permissions,
         isAuthenticated: true,
-        isLogginIn: false
+        isLogginIn: false,
+        isVerifying: initialState.isVerifying
       };
     case userConstants.LOGIN_FAILURE:
       return {

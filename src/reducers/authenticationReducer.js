@@ -10,7 +10,8 @@ const initialState = user
       logoutError: false,
       isAuthenticated: true,
       user,
-      permissions: {}
+      permissions: {},
+      attempts: null
     }
   : {
       isLogginIn: false,
@@ -20,7 +21,8 @@ const initialState = user
       logoutError: false,
       isAuthenticated: false,
       user,
-      permissions: null
+      permissions: null,
+      attempts: 0
     };
 
 // fucnion principal
@@ -31,7 +33,8 @@ export default function authentication(state = initialState, action) {
         user: action.user,
         permisos: {},
         isLogginIn: true,
-        loginError: false
+        loginError: false,
+        attempts: state.attempts + 1
       };
     case userConstants.LOGIN_SUCCESS:
       return {

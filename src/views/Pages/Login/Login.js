@@ -58,7 +58,8 @@ class LoginForm extends React.Component {
       isSubmitting,
       isAuthenticated,
       loginError,
-      isLogginIn
+      isLogginIn,
+      attempts
     } = this.props;
     return (
       <div className="app flex-row align-items-center">
@@ -83,20 +84,22 @@ class LoginForm extends React.Component {
                       {loginError && (
                         <Alert color="danger" isOpen={loginError}>
                           {" "}
-                          Error al ingresar a la plataforma{" "}
+                          <p className="text-justify">
+                            <i className="fa fa-exclamation-triangle" /> Error
+                            al ingresar a la plataforma , usuario y/o contraseña
+                            no son validos, intentos {attempts}
+                          </p>
                         </Alert>
                       )}
-                      {/* <Alert
-                        color={this.state.alert}
-                        isOpen={this.state.visible}
-                        toggle={this.onDismiss}
-                      >
-                        This is a primary alert with{" "}
-                        <a href="#" className="alert-link">
-                          an example link
-                        </a>
-                        . Give it a click if you like.
-                      </Alert> */}
+                      {attempts === 3 ? (
+                        <Alert color={"danger"} isOpen={loginError}>
+                          <p>
+                            <i className="fa fa-exclamation-triangle" /> El
+                            usuario se ha bloqueado por numero de intentos
+                            errados, contacte al administrador
+                          </p>
+                        </Alert>
+                      ) : null}
                       <h1 className="text-center">Iniciar sesión</h1>
                       <p className="text-muted text-center">
                         Ingresa al administrador general SGDEA
@@ -217,7 +220,8 @@ const mapStateToProps = state => {
   return {
     loginError: state.authenticationReducer.loginError,
     isLogginIn: state.authenticationReducer.isLogginIn,
-    isAuthenticated: state.authenticationReducer.isAuthenticated
+    isAuthenticated: state.authenticationReducer.isAuthenticated,
+    attempts: state.authenticationReducer.attempts
   };
 };
 

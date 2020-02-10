@@ -238,10 +238,9 @@ class ModalEditEmpresa extends React.Component {
                 .min(8, " Mínimo 8 caracteres.")
                 .max(15, " Máximo 15 caracteres.")
                 .required(" Por favor introduzca el Nit."),
-              company_description: Yup.string().max(
-                250,
-                " Máximo 250 caracteres."
-              ),
+              company_description: Yup.string()
+                .max(250, " Máximo 250 caracteres.")
+                .nullable(),
               company_charge: Yup.string().ensure(),
               company_country: Yup.string()
                 .ensure()

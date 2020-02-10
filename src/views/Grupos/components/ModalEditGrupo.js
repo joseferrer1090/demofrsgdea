@@ -222,26 +222,21 @@ class ModalEditGrupos extends React.Component {
               descripcion: Yup.string()
                 .nullable()
                 .max(250, "Máximo 250 para la descripción del grupo"),
-              conglomerado: Yup.string()
-                .ensure()
-                .required("Por favor seleccione un conglomerado para filtrar"),
-              empresa: Yup.string()
-                .ensure()
-                .required("Por favor selecciones uan empresa para filtrar"),
-              sede: Yup.string()
-                .ensure()
-                .required("Por favor Seleccione una sede para filtrar "),
-              dependencia: Yup.string()
-                .ensure()
-                .required("Por favor seleccione la dependencia para filtrar"),
-              usuarios: Yup.array()
-                .of(
-                  Yup.object().shape({
-                    label: Yup.string().required(),
-                    value: Yup.string().required()
-                  })
-                )
-                .required("Por favor asignar usuarios al grupo"),
+              conglomerado: Yup.string().ensure(),
+
+              empresa: Yup.string().ensure(),
+
+              sede: Yup.string().ensure(),
+
+              dependencia: Yup.string().ensure(),
+
+              usuarios: Yup.array().of(
+                Yup.object().shape({
+                  label: Yup.string().required(),
+                  value: Yup.string().required()
+                })
+              ),
+
               estado: Yup.bool().test("Activado", "", value => value === true)
             })}
           >

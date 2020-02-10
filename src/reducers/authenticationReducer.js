@@ -11,7 +11,8 @@ const initialState = user
       isAuthenticated: true,
       user,
       permissions: {},
-      attempts: null
+      attempts: null,
+      message: null
     }
   : {
       isLogginIn: false,
@@ -22,7 +23,8 @@ const initialState = user
       isAuthenticated: false,
       user,
       permissions: null,
-      attempts: 0
+      attempts: 0,
+      message: ""
     };
 
 // fucnion principal
@@ -48,7 +50,8 @@ export default function authentication(state = initialState, action) {
         ...state,
         isLogginIn: false,
         isAuthenticated: false,
-        loginError: true
+        loginError: true,
+        message: action.message
       };
     case userConstants.LOGOUT:
       return {

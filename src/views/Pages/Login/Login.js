@@ -59,7 +59,8 @@ class LoginForm extends React.Component {
       isAuthenticated,
       loginError,
       isLogginIn,
-      attempts
+      attempts,
+      errorMessage
     } = this.props;
     return (
       <div className="app flex-row align-items-center">
@@ -85,21 +86,23 @@ class LoginForm extends React.Component {
                         <Alert color="danger" isOpen={loginError}>
                           {" "}
                           <p className="text-justify">
-                            <i className="fa fa-exclamation-triangle" /> Error
-                            al ingresar a la plataforma , usuario y/o contraseña
-                            no son validos, intentos {attempts}
+                            <i className="fa fa-exclamation-triangle" />{" "}
+                            {errorMessage}
                           </p>
                         </Alert>
                       )}
-                      {attempts === 3 ? (
+                      {/* {attempts === 3 ? (
                         <Alert color={"danger"} isOpen={loginError}>
                           <p>
                             <i className="fa fa-exclamation-triangle" /> El
                             usuario se ha bloqueado por numero de intentos
-                            errados, contacte al administrador
+                            errados, contacte al administrador7
+                            Error
+                            al ingresar a la plataforma , usuario y/o contraseña
+                            no son validos. 
                           </p>
                         </Alert>
-                      ) : null}
+                      ) : null} */}
                       <h1 className="text-center">Iniciar sesión</h1>
                       <p className="text-muted text-center">
                         Ingresa al administrador general SGDEA
@@ -221,7 +224,8 @@ const mapStateToProps = state => {
     loginError: state.authenticationReducer.loginError,
     isLogginIn: state.authenticationReducer.isLogginIn,
     isAuthenticated: state.authenticationReducer.isAuthenticated,
-    attempts: state.authenticationReducer.attempts
+    attempts: state.authenticationReducer.attempts,
+    errorMessage: state.authenticationReducer.message
   };
 };
 

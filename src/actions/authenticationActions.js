@@ -19,9 +19,11 @@ function login(username, password, grant_type) {
         history.replace("/#/middleware");
         window.location.reload(true);
       },
-      error => {
-        dispatch(failure(error));
-        console.log(error);
+      user => {
+        if (user.response.status === 400) {
+          dispatch(failure(user.response.data.error_description));
+          //console.log(user.response.data.error_description);
+        }
       }
     );
   };
@@ -31,8 +33,8 @@ function login(username, password, grant_type) {
   function success(user) {
     return { type: userConstants.LOGIN_SUCCESS, user };
   }
-  function failure(error) {
-    return { type: userConstants.LOGIN_FAILURE, error };
+  function failure(message) {
+    return { type: userConstants.LOGIN_FAILURE, message };
   }
 }
 

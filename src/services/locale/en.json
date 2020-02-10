@@ -1320,7 +1320,10 @@
     "app_grupoUsuarios_modal_eliminar_titulo": "Delete",
     "app_grupoUsuarios_modal_eliminar_encabezado": "Confirm the code to delete the user group",
     "app_grupoUsuarios_modal_eliminar_placeholder": "Code of the group to be deleted",
-    "app_grupoUsuarios_modal_eliminar_texto": "The group of Swurians will be eliminated permanently.",
+    "app_grupoUsuarios_modal_eliminar_texto": "The user group will be eliminated permanently.",
+    "app_grupoUsuarios_modal_eliminar_alert_success": "The user group was successfully removed.",
+    "app_grupoUsuarios_modal_eliminar_alert_error_400": "Error, the user group is associated with other entities.",
+    "app_grupoUsuarios_modal_eliminar_alert_error_500": "Error, the code is not valid to delete the user group.",
     "app_grupoUsuarios_modal_eliminar_btn_eliminar": "Delete",
     "app_grupoUsuarios_modal_eliminar_btn_cerrar": "Close",
 

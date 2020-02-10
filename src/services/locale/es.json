@@ -171,7 +171,7 @@
     "app_conglomerado_modal_actualizar_alert_error_500": "Error, el conglomerado ya esta asignado.",
 
     "app_conglomerado_modal_eliminar_titulo": "Eliminar",
-    "app_conglomerado_modal_eliminar_informacion": "Confirmar el Código para eliminar el conglomerado",
+    "app_conglomerado_modal_eliminar_informacion": "Confirmar el código para eliminar el conglomerado",
     "app_conglomerado_modal_eliminar_informacion_2": "El conglomerado quedará eliminado de manera permanente",
     "app_conglomerado_modal_eliminar_placeholder": "Código del conglomerado a eliminar",
     "app_conglomerado_modal_eliminar_boton": "Eliminar",
@@ -1324,7 +1324,10 @@
     "app_grupoUsuarios_modal_eliminar_titulo": "Eliminar",
     "app_grupoUsuarios_modal_eliminar_encabezado": "Confirmar el código para eliminar el grupo de usuarios",
     "app_grupoUsuarios_modal_eliminar_placeholder": "Código del grupo a eliminar",
-    "app_grupoUsuarios_modal_eliminar_texto": "El grupo de suaurios quedará eliminado de manera permanente.",
+    "app_grupoUsuarios_modal_eliminar_texto": "El grupo de usuarios quedará eliminado de manera permanente.",
+    "app_grupoUsuarios_modal_eliminar_alert_success": "Se elimino el grupo de usuarios con éxito.",
+    "app_grupoUsuarios_modal_eliminar_alert_error_400": "Error, el grupo de usuarios esta asociado a otras entidades.",
+    "app_grupoUsuarios_modal_eliminar_alert_error_500": "Error, el código no es válido para eliminar el grupo de usuarios.",
     "app_grupoUsuarios_modal_eliminar_btn_eliminar": "Eliminar",
     "app_grupoUsuarios_modal_eliminar_btn_cerrar": "Cerrar",
 

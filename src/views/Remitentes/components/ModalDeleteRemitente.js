@@ -165,14 +165,14 @@ class ModalDeleteRemitente extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {t("app_tercero_modal_eliminar_alert_error")}
+                        {t("app_tercero_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {t("app_tercero_modal_eliminar_alert_errorCode")}
+                        {t("app_tercero_modal_eliminar_alert_error_400")}
                       </Alert>
                       <p className="text-center">
                         {" "}

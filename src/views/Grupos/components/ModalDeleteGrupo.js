@@ -146,21 +146,21 @@ class ModalDeletePais extends Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      Error, al eliminar el grupo {values.code}
+                      {t("app_grupoUsuarios_modal_eliminar_alert_error_500")}
                     </Alert>
                     <Alert
                       color="success"
                       isOpen={this.state.alertSuccess}
                       toggle={this.onDismiss}
                     >
-                      Se elimino de manera satisfactoria el grupo de usuarios
+                      {t("app_grupoUsuarios_modal_eliminar_alert_success")}
                     </Alert>
                     <Alert
                       color="danger"
                       isOpen={this.state.alertCode}
                       toggle={this.onDismiss}
                     >
-                      El codigo para eliminar no corresponde al grupo
+                      {t("app_grupoUsuarios_modal_eliminar_alert_error_400")}
                     </Alert>
                     <ModalBody>
                       <form className="form">

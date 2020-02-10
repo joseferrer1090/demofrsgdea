@@ -155,14 +155,18 @@ class ModalDeleteRadicacionEmail extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {t("app_radicacion_email_modal_eliminar_alert_error")}
+                        {t(
+                          "app_radicacion_email_modal_eliminar_alert_error_500"
+                        )}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertemail}
                         toggle={this.onDismiss}
                       >
-                        {t("app_radicacion_email_modal_eliminar_alert_errorId")}
+                        {t(
+                          "app_radicacion_email_modal_eliminar_alert_error_400"
+                        )}
                       </Alert>
                       <Alert
                         className="text-center"

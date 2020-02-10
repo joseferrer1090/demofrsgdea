@@ -151,14 +151,14 @@ class ModalDeleteTipoLlegada extends Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {t("app_tipoLlegada_modal_eliminar_alert_error")}
+                        {t("app_tipoLlegada_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {t("app_tipoLlegada_modal_eliminar_alert_errorCode")}
+                        {t("app_tipoLlegada_modal_eliminar_alert_error_400")}
                       </Alert>
                       <Alert
                         className="text-center"

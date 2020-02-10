@@ -155,7 +155,13 @@ class ModalDeleteUser extends React.Component {
                         isOpen={this.state.alertError}
                         toggle={this.onDismiss}
                       >
-                        {t("app_usuarios_modal_eliminar_alert_error")}{" "}
+                        {t(
+                          "app_usuarios_modal_eliminar_alert_errorCode_parte_1"
+                        )}{" "}
+                        {values.identificacion}{" "}
+                        {t(
+                          "app_usuarios_modal_eliminar_alert_errorCode_parte_2"
+                        )}
                         {values.identificacion}
                       </Alert>
                       <Alert
@@ -170,13 +176,7 @@ class ModalDeleteUser extends React.Component {
                         isOpen={this.state.alertCode}
                         toggle={this.onDismiss}
                       >
-                        {t(
-                          "app_usuarios_modal_eliminar_alert_errorCode_parte_1"
-                        )}{" "}
-                        {values.identificacion}{" "}
-                        {t(
-                          "app_usuarios_modal_eliminar_alert_errorCode_parte_2"
-                        )}
+                        {t("app_usuarios_modal_eliminar_alert_error_400")}{" "}
                       </Alert>
                       <p className="text-center">
                         {t("app_usuarios_modal_eliminar_titulo_2")}

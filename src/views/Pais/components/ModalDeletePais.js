@@ -155,14 +155,14 @@ class ModalDeletePais extends Component {
                       isOpen={this.state.alertError}
                       toggle={this.onDismiss}
                     >
-                      {t("app_pais_modal_eliminar_alert_error")}
+                      {t("app_pais_modal_eliminar_alert_error_500")}
                     </Alert>
                     <Alert
                       color="danger"
                       isOpen={this.state.alertCode}
                       toggle={this.onDismiss}
                     >
-                      {t("app_pais_modal_eliminar_alert_errorCode")}
+                      {t("app_pais_modal_eliminar_alert_error_400")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>
                       {t("app_pais_modal_eliminar_alert_success")}

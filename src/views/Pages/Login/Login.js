@@ -35,10 +35,6 @@ class LoginForm extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.state.alertType);
-  }
-
   onDismiss = () => {
     this.setState({
       visible: false

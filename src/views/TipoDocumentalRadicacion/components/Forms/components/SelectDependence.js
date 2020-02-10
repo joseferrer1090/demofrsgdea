@@ -67,7 +67,10 @@ class SelectDependencia extends React.Component {
         >
           <option>
             {" "}
-            -- {t("app_tipoTramite_form_registrar_select_dependecia")} --{" "}
+            -- {t(
+              "app_documentalRadicacion_form_registrar_select_dependecia"
+            )}{" "}
+            --{" "}
           </option>
           {this.state.dataDependencia.map((aux, id) => {
             return (

@@ -67,7 +67,9 @@ class SelectConglomerado extends React.Component {
           className={this.props.className}
         >
           <option value={" "}>
-            -- {t("app_tipoTramite_form_registrar_select_conglomerado")} --
+            --{" "}
+            {t("app_documentalRadicacion_form_registrar_select_conglomerado")}{" "}
+            --
           </option>
           {data.map((aux, id) => {
             return (

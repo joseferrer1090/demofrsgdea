@@ -32,10 +32,10 @@ const verifyToken = () => {
   const now = new Date();
   console.log(exp);
   try {
-    if (now.getTime() > exp * 1000) {
-      return false;
-    } else {
+    if (now.getTime() < exp / 1000) {
       return true;
+    } else {
+      return false;
     }
   } catch (error) {
     console.log(error);
@@ -46,19 +46,12 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      verifyToken() ? (
-        <Component {...props} />
-      ) : isAuthenticate() ? (
+      isAuthenticate() ? (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/404" }} />
       )
     }
-    // isAuthenticate() ? (
-    //   <Component {...props} />
-    // ) : (
-    //   <Redirect to={{ pathname: "/404" }} />
-    // )
   />
 );
 

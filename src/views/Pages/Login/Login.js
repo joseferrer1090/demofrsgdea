@@ -206,7 +206,6 @@ const formikEnhancer = withFormik({
       const password = values.password;
       const grant_type = values.grant_type;
       // alert(JSON.stringify(values, null, 2));
-
       props.login(username, password, grant_type);
 
       setSubmitting(true);

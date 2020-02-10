@@ -13,7 +13,7 @@ function login(username, password, grant_type) {
     dispatch(request({ username, password, grant_type }));
     userService.login(username, password, grant_type).then(
       user => {
-        // console.log(user);
+        console.log(user);
         localStorage.setItem("auth_token", user.data.access_token);
         sessionStorage.setItem("auth_token", user.data.access_token);
         dispatch(success(user));

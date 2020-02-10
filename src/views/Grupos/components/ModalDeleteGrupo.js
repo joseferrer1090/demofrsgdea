@@ -15,8 +15,8 @@ class ModalDeletePais extends Component {
       dataGroup: {},
       useLogged: "jferrer",
       alertSuccess: false,
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       auth: this.props.authorization,
       t: this.props.t
     };
@@ -97,7 +97,7 @@ class ModalDeletePais extends Component {
                   .then(response => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                     } else if (response.status === 204) {
                       setTimeout(() => {
@@ -111,7 +111,7 @@ class ModalDeletePais extends Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
                     }
                   })
@@ -143,7 +143,7 @@ class ModalDeletePais extends Component {
                   <form className="form">
                     <Alert
                       color="danger"
-                      isOpen={this.state.alertError}
+                      isOpen={this.state.alertError500}
                       toggle={this.onDismiss}
                     >
                       {t("app_grupoUsuarios_modal_eliminar_alert_error_500")}
@@ -157,7 +157,7 @@ class ModalDeletePais extends Component {
                     </Alert>
                     <Alert
                       color="danger"
-                      isOpen={this.state.alertCode}
+                      isOpen={this.state.alertError400}
                       toggle={this.onDismiss}
                     >
                       {t("app_grupoUsuarios_modal_eliminar_alert_error_400")}

@@ -25,8 +25,8 @@ class ModalDeleteTramite extends Component {
       id: this.props.id,
       dataProcedure: {},
       alertSuccess: false,
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       code: "",
       auth: this.props.authorization
     };
@@ -52,8 +52,8 @@ class ModalDeleteTramite extends Component {
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       alertSuccess: false
     });
   };
@@ -118,7 +118,7 @@ class ModalDeleteTramite extends Component {
                   .then(response => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                     } else if (response.status === 204) {
                       this.setState(
@@ -135,7 +135,7 @@ class ModalDeleteTramite extends Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
                     }
                   })
@@ -167,7 +167,7 @@ class ModalDeleteTramite extends Component {
                     <ModalBody>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertError}
+                        isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
                         {t("app_tipoTramite_modal_eliminar_alert_error_500")}{" "}
@@ -182,7 +182,7 @@ class ModalDeleteTramite extends Component {
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertCode}
+                        isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
                         {t("app_tipoTramite_modal_eliminar_alert_error_400")}

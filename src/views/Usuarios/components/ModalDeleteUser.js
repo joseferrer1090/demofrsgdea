@@ -11,8 +11,8 @@ class ModalDeleteUser extends React.Component {
     modal: this.props.modaldel,
     id: this.props.id,
     alertSuccess: false,
-    alertError: false,
-    alertCode: false,
+    alertError500: false,
+    alertError400: false,
     identification: "",
     useLogged: "",
     nameUser: "",
@@ -64,8 +64,8 @@ class ModalDeleteUser extends React.Component {
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       alertSuccess: false
     });
   };
@@ -101,12 +101,12 @@ class ModalDeleteUser extends React.Component {
                   .then(response => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                       setTimeout(() => {
                         this.setState({
                           modal: false,
-                          alertError: false
+                          alertError500: false
                         });
                       }, 3000);
                     } else if (response.status === 204) {
@@ -124,7 +124,7 @@ class ModalDeleteUser extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
                     }
                   })
@@ -152,7 +152,7 @@ class ModalDeleteUser extends React.Component {
                     <ModalBody>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertError}
+                        isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
                         {t(
@@ -173,7 +173,7 @@ class ModalDeleteUser extends React.Component {
                       </Alert>
                       <Alert
                         color="danger"
-                        isOpen={this.state.alertCode}
+                        isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
                         {t("app_usuarios_modal_eliminar_alert_error_400")}{" "}

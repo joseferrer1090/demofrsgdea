@@ -33,7 +33,7 @@ class ModalEditEmpresa extends React.Component {
       optionsCharges: [0],
       id: this.props.id,
       alertSuccess: false,
-      alertError: false,
+      alertError500: false,
       alertError400: "",
       optionsCountries: [0],
       optionsCitys: [0],
@@ -205,11 +205,11 @@ class ModalEditEmpresa extends React.Component {
                     }, 3000);
                   } else if (response.status === 500) {
                     this.setState({
-                      alertError: true
+                      alertError500: true
                     });
                     setTimeout(() => {
                       this.setState({
-                        alertError: false,
+                        alertError500: false,
                         modal: !this.state.modal
                       });
                     }, 3000);
@@ -274,7 +274,7 @@ class ModalEditEmpresa extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <form className="form">
-                      <Alert color="danger" isOpen={this.state.alertError}>
+                      <Alert color="danger" isOpen={this.state.alertError500}>
                         {t("app_empresa_modal_actualizar_alert_error_500")}
                       </Alert>
                       <Alert color="success" isOpen={this.state.alertSuccess}>

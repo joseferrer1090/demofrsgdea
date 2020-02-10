@@ -15,9 +15,9 @@ class ModalDeleteRoles extends Component {
       userName: "jferrer",
       dataRolById: {},
       t: this.props.t,
-      alertError: false,
+      alertError500: false,
       alertSuccess: false,
-      alertCode: false,
+      alertError400: false,
       auth: this.props.authorization
     };
   }
@@ -82,7 +82,7 @@ class ModalDeleteRoles extends Component {
                   .then(response => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                     } else if (response.status === 204) {
                       this.setState(
@@ -99,7 +99,7 @@ class ModalDeleteRoles extends Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
                     }
                   })
@@ -127,14 +127,14 @@ class ModalDeleteRoles extends Component {
                     <Alert
                       className="text-center"
                       color="danger"
-                      isOpen={this.state.alertError}
+                      isOpen={this.state.alertError500}
                       toggle={this.onDismiss}
                     >
                       {t("app_roles_modal_eliminar_alert_error_500")}
                     </Alert>
                     <Alert
                       color="danger"
-                      isOpen={this.state.alertCode}
+                      isOpen={this.state.alertError400}
                       toggle={this.onDismiss}
                     >
                       {t("app_roles_modal_eliminar_alert_error_400")}

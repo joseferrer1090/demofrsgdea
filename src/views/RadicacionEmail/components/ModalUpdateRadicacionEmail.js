@@ -21,7 +21,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
     modal: this.props.modalupdate,
     idRadicacionEmail: this.props.id,
     dataResult: {},
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
@@ -170,11 +170,11 @@ class ModalUpdateRadicacionEmail extends React.Component {
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError500: false,
                           modal: !this.state.modal
                         });
                       }, 3000);
@@ -200,7 +200,7 @@ class ModalUpdateRadicacionEmail extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError}>
+                    <Alert color="danger" isOpen={this.state.alertError500}>
                       {t(
                         "app_radicacion_email_modal_actualizar_alert_error_500"
                       )}

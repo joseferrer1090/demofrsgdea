@@ -30,7 +30,7 @@ class ModalEditConglomerado extends React.Component {
     modal: this.props.modaleditstate,
     idConglomerado: this.props.id,
     dataResult: {},
-    alertError: false,
+    alertError500: false,
     alertError400: false,
     alertSuccess: false,
     t: this.props.t,
@@ -111,7 +111,7 @@ class ModalEditConglomerado extends React.Component {
 
   onDismiss = () => {
     this.setState({
-      alertError: false,
+      alertError500: false,
       alertSuccess: false
     });
   };
@@ -210,11 +210,11 @@ class ModalEditConglomerado extends React.Component {
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError500: false,
                           modal: !this.state.modal
                         });
                       }, 3000);
@@ -266,7 +266,7 @@ class ModalEditConglomerado extends React.Component {
                   <ModalBody>
                     <Alert
                       color="danger"
-                      isOpen={this.state.alertError}
+                      isOpen={this.state.alertError500}
                       toggle={this.onDismiss}
                     >
                       {t("app_conglomerado_modal_actualizar_alert_error_500")}

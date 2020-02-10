@@ -25,7 +25,7 @@ class ModalEditRoles extends React.Component {
       id: this.props.id,
       userName: "jferrer",
       alertSuccess: false,
-      alertError: false,
+      alertError500: false,
       alertError400: "",
       t: this.props.t,
       auth: this.props.authorization
@@ -157,11 +157,11 @@ class ModalEditRoles extends React.Component {
                   } else if (response.status === 500) {
                     console.log("Error en algo");
                     this.setState({
-                      alertError: true
+                      alertError500: true
                     });
                     setTimeout(() => {
                       this.setState({
-                        alertError: false,
+                        alertError500: false,
                         modal: !this.state.modal
                       });
                     }, 3000);
@@ -191,7 +191,7 @@ class ModalEditRoles extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError}>
+                    <Alert color="danger" isOpen={this.state.alertError500}>
                       {t("app_roles_modal_actualizar_alert_error_500")}
                     </Alert>
                     <Alert color="success" isOpen={this.state.alertSuccess}>

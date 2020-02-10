@@ -11,8 +11,8 @@ class ModalDeleteEmpresa extends React.Component {
     modal: this.props.modaldelempresa,
     idCompany: this.props.id,
     alertSuccess: false,
-    alertError: false,
-    alertCode: false,
+    alertError500: false,
+    alertError400: false,
     code: "",
     nameCompany: "",
     t: this.props.t,
@@ -59,8 +59,8 @@ class ModalDeleteEmpresa extends React.Component {
   };
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       alertSuccess: false
     });
   };
@@ -97,7 +97,7 @@ class ModalDeleteEmpresa extends React.Component {
                   .then(response => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                     } else if (response.status === 204) {
                       this.setState(
@@ -114,7 +114,7 @@ class ModalDeleteEmpresa extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
                     }
                   })
@@ -144,14 +144,14 @@ class ModalDeleteEmpresa extends React.Component {
                     <Alert
                       className="text-center"
                       color="danger"
-                      isOpen={this.state.alertError}
+                      isOpen={this.state.alertError500}
                       toggle={this.onDismiss}
                     >
                       {t("app_empresa_modal_eliminar_alert_error_500")}
                     </Alert>
                     <Alert
                       color="danger"
-                      isOpen={this.state.alertCode}
+                      isOpen={this.state.alertError400}
                       toggle={this.onDismiss}
                     >
                       {t("app_empresa_modal_eliminar_alert_error_400")}
@@ -211,8 +211,8 @@ class ModalDeleteEmpresa extends React.Component {
                       onClick={() => {
                         this.setState({
                           modal: false,
-                          alertError: false,
-                          alertCode: false
+                          alertError500: false,
+                          alertError400: false
                         });
                       }}
                     >

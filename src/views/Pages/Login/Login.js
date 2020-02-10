@@ -35,10 +35,6 @@ class LoginForm extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.state.alertType);
-  }
-
   onDismiss = () => {
     this.setState({
       visible: false
@@ -58,7 +54,9 @@ class LoginForm extends React.Component {
       isSubmitting,
       isAuthenticated,
       loginError,
-      isLogginIn
+      isLogginIn,
+      attempts,
+      errorMessage
     } = this.props;
     return (
       <div className="app flex-row align-items-center">
@@ -83,20 +81,24 @@ class LoginForm extends React.Component {
                       {loginError && (
                         <Alert color="danger" isOpen={loginError}>
                           {" "}
-                          Error al ingresar a la plataforma{" "}
+                          <p className="text-justify">
+                            <i className="fa fa-exclamation-triangle" />{" "}
+                            {errorMessage}
+                          </p>
                         </Alert>
                       )}
-                      {/* <Alert
-                        color={this.state.alert}
-                        isOpen={this.state.visible}
-                        toggle={this.onDismiss}
-                      >
-                        This is a primary alert with{" "}
-                        <a href="#" className="alert-link">
-                          an example link
-                        </a>
-                        . Give it a click if you like.
-                      </Alert> */}
+                      {/* {attempts === 3 ? (
+                        <Alert color={"danger"} isOpen={loginError}>
+                          <p>
+                            <i className="fa fa-exclamation-triangle" /> El
+                            usuario se ha bloqueado por numero de intentos
+                            errados, contacte al administrador7
+                            Error
+                            al ingresar a la plataforma , usuario y/o contraseña
+                            no son validos. 
+                          </p>
+                        </Alert>
+                      ) : null} */}
                       <h1 className="text-center">Iniciar sesión</h1>
                       <p className="text-muted text-center">
                         Ingresa al administrador general SGDEA
@@ -204,7 +206,6 @@ const formikEnhancer = withFormik({
       const password = values.password;
       const grant_type = values.grant_type;
       // alert(JSON.stringify(values, null, 2));
-
       props.login(username, password, grant_type);
 
       setSubmitting(true);
@@ -217,7 +218,9 @@ const mapStateToProps = state => {
   return {
     loginError: state.authenticationReducer.loginError,
     isLogginIn: state.authenticationReducer.isLogginIn,
-    isAuthenticated: state.authenticationReducer.isAuthenticated
+    isAuthenticated: state.authenticationReducer.isAuthenticated,
+    attempts: state.authenticationReducer.attempts,
+    errorMessage: state.authenticationReducer.message
   };
 };
 

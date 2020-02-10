@@ -152,22 +152,21 @@ class ModalDeleteConglomerado extends React.Component {
                         isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
-                        {t("app_cargo_modal_eliminar_alert_error_500")}{" "}
-                        {values.code}.
+                        {t("app_conglomerado_modal_eliminar_alert_error_500")}{" "}
                       </Alert>
                       <Alert
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
                       >
-                        {t("app_cargo_modal_eliminar_alert_success")}
+                        {t("app_conglomerado_modal_eliminar_alert_success")}
                       </Alert>
                       <Alert
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
-                        {t("app_cargo_modal_eliminar_alert_error_400")}
+                        {t("app_conglomerado_modal_eliminar_alert_error_400")}
                       </Alert>
                       <p className="text-center">
                         {" "}
@@ -211,7 +210,8 @@ class ModalDeleteConglomerado extends React.Component {
                         }}
                       >
                         {" "}
-                        <i className="fa fa-trash" /> Eliminar
+                        <i className="fa fa-trash" />{" "}
+                        {t("app_conglomerado_modal_eliminar_boton")}
                       </button>
                       <button
                         type="button"

@@ -119,7 +119,7 @@ class ModalDeleteCargo extends React.Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alert: true
+                        alertError400: true
                       });
                     }
                   })

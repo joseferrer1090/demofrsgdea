@@ -140,81 +140,79 @@ class ModalDeletePais extends Component {
 
               return (
                 <Fragment>
-                  <form className="form">
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertError500}
-                      toggle={this.onDismiss}
-                    >
-                      {t("app_grupoUsuarios_modal_eliminar_alert_error_500")}
-                    </Alert>
-                    <Alert
-                      color="success"
-                      isOpen={this.state.alertSuccess}
-                      toggle={this.onDismiss}
-                    >
-                      {t("app_grupoUsuarios_modal_eliminar_alert_success")}
-                    </Alert>
-                    <Alert
-                      color="danger"
-                      isOpen={this.state.alertError400}
-                      toggle={this.onDismiss}
-                    >
-                      {t("app_grupoUsuarios_modal_eliminar_alert_error_400")}
-                    </Alert>
-                    <ModalBody>
-                      <form className="form">
-                        <p className="text-center">
-                          {" "}
-                          {t("app_grupoUsuarios_modal_eliminar_encabezado")}
-                        </p>
+                  <ModalBody>
+                    <form className="form">
+                      <Alert
+                        color="danger"
+                        isOpen={this.state.alertError500}
+                        toggle={this.onDismiss}
+                      >
+                        {t("app_grupoUsuarios_modal_eliminar_alert_error_500")}
+                      </Alert>
+                      <Alert
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                        toggle={this.onDismiss}
+                      >
+                        {t("app_grupoUsuarios_modal_eliminar_alert_success")}
+                      </Alert>
+                      <Alert
+                        color="danger"
+                        isOpen={this.state.alertError400}
+                        toggle={this.onDismiss}
+                      >
+                        {t("app_grupoUsuarios_modal_eliminar_alert_error_400")}
+                      </Alert>
+                      <p className="text-center">
+                        {" "}
+                        {t("app_grupoUsuarios_modal_eliminar_encabezado")}
+                      </p>
 
-                        <input
-                          type="text"
-                          placeholder={t(
-                            "app_grupoUsuarios_modal_eliminar_placeholder"
-                          )}
-                          style={{ textAlign: "center" }}
-                          name="code"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.code}
-                          className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
-                            touched.code &&
-                            "is-invalid"}`}
-                        />
-                        <br />
-                        <p className="text-center text-danger">
-                          {" "}
-                          {t("app_grupoUsuarios_modal_eliminar_texto")}
-                        </p>
-                      </form>
-                    </ModalBody>
-                    <ModalFooter>
-                      <button
-                        className="btn btn-outline-danger btn-sm"
-                        onClick={e => {
-                          e.preventDefault();
-                          handleSubmit();
-                        }}
-                      >
+                      <input
+                        type="text"
+                        placeholder={t(
+                          "app_grupoUsuarios_modal_eliminar_placeholder"
+                        )}
+                        style={{ textAlign: "center" }}
+                        name="code"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.code}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
+                          touched.code &&
+                          "is-invalid"}`}
+                      />
+                      <br />
+                      <p className="text-center text-danger">
                         {" "}
-                        <i className="fa fa-trash" />{" "}
-                        {t("app_grupoUsuarios_modal_eliminar_btn_eliminar")}{" "}
-                      </button>
-                      <button
-                        className="btn btn-secondary btn-sm"
-                        onClick={e => {
-                          e.preventDefault();
-                          this.setState({ modal: false });
-                        }}
-                      >
-                        {" "}
-                        <i className="fa fa-times" />{" "}
-                        {t("app_grupoUsuarios_modal_eliminar_btn_cerrar")}{" "}
-                      </button>
-                    </ModalFooter>
-                  </form>
+                        {t("app_grupoUsuarios_modal_eliminar_texto")}
+                      </p>
+                    </form>
+                  </ModalBody>
+                  <ModalFooter>
+                    <button
+                      className="btn btn-outline-danger btn-sm"
+                      onClick={e => {
+                        e.preventDefault();
+                        handleSubmit();
+                      }}
+                    >
+                      {" "}
+                      <i className="fa fa-trash" />{" "}
+                      {t("app_grupoUsuarios_modal_eliminar_btn_eliminar")}{" "}
+                    </button>
+                    <button
+                      className="btn btn-secondary btn-sm"
+                      onClick={e => {
+                        e.preventDefault();
+                        this.setState({ modal: false });
+                      }}
+                    >
+                      {" "}
+                      <i className="fa fa-times" />{" "}
+                      {t("app_grupoUsuarios_modal_eliminar_btn_cerrar")}{" "}
+                    </button>
+                  </ModalFooter>
                 </Fragment>
               );
             }}

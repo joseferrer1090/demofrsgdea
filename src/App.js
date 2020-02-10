@@ -3,12 +3,12 @@ import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import Loadable from "react-loadable";
 import "./App.scss";
 import Conglomerado from "./views/Conglomerado/Conglomerado";
+import { decode } from "jsonwebtoken";
 
-// isAuthenticate and isVerifyToken
+// isAuthenticate
 const isAuthenticate = () => {
   const token = localStorage.getItem("auth_token");
   const auth = sessionStorage.getItem("auth_token");
-
   try {
     if (token !== null && auth !== null) {
       return true;
@@ -23,19 +23,42 @@ const isAuthenticate = () => {
     console.log(err);
     return false;
   }
-  return true;
+};
+
+const verifyToken = () => {
+  const auth = sessionStorage.getItem("auth_token");
+  const aux = decode(auth);
+  const exp = aux.exp;
+  const now = new Date();
+  console.log(exp);
+  try {
+    if (now.getTime() > exp * 1000) {
+      return false;
+    } else {
+      return true;
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props =>
-      isAuthenticate() ? (
+      verifyToken() ? (
+        <Component {...props} />
+      ) : isAuthenticate() ? (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/404" }} />
       )
     }
+    // isAuthenticate() ? (
+    //   <Component {...props} />
+    // ) : (
+    //   <Redirect to={{ pathname: "/404" }} />
+    // )
   />
 );
 

@@ -103,6 +103,10 @@ const EditTipoDocumentalRadication = React.lazy(() =>
 const RadicacionEmail = React.lazy(() =>
   import("./views/RadicacionEmail/RadicacionEmail")
 );
+const PeticionesViaCorreoElectronico = React.lazy(() =>
+  import("./views/EmailRequest/EmailRequest")
+);
+
 const PlantillaEmail = React.lazy(() =>
   import("./views/PlantillaEmail/PlantillaEmail")
 );
@@ -312,6 +316,12 @@ const routes = [
     exact: true,
     name: "Configuración / Radicación por email",
     component: RadicacionEmail
+  },
+  {
+    path: "/Configuracion/peticionescorreoelectronico",
+    exact: true,
+    name: "Configuración / Peticiones vía correo electrónico",
+    component: PeticionesViaCorreoElectronico
   },
   {
     path: "/configuracion/plantillaemail",

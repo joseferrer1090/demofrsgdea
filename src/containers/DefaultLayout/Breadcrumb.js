@@ -181,6 +181,12 @@ let routes = [
     component: null
   },
   {
+    path: "/configuracion/peticionescorreoelectronico",
+    exact: true,
+    name: "Configuración / Peticiones vía correo electrónico",
+    component: null
+  },
+  {
     path: "/configuracion/parametrosgenerales",
     exact: true,
     name: "Parámetros generales del sistema",

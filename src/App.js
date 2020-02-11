@@ -29,29 +29,30 @@ const verifyToken = () => {
   const auth = sessionStorage.getItem("auth_token");
   const aux = decode(auth);
   const exp = aux.exp;
-  const now = new Date();
+  const now = new Date().getTime() / 1000;
   console.log(exp);
   try {
-    if (now.getTime() < exp / 1000) {
+    if (now < exp && auth != null) {
       return true;
-    } else {
+    } else if (auth === null) {
       return false;
     }
   } catch (error) {
     console.log(error);
+    return false;
   }
 };
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      isAuthenticate() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: "/404" }} />
-      )
-    }
+    render={props => {
+      if (verifyToken() && isAuthenticate()) {
+        return <Component {...props} />;
+      } else {
+        return <Redirect to={{ pathname: "/logout" }} />;
+      }
+    }}
   />
 );
 

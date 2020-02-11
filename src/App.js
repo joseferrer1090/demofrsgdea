@@ -12,7 +12,9 @@ const isAuthenticate = () => {
   try {
     if (token !== null && auth !== null) {
       return true;
-    } else {
+    } else if (token !== null && auth === null) {
+      return false;
+    } else if (token === null && auth === null) {
       return false;
     }
     // Aqui tengo descomponer el token y guardar los datos
@@ -27,14 +29,18 @@ const isAuthenticate = () => {
 
 const verifyToken = () => {
   const auth = sessionStorage.getItem("auth_token");
+  const token = localStorage.getItem("auth_token");
+
   const aux = decode(auth);
   const exp = aux.exp;
   const now = new Date().getTime() / 1000;
-  console.log(exp);
+
   try {
-    if (now < exp && auth != null) {
+    if (now < exp && auth != null && token !== null) {
       return true;
-    } else if (auth === null) {
+    } else if (exp === null && now !== null) {
+      return false;
+    } else {
       return false;
     }
   } catch (error) {
@@ -47,10 +53,16 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
     render={props => {
-      if (verifyToken() && isAuthenticate()) {
-        return <Component {...props} />;
-      } else {
-        return <Redirect to={{ pathname: "/logout" }} />;
+      try {
+        if (verifyToken()) {
+          return <Component {...props} />;
+        } else if (isAuthenticate()) {
+          return <Component {...props} />;
+        } else {
+          return <div />;
+        }
+      } catch (error) {
+        return <Redirect to={{ pathname: "/404" }} />;
       }
     }}
   />

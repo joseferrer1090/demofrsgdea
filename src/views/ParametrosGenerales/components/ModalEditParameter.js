@@ -110,7 +110,8 @@ class ModalEditParameter extends Component {
     this.state = {
       modal: this.props.modalEditParameter,
       idParameter: this.props.id,
-      dataResult: DataForm,
+      dataResult: {},
+      data: {},
       auth: this.props.authorization
     };
   }
@@ -120,8 +121,8 @@ class ModalEditParameter extends Component {
       id: id,
       modal: !this.state.modal
     });
-    console.log(this.state.dataResult);
-    // this.getDataParametar(id);
+    //console.log(this.state.dataResult);
+    this.getDataParametar(id);
   };
 
   getDataParametar = id => {
@@ -135,7 +136,8 @@ class ModalEditParameter extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataResult: data
+          data: data,
+          dataResult: data.dataForm
         });
       })
       .catch(err => console.log(`err => ${err}`));
@@ -156,16 +158,38 @@ class ModalEditParameter extends Component {
 
     return (
       <Modal className="" isOpen={this.state.modal} onClick={() => this.toogle}>
-        <ModalHeader>Parametro {this.state.dataResult.parameter}</ModalHeader>
+        <ModalHeader>Parametro {this.state.data.parameter}</ModalHeader>
         <Formik
           enableReinitialize={true}
-          // initialValues={aux.map(element =>
-          //   console.log(`${element.inputInfo.elementConfig.name}`)
-          // )}
+          initialValues={{
+            parameter: this.state.data.parameter,
+            description: this.state.data.description
+          }}
           validationSchema={Yup.object().shape({})}
           onSubmit={(values, { setSubmitting, props }) => {
             setTimeout(() => {
-              alert(JSON.stringify({ values }, null, 2));
+              const token = this.state.auth;
+              const user = decode(token);
+              fetch(`${PARAMTERS_UPDATE}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer " + this.state.auth
+                },
+                body: JSON.stringify({
+                  parameter: values.parameter,
+                  value: values.value,
+                  username: user.user_name
+                })
+              })
+                .then(response => {
+                  console.log(response.json());
+                })
+                .catch(error => {
+                  console.log(error);
+                });
+              //alert(JSON.stringify({ values }, null, 2));
+              console.log(JSON.stringify({ values }, null, 2));
               setSubmitting(false);
             }, 10);
           }}
@@ -187,8 +211,68 @@ class ModalEditParameter extends Component {
                 <ModalBody>
                   <form className="form">
                     <div className="table-responseive">
-                      <table className="table table-striped">
+                      <table className="table table-striped table-condensed ">
                         <tbody>
+                          <tr>
+                            <td>Parametro </td>
+                            <td>
+                              <input
+                                className="form-control form-control-sm"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.parameter}
+                                disabled
+                              />{" "}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Descripcion</td>
+                            <td>
+                              <textarea
+                                rows={3}
+                                className="form-control form-control-sm"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.description}
+                                disabled
+                              ></textarea>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>Valor del parametro</td>
+                            <td>
+                              {aux.map((element, id) => (
+                                <Field name={`${element.id}`}>
+                                  {() => (
+                                    <InpuDynamics
+                                      key={id}
+                                      formType={element.inputInfo.type}
+                                      onChange={e =>
+                                        setFieldValue("value", e.target.value)
+                                      }
+                                      name={
+                                        element.inputInfo.elementConfig.name
+                                      }
+                                      //value={element.inputInfo.value}
+                                      defaultValue={element.inputInfo.value}
+                                    />
+                                  )}
+                                </Field>
+                              ))}
+                            </td>
+                            {/* {aux.map((element, id) => (
+                              <td>
+                                {console.log(element)}
+                                 <Field name={`${element.id}`}>
+                                  {({}) => (
+                                    <InpuDynamics formType={element.type} />
+                                  )}
+                                </Field> 
+                              </td>
+                            ))} */}
+                          </tr>
+                        </tbody>
+                        {/* <tbody>
                           {aux.map((element, id) => (
                             <tr>
                               <td> {element.id} </td>
@@ -217,7 +301,7 @@ class ModalEditParameter extends Component {
                               </td>
                             </tr>
                           ))}
-                        </tbody>
+                        </tbody> */}
                       </table>
                     </div>
                   </form>

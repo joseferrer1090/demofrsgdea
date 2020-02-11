@@ -62,7 +62,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
           return <div />;
         }
       } catch (error) {
-        return <Redirect to={{ pathname: "/logout" }} />;
+        return <Redirect to={{ pathname: "/404" }} />;
       }
     }}
   />

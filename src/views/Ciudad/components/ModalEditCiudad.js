@@ -182,7 +182,6 @@ class ModalEditCiudad extends React.Component {
               city_department: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione un departamento."),
-
               city_code: Yup.string()
                 .required(" Por favor introduzca un código alfanumérico.")
                 .matches(/^[0-9a-zA-Z]+$/, " No es un código alfanumérico.")

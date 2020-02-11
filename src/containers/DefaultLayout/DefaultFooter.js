@@ -16,7 +16,7 @@ class DefaultFooter extends Component {
     return (
       <React.Fragment>
         <span>
-          <a>LEXCO SA</a> &copy; 2018 {t("development_footer")} Lexco.
+          <a>LEXCO SA</a> &copy; 2020 {t("development_footer")} Lexco.
         </span>
         <span className="ml-auto">
           {t("developer_footer")} <a>Lexco SA</a>

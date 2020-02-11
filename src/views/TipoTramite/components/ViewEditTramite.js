@@ -128,6 +128,10 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                       marginTop: "60px"
                     })
                   });
+                  setTimeout(() => {
+                    let path = `#/configuracion/tipotramite`;
+                    window.location.replace(path);
+                  }, 5000);
                 } else if (response.status === 400) {
                   toast.error(
                     "Error al actualizar el tipo de trámite. Inténtelo nuevamente.",
@@ -177,14 +181,15 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
           //   )
           // );
           setSubmitting(false);
-          resetForm({
-            codigo: "",
-            nombre: "",
-            asunto: "",
-            tipocorrespondencia: "",
-            estado: "",
-            d_maximos: ""
-          });
+
+          // resetForm({
+          //   codigo: "",
+          //   nombre: "",
+          //   asunto: "",
+          //   tipocorrespondencia: "",
+          //   estado: "",
+          //   d_maximos: ""
+          // });
         }, 500);
       }}
       validationSchema={Yup.object().shape({

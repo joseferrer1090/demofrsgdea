@@ -3,13 +3,14 @@ import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import Loadable from "react-loadable";
 import "./App.scss";
 import Conglomerado from "./views/Conglomerado/Conglomerado";
-import { decode } from "jwt-decode";
+import { decode } from "jsonwebtoken";
 
 // isAuthenticate
 const isAuthenticate = () => {
   const token = localStorage.getItem("auth_token");
+  const auth = sessionStorage.getItem("auth_token");
   try {
-    if (token !== null) {
+    if (token !== null && auth !== null) {
       return true;
     } else {
       return false;
@@ -22,33 +23,36 @@ const isAuthenticate = () => {
     console.log(err);
     return false;
   }
-  return true;
 };
 
-// const isLogged = () => {
-//   const token = localStorage.getItem("auth_token");
-//   try {
-//     if (token !== null) {
-//       return <Redirect to={{ pathname: "/middleware" }} />;
-//     } else {
-//       return <Redirect to={{ pathname: "/" }} />;
-//       console.log("Error no hay token ");
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+const verifyToken = () => {
+  const auth = sessionStorage.getItem("auth_token");
+  const aux = decode(auth);
+  const exp = aux.exp;
+  const now = new Date().getTime() / 1000;
+  console.log(exp);
+  try {
+    if (now < exp && auth != null) {
+      return true;
+    } else if (auth === null) {
+      return false;
+    }
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+};
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      isAuthenticate() ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{ pathname: "/404" }} />
-      )
-    }
+    render={props => {
+      if (verifyToken() && isAuthenticate()) {
+        return <Component {...props} />;
+      } else {
+        return <Redirect to={{ pathname: "/logout" }} />;
+      }
+    }}
   />
 );
 

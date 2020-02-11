@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 
 class Logout extends Component {
   componentDidMount() {
+    sessionStorage.clear();
     localStorage.clear();
     this.props.history.replace("/");
   }

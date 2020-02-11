@@ -35,10 +35,6 @@ class LoginForm extends React.Component {
     };
   }
 
-  componentDidMount() {
-    console.log(this.state.alertType);
-  }
-
   onDismiss = () => {
     this.setState({
       visible: false
@@ -56,7 +52,11 @@ class LoginForm extends React.Component {
       handleSubmit,
       handleReset,
       isSubmitting,
-      alertType
+      isAuthenticated,
+      loginError,
+      isLogginIn,
+      attempts,
+      errorMessage
     } = this.props;
     return (
       <div className="app flex-row align-items-center">
@@ -78,17 +78,27 @@ class LoginForm extends React.Component {
                           </div>
                         </div>
                       </div>
-                      {/* <Alert
-                        color={this.state.alert}
-                        isOpen={this.state.visible}
-                        toggle={this.onDismiss}
-                      >
-                        This is a primary alert with{" "}
-                        <a href="#" className="alert-link">
-                          an example link
-                        </a>
-                        . Give it a click if you like.
-                      </Alert> */}
+                      {loginError && (
+                        <Alert color="danger" isOpen={loginError}>
+                          {" "}
+                          <p className="text-justify">
+                            <i className="fa fa-exclamation-triangle" />{" "}
+                            {errorMessage}
+                          </p>
+                        </Alert>
+                      )}
+                      {/* {attempts === 3 ? (
+                        <Alert color={"danger"} isOpen={loginError}>
+                          <p>
+                            <i className="fa fa-exclamation-triangle" /> El
+                            usuario se ha bloqueado por numero de intentos
+                            errados, contacte al administrador7
+                            Error
+                            al ingresar a la plataforma , usuario y/o contraseña
+                            no son validos. 
+                          </p>
+                        </Alert>
+                      ) : null} */}
                       <h1 className="text-center">Iniciar sesión</h1>
                       <p className="text-muted text-center">
                         Ingresa al administrador general SGDEA
@@ -196,7 +206,6 @@ const formikEnhancer = withFormik({
       const password = values.password;
       const grant_type = values.grant_type;
       // alert(JSON.stringify(values, null, 2));
-
       props.login(username, password, grant_type);
 
       setSubmitting(true);
@@ -207,13 +216,16 @@ const formikEnhancer = withFormik({
 
 const mapStateToProps = state => {
   return {
-    alertType: state.alertReducer
+    loginError: state.authenticationReducer.loginError,
+    isLogginIn: state.authenticationReducer.isLogginIn,
+    isAuthenticated: state.authenticationReducer.isAuthenticated,
+    attempts: state.authenticationReducer.attempts,
+    errorMessage: state.authenticationReducer.message
   };
 };
 
 const actionCreators = {
-  login: userActions.login,
-  clearAlerts: alertActions.clear
+  login: userActions.login
 };
 
 const Login = connect(mapStateToProps, actionCreators)(formikEnhancer);

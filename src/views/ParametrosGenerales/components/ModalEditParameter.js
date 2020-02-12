@@ -11,98 +11,98 @@ import * as Yup from "yup";
 import { decode } from "jsonwebtoken";
 import InpuDynamics from "./InputDynamics";
 
-const DataForm = {
-  name: {
-    type: "input",
-    elementConfig: {
-      name: "name",
-      type: "text",
-      placeholder: "Nombre Parametro"
-    },
-    value: "Nombre del parametro desde el API",
-    validity: {
-      required: true
-    },
-    valid: false,
-    touched: false,
-    disabled: true
-  },
-  description: {
-    type: "textarea",
-    elementConfig: {
-      name: "description",
-      type: "textarea",
-      placeholder: ""
-    },
-    value: "la descripcion del parametro general",
-    validity: {
-      required: true
-    },
-    valid: false,
-    touched: false,
-    disabled: true
-  },
-  valueParameter: {
-    type: "input",
-    elementConfig: {
-      name: "value",
-      type: "text",
-      placeholder: "value"
-    },
-    value: "Valor desde el api que se va a modificar",
-    validity: {
-      required: true
-    },
-    valid: false,
-    touched: false,
-    disabled: false
-  },
-  selectValue: {
-    type: "select",
-    elementConfig: {
-      name: "exampleSelect",
-      options: [
-        { value: "reactjs", displayname: "React js" },
-        { value: "spring", displayname: "Java Spring" }
-      ]
-    },
-    value: "",
-    valid: true
-  },
-  selectRadio: {
-    type: "radiobutton",
-    elementConfig: {
-      name: "exampleRadio",
-      options: [
-        { name: "parameter", value: "value1" },
-        { name: "parameter", value: "value2" }
-      ]
-    },
-    value: "",
-    valid: true
-  },
-  selectCheckbox: {
-    type: "checkbox",
-    elementConfig: {
-      name: "exampleCheckBox",
-      options: [
-        { name: "vehile1", value: "Car", id: "1" },
-        { name: "vehicle2", value: "Bike", id: "2" }
-      ]
-    },
-    value: "",
-    valid: true
-  },
-  passwordParameter: {
-    type: "password",
-    elementConfig: {
-      name: "passwordParameter",
-      type: "password"
-    },
-    value: "EstaEsLaContraseña",
-    valid: true
-  }
-};
+// const DataForm = {
+//   name: {
+//     type: "input",
+//     elementConfig: {
+//       name: "name",
+//       type: "text",
+//       placeholder: "Nombre Parametro"
+//     },
+//     value: "Nombre del parametro desde el API",
+//     validity: {
+//       required: true
+//     },
+//     valid: false,
+//     touched: false,
+//     disabled: true
+//   },
+//   description: {
+//     type: "textarea",
+//     elementConfig: {
+//       name: "description",
+//       type: "textarea",
+//       placeholder: ""
+//     },
+//     value: "la descripcion del parametro general",
+//     validity: {
+//       required: true
+//     },
+//     valid: false,
+//     touched: false,
+//     disabled: true
+//   },
+//   valueParameter: {
+//     type: "input",
+//     elementConfig: {
+//       name: "value",
+//       type: "text",
+//       placeholder: "value"
+//     },
+//     value: "Valor desde el api que se va a modificar",
+//     validity: {
+//       required: true
+//     },
+//     valid: false,
+//     touched: false,
+//     disabled: false
+//   },
+//   selectValue: {
+//     type: "select",
+//     elementConfig: {
+//       name: "exampleSelect",
+//       options: [
+//         { value: "reactjs", displayname: "React js" },
+//         { value: "spring", displayname: "Java Spring" }
+//       ]
+//     },
+//     value: "",
+//     valid: true
+//   },
+//   selectRadio: {
+//     type: "radiobutton",
+//     elementConfig: {
+//       name: "exampleRadio",
+//       options: [
+//         { name: "parameter", value: "value1" },
+//         { name: "parameter", value: "value2" }
+//       ]
+//     },
+//     value: "",
+//     valid: true
+//   },
+//   selectCheckbox: {
+//     type: "checkbox",
+//     elementConfig: {
+//       name: "exampleCheckBox",
+//       options: [
+//         { name: "vehile1", value: "Car", id: "1" },
+//         { name: "vehicle2", value: "Bike", id: "2" }
+//       ]
+//     },
+//     value: "",
+//     valid: true
+//   },
+//   passwordParameter: {
+//     type: "password",
+//     elementConfig: {
+//       name: "passwordParameter",
+//       type: "password"
+//     },
+//     value: "EstaEsLaContraseña",
+//     valid: true
+//   }
+// };
 
 class ModalEditParameter extends Component {
   constructor(props) {
@@ -154,7 +154,7 @@ class ModalEditParameter extends Component {
         inputInfo: this.state.dataResult[key]
       });
     }
-    //console.log(aux);
+    console.log(aux);
     // console.log(
     //   aux.map(element => console.log(`${element.inputInfo.elementConfig.name}`))
     // );
@@ -188,12 +188,12 @@ class ModalEditParameter extends Component {
                 .then(response => {
                   if (response.ok) {
                     this.setState({
-                      alertSuccess: true,
-                      modal: false
+                      alertSuccess: true
                     });
                     setTimeout(() => {
                       this.setState({
-                        alertSuccess: false
+                        alertSuccess: false,
+                        modal: false
                       });
                     }, 3000);
                   } else if (response.status === 400) {
@@ -314,6 +314,9 @@ class ModalEditParameter extends Component {
                                       name={
                                         element.inputInfo.elementConfig.name
                                       }
+                                      options={
+                                        element.inputInfo.elementConfig.options
+                                      }
                                       //value={element.inputInfo.value}
                                       defaultValue={element.inputInfo.value}
                                     />
@@ -321,16 +324,6 @@ class ModalEditParameter extends Component {
                                 </Field>
                               ))}
                             </td>
-                            {/* {aux.map((element, id) => (
-                              <td>
-                                {console.log(element)}
-                                 <Field name={`${element.id}`}>
-                                  {({}) => (
-                                    <InpuDynamics formType={element.type} />
-                                  )}
-                                </Field> 
-                              </td>
-                            ))} */}
                           </tr>
                         </tbody>
                         {/* <tbody>

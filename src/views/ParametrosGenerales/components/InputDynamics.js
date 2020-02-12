@@ -43,22 +43,25 @@ const InputDynamics = props => {
 
     case "select":
       formElement = (
-        <React.Fragment>
-          <select
-            className="form-control form-control-sm"
-            onChange={props.onChange}
-            value={props.value}
-            name={props.name}
-          >
-            <option>Seleccione</option>
-            {props.elementConfig.options.map((option, id) => (
-              <option key={id} value={option.value}>
-                {" "}
-                {option.displayname}{" "}
-              </option>
-            ))}
-          </select>
-        </React.Fragment>
+        <select
+          className="form-control form-control-sm"
+          onChange={props.onChange}
+          value={props.value}
+          name={props.name}
+        >
+          {props.options.length ? (
+            props.options.map((opt, id) => {
+              return (
+                <option key={id} value={opt.value}>
+                  {" "}
+                  {opt.displayname}{" "}
+                </option>
+              );
+            })
+          ) : (
+            <option>Selecctione</option>
+          )}
+        </select>
       );
       break;
 
@@ -132,3 +135,12 @@ const InputDynamics = props => {
 };
 
 export default InputDynamics;
+
+//  {
+//    props.elementConfig.options.map((option, id) => (
+//      <option key={id} value={option.value}>
+//        {" "}
+//        {option.displayname}{" "}
+//      </option>
+//    ));
+//  }

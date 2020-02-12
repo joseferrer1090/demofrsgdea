@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import {
   PARAMETERS_FIND_BY_ID,
@@ -112,7 +112,9 @@ class ModalEditParameter extends Component {
       idParameter: this.props.id,
       dataResult: {},
       data: {},
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      alertSuccess: false,
+      alertError: false
     };
   }
 
@@ -183,13 +185,33 @@ class ModalEditParameter extends Component {
                 })
               })
                 .then(response => {
-                  console.log(response.json());
+                  if (response.ok) {
+                    this.setState({
+                      alertSuccess: true,
+                      modal: false
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertSuccess: false
+                      });
+                    }, 3000);
+                  } else if (response.status === 400) {
+                    this.setState({
+                      alertError: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError: false
+                      });
+                    }, 3000);
+                  }
+                  //console.log(response.json());
                 })
                 .catch(error => {
-                  console.log(error);
+                  console.log(`${error}`);
                 });
               //alert(JSON.stringify({ values }, null, 2));
-              console.log(JSON.stringify({ values }, null, 2));
+              //console.log(JSON.stringify({ values }, null, 2));
               setSubmitting(false);
             }, 10);
           }}
@@ -210,6 +232,25 @@ class ModalEditParameter extends Component {
               <React.Fragment>
                 <ModalBody>
                   <form className="form">
+                    <Alert
+                      color={"success"}
+                      isOpen={this.state.alertSuccess}
+                      toggle={() => {
+                        this.setState({ alertSuccess: false });
+                      }}
+                    >
+                      Se actualizo el Parametro del sistema
+                    </Alert>
+                    <Alert
+                      color={"danger"}
+                      isOpen={this.state.alertError}
+                      toggle={() => {
+                        this.setState({ alertError: false });
+                      }}
+                    >
+                      <i className="fa fa-exclamation-triangle" /> Error al
+                      actualizar el parametro General del sistema
+                    </Alert>
                     <div className="table-responseive">
                       <table className="table table-striped table-condensed ">
                         <tbody>

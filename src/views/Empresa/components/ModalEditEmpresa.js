@@ -273,13 +273,25 @@ class ModalEditEmpresa extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <form className="form">
-                      <Alert color="danger" isOpen={this.state.alertError500}>
+                      <Alert
+                        className={"text-center"}
+                        color="danger"
+                        isOpen={this.state.alertError500}
+                      >
                         {t("app_empresa_modal_actualizar_alert_error_500")}
                       </Alert>
-                      <Alert color="success" isOpen={this.state.alertSuccess}>
+                      <Alert
+                        className={"text-center"}
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                      >
                         {t("app_empresa_modal_actualizar_alert_success")}
                       </Alert>
-                      <Alert color="danger" isOpen={this.state.alertError400}>
+                      <Alert
+                        className={"text-center"}
+                        color="danger"
+                        isOpen={this.state.alertError400}
+                      >
                         {t("app_empresa_modal_actualizar_alert_error_400")}
                       </Alert>
                       <Row>
@@ -684,7 +696,12 @@ class ModalEditEmpresa extends React.Component {
                       className={"btn btn-outline-secondary btn-sm"}
                       type="button"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false,
+                          alertError500: false,
+                          alertError400: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" />{" "}

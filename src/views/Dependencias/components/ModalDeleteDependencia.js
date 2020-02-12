@@ -107,7 +107,7 @@ class ModalDeleteDependencia extends Component {
                           alertError500: false,
                           modal: false
                         });
-                      }, 2000);
+                      }, 3000);
                     } else if (response.status === 204) {
                       this.setState({
                         alertSuccess: true
@@ -120,7 +120,7 @@ class ModalDeleteDependencia extends Component {
                           },
                           () => this.props.updateTable()
                         );
-                      }, 2000);
+                      }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
                         alertError400: true
@@ -130,7 +130,7 @@ class ModalDeleteDependencia extends Component {
                           alertError400: false,
                           modal: false
                         });
-                      }, 2000);
+                      }, 3000);
                     }
                   })
                   .catch(Error => console.log("Error", Error));
@@ -157,7 +157,7 @@ class ModalDeleteDependencia extends Component {
                   <ModalBody>
                     <form className="form">
                       <Alert
-                        className="text-center"
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
@@ -165,13 +165,18 @@ class ModalDeleteDependencia extends Component {
                         {t("app_dependencia_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
                         {t("app_dependencia_modal_eliminar_alert_error_400")}
                       </Alert>
-                      <Alert color="success" isOpen={this.state.alertSuccess}>
+                      <Alert
+                        className={"text-center"}
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                      >
                         {t("app_dependencia_modal_eliminar_alert_success")}
                       </Alert>
                       <p className="text-center">
@@ -222,7 +227,12 @@ class ModalDeleteDependencia extends Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" />{" "}

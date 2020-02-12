@@ -63,42 +63,72 @@ class TableContentDependencia extends Component {
     createdAt = new Date(row.createdAt);
     return moment(createdAt).format("DD-MM-YYYY");
   }
+
   accionesDependencias(cell, row) {
-    return (
-      <div className="table-actionMenuDep" style={{ marginRight: "49px" }}>
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalView(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-eye" />{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalEdit(row.id);
-          }}
-        >
-          <i className="fa fa-pencil" />
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-danger btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalDelete(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-trash" />{" "}
-        </button>
-      </div>
-    );
+    console.log(row);
+    if (row.headquarter.status !== 1)
+      return (
+        <div className="table-actionMenuDep" style={{ marginRight: "55px" }}>
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    else {
+      return (
+        <div className="table-actionMenuDep" style={{ marginRight: "40px" }}>
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalEdit(row.id);
+            }}
+          >
+            <i className="fa fa-pencil" />
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    }
   }
 
   StatusDependencia(cell, row) {

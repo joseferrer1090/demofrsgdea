@@ -166,6 +166,7 @@ class ModalDeleteTramite extends Component {
                   <form className="form">
                     <ModalBody>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
@@ -174,6 +175,7 @@ class ModalDeleteTramite extends Component {
                         {values.code}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="success"
                         isOpen={this.state.alertSuccess}
                         toggle={this.onDismiss}
@@ -181,6 +183,7 @@ class ModalDeleteTramite extends Component {
                         {t("app_tipoTramite_modal_eliminar_alert_success")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
@@ -233,7 +236,12 @@ class ModalDeleteTramite extends Component {
                         type="button"
                         className="btn btn-secondary btn-sm"
                         onClick={() => {
-                          this.setState({ modal: false });
+                          this.setState({
+                            modal: false,
+                            alertError400: false,
+                            alertError500: false,
+                            alertSuccess: false
+                          });
                         }}
                       >
                         <i className="fa fa-times" />{" "}

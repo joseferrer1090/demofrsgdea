@@ -13,7 +13,6 @@ class ModalDeleteTipoLlegada extends Component {
       modal: this.props.modaldelete,
       idTipoLlegada: this.props.id,
       code: "",
-
       alertSuccess: false,
       alertError500: false,
       alertError400: false,
@@ -154,6 +153,7 @@ class ModalDeleteTipoLlegada extends Component {
                         {t("app_tipoLlegada_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}

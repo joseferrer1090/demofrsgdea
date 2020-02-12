@@ -157,6 +157,7 @@ class ModalDeleteMensajero extends Component {
                         {t("app_mensajero_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertIdentification}
                         toggle={this.onDismiss}

@@ -148,6 +148,7 @@ class ModalDeleteConglomerado extends React.Component {
                   <form className="form">
                     <ModalBody>
                       <Alert
+                        className="text-center"
                         color="danger"
                         isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
@@ -155,13 +156,14 @@ class ModalDeleteConglomerado extends React.Component {
                         {t("app_conglomerado_modal_eliminar_alert_error_500")}{" "}
                       </Alert>
                       <Alert
+                        className="text-center"
                         color="success"
                         isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
                       >
                         {t("app_conglomerado_modal_eliminar_alert_success")}
                       </Alert>
                       <Alert
+                        className="text-center"
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}

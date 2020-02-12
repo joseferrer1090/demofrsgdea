@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Row, Col } from "reactstrap";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import "./../../../css/styleTableTipoTramite.css";
 import ModalViewTramite from "./ModalViewTramite";
 import ModalDeleteTramite from "./ModalDeleteTramite";
@@ -68,7 +69,7 @@ class TableContentTramite extends Component {
     return (
       <div
         className="table-actionMenuTTramite"
-        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -221,7 +222,7 @@ class TableContentTramite extends Component {
                 {t("app_tipoTramite_table_administrar_codigo")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={"205"}
+                width={"230"}
                 dataField={"name"}
                 dataAlign="center"
               >

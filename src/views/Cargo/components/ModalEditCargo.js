@@ -165,7 +165,7 @@ class ModalEditCargo extends React.Component {
                           alertError500: false,
                           modal: !this.state.modal
                         });
-                      }, 500);
+                      }, 3000);
                     }
                   })
                   .catch(error => console.log("", error));
@@ -185,13 +185,25 @@ class ModalEditCargo extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError500}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
                       {t("app_cargo_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_cargo_modal_actualizar_alert_error_400")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_cargo_modal_actualizar_alert_success")}
                     </Alert>
                     <form className="form">
@@ -342,7 +354,12 @@ class ModalEditCargo extends React.Component {
                       className={"btn btn-outline-secondary btn-sm"}
                       type="button"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" />{" "}

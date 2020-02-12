@@ -265,16 +265,24 @@ class ModalEditConglomerado extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert
+                      className={"text-center"}
                       color="danger"
                       isOpen={this.state.alertError500}
-                      toggle={this.onDismiss}
                     >
                       {t("app_conglomerado_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_conglomerado_modal_actualizar_alert_error_400")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_conglomerado_modal_actualizar_alert_success")}
                     </Alert>
                     <form className="form">
@@ -585,7 +593,12 @@ class ModalEditConglomerado extends React.Component {
                       className={"btn btn-outline-secondary btn-sm"}
                       type="button"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" />{" "}

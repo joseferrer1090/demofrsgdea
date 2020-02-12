@@ -103,12 +103,6 @@ class ModalDeleteSedes extends Component {
                       this.setState({
                         alertError500: true
                       });
-                      setTimeout(() => {
-                        this.setState({
-                          modal: false,
-                          alertError500: false
-                        });
-                      }, 3000);
                     } else if (response.status === 204) {
                       this.setState({
                         alertSuccess: true
@@ -166,6 +160,7 @@ class ModalDeleteSedes extends Component {
                         {t("app_sedes_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
@@ -219,8 +214,8 @@ class ModalDeleteSedes extends Component {
                       onClick={() => {
                         this.setState({
                           modal: false,
-                          alertError: false,
-                          alertCode: false,
+                          alertError400: false,
+                          alertError500: false,
                           alertSuccess: false
                         });
                       }}

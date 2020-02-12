@@ -233,7 +233,6 @@ class TableTipoLlegada extends Component {
                 {t("app_tipoLlegada_administrar_table_estado")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={"150"}
                 export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesTipoLlegada(cell, row)}

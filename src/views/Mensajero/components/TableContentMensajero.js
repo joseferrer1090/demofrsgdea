@@ -62,7 +62,7 @@ class TableContentMensajero extends Component {
 
   accionesMensajero(cell, row) {
     return (
-      <div className="table-actionMenuMensj" style={{ marginRight: "60px" }}>
+      <div className="table-actionMenuMensj" style={{ marginRight: "40px" }}>
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -198,14 +198,14 @@ class TableContentMensajero extends Component {
               <TableHeaderColumn
                 dataField="name"
                 dataAlign="center"
-                width={"120"}
+                width={"250"}
               >
                 {t("app_mensajero_administrar_table_nombre")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataField="description"
                 dataAlign="center"
-                width={"200"}
+                width={"220"}
               >
                 {t("app_mensajero_administrar_table_descripción")}{" "}
               </TableHeaderColumn>
@@ -221,7 +221,7 @@ class TableContentMensajero extends Component {
                 {t("app_mensajero_administrar_table_fecha_creacion")}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={"100"}
+                width={"120"}
                 dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.EstadoMensajero(cell, row)}
@@ -230,7 +230,6 @@ class TableContentMensajero extends Component {
                 {t("app_mensajero_administrar_table_estado")}{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                width={"120"}
                 export={false}
                 dataAlign="center"
                 dataFormat={(cell, row) => this.accionesMensajero(cell, row)}

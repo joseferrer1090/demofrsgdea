@@ -114,7 +114,8 @@ class ModalEditParameter extends Component {
       data: {},
       auth: this.props.authorization,
       alertSuccess: false,
-      alertError: false
+      alertError: false,
+      alertError500: false
     };
   }
 
@@ -153,7 +154,7 @@ class ModalEditParameter extends Component {
         inputInfo: this.state.dataResult[key]
       });
     }
-    console.log(aux);
+    //console.log(aux);
     // console.log(
     //   aux.map(element => console.log(`${element.inputInfo.elementConfig.name}`))
     // );
@@ -204,6 +205,15 @@ class ModalEditParameter extends Component {
                         alertError: false
                       });
                     }, 3000);
+                  } else if (response.status === 500) {
+                    this.setState({
+                      alertError500: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError500: false
+                      });
+                    }, 3000);
                   }
                   //console.log(response.json());
                 })
@@ -249,7 +259,17 @@ class ModalEditParameter extends Component {
                       }}
                     >
                       <i className="fa fa-exclamation-triangle" /> Error al
-                      actualizar el parametro General del sistema
+                      actualizar el parametro, verifique el valor ingresado
+                    </Alert>
+                    <Alert
+                      color={"danger"}
+                      isOpen={this.state.alertError500}
+                      toggle={() => {
+                        this.setState({ alertError500: false });
+                      }}
+                    >
+                      <i className="fa fa-exclamation-triangle" /> Error al
+                      actualizar verifique con el administrador
                     </Alert>
                     <div className="table-responseive">
                       <table className="table table-striped table-condensed ">

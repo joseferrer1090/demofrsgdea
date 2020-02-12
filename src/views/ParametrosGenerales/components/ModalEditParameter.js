@@ -115,7 +115,8 @@ class ModalEditParameter extends Component {
       auth: this.props.authorization,
       alertSuccess: false,
       alertError: false,
-      alertError500: false
+      alertError500: false,
+      valor: null
     };
   }
 
@@ -145,6 +146,11 @@ class ModalEditParameter extends Component {
       })
       .catch(err => console.log(`err => ${err}`));
   };
+  _handleChange = e => {
+    this.setState({
+      valor: e.currentTarget.value
+    });
+  };
 
   render() {
     const aux = [];
@@ -166,7 +172,8 @@ class ModalEditParameter extends Component {
           enableReinitialize={true}
           initialValues={{
             parameter: this.state.data.parameter,
-            description: this.state.data.description
+            description: this.state.data.description,
+            value: this.state.valor
           }}
           validationSchema={Yup.object().shape({})}
           onSubmit={(values, { setSubmitting, props }) => {
@@ -191,10 +198,13 @@ class ModalEditParameter extends Component {
                       alertSuccess: true
                     });
                     setTimeout(() => {
-                      this.setState({
-                        alertSuccess: false,
-                        modal: false
-                      });
+                      this.setState(
+                        {
+                          alertSuccess: false,
+                          modal: false
+                        },
+                        this.props.updateTable()
+                      );
                     }, 3000);
                   } else if (response.status === 400) {
                     this.setState({
@@ -215,11 +225,12 @@ class ModalEditParameter extends Component {
                       });
                     }, 3000);
                   }
-                  //console.log(response.json());
+                  console.log(response.json());
                 })
                 .catch(error => {
                   console.log(`${error}`);
                 });
+              console.log(values);
               //alert(JSON.stringify({ values }, null, 2));
               //console.log(JSON.stringify({ values }, null, 2));
               setSubmitting(false);
@@ -304,21 +315,24 @@ class ModalEditParameter extends Component {
                             <td>
                               {aux.map((element, id) => (
                                 <Field name={`${element.id}`}>
-                                  {() => (
+                                  {({}) => (
                                     <InpuDynamics
                                       key={id}
                                       formType={element.inputInfo.type}
-                                      onChange={e =>
-                                        setFieldValue("value", e.target.value)
-                                      }
+                                      onChange={e => {
+                                        setFieldValue(
+                                          "value",
+                                          e.currentTarget.value
+                                        );
+                                      }}
                                       name={
                                         element.inputInfo.elementConfig.name
                                       }
                                       options={
                                         element.inputInfo.elementConfig.options
                                       }
-                                      //value={element.inputInfo.value}
                                       defaultValue={element.inputInfo.value}
+                                      //value={element.inputInfo.value}
                                     />
                                   )}
                                 </Field>

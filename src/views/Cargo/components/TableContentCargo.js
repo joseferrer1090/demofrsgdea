@@ -81,7 +81,7 @@ class TableContentCargo extends Component {
     return (
       <div
         className="table-actionMenuCargo"
-        style={{ textAlign: "center", padding: "0", marginRight: "60px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -196,7 +196,7 @@ class TableContentCargo extends Component {
             <TableHeaderColumn
               dataAlign="center"
               dataField="name"
-              width={"170"}
+              width={"230"}
             >
               {t("app_cargo_administrar_table_nombre")}
             </TableHeaderColumn>
@@ -214,7 +214,7 @@ class TableContentCargo extends Component {
               dataField={"createdAt"}
               dataFormat={(cell, row) => this.FechaCreacionCargo(cell, row)}
               dataAlign="center"
-              width={"140"}
+              width={"170"}
             >
               {t("app_cargo_administrar_table_fecha_creacion")}
             </TableHeaderColumn>
@@ -228,7 +228,6 @@ class TableContentCargo extends Component {
               {t("app_cargo_administrar_table_estado")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"150"}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesCargo(cell, row)}

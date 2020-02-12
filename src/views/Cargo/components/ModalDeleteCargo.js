@@ -155,13 +155,18 @@ class ModalDeleteCargo extends React.Component {
                         {t("app_cargo_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
                         {t("app_cargo_modal_eliminar_alert_error_400")}
                       </Alert>
-                      <Alert color="success" isOpen={this.state.alertSuccess}>
+                      <Alert
+                        className={"text-center"}
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                      >
                         {t("app_cargo_modal_eliminar_alert_success")}
                       </Alert>
                       <p className="text-center">
@@ -213,7 +218,8 @@ class ModalDeleteCargo extends React.Component {
                         this.setState({
                           modal: false,
                           alertError500: false,
-                          alertError400: false
+                          alertError400: false,
+                          alertSuccess: false
                         });
                       }}
                     >

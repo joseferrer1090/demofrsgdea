@@ -70,42 +70,70 @@ class TableContentSedes extends Component {
     return status;
   };
 
-  accionesSedes = (cell, row) => {
-    return (
-      <div className="table-actionMenuSedes" style={{ marginRight: "60px" }}>
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalView(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-eye" />{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalEdit(row.id);
-          }}
-        >
-          <i className="fa fa-pencil" />
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-danger btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalDelete(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-trash" />{" "}
-        </button>
-      </div>
-    );
+  AccionesSedeStatus = (cell, row) => {
+    if (row.company.status !== 1)
+      return (
+        <div className="table-actionMenuSedes" style={{ marginRight: "55px" }}>
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    else {
+      return (
+        <div className="table-actionMenuSedes" style={{ marginRight: "40px" }}>
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalEdit(row.id);
+            }}
+          >
+            <i className="fa fa-pencil" />
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    }
   };
 
   openModalView = id => {
@@ -194,7 +222,7 @@ class TableContentSedes extends Component {
                   dataField={"company"}
                   dataFormat={this.EmpresaInfo}
                   dataAlign={"center"}
-                  width={"200"}
+                  width={"230"}
                   dataSort={true}
                 >
                   {" "}
@@ -211,7 +239,7 @@ class TableContentSedes extends Component {
                 <TableHeaderColumn
                   dataField={"name"}
                   dataAlign="center"
-                  width={"250"}
+                  width={"270"}
                   dataSort={true}
                 >
                   {t("app_sedes_administrar_table_nombre")}
@@ -238,7 +266,7 @@ class TableContentSedes extends Component {
                 <TableHeaderColumn
                   export={false}
                   dataAlign="center"
-                  dataFormat={(cell, row) => this.accionesSedes(cell, row)}
+                  dataFormat={(cell, row) => this.AccionesSedeStatus(cell, row)}
                   style={{ border: "none" }}
                 >
                   {" "}

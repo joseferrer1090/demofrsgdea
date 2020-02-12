@@ -7,7 +7,10 @@ class MySelect extends React.Component {
   state = {
     dataRoles: [],
     t: this.props.t,
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    dataRol: [],
+    label: "",
+    value: ""
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -28,6 +31,9 @@ class MySelect extends React.Component {
 
   componentDidMount() {
     this.getData();
+    this.setState({
+      dataRol: this.props.value
+    });
   }
 
   getData = async () => {
@@ -45,11 +51,11 @@ class MySelect extends React.Component {
   };
 
   handleChange = value => {
-    this.props.onChange("roles", value);
+    this.props.onChange("usuario_roles", value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("roles", true);
+    this.props.onBlur("usuario_roles", true);
   };
 
   render() {

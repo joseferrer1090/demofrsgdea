@@ -110,6 +110,7 @@ class ModalEditSedes extends React.Component {
             headquarter_charge: data.charge === null ? " " : data.charge.id
           }
         });
+        console.log(data);
       })
       .catch(error => console.log(error));
   };
@@ -242,7 +243,7 @@ class ModalEditSedes extends React.Component {
                           alertError500: false,
                           modal: !this.state.modal
                         });
-                      }, 500);
+                      }, 3000);
                     }
                   })
                   .catch(error => console.log("", error));
@@ -266,13 +267,25 @@ class ModalEditSedes extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError500}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
                       {t("app_sedes_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_sedes_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_sedes_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
@@ -798,7 +811,12 @@ class ModalEditSedes extends React.Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false,
+                          alertError500: false,
+                          alertError400: false
+                        });
                       }}
                     >
                       {" "}

@@ -1018,6 +1018,8 @@
     "app_usuarios_modal_editar_titulo": "Update",
     "app_usuarios_modal_editar_titulo_2": "Personal data",
     "app_usuarios_modal_editar_boton_cargar_imagen": "Upload image",
+
+    "app_usuarios_modal_editar_boton_cmabiar_imagen": "Change image",
     "app_usuarios_modal_editar_identificacion": "Identification",
     "app_usuarios_modal_editar_nombre": "Name",
     "app_usuarios_modal_editar_email": "Email",
@@ -1046,6 +1048,9 @@
     "app_usuarios_modal_actualizar_alert_success": "The user was updated successfully.",
     "app_usuarios_modal_actualizar_alert_error_400": "Error when updating the user. Try again.",
     "app_usuarios_modal_actualizar_alert_error_500": "Error, the user is already assigned.",
+    "app_usuarios_modal_actualizar_alert_success_image": "The image was updated successfully.",
+    "app_usuarios_modal_actualizar_alert_error_400_image": "Error when updating the image. Try again.",
+    "app_usuarios_modal_actualizar_alert_error_500_image": "Error, the user is already assigned.",
 
     "app_usuarios_modal_eliminar_titulo": "Delete",
     "app_usuarios_modal_eliminar_titulo_2": "Confirm the identification to delete the user.",

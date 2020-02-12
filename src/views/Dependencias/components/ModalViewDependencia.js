@@ -103,10 +103,7 @@ class ModalViewDependencia extends Component {
         ));
       } else if (data === 0) {
         return (status = (
-          <b className="text-danger">
-            {" "}
-            {this.orops.t("app_tablas_estado_inactivo")}{" "}
-          </b>
+          <b className="text-danger"> {t("app_tablas_estado_inactivo")} </b>
         ));
       }
       return status;

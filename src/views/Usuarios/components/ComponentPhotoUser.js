@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { USER_PHOTO } from "./../../../services/EndPoints";
 import axios from "axios";
 import { decode } from "jsonwebtoken";
+import { Alert } from "reactstrap";
 
 class ComponentPhotoUser extends Component {
   constructor(props) {
@@ -12,7 +13,11 @@ class ComponentPhotoUser extends Component {
       idUser: this.props.id,
       file: "",
       imagePreviewUrl: "",
-      photo: ""
+      photo: "",
+      alertSuccess: false,
+      alertError500: false,
+      alertError400: false,
+      t: this.props.t
     };
   }
 
@@ -72,11 +77,32 @@ class ComponentPhotoUser extends Component {
       )
       .then(response => {
         if (response.status === 200) {
-          console.log("Se actualizo la imagen de perfil");
+          this.setState({
+            alertSuccess: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alertSuccess: false
+            });
+          }, 2000);
         } else if (response.status === 400) {
-          console.log(" Se enviaron mal los datos  ");
+          this.setState({
+            alertError400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alertError400: false
+            });
+          }, 2000);
         } else if (response.status === 500) {
-          console.log(" Error no se puede cambiar la imagen de perfil  ");
+          this.setState({
+            alertError500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alertError500: false
+            });
+          }, 2000);
         }
       })
       .catch(err => console.log(`err => ${err}`));
@@ -121,12 +147,34 @@ class ComponentPhotoUser extends Component {
         />
       );
     }
+    const { t } = this.state;
     return (
       <div>
         <form
           onSubmit={e => this._handleSubmit(e)}
           encType={"multipart/form-data"}
         >
+          <Alert
+            className={"text-center"}
+            color="danger"
+            isOpen={this.state.alertError500}
+          >
+            {t("app_usuarios_modal_actualizar_alert_error_500_image")}
+          </Alert>
+          <Alert
+            className={"text-center"}
+            color="success"
+            isOpen={this.state.alertSuccess}
+          >
+            {t("app_usuarios_modal_actualizar_alert_success_image")}
+          </Alert>
+          <Alert
+            className={"text-center"}
+            color="danger"
+            isOpen={this.state.alertError400}
+          >
+            {t("app_usuarios_modal_actualizar_alert_error_400_image")}
+          </Alert>
           <input
             type="file"
             style={{ display: "none" }}
@@ -142,14 +190,16 @@ class ComponentPhotoUser extends Component {
               this.refs.uploadFile.click();
             }}
           >
-            <i className="fa fa-image" /> Cambiar imagen
+            <i className="fa fa-image" />{" "}
+            {t("app_usuarios_modal_editar_boton_cmabiar_imagen")}
           </button>
           <button
             type="submit"
             className="btn btn-outline-secondary btn-sm btn-block"
           >
             {" "}
-            <i className="fa fa-upload" /> Cargar{" "}
+            <i className="fa fa-upload" />{" "}
+            {t("app_usuarios_modal_editar_boton_cargar_imagen")}{" "}
           </button>
         </form>
       </div>

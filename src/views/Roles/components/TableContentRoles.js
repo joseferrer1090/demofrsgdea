@@ -91,7 +91,7 @@ class TableContentRoles extends Component {
     return (
       <div
         className="table-actionMenuRP"
-        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "50px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -209,7 +209,7 @@ class TableContentRoles extends Component {
                   dataFormat={this.indexN}
                   dataField="id"
                   dataAlign="center"
-                  width={"20"}
+                  width={"30"}
                 >
                   #
                 </TableHeaderColumn>
@@ -217,7 +217,7 @@ class TableContentRoles extends Component {
                   dataSort={true}
                   dataField="code"
                   dataAlign="center"
-                  width={"50"}
+                  width={"80"}
                 >
                   {t("app_roles_table_administrar_codigo")}
                 </TableHeaderColumn>
@@ -225,7 +225,7 @@ class TableContentRoles extends Component {
                   dataSort={true}
                   dataField="name"
                   dataAlign="center"
-                  width={"80"}
+                  width={"150"}
                 >
                   {" "}
                   {t("app_roles_table_administrar_nombre")}{" "}
@@ -234,13 +234,13 @@ class TableContentRoles extends Component {
                   dataSort={true}
                   dataField="description"
                   dataAlign="center"
-                  width={"80"}
+                  width={"200"}
                 >
                   {" "}
                   {t("app_roles_table_administrar_descripcion")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  width={"50"}
+                  width={"80"}
                   dataSort={true}
                   dataField="status"
                   dataAlign="center"
@@ -250,7 +250,7 @@ class TableContentRoles extends Component {
                   {t("app_roles_table_administrar_estado")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  width={"80"}
+                  width={"110"}
                   dataSort={true}
                   dataField="createdAt"
                   dataAlign="center"
@@ -261,7 +261,7 @@ class TableContentRoles extends Component {
                 </TableHeaderColumn>
 
                 <TableHeaderColumn
-                  width={"200"}
+                  width={"150"}
                   export={false}
                   dataAlign="center"
                   dataFormat={(cell, row) => this.accionesRoles(cell, row)}

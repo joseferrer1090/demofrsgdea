@@ -320,6 +320,7 @@ class ModalEditUser extends React.Component {
                           <ComponentPhoto
                             authorization={this.state.auth}
                             id={this.state.id}
+                            t={this.state.t}
                           />
                           {/* <img
                             src={`${USER_PHOTO}${this.state.id}`}

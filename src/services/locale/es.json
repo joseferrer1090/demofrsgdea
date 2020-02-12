@@ -1021,6 +1021,7 @@
     "app_usuarios_modal_editar_titulo": "Actualizar",
     "app_usuarios_modal_editar_titulo_2": "Datos personales",
     "app_usuarios_modal_editar_boton_cargar_imagen": "Cargar imagen",
+    "app_usuarios_modal_editar_boton_cmabiar_imagen": "Cambiar imagen",
     "app_usuarios_modal_editar_identificacion": "Identificación",
     "app_usuarios_modal_editar_nombre": "Nombre",
     "app_usuarios_modal_editar_email": "Email",
@@ -1049,6 +1050,9 @@
     "app_usuarios_modal_actualizar_alert_success": "Se actualizo el usuario con éxito.",
     "app_usuarios_modal_actualizar_alert_error_400": "Error al actualizar el usuario. Inténtelo nuevamente.",
     "app_usuarios_modal_actualizar_alert_error_500": "Error, el usuario ya esta asignado.",
+    "app_usuarios_modal_actualizar_alert_success_image": "Se actualizo la imagen con éxito.",
+    "app_usuarios_modal_actualizar_alert_error_400_image": "Error al actualizar la imagen. Inténtelo nuevamente.",
+    "app_usuarios_modal_actualizar_alert_error_500_image": "Error, el usuario ya esta asignado.",
 
     "app_usuarios_modal_eliminar_titulo": "Eliminar",
     "app_usuarios_modal_eliminar_titulo_2": "Confirmar la identificación para eliminar el usuario.",

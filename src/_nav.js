@@ -134,9 +134,26 @@ export default {
       url: "/configuracion/parametrosgenerales"
     },
     {
-      name: "Meta datos",
+      name: "Metadatos",
       icon: "icon-settings",
-      url: "/configuracion/metadatos"
+      url: "/configuracion/metadatos",
+      children: [
+        {
+          name: "Lista Metadatos",
+          icon: "fa fa-list-ul",
+          url: "/configuracion/metadatos/list"
+        },
+        {
+          name: "Actualizar Metadato",
+          icon: "fa fa-wrench",
+          url: "/configuracion/metadatos/update"
+        },
+        {
+          name: "Eliminar Metadato",
+          icon: "fa fa-trash",
+          url: "/configuracion/metadatos/delete"
+        }
+      ]
     }
   ]
 };

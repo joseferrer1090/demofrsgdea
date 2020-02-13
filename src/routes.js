@@ -112,7 +112,20 @@ const EditPlantillaEmail = React.lazy(() =>
 const ParametrosGenerales = React.lazy(() =>
   import("./views/ParametrosGenerales/ParametrosGenerales")
 );
+
 const MetaDatos = React.lazy(() => import("./views/MetaDatos/MetaDatos"));
+const MetaDato = React.lazy(() =>
+  import("./views/MetaDatos/components/Metadato")
+);
+const ListaMetaDatos = React.lazy(() =>
+  import("./views/MetaDatos/components/ListaMetadato")
+);
+const EditMetaDato = React.lazy(() =>
+  import("./views/MetaDatos/components/ModificarMetadato")
+);
+const DeleteMetadato = React.lazy(() =>
+  import("./views/MetaDatos/components/EliminarMetadato")
+);
 
 // https://github.com/ReactTraining/react-router/tree/master/packages/react-router-config
 const routes = [
@@ -347,6 +360,30 @@ const routes = [
     exact: true,
     name: "Configuración / Metadatos",
     component: MetaDatos
+  },
+  {
+    path: "/configuracion/metadatos/new",
+    exact: true,
+    name: "Configuracion / Metadatos / Nuevo metadato",
+    component: MetaDato
+  },
+  {
+    path: "/configuracion/metadatos/list",
+    exact: true,
+    name: "Configuracion / Metadatos / Lista metadatos",
+    component: ListaMetaDatos
+  },
+  {
+    path: "/configuracion/metadatos/update",
+    exact: true,
+    name: "Configuracion / Metadatos / Actualizar metadato",
+    component: EditMetaDato
+  },
+  {
+    path: "/configuracion/metadatos/delete",
+    exact: true,
+    name: "Configuracion / Metadatos / Eliminar metadato",
+    component: DeleteMetadato
   }
 ];
 

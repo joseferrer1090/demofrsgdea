@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Metadato from "./components/Metadato/index";
 
 class MetaDatos extends Component {
   constructor(props) {
@@ -8,7 +9,7 @@ class MetaDatos extends Component {
   render() {
     return (
       <div>
-        <p>Probando</p>
+        <Metadato />
       </div>
     );
   }

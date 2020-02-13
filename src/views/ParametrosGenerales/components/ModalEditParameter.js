@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import {
   PARAMETERS_FIND_BY_ID,
@@ -11,98 +11,98 @@ import * as Yup from "yup";
 import { decode } from "jsonwebtoken";
 import InpuDynamics from "./InputDynamics";
 
-const DataForm = {
-  name: {
-    type: "input",
-    elementConfig: {
-      name: "name",
-      type: "text",
-      placeholder: "Nombre Parametro"
-    },
-    value: "Nombre del parametro desde el API",
-    validity: {
-      required: true
-    },
-    valid: false,
-    touched: false,
-    disabled: true
-  },
-  description: {
-    type: "textarea",
-    elementConfig: {
-      name: "description",
-      type: "textarea",
-      placeholder: ""
-    },
-    value: "la descripcion del parametro general",
-    validity: {
-      required: true
-    },
-    valid: false,
-    touched: false,
-    disabled: true
-  },
-  valueParameter: {
-    type: "input",
-    elementConfig: {
-      name: "value",
-      type: "text",
-      placeholder: "value"
-    },
-    value: "Valor desde el api que se va a modificar",
-    validity: {
-      required: true
-    },
-    valid: false,
-    touched: false,
-    disabled: false
-  },
-  selectValue: {
-    type: "select",
-    elementConfig: {
-      name: "exampleSelect",
-      options: [
-        { value: "reactjs", displayname: "React js" },
-        { value: "spring", displayname: "Java Spring" }
-      ]
-    },
-    value: "",
-    valid: true
-  },
-  selectRadio: {
-    type: "radiobutton",
-    elementConfig: {
-      name: "exampleRadio",
-      options: [
-        { name: "parameter", value: "value1" },
-        { name: "parameter", value: "value2" }
-      ]
-    },
-    value: "",
-    valid: true
-  },
-  selectCheckbox: {
-    type: "checkbox",
-    elementConfig: {
-      name: "exampleCheckBox",
-      options: [
-        { name: "vehile1", value: "Car", id: "1" },
-        { name: "vehicle2", value: "Bike", id: "2" }
-      ]
-    },
-    value: "",
-    valid: true
-  },
-  passwordParameter: {
-    type: "password",
-    elementConfig: {
-      name: "passwordParameter",
-      type: "password"
-    },
-    value: "EstaEsLaContraseña",
-    valid: true
-  }
-};
+// const DataForm = {
+//   name: {
+//     type: "input",
+//     elementConfig: {
+//       name: "name",
+//       type: "text",
+//       placeholder: "Nombre Parametro"
+//     },
+//     value: "Nombre del parametro desde el API",
+//     validity: {
+//       required: true
+//     },
+//     valid: false,
+//     touched: false,
+//     disabled: true
+//   },
+//   description: {
+//     type: "textarea",
+//     elementConfig: {
+//       name: "description",
+//       type: "textarea",
+//       placeholder: ""
+//     },
+//     value: "la descripcion del parametro general",
+//     validity: {
+//       required: true
+//     },
+//     valid: false,
+//     touched: false,
+//     disabled: true
+//   },
+//   valueParameter: {
+//     type: "input",
+//     elementConfig: {
+//       name: "value",
+//       type: "text",
+//       placeholder: "value"
+//     },
+//     value: "Valor desde el api que se va a modificar",
+//     validity: {
+//       required: true
+//     },
+//     valid: false,
+//     touched: false,
+//     disabled: false
+//   },
+//   selectValue: {
+//     type: "select",
+//     elementConfig: {
+//       name: "exampleSelect",
+//       options: [
+//         { value: "reactjs", displayname: "React js" },
+//         { value: "spring", displayname: "Java Spring" }
+//       ]
+//     },
+//     value: "",
+//     valid: true
+//   },
+//   selectRadio: {
+//     type: "radiobutton",
+//     elementConfig: {
+//       name: "exampleRadio",
+//       options: [
+//         { name: "parameter", value: "value1" },
+//         { name: "parameter", value: "value2" }
+//       ]
+//     },
+//     value: "",
+//     valid: true
+//   },
+//   selectCheckbox: {
+//     type: "checkbox",
+//     elementConfig: {
+//       name: "exampleCheckBox",
+//       options: [
+//         { name: "vehile1", value: "Car", id: "1" },
+//         { name: "vehicle2", value: "Bike", id: "2" }
+//       ]
+//     },
+//     value: "",
+//     valid: true
+//   },
+//   passwordParameter: {
+//     type: "password",
+//     elementConfig: {
+//       name: "passwordParameter",
+//       type: "password"
+//     },
+//     value: "EstaEsLaContraseña",
+//     valid: true
+//   }
+// };
 
 class ModalEditParameter extends Component {
   constructor(props) {
@@ -112,7 +112,11 @@ class ModalEditParameter extends Component {
       idParameter: this.props.id,
       dataResult: {},
       data: {},
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      alertSuccess: false,
+      alertError: false,
+      alertError500: false,
+      valor: null
     };
   }
 
@@ -142,6 +146,11 @@ class ModalEditParameter extends Component {
       })
       .catch(err => console.log(`err => ${err}`));
   };
+  _handleChange = e => {
+    this.setState({
+      valor: e.currentTarget.value
+    });
+  };
 
   render() {
     const aux = [];
@@ -163,7 +172,8 @@ class ModalEditParameter extends Component {
           enableReinitialize={true}
           initialValues={{
             parameter: this.state.data.parameter,
-            description: this.state.data.description
+            description: this.state.data.description,
+            value: this.state.valor
           }}
           validationSchema={Yup.object().shape({})}
           onSubmit={(values, { setSubmitting, props }) => {
@@ -183,13 +193,46 @@ class ModalEditParameter extends Component {
                 })
               })
                 .then(response => {
+                  if (response.ok) {
+                    this.setState({
+                      alertSuccess: true
+                    });
+                    setTimeout(() => {
+                      this.setState(
+                        {
+                          alertSuccess: false,
+                          modal: false
+                        },
+                        this.props.updateTable()
+                      );
+                    }, 3000);
+                  } else if (response.status === 400) {
+                    this.setState({
+                      alertError: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError: false
+                      });
+                    }, 3000);
+                  } else if (response.status === 500) {
+                    this.setState({
+                      alertError500: true
+                    });
+                    setTimeout(() => {
+                      this.setState({
+                        alertError500: false
+                      });
+                    }, 3000);
+                  }
                   console.log(response.json());
                 })
                 .catch(error => {
-                  console.log(error);
+                  console.log(`${error}`);
                 });
+              console.log(values);
               //alert(JSON.stringify({ values }, null, 2));
-              console.log(JSON.stringify({ values }, null, 2));
+              //console.log(JSON.stringify({ values }, null, 2));
               setSubmitting(false);
             }, 10);
           }}
@@ -210,6 +253,35 @@ class ModalEditParameter extends Component {
               <React.Fragment>
                 <ModalBody>
                   <form className="form">
+                    <Alert
+                      color={"success"}
+                      isOpen={this.state.alertSuccess}
+                      toggle={() => {
+                        this.setState({ alertSuccess: false });
+                      }}
+                    >
+                      Se actualizo el Parametro del sistema
+                    </Alert>
+                    <Alert
+                      color={"danger"}
+                      isOpen={this.state.alertError}
+                      toggle={() => {
+                        this.setState({ alertError: false });
+                      }}
+                    >
+                      <i className="fa fa-exclamation-triangle" /> Error al
+                      actualizar el parametro, verifique el valor ingresado
+                    </Alert>
+                    <Alert
+                      color={"danger"}
+                      isOpen={this.state.alertError500}
+                      toggle={() => {
+                        this.setState({ alertError500: false });
+                      }}
+                    >
+                      <i className="fa fa-exclamation-triangle" /> Error al
+                      actualizar verifique con el administrador
+                    </Alert>
                     <div className="table-responseive">
                       <table className="table table-striped table-condensed ">
                         <tbody>
@@ -243,33 +315,29 @@ class ModalEditParameter extends Component {
                             <td>
                               {aux.map((element, id) => (
                                 <Field name={`${element.id}`}>
-                                  {() => (
+                                  {({}) => (
                                     <InpuDynamics
                                       key={id}
                                       formType={element.inputInfo.type}
-                                      onChange={e =>
-                                        setFieldValue("value", e.target.value)
-                                      }
+                                      onChange={e => {
+                                        setFieldValue(
+                                          "value",
+                                          e.currentTarget.value
+                                        );
+                                      }}
                                       name={
                                         element.inputInfo.elementConfig.name
                                       }
-                                      //value={element.inputInfo.value}
+                                      options={
+                                        element.inputInfo.elementConfig.options
+                                      }
                                       defaultValue={element.inputInfo.value}
+                                      //value={element.inputInfo.value}
                                     />
                                   )}
                                 </Field>
                               ))}
                             </td>
-                            {/* {aux.map((element, id) => (
-                              <td>
-                                {console.log(element)}
-                                 <Field name={`${element.id}`}>
-                                  {({}) => (
-                                    <InpuDynamics formType={element.type} />
-                                  )}
-                                </Field> 
-                              </td>
-                            ))} */}
                           </tr>
                         </tbody>
                         {/* <tbody>

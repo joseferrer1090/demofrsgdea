@@ -12,7 +12,7 @@ const isAuthenticate = () => {
   try {
     if (token !== null && auth !== null) {
       return true;
-    } else if (token !== null && auth === null) {
+    } else if (token === null && auth !== null) {
       return false;
     } else if (token === null && auth === null) {
       return false;
@@ -59,7 +59,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
         } else if (isAuthenticate()) {
           return <Component {...props} />;
         } else {
-          return <div />;
+          return <Redirect path={{ pathname: "/logout" }} />;
         }
       } catch (error) {
         return <Redirect to={{ pathname: "/404" }} />;

@@ -1,18 +1,20 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Metadato from "./components/Metadato/index";
 
-class MetaDatos extends Component {
+class Metadato extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
   render() {
     return (
       <div>
-        <Metadato />
+        <p>Vista principal del Drag and Drop</p>
       </div>
     );
   }
 }
 
-export default MetaDatos;
+Metadato.propTypes = {};
+
+export default Metadato;

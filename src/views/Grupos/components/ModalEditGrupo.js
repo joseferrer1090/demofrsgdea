@@ -192,7 +192,8 @@ class ModalEditGrupos extends React.Component {
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError400: false
+                          alertError400: false,
+                          modal: !this.state.modal
                         });
                       }, 3000);
                     } else if (response.status === 500) {
@@ -259,16 +260,24 @@ class ModalEditGrupos extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert
+                      className={"text-center"}
                       color="danger"
-                      isOpen={this.state.alertError500}
-                      toggle={this.onDismiss}
+                      isOpen={this.state.alertError500}                      
                     >
                       {t("app_grupoUsuarios_modal_editar_alert_error_500")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_grupoUsuarios_modal_editar_alert_error_400")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_grupoUsuarios_modal_editar_alert_success")}
                     </Alert>
                     <form className="form">
@@ -602,7 +611,12 @@ class ModalEditGrupos extends React.Component {
                       type="button"
                       className="btn btn-secondary   btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false,
+                          alertError500: false,
+                          alertError400: false
+                        });
                       }}
                     >
                       {" "}

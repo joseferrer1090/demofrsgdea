@@ -23,10 +23,9 @@ class ModalEditRoles extends React.Component {
       modal: this.props.modaledit,
       dataResult: {},
       id: this.props.id,
-      userName: "jferrer",
       alertSuccess: false,
       alertError500: false,
-      alertError400: "",
+      alertError400: false,
       t: this.props.t,
       auth: this.props.authorization
     };
@@ -54,8 +53,7 @@ class ModalEditRoles extends React.Component {
       modal: !this.state.modal,
       id: id
     });
-    console.log(id);
-    console.log(this.props.authorization);
+
     this.getRoleByID(id);
   };
 
@@ -74,7 +72,6 @@ class ModalEditRoles extends React.Component {
         this.setState({
           dataResult: data
         });
-        console.log(data);
       });
   };
 
@@ -127,46 +124,45 @@ class ModalEditRoles extends React.Component {
                     name: values.nombre,
                     description: values.descripcion,
                     status: tipoEstado(values.estado),
-                    userName: this.state.userName
+                    userName: username.user_name
                   })
-                }).then(response => {
-                  if (response.status === 200) {
-                    console.log("Se realizo el put");
-                    this.setState(
-                      {
-                        alertSuccess: true
-                      },
-                      () => this.props.updateTable()
-                    );
-                    setTimeout(() => {
+                })
+                  .then(response => {
+                    if (response.status === 200) {
+                      this.setState(
+                        {
+                          alertSuccess: true
+                        },
+                        () => this.props.updateTable()
+                      );
+                      setTimeout(() => {
+                        this.setState({
+                          alertSuccess: false,
+                          modal: false
+                        });
+                      }, 3000);
+                    } else if (response.status === 400) {
                       this.setState({
-                        alertSuccess: false,
-                        modal: false
+                        alertError400: true
                       });
-                    }, 3000);
-                  } else if (response.status === 400) {
-                    console.log("Se envio mal un dato");
-                    this.setState({
-                      alertError400: true
-                    });
-                    setTimeout(() => {
+                      setTimeout(() => {
+                        this.setState({
+                          alertError400: false
+                        });
+                      }, 3000);
+                    } else if (response.status === 500) {
                       this.setState({
-                        alertError400: false
+                        alertError500: true
                       });
-                    }, 3000);
-                  } else if (response.status === 500) {
-                    console.log("Error en algo");
-                    this.setState({
-                      alertError500: true
-                    });
-                    setTimeout(() => {
-                      this.setState({
-                        alertError500: false,
-                        modal: !this.state.modal
-                      });
-                    }, 3000);
-                  }
-                });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError500: false,
+                          modal: !this.state.modal
+                        });
+                      }, 3000);
+                    }
+                  })
+                  .catch(err => console.log("error"));
                 setSubmitting(false);
               }, 500);
             }}
@@ -191,13 +187,25 @@ class ModalEditRoles extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError500}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
                       {t("app_roles_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_roles_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_roles_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
@@ -351,7 +359,12 @@ class ModalEditRoles extends React.Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       {" "}

@@ -91,7 +91,7 @@ class TableContentRoles extends Component {
     return (
       <div
         className="table-actionMenuRP"
-        style={{ textAlign: "center", padding: "0", marginRight: "50px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "45px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -225,7 +225,7 @@ class TableContentRoles extends Component {
                   dataSort={true}
                   dataField="name"
                   dataAlign="center"
-                  width={"150"}
+                  width={"180"}
                 >
                   {" "}
                   {t("app_roles_table_administrar_nombre")}{" "}
@@ -250,7 +250,7 @@ class TableContentRoles extends Component {
                   {t("app_roles_table_administrar_estado")}{" "}
                 </TableHeaderColumn>
                 <TableHeaderColumn
-                  width={"110"}
+                  width={"120"}
                   dataSort={true}
                   dataField="createdAt"
                   dataAlign="center"

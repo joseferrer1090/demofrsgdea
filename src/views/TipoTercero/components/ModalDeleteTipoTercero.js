@@ -13,7 +13,6 @@ class ModalDeleteTipoTercero extends Component {
       modal: this.props.modaldelete,
       idTipoTercero: this.props.id,
       code: "",
-
       alertSuccess: false,
       alertError500: false,
       alertError400: false,
@@ -146,7 +145,7 @@ class ModalDeleteTipoTercero extends Component {
                   <ModalBody>
                     <form className="form">
                       <Alert
-                        className="text-center"
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
@@ -154,20 +153,22 @@ class ModalDeleteTipoTercero extends Component {
                         {t("app_tipoTercero_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
                         {t("app_tipoTercero_modal_eliminar_alert_error_400")}
                       </Alert>
-                      <Alert color="success" isOpen={this.state.alertSuccess}>
+                      <Alert
+                      className={"text-center"}
+                      color="success" isOpen={this.state.alertSuccess}>
                         {t("app_tipoTercero_modal_eliminar_alert_success")}
                       </Alert>
                       <p className="text-center">
                         {" "}
                         {t("app_tipoTercero_modal_eliminar_titulo_2")}
                       </p>
-
                       <input
                         input
                         name={"code"}

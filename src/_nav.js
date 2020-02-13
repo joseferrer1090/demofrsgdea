@@ -139,6 +139,11 @@ export default {
       url: "/configuracion/metadatos",
       children: [
         {
+          name: "Metadato",
+          icon: "fa fa-plus-circle",
+          url: "/configuracion/metadatos/new"
+        },
+        {
           name: "Lista Metadatos",
           icon: "fa fa-list-ul",
           url: "/configuracion/metadatos/list"

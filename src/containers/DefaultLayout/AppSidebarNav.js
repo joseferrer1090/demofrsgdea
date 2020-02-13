@@ -175,6 +175,11 @@ class AppSidebarNav extends Component {
           url: "/configuracion/metadatos",
           children: [
             {
+              name: "Metadato",
+              icon: "fa fa-plus-circle",
+              url: "/configuracion/metadatos/new"
+            },
+            {
               name: "Lista Metadatos",
               icon: "fa fa-list-ul",
               url: "/configuracion/metadatos/list"
@@ -354,6 +359,11 @@ class AppSidebarNav extends Component {
           icon: "icon-settings",
           url: "/configuracion/metadatos",
           children: [
+            {
+              name: "Metadato",
+              icon: "fa fa-plus-circle",
+              url: "/configuracion/metadatos/new"
+            },
             {
               name: "Lista Metadatos",
               icon: "fa fa-list-ul",

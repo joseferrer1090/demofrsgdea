@@ -69,7 +69,7 @@ class TableContent extends Component {
     return (
       <div
         className="table-actionMenuGUsu"
-        style={{ textAlign: "center", padding: "0", marginRight: "120px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -212,20 +212,24 @@ class TableContent extends Component {
             >
               #{" "}
             </TableHeaderColumn>
-            <TableHeaderColumn dataField="code" dataAlign="center" width={"80"}>
+            <TableHeaderColumn
+              dataField="code"
+              dataAlign="center"
+              width={"150"}
+            >
               {" "}
               {t("app_grupoUsuarios_table_administrar_codigo")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="name"
               dataAlign="center"
-              width={"100"}
+              width={"300"}
             >
               {" "}
               {t("app_grupoUsuarios_table_administrar_nombre")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"80"}
+              width={"150"}
               dataField="estado"
               dataAlign="center"
               dataFormat={(cell, row) => this.EstadoGrupo(cell, row)}
@@ -234,7 +238,7 @@ class TableContent extends Component {
               {t("app_grupoUsuarios_table_administrar_estado")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"80"}
+              width={"150"}
               dataSort={true}
               dataField="createdAt"
               dataAlign="center"
@@ -247,7 +251,7 @@ class TableContent extends Component {
               export={false}
               dataFormat={(cell, row) => this.accionesGrupo(cell, row)}
               dataAlign="center"
-              width={"200"}
+              // width={"200"}
             >
               {" "}
               {t("app_grupoUsuarios_table_administrar_acciones")}{" "}

@@ -14,8 +14,8 @@ class ModalDeleteCiudad extends Component {
       idCity: this.props.id,
       nombre: "",
       useLogged: "",
-      alertCode: false,
-      alertError: false,
+      alertError400: false,
+      alertError500: false,
       alertSuccess: false,
       nameCity: "",
       t: this.props.t,
@@ -67,8 +67,8 @@ class ModalDeleteCiudad extends Component {
   };
   onDismiss = () => {
     this.setState({
-      alertError: false,
-      alertCode: false,
+      alertError500: false,
+      alertError400: false,
       alertSuccess: false
     });
   };
@@ -105,7 +105,7 @@ class ModalDeleteCiudad extends Component {
                   .then(response => {
                     if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                     } else if (response.status === 204) {
                       this.setState(
@@ -122,13 +122,8 @@ class ModalDeleteCiudad extends Component {
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertCode: true
+                        alertError400: true
                       });
-                      setTimeout(() => {
-                        this.setState({
-                          alertCode: false
-                        });
-                      }, 3000);
                     }
                   })
                   .catch(error => console.log(" ", error));
@@ -155,21 +150,26 @@ class ModalDeleteCiudad extends Component {
                   <ModalBody>
                     <form className="form">
                       <Alert
-                        className="text-center"
+                        className={"text-center"}
                         color="danger"
-                        isOpen={this.state.alertError}
+                        isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
                         {t("app_ciudad_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
-                        isOpen={this.state.alertCode}
+                        isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
                         {t("app_ciudad_modal_eliminar_alert_error_400")}
                       </Alert>
-                      <Alert color="success" isOpen={this.state.alertSuccess}>
+                      <Alert
+                        className={"text-center"}
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                      >
                         {t("app_ciudad_modal_eliminar_alert_success")}
                       </Alert>
                       <p className="text-center">
@@ -220,8 +220,8 @@ class ModalDeleteCiudad extends Component {
                       onClick={() => {
                         this.setState({
                           modal: false,
-                          alertError: false,
-                          alertCode: false,
+                          alertError400: false,
+                          alertError500: false,
                           alertSuccess: false
                         });
                       }}

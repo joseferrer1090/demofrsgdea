@@ -73,6 +73,7 @@ class ModalEditDepartamento extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         this.setState({
           dataResult: {
             department_country: data.country.id,
@@ -208,13 +209,25 @@ class ModalEditDepartamento extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError500}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
                       {t("app_departamento_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_departamento_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_departamento_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
@@ -244,7 +257,6 @@ class ModalEditDepartamento extends React.Component {
                                 )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-
                               <CountrySelect
                                 authorization={this.state.auth}
                                 t={this.state.t}
@@ -386,7 +398,12 @@ class ModalEditDepartamento extends React.Component {
                     <button
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError500: false,
+                          alertError400: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       {" "}

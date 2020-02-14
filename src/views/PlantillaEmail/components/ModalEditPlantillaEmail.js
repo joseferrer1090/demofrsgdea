@@ -336,6 +336,10 @@ const PlantillaEmailForm = ({ match, authorization, t }) => {
                       })
                     }
                   );
+                  setTimeout(()=>{
+                    let path = `#/configuracion/plantillaemail`;
+                    window.location.replace(path);
+                  },5000)
                 } else if (response.status === 400) {
                   toast.error(
                     "Error, la plantilla de correo electrónico ya existe.",

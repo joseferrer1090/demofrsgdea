@@ -77,6 +77,14 @@ class ModalDeleteTramite extends Component {
     this.getData(id);
   };
 
+  onDismiss = () => {
+    this.setState({
+      alertSuccess: false,
+      alertError500: false,
+      alertError400: false
+    });
+  };
+
   render() {
     const aux = this.state.dataTypeDocumental;
     const { t } = this.props;
@@ -132,7 +140,7 @@ class ModalDeleteTramite extends Component {
                   })
                   .catch(Error => console.log("", Error));
                 // alert(JSON.stringify(values, "", 2))
-              }, 1000);
+              }, 500);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required("Por favor introduzca el codigo")
@@ -155,25 +163,26 @@ class ModalDeleteTramite extends Component {
                   <form className="form">
                     <ModalBody>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
                       >
                         {t(
                           "app_documentalRadicacion_modal_eliminar_alert_error_500"
-                        )}{" "}
-                        {values.code}
+                        )}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="success"
                         isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
                       >
                         {t(
                           "app_documentalRadicacion_modal_eliminar_alert_success"
                         )}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
@@ -230,7 +239,12 @@ class ModalDeleteTramite extends Component {
                         type="button"
                         className="btn btn-secondary btn-sm"
                         onClick={() => {
-                          this.setState({ modal: false });
+                          this.setState({
+                            modal: false,
+                            alertError400: false,
+                            alertError500: false,
+                            alertSuccess: false
+                          });
                         }}
                       >
                         <i className="fa fa-times" />{" "}

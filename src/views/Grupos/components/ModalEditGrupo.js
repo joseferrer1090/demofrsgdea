@@ -237,7 +237,6 @@ class ModalEditGrupos extends React.Component {
                   value: Yup.string().required()
                 })
               ),
-
               estado: Yup.bool().test("Activado", "", value => value === true)
             })}
           >
@@ -246,23 +245,19 @@ class ModalEditGrupos extends React.Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
                 handleSubmit,
-                handleReset,
                 setFieldValue,
                 setFieldTouched
               } = props;
-              //console.log("Este lado", this.props.authorization);
               return (
                 <Fragment>
                   <ModalBody>
                     <Alert
                       className={"text-center"}
                       color="danger"
-                      isOpen={this.state.alertError500}                      
+                      isOpen={this.state.alertError500}
                     >
                       {t("app_grupoUsuarios_modal_editar_alert_error_500")}
                     </Alert>

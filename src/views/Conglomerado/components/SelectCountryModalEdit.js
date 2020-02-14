@@ -6,7 +6,8 @@ class SelectCountry extends React.Component {
   state = {
     dataCountry: [],
     t: this.props.t,
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    statusValue: this.props.statusValue
   };
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
@@ -54,6 +55,7 @@ class SelectCountry extends React.Component {
 
   render() {
     const { t } = this.props;
+
     return (
       <div>
         <select

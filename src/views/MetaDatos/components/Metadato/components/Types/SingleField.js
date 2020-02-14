@@ -147,7 +147,93 @@ class SingleField extends Component {
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId="1">
-                <p>Primera parte</p>
+                <Card body>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <p className="alert alert-info text-center">
+                          <strong>Name</strong>
+                        </p>
+                        <label htmlFor="name">Name</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          onChange={e => {
+                            this.changeValue("NAME", e.target.value);
+                          }}
+                          placeholder="NAME"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="title">Type</label>
+                        <select
+                          className="form-control from-control-sm"
+                          onChange={e =>
+                            this.changeValue("TYPE", e.target.value)
+                          }
+                          className="form-control form-control-sm"
+                          defaultValue={this.state.type}
+                        >
+                          {InputTypes.map((type, id) => {
+                            return (
+                              <option value={type} key={id}>
+                                {type}
+                              </option>
+                            );
+                          })}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="title"> Label Title</label>
+                        <input
+                          type="text"
+                          value={this.state.title}
+                          onChange={e =>
+                            this.changeValue("TITLE", e.target.value)
+                          }
+                          placeholder="Field label Title"
+                          className={"form-control form-control-sm"}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFo="title">Placeholder</label>
+                        <input
+                          type="text"
+                          value={this.state.placeholder}
+                          onChange={e =>
+                            this.changeValue("PLACEHOLDER", e.target.value)
+                          }
+                          placeholder="Field Placeholder"
+                          className="form-control form-control-sm"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label htmlFor="title">description</label>
+                        <textarea
+                          value={this.state.description}
+                          onChange={e =>
+                            this.changeValue("DESCRIPTION", e.target.value)
+                          }
+                          className="form-control form-control-sm"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
               </TabPane>
               <TabPane tabId="2">
                 <p>Otra parte</p>

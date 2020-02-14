@@ -141,7 +141,6 @@ class ModalDeleteDepartamento extends Component {
               const {
                 touched,
                 errors,
-
                 handleChange,
                 handleBlur,
                 handleSubmit
@@ -151,7 +150,7 @@ class ModalDeleteDepartamento extends Component {
                   <ModalBody>
                     <form className="form">
                       <Alert
-                        className="text-center"
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
@@ -159,20 +158,24 @@ class ModalDeleteDepartamento extends Component {
                         {t("app_departamento_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
                       >
                         {t("app_departamento_modal_eliminar_alert_error_400")}
                       </Alert>
-                      <Alert color="success" isOpen={this.state.alertSuccess}>
+                      <Alert
+                        className={"text-center"}
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                      >
                         {t("app_departamento_modal_eliminar_alert_success")}
                       </Alert>
                       <p className="text-center">
                         {" "}
                         {t("app_departamento_modal_eliminar_titulo_2")}
                       </p>
-
                       <input
                         input
                         name={"code"}
@@ -216,7 +219,12 @@ class ModalDeleteDepartamento extends Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertSuccess: false,
+                          alertError500: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" />{" "}

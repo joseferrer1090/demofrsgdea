@@ -191,14 +191,22 @@ class ModalEditTipoTercero extends React.Component {
                     <Alert
                       color="danger"
                       isOpen={this.state.alertError500}
-                      toggle={this.onDismiss}
+                      className={"text-center"}
                     >
                       {t("app_tipoTerecero_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_tipoTerecero_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_tipoTerecero_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
@@ -276,7 +284,7 @@ class ModalEditTipoTercero extends React.Component {
                                 {t(
                                   "app_tipoTerecero_modal_actualizar_descripcion"
                                 )}{" "}
-                                <span className="text-danger">*</span>{" "}
+                                {/* <span className="text-danger">*</span>{" "} */}
                               </label>
                               <textarea
                                 name={"typethirdparty_description"}
@@ -354,7 +362,12 @@ class ModalEditTipoTercero extends React.Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       {" "}

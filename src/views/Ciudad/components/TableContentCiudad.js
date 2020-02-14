@@ -65,45 +65,76 @@ class TableContentCiudad extends Component {
     return moment(createdAt).format("DD-MM-YYYY");
   }
 
-  accionesPais(cell, row) {
-    return (
-      <div
-        className="table-actionMenuCiudad"
-        style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
-      >
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalView(row.id);
-          }}
+  accionesCiudad(cell, row) {
+    if (row.department.status !== 1) {
+      return (
+        <div
+          className="table-actionMenuCiudad"
+          style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
         >
-          {" "}
-          <i className="fa fa-eye" />{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalEdit(row.id);
-          }}
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className="table-actionMenuCiudad"
+          style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
         >
-          <i className="fa fa-pencil" />
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-danger btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalDelete(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-trash" />{" "}
-        </button>
-      </div>
-    );
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalEdit(row.id);
+            }}
+          >
+            <i className="fa fa-pencil" />
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    }
   }
 
   openModalView(id) {
@@ -248,7 +279,7 @@ class TableContentCiudad extends Component {
               width={"180"}
               export={false}
               dataAlign="center"
-              dataFormat={(cel, row) => this.accionesPais(cel, row)}
+              dataFormat={(cel, row) => this.accionesCiudad(cel, row)}
             >
               {" "}
               {t("app_ciudad_administrar_table_acciones")}{" "}

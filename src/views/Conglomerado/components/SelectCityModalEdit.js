@@ -7,7 +7,8 @@ class SelectCity extends React.Component {
     dataCity: [],
     id: this.props.conglomerate_department,
     t: this.props.t,
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    statusValue: this.props.statusValue
   };
 
   static getDerivedStateFromProps(props, state) {

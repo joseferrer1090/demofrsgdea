@@ -70,7 +70,7 @@ class TableContentRemitente extends Component {
     return (
       <div
         className="table-actionMenuRemi"
-        style={{ textAlign: "center", padding: "0", marginRight: "30px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "25px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -242,7 +242,7 @@ class TableContentRemitente extends Component {
               {t("app_tercero_adminstrar_tabla_estado")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"120"}
+              // width={"120"}
               export={false}
               dataAlign="center"
               dataFormat={(cell, row) => this.accionesRemitente(cell, row)}

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
-import { Formik, withFormik, ErrorMessage, Field, From } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import { decode } from "jsonwebtoken";
 import { EMAIL_FILING } from "./../../../services/EndPoints";
 class ModalDeleteRadicacionEmail extends Component {
@@ -135,22 +135,18 @@ class ModalDeleteRadicacionEmail extends Component {
           >
             {props => {
               const {
-                values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
               return (
                 <Fragment>
                   <ModalBody>
                     <form className="form">
                       <Alert
-                        className="text-center"
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
@@ -160,6 +156,7 @@ class ModalDeleteRadicacionEmail extends Component {
                         )}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
@@ -169,7 +166,7 @@ class ModalDeleteRadicacionEmail extends Component {
                         )}
                       </Alert>
                       <Alert
-                        className="text-center"
+                        className={"text-center"}
                         color="success"
                         isOpen={this.state.alertSuccess}
                       >

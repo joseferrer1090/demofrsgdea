@@ -65,6 +65,13 @@ class ModalDeletePais extends Component {
       })
       .catch(err => console.log("Error", err));
   };
+  onDismiss = () => {
+    this.setState({
+      alertError400: false,
+      alertError500: false,
+      alertSuccess: false
+    });
+  };
   render() {
     const dataInitial = {
       code: ""
@@ -130,12 +137,9 @@ class ModalDeletePais extends Component {
                 values,
                 touched,
                 errors,
-                dirty,
-                isSubmitting,
                 handleChange,
                 handleBlur,
-                handleSubmit,
-                handleReset
+                handleSubmit
               } = props;
 
               return (
@@ -143,6 +147,7 @@ class ModalDeletePais extends Component {
                   <ModalBody>
                     <form className="form">
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
@@ -150,13 +155,14 @@ class ModalDeletePais extends Component {
                         {t("app_grupoUsuarios_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="success"
                         isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
                       >
                         {t("app_grupoUsuarios_modal_eliminar_alert_success")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
@@ -205,7 +211,12 @@ class ModalDeletePais extends Component {
                       className="btn btn-secondary btn-sm"
                       onClick={e => {
                         e.preventDefault();
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       {" "}

@@ -19,13 +19,14 @@ class SelectCountry extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
-      this.setState(
-        {
-          auth: this.props.authorization
-        },
-        this.getData()
-      );
+      this.setState({
+        auth: this.props.authorization
+      });
     }
+  }
+
+  componentDidMount() {
+    this.getData();
   }
 
   getData = () => {
@@ -38,6 +39,7 @@ class SelectCountry extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
+        console.log(data);
         this.setState({
           dataCountry: data
         });
@@ -46,11 +48,11 @@ class SelectCountry extends React.Component {
   };
 
   handleChange = value => {
-    this.props.onChange("countryId", value);
+    this.props.onChange("department_country", value);
   };
 
   handleBlur = () => {
-    this.props.onBlur("countryId", true);
+    this.props.onBlur("department_country", true);
   };
 
   render() {

@@ -24,6 +24,7 @@ class SelectCountry extends React.Component {
       });
     }
   }
+
   componentDidMount() {
     this.getData();
   }

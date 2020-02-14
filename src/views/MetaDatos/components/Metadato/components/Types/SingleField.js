@@ -236,7 +236,70 @@ class SingleField extends Component {
                 </Card>
               </TabPane>
               <TabPane tabId="2">
-                <p>Otra parte</p>
+                <Card body>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input
+                          value={this.state.validation.isRequired}
+                          onChange={e =>
+                            this.changeValue("IS_REQUIRED", e.target.checked)
+                          }
+                          className=""
+                          type={"Checkbox"}
+                          id="isReadOnly"
+                        />
+                        <label className="" htmlFor={"isReadOnly"}>
+                          {" "}
+                          ReadOnly
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input
+                          value={this.state.validation.isReadOnly}
+                          onChange={e =>
+                            this.changeValue("IS_READONLY", e.target.checked)
+                          }
+                          type={"Checkbox"}
+                          className=""
+                          id="isReadOnly"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="">MAX 20 caracteres</label>
+                        <input
+                          type="number"
+                          className="form-control form-control-sm"
+                          value={this.state.validation.max}
+                          onChange={e =>
+                            this.changeValue("MAX", e.target.value)
+                          }
+                          placeholder={"20"}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="title">MIN 6 caracteres </label>
+                        <input
+                          type="number"
+                          onChange={e =>
+                            this.changeValue("MIN", e.target.value)
+                          }
+                          value={this.state.validation.min}
+                          placeholder="6"
+                          className="form-control form-control-sm"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </Card>
               </TabPane>
             </TabContent>
           </CardBody>

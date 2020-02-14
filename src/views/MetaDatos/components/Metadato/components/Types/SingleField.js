@@ -40,7 +40,7 @@ class SingleField extends Component {
       title: "",
       type: "Text",
       name: "",
-      toolType: "Entrada de texto",
+      toolType: "SINGLE_FIELD",
       defaultValue: "",
       placeholder: "",
       description: "",
@@ -303,6 +303,17 @@ class SingleField extends Component {
               </TabPane>
             </TabContent>
           </CardBody>
+          <CardFooter>
+            <button
+              className="btn btn-secondary btn-sm"
+              onClick={() =>
+                alert("antes de guardar tengo que definir el JSON")
+              }
+            >
+              {" "}
+              <i className="fa fa-save" /> Guardar{" "}
+            </button>
+          </CardFooter>
         </Card>
       </div>
     );

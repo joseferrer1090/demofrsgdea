@@ -35,9 +35,9 @@ class SelectDepartment extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.getDataDepartment();
-  }
+  // componentDidMount() {
+  //   this.getDataDepartment();
+  // }
 
   getDataDepartment = () => {
     fetch(`${DEPARTMENTS_BY_COUNTRY}${this.state.id}`, {

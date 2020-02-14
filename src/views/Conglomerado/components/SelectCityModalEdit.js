@@ -37,9 +37,9 @@ class SelectCity extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.getDataCitys();
-  }
+  // componentDidMount() {
+  //   this.getDataCitys();
+  // }
 
   getDataCitys = () => {
     fetch(`${CITIES_BY_DEPARTMENT}${this.state.id}`, {

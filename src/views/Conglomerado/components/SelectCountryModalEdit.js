@@ -23,6 +23,7 @@ class SelectCountry extends React.Component {
       });
     }
   }
+
   componentDidMount() {
     this.getData();
   }
@@ -40,7 +41,6 @@ class SelectCountry extends React.Component {
         this.setState({
           dataCountry: data
         });
-        console.log("HI");
       });
   };
 

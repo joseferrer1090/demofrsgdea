@@ -185,7 +185,6 @@ class ModalEditConglomerado extends React.Component {
                   })
                 })
                   .then(response => {
-                    console.log(response.status);
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true
@@ -260,7 +259,6 @@ class ModalEditConglomerado extends React.Component {
                 setFieldValue,
                 setFieldTouched
               } = props;
-
               return (
                 <Fragment>
                   <ModalBody>

@@ -110,7 +110,6 @@ class ModalEditSedes extends React.Component {
             headquarter_charge: data.charge === null ? " " : data.charge.id
           }
         });
-        console.log(data);
       })
       .catch(error => console.log(error));
   };
@@ -264,6 +263,7 @@ class ModalEditSedes extends React.Component {
                 setFieldValue,
                 setFieldTouched
               } = props;
+              console.log(dataResult.headquarter_country);
               return (
                 <Fragment>
                   <ModalBody>

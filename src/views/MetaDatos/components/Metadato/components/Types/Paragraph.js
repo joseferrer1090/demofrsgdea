@@ -73,6 +73,14 @@ class Paragraph extends Component {
     }, 0);
   };
 
+  fontSizes = () => {
+    let sizes = [];
+    for (let i = 6; i <= 72; i++) {
+      sizes.push(i);
+    }
+    return sizes;
+  };
+
   render() {
     return (
       <div>
@@ -149,7 +157,79 @@ class Paragraph extends Component {
                 </Card>
               </TabPane>
               <TabPane tabId={"2"}>
-                <p>Probando el otro tab</p>
+                <Card body>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="Color">Text Color</label>
+                        <input
+                          value={this.state.textColor}
+                          onChange={e =>
+                            this.changeValue("TEXT_COLOR", e.target.value)
+                          }
+                          className={"form-control form-control-sm"}
+                          type="color"
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="BackgroundColor">
+                          {" "}
+                          Background Color
+                        </label>
+                        <input
+                          value={this.state.backgroundColor}
+                          onChange={e =>
+                            this.changeValue(
+                              "BACKGROUNDO_COLOR",
+                              e.target.value
+                            )
+                          }
+                          className="form-control form-control-sm"
+                          type="color"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="Color"> Text Align </label>
+                        <select
+                          className="form-control form-control-sm"
+                          onChange={e =>
+                            this.changeValue("TEXT_ALIGN", e.target.value)
+                          }
+                          value={this.state.align}
+                        >
+                          <option value="center">Center</option>
+                          <option value="left">Left</option>
+                          <option value="right">Right</option>
+                          <option value="justify">Justify</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <label htmlFor="Color"> Font size </label>
+                      <select
+                        className="form-control form-control-sm"
+                        value={this.state.fontSize}
+                        onChange={e =>
+                          this.changeValue("FONT_SIZE", e.target.value)
+                        }
+                      >
+                        {this.fontSizes().map(size => {
+                          return (
+                            <option key={size} value={size}>
+                              {size} pt
+                            </option>
+                          );
+                        })}
+                      </select>
+                    </div>
+                  </div>
+                </Card>
               </TabPane>
             </TabContent>
           </CardBody>

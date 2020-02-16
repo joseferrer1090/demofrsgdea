@@ -1,5 +1,16 @@
 import React, { Component } from "react";
-import { Card, CardHeader, CardBody, CardFooter } from "reactstrap";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  TabContent,
+  Nav,
+  NavItem,
+  NavLink,
+  TabPane
+} from "reactstrap";
+import classnames from "classnames";
 
 class Paragraph extends Component {
   constructor(props) {
@@ -13,13 +24,22 @@ class Paragraph extends Component {
       backgroundColor: "#cccccc",
       color: "",
       fontSize: 10,
-      align: "center"
+      align: "center",
+      activeTab: "1"
     };
   }
 
   componentDidMount() {
     this.setState(this.props.field);
   }
+
+  toggle = tab => {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
+  };
 
   changeValue = (stateFor, value) => {
     switch (stateFor) {
@@ -67,7 +87,73 @@ class Paragraph extends Component {
               <i className="fa fa-times" />
             </span>
           </CardHeader>
-          <CardBody></CardBody>
+          <CardBody>
+            <Nav tabs>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "1"
+                  })}
+                  onClick={() => {
+                    this.toggle("1");
+                  }}
+                >
+                  Content
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "2"
+                  })}
+                  onClick={() => {
+                    this.toggle("2");
+                  }}
+                >
+                  Style
+                </NavLink>
+              </NavItem>
+            </Nav>
+            <TabContent activeTab={this.state.activeTab}>
+              <TabPane tabId={"1"}>
+                <Card body>
+                  <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      value={this.state.value}
+                      onChange={e => this.changeValue("NAME", e.target.value)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="title">Title</label>
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      onChange={e => this.changeValue("TITLE", e.target.value)}
+                      value={this.state.title}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="paragraph">Paragraph</label>
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      onChange={e =>
+                        this.changeValue("CONTENT", e.target.value)
+                      }
+                      value={this.state.content}
+                    />
+                  </div>
+                </Card>
+              </TabPane>
+              <TabPane tabId={"2"}>
+                <p>Probando el otro tab</p>
+              </TabPane>
+            </TabContent>
+          </CardBody>
+          <CardFooter></CardFooter>
         </Card>
       </div>
     );

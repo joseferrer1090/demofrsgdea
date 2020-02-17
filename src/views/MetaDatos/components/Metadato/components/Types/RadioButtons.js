@@ -1,5 +1,17 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  TabContent,
+  TabPane,
+  Nav,
+  NavLink,
+  NavItem
+} from "reactstrap";
+import classnames from "classnames";
 
 class RadioButtons extends Component {
   constructor(props) {
@@ -19,7 +31,8 @@ class RadioButtons extends Component {
         max: 6
       },
       radios: [],
-      duplicate: false
+      duplicate: false,
+      activeTab: "1"
     };
   }
 
@@ -84,7 +97,32 @@ class RadioButtons extends Component {
   };
 
   render() {
-    return <div></div>;
+    return (
+      <div>
+        <Card>
+          <CardHeader>
+            <i className="fa fa-circle mr-1" /> {this.state.title}
+            <span
+              className="pull-right cross"
+              onClick={() => this.props.removeField(this.props.index)}
+            >
+              <i className="fa fa-times" />
+            </span>
+          </CardHeader>
+          <CardBody>
+            <Nav tabs>
+              <NavItem>
+                <NavLink>tab 1</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink>tab 2</NavLink>
+              </NavItem>
+            </Nav>
+          </CardBody>
+          <CardFooter>{}</CardFooter>
+        </Card>
+      </div>
+    );
   }
 }
 

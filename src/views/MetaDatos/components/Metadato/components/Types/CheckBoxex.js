@@ -145,7 +145,50 @@ class CheckBoxexs extends Component {
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId={"1"}>
-                <p>Tab 1</p>
+                <Card body>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label htmlFor="name">NAME</label>
+                        <input
+                          type={"text"}
+                          className={"form-control form-control-sm"}
+                          value={this.state.name}
+                          onChange={e =>
+                            this.changeValue("NAME", e.target.value)
+                          }
+                          placeholder={"nombre"}
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="checkbox"
+                        onChange={e =>
+                          this.changeValue("INLINE", e.target.checked)
+                        }
+                        value={this.state.inline}
+                        id={"inline"}
+                      />
+                      <label>Inline</label>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="title">Title</label>
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                        value={this.state.title}
+                        onClick={e => this.changeValue("TITLE", e.target.value)}
+                        placeholder="Titulo"
+                      />
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label htmlFor="description">Description</label>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
               </TabPane>
               <TabPane tabId={"2"}>
                 <p>Tab 2</p>

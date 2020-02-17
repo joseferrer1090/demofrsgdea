@@ -147,25 +147,69 @@ class RadioButtons extends Component {
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId={"1"}>
                 <Card body>
-                  <div className="form-group">
-                    <label htmlFor={"name"}>Name</label>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                      value={this.state.name}
-                      onChange={e => this.changeValue("NAME", e.target.value)}
-                      placeholder="Nombre"
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor={"title"}>Title</label>
-                    <input
-                      type="text"
-                      className={"form-control form-control-sm"}
-                      value={this.state.title}
-                      onChange={e => this.changeValue("TITLE", e.target.value)}
-                      id="title"
-                    />
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label htmlFor="name">NAME</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          onChange={e =>
+                            this.changeValue("NAME", e.target.value)
+                          }
+                          placeholder={"Nombre"}
+                          value={this.state.name}
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="title">TITLE</label>
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                        onChange={e =>
+                          this.changeValue("TITLE", e.target.value)
+                        }
+                        value={this.state.title}
+                        placeholder={"Titulo"}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <input
+                        value={this.state.multiple}
+                        type="checkbox"
+                        id="multiple"
+                        onChange={e =>
+                          this.changeValue("MULTIPLE", e.target.checked)
+                        }
+                      />
+                      <label className="form-check-label" htmlFor="isRequired">
+                        Multiple Selection
+                      </label>
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type="checkbox"
+                        value={this.state.inline}
+                        onChange={e =>
+                          this.changeValue("INLINE", e.target.checked)
+                        }
+                        id={"inline"}
+                      />
+                      <label>Inline</label>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label htmlFor="">Description</label>
+                        <textarea
+                          className="form-control form-control-sm"
+                          value={this.state.description}
+                          onChange={e =>
+                            this.changeValue("DESCRIPTION", e.target.value)
+                          }
+                        ></textarea>
+                      </div>
+                    </div>
                   </div>
                 </Card>
               </TabPane>

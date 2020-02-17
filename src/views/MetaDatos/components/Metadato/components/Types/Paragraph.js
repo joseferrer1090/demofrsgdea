@@ -84,15 +84,15 @@ class Paragraph extends Component {
   render() {
     return (
       <div>
-        <Card color={"secondary"}>
+        <Card clolor={"secondary"}>
           <CardHeader>
-            <i className="fa fa-paragraph" />
-            Paragraph {this.state.title}
+            <i className="fa fa-paragraph" /> {this.state.title}
             <span
-              className="pull-right"
-              onClick={() => this.props.removeField(this.props.index)}
+              className="pull-right cross"
+              onClick={() => this.props.removeField(this.props.indes)}
             >
-              <i className="fa fa-times" />
+              {" "}
+              <i className="fa fa-times" />{" "}
             </span>
           </CardHeader>
           <CardBody>

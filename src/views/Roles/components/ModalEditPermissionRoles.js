@@ -1,11 +1,8 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import Select from "react-select";
 import {
   ROLES_SHOW,
-  ROLES_PERMISSION_BY_ROL,
-  ROLES_UPDATE_PERMISSION_BY_ROL,
-  COMPANYS_STATUS
+  ROLES_PERMISSION_BY_ROL
 } from "./../../../services/EndPoints";
 import {
   Modal,
@@ -14,7 +11,8 @@ import {
   ModalFooter,
   Row,
   Col,
-  UncontrolledAlert
+  UncontrolledAlert,
+  Alert
 } from "reactstrap";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -33,9 +31,11 @@ class ModalEditPermissionRoles extends Component {
       dataRolById: {},
       modulos: [],
       entidades: [],
-      userName: "jferrer",
       t: this.props.t,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      alertSuccess: false,
+      alertError400: false,
+      alertError500: false
     };
   }
 
@@ -80,7 +80,6 @@ class ModalEditPermissionRoles extends Component {
         this.setState({
           dataRolById: data
         });
-        console.log(data);
       })
       .catch(err => console.log("Err", err));
   };
@@ -100,7 +99,6 @@ class ModalEditPermissionRoles extends Component {
         this.setState({
           dataPermisosId: data
         });
-        console.log(data);
       })
       .catch(err => console.log("Error", err));
   };
@@ -140,18 +138,40 @@ class ModalEditPermissionRoles extends Component {
                   })
                 })
                   .then(response => {
-                    if (response === 200) {
-                      console.log("Se hizo el put con los nuevos permisos");
+                    if (response.status === 200) {
+                      this.setState({
+                        alertSuccess: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertSuccess: false,
+                          modal: false
+                        });
+                      }, 3000);
                     } else if (response.status === 400) {
-                      console.log("Error se enviaron mal los datos");
-                    } else if (response === 500) {
-                      console.log("Error en el Servidor");
+                      this.setState({
+                        alertError400: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError400: false
+                        });
+                      }, 3000);
+                    } else if (response.status === 500) {
+                      this.setState({
+                        alertError500: true
+                      });
+                      setTimeout(() => {
+                        this.setState({
+                          alertError500: false,
+                          modal: !this.state.modal
+                        });
+                      }, 3000);
                     }
                   })
-                  .catch(err => console.log("error"));
-                // alert(JSON.stringify(values, "", 2));
+                  .catch(error => console.log("", error));
+                setSubmitting(false);
               }, 1000);
-              setSubmitting(false);
             }}
             validationSchema={Yup.object().shape({
               permisos: Yup.array().of(
@@ -175,13 +195,33 @@ class ModalEditPermissionRoles extends Component {
                 <Fragment>
                   <ModalBody>
                     <form>
+                      <Alert
+                        className={"text-center"}
+                        color="danger"
+                        isOpen={this.state.alertError500}
+                      >
+                        {t("app_roles_modal_editar_permisos_alert_error_500")}
+                      </Alert>
+                      <Alert
+                        className={"text-center"}
+                        color="danger"
+                        isOpen={this.state.alertError400}
+                      >
+                        {t("app_roles_modal_editar_permisos_alert_error_400")}
+                      </Alert>
+                      <Alert
+                        className={"text-center"}
+                        color="success"
+                        isOpen={this.state.alertSuccess}
+                      >
+                        {t("app_roles_modal_editar_permisos_alert_success")}
+                      </Alert>
                       <Row>
                         <Col sm="12">
                           <UncontrolledAlert color="warning">
                             <div className="text-center">
                               <i className="fa fa-exclamation-triangle" />{" "}
                               {t("app_roles_modal_editar_permisos_alert")}{" "}
-                              <i className="fa fa-exclamation-triangle" />
                             </div>
                           </UncontrolledAlert>
                         </Col>
@@ -328,7 +368,12 @@ class ModalEditPermissionRoles extends Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false,
+                          alertError500: false,
+                          alertError400: false
+                        });
                       }}
                     >
                       {" "}

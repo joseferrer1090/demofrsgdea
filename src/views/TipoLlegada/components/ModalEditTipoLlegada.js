@@ -194,6 +194,7 @@ class ModalEditTipoLlegada extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert
+                      className={"text-center"}
                       color="danger"
                       isOpen={this.state.alertError500}
                       toggle={this.onDismiss}
@@ -201,13 +202,18 @@ class ModalEditTipoLlegada extends React.Component {
                       {t("app_tipoLlegada_modal_actualizar_alert_error_500")}
                     </Alert>
                     <Alert
+                      className={"text-center"}
                       color="success"
                       isOpen={this.state.alertSuccess}
                       toggle={this.onDismiss}
                     >
                       {t("app_tipoLlegada_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_tipoLlegada_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
@@ -379,7 +385,12 @@ class ModalEditTipoLlegada extends React.Component {
                       <button
                         className="btn btn-sm btn-secondary "
                         onClick={() => {
-                          this.setState({ modal: false });
+                          this.setState({
+                            modal: false,
+                            alertSuccess: false,
+                            alertError500: false,
+                            alertError400: false
+                          });
                         }}
                       >
                         <i className="fa fa-times" />{" "}

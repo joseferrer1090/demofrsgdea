@@ -216,20 +216,24 @@ class ModalEditDependencia extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_dependencia_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Alert
                       color="danger"
                       isOpen={this.state.alertError500}
-                      toggle={this.onDismiss}
+                      className={"text-center"}
                     >
                       {t("app_dependencia_modal_actualizar_alert_error_500")}
                     </Alert>
                     <Alert
                       color="success"
                       isOpen={this.state.alertSuccess}
-                      toggle={this.onDismiss}
+                      className={"text-center"}
                     >
                       {t("app_dependencia_modal_actualizar_alert_success")}
                     </Alert>
@@ -514,7 +518,12 @@ class ModalEditDependencia extends React.Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       {" "}

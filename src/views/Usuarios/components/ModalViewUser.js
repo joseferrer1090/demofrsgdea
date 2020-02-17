@@ -75,7 +75,6 @@ class ModalViewUser extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState(
           {
             data: data,
@@ -127,7 +126,13 @@ class ModalViewUser extends Component {
 
   render() {
     const dataRoles = this.state.dataRoles.map((aux, id) => {
-      return <div key={id}>{aux.name}</div>;
+      return (
+        <ul
+        // style={{ listStyle: "none" }}
+        >
+          <li key={id}>{aux.label}</li>
+        </ul>
+      );
     });
     const { t } = this.props;
     return (

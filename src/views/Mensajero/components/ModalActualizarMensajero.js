@@ -21,7 +21,7 @@ class ModalActualizarMensajero extends React.Component {
     modal: this.props.modalupdate,
     idMensajero: this.props.id,
     dataResult: {},
-    alertError: false,
+    alertError500: false,
     alertSuccess: false,
     alertError400: false,
     t: this.props.t,
@@ -165,11 +165,11 @@ class ModalActualizarMensajero extends React.Component {
                       }, 3000);
                     } else if (response.status === 500) {
                       this.setState({
-                        alertError: true
+                        alertError500: true
                       });
                       setTimeout(() => {
                         this.setState({
-                          alertError: false,
+                          alertError500: false,
                           modal: !this.state.modal
                         });
                       }, 3000);
@@ -192,13 +192,25 @@ class ModalActualizarMensajero extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
                       {t("app_mensajero_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_mensajero_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_mensajero_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
@@ -349,7 +361,12 @@ class ModalActualizarMensajero extends React.Component {
                     <button
                       className="btn btn-sm btn-secondary "
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError500: false,
+                          alertError400: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       {" "}

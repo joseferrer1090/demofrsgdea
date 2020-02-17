@@ -103,12 +103,6 @@ class ModalDeleteUser extends React.Component {
                       this.setState({
                         alertError500: true
                       });
-                      setTimeout(() => {
-                        this.setState({
-                          modal: false,
-                          alertError500: false
-                        });
-                      }, 3000);
                     } else if (response.status === 204) {
                       this.setState(
                         {
@@ -151,6 +145,7 @@ class ModalDeleteUser extends React.Component {
                   <form className="form">
                     <ModalBody>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
@@ -158,13 +153,14 @@ class ModalDeleteUser extends React.Component {
                         {t("app_usuarios_modal_eliminar_alert_error_500")}{" "}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="success"
                         isOpen={this.state.alertSuccess}
-                        toggle={this.onDismiss}
                       >
                         {t("app_usuarios_modal_eliminar_alert_success")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
@@ -172,7 +168,6 @@ class ModalDeleteUser extends React.Component {
                         {t(
                           "app_usuarios_modal_eliminar_alert_errorCode_parte_1"
                         )}{" "}
-                        <b>{values.identificacion}</b>{" "}
                         {t(
                           "app_usuarios_modal_eliminar_alert_errorCode_parte_2"
                         )}
@@ -224,8 +219,8 @@ class ModalDeleteUser extends React.Component {
                         onClick={() => {
                           this.setState({
                             modal: false,
-                            alertError: false,
-                            alertCode: false,
+                            alertError400: false,
+                            alertError500: false,
                             alertSuccess: false
                           });
                         }}

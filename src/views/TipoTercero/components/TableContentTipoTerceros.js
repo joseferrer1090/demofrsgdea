@@ -85,7 +85,7 @@ class TableContentTipoTerceros extends Component {
     return (
       <div
         className="table-actionMenuTTercero"
-        style={{ textAlign: "center", padding: "0", marginRight: "50px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "37px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

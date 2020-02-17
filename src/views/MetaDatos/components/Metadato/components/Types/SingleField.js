@@ -128,7 +128,7 @@ class SingleField extends Component {
           <CardBody>
             <Nav tabs>
               <NavLink
-                className={classnames({ active: activeTab === "1" })}
+                className={classnames({ active: this.state.activeTab === "1" })}
                 onClick={() => {
                   this.toggle("1");
                 }}
@@ -136,7 +136,7 @@ class SingleField extends Component {
                 General
               </NavLink>
               <NavLink
-                className={classnames({ active: activeTab === "2" })}
+                className={classnames({ active: this.state.activeTab === "2" })}
                 onClick={() => {
                   this.toggle("2");
                 }}

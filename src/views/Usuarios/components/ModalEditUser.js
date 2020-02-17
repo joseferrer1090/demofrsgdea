@@ -108,7 +108,6 @@ class ModalEditUser extends React.Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
         this.setState({
           dataUser: data
         });
@@ -122,20 +121,22 @@ class ModalEditUser extends React.Component {
       birthDate = new Date(data);
       return moment(birthDate).format("YYYY-MM-DD");
     };
+    const { dataUser } = this.state;
     const dataResult = {
-      usuario_identification: this.state.dataUser.identification,
-      usuario_name: this.state.dataUser.name,
-      usuario_email: this.state.dataUser.email,
-      usuario_phone: this.state.dataUser.phone,
-      usuario_address: this.state.dataUser.address,
-      usuario_birthDate: birthDate(this.state.dataUser.birthDate),
-      usuario_username: this.state.dataUser.username,
-      usuario_conglomerate: this.state.dataUser.conglomerateId,
-      usuario_company: this.state.dataUser.companyId,
-      usuario_headquarter: this.state.dataUser.headquarterId,
-      usuario_dependence: this.state.dataUser.dependenceId,
-      usuario_charge: this.state.dataUser.chargeId,
-      usuario_status: this.state.dataUser.enabled
+      usuario_roles: dataUser.listRoleResponses,
+      usuario_identification: dataUser.identification,
+      usuario_name: dataUser.name,
+      usuario_email: dataUser.email,
+      usuario_phone: dataUser.phone,
+      usuario_address: dataUser.address,
+      usuario_birthDate: birthDate(dataUser.birthDate),
+      usuario_username: dataUser.username,
+      usuario_conglomerate: dataUser.conglomerateId,
+      usuario_company: dataUser.companyId,
+      usuario_headquarter: dataUser.headquarterId,
+      usuario_dependence: dataUser.dependenceId,
+      usuario_charge: dataUser.chargeId,
+      usuario_status: dataUser.enabled
     };
     const { t } = this.props;
     return (
@@ -168,7 +169,7 @@ class ModalEditUser extends React.Component {
                       identification: values.usuario_identification,
                       name: values.usuario_name,
                       phone: values.usuario_phone,
-                      userRoleRequests: values.roles,
+                      userRoleRequests: values.usuario_roles,
                       userNameAuthenticate: username.user_name
                     })
                   ],
@@ -177,6 +178,7 @@ class ModalEditUser extends React.Component {
                   }
                 )
               );
+
               setTimeout(() => {
                 axios
                   .put(`${USER_PUT}`, formData, {
@@ -216,7 +218,7 @@ class ModalEditUser extends React.Component {
                           alertError500: false,
                           modal: !this.state.modal
                         });
-                      }, 500);
+                      }, 3000);
                     }
                   })
                   .catch(error => console.log("", error));
@@ -267,7 +269,7 @@ class ModalEditUser extends React.Component {
                 "",
                 value => value === true
               ),
-              roles: Yup.array()
+              usuario_roles: Yup.array()
                 .of(
                   Yup.object().shape({
                     label: Yup.string().required(),
@@ -291,13 +293,25 @@ class ModalEditUser extends React.Component {
               return (
                 <Fragment>
                   <ModalBody>
-                    <Alert color="danger" isOpen={this.state.alertError500}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError500}
+                    >
                       {t("app_usuarios_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_usuarios_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_usuarios_modal_actualizar_alert_error_400")}
                     </Alert>
                     <form className="form">
@@ -306,6 +320,7 @@ class ModalEditUser extends React.Component {
                           <ComponentPhoto
                             authorization={this.state.auth}
                             id={this.state.id}
+                            t={this.state.t}
                           />
                           {/* <img
                             src={`${USER_PHOTO}${this.state.id}`}
@@ -800,24 +815,29 @@ class ModalEditUser extends React.Component {
                                           <MySelect
                                             authorization={this.state.auth}
                                             t={this.state.t}
-                                            name={"roles"}
-                                            value={values.roles}
+                                            name={"usuario_roles"}
+                                            value={values.usuario_roles}
                                             onChange={setFieldValue}
                                             onBlur={() =>
-                                              setFieldTouched("roles", true)
+                                              setFieldTouched(
+                                                "usuario_roles",
+                                                true
+                                              )
                                             }
-                                            error={errors.roles}
-                                            touched={touched.roles}
+                                            error={errors.usuario_roles}
+                                            touched={touched.usuario_roles}
                                           />
                                           {touched ? (
                                             <div style={{ color: "red" }}>
                                               {" "}
                                               <div style={{ color: "#D54B4B" }}>
-                                                {errors.roles &&
-                                                touched.roles ? (
+                                                {errors.usuario_roles &&
+                                                touched.usuario_roles ? (
                                                   <i className="fa fa-exclamation-triangle" />
                                                 ) : null}
-                                                <ErrorMessage name={"roles"} />
+                                                <ErrorMessage
+                                                  name={"usuario_roles"}
+                                                />
                                               </div>
                                             </div>
                                           ) : null}
@@ -885,7 +905,12 @@ class ModalEditUser extends React.Component {
                     <button
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" />{" "}

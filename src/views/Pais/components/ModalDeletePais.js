@@ -150,7 +150,7 @@ class ModalDeletePais extends Component {
                 <Fragment>
                   <ModalBody>
                     <Alert
-                      className="text-center"
+                      className={"text-center"}
                       color="danger"
                       isOpen={this.state.alertError500}
                       toggle={this.onDismiss}
@@ -158,13 +158,18 @@ class ModalDeletePais extends Component {
                       {t("app_pais_modal_eliminar_alert_error_500")}
                     </Alert>
                     <Alert
+                      className={"text-center"}
                       color="danger"
                       isOpen={this.state.alertError400}
                       toggle={this.onDismiss}
                     >
                       {t("app_pais_modal_eliminar_alert_error_400")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_pais_modal_eliminar_alert_success")}
                     </Alert>
                     <form className="form">
@@ -214,7 +219,12 @@ class ModalDeletePais extends Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError500: false,
+                          alertError400: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" />{" "}

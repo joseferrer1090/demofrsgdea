@@ -140,6 +140,10 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                       })
                     }
                   );
+                  setTimeout(() => {
+                    let path = `#/configuracion/tipodocumentalradicacion`;
+                    window.location.replace(path);
+                  }, 5000);
                 } else if (response.status === 400) {
                   toast.error(
                     "Error al actualizar el tipo documental de radicación. Inténtelo nuevamente.",
@@ -192,15 +196,6 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
           //   )
           // );
           setSubmitting(false);
-          resetForm({
-            codigo: "",
-            tipocorrespondencia: "",
-            nombre: "",
-            descripcion: "",
-            d_maximos: "",
-            estado: "",
-            asunto: ""
-          });
         }, 1000);
       }}
     >

@@ -64,7 +64,7 @@ class TableContentConglomerado extends Component {
     return (
       <div
         className="table-actionMenuConglo"
-        style={{ textAlign: "center", padding: "0", marginRight: "100px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -207,7 +207,7 @@ class TableContentConglomerado extends Component {
                     <TableHeaderColumn
                       dataField={"name"}
                       dataAlign="center"
-                      width={"205"}
+                      width={"250"}
                     >
                       {t("app_conglomerado_administrar_table_nombre")}
                     </TableHeaderColumn>
@@ -239,7 +239,7 @@ class TableContentConglomerado extends Component {
                       {t("app_conglomerado_administrar_table_estado")}
                     </TableHeaderColumn>
                     <TableHeaderColumn
-                      width={"200"}
+                      // width={"200"}
                       export={false}
                       dataAlign="center"
                       dataFormat={(cell, row) =>

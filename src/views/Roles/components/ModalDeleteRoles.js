@@ -12,7 +12,6 @@ class ModalDeleteRoles extends Component {
     this.state = {
       modal: this.props.modaldelete,
       id: this.props.id,
-      userName: "jferrer",
       dataRolById: {},
       t: this.props.t,
       alertError500: false,
@@ -49,12 +48,19 @@ class ModalDeleteRoles extends Component {
       .catch(err => console.log("Error", err));
   };
 
+  onDismiss = () => {
+    this.setState({
+      alertError500: false,
+      alertError400: false,
+      alertSuccess: false
+    });
+  };
+
   render() {
     const dataInitial = {
       codigo: ""
     };
-    const { t, authorization } = this.props;
-
+    const { t } = this.props;
     return (
       <Fragment>
         <Modal isOpen={this.state.modal}>
@@ -66,7 +72,6 @@ class ModalDeleteRoles extends Component {
             initialValues={dataInitial}
             onSubmit={(values, { setSubmitting }) => {
               setTimeout(() => {
-                //alert(JSON.stringify(values));
                 const token = this.props.authorization;
                 const username = decode(token);
                 fetch(
@@ -104,7 +109,7 @@ class ModalDeleteRoles extends Component {
                     }
                   })
                   .catch(err => console.log("Error", err));
-              }, 1000);
+              }, 500);
             }}
             validationSchema={Yup.object().shape({
               codigo: Yup.string().required(
@@ -125,7 +130,7 @@ class ModalDeleteRoles extends Component {
                 <Fragment>
                   <ModalBody>
                     <Alert
-                      className="text-center"
+                      className={"text-center"}
                       color="danger"
                       isOpen={this.state.alertError500}
                       toggle={this.onDismiss}
@@ -134,6 +139,7 @@ class ModalDeleteRoles extends Component {
                     </Alert>
                     <Alert
                       color="danger"
+                      className={"text-center"}
                       isOpen={this.state.alertError400}
                       toggle={this.onDismiss}
                     >
@@ -190,7 +196,12 @@ class ModalDeleteRoles extends Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertSuccess: false,
+                          alertError500: false,
+                          alertError400: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" />{" "}

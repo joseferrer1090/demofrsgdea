@@ -60,45 +60,76 @@ class TableContentDepartamento extends Component {
       .catch(Error => console.log(" ", Error));
   };
 
-  accionesPais(cell, row) {
-    return (
-      <div
-        className="table-actionMenuDepto"
-        style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
-      >
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalView(row.id);
-          }}
+  accionesDepartamento(cell, row) {
+    if (row.country.status !== 1) {
+      return (
+        <div
+          className="table-actionMenuDepto"
+          style={{ textAlign: "center", padding: "0", marginRight: "80px" }}
         >
-          {" "}
-          <i className="fa fa-eye" />{" "}
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-secondary btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalEdit(row.id);
-          }}
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className="table-actionMenuDepto"
+          style={{ textAlign: "center", padding: "0", marginRight: "65px" }}
         >
-          <i className="fa fa-pencil" />
-        </button>
-        &nbsp;
-        <button
-          className="btn btn-danger btn-sm"
-          data-trigger="hover"
-          onClick={() => {
-            this.openModalDelete(row.id);
-          }}
-        >
-          {" "}
-          <i className="fa fa-trash" />{" "}
-        </button>
-      </div>
-    );
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalView(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-eye" />{" "}
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-secondary btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalEdit(row.id);
+            }}
+          >
+            <i className="fa fa-pencil" />
+          </button>
+          &nbsp;
+          <button
+            className="btn btn-danger btn-sm"
+            data-trigger="hover"
+            onClick={() => {
+              this.openModalDelete(row.id);
+            }}
+          >
+            {" "}
+            <i className="fa fa-trash" />{" "}
+          </button>
+        </div>
+      );
+    }
   }
 
   openModalView(id) {
@@ -239,7 +270,7 @@ class TableContentDepartamento extends Component {
               width={"200"}
               export={false}
               dataAlign="center"
-              dataFormat={(cel, row) => this.accionesPais(cel, row)}
+              dataFormat={(cel, row) => this.accionesDepartamento(cel, row)}
             >
               {" "}
               {t("app_departamento_administrar_table_acciones")}{" "}

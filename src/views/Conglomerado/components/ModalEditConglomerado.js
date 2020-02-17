@@ -89,14 +89,18 @@ class ModalEditConglomerado extends React.Component {
       .then(data => {
         this.setState({
           dataResult: {
-            conglomerate_country: data.city.department.country.id,
-            conglomerate_department: data.city.department.id,
-            conglomerate_city: data.city.id,
+            conglomerate_country:
+              data.city.department.country.status !== 1
+                ? ""
+                : data.city.department.country.id,
+            conglomerate_department:
+              data.city.department.status !== 1 ? "" : data.city.department.id,
+            conglomerate_city: data.city.status !== 1 ? "" : data.city.id,
             conglomerate_name: data.name,
             code: data.code,
             description: data.description,
             status: data.status,
-            conglomerate_charge: data.charge === null ? " " : data.charge.id
+            conglomerate_charge: data.charge === null ? "" : data.charge.id
           }
         });
       })
@@ -143,7 +147,6 @@ class ModalEditConglomerado extends React.Component {
     });
     const dataResult = this.state.dataResult;
     const { t } = this.props;
-
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -185,7 +188,6 @@ class ModalEditConglomerado extends React.Component {
                   })
                 })
                   .then(response => {
-                    console.log(response.status);
                     if (response.status === 200) {
                       this.setState({
                         alertSuccess: true
@@ -265,16 +267,24 @@ class ModalEditConglomerado extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert
+                      className={"text-center"}
                       color="danger"
                       isOpen={this.state.alertError500}
-                      toggle={this.onDismiss}
                     >
                       {t("app_conglomerado_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_conglomerado_modal_actualizar_alert_error_400")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_conglomerado_modal_actualizar_alert_success")}
                     </Alert>
                     <form className="form">
@@ -448,6 +458,9 @@ class ModalEditConglomerado extends React.Component {
                                   <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectCity
+                                  // statusValue={
+                                  //   dataResult.conglomerate_country_status
+                                  // }
                                   authorization={this.state.auth}
                                   t={this.state.t}
                                   conglomerate_department={
@@ -494,8 +507,7 @@ class ModalEditConglomerado extends React.Component {
                                 >
                                   {" "}
                                   <option value={" "}>
-                                    {" "}
-                                    --
+                                    --{" "}
                                     {t(
                                       "app_conglomerado_form_select_cargo_responsable"
                                     )}{" "}
@@ -575,7 +587,10 @@ class ModalEditConglomerado extends React.Component {
                       className={"btn btn-outline-success btn-sm"}
                       onClick={e => {
                         e.preventDefault();
-                        handleSubmit();
+                        // handleSubmit();
+                        console.log(values.conglomerate_country);
+                        console.log(values.conglomerate_department);
+                        console.log(values.conglomerate_city);
                       }}
                     >
                       <i className="fa fa-pencil" />{" "}
@@ -585,7 +600,12 @@ class ModalEditConglomerado extends React.Component {
                       className={"btn btn-outline-secondary btn-sm"}
                       type="button"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       <i className="fa fa-times" />{" "}

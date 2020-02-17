@@ -118,6 +118,11 @@ class AppSidebarNav extends Component {
           url: "/configuracion/radicacionemail"
         },
         {
+          name: `${props.t("nav_app_email_request")}`,
+          icon: "icon-book-open",
+          url: "/configuracion/peticionescorreoelectronico"
+        },
+        {
           name: `${props.t("nav_app_pais")}`,
           icon: "icon-settings",
           url: "/configuracion/pais"
@@ -293,15 +298,21 @@ class AppSidebarNav extends Component {
           url: "/configuracion/terceros"
         },
         {
+          name: `${t("nav_app_tipo_radicacion")}`,
+          icon: "icon-book-open",
+          url: "/configuracion/tipodocumentalradicacion"
+        },
+        {
           name: `${t("nav_app_cuentas_radicacion_email")}`,
           icon: "icon-book-open",
           url: "/configuracion/radicacionemail"
         },
         {
-          name: `${t("nav_app_tipo_radicacion")}`,
+          name: `${t("nav_app_email_request")}`,
           icon: "icon-book-open",
-          url: "/configuracion/tipodocumentalradicacion"
+          url: "/configuracion/peticionescorreoelectronico"
         },
+
         {
           name: `${t("nav_app_pais")}`,
           icon: "icon-settings",

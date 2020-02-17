@@ -12,8 +12,6 @@ class ModalDeleteRemitente extends Component {
     this.state = {
       modal: this.props.modaldel,
       id: this.props.id,
-      identification: "",
-
       alertError500: false,
       alertError400: false,
       alertSuccess: false,
@@ -42,8 +40,7 @@ class ModalDeleteRemitente extends Component {
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      id: id,
-      identification: ""
+      id: id
     });
     const auth = this.state.auth;
     const username = decode(auth);
@@ -105,12 +102,6 @@ class ModalDeleteRemitente extends Component {
                       this.setState({
                         alertError500: true
                       });
-                      setTimeout(() => {
-                        this.setState({
-                          modal: false,
-                          alertError500: false
-                        });
-                      }, 3000);
                     } else if (response.status === 204) {
                       this.setState(
                         {
@@ -153,14 +144,14 @@ class ModalDeleteRemitente extends Component {
                   <ModalBody>
                     <form className="form">
                       <Alert
-                        className="text-center"
+                        className={"text-center"}
                         color="success"
                         isOpen={this.state.alertSuccess}
                       >
                         {t("app_tercero_modal_eliminar_alert_success")}
                       </Alert>
                       <Alert
-                        className="text-center"
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError500}
                         toggle={this.onDismiss}
@@ -168,6 +159,7 @@ class ModalDeleteRemitente extends Component {
                         {t("app_tercero_modal_eliminar_alert_error_500")}
                       </Alert>
                       <Alert
+                        className={"text-center"}
                         color="danger"
                         isOpen={this.state.alertError400}
                         toggle={this.onDismiss}
@@ -223,8 +215,8 @@ class ModalDeleteRemitente extends Component {
                       onClick={() => {
                         this.setState({
                           modal: false,
-                          alertError: false,
-                          alertCode: false,
+                          alertError500: false,
+                          alertError400: false,
                           alertSuccess: false
                         });
                       }}

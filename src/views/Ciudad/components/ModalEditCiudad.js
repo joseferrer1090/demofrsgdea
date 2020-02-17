@@ -56,6 +56,7 @@ class ModalEditCiudad extends React.Component {
   onDismiss = () => {
     this.setState({
       alertError500: false,
+      alertError400: false,
       alertSuccess: false
     });
   };
@@ -182,7 +183,6 @@ class ModalEditCiudad extends React.Component {
               city_department: Yup.string()
                 .ensure()
                 .required(" Por favor seleccione un departamento."),
-
               city_code: Yup.string()
                 .required(" Por favor introduzca un código alfanumérico.")
                 .matches(/^[0-9a-zA-Z]+$/, " No es un código alfanumérico.")
@@ -213,16 +213,24 @@ class ModalEditCiudad extends React.Component {
                 <Fragment>
                   <ModalBody>
                     <Alert
+                      className={"text-center"}
                       color="danger"
                       isOpen={this.state.alertError500}
-                      toggle={this.onDismiss}
                     >
                       {t("app_ciudad_modal_actualizar_alert_error_500")}
                     </Alert>
-                    <Alert color="success" isOpen={this.state.alertSuccess}>
+                    <Alert
+                      className={"text-center"}
+                      color="success"
+                      isOpen={this.state.alertSuccess}
+                    >
                       {t("app_ciudad_modal_actualizar_alert_success")}
                     </Alert>
-                    <Alert color="danger" isOpen={this.state.alertError400}>
+                    <Alert
+                      className={"text-center"}
+                      color="danger"
+                      isOpen={this.state.alertError400}
+                    >
                       {t("app_ciudad_modal_actualizar_alert_error_400")}
                     </Alert>
                     <Row>
@@ -426,7 +434,12 @@ class ModalEditCiudad extends React.Component {
                       type="button"
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
-                        this.setState({ modal: false });
+                        this.setState({
+                          modal: false,
+                          alertError400: false,
+                          alertError500: false,
+                          alertSuccess: false
+                        });
                       }}
                     >
                       {" "}

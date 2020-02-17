@@ -1,13 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CITIES_BY_DEPARTMENT } from "../../../../../services/EndPoints";
+import {
+  CITIES_BY_DEPARTMENT,
+  TYPEDOCUMENTARY_SHOW
+} from "../../../../../services/EndPoints";
 
 class SelectCity extends React.Component {
   state = {
     dataCity: [],
     id: this.props.departmentId,
     t: this.props.t,
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    idCountry: this.props.countryId
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -28,6 +32,9 @@ class SelectCity extends React.Component {
     if (this.props.departmentId !== prevProps.departmentId) {
       this.getDataCitys();
     }
+    if (this.props.countryId !== prevProps.countryId) {
+      this.getDataCitysChange();
+    }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
         {
@@ -37,6 +44,12 @@ class SelectCity extends React.Component {
       );
     }
   }
+
+  getDataCitysChange = () => {
+    this.setState({
+      dataCity: []
+    });
+  };
 
   getDataCitys = () => {
     fetch(`${CITIES_BY_DEPARTMENT}${this.props.departmentId}`, {
@@ -52,12 +65,14 @@ class SelectCity extends React.Component {
           dataCity: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => {
+        console.log("Error", err);
+        this.setState({ dataCity: [] });
+      });
   };
 
   render() {
     const { t } = this.props;
-    console.log(this.props.departmentId);
     return (
       <div>
         <select

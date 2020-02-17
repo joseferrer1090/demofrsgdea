@@ -11,7 +11,6 @@ class SelectDepartment extends React.Component {
   };
 
   static getDerivedStateFromProps(props, state) {
-    console.log("Hola desde gDSFP");
     if (props.conglomerate_country !== state.id) {
       return {
         id: props.conglomerate_country
@@ -28,7 +27,6 @@ class SelectDepartment extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.conglomerate_country !== prevProps.conglomerate_country) {
       this.getDataDepartment();
-      console.log("Detecto nuevo ID");
     }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
@@ -55,7 +53,12 @@ class SelectDepartment extends React.Component {
           dataDepartment: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => {
+        console.log("Error", err);
+        this.setState({
+          dataDepartment: []
+        });
+      });
   };
   render() {
     const { t } = this.props;

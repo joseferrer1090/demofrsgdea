@@ -169,7 +169,9 @@ const ConglomeradorForm = props => {
                   <SelectCity
                     authorization={props.authorization}
                     t={props.t}
+                    countryId={props.values.countryId}
                     departmentId={props.values.departmentId}
+                    value={values.cityId}
                     name={"cityId"}
                     onChange={e => setFieldValue("cityId", e.target.value)}
                     onBlur={e => {

@@ -8,7 +8,8 @@ class SelectCity extends React.Component {
     id: this.props.conglomerate_department,
     t: this.props.t,
     auth: this.props.authorization,
-    statusValue: this.props.statusValue
+    statusValue: this.props.statusValue,
+    countryId: this.props.conglomerate_country
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -31,13 +32,20 @@ class SelectCity extends React.Component {
     ) {
       this.getDataCitys();
     }
+    if (this.props.conglomerate_country !== prevProps.conglomerate_country) {
+      this.getDataCitysChange();
+    }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
         auth: this.props.authorization
       });
     }
   }
-
+  getDataCitysChange = () => {
+    this.setState({
+      dataCity: []
+    });
+  };
   componentDidMount() {
     this.getDataCitys();
   }
@@ -56,7 +64,10 @@ class SelectCity extends React.Component {
           dataCity: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => {
+        console.log("Error", err);
+        this.setState({ dataCity: [] });
+      });
   };
 
   render() {

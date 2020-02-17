@@ -96,6 +96,14 @@ class RadioButtons extends Component {
     }, 0);
   };
 
+  toggle = tab => {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
+  };
+
   render() {
     return (
       <div>
@@ -112,12 +120,56 @@ class RadioButtons extends Component {
           <CardBody>
             <Nav tabs>
               <NavItem>
-                <NavLink>tab 1</NavLink>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "1"
+                  })}
+                  onClick={() => {
+                    this.toggle("1");
+                  }}
+                >
+                  tab 1
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink>tab 2</NavLink>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "2"
+                  })}
+                  onClick={() => {
+                    this.toggle("2");
+                  }}
+                >
+                  tab 2
+                </NavLink>
               </NavItem>
             </Nav>
+            <TabContent activeTab={this.state.activeTab}>
+              <TabPane tabId={"1"}>
+                <Card body>
+                  <div className="form-group">
+                    <label htmlFor={"name"}>Name</label>
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      value={this.state.name}
+                      onChange={e => this.changeValue("NAME", e.target.value)}
+                      placeholder="Nombre"
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor={"title"}>Title</label>
+                    <input
+                      type="text"
+                      className={"form-control form-control-sm"}
+                      value={this.state.title}
+                      onChange={e => this.changeValue("TITLE", e.target.value)}
+                      id="title"
+                    />
+                  </div>
+                </Card>
+              </TabPane>
+            </TabContent>
           </CardBody>
           <CardFooter>{}</CardFooter>
         </Card>

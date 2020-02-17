@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import * as _ from "lodash";
 import {
   Card,
   CardBody,
@@ -9,7 +10,8 @@ import {
   TabPane,
   Nav,
   NavLink,
-  NavItem
+  NavItem,
+  Table
 } from "reactstrap";
 import classnames from "classnames";
 
@@ -104,6 +106,76 @@ class RadioButtons extends Component {
     }
   };
 
+  duplicate = () => {
+    let radios = this.state.radios;
+    let u = _.uniqBy(radios, "value");
+    if (!_.isEqual(radios, u)) {
+      this.setState({
+        duplicate: true
+      });
+    } else {
+      this.setState({
+        duplicate: false
+      });
+    }
+  };
+
+  addOption = () => {
+    let radio = {
+      title: "",
+      value: "",
+      selected: false
+    };
+    let radios = this.state.radios;
+    radios.push(radio);
+    this.setState({
+      radios: radios
+    });
+    this.duplicate();
+    setTimeout(() => {
+      return this.props.changeState(this.state, this.props.index);
+    }, 0);
+  };
+
+  changeOptionValue = (index, value, state) => {
+    let radios = this.state.radios;
+    let radio = {};
+    if (state === "DEFAULT_VALUE") {
+      this.setState({
+        defaultValue: index
+      });
+    }
+    if (state === "TITLE") {
+      radio = {
+        ...radios[index],
+        title: value
+      };
+    } else if (state === "SELECTED") {
+      radio = {
+        ...radios[{ index }],
+        selected: !radios[index].selected
+      };
+    } else if (state === "VALUE") {
+      radio = {
+        ...radios[{ index }],
+        value: value
+      };
+    } else {
+      radio = {
+        ...radios[index]
+      };
+    }
+
+    radios[index] = radio;
+    this.setState({
+      radios: radios
+    });
+    this.duplicate();
+    setTimeout(() => {
+      return this.props.changeState(this.state, this.props.index);
+    }, 0);
+  };
+
   render() {
     return (
       <div>
@@ -141,6 +213,15 @@ class RadioButtons extends Component {
                   }}
                 >
                   tab 2
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "3"
+                  })}
+                >
+                  tab 3
                 </NavLink>
               </NavItem>
             </Nav>
@@ -211,6 +292,169 @@ class RadioButtons extends Component {
                       </div>
                     </div>
                   </div>
+                </Card>
+              </TabPane>
+              <TabPane activeTab={"2"}>
+                <Card body>
+                  <div className="row">
+                    <div className="">
+                      <div className="form-group">
+                        <input
+                          type={"checkbox"}
+                          value={this.state.validation.isRequired}
+                          onChange={e =>
+                            this.changeValue("IS_REQUIRED", e.target.checked)
+                          }
+                          id={"isRequired"}
+                        />
+                        <label htmlFor="isRequired"> Rquired</label>
+                      </div>
+                      <div classNam="form-group">
+                        <input
+                          type={"checkbox"}
+                          value={this.state.validation}
+                          onChange={e =>
+                            this.changeValue("IS_READONLY", e.target.checked)
+                          }
+                        />
+                        <label htmlFor=""> Readonly </label>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label> Max characters</label>
+                          <input
+                            type={"number"}
+                            value={this.state.validation.max}
+                            onChange={e =>
+                              this.changeValue("MAX", e.target.value)
+                            }
+                            placeholder={"6"}
+                            className="form-control form-control-sm"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <label htmlFor="">Min characters</label>
+                        <input
+                          type={"number"}
+                          className="form-control form-control-sm"
+                          onChange={e =>
+                            this.changeValue("MIN", e.target.value)
+                          }
+                          value={this.state.validation.min}
+                          placeholder={"6"}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              </TabPane>
+              <TabPane activeTab={"3"}>
+                <Card body>
+                  <p className="text-center"> Values </p>
+                  {this.state.radios ? (
+                    <table className="table text-center">
+                      <tbody>
+                        {this.state.radios.map((checkbox, index) => {
+                          return (
+                            <tr key={index}>
+                              {this.state.multiple ? (
+                                <td style={{ verticalAlign: "middle" }}>
+                                  <div className="radio">
+                                    {
+                                      <input
+                                        value={
+                                          this.state.radios[index].selected
+                                        }
+                                        onChange={e =>
+                                          this.changeOptionValue(
+                                            index,
+                                            e.target.checked,
+                                            "SELECTED"
+                                          )
+                                        }
+                                        type="checkbox"
+                                      />
+                                    }
+                                  </div>
+                                </td>
+                              ) : (
+                                <td hidden={true}></td>
+                              )}
+                              <td>
+                                <input
+                                  placeholder="Title"
+                                  autoFocus={true}
+                                  value={this.state.radios[index].title}
+                                  onChange={e =>
+                                    this.changeOptionValue(
+                                      index,
+                                      e.target.value,
+                                      "TITLE"
+                                    )
+                                  }
+                                  id={checkbox.title}
+                                  type="text"
+                                  className="form-control"
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  placeholder="Value"
+                                  value={this.state.radios[index].value}
+                                  onChange={e =>
+                                    this.changeOptionValue(
+                                      index,
+                                      e.target.value,
+                                      "VALUE"
+                                    )
+                                  }
+                                  id={checkbox.value}
+                                  type="text"
+                                  className="form-control"
+                                />
+                              </td>
+                              {!this.state.multiple ? (
+                                <td style={{ verticalAlign: "middle" }}>
+                                  <input
+                                    name="default"
+                                    value={this.state.defaultValue}
+                                    onChange={e =>
+                                      this.changeOptionValue(
+                                        index,
+                                        e.target.checked,
+                                        "DEFAULT_VALUE"
+                                      )
+                                    }
+                                    id={checkbox.value}
+                                    type="radio"
+                                  />
+                                </td>
+                              ) : (
+                                <td hidden={true}></td>
+                              )}
+                              <td style={{ verticalAlign: "middle" }}>
+                                <span
+                                  onClick={() => this.removeOption(index)}
+                                  className="cross pull-right"
+                                >
+                                  x
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <span></span>
+                  )}
+                  <button
+                    onClick={() => this.addOption()}
+                    className="btn btn-secondary btn-sm"
+                  >
+                    Agregar
+                  </button>
                 </Card>
               </TabPane>
             </TabContent>

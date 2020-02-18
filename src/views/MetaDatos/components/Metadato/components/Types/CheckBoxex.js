@@ -191,7 +191,54 @@ class CheckBoxexs extends Component {
                 </Card>
               </TabPane>
               <TabPane tabId={"2"}>
-                <p>Tab 2</p>
+                <Card body>
+                  <div className="row">
+                    <div className="">
+                      <div className="form-group">
+                        <input
+                          type="checkbox"
+                          value={this.state.validation.isRequired}
+                          onChange={e =>
+                            this.changeValue("IS_REQUIRED", e.target.checked)
+                          }
+                        />
+                        <label htmlFor=""> isRequired </label>
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type={"checkbox"}
+                          onChange={e =>
+                            this.changeValue("IS_READONLY", e.target.checked)
+                          }
+                          value={this.state.validation.isReadOnly}
+                        />
+                        <label htmlFor="">isReadOnly</label>
+                      </div>
+                      <div className="col-md-6">
+                        <label htmlFor="">Min</label>
+                        <input
+                          type="number"
+                          className="form-control form-control-sm"
+                          onChange={e =>
+                            this.changeValue("MIN", e.target.value)
+                          }
+                          placeholder="6"
+                        />
+                      </div>
+                      <div className="col-md-6">
+                        <label>Max</label>
+                        <input
+                          type="numbre"
+                          className="form-control form-control-sm"
+                          onChange={e =>
+                            this.changeValue("MAX", e.target.value)
+                          }
+                          value={this.state.validation.max}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </Card>
               </TabPane>
               <TabPane tabId={"3"}>
                 <p>Tab 3</p>

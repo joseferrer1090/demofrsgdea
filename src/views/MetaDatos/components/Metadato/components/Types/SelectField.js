@@ -96,12 +96,19 @@ class SelectField extends Component {
       default:
         break;
     }
+    setTimeout(() => {
+      return this.props.changeState(this.state, this, props.index);
+    }, 0);
   };
 
   render() {
     return (
       <div>
-        <p>Probando</p>
+        <Card>
+          <CardHeader></CardHeader>
+          <CardBody></CardBody>
+          <CardFooter></CardFooter>
+        </Card>
       </div>
     );
   }

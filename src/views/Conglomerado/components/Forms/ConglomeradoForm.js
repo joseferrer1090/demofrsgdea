@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { withFormik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
@@ -32,6 +32,31 @@ const ConglomeradorForm = props => {
     handleSubmit,
     t
   } = props;
+  // console.log(values.cityId);
+  const [oldValue, setOldValue] = useState();
+  const [newValue, setNewValue] = useState();
+  const changeInValue = (Old, New) => {
+    setOldValue(Old);
+    setNewValue(New);
+  };
+  const valueDepartment = value => {
+    let departmentValue;
+    if (values.countryId === "") {
+      departmentValue = values.departmentId = "";
+    } else if (values.countryId !== null) {
+      departmentValue = value;
+    }
+    // if (oldValue !== newValue) {
+    //   departmentValue = values.departmentId = undefined;
+    // }
+
+    //oldValue !== newValue
+    // departmentValue = values.departmentId = "";
+
+    return departmentValue;
+  };
+  console.log(`Old ${oldValue}`);
+  console.log(`New ${newValue}`);
   return (
     <div>
       <Card>
@@ -104,12 +129,14 @@ const ConglomeradorForm = props => {
                     {t("app_conglomerado_form_registrar_pais")}
                     <span className="text-danger">*</span>{" "}
                   </label>
-
                   <SelectCountry
                     authorization={props.authorization}
                     t={props.t}
                     name={"countryId"}
-                    onChange={e => setFieldValue("countryId", e.target.value)}
+                    onChange={e => {
+                      setFieldValue("countryId", e.target.value);
+                      changeInValue(values.countryId, e.target.value);
+                    }}
                     onBlur={() => {
                       setFieldTouched("countryId", true);
                     }}
@@ -140,7 +167,7 @@ const ConglomeradorForm = props => {
                     t={props.t}
                     countryId={props.values.countryId}
                     name="departmentId"
-                    value={values.departmentId}
+                    value={valueDepartment(values.departmentId)}
                     onChange={e =>
                       setFieldValue("departmentId", e.target.value)
                     }
@@ -171,9 +198,18 @@ const ConglomeradorForm = props => {
                     t={props.t}
                     countryId={props.values.countryId}
                     departmentId={props.values.departmentId}
-                    value={values.cityId}
+                    value={
+                      values.countryId === "" || values.departmentId === ""
+                        ? (values.cityId = "")
+                        : values.countryId !== null ||
+                          values.departmentId !== null
+                        ? values.cityId
+                        : null
+                    }
                     name={"cityId"}
-                    onChange={e => setFieldValue("cityId", e.target.value)}
+                    onChange={e => {
+                      setFieldValue("cityId", e.target.value);
+                    }}
                     onBlur={e => {
                       setFieldTouched("cityId", true);
                     }}
@@ -181,7 +217,6 @@ const ConglomeradorForm = props => {
                       touched.cityId &&
                       "is-invalid"}`}
                   />
-
                   <div style={{ color: "#D54B4B" }}>
                     {errors.cityId && touched.cityId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -272,17 +307,23 @@ const ConglomeradorForm = props => {
             <button
               type="submit"
               className="btn btn-outline-secondary btn-sm"
-              disabled={isSubmitting}
-              onClick={handleSubmit}
+              // disabled={isSubmitting}
+              // onClick={handleSubmit}
+              onClick={() => {
+                console.log(values.countryId);
+                console.log(values.departmentId);
+                console.log(`CityId: ${values.cityId}`);
+              }}
             >
-              {isSubmitting ? (
+              Valores Select
+              {/* {isSubmitting ? (
                 <i className=" fa fa-spinner fa-spin" />
               ) : (
                 <div>
                   <i className="fa fa-save" />{" "}
                   {t("app_conglomerado_from_button_guardar")}
                 </div>
-              )}
+              )} */}
             </button>
           </div>
         </CardFooter>

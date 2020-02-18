@@ -100,9 +100,13 @@ class ModalEditSedes extends React.Component {
             headquarter_status: data.status,
             headquarter_prefix: data.prefix,
             headquarter_sequence: data.sequence,
-            headquarter_country: data.city.department.country.id,
-            headquarter_department: data.city.department.id,
-            headquarter_city: data.city.id,
+            headquarter_country:
+              data.city.department.country.status !== 1
+                ? ""
+                : data.city.department.country.id,
+            headquarter_department:
+              data.city.department.status !== 1 ? "" : data.city.department.id,
+            headquarter_city: data.city.status !== 1 ? "" : data.city.id,
             headquarter_address: data.address,
             headquarter_phone: data.phone,
             headquarter_conglomerate: data.company.conglomerate.id,
@@ -255,15 +259,12 @@ class ModalEditSedes extends React.Component {
                 values,
                 touched,
                 errors,
-
                 handleChange,
                 handleBlur,
                 handleSubmit,
-
                 setFieldValue,
                 setFieldTouched
               } = props;
-              console.log(dataResult.headquarter_country);
               return (
                 <Fragment>
                   <ModalBody>

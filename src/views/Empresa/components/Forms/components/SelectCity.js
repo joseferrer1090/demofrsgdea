@@ -7,7 +7,8 @@ class SelectCity extends React.Component {
     dataCity: [],
     id: this.props.departmentId,
     t: this.props.t,
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    countryId: this.props.countryId
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -28,6 +29,9 @@ class SelectCity extends React.Component {
     if (this.props.departmentId !== prevProps.departmentId) {
       this.getDataCitys();
     }
+    if (this.props.countryId !== prevProps.countryId) {
+      this.getDataCitysChange();
+    }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
         {
@@ -37,6 +41,12 @@ class SelectCity extends React.Component {
       );
     }
   }
+
+  getDataCitysChange = () => {
+    this.setState({
+      dataCity: []
+    });
+  };
 
   getDataCitys = () => {
     fetch(`${CITIES_BY_DEPARTMENT}${this.props.departmentId}`, {
@@ -52,7 +62,10 @@ class SelectCity extends React.Component {
           dataCity: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => {
+        console.log("Error", err);
+        this.setState({ dataCity: [] });
+      });
   };
 
   render() {

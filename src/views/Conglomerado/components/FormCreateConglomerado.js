@@ -7,7 +7,7 @@ const dataConglomerado = {
   nombre: "",
   descripcion: "",
   estado: "",
-  countryId: "",
+  countryId: null,
   departmentId: "",
   cityId: "",
   chargeId: ""

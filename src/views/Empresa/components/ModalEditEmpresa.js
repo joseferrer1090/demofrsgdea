@@ -107,9 +107,13 @@ class ModalEditEmpresa extends React.Component {
       .then(data => {
         this.setState({
           dataCompany: {
-            company_country: data.city.department.country.id,
-            company_department: data.city.department.id,
-            company_city: data.city.id,
+            company_country:
+              data.city.department.country.status !== 1
+                ? ""
+                : data.city.department.country.id,
+            company_department:
+              data.city.department.status !== 1 ? "" : data.city.department.id,
+            company_city: data.city.status !== 1 ? "" : data.city.id,
             company_code: data.code,
             company_nit: data.nit,
             company_name: data.name,

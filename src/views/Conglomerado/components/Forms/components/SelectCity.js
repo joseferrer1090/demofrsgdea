@@ -1,9 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {
-  CITIES_BY_DEPARTMENT,
-  TYPEDOCUMENTARY_SHOW
-} from "../../../../../services/EndPoints";
+import { CITIES_BY_DEPARTMENT } from "../../../../../services/EndPoints";
 
 class SelectCity extends React.Component {
   state = {
@@ -11,7 +8,8 @@ class SelectCity extends React.Component {
     id: this.props.departmentId,
     t: this.props.t,
     auth: this.props.authorization,
-    idCountry: this.props.countryId
+    idCountry: this.props.countryId,
+    cityId: this.props.value
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -33,7 +31,9 @@ class SelectCity extends React.Component {
       this.getDataCitys();
     }
     if (this.props.countryId !== prevProps.countryId) {
-      this.getDataCitysChange();
+      this.setState({
+        dataCity: []
+      });
     }
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
@@ -44,12 +44,6 @@ class SelectCity extends React.Component {
       );
     }
   }
-
-  getDataCitysChange = () => {
-    this.setState({
-      dataCity: []
-    });
-  };
 
   getDataCitys = () => {
     fetch(`${CITIES_BY_DEPARTMENT}${this.props.departmentId}`, {

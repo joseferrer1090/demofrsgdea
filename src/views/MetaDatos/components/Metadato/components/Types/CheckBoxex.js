@@ -241,7 +241,94 @@ class CheckBoxexs extends Component {
                 </Card>
               </TabPane>
               <TabPane tabId={"3"}>
-                <p>Tab 3</p>
+                <Card body>
+                  <p
+                    hidden={this.state.duplicate}
+                    className="alert text-center alert-danger"
+                  >
+                    Values
+                  </p>
+                  {this.state.checkBoxes ? (
+                    <table className="table text-center">
+                      <tbody>
+                        {this.state.checkBoxes.map((checkbox, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>
+                                <div className>
+                                  <input
+                                    autoFocus={true}
+                                    value={
+                                      this.state.checkBoxes[index].selected
+                                    }
+                                    onChange={e =>
+                                      this.changeOptionValue(
+                                        index,
+                                        e.target.checked,
+                                        "SELECT"
+                                      )
+                                    }
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                <input
+                                  id={checkbox.title}
+                                  type="text"
+                                  className="form-control form-control-sm"
+                                  placeholder={"Title"}
+                                  autoFocus={true}
+                                  value={this.state.checkBoxes[index].title}
+                                  onChange={e =>
+                                    this.changeOptionValue(
+                                      index,
+                                      e.target.value,
+                                      "TITLE"
+                                    )
+                                  }
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  placeholder="Value"
+                                  value={this.state.checkBoxes[index].value}
+                                  onChange={e =>
+                                    this.changeOptionValue(
+                                      index,
+                                      e.target.value,
+                                      "VALUE"
+                                    )
+                                  }
+                                  id={checkbox.value}
+                                  type="text"
+                                  className="form-control"
+                                />
+                              </td>
+                              <td style={{ verticalAlign: "middle" }}>
+                                <span
+                                  onClick={() => this.removeOption(index)}
+                                  className="cross pull-right"
+                                >
+                                  X
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <span></span>
+                  )}
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => this.addOption()}
+                  >
+                    {" "}
+                    Add{" "}
+                  </button>
+                </Card>
               </TabPane>
             </TabContent>
           </CardBody>

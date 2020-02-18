@@ -145,6 +145,39 @@ class CheckBoxexs extends Component {
     }, 0);
   };
 
+  changeOptionValue = (index, value, state) => {
+    let checboxes = this.state.checkBoxes;
+    let checkbox = {};
+    if (stte === "TITLE") {
+      checkbox = {
+        ...checboxes[index],
+        title: value
+      };
+    } else if (state === "SELECTED") {
+      checkbox = {
+        ...checboxes[index],
+        selected: !checboxes[index].selected
+      };
+    } else if (state === "VALUE") {
+      checbox = {
+        ...checboxes[index],
+        value: value
+      };
+    } else {
+      checkbox = {
+        ...checboxes[index]
+      };
+    }
+    checboxes[index] = checkbox;
+    this.setState({
+      checkBoxes: checboxes
+    });
+    this.duplicate();
+    setTimeout(() => {
+      return this.props.changeState(this.state, this.props.index);
+    }, 0);
+  };
+
   render() {
     return (
       <div>

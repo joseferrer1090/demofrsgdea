@@ -13,6 +13,7 @@ import {
   NavItem,
   Table
 } from "reactstrap";
+import classnames from "classnames";
 
 class SelectField extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class SelectField extends Component {
         max: 6
       },
       options: [],
-      duplicate: false, 
+      duplicate: false,
       activeTab: "1"
     };
   }
@@ -103,7 +104,11 @@ class SelectField extends Component {
   };
 
   toggle = tab => {
-      if()
+    if (activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
   };
 
   render() {
@@ -122,15 +127,47 @@ class SelectField extends Component {
           <CardBody>
             <Nav tabs>
               <NavItem>
-                <NavLink>Tab 1</NavLink>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "1"
+                  })}
+                  onClick={() => this.toggle("1")}
+                >
+                  Tab 1
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink>Tab 2</NavLink>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "2"
+                  })}
+                  onClick={() => this.toggle("2")}
+                >
+                  Tab 2
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink>Tab 3</NavLink>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "3"
+                  })}
+                  onClick={() => this.toggle("3")}
+                >
+                  Tab 3
+                </NavLink>
               </NavItem>
             </Nav>
+            <TabContent activeTab={this.state.activeTab}>
+              <TabPane tabId={"1"}>
+                <p>Probando</p>
+              </TabPane>
+              <TabPane tabId={"2"}>
+                <p>Probnado el tab 2</p>
+              </TabPane>
+              <TabPane tabId={"3"}>
+                <p>Probando el tab 3</p>
+              </TabPane>
+            </TabContent>
           </CardBody>
           <CardFooter></CardFooter>
         </Card>

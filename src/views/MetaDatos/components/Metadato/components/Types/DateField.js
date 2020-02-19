@@ -131,10 +131,68 @@ class DateField extends Component {
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId={"1"}>
-                <p>Probando</p>
+                <Card body>
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <p className="alert alert-info text-center">
+                          <strong>NAME</strong>
+                        </p>
+                        <label htmlFor="name">NAME</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.name}
+                          onChange={e =>
+                            this.changeValue("NAME", e.target.value)
+                          }
+                          placeholder={"Nombre"}
+                        />
+                      </div>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">TITLE</label>
+                      <input
+                        type="text"
+                        className="form-control form-control-sm"
+                        value={this.state.title}
+                        onChange={e =>
+                          this.changeValue("TITLE", e.target.value)
+                        }
+                        placeholder={"Titulo"}
+                      />
+                    </div>
+                  </div>
+                </Card>
               </TabPane>
               <TabPane tabId={"2"}>
-                <p>Probando 2</p>
+                <Card body>
+                  <div className="row">
+                    <div className="form-group">
+                      <input
+                        type="checkbox"
+                        value={this.state.validation.isRequired}
+                        onChange={e =>
+                          this.changeValue("IS_REQUIRED", e.target.checked)
+                        }
+                        id={"isRequired"}
+                      />
+                      <label htmlFor=""> isRequired </label>
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type={"checkbox"}
+                        value={this.state.validation.isReadOnly}
+                        onChange={
+                          (e => this.changeValue("IS_READONLY"),
+                          e.target.checked)
+                        }
+                        id="isReadOnly"
+                      />
+                      <label htmlFor> isReadOnly </label>
+                    </div>
+                  </div>
+                </Card>
               </TabPane>
             </TabContent>
           </CardBody>

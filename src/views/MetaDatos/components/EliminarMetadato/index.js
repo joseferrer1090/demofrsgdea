@@ -1,18 +1,20 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Metadato from "./components/Metadato/index";
 
-class MetaDatos extends Component {
+class EliminarMetadato extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
   render() {
     return (
       <div>
-        <Metadato />
+        <p>Probando apenas</p>
       </div>
     );
   }
 }
 
-export default MetaDatos;
+EliminarMetadato.propTypes = {};
+
+export default EliminarMetadato;

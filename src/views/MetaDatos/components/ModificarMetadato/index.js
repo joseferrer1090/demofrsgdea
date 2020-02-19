@@ -1,18 +1,20 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Metadato from "./components/Metadato/index";
 
-class MetaDatos extends Component {
+class ModificarMetadato extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
   render() {
     return (
       <div>
-        <Metadato />
+        <p>Esta es la pagina para la modificacion</p>
       </div>
     );
   }
 }
 
-export default MetaDatos;
+ModificarMetadato.propTypes = {};
+
+export default ModificarMetadato;

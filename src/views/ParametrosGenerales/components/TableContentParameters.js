@@ -139,7 +139,9 @@ class TableContentParameter extends Component {
         <ModalEdit
           authorization={this.state.auth}
           modalEditParameter={this.state.modal}
-          updateData={this.getDataParameters}
+          updateTable={() => {
+            this.getDataParameters();
+          }}
           ref={"child"}
         />
       </div>

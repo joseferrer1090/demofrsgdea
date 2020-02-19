@@ -1,18 +1,20 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Metadato from "./components/Metadato/index";
 
-class MetaDatos extends Component {
+class ListaMetadato extends Component {
   constructor(props) {
     super(props);
+    this.state = {};
   }
   render() {
     return (
       <div>
-        <Metadato />
+        <p>Lista de metadatos</p>
       </div>
     );
   }
 }
 
-export default MetaDatos;
+ListaMetadato.propTypes = {};
+
+export default ListaMetadato;

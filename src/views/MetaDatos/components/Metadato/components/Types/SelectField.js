@@ -96,7 +96,7 @@ class SelectField extends Component {
         break;
 
       default:
-        break;
+        return;
     }
     setTimeout(() => {
       return this.props.changeState(this.state, this, props.index);
@@ -109,6 +109,84 @@ class SelectField extends Component {
         activeTab: tab
       });
     }
+  };
+
+  changeOptionValue = (index, value, state) => {
+    let options = this.state.options;
+    let option = {};
+
+    if (state === "TITLE") {
+      option = {
+        ...options[index],
+        title: value
+      };
+    } else if (state === "SELECTED") {
+      option = {
+        ...options[index],
+        selected: !options[index].selected
+      };
+    } else if (state === "VALUE") {
+      option = {
+        ...options[index],
+        value: value
+      };
+    } else if (state === "DEFAULT_VALUE") {
+      option = {
+        ...options[index].value,
+        defaultValue: value
+      };
+    } else {
+      options[index] = option;
+      this.setState({
+        options: options
+      });
+    }
+    this.duplicate();
+    setTimeout(() => {
+      return this.props.changeState(this.state, this.props.index);
+    }, 0);
+  };
+
+  duplicate = () => {
+    let options = this.state.options;
+    let u = _.uniqBy(options, "value");
+    if (!_.isEqual(options, u)) {
+      this.setState({
+        duplicate: true
+      });
+    } else {
+      this.setState({
+        duplicate: false
+      });
+    }
+  };
+
+  addOption = () => {
+    let option = {
+      title: "",
+      value: "",
+      selected: false
+    };
+    let options = this.state.options;
+    options.push(option);
+    this.setState({
+      options: options
+    });
+    this.duplicate();
+    setTimeout(() => {
+      return this.props.changeState(this.state, this.props.index);
+    }, 0);
+  };
+
+  removeOption = index => {
+    let options = this.state.options;
+    options.splice(index, 1);
+    this.setState({
+      options: options
+    });
+    setTimeout(() => {
+      return this.props.changeState(this.state, this.props.index);
+    }, 0);
   };
 
   render() {
@@ -367,6 +445,13 @@ class SelectField extends Component {
                   ) : (
                     <span></span>
                   )}
+                  <button
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => this.addOption()}
+                  >
+                    {" "}
+                    Add Option
+                  </button>
                 </Card>
               </TabPane>
             </TabContent>

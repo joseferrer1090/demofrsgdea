@@ -159,7 +159,62 @@ class SelectField extends Component {
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId={"1"}>
-                <p>Probando</p>
+                <Card body>
+                  <div className="col-md-12">
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <p className="alert alert-info text-center">
+                            <strong>NAME</strong>
+                          </p>
+                          <label htmlFor="name">NAME</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            value={this.state.name}
+                            onChange={e =>
+                              this.changeValue("NAME", e.target.value)
+                            }
+                          />
+                        </div>
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="checkbox"
+                          id={"multiple"}
+                          value={this.state.multiple}
+                          onChange={e =>
+                            this.changeValue("MULTIPLE", e.target.checked)
+                          }
+                        />
+                        <label className="" htmlFor="isRequired">
+                          Multiple Selection
+                        </label>
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="title">Title</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.title}
+                          onChange={e =>
+                            this.changeValue("TITLE", e.target.value)
+                          }
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                          className="form-control form-control-sm"
+                          value={this.state.description}
+                          onClick={e =>
+                            this.changeValue("DESCRIPTION", e.target.value)
+                          }
+                        ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </Card>
               </TabPane>
               <TabPane tabId={"2"}>
                 <p>Probnado el tab 2</p>

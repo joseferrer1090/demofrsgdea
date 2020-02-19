@@ -217,10 +217,157 @@ class SelectField extends Component {
                 </Card>
               </TabPane>
               <TabPane tabId={"2"}>
-                <p>Probnado el tab 2</p>
+                <Card body>
+                  <div className="row">
+                    <div className="form-group">
+                      <input
+                        type={"checkbox"}
+                        value={this.state.validation.isRequired}
+                        id="isRequired"
+                        onChange={e =>
+                          this.changeValue("IS_REQUIRED", e.target.checked)
+                        }
+                      />
+                      <label htmlFor="isRequired"> Required </label>
+                    </div>
+                    <div className="form-group">
+                      <input
+                        type={"checkbox"}
+                        value={this.state.validation.isReadOnly}
+                        onChange={e =>
+                          this.changeValue("IS_READONLY", e.target.checked)
+                        }
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor=""> Max </label>
+                      <input
+                        type={"number"}
+                        className="form-control form-control-sm"
+                        value={this.state.validation.max}
+                        onChange={e => this.changeValue("MAX", e.target.value)}
+                        placeholder={"6"}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="">Min</label>
+                      <input
+                        type={"number"}
+                        className="form-control form-control-sm"
+                        onChange={e => this.changeValue("MIN", e.target.value)}
+                        value={this.state.validation.min}
+                        placeholder={"6"}
+                      />
+                    </div>
+                  </div>
+                </Card>
               </TabPane>
               <TabPane tabId={"3"}>
-                <p>Probando el tab 3</p>
+                <Card body>
+                  <p
+                    hidden={!this.state.duplicate}
+                    className="alert text-center alert-danger"
+                  >
+                    <strong>Duplicate</strong> Values Found
+                  </p>
+                  {this.state.options ? (
+                    <table className="table text-center">
+                      <tbody>
+                        {this.state.options.map((option, index) => {
+                          return (
+                            <tr key={index}>
+                              {this.state.multiple ? (
+                                <td style={{ verticalAlign: "middle" }}>
+                                  <div className="radio">
+                                    {
+                                      <input
+                                        value={
+                                          this.state.options[index].selected
+                                        }
+                                        onChange={e =>
+                                          this.changeOptionValue(
+                                            index,
+                                            e.target.checked,
+                                            "SELECTED"
+                                          )
+                                        }
+                                        type="checkbox"
+                                      />
+                                    }
+                                  </div>
+                                </td>
+                              ) : (
+                                <td hidden={true}></td>
+                              )}
+                              <td>
+                                <input
+                                  placeholder="Title"
+                                  autoFocus={true}
+                                  value={this.state.options[index].title}
+                                  onChange={e =>
+                                    this.changeOptionValue(
+                                      index,
+                                      e.target.value,
+                                      "TITLE"
+                                    )
+                                  }
+                                  id={option.title}
+                                  type="text"
+                                  className="form-control"
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  placeholder="Value"
+                                  value={this.state.options[index].value}
+                                  onChange={e =>
+                                    this.changeOptionValue(
+                                      index,
+                                      e.target.value,
+                                      "VALUE"
+                                    )
+                                  }
+                                  id={option.value}
+                                  type="text"
+                                  className="form-control"
+                                />
+                              </td>
+                              {!this.state.multiple ? (
+                                <td style={{ verticalAlign: "middle" }}>
+                                  <input
+                                    name="default"
+                                    value={this.state.defaultValue}
+                                    onChange={e =>
+                                      this.changeOptionValue(
+                                        index,
+                                        e.target.checked,
+                                        "DEFAULT_VALUE"
+                                      )
+                                    }
+                                    id={option.value}
+                                    type="radio"
+                                  />
+                                </td>
+                              ) : (
+                                <td hidden={true}></td>
+                              )}
+                              <td style={{ verticalAlign: "middle" }}>
+                                <span
+                                  onClick={() => this.removeOption(index)}
+                                  className="cross pull-right"
+                                >
+                                  x
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <span></span>
+                  )}
+                </Card>
               </TabPane>
             </TabContent>
           </CardBody>

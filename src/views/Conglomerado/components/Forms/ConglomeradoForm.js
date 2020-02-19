@@ -35,6 +35,7 @@ const ConglomeradorForm = props => {
   // console.log(values.cityId);
   const [oldValue, setOldValue] = useState();
   const [newValue, setNewValue] = useState();
+  const [valueSelectDepartment, setValueSelectDepartment] = useState("");
   const changeInValue = (Old, New) => {
     setOldValue(Old);
     setNewValue(New);
@@ -47,7 +48,7 @@ const ConglomeradorForm = props => {
       departmentValue = value;
     }
     // if (oldValue !== newValue) {
-    //   departmentValue = values.departmentId = undefined;
+    //   // departmentValue = values.departmentId ;
     // }
 
     //oldValue !== newValue
@@ -167,10 +168,12 @@ const ConglomeradorForm = props => {
                     t={props.t}
                     countryId={props.values.countryId}
                     name="departmentId"
+                    // value={valueSelectDepartment}
                     value={valueDepartment(values.departmentId)}
-                    onChange={e =>
-                      setFieldValue("departmentId", e.target.value)
-                    }
+                    onChange={e => {
+                      setFieldValue("departmentId", e.target.value);
+                      setValueSelectDepartment(e.target.value);
+                    }}
                     onBlur={() => {
                       setFieldTouched("departmentId", true);
                     }}

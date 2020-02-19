@@ -59,6 +59,7 @@ class SelectDepartment extends React.Component {
         });
       });
   };
+
   render() {
     const { t } = this.props;
     return (

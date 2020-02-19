@@ -102,9 +102,13 @@ class ModalUpdateRemitente extends React.Component {
             tercero_referencia: data.reference,
             tercero_observacion: data.observation,
             tercero_estado: data.status,
-            tercero_pais: data.city.department.country.id,
-            tercero_departamento: data.city.department.id,
-            tercero_ciudad: data.city.id
+            tercero_pais:
+              data.city.department.country.status !== 1
+                ? ""
+                : data.city.department.country.id,
+            tercero_departamento:
+              data.city.department.status !== 1 ? "" : data.city.department.id,
+            tercero_ciudad: data.city.status !== 1 ? "" : data.city.id
           }
         });
       })

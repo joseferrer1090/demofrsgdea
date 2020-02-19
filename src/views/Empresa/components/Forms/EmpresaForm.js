@@ -236,6 +236,7 @@ const EmpresaForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     departmentId={props.values.departmentId}
+                    countryId={props.values.countryId}
                     name={"cityId"}
                     onChange={e => setFieldValue("cityId", e.target.value)}
                     onBlur={() => setFieldTouched("cityId", true)}

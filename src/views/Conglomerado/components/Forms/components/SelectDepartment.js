@@ -52,8 +52,14 @@ class SelectDepartment extends React.Component {
           dataDepartment: data
         });
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => {
+        console.log("Error", err);
+        this.setState({
+          dataDepartment: []
+        });
+      });
   };
+
   render() {
     const { t } = this.props;
     return (

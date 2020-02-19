@@ -458,9 +458,9 @@ class ModalEditConglomerado extends React.Component {
                                   <span className="text-danger">*</span>{" "}
                                 </label>
                                 <SelectCity
-                                  // statusValue={
-                                  //   dataResult.conglomerate_country_status
-                                  // }
+                                  conglomerate_country={
+                                    props.values.conglomerate_country
+                                  }
                                   authorization={this.state.auth}
                                   t={this.state.t}
                                   conglomerate_department={
@@ -587,10 +587,7 @@ class ModalEditConglomerado extends React.Component {
                       className={"btn btn-outline-success btn-sm"}
                       onClick={e => {
                         e.preventDefault();
-                        // handleSubmit();
-                        console.log(values.conglomerate_country);
-                        console.log(values.conglomerate_department);
-                        console.log(values.conglomerate_city);
+                        handleSubmit();
                       }}
                     >
                       <i className="fa fa-pencil" />{" "}

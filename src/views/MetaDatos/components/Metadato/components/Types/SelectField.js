@@ -278,7 +278,7 @@ class SelectField extends Component {
                             <tr key={index}>
                               {this.state.multiple ? (
                                 <td style={{ verticalAlign: "middle" }}>
-                                  <div className="radio">
+                                  <div className="">
                                     {
                                       <input
                                         value={

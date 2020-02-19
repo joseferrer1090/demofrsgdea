@@ -33,7 +33,8 @@ class SelectField extends Component {
         max: 6
       },
       options: [],
-      duplicate: false
+      duplicate: false, 
+      activeTab: "1"
     };
   }
 
@@ -101,12 +102,36 @@ class SelectField extends Component {
     }, 0);
   };
 
+  toggle = tab => {
+      if()
+  };
+
   render() {
     return (
       <div>
         <Card>
-          <CardHeader></CardHeader>
-          <CardBody></CardBody>
+          <CardHeader>
+            <i className="fa fa-circle mr-1" /> {this.state.title}
+            <span
+              className="pull-right cross"
+              onClick={() => this.props.removeField(this.props.index)}
+            >
+              <i className="fa fa-times" />
+            </span>
+          </CardHeader>
+          <CardBody>
+            <Nav tabs>
+              <NavItem>
+                <NavLink>Tab 1</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink>Tab 2</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink>Tab 3</NavLink>
+              </NavItem>
+            </Nav>
+          </CardBody>
           <CardFooter></CardFooter>
         </Card>
       </div>

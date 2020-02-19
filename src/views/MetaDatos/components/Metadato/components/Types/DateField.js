@@ -191,6 +191,12 @@ class DateField extends Component {
                       />
                       <label htmlFor> isReadOnly </label>
                     </div>
+                    <div className="form-group">
+                      <label htmlFor>MAX</label>
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor>MIN</label>
+                    </div>
                   </div>
                 </Card>
               </TabPane>

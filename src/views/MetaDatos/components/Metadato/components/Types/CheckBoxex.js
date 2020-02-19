@@ -102,6 +102,82 @@ class CheckBoxexs extends Component {
     }
   };
 
+  removeOption = index => {
+    let checboxes = this.state.checkBoxes;
+    checboxes.splice(index, 1);
+    this.setState({
+      checkBoxes: checboxes
+    });
+    this.duplicate();
+    setTimeout(() => {
+      return this.props.changeState(this.state, this.props.index);
+    }, 0);
+  };
+
+  duplicate = () => {
+    let checboxes = this.state.checkBoxes;
+    let u = _.uniqBy(checboxes, "value");
+    if (!_.isEqual(checboxes, u)) {
+      this.setState({
+        duplicate: true
+      });
+    } else {
+      this.setState({
+        duplicate: false
+      });
+    }
+  };
+
+  addOption = () => {
+    let checbox = {
+      title: "",
+      value: "",
+      selected: false
+    };
+    let checboxes = this.state.checkBoxes;
+    checboxes.push(checbox);
+    this.setState({
+      checkBoxes: checboxes
+    });
+    this.duplicate();
+    setTimeout(() => {
+      return this.props.changeState(this.state, this.props.index);
+    }, 0);
+  };
+
+  changeOptionValue = (index, value, state) => {
+    let checboxes = this.state.checkBoxes;
+    let checkbox = {};
+    if (stte === "TITLE") {
+      checkbox = {
+        ...checboxes[index],
+        title: value
+      };
+    } else if (state === "SELECTED") {
+      checkbox = {
+        ...checboxes[index],
+        selected: !checboxes[index].selected
+      };
+    } else if (state === "VALUE") {
+      checbox = {
+        ...checboxes[index],
+        value: value
+      };
+    } else {
+      checkbox = {
+        ...checboxes[index]
+      };
+    }
+    checboxes[index] = checkbox;
+    this.setState({
+      checkBoxes: checboxes
+    });
+    this.duplicate();
+    setTimeout(() => {
+      return this.props.changeState(this.state, this.props.index);
+    }, 0);
+  };
+
   render() {
     return (
       <div>
@@ -191,10 +267,144 @@ class CheckBoxexs extends Component {
                 </Card>
               </TabPane>
               <TabPane tabId={"2"}>
-                <p>Tab 2</p>
+                <Card body>
+                  <div className="row">
+                    <div className="">
+                      <div className="form-group">
+                        <input
+                          type="checkbox"
+                          value={this.state.validation.isRequired}
+                          onChange={e =>
+                            this.changeValue("IS_REQUIRED", e.target.checked)
+                          }
+                        />
+                        <label htmlFor=""> isRequired </label>
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type={"checkbox"}
+                          onChange={e =>
+                            this.changeValue("IS_READONLY", e.target.checked)
+                          }
+                          value={this.state.validation.isReadOnly}
+                        />
+                        <label htmlFor="">isReadOnly</label>
+                      </div>
+                      <div className="col-md-6">
+                        <label htmlFor="">Min</label>
+                        <input
+                          type="number"
+                          className="form-control form-control-sm"
+                          onChange={e =>
+                            this.changeValue("MIN", e.target.value)
+                          }
+                          placeholder="6"
+                        />
+                      </div>
+                      <div className="col-md-6">
+                        <label>Max</label>
+                        <input
+                          type="numbre"
+                          className="form-control form-control-sm"
+                          onChange={e =>
+                            this.changeValue("MAX", e.target.value)
+                          }
+                          value={this.state.validation.max}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </Card>
               </TabPane>
               <TabPane tabId={"3"}>
-                <p>Tab 3</p>
+                <Card body>
+                  <p
+                    hidden={this.state.duplicate}
+                    className="alert text-center alert-danger"
+                  >
+                    Values
+                  </p>
+                  {this.state.checkBoxes ? (
+                    <table className="table text-center">
+                      <tbody>
+                        {this.state.checkBoxes.map((checkbox, index) => {
+                          return (
+                            <tr key={index}>
+                              <td>
+                                <div className>
+                                  <input
+                                    autoFocus={true}
+                                    value={
+                                      this.state.checkBoxes[index].selected
+                                    }
+                                    onChange={e =>
+                                      this.changeOptionValue(
+                                        index,
+                                        e.target.checked,
+                                        "SELECT"
+                                      )
+                                    }
+                                  />
+                                </div>
+                              </td>
+                              <td>
+                                <input
+                                  id={checkbox.title}
+                                  type="text"
+                                  className="form-control form-control-sm"
+                                  placeholder={"Title"}
+                                  autoFocus={true}
+                                  value={this.state.checkBoxes[index].title}
+                                  onChange={e =>
+                                    this.changeOptionValue(
+                                      index,
+                                      e.target.value,
+                                      "TITLE"
+                                    )
+                                  }
+                                />
+                              </td>
+                              <td>
+                                <input
+                                  placeholder="Value"
+                                  value={this.state.checkBoxes[index].value}
+                                  onChange={e =>
+                                    this.changeOptionValue(
+                                      index,
+                                      e.target.value,
+                                      "VALUE"
+                                    )
+                                  }
+                                  id={checkbox.value}
+                                  type="text"
+                                  className="form-control"
+                                />
+                              </td>
+                              <td style={{ verticalAlign: "middle" }}>
+                                <span
+                                  onClick={() => this.removeOption(index)}
+                                  className="cross pull-right"
+                                >
+                                  X
+                                </span>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  ) : (
+                    <span></span>
+                  )}
+                  <button
+                    type="button"
+                    className="btn btn-secondary btn-sm"
+                    onClick={() => this.addOption()}
+                  >
+                    {" "}
+                    Add{" "}
+                  </button>
+                </Card>
               </TabPane>
             </TabContent>
           </CardBody>

@@ -14,6 +14,12 @@ import {
   CardFooter,
   Button
 } from "reactstrap";
+import SingleField from "./Types/SingleField";
+import SelectField from "./Types/SelectField";
+import RadioButtons from "./Types/RadioButtons";
+import CheckBoxes from "./Types/CheckBoxes";
+import DataField from "./Types/DateField";
+import Paragraph from "./Types/Paragraph";
 
 class FormContainer extends Component {
   constructor(props) {

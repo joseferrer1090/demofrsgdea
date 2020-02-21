@@ -183,9 +183,8 @@ class DateField extends Component {
                       <input
                         type={"checkbox"}
                         value={this.state.validation.isReadOnly}
-                        onChange={
-                          (e => this.changeValue("IS_READONLY"),
-                          e.target.checked)
+                        onChange={e =>
+                          this.changeValue("IS_READONLY", e.target.checked)
                         }
                         id="isReadOnly"
                       />

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { withFormik, ErrorMessage } from "formik";
+import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
   CustomInput,
@@ -14,7 +14,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import SelectCity from "./components/SelectCity";
-import SelectDepartment from "./components/SelectDepartment";
+import FieldDepartment from "./components/SelectDepartment";
 import SelectCountry from "./components/SelectCountry";
 import SelectCharges from "./components/SelectCharges";
 import { decode } from "jsonwebtoken";
@@ -36,26 +36,12 @@ const ConglomeradorForm = props => {
   const [oldValue, setOldValue] = useState();
   const [newValue, setNewValue] = useState();
   const [valueSelectDepartment, setValueSelectDepartment] = useState("");
+
   const changeInValue = (Old, New) => {
     setOldValue(Old);
     setNewValue(New);
   };
-  const valueDepartment = value => {
-    let departmentValue;
-    if (values.countryId === "") {
-      departmentValue = values.departmentId = "";
-    } else if (values.countryId !== null) {
-      departmentValue = value;
-    }
-    // if (oldValue !== newValue) {
-    //   // departmentValue = values.departmentId ;
-    // }
 
-    //oldValue !== newValue
-    // departmentValue = values.departmentId = "";
-
-    return departmentValue;
-  };
   console.log(`Old ${oldValue}`);
   console.log(`New ${newValue}`);
   return (
@@ -163,25 +149,12 @@ const ConglomeradorForm = props => {
                     {t("app_conglomerado_form_registrar_departamento")}
                     <span className="text-danger">*</span>{" "}
                   </label>
-                  <SelectDepartment
-                    authorization={props.authorization}
-                    t={props.t}
-                    countryId={props.values.countryId}
+                  <Field
                     name="departmentId"
-                    // value={valueSelectDepartment}
-                    value={valueDepartment(values.departmentId)}
-                    onChange={e => {
-                      setFieldValue("departmentId", e.target.value);
-                      setValueSelectDepartment(e.target.value);
-                    }}
-                    onBlur={() => {
-                      setFieldTouched("departmentId", true);
-                    }}
-                    className={`form-control form-control-sm ${errors.departmentId &&
-                      touched.departmentId &&
-                      "is-invalid"}`}
-                  />
-
+                    component={FieldDepartment}
+                    oldValueCountryId={oldValue}
+                    newValueCountryId={newValue}
+                  ></Field>
                   <div style={{ color: "#D54B4B" }}>
                     {errors.departmentId && touched.departmentId ? (
                       <i class="fa fa-exclamation-triangle" />

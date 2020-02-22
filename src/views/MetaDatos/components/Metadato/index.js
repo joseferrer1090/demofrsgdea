@@ -21,12 +21,7 @@ class Metadato extends Component {
   render() {
     return (
       <div>
-        <Alert
-          color="secondary"
-          isOpen={this.state.visible}
-          toggle={() => this.toggle()}
-          fade
-        >
+        <Alert color="secondary" isOpen={this.state.visible} fade>
           <h4 className="alert-heading">Well done!</h4>
           <p>
             Aww yeah, you successfully read this important alert message. This

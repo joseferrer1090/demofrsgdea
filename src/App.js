@@ -154,6 +154,7 @@ class App extends Component {
             name="Middleware security"
             component={ViewMiddleware}
           />
+          {/*<Route path="/" name="Inicio" component={DefaultLayout} />*/}
           <PrivateRoute path="/" name="Inicio" component={DefaultLayout} />
           {/* <Route path="/404" name="Page 404" component={Page404} />
           <Route path="/500" name="Page 500" component={Page500} /> */}

@@ -183,9 +183,8 @@ class DateField extends Component {
                       <input
                         type={"checkbox"}
                         value={this.state.validation.isReadOnly}
-                        onChange={
-                          (e => this.changeValue("IS_READONLY"),
-                          e.target.checked)
+                        onChange={e =>
+                          this.changeValue("IS_READONLY", e.target.checked)
                         }
                         id="isReadOnly"
                       />
@@ -193,9 +192,23 @@ class DateField extends Component {
                     </div>
                     <div className="form-group">
                       <label htmlFor>MAX</label>
+                      <input
+                        type={"data"}
+                        className={"form-control form-control-sm"}
+                        onChange={e => this.changeValue("MAX", e.target.value)}
+                        value={this.state.validation.max}
+                        patter={"yyyy/mm/dd"}
+                      />
                     </div>
                     <div className="form-group">
                       <label htmlFor>MIN</label>
+                      <input
+                        type="date"
+                        className="form-control form-control-sm"
+                        value={this.state.validation.min}
+                        onChange={e => this.changeValue("MIN", e.target.value)}
+                        patter={"yyyy/mm/dd"}
+                      />
                     </div>
                   </div>
                 </Card>

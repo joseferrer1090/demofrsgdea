@@ -99,12 +99,12 @@ class SelectField extends Component {
         return;
     }
     setTimeout(() => {
-      return this.props.changeState(this.state, this, props.index);
+      return this.props.changeState(this.state, this.props.index);
     }, 0);
   };
 
   toggle = tab => {
-    if (activeTab !== tab) {
+    if (this.state.activeTab !== tab) {
       this.setState({
         activeTab: tab
       });

@@ -200,7 +200,7 @@ class RadioButtons extends Component {
                     this.toggle("1");
                   }}
                 >
-                  tab 1
+                  General <i className="fa fa-cog" />
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -212,7 +212,7 @@ class RadioButtons extends Component {
                     this.toggle("2");
                   }}
                 >
-                  tab 2
+                  Validacion <i className="fa fa-exclamation-triangle" />
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -220,8 +220,11 @@ class RadioButtons extends Component {
                   className={classnames({
                     active: this.state.activeTab === "3"
                   })}
+                  onClick={() => {
+                    this.toggle("3");
+                  }}
                 >
-                  tab 3
+                  Values <i className="fa fa-list-ul" />
                 </NavLink>
               </NavItem>
             </Nav>
@@ -243,41 +246,50 @@ class RadioButtons extends Component {
                         />
                       </div>
                     </div>
-                    <div className="form-group">
-                      <label htmlFor="title">TITLE</label>
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                        onChange={e =>
-                          this.changeValue("TITLE", e.target.value)
-                        }
-                        value={this.state.title}
-                        placeholder={"Titulo"}
-                      />
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label htmlFor="title">TITLE</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          onChange={e =>
+                            this.changeValue("TITLE", e.target.value)
+                          }
+                          value={this.state.title}
+                          placeholder={"Titulo"}
+                        />
+                      </div>
                     </div>
-                    <div className="form-group">
-                      <input
-                        value={this.state.multiple}
-                        type="checkbox"
-                        id="multiple"
-                        onChange={e =>
-                          this.changeValue("MULTIPLE", e.target.checked)
-                        }
-                      />
-                      <label className="form-check-label" htmlFor="isRequired">
-                        Multiple Selection
-                      </label>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input
+                          value={this.state.multiple}
+                          type="checkbox"
+                          id="multiple"
+                          onChange={e =>
+                            this.changeValue("MULTIPLE", e.target.checked)
+                          }
+                        />
+                        <label
+                          className="form-check-label"
+                          htmlFor="isRequired"
+                        >
+                          Multiple Selection
+                        </label>
+                      </div>
                     </div>
-                    <div className="form-group">
-                      <input
-                        type="checkbox"
-                        value={this.state.inline}
-                        onChange={e =>
-                          this.changeValue("INLINE", e.target.checked)
-                        }
-                        id={"inline"}
-                      />
-                      <label>Inline</label>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input
+                          type="checkbox"
+                          value={this.state.inline}
+                          onChange={e =>
+                            this.changeValue("INLINE", e.target.checked)
+                          }
+                          id={"inline"}
+                        />
+                        <label>Inline</label>
+                      </div>
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
@@ -294,10 +306,10 @@ class RadioButtons extends Component {
                   </div>
                 </Card>
               </TabPane>
-              <TabPane activeTab={"2"}>
+              <TabPane tabId={"2"}>
                 <Card body>
                   <div className="row">
-                    <div className="">
+                    <div className="col-md-6">
                       <div className="form-group">
                         <input
                           type={"checkbox"}
@@ -307,8 +319,10 @@ class RadioButtons extends Component {
                           }
                           id={"isRequired"}
                         />
-                        <label htmlFor="isRequired"> Rquired</label>
+                        <label htmlFor="isRequired"> ¿Es Requerido? </label>
                       </div>
+                    </div>
+                    <div className="col-md-6">
                       <div classNam="form-group">
                         <input
                           type={"checkbox"}
@@ -316,24 +330,13 @@ class RadioButtons extends Component {
                           onChange={e =>
                             this.changeValue("IS_READONLY", e.target.checked)
                           }
+                          id={"isReadOnly"}
                         />
-                        <label htmlFor=""> Readonly </label>
+                        <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
                       </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label> Max characters</label>
-                          <input
-                            type={"number"}
-                            value={this.state.validation.max}
-                            onChange={e =>
-                              this.changeValue("MAX", e.target.value)
-                            }
-                            placeholder={"6"}
-                            className="form-control form-control-sm"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
                         <label htmlFor="">Min characters</label>
                         <input
                           type={"number"}
@@ -346,12 +349,25 @@ class RadioButtons extends Component {
                         />
                       </div>
                     </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label> Max characters</label>
+                        <input
+                          type={"number"}
+                          value={this.state.validation.max}
+                          onChange={e =>
+                            this.changeValue("MAX", e.target.value)
+                          }
+                          placeholder={"6"}
+                          className="form-control form-control-sm"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </Card>
               </TabPane>
-              <TabPane activeTab={"3"}>
+              <TabPane tabId={"3"}>
                 <Card body>
-                  <p className="text-center"> Values </p>
                   {this.state.radios ? (
                     <table className="table text-center">
                       <tbody>
@@ -360,9 +376,10 @@ class RadioButtons extends Component {
                             <tr key={index}>
                               {this.state.multiple ? (
                                 <td style={{ verticalAlign: "middle" }}>
-                                  <div className="radio">
+                                  <div className="checkbox">
                                     {
                                       <input
+                                        type="checkbox"
                                         value={
                                           this.state.radios[index].selected
                                         }
@@ -373,7 +390,6 @@ class RadioButtons extends Component {
                                             "SELECTED"
                                           )
                                         }
-                                        type="checkbox"
                                       />
                                     }
                                   </div>
@@ -453,7 +469,7 @@ class RadioButtons extends Component {
                     onClick={() => this.addOption()}
                     className="btn btn-secondary btn-sm"
                   >
-                    Agregar
+                    <i className="fa fa-plus" /> Agregar opciones
                   </button>
                 </Card>
               </TabPane>

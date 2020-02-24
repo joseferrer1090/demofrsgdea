@@ -99,7 +99,8 @@ class SelectField extends Component {
         return;
     }
     setTimeout(() => {
-      return this.props.changeState(this.state, this.props.index);
+      console.log(this.state, this.props.index);
+      //return this.props.changeState(this.state, this.props.index);
     }, 0);
   };
 
@@ -143,7 +144,8 @@ class SelectField extends Component {
     }
     this.duplicate();
     setTimeout(() => {
-      return this.props.changeState(this.state, this.props.index);
+      return console.log(this.state, this.props.index);
+      // return this.props.changeState(this.state, this.props.index);
     }, 0);
   };
 
@@ -194,9 +196,10 @@ class SelectField extends Component {
       <div>
         <Card>
           <CardHeader>
-            <i className="fa fa-circle mr-1" /> {this.state.title}
+            <i className="fa fa-caret-square-o-down" /> Select{" "}
+            {this.state.title}
             <span
-              className="pull-right cross"
+              className="pull-right"
               onClick={() => this.props.removeField(this.props.index)}
             >
               <i className="fa fa-times" />
@@ -211,7 +214,7 @@ class SelectField extends Component {
                   })}
                   onClick={() => this.toggle("1")}
                 >
-                  Tab 1
+                  General <i className="fa fa-cog" />
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -221,7 +224,7 @@ class SelectField extends Component {
                   })}
                   onClick={() => this.toggle("2")}
                 >
-                  Tab 2
+                  Validation <i className="fa fa-exclamation-triangle" />
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -231,7 +234,7 @@ class SelectField extends Component {
                   })}
                   onClick={() => this.toggle("3")}
                 >
-                  Tab 3
+                  Values <i className="fa fa-list-ul" />
                 </NavLink>
               </NavItem>
             </Nav>
@@ -242,9 +245,9 @@ class SelectField extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
-                          <p className="alert alert-info text-center">
+                          {/* <p className="alert alert-info text-center">
                             <strong>NAME</strong>
-                          </p>
+                          </p> */}
                           <label htmlFor="name">NAME</label>
                           <input
                             type="text"
@@ -256,39 +259,46 @@ class SelectField extends Component {
                           />
                         </div>
                       </div>
-                      <div className="form-group">
-                        <input
-                          type="checkbox"
-                          id={"multiple"}
-                          value={this.state.multiple}
-                          onChange={e =>
-                            this.changeValue("MULTIPLE", e.target.checked)
-                          }
-                        />
-                        <label className="" htmlFor="isRequired">
-                          Multiple Selection
-                        </label>
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <input
+                            type="checkbox"
+                            id={"multiple"}
+                            value={this.state.multiple}
+                            onChange={e =>
+                              this.changeValue("MULTIPLE", e.target.checked)
+                            }
+                          />
+                          <label className="" htmlFor="multiple">
+                            Multiple Selection
+                          </label>
+                        </div>
                       </div>
-                      <div className="form-group">
-                        <label htmlFor="title">Title</label>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          value={this.state.title}
-                          onChange={e =>
-                            this.changeValue("TITLE", e.target.value)
-                          }
-                        />
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="">Titulo</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            onChange={e =>
+                              this.changeValue("TITLE", e.target.value)
+                            }
+                            value={this.state.title}
+                          />
+                        </div>
                       </div>
-                      <div className="form-group">
-                        <label htmlFor="description">Description</label>
-                        <textarea
-                          className="form-control form-control-sm"
-                          value={this.state.description}
-                          onClick={e =>
-                            this.changeValue("DESCRIPTION", e.target.value)
-                          }
-                        ></textarea>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="description">Description</label>
+                          <input
+                            type={"text"}
+                            className="form-control form-control-sm"
+                            value={this.state.description}
+                            onChange={e =>
+                              this.changeValue("DESCRIPTION", e.target.value)
+                            }
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -296,46 +306,62 @@ class SelectField extends Component {
               </TabPane>
               <TabPane tabId={"2"}>
                 <Card body>
-                  <div className="row">
-                    <div className="form-group">
-                      <input
-                        type={"checkbox"}
-                        value={this.state.validation.isRequired}
-                        id="isRequired"
-                        onChange={e =>
-                          this.changeValue("IS_REQUIRED", e.target.checked)
-                        }
-                      />
-                      <label htmlFor="isRequired"> Required </label>
-                    </div>
-                    <div className="form-group">
-                      <input
-                        type={"checkbox"}
-                        value={this.state.validation.isReadOnly}
-                        onChange={e =>
-                          this.changeValue("IS_READONLY", e.target.checked)
-                        }
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor=""> Max </label>
-                      <input
-                        type={"number"}
-                        className="form-control form-control-sm"
-                        value={this.state.validation.max}
-                        onChange={e => this.changeValue("MAX", e.target.value)}
-                        placeholder={"6"}
-                      />
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="">Min</label>
-                      <input
-                        type={"number"}
-                        className="form-control form-control-sm"
-                        onChange={e => this.changeValue("MIN", e.target.value)}
-                        value={this.state.validation.min}
-                        placeholder={"6"}
-                      />
+                  <div className="col-md-12">
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <input
+                            type={"checkbox"}
+                            value={this.state.validation.isRequired}
+                            id="isRequired"
+                            onChange={e =>
+                              this.changeValue("IS_REQUIRED", e.target.checked)
+                            }
+                          />
+                          <label htmlFor="isRequired"> Requerido </label>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <input
+                            id={"isReadOnly"}
+                            type={"checkbox"}
+                            value={this.state.validation.isReadOnly}
+                            onChange={e =>
+                              this.changeValue("IS_READONLY", e.target.checked)
+                            }
+                          />
+                          <label htmlFor="isReadOnly"> Lectura </label>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor=""> Max </label>
+                          <input
+                            type={"number"}
+                            className="form-control form-control-sm"
+                            value={this.state.validation.max}
+                            onChange={e =>
+                              this.changeValue("MAX", e.target.value)
+                            }
+                            placeholder={"6"}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="">Min</label>
+                          <input
+                            type={"number"}
+                            className="form-control form-control-sm"
+                            onChange={e =>
+                              this.changeValue("MIN", e.target.value)
+                            }
+                            value={this.state.validation.min}
+                            placeholder={"6"}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </Card>
@@ -346,7 +372,7 @@ class SelectField extends Component {
                     hidden={!this.state.duplicate}
                     className="alert text-center alert-danger"
                   >
-                    <strong>Duplicate</strong> Values Found
+                    <strong>Valores </strong> Duplicados
                   </p>
                   {this.state.options ? (
                     <table className="table text-center">
@@ -391,12 +417,12 @@ class SelectField extends Component {
                                   }
                                   id={option.title}
                                   type="text"
-                                  className="form-control"
+                                  className="form-control from-control-sm"
                                 />
                               </td>
                               <td>
                                 <input
-                                  placeholder="Value"
+                                  placeholder="Valor"
                                   value={this.state.options[index].value}
                                   onChange={e =>
                                     this.changeOptionValue(
@@ -450,7 +476,7 @@ class SelectField extends Component {
                     onClick={() => this.addOption()}
                   >
                     {" "}
-                    Add Option
+                    <i className="fa fa-plus" /> Agregar Opciones
                   </button>
                 </Card>
               </TabPane>

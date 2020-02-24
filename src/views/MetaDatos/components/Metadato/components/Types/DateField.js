@@ -101,7 +101,7 @@ class DateField extends Component {
       <div>
         <Card outline color={"secondary"}>
           <CardHeader>
-            <i className="fa fa-calendar" /> Fecha {this.state.name}
+            <i className="fa fa-calendar" /> Fecha {this.state.title}
             <span
               className="pull-right"
               onClick={() => this.props.removeField(this.props.index)}
@@ -114,19 +114,19 @@ class DateField extends Component {
             <Nav tabs>
               <NavLink
                 className={classnames({
-                  activeTab: this.state.activeTab === "1"
+                  active: this.state.activeTab === "1"
                 })}
                 onClick={() => this.toggle("1")}
               >
-                Tab 1
+                General <i className="fa fa-cog" />
               </NavLink>
               <NavLink
                 className={classnames({
-                  activeTab: this.state.activeTab === "2"
+                  active: this.state.activeTab === "2"
                 })}
                 onClick={() => this.toggle("2")}
               >
-                Tab 2
+                Validacion <i className="fa fa-exclamation-triangle" />
               </NavLink>
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
@@ -150,17 +150,19 @@ class DateField extends Component {
                         />
                       </div>
                     </div>
-                    <div className="form-group">
-                      <label htmlFor="">TITLE</label>
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                        value={this.state.title}
-                        onChange={e =>
-                          this.changeValue("TITLE", e.target.value)
-                        }
-                        placeholder={"Titulo"}
-                      />
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label htmlFor="">TITLE</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.title}
+                          onChange={e =>
+                            this.changeValue("TITLE", e.target.value)
+                          }
+                          placeholder={"Titulo"}
+                        />
+                      </div>
                     </div>
                   </div>
                 </Card>
@@ -168,47 +170,59 @@ class DateField extends Component {
               <TabPane tabId={"2"}>
                 <Card body>
                   <div className="row">
-                    <div className="form-group">
-                      <input
-                        type="checkbox"
-                        value={this.state.validation.isRequired}
-                        onChange={e =>
-                          this.changeValue("IS_REQUIRED", e.target.checked)
-                        }
-                        id={"isRequired"}
-                      />
-                      <label htmlFor=""> isRequired </label>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input
+                          type="checkbox"
+                          value={this.state.validation.isRequired}
+                          onChange={e =>
+                            this.changeValue("IS_REQUIRED", e.target.checked)
+                          }
+                          id={"isRequired"}
+                        />
+                        <label htmlFor="isRequired"> ¿Es requerido? </label>
+                      </div>
                     </div>
-                    <div className="form-group">
-                      <input
-                        type={"checkbox"}
-                        value={this.state.validation.isReadOnly}
-                        onChange={e =>
-                          this.changeValue("IS_READONLY", e.target.checked)
-                        }
-                        id="isReadOnly"
-                      />
-                      <label htmlFor> isReadOnly </label>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input
+                          type={"checkbox"}
+                          value={this.state.validation.isReadOnly}
+                          onChange={e =>
+                            this.changeValue("IS_READONLY", e.target.checked)
+                          }
+                          id="isReadOnly"
+                        />
+                        <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
+                      </div>
                     </div>
-                    <div className="form-group">
-                      <label htmlFor>MAX</label>
-                      <input
-                        type={"data"}
-                        className={"form-control form-control-sm"}
-                        onChange={e => this.changeValue("MAX", e.target.value)}
-                        value={this.state.validation.max}
-                        patter={"yyyy/mm/dd"}
-                      />
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor>MAX</label>
+                        <input
+                          type={"date"}
+                          className={"form-control form-control-sm"}
+                          onChange={e =>
+                            this.changeValue("MAX", e.target.value)
+                          }
+                          value={this.state.validation.max}
+                          patter={"yyyy/mm/dd"}
+                        />
+                      </div>
                     </div>
-                    <div className="form-group">
-                      <label htmlFor>MIN</label>
-                      <input
-                        type="date"
-                        className="form-control form-control-sm"
-                        value={this.state.validation.min}
-                        onChange={e => this.changeValue("MIN", e.target.value)}
-                        patter={"yyyy/mm/dd"}
-                      />
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor>MIN</label>
+                        <input
+                          type="date"
+                          className="form-control form-control-sm"
+                          value={this.state.validation.min}
+                          onChange={e =>
+                            this.changeValue("MIN", e.target.value)
+                          }
+                          patter={"yyyy/mm/dd"}
+                        />
+                      </div>
                     </div>
                   </div>
                 </Card>

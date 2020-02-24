@@ -133,7 +133,7 @@ class SingleField extends Component {
                   this.toggle("1");
                 }}
               >
-                General
+                General <i className="fa fa-cog" />
               </NavLink>
               <NavLink
                 className={classnames({ active: this.state.activeTab === "2" })}
@@ -142,7 +142,7 @@ class SingleField extends Component {
                 }}
               >
                 {" "}
-                Validacion{" "}
+                Validacion <i className="fa fa-exclamation-triangle" />
               </NavLink>
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
@@ -151,9 +151,9 @@ class SingleField extends Component {
                   <div className="row">
                     <div className="col-md-12">
                       <div className="form-group">
-                        <p className="alert alert-info text-center">
+                        {/* <p className="alert alert-info text-center">
                           <strong>Name</strong>
-                        </p>
+                        </p> */}
                         <label htmlFor="name">Name</label>
                         <input
                           type="text"
@@ -192,7 +192,7 @@ class SingleField extends Component {
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="title"> Label Title</label>
+                        <label htmlFor="title"> Label {this.state.title}</label>
                         <input
                           type="text"
                           value={this.state.title}
@@ -247,11 +247,11 @@ class SingleField extends Component {
                           }
                           className=""
                           type={"Checkbox"}
-                          id="isReadOnly"
+                          id="isRequired"
                         />
-                        <label className="" htmlFor={"isReadOnly"}>
+                        <label className="" htmlFor={"isRequired"}>
                           {" "}
-                          ReadOnly
+                          Requerido
                         </label>
                       </div>
                     </div>
@@ -266,6 +266,7 @@ class SingleField extends Component {
                           className=""
                           id="isReadOnly"
                         />
+                        <label htmlFor="isReadOnly"> Lectura</label>
                       </div>
                     </div>
                   </div>

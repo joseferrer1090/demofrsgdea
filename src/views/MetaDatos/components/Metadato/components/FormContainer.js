@@ -47,19 +47,20 @@ class FormContainer extends Component {
   }
 
   componentDidMount() {
-    // let list = this.tooList;
-    // let toolBoxContainer = this._toolBoxContainer;
-    // let self = this;
-    // const $ = window.$;
-    // $(function() {
-    //   $(toolBoxContainer).droppable({
-    //     drop: function(event, ui) {
-    //       console.log(":@");
-    //     }
-    //   });
-    // });
-
-    this.onDrop();
+    let list = this.tooList;
+    let toolBoxContainer = this._toolBoxContainer;
+    let self = this;
+    const $ = window.$;
+    $(function() {
+      $(toolBoxContainer).droppable({
+        drop: function(event, ui) {
+          let tool = $(ui.draggable[0]).attr("data-tool");
+          if (tool !== undefined) {
+            self.catchField(tool);
+          }
+        }
+      });
+    });
   }
 
   onDrop = e => {

@@ -14,9 +14,9 @@ import {
 } from "reactstrap";
 import classnames from "classnames";
 
-class CheckBoxexs extends Component {
+class CheckBoxes extends Component {
   constructor(props) {
-    super(propx);
+    super(props);
     this.state = {
       activeTab: "1",
       inline: false,
@@ -148,7 +148,7 @@ class CheckBoxexs extends Component {
   changeOptionValue = (index, value, state) => {
     let checboxes = this.state.checkBoxes;
     let checkbox = {};
-    if (stte === "TITLE") {
+    if (state === "TITLE") {
       checkbox = {
         ...checboxes[index],
         title: value
@@ -159,7 +159,7 @@ class CheckBoxexs extends Component {
         selected: !checboxes[index].selected
       };
     } else if (state === "VALUE") {
-      checbox = {
+      checkbox = {
         ...checboxes[index],
         value: value
       };
@@ -415,4 +415,4 @@ class CheckBoxexs extends Component {
   }
 }
 
-export default CheckBoxexs;
+export default CheckBoxes;

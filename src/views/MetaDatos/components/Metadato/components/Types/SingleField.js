@@ -251,7 +251,7 @@ class SingleField extends Component {
                         />
                         <label className="" htmlFor={"isRequired"}>
                           {" "}
-                          Requerido
+                          ¿Es requerido?
                         </label>
                       </div>
                     </div>
@@ -266,7 +266,7 @@ class SingleField extends Component {
                           className=""
                           id="isReadOnly"
                         />
-                        <label htmlFor="isReadOnly"> Lectura</label>
+                        <label htmlFor="isReadOnly">¿Solo lectura?</label>
                       </div>
                     </div>
                   </div>

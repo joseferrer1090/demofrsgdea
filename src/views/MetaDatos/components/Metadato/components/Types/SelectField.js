@@ -318,7 +318,7 @@ class SelectField extends Component {
                               this.changeValue("IS_REQUIRED", e.target.checked)
                             }
                           />
-                          <label htmlFor="isRequired"> Requerido </label>
+                          <label htmlFor="isRequired"> ¿Es requerido? </label>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -331,7 +331,7 @@ class SelectField extends Component {
                               this.changeValue("IS_READONLY", e.target.checked)
                             }
                           />
-                          <label htmlFor="isReadOnly"> Lectura </label>
+                          <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
                         </div>
                       </div>
                       <div className="col-md-6">

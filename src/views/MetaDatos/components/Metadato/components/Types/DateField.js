@@ -101,7 +101,8 @@ class DateField extends Component {
       <div>
         <Card outline color={"secondary"}>
           <CardHeader>
-            <i className="fa fa-calendar" /> Fecha {this.state.title}
+            <i className="fa fa-calendar" /> Tipo de campon fecha{" "}
+            {this.state.title}
             <span
               className="pull-right"
               onClick={() => this.props.removeField(this.props.index)}
@@ -135,9 +136,9 @@ class DateField extends Component {
                   <div className="row">
                     <div className="col-md-12">
                       <div className="form-group">
-                        <p className="alert alert-info text-center">
+                        {/* <p className="alert alert-info text-center">
                           <strong>NAME</strong>
-                        </p>
+                        </p> */}
                         <label htmlFor="name">NAME</label>
                         <input
                           type="text"

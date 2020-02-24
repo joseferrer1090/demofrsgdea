@@ -34,61 +34,80 @@ class ToolBox extends Component {
         },
         {
           title: "Fecha",
-          name: "DURATION",
+          name: "DATE_FIELD",
           icon: "fa fa-calendar"
         }
       ],
       tooltipOpen: false
     };
   }
-  toggle = () => {
-    this.setState({
-      tooltipOpen: true
-    });
-  };
 
-  onDragOver = e => {
-    e.preventDefault();
-  };
-
-  onDragStart = (e, id) => {
-    e.dataTransfer.setData("id", id);
+  renderCustomTools = () => {
+    if (this.props.custom) {
+      return this.props.custom.map(types => {
+        return (
+          <li
+            data-tool={types.toolbox.name}
+            onDragStart={e => this.dragField(e, types.toolbox.name)}
+            key={types.toolbox.name}
+            className="list-group-item singleField"
+          >
+            <i className={types.toolbox.icon + " mr-3"} />
+            {types.toolbox.title}
+          </li>
+        );
+      });
+    }
   };
 
   render() {
+    const Tools = this.state.Tools;
     return (
       <div>
-        <Card>
-          <CardHeader>
+        <div className="card">
+          <div className="card-header">
             {" "}
             <i className="fa fa-keyboard-o" /> Tipo de entradas{" "}
-          </CardHeader>
-          <CardBody>
+          </div>
+          <div className="card-body">
             <div>
-              <ul className="list-group">
-                {this.state.Tools.map(types => {
+              <ul className="list-group" ref={tools => (this._tools = tools)}>
+                {Tools.map(types => {
                   return (
-                    <div>
-                      <li
-                        draggable
-                        onDragStart={e => this.onDragStart(e, types.name)}
-                        className="list-group-item"
-                        key={types.name}
-                        style={{ cursor: "pointer" }}
-                      >
-                        <i className={`${types.icon}`} />{" "}
-                        <span id="help">{types.title}</span>
-                      </li>
-                    </div>
+                    <li
+                      data-tool={types.name}
+                      onDragStart={e => this.dragField(e, types.name)}
+                      key={types.name}
+                      className="list-group-item singleField"
+                    >
+                      <i className={types.icon + " mr-3"}></i>
+                      {types.title}
+                    </li>
                   );
                 })}
+                {this.renderCustomTools()}
               </ul>
             </div>
-          </CardBody>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   }
+
+  componentDidMount() {
+    let tools = this._tools;
+    let $ = window.$;
+    $(tools)
+      .children()
+      .each((i, l) => {
+        $(l).draggable({ helper: "clone" });
+      });
+  }
+
+  dragField = (e, types) => {
+    e.dataTransfer.setData("dragField", types);
+    console.log(e.dataTransfer.setData("dragField", types));
+  };
 }
 
 export default ToolBox;

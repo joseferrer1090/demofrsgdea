@@ -23,6 +23,7 @@ class Metadato extends Component {
   };
 
   updateForm = callback => {
+    // console.log(`Se esta llamando el metodo ${callback}`);
     // let rawForm =
     //   '[{"title":"ADS","toolType":"RADIO_BUTTONS","multiple":false,"inline":false,"defaultValue":"","placeholder":"","description":"","validation":{"isReadOnly":false,"isRequired":false,"min":6,"max":6},"radios":[]},{"title":"Title","toolType":"CHECK_BOXES","inline":false,"defaultValue":"","placeholder":"","description":"","validation":{"isReadOnly":false,"isRequired":false,"min":6,"max":6},"checkBoxes":[]}]';
     // let form = JSON.parse(rawForm);
@@ -49,11 +50,14 @@ class Metadato extends Component {
           <div className="col-md-3">
             <ToolBox />
           </div>
-          <div className="col-md-9">
+          <div className="col-md-9 ">
             <FormContainer
+              loader={false}
+              debug={false}
               updateOnMount={true}
               updateForm={this.updateForm}
               onSave={this.myForm}
+              // custom={myCustoms}
             />
           </div>
         </div>

@@ -18,15 +18,21 @@ class Metadato extends Component {
     });
   };
 
+  myForm = form => {
+    console.log(form);
+  };
+
+  updateForm = callback => {
+    // let rawForm =
+    //   '[{"title":"ADS","toolType":"RADIO_BUTTONS","multiple":false,"inline":false,"defaultValue":"","placeholder":"","description":"","validation":{"isReadOnly":false,"isRequired":false,"min":6,"max":6},"radios":[]},{"title":"Title","toolType":"CHECK_BOXES","inline":false,"defaultValue":"","placeholder":"","description":"","validation":{"isReadOnly":false,"isRequired":false,"min":6,"max":6},"checkBoxes":[]}]';
+    // let form = JSON.parse(rawForm);
+    // callback(form);
+  };
+
   render() {
     return (
       <div>
-        <Alert
-          color="secondary"
-          isOpen={this.state.visible}
-          toggle={() => this.toggle()}
-          fade
-        >
+        <Alert color="secondary" isOpen={this.state.visible} fade>
           <h4 className="alert-heading">Well done!</h4>
           <p>
             Aww yeah, you successfully read this important alert message. This
@@ -44,7 +50,11 @@ class Metadato extends Component {
             <ToolBox />
           </div>
           <div className="col-md-9">
-            <FormContainer />
+            <FormContainer
+              updateOnMount={true}
+              updateForm={this.updateForm}
+              onSave={this.myForm}
+            />
           </div>
         </div>
       </div>

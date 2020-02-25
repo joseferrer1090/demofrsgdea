@@ -191,7 +191,7 @@ class FormContainer extends Component {
       fields[index] = e;
       this.setState({ fields: fields, change: this.state.change });
     }
-    this.resetStateOrder();
+    //this.resetStateOrder();
     this.nameDuplicateReflector();
   };
 

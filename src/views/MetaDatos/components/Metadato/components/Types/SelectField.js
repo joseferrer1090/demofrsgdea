@@ -48,28 +48,20 @@ class SelectField extends Component {
       case "NAME":
         this.setState({ name: value });
         break;
+      case "DESCRIPTION":
+        this.setState({ description: value });
+        break;
       case "TITLE":
         this.setState({ title: value });
         break;
       case "PLACEHOLDER":
-        this.setState({
-          placeholder: value
-        });
+        this.setState({ placeholder: value });
         break;
       case "TYPE":
-        this.setState({
-          type: value
-        });
-        break;
-      case "DESCRIPTION":
-        this.setState({
-          description: value
-        });
+        this.setState({ type: value });
         break;
       case "DEFAULT_VALUE":
-        this.setState({
-          defaultValue: value
-        });
+        this.setState({ defaultValue: value });
         break;
       case "IS_REQUIRED":
         this.setState({
@@ -80,42 +72,27 @@ class SelectField extends Component {
         this.setState({
           validation: { ...this.state.validation, isReadOnly: value }
         });
-        break;
       case "MIN":
         this.setState({ validation: { ...this.state.validation, min: value } });
         break;
       case "MAX":
-        this.setState({
-          validation: { ...this.state.validation, max: value }
-        });
+        this.setState({ validation: { ...this.state.validation, max: value } });
         break;
-      case "DUPLICATE":
-        this.setState({
-          duplicate: value
-        });
+      case "MULTIPLE":
+        this.setState({ multiple: value });
         break;
 
       default:
         return;
     }
     setTimeout(() => {
-      console.log(this.state, this.props.index);
-      //return this.props.changeState(this.state, this.props.index);
+      return this.props.changeState(this.state, this.props.index);
     }, 0);
-  };
-
-  toggle = tab => {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab
-      });
-    }
   };
 
   changeOptionValue = (index, value, state) => {
     let options = this.state.options;
     let option = {};
-
     if (state === "TITLE") {
       option = {
         ...options[index],
@@ -133,19 +110,21 @@ class SelectField extends Component {
       };
     } else if (state === "DEFAULT_VALUE") {
       option = {
-        ...options[index].value,
+        ...options[index],
         defaultValue: value
       };
     } else {
-      options[index] = option;
-      this.setState({
-        options: options
-      });
+      option = {
+        ...options[index]
+      };
     }
+    options[index] = option;
+    this.setState({
+      options: options
+    });
     this.duplicate();
     setTimeout(() => {
-      return console.log(this.state, this.props.index);
-      // return this.props.changeState(this.state, this.props.index);
+      return this.props.changeState(this.state, this.props.index);
     }, 0);
   };
 
@@ -189,6 +168,14 @@ class SelectField extends Component {
     setTimeout(() => {
       return this.props.changeState(this.state, this.props.index);
     }, 0);
+  };
+
+  toggle = tab => {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
   };
 
   render() {
@@ -417,12 +404,12 @@ class SelectField extends Component {
                                   }
                                   id={option.title}
                                   type="text"
-                                  className="form-control from-control-sm"
+                                  className="form-control form-control-sm"
                                 />
                               </td>
                               <td>
                                 <input
-                                  placeholder="Valor"
+                                  placeholder="Value"
                                   value={this.state.options[index].value}
                                   onChange={e =>
                                     this.changeOptionValue(
@@ -433,7 +420,7 @@ class SelectField extends Component {
                                   }
                                   id={option.value}
                                   type="text"
-                                  className="form-control"
+                                  className="form-control form-control-sm"
                                 />
                               </td>
                               {!this.state.multiple ? (
@@ -449,7 +436,7 @@ class SelectField extends Component {
                                       )
                                     }
                                     id={option.value}
-                                    type="radio"
+                                    type="checkbox"
                                   />
                                 </td>
                               ) : (

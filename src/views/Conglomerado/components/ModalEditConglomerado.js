@@ -21,7 +21,8 @@ import {
 } from "./../../../services/EndPoints";
 import { Trans } from "react-i18next";
 import SelectCity from "./SelectCityModalEdit";
-import SelectDepartment from "./SelectDepartmentModalEdit";
+import FieldDepartment from "./SelectDepartmentModalEdit";
+// import SelectDepartment from "./SelectDepartmentModalEdit";
 import SelectCountry from "./SelectCountryModalEdit";
 import { decode } from "jsonwebtoken";
 
@@ -34,13 +35,11 @@ class ModalEditConglomerado extends React.Component {
     alertError400: false,
     alertSuccess: false,
     t: this.props.t,
-    optionsCountries: [0],
-    optionsDepartment: [0],
-    optionsCitys: [0],
     optionsCharges: [0],
-    status: 0,
-    username: "",
-    auth: this.props.authorization
+    // status: 0,
+    auth: this.props.authorization,
+    oldValue: "",
+    newValue: ""
   };
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
@@ -101,7 +100,9 @@ class ModalEditConglomerado extends React.Component {
             description: data.description,
             status: data.status,
             conglomerate_charge: data.charge === null ? "" : data.charge.id
-          }
+          },
+          oldValue:
+            data.city.department.status !== 1 ? "" : data.city.department.id
         });
       })
       .catch(error => console.log(error));
@@ -135,6 +136,13 @@ class ModalEditConglomerado extends React.Component {
         });
       })
       .catch(Error => console.log(" ", Error));
+  };
+
+  changeInValue = (Old, New) => {
+    this.setState({
+      oldValue: Old,
+      newValue: New
+    });
   };
 
   render() {
@@ -380,12 +388,16 @@ class ModalEditConglomerado extends React.Component {
                                   authorization={this.state.auth}
                                   t={this.state.t}
                                   name={"conglomerate_country"}
-                                  onChange={e =>
+                                  onChange={e => {
                                     setFieldValue(
                                       "conglomerate_country",
                                       e.target.value
-                                    )
-                                  }
+                                    );
+                                    this.changeInValue(
+                                      values.conglomerate_country,
+                                      e.target.value
+                                    );
+                                  }}
                                   onBlur={() => {
                                     setFieldTouched(
                                       "conglomerate_country",
@@ -415,7 +427,19 @@ class ModalEditConglomerado extends React.Component {
                                   )}{" "}
                                 </label>
                                 <span className="text-danger">*</span>{" "}
-                                <SelectDepartment
+                                <Field
+                                  authorization={this.state.auth}
+                                  t={this.state.t}
+                                  name="conglomerate_department"
+                                  component={FieldDepartment}
+                                  conglomerate_country={
+                                    props.values.conglomerate_country
+                                  }
+                                  oldValueCountryId={this.state.oldValue}
+                                  newValueCountryId={this.state.newValue}
+                                  value={props.values.conglomerate_department}
+                                ></Field>
+                                {/* <SelectDepartment
                                   authorization={this.state.auth}
                                   t={this.state.t}
                                   conglomerate_country={
@@ -438,7 +462,7 @@ class ModalEditConglomerado extends React.Component {
                                   className={`form-control form-control-sm ${errors.conglomerate_department &&
                                     touched.conglomerate_department &&
                                     "is-invalid"}`}
-                                />
+                                /> */}
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.conglomerate_department &&
                                   touched.conglomerate_department ? (
@@ -585,9 +609,14 @@ class ModalEditConglomerado extends React.Component {
                     <button
                       type="button"
                       className={"btn btn-outline-success btn-sm"}
-                      onClick={e => {
-                        e.preventDefault();
-                        handleSubmit();
+                      // onClick={e => {
+                      //   e.preventDefault();
+                      //   handleSubmit();
+                      // }}
+                      onClick={() => {
+                        console.log(values.conglomerate_country);
+                        console.log(values.conglomerate_department);
+                        console.log(values.conglomerate_city);
                       }}
                     >
                       <i className="fa fa-pencil" />{" "}

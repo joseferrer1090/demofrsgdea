@@ -116,7 +116,7 @@ class ToolBox extends Component {
                       }}
                       draggable={true}
                     >
-                      {types.name}
+                      <i className={`${types.icon}`} /> {types.title}
                     </li>
                   );
                 })}

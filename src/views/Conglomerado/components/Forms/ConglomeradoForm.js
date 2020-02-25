@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { withFormik, ErrorMessage } from "formik";
+import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
   CustomInput,
@@ -13,8 +13,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
-import SelectCity from "./components/SelectCity";
-import SelectDepartment from "./components/SelectDepartment";
+import FieldCity from "./components/SelectCity";
+import FieldDepartment from "./components/SelectDepartment";
 import SelectCountry from "./components/SelectCountry";
 import SelectCharges from "./components/SelectCharges";
 import { decode } from "jsonwebtoken";
@@ -32,32 +32,15 @@ const ConglomeradorForm = props => {
     handleSubmit,
     t
   } = props;
-  // console.log(values.cityId);
+
   const [oldValue, setOldValue] = useState();
   const [newValue, setNewValue] = useState();
-  const [valueSelectDepartment, setValueSelectDepartment] = useState("");
+
   const changeInValue = (Old, New) => {
     setOldValue(Old);
     setNewValue(New);
   };
-  const valueDepartment = value => {
-    let departmentValue;
-    if (values.countryId === "") {
-      departmentValue = values.departmentId = "";
-    } else if (values.countryId !== null) {
-      departmentValue = value;
-    }
-    // if (oldValue !== newValue) {
-    //   // departmentValue = values.departmentId ;
-    // }
 
-    //oldValue !== newValue
-    // departmentValue = values.departmentId = "";
-
-    return departmentValue;
-  };
-  console.log(`Old ${oldValue}`);
-  console.log(`New ${newValue}`);
   return (
     <div>
       <Card>
@@ -163,25 +146,14 @@ const ConglomeradorForm = props => {
                     {t("app_conglomerado_form_registrar_departamento")}
                     <span className="text-danger">*</span>{" "}
                   </label>
-                  <SelectDepartment
+                  <Field
                     authorization={props.authorization}
                     t={props.t}
-                    countryId={props.values.countryId}
                     name="departmentId"
-                    // value={valueSelectDepartment}
-                    value={valueDepartment(values.departmentId)}
-                    onChange={e => {
-                      setFieldValue("departmentId", e.target.value);
-                      setValueSelectDepartment(e.target.value);
-                    }}
-                    onBlur={() => {
-                      setFieldTouched("departmentId", true);
-                    }}
-                    className={`form-control form-control-sm ${errors.departmentId &&
-                      touched.departmentId &&
-                      "is-invalid"}`}
-                  />
-
+                    component={FieldDepartment}
+                    oldValueCountryId={oldValue}
+                    newValueCountryId={newValue}
+                  ></Field>
                   <div style={{ color: "#D54B4B" }}>
                     {errors.departmentId && touched.departmentId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -196,30 +168,13 @@ const ConglomeradorForm = props => {
                     {t("app_conglomerado_form_registrar_ciudad")}{" "}
                     <span className="text-danger">*</span>
                   </label>
-                  <SelectCity
+                  <Field
                     authorization={props.authorization}
                     t={props.t}
-                    countryId={props.values.countryId}
-                    departmentId={props.values.departmentId}
-                    value={
-                      values.countryId === "" || values.departmentId === ""
-                        ? (values.cityId = "")
-                        : values.countryId !== null ||
-                          values.departmentId !== null
-                        ? values.cityId
-                        : null
-                    }
-                    name={"cityId"}
-                    onChange={e => {
-                      setFieldValue("cityId", e.target.value);
-                    }}
-                    onBlur={e => {
-                      setFieldTouched("cityId", true);
-                    }}
-                    className={`form-control form-control-sm ${errors.cityId &&
-                      touched.cityId &&
-                      "is-invalid"}`}
-                  />
+                    name="cityId"
+                    component={FieldCity}
+                    departmentId={values.departmentId}
+                  ></Field>
                   <div style={{ color: "#D54B4B" }}>
                     {errors.cityId && touched.cityId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -310,23 +265,17 @@ const ConglomeradorForm = props => {
             <button
               type="submit"
               className="btn btn-outline-secondary btn-sm"
-              // disabled={isSubmitting}
-              // onClick={handleSubmit}
-              onClick={() => {
-                console.log(values.countryId);
-                console.log(values.departmentId);
-                console.log(`CityId: ${values.cityId}`);
-              }}
+              disabled={isSubmitting}
+              onClick={handleSubmit}
             >
-              Valores Select
-              {/* {isSubmitting ? (
+              {isSubmitting ? (
                 <i className=" fa fa-spinner fa-spin" />
               ) : (
                 <div>
                   <i className="fa fa-save" />{" "}
                   {t("app_conglomerado_from_button_guardar")}
                 </div>
-              )} */}
+              )}
             </button>
           </div>
         </CardFooter>

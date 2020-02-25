@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { withFormik, ErrorMessage } from "formik";
+import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
   Card,
@@ -19,8 +19,8 @@ import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
 import SelectCompany from "./components/SelectCompany";
 import SelectCountry from "./components/SelectCountry";
-import SelectDepartment from "./components/SelectDepartment";
-import SelectCity from "./components/SelectCity";
+import FieldDepartment from "./components/SelectDepartment";
+import FieldCity from "./components/SelectCity";
 import SelectCharges from "./components/SelectCharges";
 import { decode } from "jsonwebtoken";
 
@@ -39,9 +39,16 @@ const SedesForm = props => {
   } = props;
 
   const [visibleAlert, setVisibleAlert] = useState(true);
+  const [oldValue, setOldValue] = useState();
+  const [newValue, setNewValue] = useState();
 
   const onDismiss = () => {
     setVisibleAlert(!visibleAlert);
+  };
+
+  const changeInValue = (Old, New) => {
+    setOldValue(Old);
+    setNewValue(New);
   };
 
   return (
@@ -259,7 +266,10 @@ const SedesForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     name={"countryId"}
-                    onChange={e => setFieldValue("countryId", e.target.value)}
+                    onChange={e => {
+                      setFieldValue("countryId", e.target.value);
+                      changeInValue(values.countryId, e.target.value);
+                    }}
                     onBlur={() => setFieldTouched("countryId", true)}
                     value={values.countryId}
                     className={`form-control form-control-sm ${errors.countryId &&
@@ -280,20 +290,14 @@ const SedesForm = props => {
                     {t("app_sedes_form_registrar_departamento")}
                     <span className="text-danger">*</span>{" "}
                   </label>
-                  <SelectDepartment
+                  <Field
                     authorization={props.authorization}
                     t={props.t}
-                    countryId={props.values.countryId}
                     name="departmentId"
-                    value={values.departmentId}
-                    onChange={e =>
-                      setFieldValue("departmentId", e.target.value)
-                    }
-                    onBlur={() => setFieldTouched("departmentId", true)}
-                    className={`form-control form-control-sm ${errors.departmentId &&
-                      touched.departmentId &&
-                      "is-invalid"}`}
-                  />
+                    component={FieldDepartment}
+                    oldValueCountryId={oldValue}
+                    newValueCountryId={newValue}
+                  ></Field>
 
                   <div style={{ color: "#D54B4B" }}>
                     {errors.departmentId && touched.departmentId ? (
@@ -309,20 +313,13 @@ const SedesForm = props => {
                     {t("app_sedes_form_registrar_ciudad")}{" "}
                     <span className="text-danger">*</span>
                   </label>
-                  <SelectCity
+                  <Field
                     authorization={props.authorization}
                     t={props.t}
-                    departmentId={props.values.departmentId}
-                    name={"cityId"}
-                    onChange={e => setFieldValue("cityId", e.target.value)}
-                    onBlur={() => {
-                      setFieldTouched("cityId", true);
-                    }}
-                    className={`form-control form-control-sm ${errors.cityId &&
-                      touched.cityId &&
-                      "is-invalid"}`}
-                  />
-
+                    name="cityId"
+                    component={FieldCity}
+                    departmentId={values.departmentId}
+                  ></Field>
                   <div style={{ color: "#D54B4B" }}>
                     {errors.cityId && touched.cityId ? (
                       <i class="fa fa-exclamation-triangle" />
@@ -564,12 +561,15 @@ export default withTranslation("translations")(
                   })
                 });
               } else if (response.status === 400) {
-                toast.error("Error al registrar la sede. Inténtelo nuevamente.", {
-                  position: toast.POSITION.TOP_RIGHT,
-                  className: css({
-                    marginTop: "60px"
-                  })
-                });
+                toast.error(
+                  "Error al registrar la sede. Inténtelo nuevamente.",
+                  {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  }
+                );
               } else if (response.status === 500) {
                 toast.error("Error, la sede ya existe.", {
                   position: toast.POSITION.TOP_RIGHT,

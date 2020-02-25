@@ -99,9 +99,7 @@ class ModalEditConglomerado extends React.Component {
             description: data.description,
             status: data.status,
             conglomerate_charge: data.charge === null ? "" : data.charge.id
-          },
-          oldValue:
-            data.city.department.status !== 1 ? "" : data.city.department.id
+          }
         });
       })
       .catch(error => console.log(error));

@@ -35,16 +35,11 @@ class ModalEditEmpresa extends React.Component {
       alertSuccess: false,
       alertError500: false,
       alertError400: "",
-      optionsCountries: [0],
-      optionsCitys: [0],
-      optionsDepartment: [0],
       t: this.props.t,
       company_status: 0,
-      username: "",
       auth: this.props.authorization
     };
   }
-
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
@@ -52,7 +47,6 @@ class ModalEditEmpresa extends React.Component {
       };
     }
   }
-
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState(
@@ -63,7 +57,6 @@ class ModalEditEmpresa extends React.Component {
       );
     }
   }
-
   toggle = id => {
     this.setState(
       {

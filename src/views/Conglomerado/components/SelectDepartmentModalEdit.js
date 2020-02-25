@@ -7,9 +7,6 @@ const FieldDepartment = ({
   ...props
 }) => {
   const [dataDepartment, setDataDepartment] = useState([]);
-  const [id, setid] = useState(props.conglomerate_country);
-  const [auth, setauth] = useState(props.authorization);
-
   const fetchNewValues = id => {
     fetch(`${DEPARTMENTS_BY_COUNTRY}${id}`, {
       method: "GET",
@@ -29,38 +26,18 @@ const FieldDepartment = ({
   };
 
   const validateValues = () => {
-    if (props.oldValueCountryId !== props.newValueCountryId) {
+    if (PreValue !== props.countryId) {
       setDataDepartment([]);
-      values.conglomerate_department = "";
-      fetchNewValues(props.newValueCountryId);
+      if (PreValue !== undefined) {
+        values.conglomerate_department = "";
+      }
+      fetchNewValues(props.countryId);
     }
   };
 
-  // useEffect(() => {
-  //   console.log(`id = ${id}`)
-  //   fetchNewValues();
-  //   validateValues();
-  // }, [props.newValueCountryId]);
-
   useEffect(() => {
-    // if (props.conglomerate_country !== PreValue) {
-    //   fetchNewValues(props.conglomerate_country);
-    // }
-    console.log(`useRef = ${PreValue !== props.conglomerate_country}`);
-    console.log(
-      `useChangeInValue = ${props.oldValueCountryId !==
-        props.newValueCountryId}`
-    );
-    console.log(
-      `preHook = ${PreValue} newHook = ${props.conglomerate_country}`
-    );
-    console.log(
-      `preProp = ${props.oldValueCountryId} newProp = ${props.newValueCountryId}`
-    );
-    // console.log(`old = ${PreValue} new = ${props.conglomerate_country}`);
-    // console.log(`id x estado = ${id}`);
-    // console.log(`id x props = ${props.conglomerate_country} `);
-  });
+    validateValues();
+  }, [props.departmentId, props.countryId]);
 
   const PreviousValues = value => {
     const ref = useRef();
@@ -70,9 +47,7 @@ const FieldDepartment = ({
 
     return ref.current;
   };
-
-  const PreValue = PreviousValues(props.conglomerate_country);
-
+  const PreValue = PreviousValues(props.countryId);
   const t = props.t;
   return (
     <div>

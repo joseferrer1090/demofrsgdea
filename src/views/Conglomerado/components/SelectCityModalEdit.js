@@ -1,105 +1,85 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState, useRef } from "react";
 import { CITIES_BY_DEPARTMENT } from "../../../services/EndPoints";
 
-class SelectCity extends React.Component {
-  state = {
-    dataCity: [],
-    id: this.props.conglomerate_department,
-    t: this.props.t,
-    auth: this.props.authorization,
-    statusValue: this.props.statusValue,
-    countryId: this.props.conglomerate_country
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.conglomerate_department !== state.id) {
-      return {
-        id: props.conglomerate_department
-      };
-    }
-    if (props.authorization !== state.auth) {
-      return {
-        auth: props.authorization
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (
-      this.props.conglomerate_department !== prevProps.conglomerate_department
-    ) {
-      this.getDataCitys();
-    }
-    if (this.props.conglomerate_country !== prevProps.conglomerate_country) {
-      this.getDataCitysChange();
-    }
-    if (this.props.authorization !== prevProps.authorization) {
-      this.setState({
-        auth: this.props.authorization
-      });
-    }
-  }
-  getDataCitysChange = () => {
-    this.setState({
-      dataCity: []
-    });
-  };
-  componentDidMount() {
-    this.getDataCitys();
-  }
-
-  getDataCitys = () => {
-    fetch(`${CITIES_BY_DEPARTMENT}${this.state.id}`, {
+const FieldCity = ({
+  field,
+  form: { errors, touched, setFieldTouched, setFieldValue, values },
+  ...props
+}) => {
+  const [dataCity, setDataCity] = useState([]);
+  const fetchNewValues = id => {
+    fetch(`${CITIES_BY_DEPARTMENT}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
+        Authorization: "Bearer " + props.authorization
       }
     })
       .then(response => response.json())
       .then(data => {
-        this.setState({
-          dataCity: data
-        });
+        setDataCity(data);
       })
       .catch(err => {
         console.log("Error", err);
-        this.setState({ dataCity: [] });
+        setDataCity([]);
       });
   };
 
-  render() {
-    const { t } = this.props;
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={""}>
-            -- {t("app_conglomerado_modal_actualizar_ciudad_select")} --
-          </option>
-          {this.state.dataCity.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
+  const validateValues = () => {
+    if (PREValue !== props.departmentId) {
+      setDataCity([]);
+      if (PREValue !== "") {
+        values.conglomerate_city = "";
+      }
+      fetchNewValues(props.departmentId);
+    }
+  };
 
-SelectCity.propTypes = {
-  id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  useEffect(() => {
+    validateValues();
+  }, [props.departmentId, props.cityId]);
+
+  const usePrevious = value => {
+    let valueRef;
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    if (ref.current !== undefined) {
+      valueRef = ref.current;
+    } else {
+      valueRef = "";
+    }
+    return valueRef;
+  };
+
+  const PREValue = usePrevious(props.departmentId);
+  const t = props.t;
+  return (
+    <div>
+      {" "}
+      <select
+        onChange={e => setFieldValue("conglomerate_city", e.target.value)}
+        onBlur={e => setFieldTouched("conglomerate_city", true)}
+        className={`form-control form-control-sm ${errors.conglomerate_city &&
+          touched.conglomerate_city &&
+          "is-invalid"}`}
+        value={values.conglomerate_city}
+      >
+        <option value={""}>
+          -- {t("app_conglomerado_form_select_ciudad")} --
+        </option>
+        {dataCity === []
+          ? null
+          : dataCity.map((aux, id) => {
+              return (
+                <option key={id} value={aux.id}>
+                  {aux.name}
+                </option>
+              );
+            })}
+      </select>{" "}
+    </div>
+  );
 };
-
-export default SelectCity;
+export default FieldCity;

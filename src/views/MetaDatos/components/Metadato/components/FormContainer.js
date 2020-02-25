@@ -423,9 +423,6 @@ class FormContainer extends Component {
                   {" "}
                   <i className="fa fa-eye" /> Preview
                 </button>{" "}
-                <button className="btn btn-secondary btn-sm ">
-                  <i className="fa fa-save" /> Guardar
-                </button>
               </div>
             </div>
             <div className="card-body">

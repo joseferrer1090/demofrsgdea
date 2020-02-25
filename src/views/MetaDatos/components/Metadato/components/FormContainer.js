@@ -24,8 +24,8 @@ import DateField from "./Types/DateField";
 class FormContainer extends Component {
   constructor(props) {
     super(props);
-    // this.tooList = createRef();
-    // this._toolBoxContainer = createRef();
+    this.tooList = createRef();
+    this._toolBoxContainer = createRef();
     this.state = {
       dragActive: false,
       fields: [],
@@ -49,35 +49,45 @@ class FormContainer extends Component {
   componentDidMount() {
     let list = this.tooList;
     let toolBoxContainer = this._toolBoxContainer;
-    let self = this;
-    const $ = window.$;
-    $(function() {
-      $(toolBoxContainer).droppable({
-        drop: function(event, ui) {
-          let tool = $(ui.draggable[0]).attr("data-tool");
-          if (tool !== undefined) {
-            self.catchField(tool);
-          }
-        }
-      });
-    });
+    toolBoxContainer = "droppable";
+    //let self = this;
+    //const $ = window.$;
+    // $(function() {
+    //   $(toolBoxContainer).droppable({
+    //     drop: function(event, ui) {
+    //       let tool = $(ui.draggable[0]).attr("data-tool");
+    //       if (tool !== undefined) {
+    //         self.catchField(tool);
+    //       }
+    //     }
+    //   });
+    // });
+    // console.log(list);
+    // console.log(toolBoxContainer);
   }
 
   onDrop = e => {
-    let list = this.tooList;
-    let toolBoxContainer = this._toolBoxContainer;
-    let self = this;
-    const $ = window.$;
-    $(function() {
-      $(toolBoxContainer).droppable({
-        drop: function(event, ui) {
-          let tool = $(ui.draggable[0]).attr("data-tool");
-          if (tool !== undefined) {
-            self.catchField(tool);
-          }
-        }
-      });
-    });
+    let id = e.dataTransfer.getData("dragField");
+    console.log(id);
+    if (id !== undefined) {
+      this.catchField(id);
+    } else {
+      return null;
+    }
+    // let list = this.tooList;
+    // let toolBoxContainer = this._toolBoxContainer;
+    // let self = this;
+    // const $ = window.$;
+    // $(function() {
+    //   $(toolBoxContainer).droppable({
+    //     drop: function(event, ui) {
+    //       let tool = $(ui.draggable[0]).attr("data-tool");
+    //       if (tool !== undefined) {
+    //         self.catchField(tool);
+    //       }
+    //     }
+    //   });
+    // });
   };
 
   renderToolBoxItems = (field, index) => {
@@ -414,7 +424,15 @@ class FormContainer extends Component {
     console.log(this.state.fields);
     return (
       <div className="row">
-        <div className="col-md-12" ref={c => (this._toolBoxContainer = c)}>
+        <div
+          className="col-md-12"
+          droppable
+          ref={c => (this._toolBoxContainer = c)}
+          onDragOver={e => {
+            e.preventDefault();
+          }}
+          onDrop={e => this.onDrop(e)}
+        >
           <div className="card">
             <div className="card-header">
               <i className="fa fa-code" /> Bolsa de metadatos{" "}

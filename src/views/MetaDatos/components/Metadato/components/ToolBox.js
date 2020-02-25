@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, createRef, Children } from "react";
 import PropTypes from "prop-types";
 import { Card, CardHeader, CardBody, UncontrolledTooltip } from "reactstrap";
 
 class ToolBox extends Component {
   constructor(props) {
     super(props);
+    this._tools = createRef();
     this.state = {
       Tools: [
         {
@@ -42,6 +43,25 @@ class ToolBox extends Component {
     };
   }
 
+  componentDidMount() {
+    let tools = this._tools;
+    //let aux = (tools.className = "list-group draggable");
+    //console.log(aux);
+    // console.log(tools);
+    // let $ = window.$;
+    // $(tools)
+    //   .children()
+    //   .each((i, l) => {
+    //     $(l).draggable({ helper: "clone" });
+    //   });
+  }
+
+  dragField = (e, types) => {
+    e.dataTransfer.setData("dragField", types);
+    console.log(e.dataTransfer.setData("dragField", types));
+    console.log("dragField", types);
+  };
+
   renderCustomTools = () => {
     if (this.props.custom) {
       return this.props.custom.map(types => {
@@ -60,8 +80,13 @@ class ToolBox extends Component {
     }
   };
 
+  onDragOver = e => {
+    e.preventDefault();
+  };
+
   render() {
     const Tools = this.state.Tools;
+
     return (
       <div>
         <div className="card">
@@ -71,17 +96,27 @@ class ToolBox extends Component {
           </div>
           <div className="card-body">
             <div>
-              <ul className="list-group" ref={tools => (this._tools = tools)}>
+              <ul
+                className="list-group"
+                ref={tools => (this._tools = tools)}
+                onDragOver={e => {
+                  this.onDragOver(e);
+                }}
+                onDrop={e => {
+                  console.log(e);
+                }}
+              >
                 {Tools.map(types => {
                   return (
                     <li
-                      data-tool={types.name}
-                      onDragStart={e => this.dragField(e, types.name)}
                       key={types.name}
-                      className="list-group-item singleField"
+                      className="list-group-item draggable"
+                      onDragStart={e => {
+                        this.dragField(e, types.name);
+                      }}
+                      draggable={true}
                     >
-                      <i className={types.icon + " mr-3"}></i>
-                      {types.title}
+                      {types.name}
                     </li>
                   );
                 })}
@@ -93,21 +128,6 @@ class ToolBox extends Component {
       </div>
     );
   }
-
-  componentDidMount() {
-    let tools = this._tools;
-    let $ = window.$;
-    $(tools)
-      .children()
-      .each((i, l) => {
-        $(l).draggable({ helper: "clone" });
-      });
-  }
-
-  dragField = (e, types) => {
-    e.dataTransfer.setData("dragField", types);
-    console.log(e.dataTransfer.setData("dragField", types));
-  };
 }
 
 export default ToolBox;

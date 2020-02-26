@@ -420,7 +420,6 @@ class FormContainer extends Component {
   };
 
   render() {
-    console.log(this.state.fields);
     return (
       <div className="anitmated fadeIn">
         <div className="row">

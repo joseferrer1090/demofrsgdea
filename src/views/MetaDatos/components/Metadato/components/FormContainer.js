@@ -425,7 +425,7 @@ class FormContainer extends Component {
       <div className="row">
         <div
           className="col-md-12"
-          droppable
+          droppable={true}
           ref={c => (this._toolBoxContainer = c)}
           onDragOver={e => {
             e.preventDefault();

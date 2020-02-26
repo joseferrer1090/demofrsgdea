@@ -116,7 +116,7 @@ class SingleField extends Component {
       <div className="container">
         <Card>
           <CardHeader>
-            <i className="fa fa-wpforms" /> Texto {this.state.title}
+            <i className="fa fa-wpforms" /> Entrada de texto {this.state.title}
             <span
               className="pull-right"
               onClick={() => this.props.removeField(this.props.index)}

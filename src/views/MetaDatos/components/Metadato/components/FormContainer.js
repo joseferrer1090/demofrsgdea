@@ -94,7 +94,6 @@ class FormContainer extends Component {
     return (
       <div key={index} data-index={index}>
         {this.renderTypes(field, index)}
-        <hr />
       </div>
     );
   };

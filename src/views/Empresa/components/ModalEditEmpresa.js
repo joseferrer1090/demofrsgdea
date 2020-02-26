@@ -18,8 +18,8 @@ import * as Yup from "yup";
 import IMGEMPRESA from "./../../../assets/img/company.svg";
 import { CONGLOMERATES_STATUS, COMPANYS } from "../../../services/EndPoints";
 import SelectCountry from "./SelectCountryModalEdit";
-import SelectDepartment from "./SelectDepartmentModalEdit";
-import SelectCity from "./SelecCityModalEdit";
+import FieldDepartment from "./SelectDepartmentModalEdit";
+import FieldCity from "./SelecCityModalEdit";
 import SelectCharges from "./SelectChargesModalEdit";
 import { decode } from "jsonwebtoken";
 
@@ -459,6 +459,7 @@ class ModalEditEmpresa extends React.Component {
                                         *
                                       </span>{" "}
                                     </label>
+
                                     <SelectCountry
                                       authorization={this.state.auth}
                                       t={this.state.t}
@@ -495,7 +496,19 @@ class ModalEditEmpresa extends React.Component {
                                       )}
                                       <span className="text-danger">*</span>{" "}
                                     </label>
-                                    <SelectDepartment
+
+                                    <Field
+                                      authorization={this.state.auth}
+                                      t={this.state.t}
+                                      name="company_department"
+                                      component={FieldDepartment}
+                                      countryId={props.values.company_country}
+                                      departmentId={
+                                        props.values.company_department
+                                      }
+                                    ></Field>
+
+                                    {/* <SelectDepartment
                                       authorization={this.state.auth}
                                       t={this.state.t}
                                       company_country={
@@ -518,7 +531,7 @@ class ModalEditEmpresa extends React.Component {
                                       className={`form-control form-control-sm ${errors.company_department &&
                                         touched.company_department &&
                                         "is-invalid"}`}
-                                    />
+                                    /> */}
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.company_department &&
                                       touched.company_department ? (
@@ -537,7 +550,18 @@ class ModalEditEmpresa extends React.Component {
                                       )}{" "}
                                       <span className="text-danger">*</span>{" "}
                                     </label>
-                                    <SelectCity
+                                    <Field
+                                      authorization={this.state.auth}
+                                      t={this.state.t}
+                                      name="company_city"
+                                      component={FieldCity}
+                                      departmentId={
+                                        props.values.company_department
+                                      }
+                                      cityId={props.values.company_city}
+                                    ></Field>
+
+                                    {/* <SelectCity
                                       authorization={this.state.auth}
                                       t={this.state.t}
                                       company_department={
@@ -557,7 +581,7 @@ class ModalEditEmpresa extends React.Component {
                                       className={`form-control form-control-sm ${errors.company_city &&
                                         touched.company_city &&
                                         "is-invalid"}`}
-                                    />
+                                    /> */}
 
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.company_city &&

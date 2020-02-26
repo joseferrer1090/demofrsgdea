@@ -73,6 +73,7 @@ class SelectField extends Component {
         this.setState({
           validation: { ...this.state.validation, isReadOnly: value }
         });
+        break;
       case "MIN":
         this.setState({ validation: { ...this.state.validation, min: value } });
         break;
@@ -181,7 +182,20 @@ class SelectField extends Component {
 
   createMetada = e => {
     e.preventDefault();
-    console.log("Probando apenas");
+    const aux = JSON.stringify(
+      {
+        title: this.state.title,
+        name: this.state.name,
+        description: this.state.description,
+        options: this.state.options,
+        multiple: this.state.multiple,
+        isRequired: this.state.validation.isRequired,
+        isReadOnly: this.state.validation.isReadOnly
+      },
+      null,
+      2
+    );
+    alert(aux);
   };
 
   render() {
@@ -307,7 +321,7 @@ class SelectField extends Component {
                         <div className="col-md-4">
                           <div className="form-group">
                             <input
-                              id={"isReadOnly"}
+                              id="isReadOnly"
                               type={"checkbox"}
                               value={this.state.validation.isReadOnly}
                               onChange={e =>
@@ -490,7 +504,13 @@ class SelectField extends Component {
           </CardBody>
           <CardFooter>
             <div className="pull-right">
-              <button type="button" className="btn btn-secondary btn-sm">
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                onClick={e => {
+                  this.createMetada(e);
+                }}
+              >
                 {" "}
                 <i className="fa fa-save" /> Guardar metadato{" "}
               </button>

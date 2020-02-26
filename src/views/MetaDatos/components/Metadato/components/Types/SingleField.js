@@ -113,8 +113,8 @@ class SingleField extends Component {
 
   render() {
     return (
-      <div>
-        <Card outline color={"secondary"}>
+      <div className="container">
+        <Card>
           <CardHeader>
             <i className="fa fa-wpforms" /> Texto {this.state.title}
             <span

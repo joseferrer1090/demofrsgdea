@@ -106,7 +106,7 @@ class Paragraph extends Component {
                     this.toggle("1");
                   }}
                 >
-                  Content
+                  General <i className="fa fa-cog" />
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -118,7 +118,7 @@ class Paragraph extends Component {
                     this.toggle("2");
                   }}
                 >
-                  Style
+                  Styles <i className="fa fa-pencil" />
                 </NavLink>
               </NavItem>
             </Nav>

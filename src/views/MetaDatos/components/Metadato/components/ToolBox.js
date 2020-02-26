@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, createRef, Children } from "react";
 import PropTypes from "prop-types";
 import { Card, CardHeader, CardBody, UncontrolledTooltip } from "reactstrap";
 
 class ToolBox extends Component {
   constructor(props) {
     super(props);
+    this._tools = createRef();
     this.state = {
       Tools: [
         {
@@ -34,58 +35,96 @@ class ToolBox extends Component {
         },
         {
           title: "Fecha",
-          name: "DURATION",
+          name: "DATE_FIELD",
           icon: "fa fa-calendar"
         }
       ],
       tooltipOpen: false
     };
   }
-  toggle = () => {
-    this.setState({
-      tooltipOpen: true
-    });
+
+  componentDidMount() {
+    let tools = this._tools;
+    //let aux = (tools.className = "list-group draggable");
+    //console.log(aux);
+    // console.log(tools);
+    // let $ = window.$;
+    // $(tools)
+    //   .children()
+    //   .each((i, l) => {
+    //     $(l).draggable({ helper: "clone" });
+    //   });
+  }
+
+  dragField = (e, types) => {
+    e.dataTransfer.setData("dragField", types);
+    console.log(e.dataTransfer.setData("dragField", types));
+    console.log("dragField", types);
+  };
+
+  renderCustomTools = () => {
+    if (this.props.custom) {
+      return this.props.custom.map(types => {
+        return (
+          <li
+            data-tool={types.toolbox.name}
+            onDragStart={e => this.dragField(e, types.toolbox.name)}
+            key={types.toolbox.name}
+            className="list-group-item singleField"
+          >
+            <i className={types.toolbox.icon + " mr-3"} />
+            {types.toolbox.title}
+          </li>
+        );
+      });
+    }
   };
 
   onDragOver = e => {
     e.preventDefault();
   };
 
-  onDragStart = (e, id) => {
-    e.dataTransfer.setData("id", id);
-  };
-
   render() {
+    const Tools = this.state.Tools;
+
     return (
       <div>
-        <Card>
-          <CardHeader>
+        <div className="card">
+          <div className="card-header">
             {" "}
             <i className="fa fa-keyboard-o" /> Tipo de entradas{" "}
-          </CardHeader>
-          <CardBody>
+          </div>
+          <div className="card-body">
             <div>
-              <ul className="list-group">
-                {this.state.Tools.map(types => {
+              <ul
+                className="list-group"
+                ref={tools => (this._tools = tools)}
+                onDragOver={e => {
+                  this.onDragOver(e);
+                }}
+                onDrop={e => {
+                  console.log(e);
+                }}
+              >
+                {Tools.map(types => {
                   return (
-                    <div>
-                      <li
-                        draggable
-                        onDragStart={e => this.onDragStart(e, types.name)}
-                        className="list-group-item"
-                        key={types.name}
-                        style={{ cursor: "pointer" }}
-                      >
-                        <i className={`${types.icon}`} />{" "}
-                        <span id="help">{types.title}</span>
-                      </li>
-                    </div>
+                    <li
+                      key={types.name}
+                      className="list-group-item draggable"
+                      onDragStart={e => {
+                        this.dragField(e, types.name);
+                      }}
+                      draggable={true}
+                    >
+                      <i className={`${types.icon}`} /> {types.title}
+                    </li>
                   );
                 })}
+                {this.renderCustomTools()}
               </ul>
             </div>
-          </CardBody>
-        </Card>
+          </div>
+        </div>
       </div>
     );
   }

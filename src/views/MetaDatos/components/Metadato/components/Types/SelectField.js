@@ -253,21 +253,7 @@ class SelectField extends Component {
                             />
                           </div>
                         </div>
-                        <div className="col-md-12">
-                          <div className="form-group">
-                            <input
-                              type="checkbox"
-                              id={"multiple"}
-                              value={this.state.multiple}
-                              onChange={e =>
-                                this.changeValue("MULTIPLE", e.target.checked)
-                              }
-                            />
-                            <label className="" htmlFor="multiple">
-                              Multiple Selection
-                            </label>
-                          </div>
-                        </div>
+
                         <div className="col-md-6">
                           <div className="form-group">
                             <label htmlFor="">Titulo</label>
@@ -302,7 +288,7 @@ class SelectField extends Component {
                   <Card body>
                     <div className="col-md-12">
                       <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                           <div className="form-group">
                             <input
                               type={"checkbox"}
@@ -318,7 +304,7 @@ class SelectField extends Component {
                             <label htmlFor="isRequired"> ¿Es requerido? </label>
                           </div>
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-4">
                           <div className="form-group">
                             <input
                               id={"isReadOnly"}
@@ -332,6 +318,21 @@ class SelectField extends Component {
                               }
                             />
                             <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <input
+                              type="checkbox"
+                              id={"multiple"}
+                              value={this.state.multiple}
+                              onChange={e =>
+                                this.changeValue("MULTIPLE", e.target.checked)
+                              }
+                            />
+                            <label className="" htmlFor="multiple">
+                              ¿ Seleccion multiple ?
+                            </label>
                           </div>
                         </div>
                         {/* <div className="col-md-6">

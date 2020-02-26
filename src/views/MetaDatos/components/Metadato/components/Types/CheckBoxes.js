@@ -37,6 +37,7 @@ class CheckBoxes extends Component {
   }
   componentDidMount() {
     this.setState(this.props.field);
+    console.log(this.props.field);
   }
 
   changeValue = (stateFor, value) => {
@@ -176,6 +177,11 @@ class CheckBoxes extends Component {
         activeTab: tab
       });
     }
+  };
+
+  createMetadata = e => {
+    e.preventDefault();
+    console.log(e);
   };
 
   render() {

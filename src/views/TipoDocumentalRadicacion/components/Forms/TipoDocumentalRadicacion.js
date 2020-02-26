@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, ErrorMessage } from "formik";
+import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { Col, CustomInput, Button, Alert } from "reactstrap";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 import SelectConglomerado from "./components/SelectConglomerado";
-import SelectEmpresa from "./components/SelectCompany";
-import SelectSede from "./components/SelectHeadquarter";
-import SelectDependencia from "./components/SelectDependence";
+import FieldCompany from "./components/SelectCompany";
+import FieldHeadquarter from "./components/SelectHeadquarter";
+import FieldDependence from "./components/SelectDependence";
 import {
   TYPEDOCUMENTARY_POST,
   USERS_BY_DEPENDENCE
@@ -24,11 +24,16 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 
 const TipoDocumentalRadicacion = props => {
-  const { t, authorization } = props;
+  const { t } = props;
   const userData = useSelector(state => state.documentaryTypeReducer);
-  console.log(useSelector(state => state.documentaryTypeReducer));
-  console.log(userData.users);
-  console.log(userData.original);
+
+  const [oldValueConglomerate, setOldValueConglomerate] = useState();
+  const [newValueConglomerate, setNewValueConglomerate] = useState();
+
+  const changeInValueConglomerate = (Old, New) => {
+    setOldValueConglomerate(Old);
+    setNewValueConglomerate(New);
+  };
   return (
     <Formik
       initialValues={{
@@ -155,19 +160,6 @@ const TipoDocumentalRadicacion = props => {
                 });
               })
           );
-          // console.log({
-          //   code: values.codigo,
-          //   name: values.nombre,
-          //   description: values.descripcion,
-          //   answerDays: values.d_maximos,
-          //   issue: values.asunto,
-          //   status: tipoEstado(values.estado),
-          //   typeCorrespondence: tipoCorrespondencia(values.tipocorrespondencia),
-          //   templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
-          //   userName: username.user_name,
-          //   users: userData.users,
-          //   original: userData.original
-          // });
           setSubmitting(false);
           resetForm({
             tipocorrespondencia: "",
@@ -437,6 +429,10 @@ const TipoDocumentalRadicacion = props => {
                                       "conglomerado",
                                       e.target.value
                                     );
+                                    changeInValueConglomerate(
+                                      values.conglomerado,
+                                      e.target.value
+                                    );
                                   }}
                                   onBlur={() => {
                                     setFieldTouched("conglomerado", true);
@@ -452,7 +448,15 @@ const TipoDocumentalRadicacion = props => {
                                     "app_documentalRadicacion_form_registrar_empresa"
                                   )}{" "}
                                 </label>
-                                <SelectEmpresa
+                                <Field
+                                  authorization={props.authorization}
+                                  t={props.t}
+                                  name="empresa"
+                                  component={FieldCompany}
+                                  oldValueConglomerateId={oldValueConglomerate}
+                                  newValueConglomerateId={newValueConglomerate}
+                                ></Field>
+                                {/* <SelectEmpresa
                                   authorization={props.authorization}
                                   idConglomerado={values.conglomerado}
                                   t={props.t}
@@ -465,7 +469,7 @@ const TipoDocumentalRadicacion = props => {
                                     setFieldTouched("empresa", true);
                                   }}
                                   className={"form-control form-control-sm"}
-                                />
+                                /> */}
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -476,7 +480,14 @@ const TipoDocumentalRadicacion = props => {
                                     "app_documentalRadicacion_form_registrar_sede"
                                   )}{" "}
                                 </label>
-                                <SelectSede
+                                <Field
+                                  authorization={props.authorization}
+                                  t={props.t}
+                                  name="sede"
+                                  component={FieldHeadquarter}
+                                  companyId={values.empresa}
+                                ></Field>
+                                {/* <SelectSede
                                   authorization={props.authorization}
                                   t={props.t}
                                   idEmpresa={values.empresa}
@@ -489,7 +500,7 @@ const TipoDocumentalRadicacion = props => {
                                     setFieldTouched("sede", true);
                                   }}
                                   className="form-control form-control-sm"
-                                />
+                                /> */}
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -500,7 +511,14 @@ const TipoDocumentalRadicacion = props => {
                                     "app_documentalRadicacion_form_registrar_dependencia"
                                   )}{" "}
                                 </label>
-                                <SelectDependencia
+                                <Field
+                                  authorization={props.authorization}
+                                  t={props.t}
+                                  name="dependencia"
+                                  component={FieldDependence}
+                                  sedeId={values.sede}
+                                ></Field>
+                                {/* <SelectDependencia
                                   authorization={props.authorization}
                                   t={props.t}
                                   idSede={values.sede}
@@ -516,7 +534,7 @@ const TipoDocumentalRadicacion = props => {
                                     setFieldTouched("dependencia", true);
                                   }}
                                   className={"form-control form-control-sm"}
-                                />
+                                /> */}
                               </div>
                             </div>
                             <div className="col-md-12">

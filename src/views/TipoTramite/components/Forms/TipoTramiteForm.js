@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, ErrorMessage } from "formik";
+import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { Col, CustomInput, Button, Alert } from "reactstrap";
 import {
@@ -11,9 +11,9 @@ import {
 import "react-toastify/dist/ReactToastify.css";
 import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
-import SelectDependencia from "./components/SelectDependence";
-import SelectEmpresa from "./components/SelectCompany";
-import SelectSede from "./components/SelectHeadquarter";
+import FieldDependencia from "./components/SelectDependence";
+import FieldCompany from "./components/SelectCompany";
+import FieldSede from "./components/SelectHeadquarter";
 import PropTypes from "prop-types";
 import { TYPEPROCEDURE_POST } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
@@ -23,12 +23,18 @@ import { USERS_BY_DEPENDENCE } from "./../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 
 const TipoTramiteForm = props => {
-  const { t, authorization } = props;
+  const { t } = props;
   const usersdata = useSelector(state => state.typeProcedureReducer);
   const aux = useSelector(state => state.typeProcedureReducer.assigned);
-  // console.log(props.authorization);
-  console.log(useSelector(state => state.typeProcedureReducer.users));
-  console.log(aux);
+
+  const [oldValueConglomerate, setOldValueConglomerate] = useState();
+  const [newValueConglomerate, setNewValueConglomerate] = useState();
+
+  const changeInValueConglomerate = (Old, New) => {
+    setOldValueConglomerate(Old);
+    setNewValueConglomerate(New);
+  };
+
   return (
     <Formik
       initialValues={{
@@ -92,19 +98,6 @@ const TipoTramiteForm = props => {
         setTimeout(() => {
           const auth = props.authorization;
           const username = decode(auth);
-          // console.log({
-          //   code: values.codigo,
-          //   name: values.nombre,
-          //   description: values.descripcion,
-          //   answerDays: values.d_maximos,
-          //   issue: values.asunto,
-          //   status: tipoEstado(values.estado),
-          //   typeCorrespondence: values.tipocorrespondencia,
-          //   templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
-          //   userName: username.user_name,
-          //   users: usersdata.users,
-          //   original: usersdata.original
-          // });
           fetch(`${TYPEPROCEDURE_POST}`, {
             method: "POST",
             headers: {
@@ -137,12 +130,15 @@ const TipoTramiteForm = props => {
                     })
                   });
                 } else if (response.status === 400) {
-                  toast.error("Error al registrar  el tipo de trámite. Inténtelo nuevamente.", {
-                    position: toast.POSITION.TOP_RIGHT,
-                    className: css({
-                      marginTop: "60px"
-                    })
-                  });
+                  toast.error(
+                    "Error al registrar  el tipo de trámite. Inténtelo nuevamente.",
+                    {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    }
+                  );
                 } else if (response.status === 500) {
                   toast.error("Error, el tipo de trámite ya existe", {
                     position: toast.POSITION.TOP_RIGHT,
@@ -150,7 +146,7 @@ const TipoTramiteForm = props => {
                       marginTop: "60px"
                     })
                   });
-                }  
+                }
               })
             )
             .catch(error => {
@@ -425,15 +421,16 @@ const TipoTramiteForm = props => {
                                       "conglomerado",
                                       e.target.value
                                     );
+                                    changeInValueConglomerate(
+                                      values.conglomerado,
+                                      e.target.value
+                                    );
                                   }}
                                   onBlur={() => {
                                     setFieldTouched("conglomerado", true);
                                   }}
                                   className="form-control form-control-sm"
                                 />
-                                {/* <select className="form-control form-control-sm">
-                              <option>Seleccione</option>
-                            </select> */}
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -441,23 +438,14 @@ const TipoTramiteForm = props => {
                                 <label>
                                   {t("app_tipoTramite_form_registrar_empresa")}{" "}
                                 </label>
-                                <SelectEmpresa
+                                <Field
                                   authorization={props.authorization}
-                                  idConglomerado={values.conglomerado}
                                   t={props.t}
                                   name="empresa"
-                                  value={values.empresa}
-                                  onChange={e => {
-                                    setFieldValue("empresa", e.target.value);
-                                  }}
-                                  onBlur={() => {
-                                    setFieldTouched("empresa", true);
-                                  }}
-                                  className={"form-control form-control-sm"}
-                                />
-                                {/* <select className="form-control form-control-sm">
-                              <option>Seleccione</option>
-                            </select> */}
+                                  component={FieldCompany}
+                                  oldValueConglomerateId={oldValueConglomerate}
+                                  newValueConglomerateId={newValueConglomerate}
+                                ></Field>
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -468,23 +456,13 @@ const TipoTramiteForm = props => {
                                     "app_tipoTramite_form_registrar_sede"
                                   )}{" "}
                                 </label>
-                                <SelectSede
+                                <Field
                                   authorization={props.authorization}
                                   t={props.t}
-                                  idEmpresa={values.empresa}
                                   name="sede"
-                                  value={values.sede}
-                                  onChange={e => {
-                                    setFieldValue("sede", e.target.value);
-                                  }}
-                                  onBlur={() => {
-                                    setFieldTouched("sede", true);
-                                  }}
-                                  className="form-control form-control-sm"
-                                />
-                                {/* <select className="form-control form-control-sm">
-                              <option>Seleccione</option>
-                            </select> */}
+                                  component={FieldSede}
+                                  companyId={values.empresa}
+                                ></Field>
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -495,7 +473,15 @@ const TipoTramiteForm = props => {
                                     "app_tipoTramite_form_registrar_dependencia"
                                   )}{" "}
                                 </label>
-                                <SelectDependencia
+                                <Field
+                                  authorization={props.authorization}
+                                  t={props.t}
+                                  name="dependencia"
+                                  component={FieldDependencia}
+                                  sedeId={values.sede}
+                                ></Field>
+
+                                {/* <SelectDependencia
                                   authorization={props.authorization}
                                   t={props.t}
                                   idSede={values.sede}
@@ -511,7 +497,7 @@ const TipoTramiteForm = props => {
                                     setFieldTouched("dependencia", true);
                                   }}
                                   className={"form-control form-control-sm"}
-                                />
+                                /> */}
                               </div>
                             </div>
                             <div className="col-md-12">
@@ -675,19 +661,6 @@ function UserList(props) {
   const dispatch = useDispatch();
   const AgregarUsuario = user => dispatch(agregarUserAction(user));
 
-  // const getDataUsers = () => {
-  //   fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type":"application/json",
-  //       Authorization: "Basic " + window.btoa('sgdea:123456')
-  //     }
-  //   }).then(response => response.json()).then(data => {
-  //     setdata(data);
-  //     console.log(data);
-  //   }).catch(err => console.log("Error", err));
-  // };
-
   useEffect(() => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
@@ -703,13 +676,9 @@ function UserList(props) {
       .then(response => response.json())
       .then(data => {
         setdata(data);
-        // console.log(data);
       })
       .catch(err => console.log("Error", err));
-    //console.log("componentDidUpdate");
   }, [id]);
-
-  //console.log(id);
 
   return (
     <div>
@@ -803,7 +772,6 @@ const UserListEnabled = props => {
   const dispatch = useDispatch();
   const users = props.data;
   const t = props.t;
-  // console.log(users.users);
   return (
     <div className="col-md-12">
       {notificacion({ x })}

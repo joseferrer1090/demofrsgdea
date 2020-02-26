@@ -362,27 +362,6 @@ class ModalEditSedes extends React.Component {
                                 }
                                 companyId={props.values.headquarter_company}
                               ></Field>
-                              {/* <SelectCompany
-                                authorization={this.state.auth}
-                                t={this.state.t}
-                                headquarter_conglomerate={
-                                  props.values.headquarter_conglomerate
-                                }
-                                name="headquarter_company"
-                                value={values.headquarter_company}
-                                onChange={e =>
-                                  setFieldValue(
-                                    "headquarter_company",
-                                    e.target.value
-                                  )
-                                }
-                                onBlur={() =>
-                                  setFieldTouched("headquarter_company", true)
-                                }
-                                className={`form-control form-control-sm ${errors.headquarter_company &&
-                                  touched.headquarter_company &&
-                                  "is-invalid"}`}
-                              ></SelectCompany> */}
 
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.headquarter_company &&

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { withFormik, ErrorMessage, Field } from "formik";
 import { USERS } from "./../../../../services/EndPoints";
 import * as Yup from "yup";
@@ -19,9 +19,9 @@ import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import MySelect from "./components/SelectRoles";
 import SelectConglomerado from "./components/SelectConglomerado";
-import SelectCompany from "./components/SelectCompany";
-import SelectHeadquarter from "./components/SelectHeadquarter";
-import SelectDependence from "./components/SelectDependence";
+import FieldCompany from "./components/SelectCompany";
+import FieldHeadquarter from "./components/SelectHeadquarter";
+import FieldDependence from "./components/SelectDependence";
 import SelectCharge from "./components/SelectCharge";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
@@ -39,6 +39,14 @@ const UserForm = props => {
     setFieldTouched,
     t
   } = props;
+  const [oldValueConglomerate, setOldValueConglomerate] = useState();
+  const [newValueConglomerate, setNewValueConglomerate] = useState();
+
+  const changeInValueConglomerate = (Old, New) => {
+    setOldValueConglomerate(Old);
+    setNewValueConglomerate(New);
+  };
+
   return (
     <Fragment>
       <Card>
@@ -220,9 +228,13 @@ const UserForm = props => {
                         authorization={props.authorization}
                         t={props.t}
                         name={"conglomeradoID"}
-                        onChange={e =>
-                          setFieldValue("conglomeradoID", e.target.value)
-                        }
+                        onChange={e => {
+                          setFieldValue("conglomeradoID", e.target.value);
+                          changeInValueConglomerate(
+                            values.conglomeradoID,
+                            e.target.value
+                          );
+                        }}
                         value={values.conglomeradoID}
                         className={`form-control form-control-sm ${errors.conglomeradoID &&
                           touched.conglomeradoID &&
@@ -248,7 +260,16 @@ const UserForm = props => {
                         {t("app_usuarios_form_registrar_empresa")}{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <SelectCompany
+                      <Field
+                        authorization={props.authorization}
+                        t={props.t}
+                        name="empresaID"
+                        component={FieldCompany}
+                        oldValueConglomerateId={oldValueConglomerate}
+                        newValueConglomerateId={newValueConglomerate}
+                      ></Field>
+
+                      {/* <SelectCompany
                         authorization={props.authorization}
                         t={props.t}
                         conglomerate={props.values.conglomeradoID}
@@ -260,7 +281,7 @@ const UserForm = props => {
                         className={`form-control form-control-sm ${errors.empresaID &&
                           touched.empresaID &&
                           "is-invalid"}`}
-                      ></SelectCompany>
+                      ></SelectCompany> */}
                       <div style={{ color: "#D54B4B" }}>
                         {errors.empresaID && touched.empresaID ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -276,7 +297,15 @@ const UserForm = props => {
                         {t("app_usuarios_form_registrar_sede")}{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <SelectHeadquarter
+                      <Field
+                        authorization={props.authorization}
+                        t={props.t}
+                        name="sedeID"
+                        component={FieldHeadquarter}
+                        companyId={values.empresaID}
+                      ></Field>
+
+                      {/* <SelectHeadquarter
                         authorization={props.authorization}
                         t={props.t}
                         company={props.values.empresaID}
@@ -285,7 +314,7 @@ const UserForm = props => {
                         className={`form-control form-control-sm ${errors.sedeID &&
                           touched.sedeID &&
                           "is-invalid"}`}
-                      ></SelectHeadquarter>
+                      ></SelectHeadquarter> */}
                       <div style={{ color: "#D54B4B" }}>
                         {errors.sedeID && touched.sedeID ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -301,7 +330,14 @@ const UserForm = props => {
                         {t("app_usuarios_form_registrar_dependencia")}{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <SelectDependence
+                      <Field
+                        authorization={props.authorization}
+                        t={props.t}
+                        name="dependenciaID"
+                        component={FieldDependence}
+                        sedeId={values.sedeID}
+                      ></Field>
+                      {/* <SelectDependence
                         authorization={props.authorization}
                         t={props.t}
                         headquarter={props.values.sedeID}
@@ -313,7 +349,7 @@ const UserForm = props => {
                         className={`form-control form-control-sm ${errors.dependenciaID &&
                           touched.dependenciaID &&
                           "is-invalid"}`}
-                      ></SelectDependence>
+                      ></SelectDependence> */}
                       <div style={{ color: "#D54B4B" }}>
                         {errors.dependenciaID && touched.dependenciaID ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -655,12 +691,15 @@ export default withTranslation("translations")(
                 })
               });
             } else if (response.status === 400) {
-              toast.error("Error al registrar el usuario. Inténtelo nuevamente.", {
-                position: toast.POSITION.TOP_RIGHT,
-                className: css({
-                  marginTop: "60px"
-                })
-              });
+              toast.error(
+                "Error al registrar el usuario. Inténtelo nuevamente.",
+                {
+                  position: toast.POSITION.TOP_RIGHT,
+                  className: css({
+                    marginTop: "60px"
+                  })
+                }
+              );
             } else if (response.status === 500) {
               toast.error("Error, el usuario ya existe.", {
                 position: toast.POSITION.TOP_RIGHT,

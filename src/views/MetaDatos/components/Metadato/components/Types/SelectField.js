@@ -29,9 +29,9 @@ class SelectField extends Component {
       description: "",
       validation: {
         isReadOnly: false,
-        isRequired: false,
-        min: 6,
-        max: 6
+        isRequired: false
+        // min: 6,
+        // max: 6
       },
       options: [],
       duplicate: false,
@@ -334,7 +334,7 @@ class SelectField extends Component {
                             <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
                           </div>
                         </div>
-                        <div className="col-md-6">
+                        {/* <div className="col-md-6">
                           <div className="form-group">
                             <label htmlFor=""> Max </label>
                             <input
@@ -347,8 +347,8 @@ class SelectField extends Component {
                               placeholder={"6"}
                             />
                           </div>
-                        </div>
-                        <div className="col-md-6">
+                        </div> */}
+                        {/* <div className="col-md-6">
                           <div className="form-group">
                             <label htmlFor="">Min</label>
                             <input
@@ -361,7 +361,7 @@ class SelectField extends Component {
                               placeholder={"6"}
                             />
                           </div>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </Card>

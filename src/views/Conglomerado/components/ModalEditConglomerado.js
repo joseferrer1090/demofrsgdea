@@ -13,9 +13,6 @@ import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
   CONGLOMERATES,
-  CONTRIES_STATUS,
-  DEPARTMENTS_STATUS,
-  CITIES_STATUS,
   CHARGES_STATUS,
   CONGLOMERATE
 } from "./../../../services/EndPoints";

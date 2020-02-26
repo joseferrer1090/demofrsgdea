@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
-import SelectCompany from "./components/SelectCompany";
+import FieldCompany from "./components/SelectCompany";
 import SelectCountry from "./components/SelectCountry";
 import FieldDepartment from "./components/SelectDepartment";
 import FieldCity from "./components/SelectCity";
@@ -41,6 +41,8 @@ const SedesForm = props => {
   const [visibleAlert, setVisibleAlert] = useState(true);
   const [oldValue, setOldValue] = useState();
   const [newValue, setNewValue] = useState();
+  const [oldValueConglomerate, setOldValueConglomerate] = useState();
+  const [newValueConglomerate, setNewValueConglomerate] = useState();
 
   const onDismiss = () => {
     setVisibleAlert(!visibleAlert);
@@ -49,6 +51,11 @@ const SedesForm = props => {
   const changeInValue = (Old, New) => {
     setOldValue(Old);
     setNewValue(New);
+  };
+
+  const changeInValueConglomerate = (Old, New) => {
+    setOldValueConglomerate(Old);
+    setNewValueConglomerate(New);
   };
 
   return (
@@ -70,9 +77,13 @@ const SedesForm = props => {
                     authorization={props.authorization}
                     t={props.t}
                     name={"conglomerateId"}
-                    onChange={e =>
-                      setFieldValue("conglomerateId", e.target.value)
-                    }
+                    onChange={e => {
+                      setFieldValue("conglomerateId", e.target.value);
+                      changeInValueConglomerate(
+                        values.conglomerateId,
+                        e.target.value
+                      );
+                    }}
                     onBlur={() => setFieldTouched("conglomerateId", true)}
                     value={values.conglomerateId}
                     className={`form-control form-control-sm ${errors.conglomerateId &&
@@ -96,7 +107,17 @@ const SedesForm = props => {
                     <span className="text-danger">*</span>
                   </label>
                   <br />
-                  <SelectCompany
+
+                  <Field
+                    authorization={props.authorization}
+                    t={props.t}
+                    name="companyId"
+                    component={FieldCompany}
+                    oldValueConglomerateId={oldValueConglomerate}
+                    newValueConglomerateId={newValueConglomerate}
+                  ></Field>
+
+                  {/* <SelectCompany
                     authorization={props.authorization}
                     t={props.t}
                     conglomerateId={props.values.conglomerateId}
@@ -107,7 +128,7 @@ const SedesForm = props => {
                     className={`form-control form-control-sm ${errors.companyId &&
                       touched.companyId &&
                       "is-invalid"}`}
-                  ></SelectCompany>
+                  ></SelectCompany> */}
 
                   <div style={{ color: "#D54B4B" }}>
                     {errors.companyId && touched.companyId ? (

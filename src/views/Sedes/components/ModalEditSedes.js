@@ -19,10 +19,10 @@ import { HEADQUARTERS, HEADQUARTER } from "./../../../services/EndPoints";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import SelectConglomerado from "./SelectConglomeradoModalEdit";
-import SelectCompany from "./SelectCompanyModalEdit";
+import FieldCompany from "./SelectCompanyModalEdit";
 import SelectCountry from "./SelectCountryModalEdit";
-import SelectDepartment from "./SelectDepartmentModalEdit";
-import SelectCity from "./SelectCityModalEdit";
+import FieldDepartment from "./SelectDepartmentModalEdit";
+import FieldCity from "./SelectCityModalEdit";
 import SelectCharges from "./SelectChargesModalEdit";
 import { decode } from "jsonwebtoken";
 
@@ -37,9 +37,9 @@ class ModalEditSedes extends React.Component {
     alertError400: false,
     t: this.props.t,
     headquarter_status: 0,
-    username: "",
     auth: this.props.authorization
   };
+
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
@@ -352,27 +352,16 @@ class ModalEditSedes extends React.Component {
                                 {t("app_sedes_form_actualizar_empresa")}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
-                              <SelectCompany
+                              <Field
                                 authorization={this.state.auth}
                                 t={this.state.t}
-                                headquarter_conglomerate={
+                                name="headquarter_company"
+                                component={FieldCompany}
+                                conglomerateId={
                                   props.values.headquarter_conglomerate
                                 }
-                                name="headquarter_company"
-                                value={values.headquarter_company}
-                                onChange={e =>
-                                  setFieldValue(
-                                    "headquarter_company",
-                                    e.target.value
-                                  )
-                                }
-                                onBlur={() =>
-                                  setFieldTouched("headquarter_company", true)
-                                }
-                                className={`form-control form-control-sm ${errors.headquarter_company &&
-                                  touched.headquarter_company &&
-                                  "is-invalid"}`}
-                              ></SelectCompany>
+                                companyId={props.values.headquarter_company}
+                              ></Field>
 
                               <div style={{ color: "#D54B4B" }}>
                                 {errors.headquarter_company &&
@@ -621,31 +610,18 @@ class ModalEditSedes extends React.Component {
                                         )}
                                         <span className="text-danger">*</span>{" "}
                                       </label>
-                                      <SelectDepartment
+                                      <Field
                                         authorization={this.state.auth}
                                         t={this.state.t}
-                                        headquarter_country={
+                                        name="headquarter_department"
+                                        component={FieldDepartment}
+                                        countryId={
                                           props.values.headquarter_country
                                         }
-                                        name="headquarter_department"
-                                        value={values.headquarter_department}
-                                        onChange={e =>
-                                          setFieldValue(
-                                            "headquarter_department",
-                                            e.target.value
-                                          )
+                                        departmentId={
+                                          props.values.headquarter_department
                                         }
-                                        onBlur={() =>
-                                          setFieldTouched(
-                                            "headquarter_department",
-                                            true
-                                          )
-                                        }
-                                        className={`form-control form-control-sm ${errors.headquarter_department &&
-                                          touched.headquarter_department &&
-                                          "is-invalid"}`}
-                                      />
-
+                                      ></Field>
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.headquarter_department &&
                                         touched.headquarter_department ? (
@@ -664,31 +640,16 @@ class ModalEditSedes extends React.Component {
                                         )}{" "}
                                         <span className="text-danger">*</span>{" "}
                                       </label>
-                                      <SelectCity
+                                      <Field
                                         authorization={this.state.auth}
                                         t={this.state.t}
-                                        headquarter_department={
+                                        name="headquarter_city"
+                                        component={FieldCity}
+                                        departmentId={
                                           props.values.headquarter_department
                                         }
-                                        name={"headquarter_city"}
-                                        value={values.headquarter_city}
-                                        onChange={e =>
-                                          setFieldValue(
-                                            "headquarter_city",
-                                            e.target.value
-                                          )
-                                        }
-                                        onBlur={() =>
-                                          setFieldTouched(
-                                            "headquarter_city",
-                                            true
-                                          )
-                                        }
-                                        className={`form-control form-control-sm ${errors.headquarter_city &&
-                                          touched.headquarter_city &&
-                                          "is-invalid"}`}
-                                      />
-
+                                        cityId={props.values.headquarter_city}
+                                      ></Field>
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.headquarter_city &&
                                         touched.headquarter_city ? (

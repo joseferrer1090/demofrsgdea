@@ -1,86 +1,82 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { DEPENDENCIES_BY_HEADQUARTER } from "./../../../../services/EndPoints";
+import React, { useEffect, useState, useRef } from "react";
+import { DEPENDENCIES_BY_HEADQUARTER } from "../../../../services/EndPoints";
 
-class SelectDependencia extends React.Component {
-  state = {
-    dataDependence: [],
-    id: this.props.headquarter,
-    t: this.props.t,
-    auth: this.props.authorization
-  };
-  static getDerivedStateFromProps(props, state) {
-    if (props.headquarter !== state.id) {
-      return {
-        headquarter: props.headquarter
-      };
-    }
-    if (props.authorization !== state.auth) {
-      return {
-        auth: props.authorization
-      };
-    }
-    return null;
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.headquarter !== prevProps.headquarter) {
-      // metodo del fetch()
-      this.getDataDependence();
-    }
-    if (this.props.authorization !== prevProps.authorization) {
-      this.setState(
-        {
-          auth: this.props.authorization
-        },
-        this.getDataDependence()
-      );
-    }
-  }
-
-  getDataDependence = () => {
-    fetch(`${DEPENDENCIES_BY_HEADQUARTER}${this.props.headquarter}`, {
+const FieldDependence = ({
+  field,
+  form: { errors, touched, setFieldTouched, setFieldValue, values },
+  ...props
+}) => {
+  const [dataDependence, setDataDependece] = useState([]);
+  const fetchNewValues = id => {
+    fetch(`${DEPENDENCIES_BY_HEADQUARTER}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
+        Authorization: "Bearer " + props.authorization
       }
     })
       .then(response => response.json())
       .then(data => {
-        this.setState({
-          dataDependence: data
-        });
+        setDataDependece(data);
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => {
+        console.log("Error", err);
+        setDataDependece([]);
+      });
   };
-  render() {
-    const { t } = this.props;
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          onChange={this.props.onChange}
-          className={this.props.className}
-        >
-          <option value={""}>
-            -- {t("app_grupoUsuarios_form_registrar_select_dependencia")} --
-          </option>
-          {this.state.dataDependence.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-SelectDependencia.propTypes = {
-  t: PropTypes.any,
-  id: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired
+
+  const validateValues = () => {
+    if (PREValue !== props.sedeId) {
+      setDataDependece([]);
+      values.dependencia = "";
+      fetchNewValues(props.sedeId);
+    }
+  };
+
+  useEffect(() => {
+    validateValues();
+  }, [props.sedeId]);
+
+  const usePrevious = value => {
+    let valueRef;
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    if (ref.current !== undefined) {
+      valueRef = ref.current;
+    } else {
+      valueRef = "";
+    }
+    return valueRef;
+  };
+
+  const PREValue = usePrevious(props.sedeId);
+  const t = props.t;
+  return (
+    <div>
+      {" "}
+      <select
+        onChange={e => setFieldValue("dependencia", e.target.value)}
+        onBlur={e => setFieldTouched("dependencia", true)}
+        className={`form-control form-control-sm ${errors.dependencia &&
+          touched.dependencia &&
+          "is-invalid"}`}
+      >
+        <option value={""}>
+          -- {t("app_grupoUsuarios_form_registrar_select_dependencia")} --
+        </option>
+        {dataDependence === []
+          ? null
+          : dataDependence.map((aux, id) => {
+              return (
+                <option key={id} value={aux.id}>
+                  {aux.name}
+                </option>
+              );
+            })}
+      </select>{" "}
+    </div>
+  );
 };
-export default SelectDependencia;
+export default FieldDependence;

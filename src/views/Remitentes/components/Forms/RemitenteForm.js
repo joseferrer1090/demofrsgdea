@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import {
   Card,
@@ -10,14 +10,14 @@ import {
   CustomInput
 } from "reactstrap";
 import { THIRDPARTYS } from "../../../../services/EndPoints";
-import { withFormik, ErrorMessage } from "formik";
+import { withFormik, ErrorMessage, Field } from "formik";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import SelectCountry from "./components/SelectCountry";
-import SelectDepartment from "./components/SelectDepartment";
-import SelectCity from "./components/SelectCity";
+import FieldDepartment from "./components/SelectDepartment";
+import FieldCity from "./components/SelectCity";
 import PropTypes from "prop-types";
 import SelectTipoTercero from "./components/SelectTipoTercero";
 import { decode } from "jsonwebtoken";
@@ -37,6 +37,14 @@ const RemitenteForm = props => {
     setFieldValue,
     t
   } = props;
+
+  const [oldValue, setOldValue] = useState();
+  const [newValue, setNewValue] = useState();
+
+  const changeInValue = (Old, New) => {
+    setOldValue(Old);
+    setNewValue(New);
+  };
 
   return (
     <div className="animated fadeIn">
@@ -286,7 +294,10 @@ const RemitenteForm = props => {
                           authorization={props.authorization}
                           t={props.t}
                           name={"pais"}
-                          onChange={e => setFieldValue("pais", e.target.value)}
+                          onChange={e => {
+                            setFieldValue("pais", e.target.value);
+                            changeInValue(values.pais, e.target.value);
+                          }}
                           value={values.pais}
                           onBlur={() => setFieldTouched("pais", true)}
                           className={`form-control form-control-sm ${errors.pais &&
@@ -308,20 +319,14 @@ const RemitenteForm = props => {
                           {t("app_tercero_form_registrar_departamento")}{" "}
                           <span className="text-danger"> * </span>{" "}
                         </label>
-                        <SelectDepartment
+                        <Field
                           authorization={props.authorization}
                           t={props.t}
-                          pais={props.values.pais}
                           name="departamento"
-                          value={values.departamento}
-                          onChange={e =>
-                            setFieldValue("departamento", e.target.value)
-                          }
-                          onBlur={() => setFieldTouched("departamento", true)}
-                          className={`form-control form-control-sm ${errors.departamento &&
-                            touched.departamento &&
-                            "is-invalid"}`}
-                        />
+                          component={FieldDepartment}
+                          oldValueCountryId={oldValue}
+                          newValueCountryId={newValue}
+                        ></Field>
                         <div style={{ color: "#D54B4B" }}>
                           {errors.departamento && touched.departamento ? (
                             <i className="fa fa-exclamation-triangle" />
@@ -337,19 +342,14 @@ const RemitenteForm = props => {
                           {t("app_tercero_form_registrar_ciudad")}{" "}
                           <span className="text-danger"> * </span>{" "}
                         </label>
-                        <SelectCity
+                        <Field
                           authorization={props.authorization}
                           t={props.t}
-                          departamento={props.values.departamento}
-                          name={"ciudad"}
-                          onChange={e =>
-                            setFieldValue("ciudad", e.target.value)
-                          }
-                          onBlur={() => setFieldTouched("ciudad", true)}
-                          className={`form-control form-control-sm ${errors.ciudad &&
-                            touched.ciudad &&
-                            "is-invalid"}`}
-                        />
+                          name="ciudad"
+                          component={FieldCity}
+                          departmentId={values.departamento}
+                        ></Field>
+
                         <div style={{ color: "#D54B4B" }}>
                           {errors.ciudad && touched.ciudad ? (
                             <i className="fa fa-exclamation-triangle" />

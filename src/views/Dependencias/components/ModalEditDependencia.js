@@ -12,8 +12,8 @@ import IMGDEPENDENCIA from "./../../../assets/img/settings-work-tool.svg";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import SelectConglomerado from "./SelectConglomeradoModalEdit";
-import SelectCompany from "./SelectCompanyModalEdit";
-import SelectHeadquarter from "./SelectHeadquarterModalEdit";
+import FieldCompany from "./SelectCompanyModalEdit";
+import FieldHeadquarter from "./SelectHeadquarterModalEdit";
 import SelectCharges from "./SelectChargesModalEdit";
 import { DEPENDENCE, DEPENDENCIES } from "../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
@@ -300,7 +300,15 @@ class ModalEditDependencia extends React.Component {
                                   )}{" "}
                                   <span className="text-danger">*</span>{" "}
                                 </label>
-                                <SelectCompany
+                                <Field
+                                  authorization={this.state.auth}
+                                  t={this.state.t}
+                                  name="company"
+                                  component={FieldCompany}
+                                  conglomerateId={props.values.conglomerate}
+                                  companyId={props.values.company}
+                                ></Field>
+                                {/* <SelectCompany
                                   authorization={this.state.auth}
                                   t={this.state.t}
                                   conglomerate={props.values.conglomerate}
@@ -315,7 +323,7 @@ class ModalEditDependencia extends React.Component {
                                   className={`form-control form-control-sm ${errors.company &&
                                     touched.company &&
                                     "is-invalid"}`}
-                                ></SelectCompany>
+                                ></SelectCompany> */}
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.company && touched.company ? (
                                     <i class="fa fa-exclamation-triangle" />
@@ -333,7 +341,15 @@ class ModalEditDependencia extends React.Component {
                                   )}{" "}
                                   <span className="text-danger">*</span>{" "}
                                 </label>
-                                <SelectHeadquarter
+                                <Field
+                                  authorization={this.state.auth}
+                                  t={this.state.t}
+                                  name="headquarter"
+                                  component={FieldHeadquarter}
+                                  companyId={props.values.company}
+                                  headquarterId={props.values.headquarter}
+                                ></Field>
+                                {/* <SelectHeadquarter
                                   authorization={this.state.auth}
                                   t={this.state.t}
                                   company={props.values.company}
@@ -348,7 +364,7 @@ class ModalEditDependencia extends React.Component {
                                   className={`form-control form-control-sm ${errors.headquarter &&
                                     touched.headquarter &&
                                     "is-invalid"}`}
-                                ></SelectHeadquarter>
+                                ></SelectHeadquarter> */}
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.headquarter && touched.headquarter ? (
                                     <i class="fa fa-exclamation-triangle" />

@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { withFormik, ErrorMessage } from "formik";
+import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
   Row,
@@ -16,9 +16,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
-import SelectEmpresa from "./components/SelectEmpresa";
-import SelectSedes from "./components/SelectSedes";
-import SelectDependencia from "./components/SelectDependencia";
+import FieldCompany from "./components/SelectEmpresa";
+import FieldHeadquarter from "./components/SelectSedes";
+import FieldDependence from "./components/SelectDependencia";
 import MySelect from "./components/SelectRoles";
 import { decode } from "jsonwebtoken";
 import { GROUPUSERS } from "./../../../services/EndPoints";
@@ -36,6 +36,15 @@ const GrupoUsuariosForm = props => {
     handleSubmit,
     t
   } = props;
+
+  const [oldValueConglomerate, setOldValueConglomerate] = useState();
+  const [newValueConglomerate, setNewValueConglomerate] = useState();
+
+  const changeInValueConglomerate = (Old, New) => {
+    setOldValueConglomerate(Old);
+    setNewValueConglomerate(New);
+  };
+
   return (
     <Row>
       <ToastContainer />
@@ -149,6 +158,10 @@ const GrupoUsuariosForm = props => {
                               name="conglomerado"
                               onChange={e => {
                                 setFieldValue("conglomerado", e.target.value);
+                                changeInValueConglomerate(
+                                  values.conglomerado,
+                                  e.target.value
+                                );
                               }}
                               onBlur={() => {
                                 setFieldTouched("conglomerado", true);
@@ -175,7 +188,15 @@ const GrupoUsuariosForm = props => {
                               )}{" "}
                               <span className="text-danger">*</span>{" "}
                             </label>
-                            <SelectEmpresa
+                            <Field
+                              authorization={props.authorization}
+                              t={props.t}
+                              name="empresa"
+                              component={FieldCompany}
+                              oldValueConglomerateId={oldValueConglomerate}
+                              newValueConglomerateId={newValueConglomerate}
+                            ></Field>
+                            {/* <SelectEmpresa
                               authorization={props.authorization}
                               t={props.t}
                               idConglomerado={props.values.conglomerado}
@@ -190,7 +211,7 @@ const GrupoUsuariosForm = props => {
                               className={`form-control form-control-sm ${errors.empresa &&
                                 touched.empresa &&
                                 "is-invalid"}`}
-                            />
+                            /> */}
                             <div style={{ color: "#D54B4B" }}>
                               {errors.empresa && touched.empresa ? (
                                 <i className="fa fa-exclamation-triangle" />
@@ -206,7 +227,14 @@ const GrupoUsuariosForm = props => {
                               {t("app_grupoUsuarios_form_registrar_sede")}{" "}
                               <span className="text-danger">*</span>{" "}
                             </label>
-                            <SelectSedes
+                            <Field
+                              authorization={props.authorization}
+                              t={props.t}
+                              name="sede"
+                              component={FieldHeadquarter}
+                              companyId={values.empresa}
+                            ></Field>
+                            {/* <SelectSedes
                               authorization={props.authorization}
                               t={props.t}
                               company={props.values.empresa}
@@ -221,7 +249,7 @@ const GrupoUsuariosForm = props => {
                               className={`form-control form-control-sm ${errors.sede &&
                                 touched.sede &&
                                 "is-invalid"}`}
-                            />
+                            /> */}
                             <div style={{ color: "#D54B4B" }}>
                               {errors.sede && touched.sede ? (
                                 <i className="fa fa-exclamation-triangle" />
@@ -239,7 +267,15 @@ const GrupoUsuariosForm = props => {
                               )}{" "}
                               <span className="text-danger">*</span>{" "}
                             </label>
-                            <SelectDependencia
+                            <Field
+                              authorization={props.authorization}
+                              t={props.t}
+                              name="dependencia"
+                              component={FieldDependence}
+                              sedeId={values.sede}
+                            ></Field>
+
+                            {/* <SelectDependencia
                               authorization={props.authorization}
                               t={props.t}
                               headquarter={props.values.sede}
@@ -254,7 +290,7 @@ const GrupoUsuariosForm = props => {
                               className={`form-control form-control-sm ${errors.dependencia &&
                                 touched.dependencia &&
                                 "is-invalid"}`}
-                            />
+                            /> */}
                             <div style={{ color: "#D54B4B" }}>
                               {errors.dependencia && touched.dependencia ? (
                                 <i className="fa fa-exclamation-triangle" />

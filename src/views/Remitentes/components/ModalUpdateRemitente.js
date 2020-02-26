@@ -20,17 +20,10 @@ import classnames from "classnames";
 import IMGPROFILE from "./../../../assets/img/profile.svg";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
-import {
-  THIRDPARTYS,
-  TYPETHIRDPARTYS_STATUS,
-  CONTRIES_STATUS,
-  DEPARTMENTS_STATUS,
-  CITIES_STATUS,
-  THIRDPARTY
-} from "../../../services/EndPoints";
+import { THIRDPARTYS, THIRDPARTY } from "../../../services/EndPoints";
 import SelectCountry from "./SelectCountryModalEdit";
-import SelectDepartment from "./SelectDepartmentModalEdit";
-import SelectCity from "./SelectCityModalEdit";
+import FieldDepartment from "./SelectDepartmentModalEdit";
+import FieldCity from "./SelectCityModalEdit";
 import { decode } from "jsonwebtoken";
 import SelectTipoTercero from "./SelectTipoTerceroModalEdit";
 
@@ -637,7 +630,17 @@ class ModalUpdateRemitente extends React.Component {
                                     )}{" "}
                                     <span className="text-danger">*</span>{" "}
                                   </label>
-                                  <SelectDepartment
+                                  <Field
+                                    authorization={this.state.auth}
+                                    t={this.state.t}
+                                    name="tercero_departamento"
+                                    component={FieldDepartment}
+                                    countryId={props.values.tercero_pais}
+                                    departmentId={
+                                      props.values.tercero_departamento
+                                    }
+                                  ></Field>
+                                  {/* <SelectDepartment
                                     authorization={this.state.auth}
                                     t={this.state.t}
                                     tercero_pais={props.values.tercero_pais}
@@ -658,7 +661,7 @@ class ModalUpdateRemitente extends React.Component {
                                     className={`form-control form-control-sm ${errors.tercero_departamento &&
                                       touched.tercero_departamento &&
                                       "is-invalid"}`}
-                                  />
+                                  /> */}
                                   <div style={{ color: "#D54B4B" }}>
                                     {errors.tercero_departamento &&
                                     touched.tercero_departamento ? (
@@ -677,7 +680,17 @@ class ModalUpdateRemitente extends React.Component {
                                     )}{" "}
                                     <span className="text-danger">*</span>{" "}
                                   </label>
-                                  <SelectCity
+                                  <Field
+                                    authorization={this.state.auth}
+                                    t={this.state.t}
+                                    name="tercero_ciudad"
+                                    component={FieldCity}
+                                    departmentId={
+                                      props.values.tercero_departamento
+                                    }
+                                    cityId={props.values.tercero_ciudad}
+                                  ></Field>
+                                  {/* <SelectCity
                                     authorization={this.state.auth}
                                     t={this.state.t}
                                     tercero_departamento={
@@ -697,7 +710,7 @@ class ModalUpdateRemitente extends React.Component {
                                     className={`form-control form-control-sm ${errors.tercero_ciudad &&
                                       touched.tercero_ciudad &&
                                       "is-invalid"}`}
-                                  />
+                                  /> */}
                                   <div style={{ color: "#D54B4B" }}>
                                     {errors.tercero_ciudad &&
                                     touched.tercero_ciudad ? (

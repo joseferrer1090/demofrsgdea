@@ -114,79 +114,102 @@ class SingleField extends Component {
     }
   };
 
+  CreateMetadate = e => {
+    e.preventDefault();
+    const json = JSON.stringify(
+      {
+        title: this.state.title,
+        type: this.state.type,
+        name: this.state.name,
+        defaultValue: this.state.defaultValue,
+        placeholder: this.state.placeholder,
+        description: this.state.description,
+        validation: {
+          isReadOnly: this.state.validation.isReadOnly,
+          isRequired: this.state.validation.isRequired,
+          min: this.state.validation.min,
+          max: this.state.validation.max
+        }
+      },
+      null,
+      2
+    );
+    alert(json);
+  };
+
   render() {
     return (
       <div className="container">
         <div className="row">
           <div className="col-md-12">
             <Card>
-              <form
-                className="form"
-                onSubmit={e => {
-                  e.preventDefault();
-                  console.log(
-                    JSON.stringify(
-                      {
-                        title: this.state.title,
-                        type: this.state.type,
-                        name: this.state.name,
-                        defaultValue: this.state.defaultValue,
-                        placeholder: this.state.placeholder,
-                        description: this.state.description,
-                        validation: {
-                          isReadOnly: this.state.validation.isReadOnly,
-                          isRequired: this.state.validation.isRequired,
-                          min: this.state.validation.min,
-                          max: this.state.validation.max
-                        }
-                      },
-                      null,
-                      2
-                    )
-                  );
-                }}
-              >
-                <CardHeader>
-                  <i className="fa fa-wpforms" /> Entrada de texto{" "}
-                  {this.state.title}
-                  <button
-                    className="btn btn-link btn-sm pull-right"
-                    onClick={() => this.props.removeField(this.props.index)}
-                  >
-                    <i className="fa fa-times" style={{ color: "red" }} />
-                  </button>
-                  {/* <span
+              <CardHeader>
+                <i className="fa fa-wpforms" /> Entrada de texto{" "}
+                {this.state.title}
+                <button
+                  className="btn btn-link btn-sm pull-right"
+                  onClick={() => this.props.removeField(this.props.index)}
+                >
+                  <i className="fa fa-times" style={{ color: "red" }} />
+                </button>
+                {/* <span
                   className="pull-right"
                   onClick={() => this.props.removeField(this.props.index)}
                 >
                   {" "}
                   <i className="fa fa-times" style={{ color: "red" }} />
                 </span> */}
-                </CardHeader>
-                <CardBody>
-                  <Nav tabs>
-                    <NavLink
-                      className={classnames({
-                        active: this.state.activeTab === "1"
-                      })}
-                      onClick={() => {
-                        this.toggle("1");
-                      }}
-                    >
-                      General <i className="fa fa-cog" />
-                    </NavLink>
-                    <NavLink
-                      className={classnames({
-                        active: this.state.activeTab === "2"
-                      })}
-                      onClick={() => {
-                        this.toggle("2");
-                      }}
-                    >
-                      {" "}
-                      Validacion <i className="fa fa-exclamation-triangle" />
-                    </NavLink>
-                  </Nav>
+              </CardHeader>
+              <CardBody>
+                <Nav tabs>
+                  <NavLink
+                    className={classnames({
+                      active: this.state.activeTab === "1"
+                    })}
+                    onClick={() => {
+                      this.toggle("1");
+                    }}
+                  >
+                    General <i className="fa fa-cog" />
+                  </NavLink>
+                  <NavLink
+                    className={classnames({
+                      active: this.state.activeTab === "2"
+                    })}
+                    onClick={() => {
+                      this.toggle("2");
+                    }}
+                  >
+                    {" "}
+                    Validacion <i className="fa fa-exclamation-triangle" />
+                  </NavLink>
+                </Nav>
+                <form
+                  className="form"
+                  // onSubmit={e => {
+                  //   e.preventDefault();
+                  //   console.log(
+                  //     JSON.stringify(
+                  //       {
+                  //         title: this.state.title,
+                  //         type: this.state.type,
+                  //         name: this.state.name,
+                  //         defaultValue: this.state.defaultValue,
+                  //         placeholder: this.state.placeholder,
+                  //         description: this.state.description,
+                  //         validation: {
+                  //           isReadOnly: this.state.validation.isReadOnly,
+                  //           isRequired: this.state.validation.isRequired,
+                  //           min: this.state.validation.min,
+                  //           max: this.state.validation.max
+                  //         }
+                  //       },
+                  //       null,
+                  //       2
+                  //     )
+                  //   );
+                  // }}
+                >
                   <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                       <Card body>
@@ -228,6 +251,23 @@ class SingleField extends Component {
                                   );
                                 })}
                               </select>
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label>Default value</label>
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                                onChange={e => {
+                                  this.changeValue(
+                                    "DEFAULT_VALUE",
+                                    e.target.value
+                                  );
+                                }}
+                                value={this.state.defaultValue}
+                                placeholder={"Valor por defecto"}
+                              />
                             </div>
                           </div>
                         </div>
@@ -360,20 +400,20 @@ class SingleField extends Component {
                       </Card>
                     </TabPane>
                   </TabContent>
-                </CardBody>
-                <CardFooter>
-                  <button
-                    className="btn btn-outline-secondary btn-sm pull-right"
-                    type="submit"
-                    // onClick={() =>
-                    //   alert("antes de guardar tengo que definir el JSON")
-                    // }
-                  >
-                    {" "}
-                    <i className="fa fa-save" /> Guardar metadato{" "}
-                  </button>
-                </CardFooter>
-              </form>
+                </form>
+              </CardBody>
+              <CardFooter>
+                <button
+                  className="btn btn-outline-secondary btn-sm pull-right"
+                  type="button"
+                  onClick={e => {
+                    this.CreateMetadate(e);
+                  }}
+                >
+                  {" "}
+                  <i className="fa fa-save" /> Guardar metadato{" "}
+                </button>
+              </CardFooter>
             </Card>
           </div>
         </div>

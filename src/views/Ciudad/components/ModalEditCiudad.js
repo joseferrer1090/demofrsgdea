@@ -11,16 +11,11 @@ import {
   Alert
 } from "reactstrap";
 import IMGCITY from "./../../../assets/img/skyline.svg";
-import {
-  CITYS,
-  CONTRIES_STATUS,
-  DEPARTMENTS_STATUS,
-  CITY
-} from "./../../../services/EndPoints";
+import { CITYS, CITY } from "./../../../services/EndPoints";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import SelectCountry from "./SelectCountryModalEdit";
-import SelectDepartment from "./SelectDepartmentModalEdit";
+import FieldDepartment from "./SelectDepartmentModalEdit";
 import { decode } from "jsonwebtoken";
 
 class ModalEditCiudad extends React.Component {
@@ -35,7 +30,6 @@ class ModalEditCiudad extends React.Component {
     alertError400: false,
     t: this.props.t,
     city_status: 0,
-    username: "",
     auth: this.props.authorization
   };
   static getDerivedStateFromProps(props, state) {
@@ -294,7 +288,15 @@ class ModalEditCiudad extends React.Component {
                                 <span className="text-danger">*</span>{" "}
                                 <dd>
                                   {" "}
-                                  <SelectDepartment
+                                  <Field
+                                    authorization={this.state.auth}
+                                    t={this.state.t}
+                                    name="city_department"
+                                    component={FieldDepartment}
+                                    countryId={props.values.city_country}
+                                    departmentId={props.values.city_department}
+                                  ></Field>
+                                  {/* <SelectDepartment
                                     authorization={this.state.auth}
                                     t={this.state.t}
                                     city_country={props.values.city_country}
@@ -312,7 +314,7 @@ class ModalEditCiudad extends React.Component {
                                     className={`form-control form-control-sm ${errors.city_department &&
                                       touched.city_department &&
                                       "is-invalid"}`}
-                                  />
+                                  /> */}
                                   <div style={{ color: "#D54B4B" }}>
                                     {errors.city_department &&
                                     touched.city_department ? (

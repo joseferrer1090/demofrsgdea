@@ -1,89 +1,78 @@
-import React from "react";
-import PropTypes from "prop-types";
+import React, { useEffect, useState, useRef } from "react";
 import { DEPARTMENTS_BY_COUNTRY } from "../../../services/EndPoints";
 
-class SelectDepartment extends React.Component {
-  state = {
-    dataDepartment: [],
-    id: this.props.city_country,
-    t: this.props.t,
-    auth: this.props.authorization
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.city_country !== state.id) {
-      return {
-        id: props.city_country
-      };
-    }
-    if (props.authorization !== state.auth) {
-      return {
-        auth: props.authorization
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.city_country !== prevProps.city_country) {
-      this.getDataDepartment();
-    }
-    if (this.props.authorization !== prevProps.authorization) {
-      this.setState({
-        auth: this.props.authorization
-      });
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDepartment();
-  }
-
-  getDataDepartment = () => {
-    fetch(`${DEPARTMENTS_BY_COUNTRY}${this.state.id}`, {
+const FieldDepartment = ({
+  field,
+  form: { errors, touched, setFieldTouched, setFieldValue, values },
+  ...props
+}) => {
+  const [dataDepartment, setDataDepartment] = useState([]);
+  const fetchNewValues = id => {
+    fetch(`${DEPARTMENTS_BY_COUNTRY}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
+        Authorization: "Bearer " + props.authorization
       }
     })
       .then(response => response.json())
       .then(data => {
-        this.setState({
-          dataDepartment: data
-        });
+        setDataDepartment(data);
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => {
+        console.log("Error", err);
+        setDataDepartment([]);
+      });
   };
-  render() {
-    const { t } = this.props;
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={""}>
-            -- {t("app_ciudad_modal_actualizar_departamento")} --
-          </option>
-          {this.state.dataDepartment.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-SelectDepartment.propTypes = {
-  id: PropTypes.string.isRequired,
-  t: PropTypes.any,
-  authorization:PropTypes.string.isRequired,
+
+  const validateValues = () => {
+    if (PreValue !== props.countryId) {
+      setDataDepartment([]);
+      if (PreValue !== undefined) {
+        values.city_department = "";
+      }
+      fetchNewValues(props.countryId);
+    }
+  };
+
+  useEffect(() => {
+    validateValues();
+  }, [props.departmentId, props.countryId]);
+
+  const PreviousValues = value => {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+
+    return ref.current;
+  };
+  const PreValue = PreviousValues(props.countryId);
+  const t = props.t;
+  return (
+    <div>
+      {" "}
+      <select
+        onChange={e => setFieldValue("city_department", e.target.value)}
+        onBlur={() => setFieldTouched("city_department", true)}
+        className={`form-control form-control-sm ${errors.city_department &&
+          touched.city_department &&
+          "is-invalid"}`}
+        value={values.city_department}
+      >
+        <option value={""}>
+          -- {t("app_conglomerado_form_select_departamento")} --
+        </option>
+        {dataDepartment.map((aux, id) => {
+          return (
+            <option key={id} value={aux.id}>
+              {aux.name}
+            </option>
+          );
+        })}
+      </select>{" "}
+    </div>
+  );
 };
-export default SelectDepartment;
+
+export default FieldDepartment;

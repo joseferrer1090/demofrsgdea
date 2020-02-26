@@ -422,62 +422,64 @@ class FormContainer extends Component {
   render() {
     console.log(this.state.fields);
     return (
-      <div className="row">
-        <div
-          className="col-md-12"
-          droppable={true}
-          ref={c => (this._toolBoxContainer = c)}
-          onDragOver={e => {
-            e.preventDefault();
-          }}
-          onDrop={e => this.onDrop(e)}
-        >
-          <div className="card">
-            <div className="card-header">
-              <i className="fa fa-code" /> Bolsa de metadatos{" "}
-              <div className="pull-right">
-                <button className="btn btn-secondary btn-sm">
-                  {" "}
-                  <i className="fa fa-eye" /> Preview
-                </button>{" "}
-              </div>
-            </div>
-            <div className="card-body">
-              <div className="row">
-                <div className="col-md-12">
-                  <div
-                    className="list-group"
-                    ref={l => (this.tooList = l)}
-                    // onDragOver={e => {
-                    //   e.preventDefault();
-                    // }}
-                    // onDrop={e => this.onDrop(e)}
-                  >
-                    {this.state.fields.length ? (
-                      this.state.fields.map((field, index) => {
-                        return this.renderToolBoxItems(field, index);
-                      })
-                    ) : (
-                      <div>
-                        <p
-                          style={{
-                            textAlign: "center",
-                            padding: "2em",
-                            fontSize: "18pt",
-                            fontWeight: "bold",
-                            textTransform: "uppercase",
-                            color: "#aaa",
-                            backgroundColor: "#eee"
-                          }}
-                        >
-                          Seleccione una entrada a configurar
-                        </p>
-                      </div>
-                    )}
+      <div className="anitmated fadeIn">
+        <div className="row">
+          <div
+            className="col-md-12"
+            droppable={"true"}
+            ref={c => (this._toolBoxContainer = c)}
+            onDragOver={e => {
+              e.preventDefault();
+            }}
+            onDrop={e => this.onDrop(e)}
+          >
+            <Card>
+              <CardHeader>
+                <i className="fa fa-code" /> Bolsa de metadatos{" "}
+                <div className="pull-right">
+                  <button className="btn btn-secondary btn-sm">
+                    {" "}
+                    <i className="fa fa-eye" /> Preview
+                  </button>{" "}
+                </div>
+              </CardHeader>
+              <CardBody>
+                <div className="row">
+                  <div className="col-md-12">
+                    <div
+                      className="list-group"
+                      ref={l => (this.tooList = l)}
+                      // onDragOver={e => {
+                      //   e.preventDefault();
+                      // }}
+                      // onDrop={e => this.onDrop(e)}
+                    >
+                      {this.state.fields.length ? (
+                        this.state.fields.map((field, index) => {
+                          return this.renderToolBoxItems(field, index);
+                        })
+                      ) : (
+                        <div>
+                          <p
+                            style={{
+                              textAlign: "center",
+                              padding: "2em",
+                              fontSize: "12pt",
+                              fontWeight: "bold",
+                              textTransform: "uppercase",
+                              color: "#aaa",
+                              backgroundColor: "#eee"
+                            }}
+                          >
+                            Seleccione una entrada a configurar
+                          </p>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </CardBody>
+            </Card>
           </div>
         </div>
       </div>

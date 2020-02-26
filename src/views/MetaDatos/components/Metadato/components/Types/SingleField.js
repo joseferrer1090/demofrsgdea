@@ -222,7 +222,7 @@ class SingleField extends Component {
                         </div>
                         <div className="col-md-6">
                           <div className="form-group">
-                            <label htmlFo="title">Placeholder</label>
+                            <label htmlFor="title">Placeholder</label>
                             <input
                               type="text"
                               value={this.state.placeholder}

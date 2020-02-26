@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -11,7 +11,7 @@ import {
   Row,
   Alert
 } from "reactstrap";
-import { HEADQUARTERS, CHARGES_STATUS } from "./../../../../services/EndPoints";
+import { HEADQUARTERS } from "./../../../../services/EndPoints";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";

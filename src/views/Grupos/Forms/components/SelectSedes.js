@@ -1,91 +1,82 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { HEADQUARTER_BY_COMPANY } from "./../../../../services/EndPoints";
+import React, { useEffect, useState, useRef } from "react";
+import { HEADQUARTER_BY_COMPANY } from "../../../../services/EndPoints";
 
-class SelectSedes extends React.Component {
-  state = {
-    dataHeadquarter: [],
-    id: this.props.company,
-    t: this.props.t,
-    auth: this.props.authorization
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.company !== state.id) {
-      return {
-        company: props.company
-      };
-    }
-    if (props.authorization !== state.auth) {
-      return {
-        auth: props.authorization
-      };
-    }
-    return null;
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.company !== prevProps.company) {
-      // metodo del fetch()
-      this.getDataHeadquarter();
-    }
-    if (this.props.authorization !== prevProps.authorization) {
-      this.setState(
-        {
-          auth: this.props.authorization
-        },
-        this.getDataHeadquarter()
-      );
-    }
-  }
-
-  // componentDidMount() {
-  //   this.getDataHeadquarter();
-  // }
-
-  getDataHeadquarter = () => {
-    fetch(`${HEADQUARTER_BY_COMPANY}${this.props.company}`, {
+const FieldHeadquarter = ({
+  field,
+  form: { errors, touched, setFieldTouched, setFieldValue, values },
+  ...props
+}) => {
+  const [dataHeadquarter, setDataHeadquarter] = useState([]);
+  const fetchNewValues = id => {
+    fetch(`${HEADQUARTER_BY_COMPANY}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.state.auth
+        Authorization: "Bearer " + props.authorization
       }
     })
       .then(response => response.json())
       .then(data => {
-        this.setState({
-          dataHeadquarter: data
-        });
+        setDataHeadquarter(data);
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => {
+        console.log("Error", err);
+        setDataHeadquarter([]);
+      });
   };
-  render() {
-    const { t } = this.props;
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-        >
-          <option value={""}>
-            -- {t("app_grupoUsuarios_form_registrar_select_sede")} --{" "}
-          </option>
-          {this.state.dataHeadquarter.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-SelectSedes.propTypes = {
-  id: PropTypes.string.isRequired,
-  t: PropTypes.any,
-  authorization: PropTypes.string.isRequired
+
+  const validateValues = () => {
+    if (PREValue !== props.companyId) {
+      setDataHeadquarter([]);
+      values.sede = "";
+      fetchNewValues(props.companyId);
+    }
+  };
+
+  useEffect(() => {
+    validateValues();
+  }, [props.companyId]);
+
+  const usePrevious = value => {
+    let valueRef;
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    if (ref.current !== undefined) {
+      valueRef = ref.current;
+    } else {
+      valueRef = "";
+    }
+    return valueRef;
+  };
+
+  const PREValue = usePrevious(props.companyId);
+  const t = props.t;
+  return (
+    <div>
+      {" "}
+      <select
+        onChange={e => setFieldValue("sede", e.target.value)}
+        onBlur={e => setFieldTouched("sede", true)}
+        className={`form-control form-control-sm ${errors.sede &&
+          touched.sede &&
+          "is-invalid"}`}
+      >
+        <option value={""}>
+          -- {t("app_grupoUsuarios_form_registrar_select_sede")} --
+        </option>
+        {dataHeadquarter === []
+          ? null
+          : dataHeadquarter.map((aux, id) => {
+              return (
+                <option key={id} value={aux.id}>
+                  {aux.name}
+                </option>
+              );
+            })}
+      </select>{" "}
+    </div>
+  );
 };
-export default SelectSedes;
+export default FieldHeadquarter;

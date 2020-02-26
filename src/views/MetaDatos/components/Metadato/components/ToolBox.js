@@ -9,12 +9,12 @@ class ToolBox extends Component {
     this.state = {
       Tools: [
         {
-          title: "Entrada",
+          title: "Entrada de texto",
           name: "SINGLE_FIELD",
           icon: "fa fa-wpforms"
         },
         {
-          title: "Seleccion",
+          title: "Selección multiple",
           name: "SELECT_FIELD",
           icon: "fa fa-caret-square-o-down"
         },

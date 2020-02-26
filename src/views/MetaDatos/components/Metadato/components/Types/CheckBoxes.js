@@ -94,14 +94,6 @@ class CheckBoxes extends Component {
     }, 0);
   };
 
-  toggle = tab => {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab
-      });
-    }
-  };
-
   removeOption = index => {
     let checboxes = this.state.checkBoxes;
     checboxes.splice(index, 1);
@@ -178,6 +170,14 @@ class CheckBoxes extends Component {
     }, 0);
   };
 
+  toggle = tab => {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
+  };
+
   render() {
     return (
       <div>
@@ -194,29 +194,35 @@ class CheckBoxes extends Component {
           </CardHeader>
           <CardBody>
             <Nav tabs>
-              <NavItem
-                className={classnames({
-                  activeTab: this.state.activeTab === "1"
-                })}
-                onClick={() => this.toggle("1")}
-              >
-                <NavLink>Tab 1</NavLink>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "1"
+                  })}
+                  onClick={() => this.toggle("1")}
+                >
+                  General <i className="fa fa-cog" />
+                </NavLink>
               </NavItem>
-              <NavItem
-                className={classnames({
-                  activeTab: this.state.activeTab === "2"
-                })}
-                onClick={() => this.toggle("2")}
-              >
-                <NavLink>Tab 2</NavLink>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "2"
+                  })}
+                  onClick={() => this.toggle("2")}
+                >
+                  Validation <i className="fa fa-exclamation-triangle" />
+                </NavLink>
               </NavItem>
-              <NavItem
-                className={classnames({
-                  activeTab: this.state.activeTab === "3"
-                })}
-                onClick={() => this.toggle("3")}
-              >
-                <NavLink>Tab 3</NavLink>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "3"
+                  })}
+                  onClick={() => this.toggle("3")}
+                >
+                  Values <i className="fa fa-list-ul" />
+                </NavLink>
               </NavItem>
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
@@ -237,39 +243,45 @@ class CheckBoxes extends Component {
                         />
                       </div>
                     </div>
-                    <div className="form-group">
-                      <input
-                        type="checkbox"
-                        onChange={e =>
-                          this.changeValue("INLINE", e.target.checked)
-                        }
-                        value={this.state.inline}
-                        id={"inline"}
-                      />
-                      <label>Inline</label>
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="title">Title</label>
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                        value={this.state.title}
-                        onClick={e => this.changeValue("TITLE", e.target.value)}
-                        placeholder="Titulo"
-                      />
-                    </div>
                     <div className="col-md-12">
+                      <div className="form-group">
+                        <input
+                          type="checkbox"
+                          onChange={e =>
+                            this.changeValue("INLINE", e.target.checked)
+                          }
+                          value={this.state.inline}
+                          id={"inline"}
+                        />
+                        <label htmlFor="inline"> ¿ En linea ? </label>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="title">Title</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.title}
+                          onClick={e =>
+                            this.changeValue("TITLE", e.target.value)
+                          }
+                          placeholder="Title"
+                        />
+                      </div>
+                    </div>
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <label htmlFor="description">Description</label>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </Card>
               </TabPane>
               <TabPane tabId={"2"}>
                 <Card body>
                   <div className="row">
-                    <div className="">
+                    <div className="col-md-6">
                       <div className="form-group">
                         <input
                           type="checkbox"
@@ -277,20 +289,26 @@ class CheckBoxes extends Component {
                           onChange={e =>
                             this.changeValue("IS_REQUIRED", e.target.checked)
                           }
+                          id="isRequired"
                         />
-                        <label htmlFor=""> isRequired </label>
+                        <label htmlFor="isRequired"> ¿ Es requerido ? </label>
                       </div>
+                    </div>
+                    <div className="col-md-6">
                       <div className="form-group">
                         <input
+                          id={"isReadOnly"}
                           type={"checkbox"}
                           onChange={e =>
                             this.changeValue("IS_READONLY", e.target.checked)
                           }
                           value={this.state.validation.isReadOnly}
                         />
-                        <label htmlFor="">isReadOnly</label>
+                        <label htmlFor="isReadOnly"> ¿ Solo lectura ? </label>
                       </div>
-                      <div className="col-md-6">
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
                         <label htmlFor="">Min</label>
                         <input
                           type="number"
@@ -301,7 +319,9 @@ class CheckBoxes extends Component {
                           placeholder="6"
                         />
                       </div>
-                      <div className="col-md-6">
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
                         <label>Max</label>
                         <input
                           type="numbre"
@@ -318,12 +338,12 @@ class CheckBoxes extends Component {
               </TabPane>
               <TabPane tabId={"3"}>
                 <Card body>
-                  <p
+                  {/* <p
                     hidden={this.state.duplicate}
                     className="alert text-center alert-danger"
                   >
                     Values
-                  </p>
+                  </p> */}
                   {this.state.checkBoxes ? (
                     <table className="table text-center">
                       <tbody>
@@ -401,8 +421,7 @@ class CheckBoxes extends Component {
                     className="btn btn-secondary btn-sm"
                     onClick={() => this.addOption()}
                   >
-                    {" "}
-                    Add{" "}
+                    <i className="fa fa-plus" /> Agregar Valores
                   </button>
                 </Card>
               </TabPane>

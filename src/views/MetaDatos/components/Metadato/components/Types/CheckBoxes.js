@@ -181,7 +181,20 @@ class CheckBoxes extends Component {
 
   createMetadata = e => {
     e.preventDefault();
-    console.log(e);
+    const aux = JSON.stringify(
+      {
+        name: this.state.name,
+        title: this.state.title,
+        description: this.state.description,
+        checboxes: this.state.checkBoxes,
+        isReadOnly: this.state.validation.isReadOnly,
+        isRequired: this.state.validation.isRequired,
+        inline: this.state.inline
+      },
+      null,
+      2
+    );
+    alert(aux);
   };
 
   render() {
@@ -195,7 +208,7 @@ class CheckBoxes extends Component {
               className="pull-right cross"
               onClick={() => this.props.removeField(this.props.index)}
             >
-              <i className="fa fa-times" />
+              <i className="fa fa-times" style={{ color: "red" }} />
             </span>
           </CardHeader>
           <CardBody>
@@ -249,19 +262,7 @@ class CheckBoxes extends Component {
                         />
                       </div>
                     </div>
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <input
-                          type="checkbox"
-                          onChange={e =>
-                            this.changeValue("INLINE", e.target.checked)
-                          }
-                          value={this.state.inline}
-                          id={"inline"}
-                        />
-                        <label htmlFor="inline"> ¿ En linea ? </label>
-                      </div>
-                    </div>
+
                     <div className="col-md-6">
                       <div className="form-group">
                         <label htmlFor="title">Title</label>
@@ -269,25 +270,33 @@ class CheckBoxes extends Component {
                           type="text"
                           className="form-control form-control-sm"
                           value={this.state.title}
-                          onClick={e =>
+                          onChange={e =>
                             this.changeValue("TITLE", e.target.value)
                           }
                           placeholder="Title"
                         />
                       </div>
                     </div>
-                    {/* <div className="col-md-6">
+                    <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="description">Description</label>
+                        <label htmlFor="description"> Description </label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.description}
+                          onChange={e =>
+                            this.changeValue("DESCRIPTION", e.target.value)
+                          }
+                        />
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                 </Card>
               </TabPane>
               <TabPane tabId={"2"}>
                 <Card body>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <div className="form-group">
                         <input
                           type="checkbox"
@@ -300,7 +309,7 @@ class CheckBoxes extends Component {
                         <label htmlFor="isRequired"> ¿ Es requerido ? </label>
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <div className="form-group">
                         <input
                           id={"isReadOnly"}
@@ -313,7 +322,20 @@ class CheckBoxes extends Component {
                         <label htmlFor="isReadOnly"> ¿ Solo lectura ? </label>
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <input
+                          type="checkbox"
+                          onChange={e =>
+                            this.changeValue("INLINE", e.target.checked)
+                          }
+                          value={this.state.inline}
+                          id={"inline"}
+                        />
+                        <label htmlFor="inline"> ¿ En linea ? </label>
+                      </div>
+                    </div>
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <label htmlFor="">Min</label>
                         <input
@@ -325,8 +347,8 @@ class CheckBoxes extends Component {
                           placeholder="6"
                         />
                       </div>
-                    </div>
-                    <div className="col-md-6">
+                    </div> */}
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <label>Max</label>
                         <input
@@ -338,7 +360,7 @@ class CheckBoxes extends Component {
                           value={this.state.validation.max}
                         />
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </Card>
               </TabPane>
@@ -357,8 +379,10 @@ class CheckBoxes extends Component {
                           return (
                             <tr key={index}>
                               <td>
-                                <div className>
+                                <div>
                                   <input
+                                    className="middle"
+                                    type={"checkbox"}
                                     autoFocus={true}
                                     value={
                                       this.state.checkBoxes[index].selected
@@ -403,7 +427,7 @@ class CheckBoxes extends Component {
                                   }
                                   id={checkbox.value}
                                   type="text"
-                                  className="form-control"
+                                  className="form-control form-control-sm"
                                 />
                               </td>
                               <td style={{ verticalAlign: "middle" }}>
@@ -411,7 +435,10 @@ class CheckBoxes extends Component {
                                   onClick={() => this.removeOption(index)}
                                   className="cross pull-right"
                                 >
-                                  X
+                                  <i
+                                    className="fa fa-times"
+                                    style={{ color: "red" }}
+                                  />
                                 </span>
                               </td>
                             </tr>
@@ -433,7 +460,18 @@ class CheckBoxes extends Component {
               </TabPane>
             </TabContent>
           </CardBody>
-          <CardFooter>{}</CardFooter>
+          <CardFooter>
+            <div className="pull-right">
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                onClick={e => this.createMetadata(e)}
+              >
+                {" "}
+                <i className="fa fa-save" /> Guardar metadato{" "}
+              </button>
+            </div>
+          </CardFooter>
         </Card>
       </div>
     );

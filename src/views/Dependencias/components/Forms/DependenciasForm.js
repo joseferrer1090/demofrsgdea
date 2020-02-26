@@ -1,5 +1,5 @@
-import React from "react";
-import { withFormik, ErrorMessage } from "formik";
+import React, { useState } from "react";
+import { withFormik, ErrorMessage, Field } from "formik";
 import PropTypes from "prop-types";
 import * as Yup from "yup";
 import {
@@ -17,8 +17,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
 import { withTranslation } from "react-i18next";
 import SelectConglomerado from "./components/SelectConglomerado";
-import SelectCompany from "./components/SelectCompany";
-import SelectHeadquarter from "./components/SelectHeadquarter";
+import FieldCompany from "./components/SelectCompany";
+import FieldHeadquarter from "./components/SelectHeadquarter";
 import SelectCharges from "./components/SelectCharges";
 import { decode } from "jsonwebtoken";
 
@@ -35,6 +35,15 @@ const DependenciaForm = props => {
     setFieldTouched,
     t
   } = props;
+
+  const [oldValueConglomerate, setOldValueConglomerate] = useState();
+  const [newValueConglomerate, setNewValueConglomerate] = useState();
+
+  const changeInValueConglomerate = (Old, New) => {
+    setOldValueConglomerate(Old);
+    setNewValueConglomerate(New);
+  };
+
   return (
     <div>
       <Row>
@@ -56,9 +65,13 @@ const DependenciaForm = props => {
                         authorization={props.authorization}
                         t={props.t}
                         name={"conglomerateId"}
-                        onChange={e =>
-                          setFieldValue("conglomerateId", e.target.value)
-                        }
+                        onChange={e => {
+                          setFieldValue("conglomerateId", e.target.value);
+                          changeInValueConglomerate(
+                            values.conglomerateId,
+                            e.target.value
+                          );
+                        }}
                         onBlur={() => setFieldTouched("conglomerateId", true)}
                         value={values.conglomerateId}
                         className={`form-control form-control-sm ${errors.conglomerateId &&
@@ -81,7 +94,16 @@ const DependenciaForm = props => {
                         {t("app_dependencia_form_registrar_empresa")}{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <SelectCompany
+                      <Field
+                        authorization={props.authorization}
+                        t={props.t}
+                        name="companyId"
+                        component={FieldCompany}
+                        oldValueConglomerateId={oldValueConglomerate}
+                        newValueConglomerateId={newValueConglomerate}
+                      ></Field>
+
+                      {/* <SelectCompany
                         authorization={props.authorization}
                         t={props.t}
                         conglomerateId={props.values.conglomerateId}
@@ -94,7 +116,7 @@ const DependenciaForm = props => {
                         className={`form-control form-control-sm ${errors.companyId &&
                           touched.companyId &&
                           "is-invalid"}`}
-                      ></SelectCompany>
+                      ></SelectCompany> */}
 
                       <div style={{ color: "#D54B4B" }}>
                         {errors.companyId && touched.companyId ? (
@@ -111,7 +133,14 @@ const DependenciaForm = props => {
                         {t("app_dependencia_form_registrar_sede")}{" "}
                         <span className="text-danger">*</span>{" "}
                       </label>
-                      <SelectHeadquarter
+                      <Field
+                        authorization={props.authorization}
+                        t={props.t}
+                        name="headquarterId"
+                        component={FieldHeadquarter}
+                        companyId={values.companyId}
+                      ></Field>
+                      {/* <SelectHeadquarter
                         authorization={props.authorization}
                         t={props.t}
                         companyId={props.values.companyId}
@@ -123,7 +152,7 @@ const DependenciaForm = props => {
                         className={`form-control form-control-sm ${errors.headquarterId &&
                           touched.headquarterId &&
                           "is-invalid"}`}
-                      ></SelectHeadquarter>
+                      ></SelectHeadquarter> */}
 
                       <div style={{ color: "#D54B4B" }}>
                         {errors.headquarterId && touched.headquarterId ? (

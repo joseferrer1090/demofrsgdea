@@ -11,7 +11,7 @@ import {
   CustomInput,
   Alert
 } from "reactstrap";
-import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
+import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
   GROUPUSER,
@@ -22,6 +22,10 @@ import {
   USERS_BY_DEPENDENCE
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import SelectConglomerado from "./SelectConglomerate";
+import FieldCompany from "./SelectCompany";
+import FieldHeadquarter from "./SelectHeadquarter";
+import FieldDependence from "./SelectDependence";
 
 class ModalEditGrupos extends React.Component {
   state = {
@@ -153,6 +157,7 @@ class ModalEditGrupos extends React.Component {
               estado: this.state.datagroup.status
             }}
             onSubmit={(values, { setSubmitting, props }) => {
+              const userName = decode(this.props.authorization);
               setTimeout(() => {
                 // alert(JSON.stringify(values, null, 2));
                 fetch(`${GROUPUSER}`, {
@@ -166,7 +171,7 @@ class ModalEditGrupos extends React.Component {
                     code: values.codigo,
                     name: values.nombre,
                     description: values.descripcion,
-                    userName: "jferrer",
+                    userName: userName.user_name,
                     users: values.usuarios,
                     status: values.estado
                   })
@@ -409,28 +414,16 @@ class ModalEditGrupos extends React.Component {
                                         )}{" "}
                                         <span className="text-danger">*</span>{" "}
                                       </label>
-                                      <SelectCompany
+                                      <Field
+                                        authorization={this.props.authorization}
                                         t={t}
-                                        token={this.props.authorization}
-                                        usuario_conglomerate={
+                                        name="empresa"
+                                        component={FieldCompany}
+                                        conglomerateId={
                                           props.values.conglomerado
                                         }
-                                        name="empresa"
-                                        value={values.empresa}
-                                        onChange={e =>
-                                          setFieldValue(
-                                            "empresa",
-                                            e.target.value
-                                          )
-                                        }
-                                        onBlur={() =>
-                                          setFieldTouched("empresa", true)
-                                        }
-                                        className={`form-control form-control-sm ${errors.empresa &&
-                                          touched.empresa &&
-                                          "is-invalid"}`}
-                                      ></SelectCompany>
-
+                                        companyId={props.values.empresa}
+                                      ></Field>
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.empresa && touched.empresa ? (
                                           <i className="fa fa-exclamation-triangle" />
@@ -449,23 +442,17 @@ class ModalEditGrupos extends React.Component {
                                         )}{" "}
                                         <span className="text-danger">*</span>{" "}
                                       </label>
-                                      <SelectHeadquarter
+                                      <Field
+                                        authorization={this.props.authorization}
                                         t={t}
-                                        token={this.props.authorization}
-                                        usuario_company={props.values.empresa}
-                                        name={"sede"}
-                                        onChange={e =>
-                                          setFieldValue("sede", e.target.value)
+                                        name="sede"
+                                        component={FieldHeadquarter}
+                                        companyId={props.values.empresa}
+                                        headquarterId={props.values.sede}
+                                        conglomerateId={
+                                          props.values.conglomerado
                                         }
-                                        onBlur={() =>
-                                          setFieldTouched("sede", true)
-                                        }
-                                        value={values.sede}
-                                        className={`form-control form-control-sm ${errors.sede &&
-                                          touched.sede &&
-                                          "is-invalid"}`}
-                                      ></SelectHeadquarter>
-
+                                      ></Field>
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.sede && touched.sede ? (
                                           <i className="fa fa-exclamation-triangle" />
@@ -484,26 +471,18 @@ class ModalEditGrupos extends React.Component {
                                         )}{" "}
                                         <span className="text-danger">*</span>{" "}
                                       </label>
-                                      <SelectDependence
+                                      <Field
+                                        authorization={this.props.authorization}
                                         t={t}
-                                        token={this.props.authorization}
-                                        usuario_headquarter={props.values.sede}
-                                        name={"dependencia"}
-                                        value={values.dependencia}
-                                        onChange={e =>
-                                          setFieldValue(
-                                            "dependencia",
-                                            e.target.value
-                                          )
+                                        name="dependencia"
+                                        component={FieldDependence}
+                                        headquarterId={props.values.sede}
+                                        dependenceId={props.values.dependencia}
+                                        conglomerateId={
+                                          props.values.conglomerado
                                         }
-                                        onBlur={() =>
-                                          setFieldTouched("dependencia", true)
-                                        }
-                                        className={`form-control form-control-sm ${errors.dependencia &&
-                                          touched.dependencia &&
-                                          "is-invalid"}`}
-                                      ></SelectDependence>
-
+                                        companyId={props.values.empresa}
+                                      ></Field>
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.dependencia &&
                                         touched.dependencia ? (
@@ -635,336 +614,6 @@ ModalEditGrupos.propTypes = {
 };
 
 export default ModalEditGrupos;
-
-//--------------------------------------------------------------------------------------------//
-
-class SelectConglomerado extends React.Component {
-  state = {
-    dataConglomerate: [],
-    auth: this.props.token,
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`${CONGLOMERATES_STATUS}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.token
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataConglomerate: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange("usuario_conglomerate", value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur("usuario_conglomerate", true);
-  };
-
-  render() {
-    // const selectOptionsConglomerate = this.state.dataConglomerate.map(
-    //   (aux, id) => {
-    //     return <option value={aux.id}>{aux.name}</option>;
-    //   }
-    // );
-    const { t } = this.state;
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-          value={this.props.value}
-          className={this.props.className}
-        >
-          <option value={""}>
-            -- {t("app_grupoUsuarios_modal_editar_select_conglomerado")} --
-          </option>
-          {this.state.dataConglomerate.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-// --------------------------------------------------------------------------------------------- //
-class SelectCompany extends React.Component {
-  state = {
-    dataCompany: [],
-    id: this.props.usuario_conglomerate,
-    auth: this.props.token,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.usuario_conglomerate !== state.id) {
-      return {
-        id: props.usuario_conglomerate
-      };
-    }
-    if (props.token !== state.auth) {
-      return {
-        auth: props.token
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.usuario_conglomerate !== prevProps.usuario_conglomerate) {
-      this.getDataCompany();
-    }
-    if (this.props.token !== prevProps.token) {
-      this.setState({
-        auth: this.props.token
-      });
-    }
-  }
-
-  //edf39040-6f53-4f4e-b348-ef279819051a => no borrar
-
-  componentDidMount() {
-    this.getDataCompany();
-  }
-
-  getDataCompany = () => {
-    fetch(`${COMPANY_BY_CONGLOMERATE}${this.state.id}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.token
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataCompany: data
-        });
-      })
-      .catch(err => console.log("Error", err));
-  };
-  render() {
-    const { t } = this.state;
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={""}>
-            -- {t("app_grupoUsuarios_modal_editar_select_empresa")} --
-          </option>
-          {this.state.dataCompany.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-        {/* <select
-          name={this.props.name}
-          value={this.props.value}
-          className="form-control form-control-sm"
-          onChange={this.props.onChange}
-        >
-          {this.dataCompany.map((aux, id) => {
-            return <option value={aux.id}>{aux.name}</option>;
-          })}
-        </select> */}
-      </div>
-    );
-  }
-}
-// ---------------------------------------------------------------------------------------------------- //
-
-class SelectHeadquarter extends React.Component {
-  state = {
-    dataHeadquarter: [],
-    id: this.props.usuario_company,
-    auth: this.props.token,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.usuario_company !== state.id) {
-      return {
-        id: props.usuario_company
-      };
-    }
-    if (props.token !== state.auth) {
-      return {
-        auth: props.token
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.usuario_company !== prevProps.usuario_company) {
-      // metodo del fetch()
-      this.getDataHeadquarter();
-    }
-    if (this.props.token !== prevProps.token) {
-      this.setState({
-        auth: this.props.token
-      });
-    }
-  }
-
-  componentDidMount() {
-    this.getDataHeadquarter();
-  }
-
-  getDataHeadquarter = () => {
-    fetch(`${HEADQUARTER_BY_COMPANY}${this.props.usuario_company}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.token
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataHeadquarter: data
-        });
-      })
-      .catch(err => console.log("Error", err));
-  };
-
-  render() {
-    const { t } = this.state;
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          className={this.props.className}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-        >
-          <option value={""}>
-            -- {t("app_grupoUsuarios_modal_editar_select_sede")} --
-          </option>
-          {this.state.dataHeadquarter.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-
-// -------------------------------------------------------------------------------------------------------------- //
-
-class SelectDependence extends React.Component {
-  state = {
-    dataDependence: [],
-    id: this.props.usuario_headquarter,
-    auth: this.props.token,
-    t: this.props.t
-  };
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.usuario_headquarter !== state.id) {
-      return {
-        id: props.usuario_headquarter
-      };
-    }
-    if (props.token !== state.auth) {
-      return {
-        auth: props
-      };
-    }
-    return null;
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.usuario_headquarter !== prevProps.usuario_headquarter) {
-      // metodo del fetch()
-      this.getDataDependence();
-    }
-    if (this.props.token !== prevProps.token) {
-      this.setState({
-        auth: this.props.token
-      });
-    }
-  }
-
-  componentDidMount() {
-    this.getDataDependence();
-  }
-
-  getDataDependence = () => {
-    fetch(`${DEPENDENCIES_BY_HEADQUARTER}${this.props.usuario_headquarter}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.token
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataDependence: data
-        });
-      })
-      .catch(err => console.log("Error", err));
-  };
-
-  render() {
-    const { t } = this.state;
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          value={this.props.value}
-          onChange={this.props.onChange}
-          className={this.props.className}
-          onBlur={this.props.onBlur}
-        >
-          <option value={""}>
-            -- {t("app_grupoUsuarios_modal_editar_select_dependencia")} --
-          </option>
-          {this.state.dataDependence.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
-// -------------------------------------------------------------------------------------- //
 
 class UsuariosAsignados extends React.Component {
   state = {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { COMPANY_BY_CONGLOMERATE } from "../../../../services/EndPoints";
+import { COMPANY_BY_CONGLOMERATE } from "../../../services/EndPoints";
 
 const FieldCompany = ({
   field,
@@ -61,7 +61,7 @@ const FieldCompany = ({
         value={values.empresa}
       >
         <option value={""}>
-          -- {t("app_tipoTramite_actualizar_placeholder_empresa")} --
+          -- {t("app_grupoUsuarios_modal_editar_select_empresa")} --
         </option>
         {dataCompany.map((aux, id) => {
           return (

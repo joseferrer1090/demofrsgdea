@@ -26,6 +26,9 @@ const FieldHeadquarter = ({
   };
 
   const validateValues = () => {
+    if (PREValueCountry !== props.conglomerateId) {
+      setDataHeadquarter([]);
+    }
     if (PREValue !== props.companyId) {
       setDataHeadquarter([]);
       values.headquarterId = "";
@@ -35,7 +38,7 @@ const FieldHeadquarter = ({
 
   useEffect(() => {
     validateValues();
-  }, [props.companyId]);
+  }, [props.companyId, props.conglomerateId]);
 
   const usePrevious = value => {
     let valueRef;
@@ -52,6 +55,7 @@ const FieldHeadquarter = ({
   };
 
   const PREValue = usePrevious(props.companyId);
+  const PREValueCountry = usePrevious(props.conglomerateId);
   const t = props.t;
   return (
     <div>

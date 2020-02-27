@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import { HEADQUARTER_BY_COMPANY } from "../../../../services/EndPoints";
+import { DEPENDENCIES_BY_HEADQUARTER } from "../../../services/EndPoints";
 
-const FieldHeadquarter = ({
+const FieldDependence = ({
   field,
   form: { errors, touched, setFieldTouched, setFieldValue, values },
   ...props
 }) => {
-  const [dataHeadquarter, setDataHeadquarter] = useState([]);
+  const [dataDependence, setDataDependence] = useState([]);
   const fetchNewValues = id => {
-    fetch(`${HEADQUARTER_BY_COMPANY}${id}`, {
+    fetch(`${DEPENDENCIES_BY_HEADQUARTER}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -17,30 +17,38 @@ const FieldHeadquarter = ({
     })
       .then(response => response.json())
       .then(data => {
-        setDataHeadquarter(data);
+        setDataDependence(data);
       })
       .catch(err => {
         console.log("Error", err);
-        setDataHeadquarter([]);
+        setDataDependence([]);
       });
   };
 
   const validateValues = () => {
-    if (PREValueConglomerate !== props.conglomerateId) {
-      setDataHeadquarter([]);
+    if (
+      PREValueConglomerate !== props.conglomerateId ||
+      PREValueCompany !== props.companyId
+    ) {
+      setDataDependence([]);
     }
-    if (PREValue !== props.companyId) {
-      setDataHeadquarter([]);
+    if (PREValue !== props.headquarterId) {
+      setDataDependence([]);
       if (PREValue !== "") {
-        values.sede = "";
+        values.dependencia = "";
       }
-      fetchNewValues(props.companyId);
+      fetchNewValues(props.headquarterId);
     }
   };
 
   useEffect(() => {
     validateValues();
-  }, [props.companyId, props.headquarterId, props.conglomerateId]);
+  }, [
+    props.headquarterId,
+    props.dependenceId,
+    props.conglomerateId,
+    props.companyId
+  ]);
 
   const usePrevious = value => {
     let valueRef;
@@ -56,27 +64,27 @@ const FieldHeadquarter = ({
     return valueRef;
   };
 
-  const PREValue = usePrevious(props.companyId);
+  const PREValue = usePrevious(props.headquarterId);
   const PREValueConglomerate = usePrevious(props.conglomerateId);
-
+  const PREValueCompany = usePrevious(props.companyId);
   const t = props.t;
   return (
     <div>
       {" "}
       <select
-        onChange={e => setFieldValue("sede", e.target.value)}
-        onBlur={e => setFieldTouched("sede", true)}
-        className={`form-control form-control-sm ${errors.sede &&
-          touched.sede &&
+        onChange={e => setFieldValue("dependencia", e.target.value)}
+        onBlur={e => setFieldTouched("dependencia", true)}
+        className={`form-control form-control-sm ${errors.dependencia &&
+          touched.dependencia &&
           "is-invalid"}`}
-        value={values.sede}
+        value={values.dependencia}
       >
         <option value={""}>
-          -- {t("app_tipoTramite_actualizar_placeholder_sede")} --
+          -- {t("app_grupoUsuarios_modal_editar_select_dependencia")} --
         </option>
-        {dataHeadquarter === []
+        {dataDependence === []
           ? null
-          : dataHeadquarter.map((aux, id) => {
+          : dataDependence.map((aux, id) => {
               return (
                 <option key={id} value={aux.id}>
                   {aux.name}
@@ -87,4 +95,4 @@ const FieldHeadquarter = ({
     </div>
   );
 };
-export default FieldHeadquarter;
+export default FieldDependence;

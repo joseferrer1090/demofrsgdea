@@ -3,9 +3,9 @@ import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { Col, CustomInput } from "reactstrap";
 import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
-import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
-import SelectSede from "./component_viewEdit/SelectSede";
-import SelectDependencia from "./component_viewEdit/SelectDependencia";
+import FieldCompany from "./component_viewEdit/SelectEmpresa";
+import FieldHeadquarter from "./component_viewEdit/SelectSede";
+import FieldDependence from "./component_viewEdit/SelectDependencia";
 import { useSelector, useDispatch } from "react-redux";
 import {
   obtenerTipoDocumentalAction,
@@ -20,7 +20,7 @@ import {
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import { withTranslation } from "react-i18next";
-import { Button, Alert, UncontrolledAlert } from "reactstrap";
+import { Button } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { css } from "glamor";
@@ -461,9 +461,6 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                         }}
                                         className="form-control form-control-sm"
                                       />
-                                      {/* <select className="form-control form-control-sm">
-                                            <option>Seleccione</option>
-                                          </select> */}
                                     </div>
                                   </div>
                                   <div className="col-md-6">
@@ -473,28 +470,16 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                           "app_documentalRadicacion_actualizar_empresa"
                                         )}{" "}
                                       </label>
-                                      <SelectEmpresa
-                                        authorization={authorization}
-                                        idConglomerado={values.conglomerado}
+                                      <Field
+                                        authorization={auth}
                                         t={t}
                                         name="empresa"
-                                        value={values.empresa}
-                                        onChange={e => {
-                                          setFieldValue(
-                                            "empresa",
-                                            e.target.value
-                                          );
-                                        }}
-                                        onBlur={() => {
-                                          setFieldTouched("empresa", true);
-                                        }}
-                                        className={
-                                          "form-control form-control-sm"
+                                        component={FieldCompany}
+                                        conglomerateId={
+                                          props.values.conglomerado
                                         }
-                                      />
-                                      {/* <select className="form-control form-control-sm">
-                                            <option>Seleccione</option>
-                                          </select> */}
+                                        companyId={props.values.empresa}
+                                      ></Field>
                                     </div>
                                   </div>
                                   <div className="col-md-6">
@@ -505,23 +490,17 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                           "app_documentalRadicacion_actualizar_sede"
                                         )}{" "}
                                       </label>
-                                      <SelectSede
+                                      <Field
+                                        authorization={auth}
                                         t={t}
-                                        authorization={authorization}
-                                        idEmpresa={values.empresa}
                                         name="sede"
-                                        value={values.sede}
-                                        onChange={e => {
-                                          setFieldValue("sede", e.target.value);
-                                        }}
-                                        onBlur={() => {
-                                          setFieldTouched("sede", true);
-                                        }}
-                                        className="form-control form-control-sm"
-                                      />
-                                      {/* <select className="form-control form-control-sm">
-                                            <option>Seleccione</option>
-                                          </select> */}
+                                        component={FieldHeadquarter}
+                                        companyId={props.values.empresa}
+                                        headquarterId={props.values.sede}
+                                        conglomerateId={
+                                          props.values.conglomerado
+                                        }
+                                      ></Field>
                                     </div>
                                   </div>
                                   <div className="col-md-6">
@@ -532,25 +511,18 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                           "app_documentalRadicacion_actualizar_dependencia"
                                         )}{" "}
                                       </label>
-                                      <SelectDependencia
+                                      <Field
+                                        authorization={auth}
                                         t={t}
-                                        authorization={authorization}
-                                        idSede={values.sede}
                                         name="dependencia"
-                                        value={values.dependencia}
-                                        onChange={e => {
-                                          setFieldValue(
-                                            "dependencia",
-                                            e.target.value
-                                          );
-                                        }}
-                                        onBlur={() => {
-                                          setFieldTouched("dependencia", true);
-                                        }}
-                                        className={
-                                          "form-control form-control-sm"
+                                        component={FieldDependence}
+                                        headquarterId={props.values.sede}
+                                        dependenceId={props.values.dependencia}
+                                        conglomerateId={
+                                          props.values.conglomerado
                                         }
-                                      />
+                                        companyId={props.values.empresa}
+                                      ></Field>
                                     </div>
                                   </div>
                                   <div className="col-md-12">

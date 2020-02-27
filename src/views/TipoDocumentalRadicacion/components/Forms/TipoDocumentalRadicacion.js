@@ -486,21 +486,8 @@ const TipoDocumentalRadicacion = props => {
                                   name="sede"
                                   component={FieldHeadquarter}
                                   companyId={values.empresa}
+                                  conglomerateId={values.conglomerado}
                                 ></Field>
-                                {/* <SelectSede
-                                  authorization={props.authorization}
-                                  t={props.t}
-                                  idEmpresa={values.empresa}
-                                  name="sede"
-                                  value={values.sede}
-                                  onChange={e => {
-                                    setFieldValue("sede", e.target.value);
-                                  }}
-                                  onBlur={() => {
-                                    setFieldTouched("sede", true);
-                                  }}
-                                  className="form-control form-control-sm"
-                                /> */}
                               </div>
                             </div>
                             <div className="col-md-6">
@@ -517,24 +504,9 @@ const TipoDocumentalRadicacion = props => {
                                   name="dependencia"
                                   component={FieldDependence}
                                   sedeId={values.sede}
+                                  conglomerateId={values.conglomerado}
+                                  companyId={values.empresa}
                                 ></Field>
-                                {/* <SelectDependencia
-                                  authorization={props.authorization}
-                                  t={props.t}
-                                  idSede={values.sede}
-                                  name="dependencia"
-                                  value={values.dependencia}
-                                  onChange={e => {
-                                    setFieldValue(
-                                      "dependencia",
-                                      e.target.value
-                                    );
-                                  }}
-                                  onBlur={() => {
-                                    setFieldTouched("dependencia", true);
-                                  }}
-                                  className={"form-control form-control-sm"}
-                                /> */}
                               </div>
                             </div>
                             <div className="col-md-12">

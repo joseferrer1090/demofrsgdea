@@ -268,20 +268,6 @@ const UserForm = props => {
                         oldValueConglomerateId={oldValueConglomerate}
                         newValueConglomerateId={newValueConglomerate}
                       ></Field>
-
-                      {/* <SelectCompany
-                        authorization={props.authorization}
-                        t={props.t}
-                        conglomerate={props.values.conglomeradoID}
-                        name="empresaID"
-                        value={values.empresaID}
-                        onChange={e =>
-                          setFieldValue("empresaID", e.target.value)
-                        }
-                        className={`form-control form-control-sm ${errors.empresaID &&
-                          touched.empresaID &&
-                          "is-invalid"}`}
-                      ></SelectCompany> */}
                       <div style={{ color: "#D54B4B" }}>
                         {errors.empresaID && touched.empresaID ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -303,18 +289,8 @@ const UserForm = props => {
                         name="sedeID"
                         component={FieldHeadquarter}
                         companyId={values.empresaID}
+                        conglomerateId={values.conglomeradoID}
                       ></Field>
-
-                      {/* <SelectHeadquarter
-                        authorization={props.authorization}
-                        t={props.t}
-                        company={props.values.empresaID}
-                        name={"sedeID"}
-                        onChange={e => setFieldValue("sedeID", e.target.value)}
-                        className={`form-control form-control-sm ${errors.sedeID &&
-                          touched.sedeID &&
-                          "is-invalid"}`}
-                      ></SelectHeadquarter> */}
                       <div style={{ color: "#D54B4B" }}>
                         {errors.sedeID && touched.sedeID ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -336,20 +312,9 @@ const UserForm = props => {
                         name="dependenciaID"
                         component={FieldDependence}
                         sedeId={values.sedeID}
+                        companyId={values.empresaID}
+                        conglomerateId={values.conglomeradoID}
                       ></Field>
-                      {/* <SelectDependence
-                        authorization={props.authorization}
-                        t={props.t}
-                        headquarter={props.values.sedeID}
-                        name={"dependenciaID"}
-                        value={values.dependenciaID}
-                        onChange={e =>
-                          setFieldValue("dependenciaID", e.target.value)
-                        }
-                        className={`form-control form-control-sm ${errors.dependenciaID &&
-                          touched.dependenciaID &&
-                          "is-invalid"}`}
-                      ></SelectDependence> */}
                       <div style={{ color: "#D54B4B" }}>
                         {errors.dependenciaID && touched.dependenciaID ? (
                           <i className="fa fa-exclamation-triangle" />

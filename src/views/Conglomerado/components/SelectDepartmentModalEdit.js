@@ -61,7 +61,7 @@ const FieldDepartment = ({
         value={values.conglomerate_department}
       >
         <option value={""}>
-          -- {t("app_conglomerado_form_select_departamento")} --
+          -- {t("app_conglomerado_modal_actualizar_departamento_select")} --
         </option>
         {dataDepartment.map((aux, id) => {
           return (

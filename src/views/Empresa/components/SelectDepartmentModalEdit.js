@@ -61,7 +61,7 @@ const FieldDepartment = ({
         value={values.company_department}
       >
         <option value={""}>
-          -- {t("app_conglomerado_form_select_departamento")} --
+          -- {t("app_empresa_modal_actualizar_select_departamento")} --
         </option>
         {dataDepartment.map((aux, id) => {
           return (

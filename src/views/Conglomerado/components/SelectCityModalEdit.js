@@ -74,7 +74,7 @@ const FieldCity = ({
         value={values.conglomerate_city}
       >
         <option value={""}>
-          -- {t("app_conglomerado_form_select_ciudad")} --
+          -- {t("app_conglomerado_modal_actualizar_ciudad_select")} --
         </option>
         {dataCity === []
           ? null

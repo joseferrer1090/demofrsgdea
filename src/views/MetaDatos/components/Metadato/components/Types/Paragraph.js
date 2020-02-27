@@ -20,8 +20,8 @@ class Paragraph extends Component {
       title: "",
       name: "",
       content: "",
-      textColor: "#000000",
-      backgroundColor: "#cccccc",
+      colorText: "#000000",
+      background: "#cccccc",
       color: "",
       fontSize: 10,
       align: "center",
@@ -31,6 +31,7 @@ class Paragraph extends Component {
 
   componentDidMount() {
     this.setState(this.props.field);
+    console.log(this.props.field);
   }
 
   toggle = tab => {
@@ -53,7 +54,7 @@ class Paragraph extends Component {
         this.setState({ content: value });
         break;
       case "TEXT_COLOR":
-        this.setState({ textColor: value });
+        this.setState({ colorText: value });
         break;
       case "BACKGROUND_COLOR":
         this.setState({ background: value });
@@ -79,6 +80,24 @@ class Paragraph extends Component {
       sizes.push(i);
     }
     return sizes;
+  };
+
+  createMatadata = e => {
+    e.preventDefault();
+    const aux = JSON.stringify(
+      {
+        title: this.state.title,
+        name: this.state.name,
+        content: this.state.content,
+        align: this.state.align,
+        fontSize: this.state.fontSize,
+        colorText: this.state.colorText,
+        colorContent: this.state.background
+      },
+      null,
+      2
+    );
+    alert(aux);
   };
 
   render() {
@@ -164,7 +183,7 @@ class Paragraph extends Component {
                       <div className="form-group">
                         <label htmlFor="Color">Text Color</label>
                         <input
-                          value={this.state.textColor}
+                          value={this.state.colorText}
                           onChange={e =>
                             this.changeValue("TEXT_COLOR", e.target.value)
                           }
@@ -180,12 +199,9 @@ class Paragraph extends Component {
                           Background Color
                         </label>
                         <input
-                          value={this.state.backgroundColor}
+                          value={this.state.background}
                           onChange={e =>
-                            this.changeValue(
-                              "BACKGROUNDO_COLOR",
-                              e.target.value
-                            )
+                            this.changeValue("BACKGROUND_COLOR", e.target.value)
                           }
                           className="form-control form-control-sm"
                           type="color"
@@ -236,7 +252,13 @@ class Paragraph extends Component {
           </CardBody>
           <CardFooter>
             <div className="pull-right">
-              <button className="btn btn-secondary btn-sm">
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                onClick={e => {
+                  this.createMatadata(e);
+                }}
+              >
                 <i className="fa fa-save" /> Guardar metadato
               </button>
             </div>

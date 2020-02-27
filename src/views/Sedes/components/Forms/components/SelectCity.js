@@ -66,9 +66,7 @@ const FieldCity = ({
           touched.cityId &&
           "is-invalid"}`}
       >
-        <option value={""}>
-          -- {t("app_conglomerado_form_select_ciudad")} --
-        </option>
+        <option value={""}>-- {t("app_sedes_form_select_ciudad")} --</option>
         {dataCity === []
           ? null
           : dataCity.map((aux, id) => {

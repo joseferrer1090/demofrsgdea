@@ -67,7 +67,7 @@ const FieldCity = ({
           "is-invalid"}`}
       >
         <option value={""}>
-          -- {t("app_conglomerado_form_select_ciudad")} --
+          -- {t("app_empresa_form_registrar_select_ciudad")} --
         </option>
         {dataCity === []
           ? null

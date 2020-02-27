@@ -49,7 +49,7 @@ const FieldDepartment = ({
           "is-invalid"}`}
       >
         <option value={""}>
-          -- {t("app_conglomerado_form_select_departamento")} --
+          -- {t("app_sedes_form_select_departamento")} --
         </option>
         {dataDepartment.map((aux, id) => {
           return (

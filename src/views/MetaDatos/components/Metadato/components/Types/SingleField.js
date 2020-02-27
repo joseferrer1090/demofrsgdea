@@ -13,6 +13,7 @@ import {
 import classnames from "classnames";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import ModalPreview from "./../ModalPreview";
 
 const InputTypes = [
   "Checkbox",
@@ -52,7 +53,9 @@ class SingleField extends Component {
         max: 6
       },
       activeTab: "1",
-      tab: ""
+      tab: "",
+      modalpreview: false,
+      dragType: this.props.dragType
     };
   }
 
@@ -112,6 +115,10 @@ class SingleField extends Component {
         activeTab: tab
       });
     }
+  };
+
+  openModalPreview = () => {
+    this.refs.child.toggle();
   };
 
   CreateMetadate = e => {
@@ -403,20 +410,35 @@ class SingleField extends Component {
                 </form>
               </CardBody>
               <CardFooter>
-                <button
-                  className="btn btn-outline-secondary btn-sm pull-right"
-                  type="button"
-                  onClick={e => {
-                    this.CreateMetadate(e);
-                  }}
-                >
-                  {" "}
-                  <i className="fa fa-save" /> Guardar metadato{" "}
-                </button>
+                <div className="pull-right">
+                  <button
+                    className="btn btn-secondary btn-sm "
+                    type="button"
+                    onClick={this.openModalPreview}
+                  >
+                    <i className="fa fa-eye" /> Vista previa
+                  </button>
+                  &nbsp;
+                  <button
+                    className="btn btn-secondary btn-sm "
+                    type="button"
+                    onClick={e => {
+                      this.CreateMetadate(e);
+                    }}
+                  >
+                    {" "}
+                    <i className="fa fa-save" /> Guardar metadato{" "}
+                  </button>
+                </div>
               </CardFooter>
             </Card>
           </div>
         </div>
+        <ModalPreview
+          ref="child"
+          modalpreview={this.state.modalpreview}
+          inputType={this.state.dragType}
+        />
       </div>
     );
   }

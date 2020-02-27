@@ -112,7 +112,7 @@ class Paragraph extends Component {
               onClick={() => this.props.removeField(this.props.indes)}
             >
               {" "}
-              <i className="fa fa-times" />{" "}
+              <i className="fa fa-times" style={{ color: "red" }} />{" "}
             </span>
           </CardHeader>
           <CardBody>

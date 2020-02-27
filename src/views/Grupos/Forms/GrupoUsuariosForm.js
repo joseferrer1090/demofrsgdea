@@ -487,6 +487,7 @@ export default withTranslation("translations")(
         .required(" Por favor seleccione al menos un rol.")
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
+      const userName = decode(props.authorization);
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -510,7 +511,7 @@ export default withTranslation("translations")(
             description: values.descripcion,
             users: values.roles,
             status: tipoEstado(values.estado),
-            userName: "jferrer"
+            userName: userName.user_name
           })
         })
           .then(response => {

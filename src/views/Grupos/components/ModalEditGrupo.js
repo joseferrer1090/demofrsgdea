@@ -11,7 +11,7 @@ import {
   CustomInput,
   Alert
 } from "reactstrap";
-import { Formik, ErrorMessage, FormikProps, Form, Field } from "formik";
+import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
   GROUPUSER,
@@ -22,6 +22,10 @@ import {
   USERS_BY_DEPENDENCE
 } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import SelectConglomerado from "./SelectConglomerate";
+import FieldCompany from "./SelectCompany";
+import FieldHeadquarter from "./SelectHeadquarter";
+import FieldDependence from "./SelectDependence";
 
 class ModalEditGrupos extends React.Component {
   state = {
@@ -409,7 +413,17 @@ class ModalEditGrupos extends React.Component {
                                         )}{" "}
                                         <span className="text-danger">*</span>{" "}
                                       </label>
-                                      <SelectCompany
+                                      <Field
+                                        authorization={this.props.authorization}
+                                        t={t}
+                                        name="empresa"
+                                        component={FieldCompany}
+                                        conglomerateId={
+                                          props.values.conglomerado
+                                        }
+                                        companyId={props.values.empresa}
+                                      ></Field>
+                                      {/* <SelectCompany
                                         t={t}
                                         token={this.props.authorization}
                                         usuario_conglomerate={
@@ -429,7 +443,7 @@ class ModalEditGrupos extends React.Component {
                                         className={`form-control form-control-sm ${errors.empresa &&
                                           touched.empresa &&
                                           "is-invalid"}`}
-                                      ></SelectCompany>
+                                      ></SelectCompany> */}
 
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.empresa && touched.empresa ? (
@@ -449,7 +463,15 @@ class ModalEditGrupos extends React.Component {
                                         )}{" "}
                                         <span className="text-danger">*</span>{" "}
                                       </label>
-                                      <SelectHeadquarter
+                                      <Field
+                                        authorization={this.props.authorization}
+                                        t={t}
+                                        name="sede"
+                                        component={FieldHeadquarter}
+                                        companyId={props.values.empresa}
+                                        headquarterId={props.values.sede}
+                                      ></Field>
+                                      {/* <SelectHeadquarter
                                         t={t}
                                         token={this.props.authorization}
                                         usuario_company={props.values.empresa}
@@ -464,7 +486,7 @@ class ModalEditGrupos extends React.Component {
                                         className={`form-control form-control-sm ${errors.sede &&
                                           touched.sede &&
                                           "is-invalid"}`}
-                                      ></SelectHeadquarter>
+                                      ></SelectHeadquarter> */}
 
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.sede && touched.sede ? (
@@ -484,7 +506,15 @@ class ModalEditGrupos extends React.Component {
                                         )}{" "}
                                         <span className="text-danger">*</span>{" "}
                                       </label>
-                                      <SelectDependence
+                                      <Field
+                                        authorization={this.props.authorization}
+                                        t={t}
+                                        name="dependencia"
+                                        component={FieldDependence}
+                                        headquarterId={props.values.sede}
+                                        dependenceId={props.values.dependencia}
+                                      ></Field>
+                                      {/* <SelectDependence
                                         t={t}
                                         token={this.props.authorization}
                                         usuario_headquarter={props.values.sede}
@@ -502,7 +532,7 @@ class ModalEditGrupos extends React.Component {
                                         className={`form-control form-control-sm ${errors.dependencia &&
                                           touched.dependencia &&
                                           "is-invalid"}`}
-                                      ></SelectDependence>
+                                      ></SelectDependence> */}
 
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.dependencia &&
@@ -637,73 +667,6 @@ ModalEditGrupos.propTypes = {
 export default ModalEditGrupos;
 
 //--------------------------------------------------------------------------------------------//
-
-class SelectConglomerado extends React.Component {
-  state = {
-    dataConglomerate: [],
-    auth: this.props.token,
-    t: this.props.t
-  };
-
-  componentDidMount() {
-    this.getData();
-  }
-
-  getData = () => {
-    fetch(`${CONGLOMERATES_STATUS}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.token
-      }
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.setState({
-          dataConglomerate: data
-        });
-      });
-  };
-
-  handleChange = value => {
-    this.props.onChange("usuario_conglomerate", value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur("usuario_conglomerate", true);
-  };
-
-  render() {
-    // const selectOptionsConglomerate = this.state.dataConglomerate.map(
-    //   (aux, id) => {
-    //     return <option value={aux.id}>{aux.name}</option>;
-    //   }
-    // );
-    const { t } = this.state;
-    return (
-      <div>
-        <select
-          name={this.props.name}
-          onChange={this.props.onChange}
-          onBlur={this.props.onBlur}
-          value={this.props.value}
-          className={this.props.className}
-        >
-          <option value={""}>
-            -- {t("app_grupoUsuarios_modal_editar_select_conglomerado")} --
-          </option>
-          {this.state.dataConglomerate.map((aux, id) => {
-            return (
-              <option key={id} value={aux.id}>
-                {aux.name}
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    );
-  }
-}
 
 // --------------------------------------------------------------------------------------------- //
 class SelectCompany extends React.Component {

@@ -639,6 +639,10 @@ class ModalEditUser extends React.Component {
                                               headquarterId={
                                                 props.values.usuario_headquarter
                                               }
+                                              conglomerateId={
+                                                props.values
+                                                  .usuario_conglomerate
+                                              }
                                             ></Field>
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.usuario_headquarter &&
@@ -673,8 +677,15 @@ class ModalEditUser extends React.Component {
                                               dependenceId={
                                                 props.values.usuario_dependence
                                               }
+                                              companyId={
+                                                props.values.usuario_company
+                                              }
+                                              conglomerateId={
+                                                props.values
+                                                  .usuario_conglomerate
+                                              }
                                             ></Field>
-                         
+
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.usuario_dependence &&
                                               touched.usuario_dependence ? (

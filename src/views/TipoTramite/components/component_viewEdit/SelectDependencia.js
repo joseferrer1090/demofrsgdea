@@ -43,7 +43,6 @@ const FieldDependence = ({
 
   useEffect(() => {
     validateValues();
-    // console.log(props.headquarterId);
   }, [
     props.headquarterId,
     props.dependenceId,

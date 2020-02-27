@@ -497,6 +497,9 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                         component={FieldHeadquarter}
                                         companyId={props.values.empresa}
                                         headquarterId={props.values.sede}
+                                        conglomerateId={
+                                          props.values.conglomerado
+                                        }
                                       ></Field>
                                     </div>
                                   </div>
@@ -515,6 +518,10 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                         component={FieldDependence}
                                         headquarterId={props.values.sede}
                                         dependenceId={props.values.dependencia}
+                                        conglomerateId={
+                                          props.values.conglomerado
+                                        }
+                                        companyId={props.values.empresa}
                                       ></Field>
                                     </div>
                                   </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { DEPENDENCIES_BY_HEADQUARTER } from "../../../../services/EndPoints";
+import { checkPropTypes } from "prop-types";
 
 const FieldDependence = ({
   field,
@@ -26,6 +27,12 @@ const FieldDependence = ({
   };
 
   const validateValues = () => {
+    if (
+      PREValueConglomerate !== props.conglomerateId ||
+      PREValueCompany !== props.companyId
+    ) {
+      setDataDependence([]);
+    }
     if (PREValue !== props.headquarterId) {
       setDataDependence([]);
       if (PREValue !== "") {
@@ -37,7 +44,12 @@ const FieldDependence = ({
 
   useEffect(() => {
     validateValues();
-  }, [props.headquarterId, props.dependenceId]);
+  }, [
+    props.headquarterId,
+    props.dependenceId,
+    props.companyId,
+    props.conglomerateId
+  ]);
 
   const usePrevious = value => {
     let valueRef;
@@ -54,6 +66,8 @@ const FieldDependence = ({
   };
 
   const PREValue = usePrevious(props.headquarterId);
+  const PREValueConglomerate = usePrevious(props.conglomerateId);
+  const PREValueCompany = usePrevious(props.companyId);
   const t = props.t;
   return (
     <div>

@@ -424,28 +424,6 @@ class ModalEditGrupos extends React.Component {
                                         }
                                         companyId={props.values.empresa}
                                       ></Field>
-                                      {/* <SelectCompany
-                                        t={t}
-                                        token={this.props.authorization}
-                                        usuario_conglomerate={
-                                          props.values.conglomerado
-                                        }
-                                        name="empresa"
-                                        value={values.empresa}
-                                        onChange={e =>
-                                          setFieldValue(
-                                            "empresa",
-                                            e.target.value
-                                          )
-                                        }
-                                        onBlur={() =>
-                                          setFieldTouched("empresa", true)
-                                        }
-                                        className={`form-control form-control-sm ${errors.empresa &&
-                                          touched.empresa &&
-                                          "is-invalid"}`}
-                                      ></SelectCompany> */}
-
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.empresa && touched.empresa ? (
                                           <i className="fa fa-exclamation-triangle" />
@@ -471,24 +449,10 @@ class ModalEditGrupos extends React.Component {
                                         component={FieldHeadquarter}
                                         companyId={props.values.empresa}
                                         headquarterId={props.values.sede}
+                                        conglomerateId={
+                                          props.values.conglomerado
+                                        }
                                       ></Field>
-                                      {/* <SelectHeadquarter
-                                        t={t}
-                                        token={this.props.authorization}
-                                        usuario_company={props.values.empresa}
-                                        name={"sede"}
-                                        onChange={e =>
-                                          setFieldValue("sede", e.target.value)
-                                        }
-                                        onBlur={() =>
-                                          setFieldTouched("sede", true)
-                                        }
-                                        value={values.sede}
-                                        className={`form-control form-control-sm ${errors.sede &&
-                                          touched.sede &&
-                                          "is-invalid"}`}
-                                      ></SelectHeadquarter> */}
-
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.sede && touched.sede ? (
                                           <i className="fa fa-exclamation-triangle" />
@@ -514,27 +478,11 @@ class ModalEditGrupos extends React.Component {
                                         component={FieldDependence}
                                         headquarterId={props.values.sede}
                                         dependenceId={props.values.dependencia}
+                                        conglomerateId={
+                                          props.values.conglomerado
+                                        }
+                                        companyId={props.values.empresa}
                                       ></Field>
-                                      {/* <SelectDependence
-                                        t={t}
-                                        token={this.props.authorization}
-                                        usuario_headquarter={props.values.sede}
-                                        name={"dependencia"}
-                                        value={values.dependencia}
-                                        onChange={e =>
-                                          setFieldValue(
-                                            "dependencia",
-                                            e.target.value
-                                          )
-                                        }
-                                        onBlur={() =>
-                                          setFieldTouched("dependencia", true)
-                                        }
-                                        className={`form-control form-control-sm ${errors.dependencia &&
-                                          touched.dependencia &&
-                                          "is-invalid"}`}
-                                      ></SelectDependence> */}
-
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.dependencia &&
                                         touched.dependencia ? (

@@ -640,28 +640,6 @@ class ModalUpdateRemitente extends React.Component {
                                       props.values.tercero_departamento
                                     }
                                   ></Field>
-                                  {/* <SelectDepartment
-                                    authorization={this.state.auth}
-                                    t={this.state.t}
-                                    tercero_pais={props.values.tercero_pais}
-                                    name="tercero_departamento"
-                                    value={values.tercero_departamento}
-                                    onChange={e =>
-                                      setFieldValue(
-                                        "tercero_departamento",
-                                        e.target.value
-                                      )
-                                    }
-                                    onBlur={() =>
-                                      setFieldTouched(
-                                        "tercero_departamento",
-                                        true
-                                      )
-                                    }
-                                    className={`form-control form-control-sm ${errors.tercero_departamento &&
-                                      touched.tercero_departamento &&
-                                      "is-invalid"}`}
-                                  /> */}
                                   <div style={{ color: "#D54B4B" }}>
                                     {errors.tercero_departamento &&
                                     touched.tercero_departamento ? (
@@ -689,28 +667,8 @@ class ModalUpdateRemitente extends React.Component {
                                       props.values.tercero_departamento
                                     }
                                     cityId={props.values.tercero_ciudad}
+                                    countryId={props.values.tercero_pais}
                                   ></Field>
-                                  {/* <SelectCity
-                                    authorization={this.state.auth}
-                                    t={this.state.t}
-                                    tercero_departamento={
-                                      props.values.tercero_departamento
-                                    }
-                                    name={"tercero_ciudad"}
-                                    value={values.tercero_ciudad}
-                                    onChange={e =>
-                                      setFieldValue(
-                                        "tercero_ciudad",
-                                        e.target.value
-                                      )
-                                    }
-                                    onBlur={() =>
-                                      setFieldTouched("tercero_ciudad", true)
-                                    }
-                                    className={`form-control form-control-sm ${errors.tercero_ciudad &&
-                                      touched.tercero_ciudad &&
-                                      "is-invalid"}`}
-                                  /> */}
                                   <div style={{ color: "#D54B4B" }}>
                                     {errors.tercero_ciudad &&
                                     touched.tercero_ciudad ? (

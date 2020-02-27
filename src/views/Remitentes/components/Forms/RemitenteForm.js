@@ -348,6 +348,7 @@ const RemitenteForm = props => {
                           name="ciudad"
                           component={FieldCity}
                           departmentId={values.departamento}
+                          countryId={values.pais}
                         ></Field>
 
                         <div style={{ color: "#D54B4B" }}>

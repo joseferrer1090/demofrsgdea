@@ -23,9 +23,9 @@ import axios from "axios";
 import moment from "moment";
 import MySelect from "./SelectRolesModalEdit";
 import SelectConglomerado from "./SelectConglomeradoModalEdit";
-import SelectCompany from "./SelectCompanyModalEdit";
-import SelectHeadquarter from "./SelectHeadquarterModalEdit";
-import SelectDependence from "./SelectDependenceModalEdit";
+import FieldCompany from "./SelectCompanyModalEdit";
+import FieldHeadquarter from "./SelectHeadquarterModalEdit";
+import FieldDependence from "./SelectDependenceModalEdit";
 import SelectCharges from "./SelectChargesModalEdit";
 import { USER, USER_PUT, USER_PHOTO } from "../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
@@ -595,31 +595,19 @@ class ModalEditUser extends React.Component {
                                                 *
                                               </span>{" "}
                                             </label>
-                                            <SelectCompany
+                                            <Field
                                               authorization={this.state.auth}
                                               t={this.state.t}
-                                              usuario_conglomerate={
+                                              name="usuario_company"
+                                              component={FieldCompany}
+                                              conglomerateId={
                                                 props.values
                                                   .usuario_conglomerate
                                               }
-                                              name="usuario_company"
-                                              value={values.usuario_company}
-                                              onChange={e =>
-                                                setFieldValue(
-                                                  "usuario_company",
-                                                  e.target.value
-                                                )
+                                              companyId={
+                                                props.values.usuario_company
                                               }
-                                              onBlur={() =>
-                                                setFieldTouched(
-                                                  "usuario_company",
-                                                  true
-                                                )
-                                              }
-                                              className={`form-control form-control-sm ${errors.usuario_company &&
-                                                touched.usuario_company &&
-                                                "is-invalid"}`}
-                                            ></SelectCompany>
+                                            ></Field>
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.usuario_company &&
                                               touched.usuario_company ? (
@@ -640,30 +628,18 @@ class ModalEditUser extends React.Component {
                                                 *
                                               </span>{" "}
                                             </label>
-                                            <SelectHeadquarter
+                                            <Field
                                               authorization={this.state.auth}
                                               t={this.state.t}
-                                              usuario_company={
+                                              name="usuario_headquarter"
+                                              component={FieldHeadquarter}
+                                              companyId={
                                                 props.values.usuario_company
                                               }
-                                              name={"usuario_headquarter"}
-                                              onChange={e =>
-                                                setFieldValue(
-                                                  "usuario_headquarter",
-                                                  e.target.value
-                                                )
+                                              headquarterId={
+                                                props.values.usuario_headquarter
                                               }
-                                              onBlur={() =>
-                                                setFieldTouched(
-                                                  "usuario_headquarter",
-                                                  true
-                                                )
-                                              }
-                                              value={values.usuario_headquarter}
-                                              className={`form-control form-control-sm ${errors.usuario_headquarter &&
-                                                touched.usuario_headquarter &&
-                                                "is-invalid"}`}
-                                            ></SelectHeadquarter>
+                                            ></Field>
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.usuario_headquarter &&
                                               touched.usuario_headquarter ? (
@@ -686,30 +662,19 @@ class ModalEditUser extends React.Component {
                                                 *
                                               </span>{" "}
                                             </label>
-                                            <SelectDependence
+                                            <Field
                                               authorization={this.state.auth}
                                               t={this.state.t}
-                                              usuario_headquarter={
+                                              name="usuario_dependence"
+                                              component={FieldDependence}
+                                              headquarterId={
                                                 props.values.usuario_headquarter
                                               }
-                                              name={"usuario_dependence"}
-                                              value={values.usuario_dependence}
-                                              onChange={e =>
-                                                setFieldValue(
-                                                  "usuario_dependence",
-                                                  e.target.value
-                                                )
+                                              dependenceId={
+                                                props.values.usuario_dependence
                                               }
-                                              onBlur={() =>
-                                                setFieldTouched(
-                                                  "usuario_dependence",
-                                                  true
-                                                )
-                                              }
-                                              className={`form-control form-control-sm ${errors.usuario_dependence &&
-                                                touched.usuario_dependence &&
-                                                "is-invalid"}`}
-                                            ></SelectDependence>
+                                            ></Field>
+                         
                                             <div style={{ color: "#D54B4B" }}>
                                               {errors.usuario_dependence &&
                                               touched.usuario_dependence ? (

@@ -36,6 +36,7 @@ class DateField extends Component {
 
   componentDidMount() {
     this.setState(this.props.field);
+    console.log(this.props.field);
   }
 
   changeValue = (stateFor, value) => {
@@ -96,6 +97,24 @@ class DateField extends Component {
     }
   };
 
+  createMetadata = e => {
+    e.preventDefault();
+    const aux = JSON.stringify(
+      {
+        title: this.state.title,
+        name: this.state.name,
+        description: this.state.description,
+        isRequired: this.state.validation.isRequired,
+        isReadOnly: this.state.validation.isReadOnly,
+        min: this.state.validation.min,
+        max: this.state.validation.max
+      },
+      null,
+      2
+    );
+    alert(aux);
+  };
+
   render() {
     return (
       <div>
@@ -108,7 +127,7 @@ class DateField extends Component {
               onClick={() => this.props.removeField(this.props.index)}
             >
               {" "}
-              <i className="fa fa-times" />{" "}
+              <i className="fa fa-times" style={{ color: "red" }} />{" "}
             </span>
           </CardHeader>
           <CardBody>
@@ -151,7 +170,7 @@ class DateField extends Component {
                         />
                       </div>
                     </div>
-                    <div className="col-md-12">
+                    <div className="col-md-6">
                       <div className="form-group">
                         <label htmlFor="">TITLE</label>
                         <input
@@ -162,6 +181,19 @@ class DateField extends Component {
                             this.changeValue("TITLE", e.target.value)
                           }
                           placeholder={"Titulo"}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="description"> Descripcion </label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.description}
+                          onChange={e => {
+                            this.changeValue("DESCRIPTION", e.target.value);
+                          }}
                         />
                       </div>
                     </div>
@@ -199,7 +231,7 @@ class DateField extends Component {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor>MAX</label>
+                        <label>MAX</label>
                         <input
                           type={"date"}
                           className={"form-control form-control-sm"}
@@ -213,7 +245,7 @@ class DateField extends Component {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor>MIN</label>
+                        <label>MIN</label>
                         <input
                           type="date"
                           className="form-control form-control-sm"
@@ -230,6 +262,18 @@ class DateField extends Component {
               </TabPane>
             </TabContent>
           </CardBody>
+          <CardFooter>
+            <div className="pull-right">
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
+                onClick={e => this.createMetadata(e)}
+              >
+                {" "}
+                <i className="fa fa-save" /> Guardar metadato{" "}
+              </button>
+            </div>
+          </CardFooter>
         </Card>
       </div>
     );

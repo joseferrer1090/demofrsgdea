@@ -86,7 +86,8 @@ class Paragraph extends Component {
       <div>
         <Card clolor={"secondary"}>
           <CardHeader>
-            <i className="fa fa-paragraph" /> {this.state.title}
+            <i className="fa fa-paragraph" /> Selección area de texto{" "}
+            {this.state.title}
             <span
               className="pull-right cross"
               onClick={() => this.props.removeField(this.props.indes)}
@@ -233,7 +234,13 @@ class Paragraph extends Component {
               </TabPane>
             </TabContent>
           </CardBody>
-          <CardFooter></CardFooter>
+          <CardFooter>
+            <div className="pull-right">
+              <button className="btn btn-secondary btn-sm">
+                <i className="fa fa-save" /> Guardar metadato
+              </button>
+            </div>
+          </CardFooter>
         </Card>
       </div>
     );

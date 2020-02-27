@@ -26,6 +26,9 @@ const FieldCity = ({
   };
 
   const validateValues = () => {
+    if (PREValueCountry !== props.countryId) {
+      setDataCity([]);
+    }
     if (PREValue !== props.departmentId) {
       setDataCity([]);
       if (PREValue !== "") {
@@ -37,7 +40,7 @@ const FieldCity = ({
 
   useEffect(() => {
     validateValues();
-  }, [props.departmentId, props.cityId]);
+  }, [props.countryId, props.departmentId, props.cityId]);
 
   const usePrevious = value => {
     let valueRef;
@@ -54,6 +57,23 @@ const FieldCity = ({
   };
 
   const PREValue = usePrevious(props.departmentId);
+
+  const usePreviousCountry = value => {
+    let valueRef;
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+    if (ref.current !== undefined) {
+      valueRef = ref.current;
+    } else {
+      valueRef = "";
+    }
+    return valueRef;
+  };
+
+  const PREValueCountry = usePrevious(props.countryId);
+
   const t = props.t;
   return (
     <div>

@@ -458,6 +458,7 @@ class ModalEditConglomerado extends React.Component {
                                     props.values.conglomerate_department
                                   }
                                   cityId={props.values.conglomerate_city}
+                                  countryId={props.values.conglomerate_country}
                                 ></Field>
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.conglomerate_city &&

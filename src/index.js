@@ -11,10 +11,6 @@ import store from "./store/store";
 import { I18nextProvider } from "react-i18next";
 import i18n from "./config/i18n";
 import { createBrowserHistory } from "history";
-import $ from "jquery";
-import "jquery";
-import "./../node_modules/jquery-ui-dist/jquery-ui.min.js";
-window.$ = window.jQuery = window.jquery = $;
 
 // import {loadConglomerados} from "./actions/actionsCreators";
 

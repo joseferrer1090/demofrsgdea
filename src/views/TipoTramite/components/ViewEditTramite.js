@@ -514,6 +514,14 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                           "app_tipoTramite_actualizar_sede"
                                         )}{" "}
                                       </label>
+                                      <Field
+                                        authorization={auth}
+                                        t={t}
+                                        name="sede"
+                                        component={FieldHeadquarter}
+                                        companyId={props.values.empresa}
+                                        headquarterId={props.values.sede}
+                                      ></Field>
                                       {/* <SelectSede
                                         t={t}
                                         authorization={auth}
@@ -538,6 +546,15 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                           "app_tipoTramite_actualizar_dependencia"
                                         )}{" "}
                                       </label>
+                                      <Field
+                                        authorization={auth}
+                                        t={t}
+                                        name="dependencia"
+                                        component={FieldDependence}
+                                        headquarterId={props.values.sede}
+                                        dependenceId={props.values.dependencia}
+                                      ></Field>
+
                                       {/* <SelectDependencia
                                         t={t}
                                         authorization={auth}

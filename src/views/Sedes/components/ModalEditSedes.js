@@ -649,6 +649,9 @@ class ModalEditSedes extends React.Component {
                                           props.values.headquarter_department
                                         }
                                         cityId={props.values.headquarter_city}
+                                        countryId={
+                                          props.values.headquarter_country
+                                        }
                                       ></Field>
                                       <div style={{ color: "#D54B4B" }}>
                                         {errors.headquarter_city &&

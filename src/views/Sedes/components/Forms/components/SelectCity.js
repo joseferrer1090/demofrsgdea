@@ -26,6 +26,9 @@ const FieldCity = ({
   };
 
   const validateValues = () => {
+    if (props.oldValueCountryId !== props.newValueCountryId) {
+      setDataCity([]);
+    }
     if (PREValue !== props.departmentId) {
       setDataCity([]);
       values.cityId = "";
@@ -35,7 +38,7 @@ const FieldCity = ({
 
   useEffect(() => {
     validateValues();
-  }, [props.departmentId]);
+  }, [props.departmentId, props.newValueCountryId, props.oldValueCountryId]);
 
   const usePrevious = value => {
     let valueRef;

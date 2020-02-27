@@ -26,6 +26,12 @@ const FieldDependence = ({
   };
 
   const validateValues = () => {
+    if (
+      PREValueConglomerate !== props.conglomerateId ||
+      PREValueCompany !== props.companyId
+    ) {
+      setDataDependence([]);
+    }
     if (PREValue !== props.headquarterId) {
       setDataDependence([]);
       if (PREValue !== "") {
@@ -38,7 +44,12 @@ const FieldDependence = ({
   useEffect(() => {
     validateValues();
     // console.log(props.headquarterId);
-  }, [props.headquarterId, props.dependenceId]);
+  }, [
+    props.headquarterId,
+    props.dependenceId,
+    props.conglomerateId,
+    props.companyId
+  ]);
 
   const usePrevious = value => {
     let valueRef;
@@ -55,6 +66,8 @@ const FieldDependence = ({
   };
 
   const PREValue = usePrevious(props.headquarterId);
+  const PREValueConglomerate = usePrevious(props.conglomerateId);
+  const PREValueCompany = usePrevious(props.companyId);
   const t = props.t;
   return (
     <div>

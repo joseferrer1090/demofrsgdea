@@ -463,9 +463,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         }}
                                         className="form-control form-control-sm"
                                       />
-                                      {/* <select className="form-control form-control-sm">
-                                            <option>Seleccione</option>
-                                          </select> */}
                                     </div>
                                   </div>
                                   <div className="col-md-6">
@@ -485,25 +482,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         }
                                         companyId={props.values.empresa}
                                       ></Field>
-                                      {/* <SelectEmpresa
-                                        authorization={auth}
-                                        idConglomerado={values.conglomerado}
-                                        t={t}
-                                        name="empresa"
-                                        value={values.empresa}
-                                        onChange={e => {
-                                          setFieldValue(
-                                            "empresa",
-                                            e.target.value
-                                          );
-                                        }}
-                                        onBlur={() => {
-                                          setFieldTouched("empresa", true);
-                                        }}
-                                        className={
-                                          "form-control form-control-sm"
-                                        }
-                                      />                      */}
                                     </div>
                                   </div>
                                   <div className="col-md-6">
@@ -521,21 +499,10 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         component={FieldHeadquarter}
                                         companyId={props.values.empresa}
                                         headquarterId={props.values.sede}
+                                        conglomerateId={
+                                          props.values.conglomerado
+                                        }
                                       ></Field>
-                                      {/* <SelectSede
-                                        t={t}
-                                        authorization={auth}
-                                        idEmpresa={values.empresa}
-                                        name="sede"
-                                        value={values.sede}
-                                        onChange={e => {
-                                          setFieldValue("sede", e.target.value);
-                                        }}
-                                        onBlur={() => {
-                                          setFieldTouched("sede", true);
-                                        }}
-                                        className="form-control form-control-sm"
-                                      /> */}
                                     </div>
                                   </div>
                                   <div className="col-md-6">
@@ -553,27 +520,11 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         component={FieldDependence}
                                         headquarterId={props.values.sede}
                                         dependenceId={props.values.dependencia}
-                                      ></Field>
-
-                                      {/* <SelectDependencia
-                                        t={t}
-                                        authorization={auth}
-                                        idSede={values.sede}
-                                        name="dependencia"
-                                        value={values.dependencia}
-                                        onChange={e => {
-                                          setFieldValue(
-                                            "dependencia",
-                                            e.target.value
-                                          );
-                                        }}
-                                        onBlur={() => {
-                                          setFieldTouched("dependencia", true);
-                                        }}
-                                        className={
-                                          "form-control form-control-sm"
+                                        companyId={props.values.empresa}
+                                        conglomerateId={
+                                          props.values.conglomerado
                                         }
-                                      /> */}
+                                      ></Field>
                                     </div>
                                   </div>
                                   <div className="col-md-12">

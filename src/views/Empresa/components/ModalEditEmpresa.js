@@ -559,6 +559,7 @@ class ModalEditEmpresa extends React.Component {
                                         props.values.company_department
                                       }
                                       cityId={props.values.company_city}
+                                      countryId={props.values.company_country}
                                     ></Field>
 
                                     {/* <SelectCity

@@ -340,6 +340,8 @@ const SedesForm = props => {
                     name="cityId"
                     component={FieldCity}
                     departmentId={values.departmentId}
+                    oldValueCountryId={oldValue}
+                    newValueCountryId={newValue}
                   ></Field>
                   <div style={{ color: "#D54B4B" }}>
                     {errors.cityId && touched.cityId ? (

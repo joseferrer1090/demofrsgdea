@@ -40,6 +40,8 @@ const FieldCity = ({
 
   useEffect(() => {
     validateValues();
+    // console.log(`department | old = ${PREValue} new = ${props.departmentId}`);
+    // console.log(`country | old = ${PREValueCountry} new = ${props.countryId}`);
   }, [props.countryId, props.departmentId, props.cityId]);
 
   const usePrevious = value => {
@@ -57,21 +59,6 @@ const FieldCity = ({
   };
 
   const PREValue = usePrevious(props.departmentId);
-
-  const usePreviousCountry = value => {
-    let valueRef;
-    const ref = useRef();
-    useEffect(() => {
-      ref.current = value;
-    });
-    if (ref.current !== undefined) {
-      valueRef = ref.current;
-    } else {
-      valueRef = "";
-    }
-    return valueRef;
-  };
-
   const PREValueCountry = usePrevious(props.countryId);
 
   const t = props.t;

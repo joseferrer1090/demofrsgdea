@@ -102,22 +102,6 @@ const DependenciaForm = props => {
                         oldValueConglomerateId={oldValueConglomerate}
                         newValueConglomerateId={newValueConglomerate}
                       ></Field>
-
-                      {/* <SelectCompany
-                        authorization={props.authorization}
-                        t={props.t}
-                        conglomerateId={props.values.conglomerateId}
-                        name="companyId"
-                        value={values.companyId}
-                        onChange={e =>
-                          setFieldValue("companyId", e.target.value)
-                        }
-                        onBlur={() => setFieldTouched("companyId", true)}
-                        className={`form-control form-control-sm ${errors.companyId &&
-                          touched.companyId &&
-                          "is-invalid"}`}
-                      ></SelectCompany> */}
-
                       <div style={{ color: "#D54B4B" }}>
                         {errors.companyId && touched.companyId ? (
                           <i className="fa fa-exclamation-triangle" />
@@ -139,21 +123,8 @@ const DependenciaForm = props => {
                         name="headquarterId"
                         component={FieldHeadquarter}
                         companyId={values.companyId}
+                        conglomerateId={values.conglomerateId}
                       ></Field>
-                      {/* <SelectHeadquarter
-                        authorization={props.authorization}
-                        t={props.t}
-                        companyId={props.values.companyId}
-                        name={"headquarterId"}
-                        onChange={e =>
-                          setFieldValue("headquarterId", e.target.value)
-                        }
-                        onBlur={() => setFieldTouched("headquarterId", true)}
-                        className={`form-control form-control-sm ${errors.headquarterId &&
-                          touched.headquarterId &&
-                          "is-invalid"}`}
-                      ></SelectHeadquarter> */}
-
                       <div style={{ color: "#D54B4B" }}>
                         {errors.headquarterId && touched.headquarterId ? (
                           <i className="fa fa-exclamation-triangle" />

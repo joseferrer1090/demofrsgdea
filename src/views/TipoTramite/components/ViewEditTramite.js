@@ -4,9 +4,9 @@ import { Formik, ErrorMessage, Field } from "formik";
 import { Col, CustomInput, Alert, Button } from "reactstrap";
 import * as Yup from "yup";
 import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
-import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
-import SelectSede from "./component_viewEdit/SelectSede";
-import SelectDependencia from "./component_viewEdit/SelectDependencia";
+import FieldCompany from "./component_viewEdit/SelectEmpresa";
+import FieldHeadquarter from "./component_viewEdit/SelectSede";
+import FieldDependence from "./component_viewEdit/SelectDependencia";
 import {
   TYPEPROCEDURE,
   USERS_BY_DEPENDENCE,
@@ -475,7 +475,17 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                           "app_tipoTramite_actualizar_empresa"
                                         )}{" "}
                                       </label>
-                                      <SelectEmpresa
+                                      <Field
+                                        authorization={auth}
+                                        t={t}
+                                        name="empresa"
+                                        component={FieldCompany}
+                                        conglomerateId={
+                                          props.values.conglomerado
+                                        }
+                                        companyId={props.values.empresa}
+                                      ></Field>
+                                      {/* <SelectEmpresa
                                         authorization={auth}
                                         idConglomerado={values.conglomerado}
                                         t={t}
@@ -493,10 +503,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         className={
                                           "form-control form-control-sm"
                                         }
-                                      />
-                                      {/* <select className="form-control form-control-sm">
-                                            <option>Seleccione</option>
-                                          </select> */}
+                                      />                      */}
                                     </div>
                                   </div>
                                   <div className="col-md-6">
@@ -507,7 +514,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                           "app_tipoTramite_actualizar_sede"
                                         )}{" "}
                                       </label>
-                                      <SelectSede
+                                      {/* <SelectSede
                                         t={t}
                                         authorization={auth}
                                         idEmpresa={values.empresa}
@@ -520,10 +527,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                           setFieldTouched("sede", true);
                                         }}
                                         className="form-control form-control-sm"
-                                      />
-                                      {/* <select className="form-control form-control-sm">
-                                            <option>Seleccione</option>
-                                          </select> */}
+                                      /> */}
                                     </div>
                                   </div>
                                   <div className="col-md-6">
@@ -534,7 +538,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                           "app_tipoTramite_actualizar_dependencia"
                                         )}{" "}
                                       </label>
-                                      <SelectDependencia
+                                      {/* <SelectDependencia
                                         t={t}
                                         authorization={auth}
                                         idSede={values.sede}
@@ -552,7 +556,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         className={
                                           "form-control form-control-sm"
                                         }
-                                      />
+                                      /> */}
                                     </div>
                                   </div>
                                   <div className="col-md-12">

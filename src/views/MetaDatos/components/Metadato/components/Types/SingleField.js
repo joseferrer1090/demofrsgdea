@@ -15,25 +15,25 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ModalPreview from "./../ModalPreview";
 
-const InputTypes = [
-  "Checkbox",
-  "Color",
-  "Date",
-  "Email",
-  "File",
-  "Month",
-  "Number",
-  "Password",
-  "Radio",
-  "Range",
-  "Search",
-  "Tel",
-  "Text",
-  "Time",
-  "Url",
-  "Week",
-  "Textarea"
-];
+// const InputTypes = [
+//   "Checkbox",
+//   "Color",
+//   "Date",
+//   "Email",
+//   "File",
+//   "Month",
+//   "Number",
+//   "Password",
+//   "Radio",
+//   "Range",
+//   "Search",
+//   "Tel",
+//   "Text",
+//   "Time",
+//   "Url",
+//   "Week",
+//   "Textarea"
+// ];
 
 class SingleField extends Component {
   constructor(props) {
@@ -239,7 +239,7 @@ class SingleField extends Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-6">
+                          {/* <div className="col-md-6">
                             <div className="form-group">
                               <label htmlFor="title">Type</label>
                               <select
@@ -259,8 +259,8 @@ class SingleField extends Component {
                                 })}
                               </select>
                             </div>
-                          </div>
-                          <div className="col-md-6">
+                          </div> */}
+                          <div className="col-md-12">
                             <div className="form-group">
                               <label>Default value</label>
                               <input
@@ -438,6 +438,7 @@ class SingleField extends Component {
           ref="child"
           modalpreview={this.state.modalpreview}
           inputType={this.state.dragType}
+          field={this.props.field}
         />
       </div>
     );

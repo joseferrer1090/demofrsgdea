@@ -8,7 +8,8 @@ class ModalPreview extends Component {
     super(props);
     this.state = {
       modalPreview: this.props.modalpreview,
-      type: this.props.inputType
+      type: this.props.inputType,
+      field: this.props.field
     };
   }
   toggle = () => {
@@ -22,6 +23,10 @@ class ModalPreview extends Component {
       return {
         type: props.inputType
       };
+    } else if (props.field !== state.field) {
+      return {
+        field: props.field
+      };
     }
   }
 
@@ -30,17 +35,19 @@ class ModalPreview extends Component {
       this.setState({
         type: this.props.inputType
       });
+    } else if (this.props.field !== prevProps.field) {
+      this.setState({
+        field: this.props.field
+      });
     }
   }
 
   render() {
-    console.log(this.state.type);
+    const aux = this.state.field;
     return (
       <Modal isOpen={this.state.modalPreview} toggle={this.toggle}>
-        <ModalHeader> Metadato </ModalHeader>
-        <ModalBody>
-          <p>Probando</p>
-        </ModalBody>
+        <ModalHeader> Metadato {aux.name} </ModalHeader>
+        <ModalBody>{this.state.field.toolType}</ModalBody>
         <ModalFooter>
           <div className="pull-right">
             <button

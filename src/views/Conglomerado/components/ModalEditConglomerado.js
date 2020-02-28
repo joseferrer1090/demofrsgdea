@@ -32,7 +32,6 @@ class ModalEditConglomerado extends React.Component {
     alertSuccess: false,
     t: this.props.t,
     optionsCharges: [0],
-    // status: 0,
     auth: this.props.authorization,
     oldValue: "",
     newValue: ""

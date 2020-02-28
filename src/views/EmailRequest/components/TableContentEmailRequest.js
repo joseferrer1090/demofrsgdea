@@ -1,7 +1,16 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import { Row, Col, CardBody, CardHeader, Card, Collapse } from "reactstrap";
-import {} from "./../../../services/EndPoints";
+import {
+  Row,
+  Col,
+  CardBody,
+  CardHeader,
+  Card,
+  Collapse,
+  Form
+} from "reactstrap";
+import { Formik, ErrorMessage, Field } from "formik";
+import { REQUEST_EMAIL, EMAIL_ACCOUNTS } from "./../../../services/EndPoints";
 import { withTranslation } from "react-i18next";
 import moment from "moment";
 import PropTypes from "prop-types";
@@ -9,6 +18,7 @@ import "./../../../css/styleTableEmailRequest.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 import ModalViewEmailRequest from "./ModalViewEmailRequest";
 import Modalc from "./Modal";
+import SelectAccount from "./SelectAccount";
 
 class TableContentEmailRequest extends Component {
   constructor(props) {
@@ -23,43 +33,59 @@ class TableContentEmailRequest extends Component {
       t: this.props.t,
       /* */
       collapase: true,
-      dataTable: []
+      dataTable: [],
+      dataEmailAccount: []
     };
   }
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
-  //   static getDerivedStaticFromProps(props, state) {
-  //     if (props.auhorization !== state.auth) {
-  //       return {
-  //         auth: props.authorization
-  //       };
-  //     }
-  //   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+      this.getData();
+    }
+  }
 
-  //   componentDidUpdate(prevProps, prevState) {
-  //     if (this.props.authorization !== prevProps.authorization) {
-  //       this.setState({
-  //         auth: this.props.authorization
-  //       });
-  //       this.getDataPlantillasEmail();
-  //     }
-  //   }
+  getData = () => {
+    fetch(`${EMAIL_ACCOUNTS}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + this.state.auth
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataEmailAccount: data
+        });
+      });
+  };
 
-  //   getDataPlantillasEmail = () => {
-  //     fetch(TEMPLATES_EMAIL, {
-  //       method: "GET",
-  //       headers: {
-  //         Authorization: "Bearer " + this.props.authorization,
-  //         "Content-Type": "application/json"
-  //       }
-  //     })
-  //       .then(response => response.json())
-  //       .then(data => {
-  //         this.setState({
-  //           dataPlantillas: data
-  //         });
-  //       })
-  //       .catch(Error => console.log(" ", Error));
-  //   };
+  getDataRequestEmail = id => {
+    fetch(`${REQUEST_EMAIL}${id}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + this.state.auth,
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataTable: data
+        });
+      })
+      .catch(Error => console.log(" ", Error));
+  };
 
   toggleCollapse = () => {
     this.setState({
@@ -103,6 +129,11 @@ class TableContentEmailRequest extends Component {
       </div>
     );
   }
+  FechaCreacionEmailRequest(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("DD-MM-YYYY");
+  }
 
   openModal = id => {
     this.refs.child2.toggle(id);
@@ -117,56 +148,10 @@ class TableContentEmailRequest extends Component {
   }
 
   render() {
-    const { t } = this.props;
-    const cuenta1 = [
-      {
-        id: 1,
-        remitente: "remitente1_cuenta1@gmail.com",
-        asunto: "asunto cuenta1",
-        fecha: moment(new Date()).format("DD-MM-YYYY")
-      },
-      {
-        id: 2,
-        remitente: "remitente2_cuenta1@gmail.com",
-        asunto: "asunto cuenta1",
-        fecha: moment(new Date()).format("DD-MM-YYYY")
-      },
-      {
-        id: 3,
-        remitente: "remitente3_cuenta1@gmail.com",
-        asunto: "asunto cuenta1",
-        fecha: moment(new Date()).format("DD-MM-YYYY")
-      }
-    ];
-
-    const cuenta2 = [
-      {
-        id: 1,
-        remitente: "remitente1_cuenta2@gmail.com",
-        asunto: "asunto cuenta2",
-        fecha: moment(new Date()).format("DD-MM-YYYY")
-      },
-      {
-        id: 2,
-        remitente: "remitente2_cuenta2@gmail.com",
-        asunto: "asunto cuenta2",
-        fecha: moment(new Date()).format("DD-MM-YYYY")
-      },
-      {
-        id: 3,
-        remitente: "remitente3_cuenta2@gmail.com",
-        asunto: "asunto cuenta2",
-        fecha: moment(new Date()).format("DD-MM-YYYY")
-      }
-    ];
     const dataTable = e => {
       const value = e.target.value;
-      if (value === "1") {
-        this.setState({ dataTable: cuenta1 });
-      } else if (value === "2") {
-        this.setState({
-          dataTable: cuenta2
-        });
+      if (value !== "") {
+        this.getDataRequestEmail(value);
       } else {
         this.setState({
           dataTable: []
@@ -199,19 +184,22 @@ class TableContentEmailRequest extends Component {
                           <dt>Cuenta de correo electrónico</dt>
                           <dd>
                             <select
-                              className={`form-control form-control-sm `}
+                              name={"email_accounts"}
                               onChange={e => dataTable(e)}
+                              className={`form-control form-control-sm`}
                             >
                               <option value={""}>-- Seleccione --</option>
-                              <option value={"1"}>lexco.test@gmail.com</option>
-                              <option value={"2"}>lexco.admin@gmail.com</option>
+                              {this.state.dataEmailAccount.map((aux, id) => {
+                                return (
+                                  <option key={id} value={aux.id}>
+                                    {aux.email}
+                                  </option>
+                                );
+                              })}
                             </select>
                           </dd>
                         </dl>
                       </div>
-                      {/* <div className="col-md-4">
-                        <button className="btn-md">Consultar</button>
-                      </div> */}
                     </div>
                   </CardBody>
                 </Collapse>
@@ -224,7 +212,6 @@ class TableContentEmailRequest extends Component {
             search
             searchPlaceholder={"Buscar"}
             data={this.state.dataTable}
-            // data={cuenta1}
             hover
             bordered={false}
             className="tablePlantillaEmail texto-PlantillaEmail"
@@ -245,29 +232,28 @@ class TableContentEmailRequest extends Component {
               #
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField="remitente"
+              dataField="sender"
               dataAlign="center"
               width={"300"}
             >
               Remitente
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataField="asunto"
+              dataField="subject"
               dataAlign="center"
               width={"300"}
             >
               Asunto
             </TableHeaderColumn>
             <TableHeaderColumn
-              dataSort={true}
-              dataField={"fecha"}
-              // dataFormat={(cell, row) =>
-              //   this.FechaCreacionPlantillasEmail(cell, row)
-              // }
+              dataField={"createdAt"}
+              dataFormat={(cell, row) =>
+                this.FechaCreacionEmailRequest(cell, row)
+              }
               dataAlign="center"
               width={"150"}
             >
-              Fecha
+              Fecha de creación
             </TableHeaderColumn>
             <TableHeaderColumn
               width={"170"}

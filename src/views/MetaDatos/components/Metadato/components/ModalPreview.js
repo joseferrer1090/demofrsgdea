@@ -1,6 +1,6 @@
 import React, { Component, cloneElement } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import PropTypes from "prop-types";
+import PropTypes, { element } from "prop-types";
 import { compose } from "redux";
 
 class ModalPreview extends Component {
@@ -42,12 +42,43 @@ class ModalPreview extends Component {
     }
   }
 
+  renderType = data => {
+    let component;
+    if (data === undefined) {
+      component = (
+        <div className="text-center text-danger">
+          {" "}
+          error en la vista previa{" "}
+        </div>
+      );
+    } else if (data.type === "Text" || data.type === "text") {
+      component = (
+        <div className="col-md-12" style={{ border: "1px solid grey" }}>
+          <div className="form-group">
+            <label>{data.title}</label>
+            <input
+              name={data.name}
+              type={data.type}
+              className="form-control form-control-sm"
+              defaultValue={data.defaultValue}
+              placeholder={data.placeholder}
+            />
+          </div>
+        </div>
+      );
+    }
+    return component;
+  };
+
   render() {
     const aux = this.state.field;
     return (
       <Modal isOpen={this.state.modalPreview} toggle={this.toggle}>
-        <ModalHeader> Metadato {aux.name} </ModalHeader>
-        <ModalBody>{this.state.field.toolType}</ModalBody>
+        <ModalHeader>
+          {" "}
+          Metadato {aux.name ? aux.name : "Nombre del metadado"}{" "}
+        </ModalHeader>
+        <ModalBody>{this.renderType(aux)}</ModalBody>
         <ModalFooter>
           <div className="pull-right">
             <button

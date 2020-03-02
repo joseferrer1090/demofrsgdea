@@ -13,6 +13,7 @@ import {
   NavItem
 } from "reactstrap";
 import classnames from "classnames";
+import ModalPreview from "./../ModalPreview";
 
 class CheckBoxes extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class CheckBoxes extends Component {
       toolType: "CHECK_BOXES",
       title: "",
       name: "",
+      type: "checkbox",
       defaultValue: "",
       description: "",
       validation: {
@@ -32,7 +34,9 @@ class CheckBoxes extends Component {
         max: 6
       },
       duplicate: false,
-      checkBoxes: []
+      checkBoxes: [],
+      modalpreview: false,
+      dragType: this.props.dragType
     };
   }
   componentDidMount() {
@@ -195,6 +199,10 @@ class CheckBoxes extends Component {
       2
     );
     alert(aux);
+  };
+
+  OpenModalPreview = () => {
+    this.refs.child.toggle();
   };
 
   render() {
@@ -465,6 +473,17 @@ class CheckBoxes extends Component {
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
+                onClick={() => {
+                  this.OpenModalPreview();
+                }}
+              >
+                {" "}
+                <i className="fa fa-eye" /> Vista previa
+              </button>
+              &nbsp;
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
                 onClick={e => this.createMetadata(e)}
               >
                 {" "}
@@ -473,6 +492,12 @@ class CheckBoxes extends Component {
             </div>
           </CardFooter>
         </Card>
+        <ModalPreview
+          ref="child"
+          modalpreview={this.state.modalpreview}
+          inputType={this.state.dragType}
+          field={this.props.field}
+        />
       </div>
     );
   }

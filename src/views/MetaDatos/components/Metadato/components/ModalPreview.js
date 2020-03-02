@@ -114,6 +114,15 @@ class ModalPreview extends Component {
           </div>
         </div>
       );
+    } else if (
+      data.toolType === "check_boxes" ||
+      data.toolType === "CHECK_BOXES"
+    ) {
+      component = (
+        <div>
+          <p>Probando lo check_boxes</p>
+        </div>
+      );
     }
     return component;
   };

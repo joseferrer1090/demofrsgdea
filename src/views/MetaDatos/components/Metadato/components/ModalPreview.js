@@ -53,7 +53,10 @@ class ModalPreview extends Component {
       );
     } else if (data.type === "Text" || data.type === "text") {
       component = (
-        <div className="col-md-12" style={{ border: "1px solid grey" }}>
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid #c8ced3", padding: "10px " }}
+        >
           <div className="form-group">
             <label>{data.title}</label>
             <input
@@ -63,6 +66,7 @@ class ModalPreview extends Component {
               defaultValue={data.defaultValue}
               placeholder={data.placeholder}
             />
+            <small className="form-text text-muted">{data.helpertext}</small>
           </div>
         </div>
       );
@@ -78,7 +82,14 @@ class ModalPreview extends Component {
           {" "}
           Metadato {aux.name ? aux.name : "Nombre del metadado"}{" "}
         </ModalHeader>
-        <ModalBody>{this.renderType(aux)}</ModalBody>
+        <ModalBody>
+          <p className="text-justify">
+            El siguiente campo se visible en el formulario de radicacion, cuando
+            el usuario seleccione la plantilla, donde este campo este
+            configurado.
+          </p>
+          {this.renderType(aux)}
+        </ModalBody>
         <ModalFooter>
           <div className="pull-right">
             <button
@@ -100,4 +111,5 @@ ModalPreview.propType = {
   inputType: PropTypes.string,
   modalpreview: PropTypes.bool.isRequired
 };
+
 export default ModalPreview;

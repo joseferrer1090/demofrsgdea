@@ -119,8 +119,15 @@ class ModalPreview extends Component {
       data.toolType === "CHECK_BOXES"
     ) {
       component = (
-        <div>
-          <p>Probando lo check_boxes</p>
+        <div className="form-check">
+          <label>{data.title}</label>
+          <React.Fragment>
+            {data.checkBoxes.length ? (
+              <div>hay valores</div>
+            ) : (
+              <div>no hay valores</div>
+            )}
+          </React.Fragment>
         </div>
       );
     }

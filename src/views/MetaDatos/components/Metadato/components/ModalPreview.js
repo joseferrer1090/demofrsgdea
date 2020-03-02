@@ -70,12 +70,57 @@ class ModalPreview extends Component {
           </div>
         </div>
       );
+    } else if (data.type === "Select" || data.type === "SELECT") {
+      component = (
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid #c8ced3 ", padding: "10px" }}
+        >
+          <div className="form-group">
+            <label>{data.title}</label>
+            {data.multiple ? (
+              <select
+                className="form-control form-control-sm"
+                multiple={data.multiple}
+              >
+                {data.options.map((aux, id) => {
+                  return aux.selected ? (
+                    <option selected={aux.selected} key={id} value={aux.value}>
+                      {" "}
+                      {aux.title}{" "}
+                    </option>
+                  ) : (
+                    <option key={id} value={aux.value}>
+                      {aux.title}
+                    </option>
+                  );
+                })}
+              </select>
+            ) : (
+              <select
+                className="form-control form-control-sm"
+                value={data.defaultValue}
+              >
+                {data.options.map((aux, id) => {
+                  return (
+                    <option key={id} value={aux.value}>
+                      {aux.title}
+                    </option>
+                  );
+                })}
+              </select>
+            )}
+            <small className="form-text text-muted">{data.helpertext}</small>
+          </div>
+        </div>
+      );
     }
     return component;
   };
 
   render() {
     const aux = this.state.field;
+    console.log(aux);
     return (
       <Modal isOpen={this.state.modalPreview} toggle={this.toggle}>
         <ModalHeader>

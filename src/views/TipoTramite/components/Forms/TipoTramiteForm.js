@@ -462,6 +462,7 @@ const TipoTramiteForm = props => {
                                   name="sede"
                                   component={FieldSede}
                                   companyId={values.empresa}
+                                  conglomerateId={values.conglomerado}
                                 ></Field>
                               </div>
                             </div>
@@ -479,6 +480,8 @@ const TipoTramiteForm = props => {
                                   name="dependencia"
                                   component={FieldDependencia}
                                   sedeId={values.sede}
+                                  companyId={values.empresa}
+                                  conglomerateId={values.conglomerado}
                                 ></Field>
 
                                 {/* <SelectDependencia

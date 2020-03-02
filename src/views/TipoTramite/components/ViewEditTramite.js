@@ -4,9 +4,9 @@ import { Formik, ErrorMessage, Field } from "formik";
 import { Col, CustomInput, Alert, Button } from "reactstrap";
 import * as Yup from "yup";
 import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
-import SelectEmpresa from "./component_viewEdit/SelectEmpresa";
-import SelectSede from "./component_viewEdit/SelectSede";
-import SelectDependencia from "./component_viewEdit/SelectDependencia";
+import FieldCompany from "./component_viewEdit/SelectEmpresa";
+import FieldHeadquarter from "./component_viewEdit/SelectSede";
+import FieldDependence from "./component_viewEdit/SelectDependencia";
 import {
   TYPEPROCEDURE,
   USERS_BY_DEPENDENCE,
@@ -463,9 +463,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         }}
                                         className="form-control form-control-sm"
                                       />
-                                      {/* <select className="form-control form-control-sm">
-                                            <option>Seleccione</option>
-                                          </select> */}
                                     </div>
                                   </div>
                                   <div className="col-md-6">
@@ -475,28 +472,16 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                           "app_tipoTramite_actualizar_empresa"
                                         )}{" "}
                                       </label>
-                                      <SelectEmpresa
+                                      <Field
                                         authorization={auth}
-                                        idConglomerado={values.conglomerado}
                                         t={t}
                                         name="empresa"
-                                        value={values.empresa}
-                                        onChange={e => {
-                                          setFieldValue(
-                                            "empresa",
-                                            e.target.value
-                                          );
-                                        }}
-                                        onBlur={() => {
-                                          setFieldTouched("empresa", true);
-                                        }}
-                                        className={
-                                          "form-control form-control-sm"
+                                        component={FieldCompany}
+                                        conglomerateId={
+                                          props.values.conglomerado
                                         }
-                                      />
-                                      {/* <select className="form-control form-control-sm">
-                                            <option>Seleccione</option>
-                                          </select> */}
+                                        companyId={props.values.empresa}
+                                      ></Field>
                                     </div>
                                   </div>
                                   <div className="col-md-6">
@@ -507,23 +492,17 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                           "app_tipoTramite_actualizar_sede"
                                         )}{" "}
                                       </label>
-                                      <SelectSede
-                                        t={t}
+                                      <Field
                                         authorization={auth}
-                                        idEmpresa={values.empresa}
+                                        t={t}
                                         name="sede"
-                                        value={values.sede}
-                                        onChange={e => {
-                                          setFieldValue("sede", e.target.value);
-                                        }}
-                                        onBlur={() => {
-                                          setFieldTouched("sede", true);
-                                        }}
-                                        className="form-control form-control-sm"
-                                      />
-                                      {/* <select className="form-control form-control-sm">
-                                            <option>Seleccione</option>
-                                          </select> */}
+                                        component={FieldHeadquarter}
+                                        companyId={props.values.empresa}
+                                        headquarterId={props.values.sede}
+                                        conglomerateId={
+                                          props.values.conglomerado
+                                        }
+                                      ></Field>
                                     </div>
                                   </div>
                                   <div className="col-md-6">
@@ -534,25 +513,18 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                           "app_tipoTramite_actualizar_dependencia"
                                         )}{" "}
                                       </label>
-                                      <SelectDependencia
-                                        t={t}
+                                      <Field
                                         authorization={auth}
-                                        idSede={values.sede}
+                                        t={t}
                                         name="dependencia"
-                                        value={values.dependencia}
-                                        onChange={e => {
-                                          setFieldValue(
-                                            "dependencia",
-                                            e.target.value
-                                          );
-                                        }}
-                                        onBlur={() => {
-                                          setFieldTouched("dependencia", true);
-                                        }}
-                                        className={
-                                          "form-control form-control-sm"
+                                        component={FieldDependence}
+                                        headquarterId={props.values.sede}
+                                        dependenceId={props.values.dependencia}
+                                        companyId={props.values.empresa}
+                                        conglomerateId={
+                                          props.values.conglomerado
                                         }
-                                      />
+                                      ></Field>
                                     </div>
                                   </div>
                                   <div className="col-md-12">

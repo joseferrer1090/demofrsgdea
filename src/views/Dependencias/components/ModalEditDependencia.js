@@ -308,22 +308,7 @@ class ModalEditDependencia extends React.Component {
                                   conglomerateId={props.values.conglomerate}
                                   companyId={props.values.company}
                                 ></Field>
-                                {/* <SelectCompany
-                                  authorization={this.state.auth}
-                                  t={this.state.t}
-                                  conglomerate={props.values.conglomerate}
-                                  name="company"
-                                  value={values.company}
-                                  onChange={e =>
-                                    setFieldValue("company", e.target.value)
-                                  }
-                                  onBlur={() =>
-                                    setFieldTouched("company", true)
-                                  }
-                                  className={`form-control form-control-sm ${errors.company &&
-                                    touched.company &&
-                                    "is-invalid"}`}
-                                ></SelectCompany> */}
+
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.company && touched.company ? (
                                     <i class="fa fa-exclamation-triangle" />
@@ -348,23 +333,8 @@ class ModalEditDependencia extends React.Component {
                                   component={FieldHeadquarter}
                                   companyId={props.values.company}
                                   headquarterId={props.values.headquarter}
+                                  conglomerateId={props.values.conglomerate}
                                 ></Field>
-                                {/* <SelectHeadquarter
-                                  authorization={this.state.auth}
-                                  t={this.state.t}
-                                  company={props.values.company}
-                                  name={"headquarter"}
-                                  value={values.headquarter}
-                                  onChange={e =>
-                                    setFieldValue("headquarter", e.target.value)
-                                  }
-                                  onBlur={() =>
-                                    setFieldTouched("headquarter", true)
-                                  }
-                                  className={`form-control form-control-sm ${errors.headquarter &&
-                                    touched.headquarter &&
-                                    "is-invalid"}`}
-                                ></SelectHeadquarter> */}
                                 <div style={{ color: "#D54B4B" }}>
                                   {errors.headquarter && touched.headquarter ? (
                                     <i class="fa fa-exclamation-triangle" />

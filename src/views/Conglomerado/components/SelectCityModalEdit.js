@@ -26,6 +26,9 @@ const FieldCity = ({
   };
 
   const validateValues = () => {
+    if (PREValueCountry !== props.countryId) {
+      setDataCity([]);
+    }
     if (PREValue !== props.departmentId) {
       setDataCity([]);
       if (PREValue !== "") {
@@ -37,7 +40,9 @@ const FieldCity = ({
 
   useEffect(() => {
     validateValues();
-  }, [props.departmentId, props.cityId]);
+    // console.log(`department | old = ${PREValue} new = ${props.departmentId}`);
+    // console.log(`country | old = ${PREValueCountry} new = ${props.countryId}`);
+  }, [props.countryId, props.departmentId, props.cityId]);
 
   const usePrevious = value => {
     let valueRef;
@@ -54,6 +59,8 @@ const FieldCity = ({
   };
 
   const PREValue = usePrevious(props.departmentId);
+  const PREValueCountry = usePrevious(props.countryId);
+
   const t = props.t;
   return (
     <div>
@@ -67,7 +74,7 @@ const FieldCity = ({
         value={values.conglomerate_city}
       >
         <option value={""}>
-          -- {t("app_conglomerado_form_select_ciudad")} --
+          -- {t("app_conglomerado_modal_actualizar_ciudad_select")} --
         </option>
         {dataCity === []
           ? null

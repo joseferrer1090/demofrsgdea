@@ -196,22 +196,6 @@ const GrupoUsuariosForm = props => {
                               oldValueConglomerateId={oldValueConglomerate}
                               newValueConglomerateId={newValueConglomerate}
                             ></Field>
-                            {/* <SelectEmpresa
-                              authorization={props.authorization}
-                              t={props.t}
-                              idConglomerado={props.values.conglomerado}
-                              name="empresa"
-                              value={values.empresa}
-                              onChange={e => {
-                                setFieldValue("empresa", e.target.value);
-                              }}
-                              onBlur={() => {
-                                setFieldTouched("empresa", true);
-                              }}
-                              className={`form-control form-control-sm ${errors.empresa &&
-                                touched.empresa &&
-                                "is-invalid"}`}
-                            /> */}
                             <div style={{ color: "#D54B4B" }}>
                               {errors.empresa && touched.empresa ? (
                                 <i className="fa fa-exclamation-triangle" />
@@ -233,23 +217,8 @@ const GrupoUsuariosForm = props => {
                               name="sede"
                               component={FieldHeadquarter}
                               companyId={values.empresa}
+                              conglomerateId={values.conglomerado}
                             ></Field>
-                            {/* <SelectSedes
-                              authorization={props.authorization}
-                              t={props.t}
-                              company={props.values.empresa}
-                              name="sede"
-                              value={values.sede}
-                              onChange={e => {
-                                setFieldValue("sede", e.target.value);
-                              }}
-                              onBlur={() => {
-                                setFieldTouched("sede", true);
-                              }}
-                              className={`form-control form-control-sm ${errors.sede &&
-                                touched.sede &&
-                                "is-invalid"}`}
-                            /> */}
                             <div style={{ color: "#D54B4B" }}>
                               {errors.sede && touched.sede ? (
                                 <i className="fa fa-exclamation-triangle" />
@@ -273,24 +242,9 @@ const GrupoUsuariosForm = props => {
                               name="dependencia"
                               component={FieldDependence}
                               sedeId={values.sede}
+                              companyId={values.empresa}
+                              conglomerateId={values.conglomerado}
                             ></Field>
-
-                            {/* <SelectDependencia
-                              authorization={props.authorization}
-                              t={props.t}
-                              headquarter={props.values.sede}
-                              name="dependencia"
-                              value={values.dependencia}
-                              onChange={e => {
-                                setFieldValue("dependencia", e.target.value);
-                              }}
-                              onBlur={() => {
-                                setFieldTouched("dependencia", true);
-                              }}
-                              className={`form-control form-control-sm ${errors.dependencia &&
-                                touched.dependencia &&
-                                "is-invalid"}`}
-                            /> */}
                             <div style={{ color: "#D54B4B" }}>
                               {errors.dependencia && touched.dependencia ? (
                                 <i className="fa fa-exclamation-triangle" />
@@ -487,6 +441,7 @@ export default withTranslation("translations")(
         .required(" Por favor seleccione al menos un rol.")
     }),
     handleSubmit: (values, { setSubmitting, resetForm, props }) => {
+      const userName = decode(props.authorization);
       const tipoEstado = data => {
         let tipo = null;
         if (data === true) {
@@ -510,7 +465,7 @@ export default withTranslation("translations")(
             description: values.descripcion,
             users: values.roles,
             status: tipoEstado(values.estado),
-            userName: "jferrer"
+            userName: userName.user_name
           })
         })
           .then(response => {

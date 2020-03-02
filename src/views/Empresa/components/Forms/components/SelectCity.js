@@ -26,6 +26,9 @@ const FieldCity = ({
   };
 
   const validateValues = () => {
+    if (props.oldValueCountryId !== props.newValueCountryId) {
+      setDataCity([]);
+    }
     if (PREValue !== props.departmentId) {
       setDataCity([]);
       values.cityId = "";
@@ -35,7 +38,7 @@ const FieldCity = ({
 
   useEffect(() => {
     validateValues();
-  }, [props.departmentId]);
+  }, [props.departmentId, props.oldValueCountryId, props.newValueCountryId]);
 
   const usePrevious = value => {
     let valueRef;
@@ -64,7 +67,7 @@ const FieldCity = ({
           "is-invalid"}`}
       >
         <option value={""}>
-          -- {t("app_conglomerado_form_select_ciudad")} --
+          -- {t("app_empresa_form_registrar_select_ciudad")} --
         </option>
         {dataCity === []
           ? null

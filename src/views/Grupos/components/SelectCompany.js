@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
-import { DEPARTMENTS_BY_COUNTRY } from "../../../services/EndPoints";
+import { COMPANY_BY_CONGLOMERATE } from "../../../services/EndPoints";
 
-const FieldDepartment = ({
+const FieldCompany = ({
   field,
   form: { errors, touched, setFieldTouched, setFieldValue, values },
   ...props
 }) => {
-  const [dataDepartment, setDataDepartment] = useState([]);
+  const [dataCompany, setDataCompany] = useState([]);
   const fetchNewValues = id => {
-    fetch(`${DEPARTMENTS_BY_COUNTRY}${id}`, {
+    fetch(`${COMPANY_BY_CONGLOMERATE}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -17,27 +17,27 @@ const FieldDepartment = ({
     })
       .then(response => response.json())
       .then(data => {
-        setDataDepartment(data);
+        setDataCompany(data);
       })
       .catch(err => {
         console.log("Error", err);
-        setDataDepartment([]);
+        setDataCompany([]);
       });
   };
 
   const validateValues = () => {
-    if (PreValue !== props.countryId) {
-      setDataDepartment([]);
+    if (PreValue !== props.conglomerateId) {
+      setDataCompany([]);
       if (PreValue !== undefined) {
-        values.company_department = "";
+        values.empresa = "";
       }
-      fetchNewValues(props.countryId);
+      fetchNewValues(props.conglomerateId);
     }
   };
 
   useEffect(() => {
     validateValues();
-  }, [props.departmentId, props.countryId]);
+  }, [props.companyId, props.conglomerateId]);
 
   const PreviousValues = value => {
     const ref = useRef();
@@ -47,23 +47,23 @@ const FieldDepartment = ({
 
     return ref.current;
   };
-  const PreValue = PreviousValues(props.countryId);
+  const PreValue = PreviousValues(props.conglomerateId);
   const t = props.t;
   return (
     <div>
       {" "}
       <select
-        onChange={e => setFieldValue("company_department", e.target.value)}
-        onBlur={() => setFieldTouched("company_department", true)}
-        className={`form-control form-control-sm ${errors.company_department &&
-          touched.company_department &&
+        onChange={e => setFieldValue("empresa", e.target.value)}
+        onBlur={() => setFieldTouched("empresa", true)}
+        className={`form-control form-control-sm ${errors.empresa &&
+          touched.empresa &&
           "is-invalid"}`}
-        value={values.company_department}
+        value={values.empresa}
       >
         <option value={""}>
-          -- {t("app_empresa_modal_actualizar_select_departamento")} --
+          -- {t("app_grupoUsuarios_modal_editar_select_empresa")} --
         </option>
-        {dataDepartment.map((aux, id) => {
+        {dataCompany.map((aux, id) => {
           return (
             <option key={id} value={aux.id}>
               {aux.name}
@@ -75,4 +75,4 @@ const FieldDepartment = ({
   );
 };
 
-export default FieldDepartment;
+export default FieldCompany;

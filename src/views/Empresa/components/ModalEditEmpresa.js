@@ -507,31 +507,6 @@ class ModalEditEmpresa extends React.Component {
                                         props.values.company_department
                                       }
                                     ></Field>
-
-                                    {/* <SelectDepartment
-                                      authorization={this.state.auth}
-                                      t={this.state.t}
-                                      company_country={
-                                        props.values.company_country
-                                      }
-                                      name="company_department"
-                                      value={values.company_department}
-                                      onChange={e =>
-                                        setFieldValue(
-                                          "company_department",
-                                          e.target.value
-                                        )
-                                      }
-                                      onBlur={() =>
-                                        setFieldTouched(
-                                          "company_department",
-                                          true
-                                        )
-                                      }
-                                      className={`form-control form-control-sm ${errors.company_department &&
-                                        touched.company_department &&
-                                        "is-invalid"}`}
-                                    /> */}
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.company_department &&
                                       touched.company_department ? (
@@ -559,30 +534,8 @@ class ModalEditEmpresa extends React.Component {
                                         props.values.company_department
                                       }
                                       cityId={props.values.company_city}
+                                      countryId={props.values.company_country}
                                     ></Field>
-
-                                    {/* <SelectCity
-                                      authorization={this.state.auth}
-                                      t={this.state.t}
-                                      company_department={
-                                        props.values.company_department
-                                      }
-                                      name={"company_city"}
-                                      value={values.company_city}
-                                      onChange={e =>
-                                        setFieldValue(
-                                          "company_city",
-                                          e.target.value
-                                        )
-                                      }
-                                      onBlur={() =>
-                                        setFieldTouched("company_city", true)
-                                      }
-                                      className={`form-control form-control-sm ${errors.company_city &&
-                                        touched.company_city &&
-                                        "is-invalid"}`}
-                                    /> */}
-
                                     <div style={{ color: "#D54B4B" }}>
                                       {errors.company_city &&
                                       touched.company_city ? (

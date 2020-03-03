@@ -126,54 +126,57 @@ class CheckBoxes extends Component {
   };
 
   addOption = () => {
-    let checbox = {
+    let checkbox = {
       title: "",
       value: "",
-      selected: false
+      checked: false
     };
     let checboxes = this.state.checkBoxes;
-    checboxes.push(checbox);
+    checboxes.push(checkbox);
     this.setState({
       checkBoxes: checboxes
     });
     this.duplicate();
     setTimeout(() => {
+      // console.log(this.state, this.props.index);
       return this.props.changeState(this.state, this.props.index);
     }, 0);
   };
 
-  changeOptionValue = (index, value, state) => {
-    let checboxes = this.state.checkBoxes;
-    let checkbox = {};
+  changeOptionValue(index, value, state) {
+    let checkBoxes = this.state.checkBoxes;
+    let checkBox = {};
     if (state === "TITLE") {
-      checkbox = {
-        ...checboxes[index],
+      checkBox = {
+        ...checkBoxes[index],
         title: value
       };
     } else if (state === "SELECTED") {
-      checkbox = {
-        ...checboxes[index],
-        selected: !checboxes[index].selected
+      checkBox = {
+        ...checkBoxes[index],
+        selected: checkBox[index].checked
       };
     } else if (state === "VALUE") {
-      checkbox = {
-        ...checboxes[index],
+      checkBox = {
+        ...checkBoxes[index],
         value: value
       };
     } else {
-      checkbox = {
-        ...checboxes[index]
+      checkBox = {
+        ...checkBoxes[index]
       };
     }
-    checboxes[index] = checkbox;
+    checkBoxes[index] = checkBox;
     this.setState({
-      checkBoxes: checboxes
+      checkBoxes: checkBoxes
     });
+
     this.duplicate();
+
     setTimeout(() => {
       return this.props.changeState(this.state, this.props.index);
     }, 0);
-  };
+  }
 
   toggle = tab => {
     if (this.state.activeTab !== tab) {

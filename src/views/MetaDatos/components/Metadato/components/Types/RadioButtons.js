@@ -14,6 +14,7 @@ import {
   Table
 } from "reactstrap";
 import classnames from "classnames";
+import ModalPreview from "./../ModalPreview";
 
 class RadioButtons extends Component {
   constructor(props) {
@@ -34,7 +35,9 @@ class RadioButtons extends Component {
       },
       radios: [],
       duplicate: false,
-      activeTab: "1"
+      activeTab: "1",
+      modalpreview: false,
+      dragType: this.props.dragType
     };
   }
 
@@ -194,6 +197,10 @@ class RadioButtons extends Component {
       2
     );
     alert(aux);
+  };
+
+  openModalPreview = () => {
+    this.refs.child.toggle();
   };
 
   render() {
@@ -500,6 +507,17 @@ class RadioButtons extends Component {
           <CardFooter>
             <div className="pull-right">
               <button
+                type={"button"}
+                className="btn btn-secondary btn-sm"
+                onClick={() => {
+                  this.openModalPreview();
+                }}
+              >
+                {" "}
+                <i className="fa fa-eye" /> Vista previa{" "}
+              </button>
+              &nbsp;
+              <button
                 type="button"
                 className="btn btn-secondary btn-sm"
                 onClick={e => this.createMetada(e)}
@@ -510,6 +528,12 @@ class RadioButtons extends Component {
             </div>
           </CardFooter>
         </Card>
+        <ModalPreview
+          ref={"child"}
+          modalpreview={this.state.modalpreview}
+          field={this.props.field}
+          inputType={this.state.dragType}
+        />
       </div>
     );
   }

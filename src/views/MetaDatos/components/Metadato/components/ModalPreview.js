@@ -119,15 +119,114 @@ class ModalPreview extends Component {
       data.toolType === "CHECK_BOXES"
     ) {
       component = (
-        <div className="form-check">
+        <div
+          className=""
+          style={{ border: "1px solid #c8ced3", padding: "10px" }}
+        >
           <label>{data.title}</label>
           <React.Fragment>
             {data.checkBoxes.length ? (
-              <div>hay valores</div>
+              data.checkBoxes.map((aux, id) => {
+                return (
+                  <div
+                    key={id}
+                    className={data.inline ? "form-check-inline" : "form-check"}
+                  >
+                    <input
+                      name={aux.value}
+                      // checked={aux.selected}
+                      defaultChecked={aux.selected}
+                      className="form-check-input"
+                      type="checkbox"
+                      id={aux.value}
+                    />
+                    <label className="form-check-label" htmlFor={aux.value}>
+                      {aux.title}
+                    </label>
+                  </div>
+                );
+              })
             ) : (
-              <div>no hay valores</div>
+              <div className="form-group">
+                <p className="text-center"> No hay opciones creadas </p>
+              </div>
             )}
           </React.Fragment>
+        </div>
+      );
+    } else if (
+      data.toolType === "RADIO_BUTTONS" ||
+      data.toolType === "radio_buttons"
+    ) {
+      component = (
+        <div style={{ border: "1px solid #c8ced3", padding: "10px" }}>
+          <label>{data.title}</label>
+          {data.radios.length ? (
+            data.radios.map((aux, id) => {
+              return (
+                <React.Fragment>
+                  <div
+                    key={id}
+                    className={data.inline ? "form-check-inline" : "form-check"}
+                  >
+                    <input
+                      name={data.multiple ? id : "radio-group"}
+                      className="form-check-input"
+                      type="radio"
+                      checked={aux.selected || id === data.defaultValue}
+                      value={aux.selected}
+                      id={aux.value}
+                    />
+                    <label className="form-check-label" htmlFor={aux.value}>
+                      {aux.title}
+                    </label>
+                  </div>
+                </React.Fragment>
+              );
+            })
+          ) : (
+            <div>no hay elementos</div>
+          )}
+        </div>
+      );
+    } else if (data.toolType === "PARAGRAPH" || data.toolType === "paragraph") {
+      component = (
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid #c8ced3", padding: "10px " }}
+        >
+          <div className="form-group">
+            <label>{data.title}</label>
+            <textarea
+              className="form-control form-control-sm"
+              style={{
+                textAlign: data.aling,
+                backgroundColor: data.background,
+                color: data.colorText,
+                fontSize: data.fontSize
+              }}
+            >
+              {data.content}
+            </textarea>
+          </div>
+        </div>
+      );
+    } else if (data.type === "date" || data.type === "DATE") {
+      component = (
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid  #c8ced3", padding: "10px" }}
+        >
+          <div className="form-group">
+            <label>{data.title}</label>
+            <input
+              type="date"
+              className="form-control form-control-sm"
+              max={data.validation.max}
+              min={data.validation.min}
+              disabled={data.validation.isReadOnly}
+            />
+          </div>
         </div>
       );
     }

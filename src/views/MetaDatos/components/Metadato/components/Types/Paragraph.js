@@ -11,6 +11,7 @@ import {
   TabPane
 } from "reactstrap";
 import classnames from "classnames";
+import ModalPreview from "./../ModalPreview";
 
 class Paragraph extends Component {
   constructor(props) {
@@ -25,7 +26,8 @@ class Paragraph extends Component {
       color: "",
       fontSize: 10,
       align: "center",
-      activeTab: "1"
+      activeTab: "1",
+      modalpreview: false
     };
   }
 
@@ -98,6 +100,10 @@ class Paragraph extends Component {
       2
     );
     alert(aux);
+  };
+
+  openModalPreview = () => {
+    this.refs.child.toggle();
   };
 
   render() {
@@ -253,6 +259,16 @@ class Paragraph extends Component {
           <CardFooter>
             <div className="pull-right">
               <button
+                className="btn btn-secondary btn-sm"
+                type="button"
+                onClick={() => {
+                  this.openModalPreview();
+                }}
+              >
+                <i className="fa fa-eye" /> Vista previa
+              </button>
+              &nbsp;
+              <button
                 type="button"
                 className="btn btn-secondary btn-sm"
                 onClick={e => {
@@ -264,6 +280,12 @@ class Paragraph extends Component {
             </div>
           </CardFooter>
         </Card>
+        <ModalPreview
+          modalpreview={this.state.modalpreview}
+          ref={"child"}
+          field={this.props.field}
+          inputType={this.props.dragType}
+        />
       </div>
     );
   }

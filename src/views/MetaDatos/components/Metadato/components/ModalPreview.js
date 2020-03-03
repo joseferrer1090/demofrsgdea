@@ -160,11 +160,27 @@ class ModalPreview extends Component {
     ) {
       component = (
         <div style={{ border: "1px solid #c8ced3", padding: "10px" }}>
+          <label>{data.title}</label>
           {data.radios.length ? (
             data.radios.map((aux, id) => {
               return (
                 <React.Fragment>
-                  <p>Si hay elementos</p>
+                  <div
+                    key={id}
+                    className={data.inline ? "form-check-inline" : "form-check"}
+                  >
+                    <input
+                      name={data.multiple ? id : "radio-group"}
+                      className="form-check-input"
+                      type="radio"
+                      checked={aux.selected || id === data.defaultValue}
+                      value={aux.selected}
+                      id={aux.value}
+                    />
+                    <label className="form-check-label" htmlFor={aux.value}>
+                      {aux.title}
+                    </label>
+                  </div>
                 </React.Fragment>
               );
             })

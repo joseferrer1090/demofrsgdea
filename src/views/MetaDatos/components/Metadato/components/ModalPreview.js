@@ -1,6 +1,6 @@
 import React, { Component, cloneElement } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import PropTypes from "prop-types";
+import PropTypes, { element } from "prop-types";
 import { compose } from "redux";
 
 class ModalPreview extends Component {
@@ -8,7 +8,8 @@ class ModalPreview extends Component {
     super(props);
     this.state = {
       modalPreview: this.props.modalpreview,
-      type: this.props.inputType
+      type: this.props.inputType,
+      field: this.props.field
     };
   }
   toggle = () => {
@@ -22,6 +23,10 @@ class ModalPreview extends Component {
       return {
         type: props.inputType
       };
+    } else if (props.field !== state.field) {
+      return {
+        field: props.field
+      };
     }
   }
 
@@ -30,16 +35,121 @@ class ModalPreview extends Component {
       this.setState({
         type: this.props.inputType
       });
+    } else if (this.props.field !== prevProps.field) {
+      this.setState({
+        field: this.props.field
+      });
     }
   }
 
+  renderType = data => {
+    let component;
+    if (data === undefined) {
+      component = (
+        <div className="text-center text-danger">
+          {" "}
+          error en la vista previa{" "}
+        </div>
+      );
+    } else if (data.type === "Text" || data.type === "text") {
+      component = (
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid #c8ced3", padding: "10px " }}
+        >
+          <div className="form-group">
+            <label>{data.title}</label>
+            <input
+              name={data.name}
+              type={data.type}
+              className="form-control form-control-sm"
+              defaultValue={data.defaultValue}
+              placeholder={data.placeholder}
+            />
+            <small className="form-text text-muted">{data.helpertext}</small>
+          </div>
+        </div>
+      );
+    } else if (data.type === "Select" || data.type === "SELECT") {
+      component = (
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid #c8ced3 ", padding: "10px" }}
+        >
+          <div className="form-group">
+            <label>{data.title}</label>
+            {data.multiple ? (
+              <select
+                className="form-control form-control-sm"
+                multiple={data.multiple}
+              >
+                {data.options.map((aux, id) => {
+                  return aux.selected ? (
+                    <option selected={aux.selected} key={id} value={aux.value}>
+                      {" "}
+                      {aux.title}{" "}
+                    </option>
+                  ) : (
+                    <option key={id} value={aux.value}>
+                      {aux.title}
+                    </option>
+                  );
+                })}
+              </select>
+            ) : (
+              <select
+                className="form-control form-control-sm"
+                value={data.defaultValue}
+              >
+                {data.options.map((aux, id) => {
+                  return (
+                    <option key={id} value={aux.value}>
+                      {aux.title}
+                    </option>
+                  );
+                })}
+              </select>
+            )}
+            <small className="form-text text-muted">{data.helpertext}</small>
+          </div>
+        </div>
+      );
+    } else if (
+      data.toolType === "check_boxes" ||
+      data.toolType === "CHECK_BOXES"
+    ) {
+      component = (
+        <div className="form-check">
+          <label>{data.title}</label>
+          <React.Fragment>
+            {data.checkBoxes.length ? (
+              <div>hay valores</div>
+            ) : (
+              <div>no hay valores</div>
+            )}
+          </React.Fragment>
+        </div>
+      );
+    }
+    return component;
+  };
+
   render() {
-    console.log(this.state.type);
+    const aux = this.state.field;
+    console.log(aux);
     return (
       <Modal isOpen={this.state.modalPreview} toggle={this.toggle}>
-        <ModalHeader> Metadato </ModalHeader>
+        <ModalHeader>
+          {" "}
+          Metadato {aux.name ? aux.name : "Nombre del metadado"}{" "}
+        </ModalHeader>
         <ModalBody>
-          <p>Probando</p>
+          <p className="text-justify">
+            El siguiente campo se visible en el formulario de radicacion, cuando
+            el usuario seleccione la plantilla, donde este campo este
+            configurado.
+          </p>
+          {this.renderType(aux)}
         </ModalBody>
         <ModalFooter>
           <div className="pull-right">
@@ -62,4 +172,5 @@ ModalPreview.propType = {
   inputType: PropTypes.string,
   modalpreview: PropTypes.bool.isRequired
 };
+
 export default ModalPreview;

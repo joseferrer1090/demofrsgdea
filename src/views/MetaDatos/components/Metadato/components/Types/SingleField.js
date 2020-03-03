@@ -15,25 +15,25 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ModalPreview from "./../ModalPreview";
 
-const InputTypes = [
-  "Checkbox",
-  "Color",
-  "Date",
-  "Email",
-  "File",
-  "Month",
-  "Number",
-  "Password",
-  "Radio",
-  "Range",
-  "Search",
-  "Tel",
-  "Text",
-  "Time",
-  "Url",
-  "Week",
-  "Textarea"
-];
+// const InputTypes = [
+//   "Checkbox",
+//   "Color",
+//   "Date",
+//   "Email",
+//   "File",
+//   "Month",
+//   "Number",
+//   "Password",
+//   "Radio",
+//   "Range",
+//   "Search",
+//   "Tel",
+//   "Text",
+//   "Time",
+//   "Url",
+//   "Week",
+//   "Textarea"
+// ];
 
 class SingleField extends Component {
   constructor(props) {
@@ -46,6 +46,7 @@ class SingleField extends Component {
       defaultValue: "",
       placeholder: "",
       description: "",
+      helpertext: "",
       validation: {
         isReadOnly: false,
         isRequired: false,
@@ -100,7 +101,9 @@ class SingleField extends Component {
       case "MAX":
         this.setState({ validation: { ...this.state.validation, max: value } });
         break;
-
+      case "HELPER_TEXT":
+        this.setState({ helpertext: value });
+        break;
       default:
         return;
     }
@@ -131,6 +134,7 @@ class SingleField extends Component {
         defaultValue: this.state.defaultValue,
         placeholder: this.state.placeholder,
         description: this.state.description,
+        helpertext: this.state.helpertext,
         validation: {
           isReadOnly: this.state.validation.isReadOnly,
           isRequired: this.state.validation.isRequired,
@@ -239,7 +243,7 @@ class SingleField extends Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-6">
+                          {/* <div className="col-md-6">
                             <div className="form-group">
                               <label htmlFor="title">Type</label>
                               <select
@@ -259,7 +263,7 @@ class SingleField extends Component {
                                 })}
                               </select>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>Default value</label>
@@ -274,6 +278,23 @@ class SingleField extends Component {
                                 }}
                                 value={this.state.defaultValue}
                                 placeholder={"Valor por defecto"}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label>Helper text</label>
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                                onChange={e => {
+                                  this.changeValue(
+                                    "HELPER_TEXT",
+                                    e.target.value
+                                  );
+                                }}
+                                value={this.state.helpertext}
+                                placeholder={"Texto de ayuda"}
                               />
                             </div>
                           </div>
@@ -438,6 +459,7 @@ class SingleField extends Component {
           ref="child"
           modalpreview={this.state.modalpreview}
           inputType={this.state.dragType}
+          field={this.props.field}
         />
       </div>
     );

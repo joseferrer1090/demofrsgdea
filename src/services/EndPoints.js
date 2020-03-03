@@ -665,3 +665,8 @@ export const PERMISSIONS_BY_PAGE_ENTITY = `${config.IP}:${config.PORT}/api/sgdea
 
 /* GET params => username */
 export const PERMISSIONS_BY_USER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/permissions/user`;
+
+//--------------------------------------------- PETICIONES VÍA EMAIL -----------------------------------------------------//
+export const REQUEST_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/filing/emails/email/account/filing/`;
+export const EMAIL_ACCOUNTS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/accounts/filing`;
+export const INFO_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/filing/emails/show/`;

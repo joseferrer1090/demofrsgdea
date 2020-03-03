@@ -154,6 +154,25 @@ class ModalPreview extends Component {
           </React.Fragment>
         </div>
       );
+    } else if (
+      data.toolType === "RADIO_BUTTONS" ||
+      data.toolType === "radio_buttons"
+    ) {
+      component = (
+        <div style={{ border: "1px solid #c8ced3", padding: "10px" }}>
+          {data.radios.length ? (
+            data.radios.map((aux, id) => {
+              return (
+                <React.Fragment>
+                  <p>Si hay elementos</p>
+                </React.Fragment>
+              );
+            })
+          ) : (
+            <div>no hay elementos</div>
+          )}
+        </div>
+      );
     }
     return component;
   };

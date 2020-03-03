@@ -307,7 +307,7 @@ class RadioButtons extends Component {
               <TabPane tabId={"2"}>
                 <Card body>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <div className="form-group">
                         <input
                           type={"checkbox"}
@@ -320,7 +320,7 @@ class RadioButtons extends Component {
                         <label htmlFor="isRequired"> ¿Es Requerido? </label>
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <div className="form-group">
                         <input
                           type={"checkbox"}
@@ -333,7 +333,7 @@ class RadioButtons extends Component {
                         <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <input
                           value={this.state.multiple}
@@ -347,8 +347,8 @@ class RadioButtons extends Component {
                           ¿ Multiple selección ?
                         </label>
                       </div>
-                    </div>
-                    <div className="col-md-6">
+                    </div> */}
+                    <div className="col-md-4">
                       <div className="form-group">
                         <input
                           type="checkbox"

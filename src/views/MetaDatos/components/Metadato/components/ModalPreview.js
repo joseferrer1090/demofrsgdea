@@ -84,6 +84,8 @@ class ModalPreview extends Component {
               <select
                 className="form-control form-control-sm"
                 multiple={data.multiple}
+                disabled={data.validation.isReadOnly}
+                required={data.validation.isRequired}
               >
                 {data.options.map((aux, id) => {
                   return aux.selected ? (
@@ -102,6 +104,8 @@ class ModalPreview extends Component {
               <select
                 className="form-control form-control-sm"
                 value={data.defaultValue}
+                disabled={data.validation.isReadOnly}
+                required={data.validation.isRequired}
               >
                 {data.options.map((aux, id) => {
                   return (
@@ -141,6 +145,7 @@ class ModalPreview extends Component {
                       className="form-check-input"
                       type="checkbox"
                       id={aux.value}
+                      disabled={data.validation.isReadOnly}
                     />
                     <label className="form-check-label" htmlFor={aux.value}>
                       {aux.title}
@@ -178,6 +183,7 @@ class ModalPreview extends Component {
                       checked={aux.selected || id === data.defaultValue}
                       value={aux.selected}
                       id={aux.value}
+                      disabled={data.validation.isReadOnly ? "disabled" : ""}
                     />
                     <label className="form-check-label" htmlFor={aux.value}>
                       {aux.title}

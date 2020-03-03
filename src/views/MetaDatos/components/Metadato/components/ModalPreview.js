@@ -211,6 +211,24 @@ class ModalPreview extends Component {
           </div>
         </div>
       );
+    } else if (data.type === "date" || data.type === "DATE") {
+      component = (
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid  #c8ced3", padding: "10px" }}
+        >
+          <div className="form-group">
+            <label>{data.title}</label>
+            <input
+              type="date"
+              className="form-control form-control-sm"
+              max={data.validation.max}
+              min={data.validation.min}
+              disabled={data.validation.isReadOnly}
+            />
+          </div>
+        </div>
+      );
     }
     return component;
   };

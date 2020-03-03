@@ -65,6 +65,8 @@ class ModalPreview extends Component {
               className="form-control form-control-sm"
               defaultValue={data.defaultValue}
               placeholder={data.placeholder}
+              disabled={data.validation.isReadOnly}
+              required={data.validation.isRequired}
             />
             <small className="form-text text-muted">{data.helpertext}</small>
           </div>

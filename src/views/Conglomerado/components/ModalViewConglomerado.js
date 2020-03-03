@@ -58,6 +58,7 @@ class ModalViewConglomerado extends Component {
       collapase: !this.state.collapase
     });
   };
+  
   toggle = id => {
     this.setState({
       modal: !this.state.modal,

@@ -27,6 +27,9 @@ class SelectCountry extends React.Component {
 
   componentDidMount() {
     this.getData();
+    setTimeout(() => {
+      console.log(this.props.value);
+    }, 1000);
   }
 
   getData = () => {

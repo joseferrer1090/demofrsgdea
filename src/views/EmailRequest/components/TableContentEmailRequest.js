@@ -25,7 +25,7 @@ class TableContentEmailRequest extends Component {
     super(props);
     this.state = {
       ModalPreview: false,
-      ModalEdit: false,
+      ModalInfo: false,
       ModalDel: false,
       templatePreview: "",
       hiddenColumnID: true,
@@ -109,7 +109,7 @@ class TableContentEmailRequest extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView(row.id);
+            this.openModal(row.id);
           }}
         >
           {" "}
@@ -120,11 +120,11 @@ class TableContentEmailRequest extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModal(row.id);
+            this.openModalView(row.id);
           }}
         >
           {" "}
-          <i className="fa fa-info-circle" />{" "}
+          <i className="fa fa-file-text" />{" "}
         </button>
       </div>
     );
@@ -134,7 +134,15 @@ class TableContentEmailRequest extends Component {
     createdAt = new Date(row.createdAt);
     return moment(createdAt).format("DD-MM-YYYY");
   }
-
+  StatusAnswer(cell, row) {
+    let status;
+    if (row.answer === true) {
+      status = <b className="text-success"> Completa </b>;
+    } else if (row.answer === false) {
+      status = <b className="text-danger"> Pendiente </b>;
+    }
+    return status;
+  }
   openModal = id => {
     this.refs.child2.toggle(id);
   };
@@ -234,14 +242,14 @@ class TableContentEmailRequest extends Component {
             <TableHeaderColumn
               dataField="sender"
               dataAlign="center"
-              width={"300"}
+              width={"250"}
             >
               Remitente
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="subject"
               dataAlign="center"
-              width={"300"}
+              width={"250"}
             >
               Asunto
             </TableHeaderColumn>
@@ -256,7 +264,15 @@ class TableContentEmailRequest extends Component {
               Fecha de creación
             </TableHeaderColumn>
             <TableHeaderColumn
-              width={"170"}
+              dataField={"answer"}
+              dataFormat={(cell, row) => this.StatusAnswer(cell, row)}
+              dataAlign="center"
+              width={"200"}
+            >
+              Estado de respuesta
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              // width={"170"}
               export={false}
               dataAlign="center"
               dataFormat={(cel, row) => this.accionesPlantillasEmail(cel, row)}
@@ -274,7 +290,7 @@ class TableContentEmailRequest extends Component {
         />
         <Modalc
           ref={"child2"}
-          modal={this.state.ModalEdit}
+          modal={this.state.ModalInfo}
           authorization={this.state.auth}
           t={this.state.t}
         />

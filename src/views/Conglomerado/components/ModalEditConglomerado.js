@@ -5,7 +5,8 @@ import {
   ModalFooter,
   ModalBody,
   CustomInput,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 import PropTypes from "prop-types";
 import IMGCONGLOMERADO from "./../../../assets/img/puzzle.svg";
@@ -34,7 +35,8 @@ class ModalEditConglomerado extends React.Component {
     optionsCharges: [0],
     auth: this.props.authorization,
     oldValue: "",
-    newValue: ""
+    newValue: "",
+    spinner: true
   };
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
@@ -60,13 +62,19 @@ class ModalEditConglomerado extends React.Component {
     this.setState(
       {
         modal: !this.state.modal,
-        idConglomerado: id
+        idConglomerado: id,
+        spinner: true
       },
       () => {
         this.props.updateTable();
       }
     );
     this.getConglomeradoByID(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false
+      });
+    }, 1500);
   };
 
   getConglomeradoByID = id => {
@@ -263,7 +271,6 @@ class ModalEditConglomerado extends React.Component {
                 setFieldValue,
                 setFieldTouched
               } = props;
-
               return (
                 <Fragment>
                   <ModalBody>
@@ -311,250 +318,267 @@ class ModalEditConglomerado extends React.Component {
                               </Trans>{" "}
                             </h5>{" "}
                           </div>
-                          <div className="row">
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  <Trans>
+                          {this.state.spinner !== false ? (
+                            <center>
+                              <br />
+                              <Spinner
+                                style={{ width: "3rem", height: "3rem" }}
+                                type="grow"
+                                color="primary"
+                              />
+                            </center>
+                          ) : (
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    <Trans>
+                                      {t(
+                                        "app_conglomerado_modal_actualizar_codigo"
+                                      )}
+                                    </Trans>{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name={"code"}
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.code}
+                                    className={`form-control form-control-sm ${errors.code &&
+                                      touched.code &&
+                                      "is-invalid"}`}
+                                  />
+                                  <div style={{ color: "#D54B4B" }}>
+                                    {errors.code && touched.code ? (
+                                      <i className="fa fa-exclamation-triangle" />
+                                    ) : null}
+                                    <ErrorMessage name={"code"} />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    <Trans>
+                                      {t(
+                                        "app_conglomerado_modal_actualizar_nombre"
+                                      )}
+                                    </Trans>{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="conglomerate_name"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.conglomerate_name}
+                                    className={`form-control form-control-sm ${errors.conglomerate_name &&
+                                      touched.conglomerate_name &&
+                                      "is-invalid"}`}
+                                  />
+                                  <div style={{ color: "#D54B4B" }}>
+                                    {errors.conglomerate_name &&
+                                    touched.conglomerate_name ? (
+                                      <i className="fa fa-exclamation-triangle" />
+                                    ) : null}
+                                    <ErrorMessage name={"conglomerate_name"} />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-4">
+                                <div className="form-group">
+                                  <label>
                                     {t(
-                                      "app_conglomerado_modal_actualizar_codigo"
+                                      "app_conglomerado_modal_actualizar_pais"
                                     )}
-                                  </Trans>{" "}
+                                  </label>
                                   <span className="text-danger">*</span>{" "}
-                                </label>
-                                <input
-                                  type="text"
-                                  name={"code"}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.code}
-                                  className={`form-control form-control-sm ${errors.code &&
-                                    touched.code &&
-                                    "is-invalid"}`}
-                                />
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.code && touched.code ? (
-                                    <i className="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name={"code"} />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  <Trans>
-                                    {t(
-                                      "app_conglomerado_modal_actualizar_nombre"
-                                    )}
-                                  </Trans>{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <input
-                                  type="text"
-                                  name="conglomerate_name"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.conglomerate_name}
-                                  className={`form-control form-control-sm ${errors.conglomerate_name &&
-                                    touched.conglomerate_name &&
-                                    "is-invalid"}`}
-                                />
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.conglomerate_name &&
-                                  touched.conglomerate_name ? (
-                                    <i className="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name={"conglomerate_name"} />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-4">
-                              <div className="form-group">
-                                <label>
-                                  {t("app_conglomerado_modal_actualizar_pais")}
-                                </label>
-                                <span className="text-danger">*</span>{" "}
-                                <SelectCountry
-                                  authorization={this.state.auth}
-                                  t={this.state.t}
-                                  name={"conglomerate_country"}
-                                  onChange={e => {
-                                    setFieldValue(
-                                      "conglomerate_country",
-                                      e.target.value
-                                    );
-                                    this.changeInValue(
-                                      values.conglomerate_country,
-                                      e.target.value
-                                    );
-                                  }}
-                                  onBlur={() => {
-                                    setFieldTouched(
-                                      "conglomerate_country",
-                                      true
-                                    );
-                                  }}
-                                  value={values.conglomerate_country}
-                                  className={`form-control form-control-sm ${errors.conglomerate_country &&
-                                    touched.conglomerate_country &&
-                                    "is-invalid"}`}
-                                />
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.conglomerate_country &&
-                                  touched.conglomerate_country ? (
-                                    <i className="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name="conglomerate_country" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-4">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {t(
-                                    "app_conglomerado_modal_actualizar_departamento"
-                                  )}{" "}
-                                </label>
-                                <span className="text-danger">*</span>{" "}
-                                <Field
-                                  authorization={this.state.auth}
-                                  t={this.state.t}
-                                  name="conglomerate_department"
-                                  component={FieldDepartment}
-                                  countryId={props.values.conglomerate_country}
-                                  departmentId={
-                                    props.values.conglomerate_department
-                                  }
-                                ></Field>
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.conglomerate_department &&
-                                  touched.conglomerate_department ? (
-                                    <i class="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name="conglomerate_department" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-4">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {t(
-                                    "app_conglomerado_modal_actualizar_ciudad"
-                                  )}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <Field
-                                  authorization={this.state.auth}
-                                  t={this.state.t}
-                                  name="conglomerate_city"
-                                  component={FieldCity}
-                                  departmentId={
-                                    props.values.conglomerate_department
-                                  }
-                                  cityId={props.values.conglomerate_city}
-                                  countryId={props.values.conglomerate_country}
-                                ></Field>
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.conglomerate_city &&
-                                  touched.conglomerate_city ? (
-                                    <i class="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name="conglomerate_city" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {t(
-                                    "app_conglomerado_modal_actualizar_cargo_responsable"
-                                  )}{" "}
-                                </label>
-                                <select
-                                  name="conglomerate_charge"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.conglomerate_charge}
-                                  className="form-control form-control-sm"
-                                >
-                                  {" "}
-                                  <option value={" "}>
-                                    --{" "}
-                                    {t(
-                                      "app_conglomerado_form_select_cargo_responsable"
-                                    )}{" "}
-                                    --{" "}
-                                  </option>
-                                  {mapOptionsCharges}
-                                </select>
-                              </div>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>
-                                  <Trans>
-                                    {t(
-                                      "app_conglomerado_modal_actualizar_descripcion"
-                                    )}
-                                  </Trans>
-                                </label>
-                                <textarea
-                                  name="description"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.description}
-                                  className="form-control form-control-sm"
-                                />
-
-                                <ErrorMessage name="description" />
-                              </div>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  <Trans>
-                                    {t(
-                                      "app_conglomerado_modal_actualizar_estado"
-                                    )}
-                                  </Trans>{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <div className="text-justify ">
-                                  <Field
-                                    name="status"
-                                    type=""
-                                    render={({ field, form }) => {
-                                      return (
-                                        <CustomInput
-                                          type="checkbox"
-                                          id="conglomeradoModalEdit"
-                                          label={t(
-                                            "app_conglomerado_modal_actualizar_estado_descripcion"
-                                          )}
-                                          {...field}
-                                          checked={field.value}
-                                          className={
-                                            errors.status &&
-                                            touched.status &&
-                                            "invalid-feedback"
-                                          }
-                                        />
+                                  <SelectCountry
+                                    authorization={this.state.auth}
+                                    t={this.state.t}
+                                    name={"conglomerate_country"}
+                                    onChange={e => {
+                                      setFieldValue(
+                                        "conglomerate_country",
+                                        e.target.value
+                                      );
+                                      this.changeInValue(
+                                        values.conglomerate_country,
+                                        e.target.value
                                       );
                                     }}
+                                    onBlur={() => {
+                                      setFieldTouched(
+                                        "conglomerate_country",
+                                        true
+                                      );
+                                    }}
+                                    value={values.conglomerate_country}
+                                    className={`form-control form-control-sm ${errors.conglomerate_country &&
+                                      touched.conglomerate_country &&
+                                      "is-invalid"}`}
+                                  />
+                                  <div style={{ color: "#D54B4B" }}>
+                                    {errors.conglomerate_country &&
+                                    touched.conglomerate_country ? (
+                                      <i className="fa fa-exclamation-triangle" />
+                                    ) : null}
+                                    <ErrorMessage name="conglomerate_country" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-4">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    {t(
+                                      "app_conglomerado_modal_actualizar_departamento"
+                                    )}{" "}
+                                  </label>
+                                  <span className="text-danger">*</span>{" "}
+                                  <Field
+                                    authorization={this.state.auth}
+                                    t={this.state.t}
+                                    name="conglomerate_department"
+                                    component={FieldDepartment}
+                                    countryId={
+                                      props.values.conglomerate_country
+                                    }
+                                    departmentId={
+                                      props.values.conglomerate_department
+                                    }
+                                  ></Field>
+                                  <div style={{ color: "#D54B4B" }}>
+                                    {errors.conglomerate_department &&
+                                    touched.conglomerate_department ? (
+                                      <i class="fa fa-exclamation-triangle" />
+                                    ) : null}
+                                    <ErrorMessage name="conglomerate_department" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-4">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    {t(
+                                      "app_conglomerado_modal_actualizar_ciudad"
+                                    )}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <Field
+                                    authorization={this.state.auth}
+                                    t={this.state.t}
+                                    name="conglomerate_city"
+                                    component={FieldCity}
+                                    departmentId={
+                                      props.values.conglomerate_department
+                                    }
+                                    cityId={props.values.conglomerate_city}
+                                    countryId={
+                                      props.values.conglomerate_country
+                                    }
+                                  ></Field>
+                                  <div style={{ color: "#D54B4B" }}>
+                                    {errors.conglomerate_city &&
+                                    touched.conglomerate_city ? (
+                                      <i class="fa fa-exclamation-triangle" />
+                                    ) : null}
+                                    <ErrorMessage name="conglomerate_city" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    {t(
+                                      "app_conglomerado_modal_actualizar_cargo_responsable"
+                                    )}{" "}
+                                  </label>
+                                  <select
+                                    name="conglomerate_charge"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.conglomerate_charge}
+                                    className="form-control form-control-sm"
+                                  >
+                                    {" "}
+                                    <option value={" "}>
+                                      --{" "}
+                                      {t(
+                                        "app_conglomerado_form_select_cargo_responsable"
+                                      )}{" "}
+                                      --{" "}
+                                    </option>
+                                    {mapOptionsCharges}
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <label>
+                                    <Trans>
+                                      {t(
+                                        "app_conglomerado_modal_actualizar_descripcion"
+                                      )}
+                                    </Trans>
+                                  </label>
+                                  <textarea
+                                    name="description"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.description}
+                                    className="form-control form-control-sm"
                                   />
 
-                                  <ErrorMessage name="status" />
+                                  <ErrorMessage name="description" />
+                                </div>
+                              </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    <Trans>
+                                      {t(
+                                        "app_conglomerado_modal_actualizar_estado"
+                                      )}
+                                    </Trans>{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <div className="text-justify ">
+                                    <Field
+                                      name="status"
+                                      type=""
+                                      render={({ field, form }) => {
+                                        return (
+                                          <CustomInput
+                                            type="checkbox"
+                                            id="conglomeradoModalEdit"
+                                            label={t(
+                                              "app_conglomerado_modal_actualizar_estado_descripcion"
+                                            )}
+                                            {...field}
+                                            checked={field.value}
+                                            className={
+                                              errors.status &&
+                                              touched.status &&
+                                              "invalid-feedback"
+                                            }
+                                          />
+                                        );
+                                      }}
+                                    />
+
+                                    <ErrorMessage name="status" />
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          )}
                         </div>
                       </div>
                     </form>

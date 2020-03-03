@@ -65,6 +65,8 @@ class ModalPreview extends Component {
               className="form-control form-control-sm"
               defaultValue={data.defaultValue}
               placeholder={data.placeholder}
+              disabled={data.validation.isReadOnly}
+              required={data.validation.isRequired}
             />
             <small className="form-text text-muted">{data.helpertext}</small>
           </div>
@@ -82,6 +84,8 @@ class ModalPreview extends Component {
               <select
                 className="form-control form-control-sm"
                 multiple={data.multiple}
+                disabled={data.validation.isReadOnly}
+                required={data.validation.isRequired}
               >
                 {data.options.map((aux, id) => {
                   return aux.selected ? (
@@ -100,6 +104,8 @@ class ModalPreview extends Component {
               <select
                 className="form-control form-control-sm"
                 value={data.defaultValue}
+                disabled={data.validation.isReadOnly}
+                required={data.validation.isRequired}
               >
                 {data.options.map((aux, id) => {
                   return (
@@ -139,6 +145,7 @@ class ModalPreview extends Component {
                       className="form-check-input"
                       type="checkbox"
                       id={aux.value}
+                      disabled={data.validation.isReadOnly}
                     />
                     <label className="form-check-label" htmlFor={aux.value}>
                       {aux.title}
@@ -176,6 +183,7 @@ class ModalPreview extends Component {
                       checked={aux.selected || id === data.defaultValue}
                       value={aux.selected}
                       id={aux.value}
+                      disabled={data.validation.isReadOnly ? "disabled" : ""}
                     />
                     <label className="form-check-label" htmlFor={aux.value}>
                       {aux.title}
@@ -205,6 +213,9 @@ class ModalPreview extends Component {
                 color: data.colorText,
                 fontSize: data.fontSize
               }}
+              disabled={data.disabled ? "disabled" : ""}
+              readOnly={data.validation.isReadOnly ? "isReadOnly" : ""}
+              required={data.validation.isRequired ? "isRequired" : ""}
             >
               {data.content}
             </textarea>

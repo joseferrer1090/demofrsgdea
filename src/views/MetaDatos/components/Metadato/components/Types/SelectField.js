@@ -38,13 +38,14 @@ class SelectField extends Component {
       duplicate: false,
       activeTab: "1",
       modalpreview: false,
-      dragType: this.props.dragType,
+      dragType: "",
       helpertext: ""
     };
   }
 
   componentDidMount() {
     this.setState(this.props.field);
+    console.log(this.props.field);
   }
 
   changeValue = (stateFor, value) => {
@@ -555,7 +556,7 @@ class SelectField extends Component {
         <ModalPreview
           ref={"child"}
           modalpreview={this.state.modalpreview}
-          inputType={this.state.dragType}
+          inputType={this.props.field.toolType}
           field={this.props.field}
         />
       </div>

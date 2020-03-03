@@ -9,7 +9,8 @@ class ModalPreview extends Component {
     this.state = {
       modalPreview: this.props.modalpreview,
       type: this.props.inputType,
-      field: this.props.field
+      field: this.props.field,
+      valueexample: ""
     };
   }
   toggle = () => {
@@ -247,6 +248,7 @@ class ModalPreview extends Component {
   render() {
     const aux = this.state.field;
     console.log(aux);
+    console.log(this.props.inputType);
     return (
       <Modal isOpen={this.state.modalPreview} toggle={this.toggle}>
         <ModalHeader>

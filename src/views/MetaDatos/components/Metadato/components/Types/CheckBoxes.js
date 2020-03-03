@@ -138,8 +138,8 @@ class CheckBoxes extends Component {
     });
     this.duplicate();
     setTimeout(() => {
-      console.log(this.state, this.props.index);
-      // return this.props.changeState(this.state, this.props.index);
+      // console.log(this.state, this.props.index);
+      return this.props.changeState(this.state, this.props.index);
     }, 0);
   };
 

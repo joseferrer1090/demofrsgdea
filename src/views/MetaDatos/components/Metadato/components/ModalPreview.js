@@ -189,6 +189,28 @@ class ModalPreview extends Component {
           )}
         </div>
       );
+    } else if (data.toolType === "PARAGRAPH" || data.toolType === "paragraph") {
+      component = (
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid #c8ced3", padding: "10px " }}
+        >
+          <div className="form-group">
+            <label>{data.title}</label>
+            <textarea
+              className="form-control form-control-sm"
+              style={{
+                textAlign: data.aling,
+                backgroundColor: data.background,
+                color: data.colorText,
+                fontSize: data.fontSize
+              }}
+            >
+              {data.content}
+            </textarea>
+          </div>
+        </div>
+      );
     }
     return component;
   };

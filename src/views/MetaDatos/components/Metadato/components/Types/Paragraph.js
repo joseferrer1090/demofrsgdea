@@ -26,6 +26,11 @@ class Paragraph extends Component {
       color: "",
       fontSize: 10,
       align: "center",
+      validation: {
+        isReadOnly: false,
+        isRequired: false
+      },
+      disabled: false,
       activeTab: "1",
       modalpreview: false
     };
@@ -67,6 +72,22 @@ class Paragraph extends Component {
       case "TEXT_ALIGN":
         this.setState({ align: value });
         break;
+      case "IS_READONLY":
+        this.setState({
+          validation: { ...this.state.validation, isReadOnly: value }
+        });
+        break;
+      case "IS_REQUIRED":
+        this.setState({
+          validation: {
+            ...this.state.validation,
+            isRequired: value
+          }
+        });
+        break;
+      case "IS_DISABLED":
+        this.setState({ disabled: value });
+        break;
 
       default:
         return;
@@ -94,7 +115,10 @@ class Paragraph extends Component {
         align: this.state.align,
         fontSize: this.state.fontSize,
         colorText: this.state.colorText,
-        colorContent: this.state.background
+        colorContent: this.state.background,
+        disabled: this.state.disabled,
+        isReadOnly: this.state.validation.isReadOnly,
+        isRequired: this.state.validation.isRequired
       },
       null,
       2
@@ -145,6 +169,18 @@ class Paragraph extends Component {
                   }}
                 >
                   Styles <i className="fa fa-pencil" />
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "3"
+                  })}
+                  onClick={() => {
+                    this.toggle("3");
+                  }}
+                >
+                  Validacion <i className="fa fa-exclamation-triangle" />
                 </NavLink>
               </NavItem>
             </Nav>
@@ -253,6 +289,73 @@ class Paragraph extends Component {
                     </div>
                   </div>
                 </Card>
+              </TabPane>
+              <TabPane tabId={"3"}>
+                <div className="row">
+                  <div className="col-md-12">
+                    <Card body>
+                      <div className="row">
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <input
+                              type="checkbox"
+                              id="isReadOnly"
+                              value={this.state.validation.isReadOnly}
+                              onChange={e =>
+                                this.changeValue(
+                                  "IS_READONLY",
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            <label htmlFor="isReadOnly">
+                              {" "}
+                              ¿ Solo lectura ?{" "}
+                            </label>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <input
+                              type="checkbox"
+                              id="isRequired"
+                              value={this.state.validation.isRequired}
+                              onChange={e =>
+                                this.changeValue(
+                                  "IS_REQUIRED",
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            <label htmlFor="isRequired">
+                              {" "}
+                              ¿ Es requerido ?{" "}
+                            </label>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <input
+                              type="checkbox"
+                              id="disabled"
+                              value={this.state.disabled}
+                              onChange={e =>
+                                this.changeValue(
+                                  "IS_DISABLED",
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            <label htmlFor="disabled">
+                              {" "}
+                              ¿ Deshabilidado ?{" "}
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                </div>
               </TabPane>
             </TabContent>
           </CardBody>

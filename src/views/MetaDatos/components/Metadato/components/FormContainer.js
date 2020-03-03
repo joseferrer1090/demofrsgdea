@@ -407,7 +407,12 @@ class FormContainer extends Component {
         backgroundColor: "",
         color: "",
         fontSize: "",
-        align: ""
+        align: "",
+        validation: {
+          isReadOnly: "",
+          isRequired: ""
+        },
+        disabled: ""
       };
     }
     let fields = this.state.fields;

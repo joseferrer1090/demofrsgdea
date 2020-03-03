@@ -213,6 +213,9 @@ class ModalPreview extends Component {
                 color: data.colorText,
                 fontSize: data.fontSize
               }}
+              disabled={data.disabled ? "disabled" : ""}
+              readOnly={data.validation.isReadOnly ? "isReadOnly" : ""}
+              required={data.validation.isRequired ? "isRequired" : ""}
             >
               {data.content}
             </textarea>

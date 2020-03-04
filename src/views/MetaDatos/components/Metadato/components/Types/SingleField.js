@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import {
   Card,
   CardHeader,
@@ -8,13 +8,17 @@ import {
   NavItem,
   NavLink,
   TabContent,
-  TabPane
+  TabPane,
+  Toast,
+  ToastBody,
+  ToastHeader
 } from "reactstrap";
 import classnames from "classnames";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ModalPreview from "./../ModalPreview";
 import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 // const InputTypes = [
 //   "Checkbox",
@@ -58,7 +62,10 @@ class SingleField extends Component {
       tab: "",
       modalpreview: false,
       dragType: "",
-      auth: ""
+      auth: "",
+      alert200: false,
+      alert400: false,
+      alert500: false
     };
   }
 
@@ -144,12 +151,73 @@ class SingleField extends Component {
   };
 
   CreateMetadate = e => {
+    const aux = this.state.auth;
+    const username = decode(aux);
     e.preventDefault();
     fetch(`${METADATA_CREATE}`, {
+      method: "POST",
       headers: {
-        "Content-Type": "application/json"
-      }
-    });
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.auth
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        description: this.state.description,
+        labelText: this.state.title,
+        labelClass: "col-sm-2 col-form-label",
+        inputId: this.state.name,
+        inputType: this.state.type,
+        inputClass: "form-control form-control-sm",
+        inputPlaceholder: this.state.placeholder,
+        formula: false,
+        status: true,
+        userName: username.user_name
+      })
+    })
+      .then(response => {
+        if (response.ok) {
+          this.setState({
+            alert200: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert200: false
+            });
+          }, 1500);
+          //console.log("se enviaron bien los datos");
+        } else if (response.status === 400) {
+          this.setState({
+            alert400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert400: false
+            });
+            this.resetForm();
+          }, 1500);
+          //console.log("Error al enviar los datos");
+        } else if (response.status === 500) {
+          this.setState({
+            alert500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert500: false
+            });
+            this.resetForm();
+          }, 1500);
+          //console.log("Error en el servidor");
+        }
+      })
+      .catch(error => {
+        this.setState({ alert500: true });
+        setTimeout(() => {
+          this.setState({
+            alert500: false
+          });
+        }, 1500);
+        //console.log(`error, ${error}`);
+      });
     // const json = JSON.stringify(
     //   {
     //     title: this.state.title,
@@ -172,6 +240,9 @@ class SingleField extends Component {
     // alert(json);
   };
 
+  resetForm = () => {
+    this.myFormRef.reset();
+  };
   render() {
     // console.log(this.state.dragType);
     return (
@@ -196,7 +267,44 @@ class SingleField extends Component {
                   <i className="fa fa-times" style={{ color: "red" }} />
                 </span> */}
               </CardHeader>
+
               <CardBody>
+                <Toast isOpen={this.state.alert200}>
+                  <ToastHeader icon={"success"}>
+                    SGDEA - Modulo de configuración
+                  </ToastHeader>
+                  <ToastBody>
+                    <p className="text-justify">
+                      {" "}
+                      Se creo correactamente el metadato.{" "}
+                    </p>
+                  </ToastBody>
+                </Toast>
+                <Toast isOpen={this.state.alert400}>
+                  <ToastHeader icon={"danger"}>
+                    SGDEA - Modulo de configuración
+                  </ToastHeader>
+                  <ToastBody>
+                    <p className="text-justify">
+                      {" "}
+                      Error al enviar los datos al servidor.{" "}
+                    </p>
+                  </ToastBody>
+                </Toast>
+                <Toast isOpen={this.state.alert500}>
+                  <ToastHeader icon={"danger"}>
+                    {" "}
+                    SGDEA - Modulo de configuración
+                  </ToastHeader>
+                  <ToastBody>
+                    <p className="text-justify">
+                      {" "}
+                      Error al enviar los datos, ocurrio un problema en el
+                      servidor{" "}
+                    </p>
+                  </ToastBody>
+                </Toast>
+                <br />
                 <Nav tabs>
                   <NavLink
                     className={classnames({
@@ -221,7 +329,10 @@ class SingleField extends Component {
                   </NavLink>
                 </Nav>
                 <form
+                  id="form1"
+                  role="form"
                   className="form"
+                  ref={el => (this.myFormRef = el)}
                   // onSubmit={e => {
                   //   e.preventDefault();
                   //   console.log(

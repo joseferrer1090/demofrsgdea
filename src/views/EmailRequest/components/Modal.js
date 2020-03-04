@@ -9,7 +9,7 @@ import {
   Col
 } from "reactstrap";
 import { decode } from "jsonwebtoken";
-import {} from "./../../../services/EndPoints";
+import { INFO_EMAIL } from "./../../../services/EndPoints";
 import IMGEMAILREQUEST from "./../../../assets/img/request.svg";
 import moment from "moment";
 
@@ -18,56 +18,59 @@ class Modalc extends React.Component {
     super(props);
     this.state = {
       modal: this.props.modal,
-      dataTemplate: {},
+      dataInfo: {},
       auth: this.props.authorization,
       id: this.props.id,
       t: this.props.t
     };
   }
 
-  //   static getDerivedStateFromProps(props, state) {
-  //     if (props.authorization !== state.auth) {
-  //       return {
-  //         auth: props.authorization
-  //       };
-  //     }
-  //   }
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
-  //   componentDidUpdate(prevProps, prevState) {
-  //     if (this.props.authorization !== prevProps.authorization) {
-  //       this.setState({
-  //         auth: this.props.authorization
-  //       });
-  //     }
-  //   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState({
-      modal: !this.state.modal
-      //   id: id
+      modal: !this.state.modal,
+      id: id
     });
-    // const auth = this.state.auth;
-    // const username = decode(auth);
-    // fetch(`${TEMPLATE_EMAIL}${id}?username=${username.user_name}`, {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "Bearer " + auth,
-    //     "Content-Type": "application/json"
-    //   }
-    // })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     this.setState({
-    //       dataTemplate: data
-    //     });
-    //     console.log(this.state.dataTemplate);
-    //   })
-    //   .catch(Error => console.log(Error));
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${INFO_EMAIL}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataInfo: data.filingEmail
+        });
+        // console.log(this.state.dataTemplate);
+      })
+      .catch(Error => console.log(Error));
   };
 
-  FechaCreacionEmailRequest() {
-    return moment(new Date()).format("DD-MM-YYYY, h:mm:ss a");
+  FechaCreacionEmailRequest(data) {
+    let createdAt;
+    createdAt = new Date(data);
+    return moment(createdAt).format("DD-MM-YYYY, h:mm:ss a");
   }
+
   FechaModificacionEmailRequest(data) {
     let updatedAt;
     updatedAt = new Date(data);
@@ -75,8 +78,18 @@ class Modalc extends React.Component {
   }
 
   render() {
-    const { dataTemplate } = this.state;
+    const { dataInfo } = this.state;
     const { t } = this.state;
+    const statusAnswer = data => {
+      const { t } = this.props;
+      let status;
+      if (data === true) {
+        status = <b className="text-success"> Completa </b>;
+      } else if (data === false) {
+        status = <b className="text-danger"> Pendiente </b>;
+      }
+      return status;
+    };
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
@@ -98,40 +111,58 @@ class Modalc extends React.Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Dato 1</dt>
-                        <dd>Dato 1</dd>
+                        <dt>Remitente</dt>
+                        <dd>{dataInfo.sender}</dd>
                       </dl>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Dato 2 </dt>
-                        <dd> Dato 2 </dd>
+                        <dt>Asunto</dt>
+                        <dd>{dataInfo.subject}</dd>
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-12">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Dato 3 </dt>
-                        <dd> Dato 3 </dd>
+                        <dt>Mensaje</dt>
+                        <dd>{dataInfo.body}</dd>
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Dato 4</dt>
-                        <dd> Dato 4</dd>
+                        <dt>Respuesta</dt>
+                        <dd>{statusAnswer(dataInfo.answer)}</dd>
                       </dl>
                     </div>
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de recepción</dt>
-                        <dd> {this.FechaCreacionEmailRequest()} </dd>
+                        <dt>Fecha de creación</dt>
+                        <dd>
+                          {" "}
+                          {this.FechaCreacionEmailRequest(
+                            dataInfo.createdAt
+                          )}{" "}
+                        </dd>
+                      </dl>
+                    </div>
+                  </div>
+                  <div className="col-md-4">
+                    <div className="form-group">
+                      <dl className="param">
+                        <dt>Fecha de modificación</dt>
+                        <dd>
+                          {" "}
+                          {this.FechaModificacionEmailRequest(
+                            dataInfo.updatedAt
+                          )}{" "}
+                        </dd>
                       </dl>
                     </div>
                   </div>

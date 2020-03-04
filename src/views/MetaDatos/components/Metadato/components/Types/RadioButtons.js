@@ -14,6 +14,7 @@ import {
   Table
 } from "reactstrap";
 import classnames from "classnames";
+import ModalPreview from "./../ModalPreview";
 
 class RadioButtons extends Component {
   constructor(props) {
@@ -34,7 +35,9 @@ class RadioButtons extends Component {
       },
       radios: [],
       duplicate: false,
-      activeTab: "1"
+      activeTab: "1",
+      modalpreview: false,
+      dragType: this.props.dragType
     };
   }
 
@@ -196,6 +199,10 @@ class RadioButtons extends Component {
     alert(aux);
   };
 
+  openModalPreview = () => {
+    this.refs.child.toggle();
+  };
+
   render() {
     return (
       <div>
@@ -300,7 +307,7 @@ class RadioButtons extends Component {
               <TabPane tabId={"2"}>
                 <Card body>
                   <div className="row">
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <div className="form-group">
                         <input
                           type={"checkbox"}
@@ -313,7 +320,7 @@ class RadioButtons extends Component {
                         <label htmlFor="isRequired"> ¿Es Requerido? </label>
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-4">
                       <div className="form-group">
                         <input
                           type={"checkbox"}
@@ -326,7 +333,7 @@ class RadioButtons extends Component {
                         <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
                       </div>
                     </div>
-                    <div className="col-md-6">
+                    {/* <div className="col-md-6">
                       <div className="form-group">
                         <input
                           value={this.state.multiple}
@@ -340,8 +347,8 @@ class RadioButtons extends Component {
                           ¿ Multiple selección ?
                         </label>
                       </div>
-                    </div>
-                    <div className="col-md-6">
+                    </div> */}
+                    <div className="col-md-4">
                       <div className="form-group">
                         <input
                           type="checkbox"
@@ -500,6 +507,17 @@ class RadioButtons extends Component {
           <CardFooter>
             <div className="pull-right">
               <button
+                type={"button"}
+                className="btn btn-secondary btn-sm"
+                onClick={() => {
+                  this.openModalPreview();
+                }}
+              >
+                {" "}
+                <i className="fa fa-eye" /> Vista previa{" "}
+              </button>
+              &nbsp;
+              <button
                 type="button"
                 className="btn btn-secondary btn-sm"
                 onClick={e => this.createMetada(e)}
@@ -510,6 +528,12 @@ class RadioButtons extends Component {
             </div>
           </CardFooter>
         </Card>
+        <ModalPreview
+          ref={"child"}
+          modalpreview={this.state.modalpreview}
+          field={this.props.field}
+          inputType={this.state.dragType}
+        />
       </div>
     );
   }

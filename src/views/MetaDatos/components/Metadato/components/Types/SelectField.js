@@ -14,6 +14,7 @@ import {
   Table
 } from "reactstrap";
 import classnames from "classnames";
+import ModalPreview from "./../ModalPreview";
 
 class SelectField extends Component {
   constructor(props) {
@@ -35,7 +36,10 @@ class SelectField extends Component {
       },
       options: [],
       duplicate: false,
-      activeTab: "1"
+      activeTab: "1",
+      modalpreview: false,
+      dragType: "",
+      helpertext: ""
     };
   }
 
@@ -82,6 +86,10 @@ class SelectField extends Component {
         break;
       case "MULTIPLE":
         this.setState({ multiple: value });
+        break;
+
+      case "HELPER_TEXT":
+        this.setState({ helpertext: value });
         break;
 
       default:
@@ -187,6 +195,7 @@ class SelectField extends Component {
         title: this.state.title,
         name: this.state.name,
         description: this.state.description,
+        helpertext: this.state.helpertext,
         options: this.state.options,
         multiple: this.state.multiple,
         isRequired: this.state.validation.isRequired,
@@ -196,6 +205,10 @@ class SelectField extends Component {
       2
     );
     alert(aux);
+  };
+
+  openModalPreview = () => {
+    this.refs.child.toggle();
   };
 
   render() {
@@ -282,6 +295,19 @@ class SelectField extends Component {
                           </div>
                         </div>
                         <div className="col-md-6">
+                          <div className="form-group">
+                            <label htmlFor="">Helper text</label>
+                            <input
+                              type="text"
+                              className="form-control form-control-sm"
+                              onChange={e =>
+                                this.changeValue("HELPER_TEXT", e.target.value)
+                              }
+                              value={this.state.helpertext}
+                            />
+                          </div>
+                        </div>
+                        <div className="col-md-12">
                           <div className="form-group">
                             <label htmlFor="description">Description</label>
                             <input
@@ -507,6 +533,16 @@ class SelectField extends Component {
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
+                onClick={() => {
+                  this.openModalPreview();
+                }}
+              >
+                <i className="fa fa-eye" /> Vista previa
+              </button>
+              &nbsp;
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
                 onClick={e => {
                   this.createMetada(e);
                 }}
@@ -517,6 +553,12 @@ class SelectField extends Component {
             </div>
           </CardFooter>
         </Card>
+        <ModalPreview
+          ref={"child"}
+          modalpreview={this.state.modalpreview}
+          inputType={this.props.field.toolType}
+          field={this.props.field}
+        />
       </div>
     );
   }

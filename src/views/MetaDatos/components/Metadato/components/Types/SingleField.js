@@ -46,6 +46,7 @@ class SingleField extends Component {
       defaultValue: "",
       placeholder: "",
       description: "",
+      helpertext: "",
       validation: {
         isReadOnly: false,
         isRequired: false,
@@ -100,7 +101,9 @@ class SingleField extends Component {
       case "MAX":
         this.setState({ validation: { ...this.state.validation, max: value } });
         break;
-
+      case "HELPER_TEXT":
+        this.setState({ helpertext: value });
+        break;
       default:
         return;
     }
@@ -131,6 +134,7 @@ class SingleField extends Component {
         defaultValue: this.state.defaultValue,
         placeholder: this.state.placeholder,
         description: this.state.description,
+        helpertext: this.state.helpertext,
         validation: {
           isReadOnly: this.state.validation.isReadOnly,
           isRequired: this.state.validation.isRequired,
@@ -260,7 +264,7 @@ class SingleField extends Component {
                               </select>
                             </div>
                           </div> */}
-                          <div className="col-md-12">
+                          <div className="col-md-6">
                             <div className="form-group">
                               <label>Default value</label>
                               <input
@@ -274,6 +278,23 @@ class SingleField extends Component {
                                 }}
                                 value={this.state.defaultValue}
                                 placeholder={"Valor por defecto"}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label>Helper text</label>
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                                onChange={e => {
+                                  this.changeValue(
+                                    "HELPER_TEXT",
+                                    e.target.value
+                                  );
+                                }}
+                                value={this.state.helpertext}
+                                placeholder={"Texto de ayuda"}
                               />
                             </div>
                           </div>

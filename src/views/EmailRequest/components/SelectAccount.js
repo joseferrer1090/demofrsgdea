@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { CONTRIES_STATUS } from "./../../../services/EndPoints";
+import { EMAIL_ACCOUNTS } from "./../../../services/EndPoints";
 
-class SelectCountry extends React.Component {
+class SelectAccount extends React.Component {
   state = {
-    dataCountry: [],
+    dataEmailAccount: [],
     t: this.props.t,
-    auth: this.props.authorization,
-    statusValue: this.props.statusValue
+    auth: this.props.authorization
   };
+
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
@@ -24,16 +24,15 @@ class SelectCountry extends React.Component {
       });
     }
   }
-
   componentDidMount() {
-    this.getData();
     setTimeout(() => {
-      console.log(this.props.value);
+      this.getData();
     }, 1000);
-  }
 
+    // console.log(this.state.auth);
+  }
   getData = () => {
-    fetch(`${CONTRIES_STATUS}`, {
+    fetch(`${EMAIL_ACCOUNTS}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -43,22 +42,12 @@ class SelectCountry extends React.Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          dataCountry: data
+          dataEmailAccount: data
         });
       });
   };
-
-  handleChange = value => {
-    this.props.onChange("conglomerate_country", value);
-  };
-
-  handleBlur = () => {
-    this.props.onBlur("conglomerate_country", true);
-  };
-
   render() {
     const { t } = this.props;
-
     return (
       <div>
         <select
@@ -66,15 +55,12 @@ class SelectCountry extends React.Component {
           onChange={this.props.onChange}
           value={this.props.value}
           className={this.props.className}
-          onBlur={this.props.onBlur}
         >
-          <option value={""}>
-            -- {t("app_ciudad_form_registrar_pais")} --
-          </option>
-          {this.state.dataCountry.map((aux, id) => {
+          <option value={""}>-- Seleccione --</option>
+          {this.state.dataEmailAccount.map((aux, id) => {
             return (
               <option key={id} value={aux.id}>
-                {aux.name}
+                {aux.email}
               </option>
             );
           })}
@@ -83,8 +69,8 @@ class SelectCountry extends React.Component {
     );
   }
 }
-SelectCountry.propTypes = {
+SelectAccount.propTypes = {
   t: PropTypes.any,
   authorization: PropTypes.string.isRequired
 };
-export default SelectCountry;
+export default SelectAccount;

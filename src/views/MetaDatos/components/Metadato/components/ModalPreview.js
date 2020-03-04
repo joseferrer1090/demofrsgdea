@@ -9,7 +9,8 @@ class ModalPreview extends Component {
     this.state = {
       modalPreview: this.props.modalpreview,
       type: this.props.inputType,
-      field: this.props.field
+      field: this.props.field,
+      valueexample: ""
     };
   }
   toggle = () => {
@@ -53,7 +54,10 @@ class ModalPreview extends Component {
       );
     } else if (data.type === "Text" || data.type === "text") {
       component = (
-        <div className="col-md-12" style={{ border: "1px solid grey" }}>
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid #c8ced3", padding: "10px " }}
+        >
           <div className="form-group">
             <label>{data.title}</label>
             <input
@@ -62,6 +66,177 @@ class ModalPreview extends Component {
               className="form-control form-control-sm"
               defaultValue={data.defaultValue}
               placeholder={data.placeholder}
+              disabled={data.validation.isReadOnly}
+              required={data.validation.isRequired}
+            />
+            <small className="form-text text-muted">{data.helpertext}</small>
+          </div>
+        </div>
+      );
+    } else if (data.type === "Select" || data.type === "SELECT") {
+      component = (
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid #c8ced3 ", padding: "10px" }}
+        >
+          <div className="form-group">
+            <label>{data.title}</label>
+            {data.multiple ? (
+              <select
+                className="form-control form-control-sm"
+                multiple={data.multiple}
+                disabled={data.validation.isReadOnly}
+                required={data.validation.isRequired}
+              >
+                {data.options.map((aux, id) => {
+                  return aux.selected ? (
+                    <option selected={aux.selected} key={id} value={aux.value}>
+                      {" "}
+                      {aux.title}{" "}
+                    </option>
+                  ) : (
+                    <option key={id} value={aux.value}>
+                      {aux.title}
+                    </option>
+                  );
+                })}
+              </select>
+            ) : (
+              <select
+                className="form-control form-control-sm"
+                value={data.defaultValue}
+                disabled={data.validation.isReadOnly}
+                required={data.validation.isRequired}
+              >
+                {data.options.map((aux, id) => {
+                  return (
+                    <option key={id} value={aux.value}>
+                      {aux.title}
+                    </option>
+                  );
+                })}
+              </select>
+            )}
+            <small className="form-text text-muted">{data.helpertext}</small>
+          </div>
+        </div>
+      );
+    } else if (
+      data.toolType === "check_boxes" ||
+      data.toolType === "CHECK_BOXES"
+    ) {
+      component = (
+        <div
+          className=""
+          style={{ border: "1px solid #c8ced3", padding: "10px" }}
+        >
+          <label>{data.title}</label>
+          <React.Fragment>
+            {data.checkBoxes.length ? (
+              data.checkBoxes.map((aux, id) => {
+                return (
+                  <div
+                    key={id}
+                    className={data.inline ? "form-check-inline" : "form-check"}
+                  >
+                    <input
+                      name={aux.value}
+                      // checked={aux.selected}
+                      defaultChecked={aux.selected}
+                      className="form-check-input"
+                      type="checkbox"
+                      id={aux.value}
+                      disabled={data.validation.isReadOnly}
+                    />
+                    <label className="form-check-label" htmlFor={aux.value}>
+                      {aux.title}
+                    </label>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="form-group">
+                <p className="text-center"> No hay opciones creadas </p>
+              </div>
+            )}
+          </React.Fragment>
+        </div>
+      );
+    } else if (
+      data.toolType === "RADIO_BUTTONS" ||
+      data.toolType === "radio_buttons"
+    ) {
+      component = (
+        <div style={{ border: "1px solid #c8ced3", padding: "10px" }}>
+          <label>{data.title}</label>
+          {data.radios.length ? (
+            data.radios.map((aux, id) => {
+              return (
+                <React.Fragment>
+                  <div
+                    key={id}
+                    className={data.inline ? "form-check-inline" : "form-check"}
+                  >
+                    <input
+                      name={data.multiple ? id : "radio-group"}
+                      className="form-check-input"
+                      type="radio"
+                      checked={aux.selected || id === data.defaultValue}
+                      value={aux.selected}
+                      id={aux.value}
+                      disabled={data.validation.isReadOnly ? "disabled" : ""}
+                    />
+                    <label className="form-check-label" htmlFor={aux.value}>
+                      {aux.title}
+                    </label>
+                  </div>
+                </React.Fragment>
+              );
+            })
+          ) : (
+            <div>no hay elementos</div>
+          )}
+        </div>
+      );
+    } else if (data.toolType === "PARAGRAPH" || data.toolType === "paragraph") {
+      component = (
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid #c8ced3", padding: "10px " }}
+        >
+          <div className="form-group">
+            <label>{data.title}</label>
+            <textarea
+              className="form-control form-control-sm"
+              style={{
+                textAlign: data.aling,
+                backgroundColor: data.background,
+                color: data.colorText,
+                fontSize: data.fontSize
+              }}
+              disabled={data.disabled ? "disabled" : ""}
+              readOnly={data.validation.isReadOnly ? "isReadOnly" : ""}
+              required={data.validation.isRequired ? "isRequired" : ""}
+            >
+              {data.content}
+            </textarea>
+          </div>
+        </div>
+      );
+    } else if (data.type === "date" || data.type === "DATE") {
+      component = (
+        <div
+          className="col-md-12"
+          style={{ border: "1px solid  #c8ced3", padding: "10px" }}
+        >
+          <div className="form-group">
+            <label>{data.title}</label>
+            <input
+              type="date"
+              className="form-control form-control-sm"
+              max={data.validation.max}
+              min={data.validation.min}
+              disabled={data.validation.isReadOnly}
             />
           </div>
         </div>
@@ -72,13 +247,22 @@ class ModalPreview extends Component {
 
   render() {
     const aux = this.state.field;
+    console.log(aux);
+    console.log(this.props.inputType);
     return (
       <Modal isOpen={this.state.modalPreview} toggle={this.toggle}>
         <ModalHeader>
           {" "}
           Metadato {aux.name ? aux.name : "Nombre del metadado"}{" "}
         </ModalHeader>
-        <ModalBody>{this.renderType(aux)}</ModalBody>
+        <ModalBody>
+          <p className="text-justify">
+            El siguiente campo se visible en el formulario de radicacion, cuando
+            el usuario seleccione la plantilla, donde este campo este
+            configurado.
+          </p>
+          {this.renderType(aux)}
+        </ModalBody>
         <ModalFooter>
           <div className="pull-right">
             <button
@@ -100,4 +284,5 @@ ModalPreview.propType = {
   inputType: PropTypes.string,
   modalpreview: PropTypes.bool.isRequired
 };
+
 export default ModalPreview;

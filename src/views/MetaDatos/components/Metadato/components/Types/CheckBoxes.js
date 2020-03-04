@@ -13,6 +13,7 @@ import {
   NavItem
 } from "reactstrap";
 import classnames from "classnames";
+import ModalPreview from "./../ModalPreview";
 
 class CheckBoxes extends Component {
   constructor(props) {
@@ -23,6 +24,7 @@ class CheckBoxes extends Component {
       toolType: "CHECK_BOXES",
       title: "",
       name: "",
+      type: "checkbox",
       defaultValue: "",
       description: "",
       validation: {
@@ -32,7 +34,9 @@ class CheckBoxes extends Component {
         max: 6
       },
       duplicate: false,
-      checkBoxes: []
+      checkBoxes: [],
+      modalpreview: false,
+      dragType: this.props.dragType
     };
   }
   componentDidMount() {
@@ -122,54 +126,57 @@ class CheckBoxes extends Component {
   };
 
   addOption = () => {
-    let checbox = {
+    let checkbox = {
       title: "",
       value: "",
-      selected: false
+      checked: false
     };
     let checboxes = this.state.checkBoxes;
-    checboxes.push(checbox);
+    checboxes.push(checkbox);
     this.setState({
       checkBoxes: checboxes
     });
     this.duplicate();
     setTimeout(() => {
+      // console.log(this.state, this.props.index);
       return this.props.changeState(this.state, this.props.index);
     }, 0);
   };
 
-  changeOptionValue = (index, value, state) => {
-    let checboxes = this.state.checkBoxes;
-    let checkbox = {};
+  changeOptionValue(index, value, state) {
+    let checkBoxes = this.state.checkBoxes;
+    let checkBox = {};
     if (state === "TITLE") {
-      checkbox = {
-        ...checboxes[index],
+      checkBox = {
+        ...checkBoxes[index],
         title: value
       };
     } else if (state === "SELECTED") {
-      checkbox = {
-        ...checboxes[index],
-        selected: !checboxes[index].selected
+      checkBox = {
+        ...checkBoxes[index],
+        selected: checkBox[index].checked
       };
     } else if (state === "VALUE") {
-      checkbox = {
-        ...checboxes[index],
+      checkBox = {
+        ...checkBoxes[index],
         value: value
       };
     } else {
-      checkbox = {
-        ...checboxes[index]
+      checkBox = {
+        ...checkBoxes[index]
       };
     }
-    checboxes[index] = checkbox;
+    checkBoxes[index] = checkBox;
     this.setState({
-      checkBoxes: checboxes
+      checkBoxes: checkBoxes
     });
+
     this.duplicate();
+
     setTimeout(() => {
       return this.props.changeState(this.state, this.props.index);
     }, 0);
-  };
+  }
 
   toggle = tab => {
     if (this.state.activeTab !== tab) {
@@ -195,6 +202,10 @@ class CheckBoxes extends Component {
       2
     );
     alert(aux);
+  };
+
+  OpenModalPreview = () => {
+    this.refs.child.toggle();
   };
 
   render() {
@@ -465,6 +476,17 @@ class CheckBoxes extends Component {
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
+                onClick={() => {
+                  this.OpenModalPreview();
+                }}
+              >
+                {" "}
+                <i className="fa fa-eye" /> Vista previa
+              </button>
+              &nbsp;
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
                 onClick={e => this.createMetadata(e)}
               >
                 {" "}
@@ -473,6 +495,12 @@ class CheckBoxes extends Component {
             </div>
           </CardFooter>
         </Card>
+        <ModalPreview
+          ref="child"
+          modalpreview={this.state.modalpreview}
+          inputType={this.state.dragType}
+          field={this.props.field}
+        />
       </div>
     );
   }

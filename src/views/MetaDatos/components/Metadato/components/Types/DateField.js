@@ -12,6 +12,7 @@ import {
   NavItem
 } from "reactstrap";
 import classnames from "classnames";
+import ModalPreview from "./../ModalPreview";
 
 class DateField extends Component {
   constructor(props) {
@@ -30,7 +31,8 @@ class DateField extends Component {
         min: "",
         max: ""
       },
-      activeTab: "1"
+      activeTab: "1",
+      modalpreview: false
     };
   }
 
@@ -113,6 +115,10 @@ class DateField extends Component {
       2
     );
     alert(aux);
+  };
+
+  openModalPreview = () => {
+    this.refs.child.toggle();
   };
 
   render() {
@@ -267,6 +273,16 @@ class DateField extends Component {
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
+                onClick={() => {
+                  this.openModalPreview();
+                }}
+              >
+                <i className="fa fa-eye" /> Vista previa
+              </button>
+              &nbsp;
+              <button
+                type="button"
+                className="btn btn-secondary btn-sm"
                 onClick={e => this.createMetadata(e)}
               >
                 {" "}
@@ -275,6 +291,12 @@ class DateField extends Component {
             </div>
           </CardFooter>
         </Card>
+        <ModalPreview
+          ref="child"
+          modalpreview={this.state.modalpreview}
+          field={this.props.field}
+          inputType={this.props.dragType}
+        />
       </div>
     );
   }

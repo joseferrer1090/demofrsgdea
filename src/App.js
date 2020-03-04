@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { HashRouter, Route, Switch, Redirect } from "react-router-dom";
 import Loadable from "react-loadable";
 import "./App.scss";
-import Conglomerado from "./views/Conglomerado/Conglomerado";
 import { decode } from "jsonwebtoken";
 
 // isAuthenticate

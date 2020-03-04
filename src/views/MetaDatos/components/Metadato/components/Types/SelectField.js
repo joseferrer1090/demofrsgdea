@@ -249,6 +249,7 @@ class SelectField extends Component {
             this.setState({
               alert200: false
             });
+            this.resetForm();
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
@@ -258,7 +259,7 @@ class SelectField extends Component {
             this.setState({
               alert400: false
             });
-          }, 15000);
+          }, 1500);
         } else if (resp.status === 500) {
           this.setState({
             alert500: true
@@ -318,6 +319,42 @@ class SelectField extends Component {
             </span>
           </CardHeader>
           <CardBody>
+            <Toast isOpen={this.state.alert200}>
+              <ToastHeader icon={"success"}>
+                {" "}
+                SGDEA - Modulo de configuración{" "}
+              </ToastHeader>
+              <ToastBody>
+                <p className="text-justify">
+                  {" "}
+                  Se creo el metadato de manera correcta{" "}
+                </p>
+              </ToastBody>
+            </Toast>
+            <Toast isOpen={this.state.alert400}>
+              <ToastHeader icon={"danger"}>
+                {" "}
+                SGDEA - Modulo de configuración{" "}
+              </ToastHeader>
+              <ToastBody>
+                <p className="text-justify">
+                  {" "}
+                  Error, al enviar los dato del formulario
+                </p>
+              </ToastBody>
+            </Toast>
+            <Toast isOpen={this.state.alert500}>
+              <ToastHeader icon={"danger"}>
+                {" "}
+                SGDEA - Modulo de configuración
+              </ToastHeader>
+              <ToastBody>
+                <p className="text-justify">
+                  {" "}
+                  Error, al enviar los datos al servidor
+                </p>
+              </ToastBody>
+            </Toast>
             <Nav tabs>
               <NavItem>
                 <NavLink

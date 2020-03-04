@@ -667,6 +667,41 @@ export const PERMISSIONS_BY_PAGE_ENTITY = `${config.IP}:${config.PORT}/api/sgdea
 export const PERMISSIONS_BY_USER = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/permissions/user`;
 
 //--------------------------------------------- PETICIONES VÍA EMAIL -----------------------------------------------------//
+
+/* GET */
 export const REQUEST_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/filing/emails/email/account/filing/`;
+
+/* GET */
 export const EMAIL_ACCOUNTS = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/email/accounts/filing`;
+
+/* GET */
 export const INFO_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/filing/emails/show/`;
+
+//--------------------------------------------- METADATA BAG -----------------------------------------------------//
+
+/* GET */
+export const METADATA_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag`;
+
+/* GET param in url => id */
+export const METADATA_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/`;
+
+/* GET */
+export const METADATA_ACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/active`;
+
+/* GET */
+export const METADATA_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/inactive`;
+
+/* GET param in url name */
+export const METADATA_FIND_BY_NAME = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/search/name`;
+
+/* POST */
+export const METADATA_CREATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag`;
+
+/* PUT */
+export const METADATA_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag`;
+
+/* DELETE  params in url => id */
+export const METADATA_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/`;
+
+/* GET params in url page and size */
+export const METADATA_PAGINATION = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag`;

@@ -129,6 +129,7 @@ class FormContainer extends Component {
           index={index}
           key={index}
           removeField={() => this.remove(index)}
+          authorization={this.props.authorization}
         />
       );
     } else if (field.toolType === "SINGLE_FIELD") {
@@ -142,6 +143,7 @@ class FormContainer extends Component {
           key={index}
           removeField={() => this.remove(index)}
           dragType={field.toolType}
+          authorization={this.props.authorization}
         />
       );
     } else if (field.toolType === "CHECK_BOXES") {
@@ -154,6 +156,7 @@ class FormContainer extends Component {
           index={index}
           key={index}
           removeField={() => this.remove(index)}
+          authorization={this.props.authorization}
         />
       );
     } else if (field.toolType === "RADIO_BUTTONS") {

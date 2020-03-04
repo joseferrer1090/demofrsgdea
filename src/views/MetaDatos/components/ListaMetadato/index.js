@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import TableContent from "./components/TableContentMetadata";
 
 class ListaMetadato extends Component {
   constructor(props) {

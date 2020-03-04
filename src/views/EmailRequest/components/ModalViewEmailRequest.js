@@ -6,7 +6,13 @@ import {
   ModalBody,
   ModalHeader,
   Row,
-  Col
+  Col,
+  Card,
+  CardBody,
+  CardHeader,
+  Collapse,
+  ListGroup,
+  ListGroupItem
 } from "reactstrap";
 import { decode } from "jsonwebtoken";
 import {} from "./../../../services/EndPoints";
@@ -21,7 +27,9 @@ class ModalViewEmailRequest extends React.Component {
       dataTemplate: {},
       auth: this.props.authorization,
       id: this.props.id,
-      t: this.props.t
+      t: this.props.t,
+      collapase: true,
+      srcPDF: ""
     };
   }
 
@@ -73,16 +81,99 @@ class ModalViewEmailRequest extends React.Component {
     updatedAt = new Date(data);
     return moment(updatedAt).format("DD-MM-YYYY, h:mm:ss a");
   }
-
+  toggleCollapse = () => {
+    this.setState({
+      collapase: !this.state.collapase
+    });
+  };
   render() {
-    const { dataTemplate } = this.state;
     const { t } = this.state;
+    const files = [
+      {
+        id: 1,
+        name: "Archivo para radicación PDF_v_1",
+        value: "http://www.africau.edu/images/default/sample.pdf"
+      },
+      {
+        id: 2,
+        name: "Archivo para radicación PDF_v_2",
+        value:
+          "https://edwardsib.org/ourpages/auto/2015/9/28/51403017/Cuentos%20Infantiles.pdf"
+      },
+      {
+        id: 3,
+        name: "Archivo para radicación PDF_v_3",
+        value:
+          "http://files.unicef.org/republicadominicana/Manual_de_Cuentos_y_fabulas.pdf"
+      }
+    ];
+
+    const listFiles = () => {
+      return (
+        <React.Fragment>
+          <ul className="list-group">
+            {files.map(listItem => (
+              <li
+                key={listItem.id}
+                className="list-group-item list-group-item-action"
+                value={listItem.value}
+                onClick={e => {
+                  this.setState({
+                    srcPDF: listItem.value
+                  });
+                  // console.log();
+                }}
+              >
+                {listItem.name}
+              </li>
+            ))}
+          </ul>
+        </React.Fragment>
+      );
+    };
+
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>Ver</ModalHeader>
           <ModalBody>
             <Row>
+              <Col sm="12">
+                <Card>
+                  <CardHeader>
+                    {" "}
+                    <a
+                      onClick={() => {
+                        this.toggleCollapse();
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {" "}
+                      Peticiones vía correo electrónico
+                    </a>{" "}
+                  </CardHeader>
+                  <Collapse isOpen={this.state.collapase}>
+                    <CardBody>
+                      <div className="row">
+                        <div className="col-md-6">
+                          <dl className="param">
+                            <dt>Archivos</dt>
+                            {listFiles()}
+                          </dl>
+                        </div>
+                      </div>
+                    </CardBody>
+                  </Collapse>
+                </Card>
+              </Col>
+            </Row>
+            <embed
+              src={this.state.srcPDF}
+              width={"100%"}
+              height={500}
+              type="application/pdf"
+            />
+            {/* <Row>
               <Col sm="3">
                 <img src={IMGEMAILREQUEST} className="img-thumbnail" />
               </Col>
@@ -137,7 +228,7 @@ class ModalViewEmailRequest extends React.Component {
                   </div>
                 </div>
               </Col>
-            </Row>
+            </Row> */}
           </ModalBody>
           <ModalFooter>
             <button

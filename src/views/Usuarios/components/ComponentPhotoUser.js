@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { USER_PHOTO } from "./../../../services/EndPoints";
+import { USER_PHOTO, USER_UPLOAD_PHOTO } from "./../../../services/EndPoints";
 import axios from "axios";
 import { decode } from "jsonwebtoken";
 import { Alert } from "reactstrap";
@@ -65,16 +65,12 @@ class ComponentPhotoUser extends Component {
       console.log(value);
     }
     axios
-      .post(
-        `http://192.168.20.187:8090/api/sgdea/service/configuration/users/photo/${this.props.id}`,
-        formData,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-            "Content-Type": "multipart/form-data"
-          }
+      .post(`${USER_UPLOAD_PHOTO}${this.props.id}`, formData, {
+        headers: {
+          Authorization: "Bearer " + token,
+          "Content-Type": "multipart/form-data"
         }
-      )
+      })
       .then(response => {
         if (response.status === 200) {
           this.setState({

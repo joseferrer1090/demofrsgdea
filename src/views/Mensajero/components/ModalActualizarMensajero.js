@@ -7,7 +7,8 @@ import {
   Row,
   Col,
   CustomInput,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 import PropTypes from "prop-types";
 import ImgMensajero from "./../../../assets/img/courier.svg";
@@ -27,15 +28,22 @@ class ModalActualizarMensajero extends React.Component {
     t: this.props.t,
     messenger_status: 0,
     username: "",
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinner: true
   };
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      idMensajero: id
+      idMensajero: id,
+      spinner: true
     });
     this.getMessengerByID(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false
+      });
+    }, 1500);
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -228,121 +236,132 @@ class ModalActualizarMensajero extends React.Component {
                             {t("app_mensajero_modal_actualizar_titulo_2")}{" "}
                           </h5>{" "}
                         </div>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t(
-                                  "app_mensajero_modal_actualizar_identificacion"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  <input
-                                    name={"messenger_identification"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.messenger_identification}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.messenger_identification &&
-                                      touched.messenger_identification &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.messenger_identification &&
-                                    touched.messenger_identification ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="messenger_identification" />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t("app_mensajero_modal_actualizar_nombre")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"messenger_name"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.messenger_name}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.messenger_name &&
-                                      touched.messenger_name &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.messenger_name &&
-                                    touched.messenger_name ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="messenger_name" />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t(
-                                  "app_mensajero_modal_actualizar_descripción"
-                                )}
-                                <dd>
-                                  {" "}
-                                  <textarea
-                                    name={"messenger_description"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.messenger_description}
-                                    className="form-control form-control-sm"
-                                  />
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <dl className="param">
-                                <label>
-                                  {" "}
+                        {this.state.spinner !== false ? (
+                          <center>
+                            <br />
+                            <Spinner
+                              style={{ width: "3rem", height: "3rem" }}
+                              type="grow"
+                              color="primary"
+                            />
+                          </center>
+                        ) : (
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
                                   {t(
-                                    "app_mensajero_modal_actualizar_estado"
+                                    "app_mensajero_modal_actualizar_identificacion"
                                   )}{" "}
                                   <span className="text-danger">*</span>{" "}
-                                </label>
-                                <div className="text-justify">
-                                  <Field
-                                    name="messenger_status"
-                                    render={({ field, form }) => {
-                                      return (
-                                        <CustomInput
-                                          type="checkbox"
-                                          id="CheckBoxEditRoles"
-                                          label={t(
-                                            "app_mensajero_modal_actualizar_estado_descripcion"
-                                          )}
-                                          {...field}
-                                          checked={field.value}
-                                          className={
-                                            errors.messenger_status &&
-                                            touched.messenger_status &&
-                                            "invalid-feedback"
-                                          }
-                                        />
-                                      );
-                                    }}
-                                  />
-                                  <ErrorMessage name="messenger_status" />
-                                </div>
-                              </dl>
+                                  <dd>
+                                    <input
+                                      name={"messenger_identification"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.messenger_identification}
+                                      type="text"
+                                      className={`form-control form-control-sm ${errors.messenger_identification &&
+                                        touched.messenger_identification &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.messenger_identification &&
+                                      touched.messenger_identification ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="messenger_identification" />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t("app_mensajero_modal_actualizar_nombre")}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"messenger_name"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.messenger_name}
+                                      type="text"
+                                      className={`form-control form-control-sm ${errors.messenger_name &&
+                                        touched.messenger_name &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.messenger_name &&
+                                      touched.messenger_name ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="messenger_name" />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t(
+                                    "app_mensajero_modal_actualizar_descripción"
+                                  )}
+                                  <dd>
+                                    {" "}
+                                    <textarea
+                                      name={"messenger_description"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.messenger_description}
+                                      className="form-control form-control-sm"
+                                    />
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <dl className="param">
+                                  <label>
+                                    {" "}
+                                    {t(
+                                      "app_mensajero_modal_actualizar_estado"
+                                    )}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <div className="text-justify">
+                                    <Field
+                                      name="messenger_status"
+                                      render={({ field, form }) => {
+                                        return (
+                                          <CustomInput
+                                            type="checkbox"
+                                            id="CheckBoxEditRoles"
+                                            label={t(
+                                              "app_mensajero_modal_actualizar_estado_descripcion"
+                                            )}
+                                            {...field}
+                                            checked={field.value}
+                                            className={
+                                              errors.messenger_status &&
+                                              touched.messenger_status &&
+                                              "invalid-feedback"
+                                            }
+                                          />
+                                        );
+                                      }}
+                                    />
+                                    <ErrorMessage name="messenger_status" />
+                                  </div>
+                                </dl>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )}
                       </Col>
                     </Row>
                   </ModalBody>

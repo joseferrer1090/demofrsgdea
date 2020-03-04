@@ -11,10 +11,15 @@ import {
   Nav,
   NavLink,
   NavItem,
-  Table
+  Table,
+  Toast,
+  ToastBody,
+  ToastHeader
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
+import { decode } from "jsonwebtoken";
+import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
 
 class SelectField extends Component {
   constructor(props) {
@@ -39,13 +44,35 @@ class SelectField extends Component {
       activeTab: "1",
       modalpreview: false,
       dragType: "",
-      helpertext: ""
+      helpertext: "",
+      auth: "",
+      alert200: false,
+      alert500: false,
+      alert400: false
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   componentDidMount() {
     this.setState(this.props.field);
     console.log(this.props.field);
+    console.log(this.state.auth);
   }
 
   changeValue = (stateFor, value) => {
@@ -190,25 +217,90 @@ class SelectField extends Component {
 
   createMetada = e => {
     e.preventDefault();
-    const aux = JSON.stringify(
-      {
-        title: this.state.title,
+    const aux = this.state.auth;
+    const user = decode(aux);
+    fetch(`${METADATA_CREATE}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + aux
+      },
+      body: JSON.stringify({
         name: this.state.name,
         description: this.state.description,
-        helpertext: this.state.helpertext,
-        options: this.state.options,
-        multiple: this.state.multiple,
-        isRequired: this.state.validation.isRequired,
-        isReadOnly: this.state.validation.isReadOnly
-      },
-      null,
-      2
-    );
-    alert(aux);
+        labelText: this.state.title,
+        labelClass: "col-sm-2 col-form-label",
+        inputId: this.state.name,
+        inputType: this.state.type,
+        inputClass: "form-control form-control-sm",
+        inputPlaceholder: "",
+        formula: false,
+        status: true,
+        userName: user.user_name,
+        details: this.state.options
+      })
+    })
+      .then(resp => {
+        if (resp.status === 200) {
+          this.setState({
+            alert200: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert200: false
+            });
+          }, 1500);
+        } else if (resp.status === 400) {
+          this.setState({
+            alert400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert400: false
+            });
+          }, 15000);
+        } else if (resp.status === 500) {
+          this.setState({
+            alert500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert500: false
+            });
+          }, 1500);
+        }
+      })
+      .catch(err => {
+        this.setState({
+          alert500: true
+        });
+        setTimeout(() => {
+          this.setState({ alert500: false });
+        }, 1500);
+      });
+    // const aux = JSON.stringify(
+    //   {
+    //     title: this.state.title,
+    //     name: this.state.name,
+    //     description: this.state.description,
+    //     helpertext: this.state.helpertext,
+    //     options: this.state.options,
+    //     multiple: this.state.multiple,
+    //     isRequired: this.state.validation.isRequired,
+    //     isReadOnly: this.state.validation.isReadOnly
+    //   },
+    //   null,
+    //   2
+    // );
+    // alert(aux);
   };
 
   openModalPreview = () => {
-    this.refs.child.toggle();
+    this.myModal.toggle();
+  };
+
+  resetForm = () => {
+    this.myForm.reset();
   };
 
   render() {
@@ -258,7 +350,12 @@ class SelectField extends Component {
                 </NavLink>
               </NavItem>
             </Nav>
-            <form className="form">
+            <form
+              className="form"
+              role="form"
+              className="form"
+              ref={el => (this.myForm = el)}
+            >
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId={"1"}>
                   <Card body>
@@ -554,7 +651,7 @@ class SelectField extends Component {
           </CardFooter>
         </Card>
         <ModalPreview
-          ref={"child"}
+          ref={el => (this.myModal = el)}
           modalpreview={this.state.modalpreview}
           inputType={this.props.field.toolType}
           field={this.props.field}

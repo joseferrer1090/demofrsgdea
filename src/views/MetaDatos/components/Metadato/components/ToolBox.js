@@ -1,6 +1,4 @@
 import React, { Component, createRef, Children } from "react";
-import PropTypes from "prop-types";
-import { Card, CardHeader, CardBody, UncontrolledTooltip } from "reactstrap";
 
 class ToolBox extends Component {
   constructor(props) {
@@ -44,7 +42,7 @@ class ToolBox extends Component {
   }
 
   componentDidMount() {
-    let tools = this._tools;
+    // let tools = this._tools;
     //let aux = (tools.className = "list-group draggable");
     //console.log(aux);
     // console.log(tools);
@@ -58,8 +56,8 @@ class ToolBox extends Component {
 
   dragField = (e, types) => {
     e.dataTransfer.setData("dragField", types);
-    console.log(e.dataTransfer.setData("dragField", types));
-    console.log("dragField", types);
+    // console.log(e.dataTransfer.setData("dragField", types));
+    // console.log("dragField", types);
   };
 
   renderCustomTools = () => {

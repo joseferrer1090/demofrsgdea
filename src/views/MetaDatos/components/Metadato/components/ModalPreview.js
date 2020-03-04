@@ -1,7 +1,6 @@
-import React, { Component, cloneElement } from "react";
+import React, { Component } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import PropTypes, { element } from "prop-types";
-import { compose } from "redux";
+import PropTypes from "prop-types";
 
 class ModalPreview extends Component {
   constructor(props) {
@@ -248,8 +247,8 @@ class ModalPreview extends Component {
 
   render() {
     const aux = this.state.field;
-    console.log(aux);
-    console.log(this.props.inputType);
+    // console.log(aux);
+    // console.log(this.props.inputType);
     return (
       <Modal isOpen={this.state.modalPreview} toggle={this.toggle}>
         <ModalHeader>

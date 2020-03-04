@@ -149,7 +149,7 @@ class SingleField extends Component {
   };
 
   render() {
-    console.log(this.state.dragType);
+    // console.log(this.state.dragType);
     return (
       <div className="container">
         <div className="row">

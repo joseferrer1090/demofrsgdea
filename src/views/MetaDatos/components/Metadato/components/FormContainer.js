@@ -142,6 +142,7 @@ class FormContainer extends Component {
           key={index}
           removeField={() => this.remove(index)}
           dragType={field.toolType}
+          authorization={this.props.authorization}
         />
       );
     } else if (field.toolType === "CHECK_BOXES") {

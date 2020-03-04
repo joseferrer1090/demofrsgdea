@@ -14,6 +14,7 @@ import classnames from "classnames";
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import ModalPreview from "./../ModalPreview";
+import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
 
 // const InputTypes = [
 //   "Checkbox",
@@ -56,8 +57,26 @@ class SingleField extends Component {
       activeTab: "1",
       tab: "",
       modalpreview: false,
-      dragType: ""
+      dragType: "",
+      auth: ""
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   componentDidMount() {
@@ -126,26 +145,31 @@ class SingleField extends Component {
 
   CreateMetadate = e => {
     e.preventDefault();
-    const json = JSON.stringify(
-      {
-        title: this.state.title,
-        type: this.state.type,
-        name: this.state.name,
-        defaultValue: this.state.defaultValue,
-        placeholder: this.state.placeholder,
-        description: this.state.description,
-        helpertext: this.state.helpertext,
-        validation: {
-          isReadOnly: this.state.validation.isReadOnly,
-          isRequired: this.state.validation.isRequired,
-          min: this.state.validation.min,
-          max: this.state.validation.max
-        }
-      },
-      null,
-      2
-    );
-    alert(json);
+    fetch(`${METADATA_CREATE}`, {
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
+    // const json = JSON.stringify(
+    //   {
+    //     title: this.state.title,
+    //     type: this.state.type,
+    //     name: this.state.name,
+    //     defaultValue: this.state.defaultValue,
+    //     placeholder: this.state.placeholder,
+    //     description: this.state.description,
+    //     helpertext: this.state.helpertext,
+    //     validation: {
+    //       isReadOnly: this.state.validation.isReadOnly,
+    //       isRequired: this.state.validation.isRequired,
+    //       min: this.state.validation.min,
+    //       max: this.state.validation.max
+    //     }
+    //   },
+    //   null,
+    //   2
+    // );
+    // alert(json);
   };
 
   render() {

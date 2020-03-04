@@ -402,11 +402,11 @@ class ModalEditGrupos extends React.Component {
                                   <br />
                                   {this.state.spinner !== false ? (
                                     <center>
-                                      <br />
                                       <Spinner
                                         style={{
                                           width: "3rem",
-                                          height: "3rem"
+                                          height: "3rem",
+                                          marginBottom: "10px"
                                         }}
                                         type="grow"
                                         color="primary"

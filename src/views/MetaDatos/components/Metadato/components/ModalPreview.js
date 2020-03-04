@@ -29,6 +29,7 @@ class ModalPreview extends Component {
         field: props.field
       };
     }
+    return null;
   }
 
   componentDidUpdate(prevProps, prevState) {

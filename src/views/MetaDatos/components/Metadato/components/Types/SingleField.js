@@ -56,13 +56,13 @@ class SingleField extends Component {
       activeTab: "1",
       tab: "",
       modalpreview: false,
-      dragType: this.props.dragType
+      dragType: ""
     };
   }
 
   componentDidMount() {
     this.setState(this.props.field);
-    console.log(this.props.field);
+    this.setState({ dragType: this.props.dragType });
   }
 
   changeValue = (stateFor, value) => {
@@ -149,6 +149,7 @@ class SingleField extends Component {
   };
 
   render() {
+    console.log(this.state.dragType);
     return (
       <div className="container">
         <div className="row">

@@ -528,33 +528,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                     </div>
                                   </div>
                                   <div className="col-md-12">
-                                    {/* <div className="form-group">
-                                      <label> Buscar usuario </label>
-                                      <div className="input-group input-group-sm">
-                                        <input
-                                          type="text"
-                                          className="form-control form-control-sm"
-                                          aria-label="Dollar amount (with dot and two decimal places)"
-                                        />
-                                        <div
-                                          className="input-group-append"
-                                          id="button-addon4"
-                                        >
-                                          <button
-                                            className="btn btn-secondary"
-                                            type="button"
-                                          >
-                                            <i className="fa fa-search" />
-                                          </button>
-                                          <button
-                                            className="btn btn-secondary"
-                                            type="button"
-                                          >
-                                            <i className="fa fa-plus" /> Agregar
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </div> */}
                                     <UserList
                                       t={t}
                                       authorization={auth}

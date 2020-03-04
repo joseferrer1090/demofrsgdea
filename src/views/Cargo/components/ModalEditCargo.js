@@ -8,7 +8,8 @@ import {
   ModalBody,
   ModalFooter,
   CustomInput,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
@@ -27,7 +28,8 @@ class ModalEditCargo extends React.Component {
     t: this.props.t,
     status: 0,
     auth: this.props.authorization,
-    userName: ""
+    userName: "",
+    spinner: true
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -49,9 +51,15 @@ class ModalEditCargo extends React.Component {
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true
     });
     this.getDataChargeById(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false
+      });
+    }, 1500);
   };
 
   getDataChargeById = id => {
@@ -222,118 +230,131 @@ class ModalEditCargo extends React.Component {
                               {t("app_cargo_modal_actualizar_titulo_2")}{" "}
                             </h5>{" "}
                           </div>
-                          <div className="row">
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <dl className="param">
-                                  {t("app_cargo_modal_actualizar_codigo")}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                  <dd>
-                                    {" "}
-                                    <input
-                                      name={"code"}
-                                      type="text"
-                                      placeholder=""
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={values.code}
-                                      className={`form-control form-control-sm ${errors.code &&
-                                        touched.code &&
-                                        "is-invalid"}`}
-                                    />
-                                    <div style={{ color: "#D54B4B" }}>
-                                      {errors.code && touched.code ? (
-                                        <i className="fa fa-exclamation-triangle" />
-                                      ) : null}
-                                      <ErrorMessage name={"code"} />
-                                    </div>
-                                  </dd>
-                                </dl>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <dl className="param">
-                                  {t("app_cargo_modal_actualizar_nombre")}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                  <dd>
-                                    <input
-                                      name={"name"}
-                                      type="text"
-                                      placeholder=""
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={values.name}
-                                      className={`form-control form-control-sm ${errors.name &&
-                                        touched.name &&
-                                        "is-invalid"}`}
-                                    />
-                                    <div style={{ color: "#D54B4B" }}>
-                                      {errors.name && touched.name ? (
-                                        <i className="fa fa-exclamation-triangle" />
-                                      ) : null}
-                                      <ErrorMessage name={"name"} />
-                                    </div>
-                                  </dd>
-                                </dl>
-                              </div>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <dl className="param">
-                                  {t("app_cargo_modal_actualizar_descripcion")}
-                                  <dd>
-                                    {" "}
-                                    <textarea
-                                      name={"description"}
-                                      className="form-control form-control-sm"
-                                      placeholder=""
-                                      onChange={handleChange}
-                                      onBlur={handleBlur}
-                                      value={values.description}
-                                    />
-                                  </dd>
-                                </dl>
-                              </div>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <dl className="param">
-                                  <label>
-                                    {" "}
-                                    {t(
-                                      "app_cargo_modal_actualizar_estado"
-                                    )}{" "}
+                          {this.state.spinner !== false ? (
+                            <center>
+                              <br />
+                              <Spinner
+                                style={{ width: "3rem", height: "3rem" }}
+                                type="grow"
+                                color="primary"
+                              />
+                            </center>
+                          ) : (
+                            <div className="row">
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <dl className="param">
+                                    {t("app_cargo_modal_actualizar_codigo")}{" "}
                                     <span className="text-danger">*</span>{" "}
-                                  </label>
-                                  <div className="text-justify">
-                                    <Field
-                                      name="status"
-                                      render={({ field, form }) => {
-                                        return (
-                                          <CustomInput
-                                            type="checkbox"
-                                            id="CheckBoxEditRoles"
-                                            label={t(
-                                              "app_cargo_modal_actualizar_estado_descripcion"
-                                            )}
-                                            {...field}
-                                            checked={field.value}
-                                            className={
-                                              errors.status &&
-                                              touched.status &&
-                                              "invalid-feedback"
-                                            }
-                                          />
-                                        );
-                                      }}
-                                    />
-                                    <ErrorMessage name="status" />
-                                  </div>
-                                </dl>
+                                    <dd>
+                                      {" "}
+                                      <input
+                                        name={"code"}
+                                        type="text"
+                                        placeholder=""
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.code}
+                                        className={`form-control form-control-sm ${errors.code &&
+                                          touched.code &&
+                                          "is-invalid"}`}
+                                      />
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.code && touched.code ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name={"code"} />
+                                      </div>
+                                    </dd>
+                                  </dl>
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <dl className="param">
+                                    {t("app_cargo_modal_actualizar_nombre")}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                    <dd>
+                                      <input
+                                        name={"name"}
+                                        type="text"
+                                        placeholder=""
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.name}
+                                        className={`form-control form-control-sm ${errors.name &&
+                                          touched.name &&
+                                          "is-invalid"}`}
+                                      />
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.name && touched.name ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name={"name"} />
+                                      </div>
+                                    </dd>
+                                  </dl>
+                                </div>
+                              </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <dl className="param">
+                                    {t(
+                                      "app_cargo_modal_actualizar_descripcion"
+                                    )}
+                                    <dd>
+                                      {" "}
+                                      <textarea
+                                        name={"description"}
+                                        className="form-control form-control-sm"
+                                        placeholder=""
+                                        onChange={handleChange}
+                                        onBlur={handleBlur}
+                                        value={values.description}
+                                      />
+                                    </dd>
+                                  </dl>
+                                </div>
+                              </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <dl className="param">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_cargo_modal_actualizar_estado"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <div className="text-justify">
+                                      <Field
+                                        name="status"
+                                        render={({ field, form }) => {
+                                          return (
+                                            <CustomInput
+                                              type="checkbox"
+                                              id="CheckBoxEditRoles"
+                                              label={t(
+                                                "app_cargo_modal_actualizar_estado_descripcion"
+                                              )}
+                                              {...field}
+                                              checked={field.value}
+                                              className={
+                                                errors.status &&
+                                                touched.status &&
+                                                "invalid-feedback"
+                                              }
+                                            />
+                                          );
+                                        }}
+                                      />
+                                      <ErrorMessage name="status" />
+                                    </div>
+                                  </dl>
+                                </div>
                               </div>
                             </div>
-                          </div>
+                          )}
                         </Col>
                       </Row>
                     </form>

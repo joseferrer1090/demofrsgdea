@@ -7,7 +7,8 @@ import {
   Row,
   Col,
   CustomInput,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 import IMGPackage from "./../../../assets/img/package.svg";
 import PropTypes from "prop-types";
@@ -30,7 +31,8 @@ class ModalEditTipoLlegada extends React.Component {
     t: this.props.t,
     typeshipmentarrival_status: 0,
     username: "",
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinner: true
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -52,9 +54,15 @@ class ModalEditTipoLlegada extends React.Component {
   toggle = id => {
     this.setState(prevState => ({
       modal: !prevState.modal,
-      idTipoLlegada: id
+      idTipoLlegada: id,
+      spinner: true
     }));
     this.getTipoLlegadaByID(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false
+      });
+    }, 1500);
   };
 
   getTipoLlegadaByID = id => {
@@ -233,137 +241,148 @@ class ModalEditTipoLlegada extends React.Component {
                             )}{" "}
                           </h5>{" "}
                         </div>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t("app_tipoLlegada_modal_actualizar_codigo")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"typeshipmentarrival_code"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.typeshipmentarrival_code}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.typeshipmentarrival_code &&
-                                      touched.typeshipmentarrival_code &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.typeshipmentarrival_code &&
-                                    touched.typeshipmentarrival_code ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage
-                                      name={"typeshipmentarrival_code"}
-                                    />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t("app_tipoLlegada_modal_actualizar_nombre")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"typeshipmentarrival_name"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.typeshipmentarrival_name}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.typeshipmentarrival_name &&
-                                      touched.typeshipmentarrival_name &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.typeshipmentarrival_name &&
-                                    touched.typeshipmentarrival_name ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage
-                                      name={"typeshipmentarrival_name"}
-                                    />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t(
-                                  "app_tipoLlegada_modal_actualizar_descripcion"
-                                )}
-                                <dd>
-                                  {" "}
-                                  <textarea
-                                    name={"typeshipmentarrival_description"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={
-                                      values.typeshipmentarrival_description
-                                    }
-                                    className={`form-control form-control-sm ${errors.typeshipmentarrival_description &&
-                                      touched.typeshipmentarrival_description &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.typeshipmentarrival_description &&
-                                    touched.typeshipmentarrival_description ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage
-                                      name={"typeshipmentarrival_description"}
-                                    />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <dl className="param">
-                                <label>
-                                  {" "}
-                                  {t(
-                                    "app_tipoLlegada_modal_actualizar_estado"
-                                  )}{" "}
+                        {this.state.spinner !== false ? (
+                          <center>
+                            <br />
+                            <Spinner
+                              style={{ width: "3rem", height: "3rem" }}
+                              type="grow"
+                              color="primary"
+                            />
+                          </center>
+                        ) : (
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t("app_tipoLlegada_modal_actualizar_codigo")}{" "}
                                   <span className="text-danger">*</span>{" "}
-                                </label>
-                                <div className="text-justify">
-                                  <Field
-                                    name="typeshipmentarrival_status"
-                                    render={({ field, form }) => {
-                                      return (
-                                        <CustomInput
-                                          type="checkbox"
-                                          id="CheckBoxEditRoles"
-                                          label={t(
-                                            "app_tipoLlegada_modal_actualizar_estado_descripcion"
-                                          )}
-                                          {...field}
-                                          checked={field.value}
-                                          className={
-                                            errors.typeshipmentarrival_status &&
-                                            touched.typeshipmentarrival_status &&
-                                            "invalid-feedback"
-                                          }
-                                        />
-                                      );
-                                    }}
-                                  />
-                                  <ErrorMessage name="typeshipmentarrival_status" />
-                                </div>
-                              </dl>
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"typeshipmentarrival_code"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.typeshipmentarrival_code}
+                                      type="text"
+                                      className={`form-control form-control-sm ${errors.typeshipmentarrival_code &&
+                                        touched.typeshipmentarrival_code &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.typeshipmentarrival_code &&
+                                      touched.typeshipmentarrival_code ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage
+                                        name={"typeshipmentarrival_code"}
+                                      />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t("app_tipoLlegada_modal_actualizar_nombre")}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"typeshipmentarrival_name"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.typeshipmentarrival_name}
+                                      type="text"
+                                      className={`form-control form-control-sm ${errors.typeshipmentarrival_name &&
+                                        touched.typeshipmentarrival_name &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.typeshipmentarrival_name &&
+                                      touched.typeshipmentarrival_name ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage
+                                        name={"typeshipmentarrival_name"}
+                                      />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t(
+                                    "app_tipoLlegada_modal_actualizar_descripcion"
+                                  )}
+                                  <dd>
+                                    {" "}
+                                    <textarea
+                                      name={"typeshipmentarrival_description"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={
+                                        values.typeshipmentarrival_description
+                                      }
+                                      className={`form-control form-control-sm ${errors.typeshipmentarrival_description &&
+                                        touched.typeshipmentarrival_description &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.typeshipmentarrival_description &&
+                                      touched.typeshipmentarrival_description ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage
+                                        name={"typeshipmentarrival_description"}
+                                      />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <dl className="param">
+                                  <label>
+                                    {" "}
+                                    {t(
+                                      "app_tipoLlegada_modal_actualizar_estado"
+                                    )}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <div className="text-justify">
+                                    <Field
+                                      name="typeshipmentarrival_status"
+                                      render={({ field, form }) => {
+                                        return (
+                                          <CustomInput
+                                            type="checkbox"
+                                            id="CheckBoxEditRoles"
+                                            label={t(
+                                              "app_tipoLlegada_modal_actualizar_estado_descripcion"
+                                            )}
+                                            {...field}
+                                            checked={field.value}
+                                            className={
+                                              errors.typeshipmentarrival_status &&
+                                              touched.typeshipmentarrival_status &&
+                                              "invalid-feedback"
+                                            }
+                                          />
+                                        );
+                                      }}
+                                    />
+                                    <ErrorMessage name="typeshipmentarrival_status" />
+                                  </div>
+                                </dl>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )}
                       </Col>
                     </Row>
                   </ModalBody>

@@ -9,23 +9,20 @@ import {
   Card,
   CardBody,
   CustomInput,
-  Alert
+  Alert,
+  Spinner,
+  Row,
+  Col
 } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
-import {
-  GROUPUSER,
-  CONGLOMERATES_STATUS,
-  COMPANY_BY_CONGLOMERATE,
-  HEADQUARTER_BY_COMPANY,
-  DEPENDENCIES_BY_HEADQUARTER,
-  USERS_BY_DEPENDENCE
-} from "./../../../services/EndPoints";
+import { GROUPUSER, USERS_BY_DEPENDENCE } from "./../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import SelectConglomerado from "./SelectConglomerate";
 import FieldCompany from "./SelectCompany";
 import FieldHeadquarter from "./SelectHeadquarter";
 import FieldDependence from "./SelectDependence";
+import IMGGROUP from "./../../../assets/img/groupUser.svg";
 
 class ModalEditGrupos extends React.Component {
   state = {
@@ -40,7 +37,8 @@ class ModalEditGrupos extends React.Component {
     alertError400: false,
     alertSuccess: false,
     auth: this.props.authorization,
-    t: this.props.t
+    t: this.props.t,
+    spinner: true
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -63,9 +61,15 @@ class ModalEditGrupos extends React.Component {
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true
     });
     this.getDataGroup(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false
+      });
+    }, 1500);
   };
 
   //  handleSubmit = (values, { props = this.props, setSubmitting }) => {
@@ -282,289 +286,363 @@ class ModalEditGrupos extends React.Component {
                     </Alert>
                     <form className="form">
                       <div className="container">
-                        <div className="row">
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <label>
+                        <Row>
+                          <Col sm="3">
+                            <img src={IMGGROUP} className="img-thumbnail" />
+                          </Col>
+                          <Col sm="9">
+                            <div className="">
+                              {" "}
+                              <h5
+                                className=""
+                                style={{ borderBottom: "1px solid black" }}
+                              >
                                 {" "}
-                                {t(
-                                  "app_grupoUsuarios_modal_editar_codigo"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                type="text"
-                                name="codigo"
-                                value={values.codigo}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                className="form-control form-control-sm"
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.codigo && touched.codigo ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="codigo" />
-                              </div>
+                                {t("app_roles_modal_editar_titulo_2")}{" "}
+                              </h5>{" "}
                             </div>
-                          </div>
-                          <div className="col-sm-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_grupoUsuarios_modal_editar_nombre"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                type="text"
-                                name="nombre"
-                                onChange={handleChange}
-                                value={values.nombre}
-                                className="form-control form-control-sm"
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.nombre && touched.nombre ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="nombre" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_grupoUsuarios_modal_editar_descripcion"
-                                )}{" "}
-                              </label>
-                              <textarea
-                                name="descripcion"
-                                value={values.descripcion}
-                                className="form-control form-control-sm"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.descripcion && touched.descripcion ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="descripcion" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <Card>
-                              <CardBody>
-                                <h5 className="">
-                                  {" "}
-                                  {t(
-                                    "app_grupoUsuarios_modal_editar_titulo_toast"
-                                  )}{" "}
-                                </h5>
-                                <hr />
+                            {this.state.spinner !== false ? (
+                              <center>
                                 <br />
-                                <div className="row">
-                                  <div className="col-md-3">
-                                    <div className="form-group">
-                                      <label>
-                                        {" "}
-                                        {t(
-                                          "app_grupoUsuarios_modal_editar_conglomerado"
-                                        )}{" "}
-                                        <span className="text-danger">*</span>{" "}
-                                      </label>
-                                      <SelectConglomerado
-                                        t={t}
-                                        token={this.props.authorization}
-                                        name={"conglomerado"}
-                                        onChange={e =>
-                                          setFieldValue(
-                                            "conglomerado",
-                                            e.target.value
-                                          )
-                                        }
-                                        onBlur={() =>
-                                          setFieldTouched("conglomerado", true)
-                                        }
-                                        value={values.conglomerado}
-                                        className={`form-control form-control-sm ${errors.conglomerado &&
-                                          touched.conglomerado &&
-                                          "is-invalid"}`}
+                                <Spinner
+                                  style={{ width: "3rem", height: "3rem" }}
+                                  type="grow"
+                                  color="primary"
+                                />
+                              </center>
+                            ) : (
+                              <div className="row">
+                                <div className="col-sm-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_grupoUsuarios_modal_editar_codigo"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="codigo"
+                                      value={values.codigo}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      className="form-control form-control-sm"
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.codigo && touched.codigo ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="codigo" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-sm-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_grupoUsuarios_modal_editar_nombre"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="nombre"
+                                      onChange={handleChange}
+                                      value={values.nombre}
+                                      className="form-control form-control-sm"
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.nombre && touched.nombre ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="nombre" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_grupoUsuarios_modal_editar_descripcion"
+                                      )}{" "}
+                                    </label>
+                                    <textarea
+                                      name="descripcion"
+                                      value={values.descripcion}
+                                      className="form-control form-control-sm"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.descripcion &&
+                                      touched.descripcion ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="descripcion" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            )}
+                          </Col>
+                          <div className="row">
+                            <div className="col-sm-12">
+                              <Card>
+                                <CardBody>
+                                  <h5 className="">
+                                    {" "}
+                                    {t(
+                                      "app_grupoUsuarios_modal_editar_titulo_toast"
+                                    )}{" "}
+                                  </h5>
+                                  <hr />
+                                  <br />
+                                  {this.state.spinner !== false ? (
+                                    <center>
+                                      <br />
+                                      <Spinner
+                                        style={{
+                                          width: "3rem",
+                                          height: "3rem"
+                                        }}
+                                        type="grow"
+                                        color="primary"
                                       />
-                                      <div style={{ color: "#D54B4B" }}>
-                                        {errors.conglomerado &&
-                                        touched.conglomerado ? (
-                                          <i className="fa fa-exclamation-triangle" />
-                                        ) : null}
-                                        <ErrorMessage name="conglomerado" />
+                                    </center>
+                                  ) : (
+                                    <div className="row">
+                                      <div className="col-md-3">
+                                        <div className="form-group">
+                                          <label>
+                                            {" "}
+                                            {t(
+                                              "app_grupoUsuarios_modal_editar_conglomerado"
+                                            )}{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </label>
+                                          <SelectConglomerado
+                                            t={t}
+                                            token={this.props.authorization}
+                                            name={"conglomerado"}
+                                            onChange={e =>
+                                              setFieldValue(
+                                                "conglomerado",
+                                                e.target.value
+                                              )
+                                            }
+                                            onBlur={() =>
+                                              setFieldTouched(
+                                                "conglomerado",
+                                                true
+                                              )
+                                            }
+                                            value={values.conglomerado}
+                                            className={`form-control form-control-sm ${errors.conglomerado &&
+                                              touched.conglomerado &&
+                                              "is-invalid"}`}
+                                          />
+                                          <div style={{ color: "#D54B4B" }}>
+                                            {errors.conglomerado &&
+                                            touched.conglomerado ? (
+                                              <i className="fa fa-exclamation-triangle" />
+                                            ) : null}
+                                            <ErrorMessage name="conglomerado" />
+                                          </div>
+                                        </div>
                                       </div>
-                                    </div>
-                                  </div>
-                                  <div className="col-md-3">
-                                    <div className="form-group">
-                                      <label>
-                                        {" "}
-                                        {t(
-                                          "app_grupoUsuarios_modal_editar_empresa"
-                                        )}{" "}
-                                        <span className="text-danger">*</span>{" "}
-                                      </label>
-                                      <Field
-                                        authorization={this.props.authorization}
-                                        t={t}
-                                        name="empresa"
-                                        component={FieldCompany}
-                                        conglomerateId={
-                                          props.values.conglomerado
-                                        }
-                                        companyId={props.values.empresa}
-                                      ></Field>
-                                      <div style={{ color: "#D54B4B" }}>
-                                        {errors.empresa && touched.empresa ? (
-                                          <i className="fa fa-exclamation-triangle" />
-                                        ) : null}
-                                        <ErrorMessage name="empresa" />
+                                      <div className="col-md-3">
+                                        <div className="form-group">
+                                          <label>
+                                            {" "}
+                                            {t(
+                                              "app_grupoUsuarios_modal_editar_empresa"
+                                            )}{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </label>
+                                          <Field
+                                            authorization={
+                                              this.props.authorization
+                                            }
+                                            t={t}
+                                            name="empresa"
+                                            component={FieldCompany}
+                                            conglomerateId={
+                                              props.values.conglomerado
+                                            }
+                                            companyId={props.values.empresa}
+                                          ></Field>
+                                          <div style={{ color: "#D54B4B" }}>
+                                            {errors.empresa &&
+                                            touched.empresa ? (
+                                              <i className="fa fa-exclamation-triangle" />
+                                            ) : null}
+                                            <ErrorMessage name="empresa" />
+                                          </div>
+                                        </div>
                                       </div>
-                                    </div>
-                                  </div>
 
-                                  <div className="col-md-3">
-                                    <div className="form-group">
-                                      <label>
-                                        {" "}
-                                        {t(
-                                          "app_grupoUsuarios_modal_editar_sede"
-                                        )}{" "}
-                                        <span className="text-danger">*</span>{" "}
-                                      </label>
-                                      <Field
-                                        authorization={this.props.authorization}
-                                        t={t}
-                                        name="sede"
-                                        component={FieldHeadquarter}
-                                        companyId={props.values.empresa}
-                                        headquarterId={props.values.sede}
-                                        conglomerateId={
-                                          props.values.conglomerado
-                                        }
-                                      ></Field>
-                                      <div style={{ color: "#D54B4B" }}>
-                                        {errors.sede && touched.sede ? (
-                                          <i className="fa fa-exclamation-triangle" />
-                                        ) : null}
-                                        <ErrorMessage name="sede" />
+                                      <div className="col-md-3">
+                                        <div className="form-group">
+                                          <label>
+                                            {" "}
+                                            {t(
+                                              "app_grupoUsuarios_modal_editar_sede"
+                                            )}{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </label>
+                                          <Field
+                                            authorization={
+                                              this.props.authorization
+                                            }
+                                            t={t}
+                                            name="sede"
+                                            component={FieldHeadquarter}
+                                            companyId={props.values.empresa}
+                                            headquarterId={props.values.sede}
+                                            conglomerateId={
+                                              props.values.conglomerado
+                                            }
+                                          ></Field>
+                                          <div style={{ color: "#D54B4B" }}>
+                                            {errors.sede && touched.sede ? (
+                                              <i className="fa fa-exclamation-triangle" />
+                                            ) : null}
+                                            <ErrorMessage name="sede" />
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div className="col-md-3">
+                                        <div className="form-group">
+                                          <label>
+                                            {" "}
+                                            {t(
+                                              "app_grupoUsuarios_modal_editar_dependencia"
+                                            )}{" "}
+                                            <span className="text-danger">
+                                              *
+                                            </span>{" "}
+                                          </label>
+                                          <Field
+                                            authorization={
+                                              this.props.authorization
+                                            }
+                                            t={t}
+                                            name="dependencia"
+                                            component={FieldDependence}
+                                            headquarterId={props.values.sede}
+                                            dependenceId={
+                                              props.values.dependencia
+                                            }
+                                            conglomerateId={
+                                              props.values.conglomerado
+                                            }
+                                            companyId={props.values.empresa}
+                                          ></Field>
+                                          <div style={{ color: "#D54B4B" }}>
+                                            {errors.dependencia &&
+                                            touched.dependencia ? (
+                                              <i className="fa fa-exclamation-triangle" />
+                                            ) : null}
+                                            <ErrorMessage name="dependencia" />
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-
-                                  <div className="col-md-3">
-                                    <div className="form-group">
-                                      <label>
-                                        {" "}
-                                        {t(
-                                          "app_grupoUsuarios_modal_editar_dependencia"
-                                        )}{" "}
-                                        <span className="text-danger">*</span>{" "}
-                                      </label>
-                                      <Field
-                                        authorization={this.props.authorization}
-                                        t={t}
-                                        name="dependencia"
-                                        component={FieldDependence}
-                                        headquarterId={props.values.sede}
-                                        dependenceId={props.values.dependencia}
-                                        conglomerateId={
-                                          props.values.conglomerado
-                                        }
-                                        companyId={props.values.empresa}
-                                      ></Field>
-                                      <div style={{ color: "#D54B4B" }}>
-                                        {errors.dependencia &&
-                                        touched.dependencia ? (
-                                          <i className="fa fa-exclamation-triangle" />
-                                        ) : null}
-                                        <ErrorMessage name="dependencia" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </CardBody>
-                            </Card>
-                          </div>
-                        </div>
-                        <div className="row">
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_grupoUsuarios_modal_editar_usuarios_asignados"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <UsuariosAsignados
-                                token={this.props.authorization}
-                                dependencia={props.values.dependencia}
-                                name="usuarios"
-                                onChange={setFieldValue}
-                                onBlur={setFieldTouched}
-                                value={values.usuarios}
-                              />
-
-                              {touched ? (
-                                <div style={{ color: "red" }}>
-                                  {" "}
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.usuarios && touched.usuarios ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name={"usuarios"} />
-                                  </div>
-                                </div>
-                              ) : null}
+                                  )}
+                                </CardBody>
+                              </Card>
                             </div>
                           </div>
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_grupoUsuarios_modal_editar_estado"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <div className="text-justify">
-                                <Field
-                                  name="estado"
-                                  render={({ field, form }) => {
-                                    return (
-                                      <CustomInput
-                                        type="checkbox"
-                                        id="CheckBoxEditGrupos"
-                                        label={t(
-                                          "app_grupoUsuarios_modal_editar_descripcion_estado"
-                                        )}
-                                        {...field}
-                                        checked={field.value}
-                                        className={
-                                          errors.estado &&
-                                          touched.estado &&
-                                          "invalid-feedback"
-                                        }
-                                      />
-                                    );
-                                  }}
-                                />
-                                <ErrorMessage name="estado" />
+                          {this.state.spinner !== false ? (
+                            <center>
+                              <br />
+                              <Spinner
+                                style={{ width: "3rem", height: "3rem" }}
+                                type="grow"
+                                color="primary"
+                              />
+                            </center>
+                          ) : (
+                            <div className="row">
+                              <div className="col-sm-12">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    {t(
+                                      "app_grupoUsuarios_modal_editar_usuarios_asignados"
+                                    )}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <UsuariosAsignados
+                                    token={this.props.authorization}
+                                    dependencia={props.values.dependencia}
+                                    name="usuarios"
+                                    onChange={setFieldValue}
+                                    onBlur={setFieldTouched}
+                                    value={values.usuarios}
+                                  />
+
+                                  {touched ? (
+                                    <div style={{ color: "red" }}>
+                                      {" "}
+                                      <div style={{ color: "#D54B4B" }}>
+                                        {errors.usuarios && touched.usuarios ? (
+                                          <i className="fa fa-exclamation-triangle" />
+                                        ) : null}
+                                        <ErrorMessage name={"usuarios"} />
+                                      </div>
+                                    </div>
+                                  ) : null}
+                                </div>
+                              </div>
+                              <div className="col-sm-12">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    {t(
+                                      "app_grupoUsuarios_modal_editar_estado"
+                                    )}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <div className="text-justify">
+                                    <Field
+                                      name="estado"
+                                      render={({ field, form }) => {
+                                        return (
+                                          <CustomInput
+                                            type="checkbox"
+                                            id="CheckBoxEditGrupos"
+                                            label={t(
+                                              "app_grupoUsuarios_modal_editar_descripcion_estado"
+                                            )}
+                                            {...field}
+                                            checked={field.value}
+                                            className={
+                                              errors.estado &&
+                                              touched.estado &&
+                                              "invalid-feedback"
+                                            }
+                                          />
+                                        );
+                                      }}
+                                    />
+                                    <ErrorMessage name="estado" />
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
+                          )}
+                        </Row>
                       </div>
                     </form>
                   </ModalBody>

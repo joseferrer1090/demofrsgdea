@@ -343,6 +343,9 @@ export const USERS_BY_DEPENDENCE = `${config.IP}:${config.PORT}/api/sgdea/servic
 /* POST */
 export const USER_POST = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users`;
 
+/* POST */
+export const USER_UPLOAD_PHOTO = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users/photo/`;
+
 /* PUT */
 export const USER_PUT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/users`;
 

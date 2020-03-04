@@ -6,7 +6,8 @@ import {
   ModalBody,
   ModalHeader,
   Row,
-  Col
+  Col,
+  Spinner
 } from "reactstrap";
 import IMGPAIS from "./../../../assets/img/flag.svg";
 import moment from "moment";

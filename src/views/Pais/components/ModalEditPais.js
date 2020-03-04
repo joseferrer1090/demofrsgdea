@@ -8,7 +8,8 @@ import {
   Row,
   Col,
   CustomInput,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 
 import IMGCOUNTRY from "./../../../assets/img/flag.svg";
@@ -28,15 +29,22 @@ class ModalEditPais extends React.Component {
     t: this.props.t,
     country_status: 0,
     username: "",
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinner: true
   };
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      idPais: id
+      idPais: id,
+      spinner: true
     });
     this.getCountryByID(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false
+      });
+    }, 1500);
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -226,90 +234,102 @@ class ModalEditPais extends React.Component {
                           </h5>{" "}
                         </div>
                         <form className="form">
-                          <div className="row">
-                            <div className="col-md-6">
-                              <label>
-                                {" "}
-                                {t("app_pais_modal_actualizar_codigo")}{" "}
-                                <span className="text-danger">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                name={"country_code"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.country_code}
-                                className={`form-control form-control-sm ${errors.country_code &&
-                                  touched.country_code &&
-                                  "is-invalid"}`}
+                          {this.state.spinner !== false ? (
+                            <center>
+                              <br />
+                              <Spinner
+                                style={{ width: "3rem", height: "3rem" }}
+                                type="grow"
+                                color="primary"
                               />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.country_code && touched.country_code ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="country_code" />
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
+                            </center>
+                          ) : (
+                            <div className="row">
+                              <div className="col-md-6">
                                 <label>
                                   {" "}
-                                  {t("app_pais_modal_actualizar_nombre")}{" "}
-                                  <span className="text-danger">*</span>{" "}
+                                  {t("app_pais_modal_actualizar_codigo")}{" "}
+                                  <span className="text-danger">*</span>
                                 </label>
                                 <input
                                   type="text"
-                                  name="country_name"
+                                  name={"country_code"}
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.country_name}
-                                  className={`form-control form-control-sm ${errors.country_name &&
-                                    touched.country_name &&
+                                  value={values.country_code}
+                                  className={`form-control form-control-sm ${errors.country_code &&
+                                    touched.country_code &&
                                     "is-invalid"}`}
-                                />{" "}
+                                />
                                 <div style={{ color: "#D54B4B" }}>
-                                  {errors.country_name &&
-                                  touched.country_name ? (
+                                  {errors.country_code &&
+                                  touched.country_code ? (
                                     <i className="fa fa-exclamation-triangle" />
                                   ) : null}
-                                  <ErrorMessage name="country_name" />
+                                  <ErrorMessage name="country_code" />
+                                </div>
+                              </div>
+                              <div className="col-md-6">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    {t("app_pais_modal_actualizar_nombre")}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <input
+                                    type="text"
+                                    name="country_name"
+                                    onChange={handleChange}
+                                    onBlur={handleBlur}
+                                    value={values.country_name}
+                                    className={`form-control form-control-sm ${errors.country_name &&
+                                      touched.country_name &&
+                                      "is-invalid"}`}
+                                  />{" "}
+                                  <div style={{ color: "#D54B4B" }}>
+                                    {errors.country_name &&
+                                    touched.country_name ? (
+                                      <i className="fa fa-exclamation-triangle" />
+                                    ) : null}
+                                    <ErrorMessage name="country_name" />
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="col-md-12">
+                                <div className="form-group">
+                                  <label>
+                                    {" "}
+                                    {t("app_pais_modal_actualizar_estado")}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <div className="text-justify">
+                                    <Field
+                                      name="country_status"
+                                      render={({ field, form }) => {
+                                        return (
+                                          <CustomInput
+                                            type="checkbox"
+                                            id="CheckboxEditPais"
+                                            label={t(
+                                              "app_pais_modal_actualizar_estado_descripcion"
+                                            )}
+                                            {...field}
+                                            checked={field.value}
+                                            className={
+                                              errors.country_status &&
+                                              touched.country_status &&
+                                              "invalid-feedback"
+                                            }
+                                          />
+                                        );
+                                      }}
+                                    />
+                                    <ErrorMessage name="country_status" />
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {t("app_pais_modal_actualizar_estado")}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <div className="text-justify">
-                                  <Field
-                                    name="country_status"
-                                    render={({ field, form }) => {
-                                      return (
-                                        <CustomInput
-                                          type="checkbox"
-                                          id="CheckboxEditPais"
-                                          label={t(
-                                            "app_pais_modal_actualizar_estado_descripcion"
-                                          )}
-                                          {...field}
-                                          checked={field.value}
-                                          className={
-                                            errors.country_status &&
-                                            touched.country_status &&
-                                            "invalid-feedback"
-                                          }
-                                        />
-                                      );
-                                    }}
-                                  />
-                                  <ErrorMessage name="country_status" />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          )}
                         </form>
                       </Col>
                     </Row>

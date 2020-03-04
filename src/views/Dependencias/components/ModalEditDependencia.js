@@ -6,7 +6,8 @@ import {
   ModalBody,
   ModalFooter,
   CustomInput,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 import IMGDEPENDENCIA from "./../../../assets/img/settings-work-tool.svg";
 import { Formik, ErrorMessage, Field } from "formik";
@@ -37,7 +38,8 @@ class ModalEditDependencia extends React.Component {
     alertError400: false,
     t: this.props.t,
     status: 0,
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinner: true
   };
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
@@ -58,9 +60,15 @@ class ModalEditDependencia extends React.Component {
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true
     });
     this.getDataDependence(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false
+      });
+    }, 1500);
   };
 
   getDataDependence = id => {
@@ -254,236 +262,253 @@ class ModalEditDependencia extends React.Component {
                               )}{" "}
                             </h5>{" "}
                           </div>
-                          <div className="row">
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {this.state.t(
-                                    "app_dependencia_form_actualizar_conglomerado"
-                                  )}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <SelectConglomerado
-                                  authorization={this.state.auth}
-                                  t={this.state.t}
-                                  name={"conglomerate"}
-                                  onChange={e =>
-                                    setFieldValue(
-                                      "conglomerate",
-                                      e.target.value
-                                    )
-                                  }
-                                  onBlur={() =>
-                                    setFieldTouched("conglomerate", true)
-                                  }
-                                  value={values.conglomerate}
-                                  className={`form-control form-control-sm ${errors.conglomerate &&
-                                    touched.conglomerate &&
-                                    "is-invalid"}`}
-                                />
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.conglomerate &&
-                                  touched.conglomerate ? (
-                                    <i className="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name="conglomerate" />
+                          {this.state.spinner !== false ? (
+                            <center>
+                              <br />
+                              <Spinner
+                                style={{ width: "3rem", height: "3rem" }}
+                                type="grow"
+                                color="primary"
+                              />
+                            </center>
+                          ) : (
+                            <div>
+                              <div className="row">
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {this.state.t(
+                                        "app_dependencia_form_actualizar_conglomerado"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <SelectConglomerado
+                                      authorization={this.state.auth}
+                                      t={this.state.t}
+                                      name={"conglomerate"}
+                                      onChange={e =>
+                                        setFieldValue(
+                                          "conglomerate",
+                                          e.target.value
+                                        )
+                                      }
+                                      onBlur={() =>
+                                        setFieldTouched("conglomerate", true)
+                                      }
+                                      value={values.conglomerate}
+                                      className={`form-control form-control-sm ${errors.conglomerate &&
+                                        touched.conglomerate &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.conglomerate &&
+                                      touched.conglomerate ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="conglomerate" />
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {t(
-                                    "app_dependencia_form_actualizar_empresa"
-                                  )}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <Field
-                                  authorization={this.state.auth}
-                                  t={this.state.t}
-                                  name="company"
-                                  component={FieldCompany}
-                                  conglomerateId={props.values.conglomerate}
-                                  companyId={props.values.company}
-                                ></Field>
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_dependencia_form_actualizar_empresa"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <Field
+                                      authorization={this.state.auth}
+                                      t={this.state.t}
+                                      name="company"
+                                      component={FieldCompany}
+                                      conglomerateId={props.values.conglomerate}
+                                      companyId={props.values.company}
+                                    ></Field>
 
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.company && touched.company ? (
-                                    <i class="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name="company" />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.company && touched.company ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="company" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_dependencia_form_actualizar_sede"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <Field
+                                      authorization={this.state.auth}
+                                      t={this.state.t}
+                                      name="headquarter"
+                                      component={FieldHeadquarter}
+                                      companyId={props.values.company}
+                                      headquarterId={props.values.headquarter}
+                                      conglomerateId={props.values.conglomerate}
+                                    ></Field>
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.headquarter &&
+                                      touched.headquarter ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="headquarter" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_dependencia_form_actualizar_codigo"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <input
+                                      name={"code"}
+                                      type="text"
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.code}
+                                      className="form-control form-control-sm"
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.code && touched.code ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="code" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="row">
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_dependencia_form_actualizar_nombre"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name={"name"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.name}
+                                      className={`form-control form-control-sm ${errors.name &&
+                                        touched.name &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.name && touched.name ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="name" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_dependencia_form_actualizar_cargo_responsable"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <SelectCharges
+                                      authorization={this.state.auth}
+                                      t={this.state.t}
+                                      name={"charge"}
+                                      onChange={e =>
+                                        setFieldValue("charge", e.target.value)
+                                      }
+                                      onBlur={() => {
+                                        setFieldTouched("charge", true);
+                                      }}
+                                      value={values.charge}
+                                      className={`form-control form-control-sm ${errors.charge &&
+                                        touched.charge &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.charge && touched.charge ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="charge" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_dependencia_form_actualizar_descripcion"
+                                      )}{" "}
+                                    </label>
+                                    <textarea
+                                      name={"description"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.description}
+                                      className="form-control"
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.description &&
+                                      touched.description ? (
+                                        <i class="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="description" />
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12">
+                                  <div className="form-group">
+                                    <label>
+                                      {t(
+                                        "app_dependencia_form_actualizar_estado"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>
+                                    </label>
+                                    <div className="text-justify">
+                                      <Field
+                                        name="status"
+                                        render={({ field, form }) => {
+                                          return (
+                                            <CustomInput
+                                              type="checkbox"
+                                              id="dependenciaModalEdit"
+                                              label={t(
+                                                "app_dependencia_form_actualizar_estado_descripcion"
+                                              )}
+                                              {...field}
+                                              checked={field.value}
+                                              className={
+                                                errors.status &&
+                                                touched.status &&
+                                                "invalid-feedback"
+                                              }
+                                            />
+                                          );
+                                        }}
+                                      />
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {t(
-                                    "app_dependencia_form_actualizar_sede"
-                                  )}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <Field
-                                  authorization={this.state.auth}
-                                  t={this.state.t}
-                                  name="headquarter"
-                                  component={FieldHeadquarter}
-                                  companyId={props.values.company}
-                                  headquarterId={props.values.headquarter}
-                                  conglomerateId={props.values.conglomerate}
-                                ></Field>
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.headquarter && touched.headquarter ? (
-                                    <i class="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name="headquarter" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {t(
-                                    "app_dependencia_form_actualizar_codigo"
-                                  )}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <input
-                                  name={"code"}
-                                  type="text"
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.code}
-                                  className="form-control form-control-sm"
-                                />
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.code && touched.code ? (
-                                    <i class="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name="code" />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="row">
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {t(
-                                    "app_dependencia_form_actualizar_nombre"
-                                  )}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <input
-                                  type="text"
-                                  name={"name"}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.name}
-                                  className={`form-control form-control-sm ${errors.name &&
-                                    touched.name &&
-                                    "is-invalid"}`}
-                                />
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.name && touched.name ? (
-                                    <i class="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name="name" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-6">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {t(
-                                    "app_dependencia_form_actualizar_cargo_responsable"
-                                  )}{" "}
-                                  <span className="text-danger">*</span>{" "}
-                                </label>
-                                <SelectCharges
-                                  authorization={this.state.auth}
-                                  t={this.state.t}
-                                  name={"charge"}
-                                  onChange={e =>
-                                    setFieldValue("charge", e.target.value)
-                                  }
-                                  onBlur={() => {
-                                    setFieldTouched("charge", true);
-                                  }}
-                                  value={values.charge}
-                                  className={`form-control form-control-sm ${errors.charge &&
-                                    touched.charge &&
-                                    "is-invalid"}`}
-                                />
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.charge && touched.charge ? (
-                                    <i class="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name="charge" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>
-                                  {" "}
-                                  {t(
-                                    "app_dependencia_form_actualizar_descripcion"
-                                  )}{" "}
-                                </label>
-                                <textarea
-                                  name={"description"}
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.description}
-                                  className="form-control"
-                                />
-                                <div style={{ color: "#D54B4B" }}>
-                                  {errors.description && touched.description ? (
-                                    <i class="fa fa-exclamation-triangle" />
-                                  ) : null}
-                                  <ErrorMessage name="description" />
-                                </div>
-                              </div>
-                            </div>
-                            <div className="col-md-12">
-                              <div className="form-group">
-                                <label>
-                                  {t("app_dependencia_form_actualizar_estado")}{" "}
-                                  <span className="text-danger">*</span>
-                                </label>
-                                <div className="text-justify">
-                                  <Field
-                                    name="status"
-                                    render={({ field, form }) => {
-                                      return (
-                                        <CustomInput
-                                          type="checkbox"
-                                          id="dependenciaModalEdit"
-                                          label={t(
-                                            "app_dependencia_form_actualizar_estado_descripcion"
-                                          )}
-                                          {...field}
-                                          checked={field.value}
-                                          className={
-                                            errors.status &&
-                                            touched.status &&
-                                            "invalid-feedback"
-                                          }
-                                        />
-                                      );
-                                    }}
-                                  />
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                          )}
                         </div>
                       </div>
                     </form>

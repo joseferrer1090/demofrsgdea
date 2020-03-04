@@ -8,7 +8,8 @@ import {
   Row,
   Col,
   CustomInput,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 import IMGROLES from "./../../../assets/img/shield.svg";
 import { Formik, ErrorMessage, Field } from "formik";
@@ -27,7 +28,8 @@ class ModalEditRoles extends React.Component {
       alertError500: false,
       alertError400: false,
       t: this.props.t,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      spinner: true
     };
   }
 
@@ -51,10 +53,16 @@ class ModalEditRoles extends React.Component {
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true
     });
 
     this.getRoleByID(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false
+      });
+    }, 1500);
   };
 
   getRoleByID = id => {
@@ -223,123 +231,134 @@ class ModalEditRoles extends React.Component {
                             {t("app_roles_modal_editar_titulo_2")}{" "}
                           </h5>{" "}
                         </div>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t("app_roles_modal_editar_codigo")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"codigo"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.codigo}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.codigo &&
-                                      touched.codigo &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.codigo && touched.codigo ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name={"codigo"} />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t("app_roles_modal_editar_nombre")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                                <dd>
-                                  {" "}
-                                  <input
-                                    name={"nombre"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.nombre}
-                                    type="text"
-                                    className={`form-control form-control-sm ${errors.nombre &&
-                                      touched.nombre &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.nombre && touched.nombre ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name={"nombre"} />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <dl className="param">
-                                {t("app_roles_modal_editar_descripcion")}
-                                <dd>
-                                  {" "}
-                                  <textarea
-                                    name={"descripcion"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.descripcion}
-                                    className={`form-control form-control-sm ${errors.descripcion &&
-                                      touched.descripcion &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.descripcion &&
-                                    touched.descripcion ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name={"descripcion"} />
-                                  </div>
-                                </dd>
-                              </dl>
-                            </div>
-                          </div>
-                          <div className="col-md-12">
-                            <div className="form-group">
-                              <dl className="param">
-                                <label>
-                                  {" "}
-                                  {t("app_roles_modal_editar_estado")}{" "}
+                        {this.state.spinner !== false ? (
+                          <center>
+                            <br />
+                            <Spinner
+                              style={{ width: "3rem", height: "3rem" }}
+                              type="grow"
+                              color="primary"
+                            />
+                          </center>
+                        ) : (
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t("app_roles_modal_editar_codigo")}{" "}
                                   <span className="text-danger">*</span>{" "}
-                                </label>
-                                <div className="text-justify">
-                                  <Field
-                                    name="estado"
-                                    render={({ field, form }) => {
-                                      return (
-                                        <CustomInput
-                                          type="checkbox"
-                                          id="CheckBoxEditRoles"
-                                          label={t(
-                                            "app_roles_modal_editar_estado_descripcion"
-                                          )}
-                                          {...field}
-                                          checked={field.value}
-                                          className={
-                                            errors.estado &&
-                                            touched.estado &&
-                                            "invalid-feedback"
-                                          }
-                                        />
-                                      );
-                                    }}
-                                  />
-                                  <ErrorMessage name="estado" />
-                                </div>
-                              </dl>
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"codigo"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.codigo}
+                                      type="text"
+                                      className={`form-control form-control-sm ${errors.codigo &&
+                                        touched.codigo &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.codigo && touched.codigo ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name={"codigo"} />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t("app_roles_modal_editar_nombre")}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                  <dd>
+                                    {" "}
+                                    <input
+                                      name={"nombre"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.nombre}
+                                      type="text"
+                                      className={`form-control form-control-sm ${errors.nombre &&
+                                        touched.nombre &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.nombre && touched.nombre ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name={"nombre"} />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <dl className="param">
+                                  {t("app_roles_modal_editar_descripcion")}
+                                  <dd>
+                                    {" "}
+                                    <textarea
+                                      name={"descripcion"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.descripcion}
+                                      className={`form-control form-control-sm ${errors.descripcion &&
+                                        touched.descripcion &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.descripcion &&
+                                      touched.descripcion ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name={"descripcion"} />
+                                    </div>
+                                  </dd>
+                                </dl>
+                              </div>
+                            </div>
+                            <div className="col-md-12">
+                              <div className="form-group">
+                                <dl className="param">
+                                  <label>
+                                    {" "}
+                                    {t("app_roles_modal_editar_estado")}{" "}
+                                    <span className="text-danger">*</span>{" "}
+                                  </label>
+                                  <div className="text-justify">
+                                    <Field
+                                      name="estado"
+                                      render={({ field, form }) => {
+                                        return (
+                                          <CustomInput
+                                            type="checkbox"
+                                            id="CheckBoxEditRoles"
+                                            label={t(
+                                              "app_roles_modal_editar_estado_descripcion"
+                                            )}
+                                            {...field}
+                                            checked={field.value}
+                                            className={
+                                              errors.estado &&
+                                              touched.estado &&
+                                              "invalid-feedback"
+                                            }
+                                          />
+                                        );
+                                      }}
+                                    />
+                                    <ErrorMessage name="estado" />
+                                  </div>
+                                </dl>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )}
                       </Col>
                     </Row>
                   </ModalBody>

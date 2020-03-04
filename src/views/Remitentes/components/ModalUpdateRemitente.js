@@ -14,7 +14,8 @@ import {
   NavItem,
   NavLink,
   CustomInput,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 import classnames from "classnames";
 import IMGPROFILE from "./../../../assets/img/profile.svg";
@@ -43,7 +44,8 @@ class ModalUpdateRemitente extends React.Component {
     t: this.props.t,
     tercero_estado: 0,
     username: "",
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinner: true
   };
 
   static getDerivedStateFromProps(props, state) {
@@ -65,9 +67,15 @@ class ModalUpdateRemitente extends React.Component {
   toggle = id => {
     this.setState({
       modal: !this.state.modal,
-      id: id
+      id: id,
+      spinner: true
     });
     this.getTerceroByID(id);
+    setTimeout(() => {
+      this.setState({
+        spinner: false
+      });
+    }, 1500);
   };
   getTerceroByID = id => {
     const auth = this.state.auth;
@@ -315,174 +323,192 @@ class ModalUpdateRemitente extends React.Component {
                             {t("app_tercero_modal_actualizar_titulo_2")}{" "}
                           </h5>{" "}
                         </div>
-                        <div className="row">
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_tercero_modal_actualizar_tipoTercero"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-
-                              <SelectTipoTercero
-                                authorization={this.state.auth}
-                                t={this.state.t}
-                                name={"tercero_tipoTercero"}
-                                onChange={e =>
-                                  setFieldValue(
-                                    "tercero_tipoTercero",
-                                    e.target.value
-                                  )
-                                }
-                                onBlur={() => {
-                                  setFieldTouched("tercero_tipoTercero", true);
-                                }}
-                                value={values.tercero_tipoTercero}
-                                className={`form-control form-control-sm ${errors.tercero_tipoTercero &&
-                                  touched.tercero_tipoTercero &&
-                                  "is-invalid"}`}
-                              />
-
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.tercero_tipoTercero &&
-                                touched.tercero_tipoTercero ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="tercero_tipoTercero" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_tercero_modal_actualizar_ElementoComunicacion"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <select
-                                name={"tercero_elementoComunicacion"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.tercero_elementoComunicacion}
-                                className={`form-control form-control-sm ${errors.tercero_elementoComunicacion &&
-                                  touched.tercero_elementoComunicacion &&
-                                  "is-invalid"}`}
-                              >
-                                <option disabled value={""}>
-                                  --{" "}
+                        {this.state.spinner !== false ? (
+                          <center>
+                            <br />
+                            <Spinner
+                              style={{ width: "3rem", height: "3rem" }}
+                              type="grow"
+                              color="primary"
+                            />
+                          </center>
+                        ) : (
+                          <div className="row">
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
                                   {t(
-                                    "app_tercero_modal_actualizar_select_ElementoComunicacion"
+                                    "app_tercero_modal_actualizar_tipoTercero"
                                   )}{" "}
-                                  --
-                                </option>
-                                <option value={1}>
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+
+                                <SelectTipoTercero
+                                  authorization={this.state.auth}
+                                  t={this.state.t}
+                                  name={"tercero_tipoTercero"}
+                                  onChange={e =>
+                                    setFieldValue(
+                                      "tercero_tipoTercero",
+                                      e.target.value
+                                    )
+                                  }
+                                  onBlur={() => {
+                                    setFieldTouched(
+                                      "tercero_tipoTercero",
+                                      true
+                                    );
+                                  }}
+                                  value={values.tercero_tipoTercero}
+                                  className={`form-control form-control-sm ${errors.tercero_tipoTercero &&
+                                    touched.tercero_tipoTercero &&
+                                    "is-invalid"}`}
+                                />
+
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.tercero_tipoTercero &&
+                                  touched.tercero_tipoTercero ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="tercero_tipoTercero" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
                                   {t(
-                                    "app_tercero_form_registrar_option_remitente"
-                                  )}
-                                </option>
-                                <option value={2}>
-                                  {t(
-                                    "app_tercero_form_registrar_option_destinatario"
+                                    "app_tercero_modal_actualizar_ElementoComunicacion"
                                   )}{" "}
-                                </option>
-                                <option value={3}>
-                                  {t("app_tercero_form_registrar_option_mixto")}{" "}
-                                </option>
-                              </select>
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.tercero_elementoComunicacion &&
-                                touched.tercero_elementoComunicacion ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="tercero_elementoComunicacion" />
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <select
+                                  name={"tercero_elementoComunicacion"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.tercero_elementoComunicacion}
+                                  className={`form-control form-control-sm ${errors.tercero_elementoComunicacion &&
+                                    touched.tercero_elementoComunicacion &&
+                                    "is-invalid"}`}
+                                >
+                                  <option disabled value={""}>
+                                    --{" "}
+                                    {t(
+                                      "app_tercero_modal_actualizar_select_ElementoComunicacion"
+                                    )}{" "}
+                                    --
+                                  </option>
+                                  <option value={1}>
+                                    {t(
+                                      "app_tercero_form_registrar_option_remitente"
+                                    )}
+                                  </option>
+                                  <option value={2}>
+                                    {t(
+                                      "app_tercero_form_registrar_option_destinatario"
+                                    )}{" "}
+                                  </option>
+                                  <option value={3}>
+                                    {t(
+                                      "app_tercero_form_registrar_option_mixto"
+                                    )}{" "}
+                                  </option>
+                                </select>
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.tercero_elementoComunicacion &&
+                                  touched.tercero_elementoComunicacion ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="tercero_elementoComunicacion" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group ">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_tercero_modal_actualizar_identificacion"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  type="text"
+                                  name={"tercero_identificacion"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.tercero_identificacion}
+                                  className={`form-control form-control-sm ${errors.tercero_identificacion &&
+                                    touched.tercero_identificacion &&
+                                    "is-invalid"}`}
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.tercero_identificacion &&
+                                  touched.tercero_identificacion ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="tercero_identificacion" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "app_tercero_modal_actualizar_nombre"
+                                  )}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  type="text"
+                                  name={"tercero_nombre"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.tercero_nombre}
+                                  className={`form-control form-control-sm ${errors.tercero_nombre &&
+                                    touched.tercero_nombre &&
+                                    "is-invalid"}`}
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.tercero_nombre &&
+                                  touched.tercero_nombre ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="tercero_nombre" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="col-md-6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t("app_tercero_modal_actualizar_email")}{" "}
+                                  <span className="text-danger">*</span>{" "}
+                                </label>
+                                <input
+                                  type="text"
+                                  name={"tercero_email"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.tercero_email}
+                                  className={`form-control form-control-sm ${errors.tercero_email &&
+                                    touched.tercero_email &&
+                                    "is-invalid"}`}
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.tercero_email &&
+                                  touched.tercero_email ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="tercero_email" />
+                                </div>
                               </div>
                             </div>
                           </div>
-                          <div className="col-md-6">
-                            <div className="form-group ">
-                              <label>
-                                {" "}
-                                {t(
-                                  "app_tercero_modal_actualizar_identificacion"
-                                )}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                type="text"
-                                name={"tercero_identificacion"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.tercero_identificacion}
-                                className={`form-control form-control-sm ${errors.tercero_identificacion &&
-                                  touched.tercero_identificacion &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.tercero_identificacion &&
-                                touched.tercero_identificacion ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="tercero_identificacion" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t("app_tercero_modal_actualizar_nombre")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                type="text"
-                                name={"tercero_nombre"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.tercero_nombre}
-                                className={`form-control form-control-sm ${errors.tercero_nombre &&
-                                  touched.tercero_nombre &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.tercero_nombre &&
-                                touched.tercero_nombre ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="tercero_nombre" />
-                              </div>
-                            </div>
-                          </div>
-                          <div className="col-md-6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t("app_tercero_modal_actualizar_email")}{" "}
-                                <span className="text-danger">*</span>{" "}
-                              </label>
-                              <input
-                                type="text"
-                                name={"tercero_email"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.tercero_email}
-                                className={`form-control form-control-sm ${errors.tercero_email &&
-                                  touched.tercero_email &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.tercero_email &&
-                                touched.tercero_email ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="tercero_email" />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
+                        )}
                       </Col>
                       <Col sm="12">
                         <Nav tabs>
@@ -501,273 +527,284 @@ class ModalUpdateRemitente extends React.Component {
                         </Nav>
                         <TabContent activeTab={this.state.activeTab}>
                           <TabPane tabId="1">
-                            <Row>
-                              <Col sm="6">
-                                <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    {t(
-                                      "app_tercero_modal_actualizar_telFijo"
-                                    )}{" "}
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name={"tercero_telFijo"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.tercero_telFijo}
-                                    className={`form-control form-control-sm ${errors.tercero_telFijo &&
-                                      touched.tercero_telFijo &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.tercero_telFijo &&
-                                    touched.tercero_telFijo ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="tercero_telFijo" />
-                                  </div>
-                                </div>
-                              </Col>
-                              <Col sm="6">
-                                <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    {t(
-                                      "app_tercero_modal_actualizar_telCelular"
-                                    )}{" "}
-                                    <span className="text-danger">*</span>{" "}
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name={"tercero_telCel"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.tercero_telCel}
-                                    className={`form-control form-control-sm ${errors.tercero_telCel &&
-                                      touched.tercero_telCel &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.tercero_telCel &&
-                                    touched.tercero_telCel ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="tercero_telCel" />
-                                  </div>
-                                </div>
-                              </Col>
-                              <Col sm="12">
-                                <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    {t(
-                                      "app_tercero_modal_actualizar_direccion"
-                                    )}{" "}
-                                    <span className="text-danger">*</span>{" "}
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name={"tercero_direccion"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.tercero_direccion}
-                                    className={`form-control form-control-sm ${errors.tercero_direccion &&
-                                      touched.tercero_direccion &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.tercero_direccion &&
-                                    touched.tercero_direccion ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="tercero_direccion" />
-                                  </div>
-                                </div>
-                              </Col>
-                              <Col sm="4">
-                                <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    {t(
-                                      "app_tercero_modal_actualizar_pais"
-                                    )}{" "}
-                                    <span className="text-danger">*</span>{" "}
-                                  </label>
-                                  <SelectCountry
-                                    authorization={this.state.auth}
-                                    t={this.state.t}
-                                    name={"tercero_pais"}
-                                    onChange={e =>
-                                      setFieldValue(
-                                        "tercero_pais",
-                                        e.target.value
-                                      )
-                                    }
-                                    onBlur={() =>
-                                      setFieldTouched("tercero_pais", true)
-                                    }
-                                    value={values.tercero_pais}
-                                    className={`form-control form-control-sm ${errors.tercero_pais &&
-                                      touched.tercero_pais &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.tercero_pais &&
-                                    touched.tercero_pais ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="tercero_pais" />
-                                  </div>
-                                </div>
-                              </Col>
-                              <Col sm="4">
-                                <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    {t(
-                                      "app_tercero_modal_actualizar_departamento"
-                                    )}{" "}
-                                    <span className="text-danger">*</span>{" "}
-                                  </label>
-                                  <Field
-                                    authorization={this.state.auth}
-                                    t={this.state.t}
-                                    name="tercero_departamento"
-                                    component={FieldDepartment}
-                                    countryId={props.values.tercero_pais}
-                                    departmentId={
-                                      props.values.tercero_departamento
-                                    }
-                                  ></Field>
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.tercero_departamento &&
-                                    touched.tercero_departamento ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="tercero_departamento" />
-                                  </div>
-                                </div>
-                              </Col>
-                              <Col sm="4">
-                                <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    {t(
-                                      "app_tercero_modal_actualizar_ciudad"
-                                    )}{" "}
-                                    <span className="text-danger">*</span>{" "}
-                                  </label>
-                                  <Field
-                                    authorization={this.state.auth}
-                                    t={this.state.t}
-                                    name="tercero_ciudad"
-                                    component={FieldCity}
-                                    departmentId={
-                                      props.values.tercero_departamento
-                                    }
-                                    cityId={props.values.tercero_ciudad}
-                                    countryId={props.values.tercero_pais}
-                                  ></Field>
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.tercero_ciudad &&
-                                    touched.tercero_ciudad ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="tercero_ciudad" />
-                                  </div>
-                                </div>
-                              </Col>
-                              <Col sm="6">
-                                <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    {t(
-                                      "app_tercero_modal_actualizar_referencia"
-                                    )}{" "}
-                                  </label>
-                                  <textarea
-                                    type="text"
-                                    name={"tercero_referencia"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.tercero_referencia}
-                                    className={`form-control form-control-sm ${errors.tercero_referencia &&
-                                      touched.tercero_referencia &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.tercero_referencia &&
-                                    touched.tercero_referencia ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="tercero_referencia" />
-                                  </div>
-                                </div>
-                              </Col>
-                              <Col sm="6">
-                                <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    {t(
-                                      "app_tercero_modal_actualizar_observacion"
-                                    )}{" "}
-                                  </label>
-                                  <textarea
-                                    type="text"
-                                    name={"tercero_observacion"}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    value={values.tercero_observacion}
-                                    className={`form-control form-control-sm ${errors.tercero_observacion &&
-                                      touched.tercero_observacion &&
-                                      "is-invalid"}`}
-                                  />
-                                  <div style={{ color: "#D54B4B" }}>
-                                    {errors.tercero_observacion &&
-                                    touched.tercero_observacion ? (
-                                      <i className="fa fa-exclamation-triangle" />
-                                    ) : null}
-                                    <ErrorMessage name="tercero_observacion" />
-                                  </div>
-                                </div>
-                              </Col>
-                              <Col sm="12">
-                                <div className="form-group">
-                                  <label>
-                                    {" "}
-                                    {t(
-                                      "app_tercero_modal_actualizar_estado"
-                                    )}{" "}
-                                    <span className="text-danger">*</span>{" "}
-                                  </label>
-                                  <div className="text-justify">
-                                    <Field
-                                      name="tercero_estado"
-                                      render={({ field, form }) => {
-                                        return (
-                                          <CustomInput
-                                            type="checkbox"
-                                            id="CheckboxEditTerceros"
-                                            label={t(
-                                              "app_tercero_modal_actualizar_estado_descripcion"
-                                            )}
-                                            {...field}
-                                            checked={field.value}
-                                            className={
-                                              errors.tercero_estado &&
-                                              touched.tercero_estado &&
-                                              "invalid-feedback"
-                                            }
-                                          />
-                                        );
-                                      }}
+                            {this.state.spinner !== false ? (
+                              <center>
+                                <br />
+                                <Spinner
+                                  style={{ width: "3rem", height: "3rem" }}
+                                  type="grow"
+                                  color="primary"
+                                />
+                              </center>
+                            ) : (
+                              <Row>
+                                <Col sm="6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_tercero_modal_actualizar_telFijo"
+                                      )}{" "}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name={"tercero_telFijo"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.tercero_telFijo}
+                                      className={`form-control form-control-sm ${errors.tercero_telFijo &&
+                                        touched.tercero_telFijo &&
+                                        "is-invalid"}`}
                                     />
-                                    <ErrorMessage name="tercero_estado" />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.tercero_telFijo &&
+                                      touched.tercero_telFijo ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="tercero_telFijo" />
+                                    </div>
                                   </div>
-                                </div>
-                              </Col>
-                            </Row>
+                                </Col>
+                                <Col sm="6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_tercero_modal_actualizar_telCelular"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name={"tercero_telCel"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.tercero_telCel}
+                                      className={`form-control form-control-sm ${errors.tercero_telCel &&
+                                        touched.tercero_telCel &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.tercero_telCel &&
+                                      touched.tercero_telCel ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="tercero_telCel" />
+                                    </div>
+                                  </div>
+                                </Col>
+                                <Col sm="12">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_tercero_modal_actualizar_direccion"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name={"tercero_direccion"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.tercero_direccion}
+                                      className={`form-control form-control-sm ${errors.tercero_direccion &&
+                                        touched.tercero_direccion &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.tercero_direccion &&
+                                      touched.tercero_direccion ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="tercero_direccion" />
+                                    </div>
+                                  </div>
+                                </Col>
+                                <Col sm="4">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_tercero_modal_actualizar_pais"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <SelectCountry
+                                      authorization={this.state.auth}
+                                      t={this.state.t}
+                                      name={"tercero_pais"}
+                                      onChange={e =>
+                                        setFieldValue(
+                                          "tercero_pais",
+                                          e.target.value
+                                        )
+                                      }
+                                      onBlur={() =>
+                                        setFieldTouched("tercero_pais", true)
+                                      }
+                                      value={values.tercero_pais}
+                                      className={`form-control form-control-sm ${errors.tercero_pais &&
+                                        touched.tercero_pais &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.tercero_pais &&
+                                      touched.tercero_pais ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="tercero_pais" />
+                                    </div>
+                                  </div>
+                                </Col>
+                                <Col sm="4">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_tercero_modal_actualizar_departamento"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <Field
+                                      authorization={this.state.auth}
+                                      t={this.state.t}
+                                      name="tercero_departamento"
+                                      component={FieldDepartment}
+                                      countryId={props.values.tercero_pais}
+                                      departmentId={
+                                        props.values.tercero_departamento
+                                      }
+                                    ></Field>
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.tercero_departamento &&
+                                      touched.tercero_departamento ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="tercero_departamento" />
+                                    </div>
+                                  </div>
+                                </Col>
+                                <Col sm="4">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_tercero_modal_actualizar_ciudad"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <Field
+                                      authorization={this.state.auth}
+                                      t={this.state.t}
+                                      name="tercero_ciudad"
+                                      component={FieldCity}
+                                      departmentId={
+                                        props.values.tercero_departamento
+                                      }
+                                      cityId={props.values.tercero_ciudad}
+                                      countryId={props.values.tercero_pais}
+                                    ></Field>
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.tercero_ciudad &&
+                                      touched.tercero_ciudad ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="tercero_ciudad" />
+                                    </div>
+                                  </div>
+                                </Col>
+                                <Col sm="6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_tercero_modal_actualizar_referencia"
+                                      )}{" "}
+                                    </label>
+                                    <textarea
+                                      type="text"
+                                      name={"tercero_referencia"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.tercero_referencia}
+                                      className={`form-control form-control-sm ${errors.tercero_referencia &&
+                                        touched.tercero_referencia &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.tercero_referencia &&
+                                      touched.tercero_referencia ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="tercero_referencia" />
+                                    </div>
+                                  </div>
+                                </Col>
+                                <Col sm="6">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_tercero_modal_actualizar_observacion"
+                                      )}{" "}
+                                    </label>
+                                    <textarea
+                                      type="text"
+                                      name={"tercero_observacion"}
+                                      onChange={handleChange}
+                                      onBlur={handleBlur}
+                                      value={values.tercero_observacion}
+                                      className={`form-control form-control-sm ${errors.tercero_observacion &&
+                                        touched.tercero_observacion &&
+                                        "is-invalid"}`}
+                                    />
+                                    <div style={{ color: "#D54B4B" }}>
+                                      {errors.tercero_observacion &&
+                                      touched.tercero_observacion ? (
+                                        <i className="fa fa-exclamation-triangle" />
+                                      ) : null}
+                                      <ErrorMessage name="tercero_observacion" />
+                                    </div>
+                                  </div>
+                                </Col>
+                                <Col sm="12">
+                                  <div className="form-group">
+                                    <label>
+                                      {" "}
+                                      {t(
+                                        "app_tercero_modal_actualizar_estado"
+                                      )}{" "}
+                                      <span className="text-danger">*</span>{" "}
+                                    </label>
+                                    <div className="text-justify">
+                                      <Field
+                                        name="tercero_estado"
+                                        render={({ field, form }) => {
+                                          return (
+                                            <CustomInput
+                                              type="checkbox"
+                                              id="CheckboxEditTerceros"
+                                              label={t(
+                                                "app_tercero_modal_actualizar_estado_descripcion"
+                                              )}
+                                              {...field}
+                                              checked={field.value}
+                                              className={
+                                                errors.tercero_estado &&
+                                                touched.tercero_estado &&
+                                                "invalid-feedback"
+                                              }
+                                            />
+                                          );
+                                        }}
+                                      />
+                                      <ErrorMessage name="tercero_estado" />
+                                    </div>
+                                  </div>
+                                </Col>
+                              </Row>
+                            )}
                           </TabPane>
                         </TabContent>
                       </Col>

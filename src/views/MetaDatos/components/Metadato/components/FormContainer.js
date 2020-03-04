@@ -156,6 +156,7 @@ class FormContainer extends Component {
           index={index}
           key={index}
           removeField={() => this.remove(index)}
+          authorization={this.props.authorization}
         />
       );
     } else if (field.toolType === "RADIO_BUTTONS") {

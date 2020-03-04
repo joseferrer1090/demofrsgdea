@@ -36,12 +36,32 @@ class CheckBoxes extends Component {
       duplicate: false,
       checkBoxes: [],
       modalpreview: false,
-      dragType: this.props.dragType
+      dragType: this.props.dragType,
+      auth: ""
     };
   }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
+
   componentDidMount() {
     this.setState(this.props.field);
     console.log(this.props.field);
+    console.log(this.state.auth);
   }
 
   changeValue = (stateFor, value) => {
@@ -205,7 +225,11 @@ class CheckBoxes extends Component {
   };
 
   OpenModalPreview = () => {
-    this.refs.child.toggle();
+    this.myModal.toggle();
+  };
+
+  resetForm = () => {
+    this.myForm.reset();
   };
 
   render() {
@@ -223,130 +247,131 @@ class CheckBoxes extends Component {
             </span>
           </CardHeader>
           <CardBody>
-            <Nav tabs>
-              <NavItem>
-                <NavLink
-                  className={classnames({
-                    active: this.state.activeTab === "1"
-                  })}
-                  onClick={() => this.toggle("1")}
-                >
-                  General <i className="fa fa-cog" />
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={classnames({
-                    active: this.state.activeTab === "2"
-                  })}
-                  onClick={() => this.toggle("2")}
-                >
-                  Validation <i className="fa fa-exclamation-triangle" />
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  className={classnames({
-                    active: this.state.activeTab === "3"
-                  })}
-                  onClick={() => this.toggle("3")}
-                >
-                  Values <i className="fa fa-list-ul" />
-                </NavLink>
-              </NavItem>
-            </Nav>
-            <TabContent activeTab={this.state.activeTab}>
-              <TabPane tabId={"1"}>
-                <Card body>
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        <label htmlFor="name">NAME</label>
-                        <input
-                          type={"text"}
-                          className={"form-control form-control-sm"}
-                          value={this.state.name}
-                          onChange={e =>
-                            this.changeValue("NAME", e.target.value)
-                          }
-                          placeholder={"nombre"}
-                        />
+            <form ref={el => (this.myForm = el)} className="form" role="form">
+              <Nav tabs>
+                <NavItem>
+                  <NavLink
+                    className={classnames({
+                      active: this.state.activeTab === "1"
+                    })}
+                    onClick={() => this.toggle("1")}
+                  >
+                    General <i className="fa fa-cog" />
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({
+                      active: this.state.activeTab === "2"
+                    })}
+                    onClick={() => this.toggle("2")}
+                  >
+                    Validation <i className="fa fa-exclamation-triangle" />
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink
+                    className={classnames({
+                      active: this.state.activeTab === "3"
+                    })}
+                    onClick={() => this.toggle("3")}
+                  >
+                    Values <i className="fa fa-list-ul" />
+                  </NavLink>
+                </NavItem>
+              </Nav>
+              <TabContent activeTab={this.state.activeTab}>
+                <TabPane tabId={"1"}>
+                  <Card body>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label htmlFor="name">NAME</label>
+                          <input
+                            type={"text"}
+                            className={"form-control form-control-sm"}
+                            value={this.state.name}
+                            onChange={e =>
+                              this.changeValue("NAME", e.target.value)
+                            }
+                            placeholder={"nombre"}
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="title">Title</label>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          value={this.state.title}
-                          onChange={e =>
-                            this.changeValue("TITLE", e.target.value)
-                          }
-                          placeholder="Title"
-                        />
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="title">Title</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            value={this.state.title}
+                            onChange={e =>
+                              this.changeValue("TITLE", e.target.value)
+                            }
+                            placeholder="Title"
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="description"> Description </label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            value={this.state.description}
+                            onChange={e =>
+                              this.changeValue("DESCRIPTION", e.target.value)
+                            }
+                          />
+                        </div>
                       </div>
                     </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="description"> Description </label>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          value={this.state.description}
-                          onChange={e =>
-                            this.changeValue("DESCRIPTION", e.target.value)
-                          }
-                        />
+                  </Card>
+                </TabPane>
+                <TabPane tabId={"2"}>
+                  <Card body>
+                    <div className="row">
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <input
+                            type="checkbox"
+                            value={this.state.validation.isRequired}
+                            onChange={e =>
+                              this.changeValue("IS_REQUIRED", e.target.checked)
+                            }
+                            id="isRequired"
+                          />
+                          <label htmlFor="isRequired"> ¿ Es requerido ? </label>
+                        </div>
                       </div>
-                    </div>
-                  </div>
-                </Card>
-              </TabPane>
-              <TabPane tabId={"2"}>
-                <Card body>
-                  <div className="row">
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <input
-                          type="checkbox"
-                          value={this.state.validation.isRequired}
-                          onChange={e =>
-                            this.changeValue("IS_REQUIRED", e.target.checked)
-                          }
-                          id="isRequired"
-                        />
-                        <label htmlFor="isRequired"> ¿ Es requerido ? </label>
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <input
+                            id={"isReadOnly"}
+                            type={"checkbox"}
+                            onChange={e =>
+                              this.changeValue("IS_READONLY", e.target.checked)
+                            }
+                            value={this.state.validation.isReadOnly}
+                          />
+                          <label htmlFor="isReadOnly"> ¿ Solo lectura ? </label>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <input
-                          id={"isReadOnly"}
-                          type={"checkbox"}
-                          onChange={e =>
-                            this.changeValue("IS_READONLY", e.target.checked)
-                          }
-                          value={this.state.validation.isReadOnly}
-                        />
-                        <label htmlFor="isReadOnly"> ¿ Solo lectura ? </label>
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <input
+                            type="checkbox"
+                            onChange={e =>
+                              this.changeValue("INLINE", e.target.checked)
+                            }
+                            value={this.state.inline}
+                            id={"inline"}
+                          />
+                          <label htmlFor="inline"> ¿ En linea ? </label>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-md-4">
-                      <div className="form-group">
-                        <input
-                          type="checkbox"
-                          onChange={e =>
-                            this.changeValue("INLINE", e.target.checked)
-                          }
-                          value={this.state.inline}
-                          id={"inline"}
-                        />
-                        <label htmlFor="inline"> ¿ En linea ? </label>
-                      </div>
-                    </div>
-                    {/* <div className="col-md-6">
+                      {/* <div className="col-md-6">
                       <div className="form-group">
                         <label htmlFor="">Min</label>
                         <input
@@ -359,7 +384,7 @@ class CheckBoxes extends Component {
                         />
                       </div>
                     </div> */}
-                    {/* <div className="col-md-6">
+                      {/* <div className="col-md-6">
                       <div className="form-group">
                         <label>Max</label>
                         <input
@@ -372,104 +397,105 @@ class CheckBoxes extends Component {
                         />
                       </div>
                     </div> */}
-                  </div>
-                </Card>
-              </TabPane>
-              <TabPane tabId={"3"}>
-                <Card body>
-                  {/* <p
+                    </div>
+                  </Card>
+                </TabPane>
+                <TabPane tabId={"3"}>
+                  <Card body>
+                    {/* <p
                     hidden={this.state.duplicate}
                     className="alert text-center alert-danger"
                   >
                     Values
                   </p> */}
-                  {this.state.checkBoxes ? (
-                    <table className="table text-center">
-                      <tbody>
-                        {this.state.checkBoxes.map((checkbox, index) => {
-                          return (
-                            <tr key={index}>
-                              <td>
-                                <div>
+                    {this.state.checkBoxes ? (
+                      <table className="table text-center">
+                        <tbody>
+                          {this.state.checkBoxes.map((checkbox, index) => {
+                            return (
+                              <tr key={index}>
+                                <td>
+                                  <div>
+                                    <input
+                                      className="middle"
+                                      type={"checkbox"}
+                                      autoFocus={true}
+                                      value={
+                                        this.state.checkBoxes[index].selected
+                                      }
+                                      onChange={e =>
+                                        this.changeOptionValue(
+                                          index,
+                                          e.target.checked,
+                                          "SELECT"
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                                <td>
                                   <input
-                                    className="middle"
-                                    type={"checkbox"}
+                                    id={checkbox.title}
+                                    type="text"
+                                    className="form-control form-control-sm"
+                                    placeholder={"Title"}
                                     autoFocus={true}
-                                    value={
-                                      this.state.checkBoxes[index].selected
-                                    }
+                                    value={this.state.checkBoxes[index].title}
                                     onChange={e =>
                                       this.changeOptionValue(
                                         index,
-                                        e.target.checked,
-                                        "SELECT"
+                                        e.target.value,
+                                        "TITLE"
                                       )
                                     }
                                   />
-                                </div>
-                              </td>
-                              <td>
-                                <input
-                                  id={checkbox.title}
-                                  type="text"
-                                  className="form-control form-control-sm"
-                                  placeholder={"Title"}
-                                  autoFocus={true}
-                                  value={this.state.checkBoxes[index].title}
-                                  onChange={e =>
-                                    this.changeOptionValue(
-                                      index,
-                                      e.target.value,
-                                      "TITLE"
-                                    )
-                                  }
-                                />
-                              </td>
-                              <td>
-                                <input
-                                  placeholder="Value"
-                                  value={this.state.checkBoxes[index].value}
-                                  onChange={e =>
-                                    this.changeOptionValue(
-                                      index,
-                                      e.target.value,
-                                      "VALUE"
-                                    )
-                                  }
-                                  id={checkbox.value}
-                                  type="text"
-                                  className="form-control form-control-sm"
-                                />
-                              </td>
-                              <td style={{ verticalAlign: "middle" }}>
-                                <span
-                                  onClick={() => this.removeOption(index)}
-                                  className="cross pull-right"
-                                >
-                                  <i
-                                    className="fa fa-times"
-                                    style={{ color: "red" }}
+                                </td>
+                                <td>
+                                  <input
+                                    placeholder="Value"
+                                    value={this.state.checkBoxes[index].value}
+                                    onChange={e =>
+                                      this.changeOptionValue(
+                                        index,
+                                        e.target.value,
+                                        "VALUE"
+                                      )
+                                    }
+                                    id={checkbox.value}
+                                    type="text"
+                                    className="form-control form-control-sm"
                                   />
-                                </span>
-                              </td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  ) : (
-                    <span></span>
-                  )}
-                  <button
-                    type="button"
-                    className="btn btn-secondary btn-sm"
-                    onClick={() => this.addOption()}
-                  >
-                    <i className="fa fa-plus" /> Agregar Valores
-                  </button>
-                </Card>
-              </TabPane>
-            </TabContent>
+                                </td>
+                                <td style={{ verticalAlign: "middle" }}>
+                                  <span
+                                    onClick={() => this.removeOption(index)}
+                                    className="cross pull-right"
+                                  >
+                                    <i
+                                      className="fa fa-times"
+                                      style={{ color: "red" }}
+                                    />
+                                  </span>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    ) : (
+                      <span></span>
+                    )}
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => this.addOption()}
+                    >
+                      <i className="fa fa-plus" /> Agregar Valores
+                    </button>
+                  </Card>
+                </TabPane>
+              </TabContent>
+            </form>
           </CardBody>
           <CardFooter>
             <div className="pull-right">
@@ -496,7 +522,7 @@ class CheckBoxes extends Component {
           </CardFooter>
         </Card>
         <ModalPreview
-          ref="child"
+          ref={el => (this.myModal = el)}
           modalpreview={this.state.modalpreview}
           inputType={this.state.dragType}
           field={this.props.field}

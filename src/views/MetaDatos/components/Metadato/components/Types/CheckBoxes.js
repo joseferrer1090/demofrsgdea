@@ -10,10 +10,15 @@ import {
   TabPane,
   Nav,
   NavLink,
-  NavItem
+  NavItem,
+  Toast,
+  ToastHeader,
+  ToastBody
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
+import { decode } from "jsonwebtoken";
+import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
 
 class CheckBoxes extends Component {
   constructor(props) {
@@ -37,7 +42,10 @@ class CheckBoxes extends Component {
       checkBoxes: [],
       modalpreview: false,
       dragType: this.props.dragType,
-      auth: ""
+      auth: "",
+      alert200: false,
+      alert400: false,
+      alert500: false
     };
   }
 
@@ -208,20 +216,63 @@ class CheckBoxes extends Component {
 
   createMetadata = e => {
     e.preventDefault();
-    const aux = JSON.stringify(
-      {
-        name: this.state.name,
-        title: this.state.title,
-        description: this.state.description,
-        checboxes: this.state.checkBoxes,
-        isReadOnly: this.state.validation.isReadOnly,
-        isRequired: this.state.validation.isRequired,
-        inline: this.state.inline
+    const aux = this.state.auth;
+    const user = decode(aux);
+    fetch(`${METADATA_CREATE}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + aux
       },
-      null,
-      2
-    );
-    alert(aux);
+      body: JSON.stringify({
+        name: this.state.name,
+        description: this.state.description,
+        labelText: this.state.name,
+        labelClass: "col-sm-2 col-form-label",
+        inputId: this.state.name,
+        inputType: this.state.type,
+        inputClass: "form-control form-control-sm",
+        inputPlacehoder: "Placehoolder",
+        formula: false,
+        status: true,
+        userName: user.user_name,
+        details: this.state.checkBoxes
+      })
+    })
+      .then(resp => {
+        if (resp.status === 200) {
+          this.setState({
+            alert200: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert200: false
+            });
+            this.resetForm();
+          }, 1500);
+        } else if (resp.status === 400) {
+          this.setState({
+            alert400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert400: false
+            });
+          }, 1500);
+        } else if (resp.status === 500) {
+          this.setState({
+            alert500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert500: false
+            });
+          }, 1500);
+        }
+      })
+      .catch(error => {
+        console.log(`${error}`);
+      });
   };
 
   OpenModalPreview = () => {
@@ -247,6 +298,40 @@ class CheckBoxes extends Component {
             </span>
           </CardHeader>
           <CardBody>
+            <Toast isOpen={this.state.alert200}>
+              <ToastHeader icon={"success"}>
+                SGDEA - Modulo de configuración
+              </ToastHeader>
+              <ToastBody>
+                <p className="text-justify">
+                  {" "}
+                  Se creo el metadato de manera correacta{" "}
+                </p>
+              </ToastBody>
+            </Toast>
+            <Toast isOpen={this.state.alert400}>
+              <ToastHeader icon={"danger"}>
+                SGDEA - Modulo de configuración
+              </ToastHeader>
+              <ToastBody>
+                <p className="text-justify">
+                  {" "}
+                  Error, al enviar los datos del formulario{" "}
+                </p>
+              </ToastBody>
+            </Toast>
+            <Toast isOpen={this.state.alert500}>
+              <ToastHeader icon={"danger"}>
+                {" "}
+                SGDEA - Modulo de configuración{" "}
+              </ToastHeader>
+              <ToastBody>
+                <p className="text-justify">
+                  {" "}
+                  Error, problemas con el servidor{" "}
+                </p>
+              </ToastBody>
+            </Toast>
             <form ref={el => (this.myForm = el)} className="form" role="form">
               <Nav tabs>
                 <NavItem>

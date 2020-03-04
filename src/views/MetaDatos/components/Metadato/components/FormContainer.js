@@ -129,6 +129,7 @@ class FormContainer extends Component {
           index={index}
           key={index}
           removeField={() => this.remove(index)}
+          authorization={this.props.authorization}
         />
       );
     } else if (field.toolType === "SINGLE_FIELD") {
@@ -141,6 +142,8 @@ class FormContainer extends Component {
           index={index}
           key={index}
           removeField={() => this.remove(index)}
+          dragType={field.toolType}
+          authorization={this.props.authorization}
         />
       );
     } else if (field.toolType === "CHECK_BOXES") {
@@ -153,6 +156,7 @@ class FormContainer extends Component {
           index={index}
           key={index}
           removeField={() => this.remove(index)}
+          authorization={this.props.authorization}
         />
       );
     } else if (field.toolType === "RADIO_BUTTONS") {
@@ -406,7 +410,12 @@ class FormContainer extends Component {
         backgroundColor: "",
         color: "",
         fontSize: "",
-        align: ""
+        align: "",
+        validation: {
+          isReadOnly: "",
+          isRequired: ""
+        },
+        disabled: ""
       };
     }
     let fields = this.state.fields;
@@ -435,12 +444,12 @@ class FormContainer extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-code" /> Bolsa de metadatos{" "}
-                <div className="pull-right">
+                {/* <div className="pull-right">
                   <button className="btn btn-secondary btn-sm">
                     {" "}
                     <i className="fa fa-eye" /> Preview
                   </button>{" "}
-                </div>
+                </div> */}
               </CardHeader>
               <CardBody>
                 <div className="row">

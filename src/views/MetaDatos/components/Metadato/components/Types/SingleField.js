@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, createRef } from "react";
 import {
   Card,
   CardHeader,
@@ -8,31 +8,35 @@ import {
   NavItem,
   NavLink,
   TabContent,
-  TabPane
+  TabPane,
+  Toast,
+  ToastBody,
+  ToastHeader
 } from "reactstrap";
 import classnames from "classnames";
-import { Formik, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import ModalPreview from "./../ModalPreview";
+import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
-const InputTypes = [
-  "Checkbox",
-  "Color",
-  "Date",
-  "Email",
-  "File",
-  "Month",
-  "Number",
-  "Password",
-  "Radio",
-  "Range",
-  "Search",
-  "Tel",
-  "Text",
-  "Time",
-  "Url",
-  "Week",
-  "Textarea"
-];
+// const InputTypes = [
+//   "Checkbox",
+//   "Color",
+//   "Date",
+//   "Email",
+//   "File",
+//   "Month",
+//   "Number",
+//   "Password",
+//   "Radio",
+//   "Range",
+//   "Search",
+//   "Tel",
+//   "Text",
+//   "Time",
+//   "Url",
+//   "Week",
+//   "Textarea"
+// ];
 
 class SingleField extends Component {
   constructor(props) {
@@ -45,6 +49,7 @@ class SingleField extends Component {
       defaultValue: "",
       placeholder: "",
       description: "",
+      helpertext: "",
       validation: {
         isReadOnly: false,
         isRequired: false,
@@ -52,13 +57,36 @@ class SingleField extends Component {
         max: 6
       },
       activeTab: "1",
-      tab: ""
+      tab: "",
+      modalpreview: false,
+      dragType: "",
+      auth: "",
+      alert200: false,
+      alert400: false,
+      alert500: false
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   componentDidMount() {
     this.setState(this.props.field);
-    console.log(this.props.field);
+    this.setState({ dragType: this.props.dragType });
   }
 
   changeValue = (stateFor, value) => {
@@ -97,7 +125,9 @@ class SingleField extends Component {
       case "MAX":
         this.setState({ validation: { ...this.state.validation, max: value } });
         break;
-
+      case "HELPER_TEXT":
+        this.setState({ helpertext: value });
+        break;
       default:
         return;
     }
@@ -114,30 +144,85 @@ class SingleField extends Component {
     }
   };
 
-  CreateMetadate = e => {
-    e.preventDefault();
-    const json = JSON.stringify(
-      {
-        title: this.state.title,
-        type: this.state.type,
-        name: this.state.name,
-        defaultValue: this.state.defaultValue,
-        placeholder: this.state.placeholder,
-        description: this.state.description,
-        validation: {
-          isReadOnly: this.state.validation.isReadOnly,
-          isRequired: this.state.validation.isRequired,
-          min: this.state.validation.min,
-          max: this.state.validation.max
-        }
-      },
-      null,
-      2
-    );
-    alert(json);
+  openModalPreview = () => {
+    this.myModal.toggle();
   };
 
+  CreateMetadate = e => {
+    const aux = this.state.auth;
+    const username = decode(aux);
+    e.preventDefault();
+    fetch(`${METADATA_CREATE}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + this.state.auth
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        description: this.state.description,
+        labelText: this.state.title,
+        labelClass: "col-sm-2 col-form-label",
+        inputId: this.state.name,
+        inputType: this.state.type,
+        inputClass: "form-control form-control-sm",
+        inputPlaceholder: this.state.placeholder,
+        formula: false,
+        status: true,
+        userName: username.user_name
+      })
+    })
+      .then(response => {
+        if (response.ok) {
+          this.setState({
+            alert200: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert200: false
+            });
+          }, 1500);
+          //console.log("se enviaron bien los datos");
+        } else if (response.status === 400) {
+          this.setState({
+            alert400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert400: false
+            });
+            this.resetForm();
+          }, 1500);
+          //console.log("Error al enviar los datos");
+        } else if (response.status === 500) {
+          this.setState({
+            alert500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert500: false
+            });
+            this.resetForm();
+          }, 1500);
+          //console.log("Error en el servidor");
+        }
+      })
+      .catch(error => {
+        this.setState({ alert500: true });
+        setTimeout(() => {
+          this.setState({
+            alert500: false
+          });
+        }, 1500);
+        //console.log(`error, ${error}`);
+      });
+  };
+
+  resetForm = () => {
+    this.myFormRef.reset();
+  };
   render() {
+    // console.log(this.state.dragType);
     return (
       <div className="container">
         <div className="row">
@@ -152,15 +237,45 @@ class SingleField extends Component {
                 >
                   <i className="fa fa-times" style={{ color: "red" }} />
                 </button>
-                {/* <span
-                  className="pull-right"
-                  onClick={() => this.props.removeField(this.props.index)}
-                >
-                  {" "}
-                  <i className="fa fa-times" style={{ color: "red" }} />
-                </span> */}
               </CardHeader>
+
               <CardBody>
+                <Toast isOpen={this.state.alert200}>
+                  <ToastHeader icon={"success"}>
+                    SGDEA - Modulo de configuración
+                  </ToastHeader>
+                  <ToastBody>
+                    <p className="text-justify">
+                      {" "}
+                      Se creo correactamente el metadato.{" "}
+                    </p>
+                  </ToastBody>
+                </Toast>
+                <Toast isOpen={this.state.alert400}>
+                  <ToastHeader icon={"danger"}>
+                    SGDEA - Modulo de configuración
+                  </ToastHeader>
+                  <ToastBody>
+                    <p className="text-justify">
+                      {" "}
+                      Error al enviar los datos al servidor.{" "}
+                    </p>
+                  </ToastBody>
+                </Toast>
+                <Toast isOpen={this.state.alert500}>
+                  <ToastHeader icon={"danger"}>
+                    {" "}
+                    SGDEA - Modulo de configuración
+                  </ToastHeader>
+                  <ToastBody>
+                    <p className="text-justify">
+                      {" "}
+                      Error al enviar los datos, ocurrio un problema en el
+                      servidor{" "}
+                    </p>
+                  </ToastBody>
+                </Toast>
+                <br />
                 <Nav tabs>
                   <NavLink
                     className={classnames({
@@ -185,30 +300,10 @@ class SingleField extends Component {
                   </NavLink>
                 </Nav>
                 <form
+                  id="form1"
+                  role="form"
                   className="form"
-                  // onSubmit={e => {
-                  //   e.preventDefault();
-                  //   console.log(
-                  //     JSON.stringify(
-                  //       {
-                  //         title: this.state.title,
-                  //         type: this.state.type,
-                  //         name: this.state.name,
-                  //         defaultValue: this.state.defaultValue,
-                  //         placeholder: this.state.placeholder,
-                  //         description: this.state.description,
-                  //         validation: {
-                  //           isReadOnly: this.state.validation.isReadOnly,
-                  //           isRequired: this.state.validation.isRequired,
-                  //           min: this.state.validation.min,
-                  //           max: this.state.validation.max
-                  //         }
-                  //       },
-                  //       null,
-                  //       2
-                  //     )
-                  //   );
-                  // }}
+                  ref={el => (this.myFormRef = el)}
                 >
                   <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
@@ -216,9 +311,6 @@ class SingleField extends Component {
                         <div className="row">
                           <div className="col-md-12">
                             <div className="form-group">
-                              {/* <p className="alert alert-info text-center">
-                          <strong>Name</strong>
-                        </p> */}
                               <label htmlFor="name">Name</label>
                               <input
                                 type="text"
@@ -232,7 +324,7 @@ class SingleField extends Component {
                           </div>
                         </div>
                         <div className="row">
-                          <div className="col-md-6">
+                          {/* <div className="col-md-6">
                             <div className="form-group">
                               <label htmlFor="title">Type</label>
                               <select
@@ -252,7 +344,7 @@ class SingleField extends Component {
                                 })}
                               </select>
                             </div>
-                          </div>
+                          </div> */}
                           <div className="col-md-6">
                             <div className="form-group">
                               <label>Default value</label>
@@ -267,6 +359,23 @@ class SingleField extends Component {
                                 }}
                                 value={this.state.defaultValue}
                                 placeholder={"Valor por defecto"}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label>Helper text</label>
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                                onChange={e => {
+                                  this.changeValue(
+                                    "HELPER_TEXT",
+                                    e.target.value
+                                  );
+                                }}
+                                value={this.state.helpertext}
+                                placeholder={"Texto de ayuda"}
                               />
                             </div>
                           </div>
@@ -403,20 +512,36 @@ class SingleField extends Component {
                 </form>
               </CardBody>
               <CardFooter>
-                <button
-                  className="btn btn-outline-secondary btn-sm pull-right"
-                  type="button"
-                  onClick={e => {
-                    this.CreateMetadate(e);
-                  }}
-                >
-                  {" "}
-                  <i className="fa fa-save" /> Guardar metadato{" "}
-                </button>
+                <div className="pull-right">
+                  <button
+                    className="btn btn-secondary btn-sm "
+                    type="button"
+                    onClick={this.openModalPreview}
+                  >
+                    <i className="fa fa-eye" /> Vista previa
+                  </button>
+                  &nbsp;
+                  <button
+                    className="btn btn-secondary btn-sm "
+                    type="button"
+                    onClick={e => {
+                      this.CreateMetadate(e);
+                    }}
+                  >
+                    {" "}
+                    <i className="fa fa-save" /> Guardar metadato{" "}
+                  </button>
+                </div>
               </CardFooter>
             </Card>
           </div>
         </div>
+        <ModalPreview
+          ref={m => (this.myModal = m)}
+          modalpreview={this.state.modalpreview}
+          inputType={this.state.dragType}
+          field={this.props.field}
+        />
       </div>
     );
   }

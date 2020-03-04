@@ -147,7 +147,7 @@ class SingleField extends Component {
   };
 
   openModalPreview = () => {
-    this.refs.child.toggle();
+    this.myModal.toggle();
   };
 
   CreateMetadate = e => {
@@ -218,26 +218,6 @@ class SingleField extends Component {
         }, 1500);
         //console.log(`error, ${error}`);
       });
-    // const json = JSON.stringify(
-    //   {
-    //     title: this.state.title,
-    //     type: this.state.type,
-    //     name: this.state.name,
-    //     defaultValue: this.state.defaultValue,
-    //     placeholder: this.state.placeholder,
-    //     description: this.state.description,
-    //     helpertext: this.state.helpertext,
-    //     validation: {
-    //       isReadOnly: this.state.validation.isReadOnly,
-    //       isRequired: this.state.validation.isRequired,
-    //       min: this.state.validation.min,
-    //       max: this.state.validation.max
-    //     }
-    //   },
-    //   null,
-    //   2
-    // );
-    // alert(json);
   };
 
   resetForm = () => {
@@ -259,13 +239,6 @@ class SingleField extends Component {
                 >
                   <i className="fa fa-times" style={{ color: "red" }} />
                 </button>
-                {/* <span
-                  className="pull-right"
-                  onClick={() => this.props.removeField(this.props.index)}
-                >
-                  {" "}
-                  <i className="fa fa-times" style={{ color: "red" }} />
-                </span> */}
               </CardHeader>
 
               <CardBody>
@@ -333,29 +306,6 @@ class SingleField extends Component {
                   role="form"
                   className="form"
                   ref={el => (this.myFormRef = el)}
-                  // onSubmit={e => {
-                  //   e.preventDefault();
-                  //   console.log(
-                  //     JSON.stringify(
-                  //       {
-                  //         title: this.state.title,
-                  //         type: this.state.type,
-                  //         name: this.state.name,
-                  //         defaultValue: this.state.defaultValue,
-                  //         placeholder: this.state.placeholder,
-                  //         description: this.state.description,
-                  //         validation: {
-                  //           isReadOnly: this.state.validation.isReadOnly,
-                  //           isRequired: this.state.validation.isRequired,
-                  //           min: this.state.validation.min,
-                  //           max: this.state.validation.max
-                  //         }
-                  //       },
-                  //       null,
-                  //       2
-                  //     )
-                  //   );
-                  // }}
                 >
                   <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
@@ -592,7 +542,7 @@ class SingleField extends Component {
           </div>
         </div>
         <ModalPreview
-          ref="child"
+          ref={m => (this.myModal = m)}
           modalpreview={this.state.modalpreview}
           inputType={this.state.dragType}
           field={this.props.field}

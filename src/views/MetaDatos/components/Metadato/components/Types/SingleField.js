@@ -14,8 +14,6 @@ import {
   ToastHeader
 } from "reactstrap";
 import classnames from "classnames";
-import { Formik, ErrorMessage } from "formik";
-import * as Yup from "yup";
 import ModalPreview from "./../ModalPreview";
 import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
@@ -313,9 +311,6 @@ class SingleField extends Component {
                         <div className="row">
                           <div className="col-md-12">
                             <div className="form-group">
-                              {/* <p className="alert alert-info text-center">
-                          <strong>Name</strong>
-                        </p> */}
                               <label htmlFor="name">Name</label>
                               <input
                                 type="text"

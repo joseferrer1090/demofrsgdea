@@ -9,10 +9,15 @@ import {
   TabPane,
   Nav,
   NavLink,
-  NavItem
+  NavItem,
+  Toast,
+  ToastBody,
+  ToastHeader
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
+import { decode } from "jsonwebtoken";
+import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
 
 class DateField extends Component {
   constructor(props) {
@@ -60,6 +65,7 @@ class DateField extends Component {
   componentDidMount() {
     this.setState(this.props.field);
     console.log(this.props.field);
+    console.log(this.state.auth);
   }
 
   changeValue = (stateFor, value) => {
@@ -122,20 +128,76 @@ class DateField extends Component {
 
   createMetadata = e => {
     e.preventDefault();
-    const aux = JSON.stringify(
-      {
-        title: this.state.title,
+    const aux = this.state.auth;
+    const user = decode(aux);
+    fetch(`${METADATA_CREATE}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + aux
+      },
+      body: JSON.stringify({
         name: this.state.name,
         description: this.state.description,
-        isRequired: this.state.validation.isRequired,
-        isReadOnly: this.state.validation.isReadOnly,
-        min: this.state.validation.min,
-        max: this.state.validation.max
-      },
-      null,
-      2
-    );
-    alert(aux);
+        labelText: this.state.title,
+        labelClass: "col-sm-2 col-form-label",
+        inputId: this.state.name,
+        inputType: this.state.type,
+        inputClass: "form-control form-control-sm",
+        inputPlaceholder: "",
+        formula: false,
+        status: true,
+        userName: user.user_name
+      })
+    })
+      .then(resp => {
+        if (resp.status === 200) {
+          this.setState({
+            alert200: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert200: false
+            });
+            this.resetForm();
+          }, 1500);
+        } else if (resp.status === 400) {
+          this.setState({
+            alert400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert400: false
+            });
+          }, 1500);
+        } else if (resp.status === 500) {
+          this.setState({
+            alert500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert500: false
+            });
+          }, 1500);
+        }
+      })
+      .catch(err => {
+        console.log(`Error => ${err}`);
+      });
+    // const aux = JSON.stringify(
+    //   {
+    //     title: this.state.title,
+    //     name: this.state.name,
+    //     description: this.state.description,
+    //     isRequired: this.state.validation.isRequired,
+    //     isReadOnly: this.state.validation.isReadOnly,
+    //     min: this.state.validation.min,
+    //     max: this.state.validation.max
+    //   },
+    //   null,
+    //   2
+    // );
+    // alert(aux);
   };
 
   openModalPreview = () => {
@@ -163,6 +225,38 @@ class DateField extends Component {
           </CardHeader>
           <CardBody>
             <form ref={el => (this.MyForm = el)} className="form" role={"form"}>
+              <Toast isOpen={this.state.alert200}>
+                <ToastHeader icon={"success"}>
+                  SGDEA - Modulo de configuración{" "}
+                </ToastHeader>
+                <ToastBody>
+                  <p className="text-justify">
+                    {" "}
+                    Se creo el metadato de manera correcta{" "}
+                  </p>
+                </ToastBody>
+              </Toast>
+              <Toast isOpen={this.state.alert400}>
+                <ToastHeader icon={"danger"}>
+                  {" "}
+                  SGDEA - Modulo de configuración{" "}
+                </ToastHeader>
+                <ToastBody>
+                  <p className="text-justify">
+                    {" "}
+                    Error, se enviaron mal los datos al servidor{" "}
+                  </p>
+                </ToastBody>
+              </Toast>
+              <Toast isOpen={this.state.alert500}>
+                <ToastHeader icon={"danger"}>
+                  {" "}
+                  SGDEA - Modulo de configuración{" "}
+                </ToastHeader>
+                <ToastBody>
+                  <p className="text-justify"> Error, en el servidor </p>
+                </ToastBody>
+              </Toast>
               <Nav tabs>
                 <NavLink
                   className={classnames({

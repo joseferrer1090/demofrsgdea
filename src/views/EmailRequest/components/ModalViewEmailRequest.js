@@ -10,14 +10,14 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Collapse,
-  ListGroup,
-  ListGroupItem
+  Collapse
 } from "reactstrap";
+
 import { decode } from "jsonwebtoken";
 import {} from "./../../../services/EndPoints";
 import IMGEMAILREQUEST from "./../../../assets/img/request.svg";
 import moment from "moment";
+import MyPdfViewer from "./viewpdf";
 
 class ModalViewEmailRequest extends React.Component {
   constructor(props) {
@@ -33,21 +33,21 @@ class ModalViewEmailRequest extends React.Component {
     };
   }
 
-  //   static getDerivedStateFromProps(props, state) {
-  //     if (props.authorization !== state.auth) {
-  //       return {
-  //         auth: props.authorization
-  //       };
-  //     }
-  //   }
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
-  //   componentDidUpdate(prevProps, prevState) {
-  //     if (this.props.authorization !== prevProps.authorization) {
-  //       this.setState({
-  //         auth: this.props.authorization
-  //       });
-  //     }
-  //   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState({
@@ -118,10 +118,25 @@ class ModalViewEmailRequest extends React.Component {
                 className="list-group-item list-group-item-action"
                 value={listItem.value}
                 onClick={e => {
-                  this.setState({
-                    srcPDF: listItem.value
-                  });
+                  // this.setState({
+                  //   srcPDF: listItem.value
+                  // });
                   // console.log();
+                  fetch(
+                    "http://192.168.10.180:8090/api/sgdea/service/filing/emails/view/file/0c29f416-1ad4-4226-b546-7b1db2da6f71/744d45ff-cded-467d-a999-7a94e06c07a5.pdf",
+                    {
+                      method: "GET",
+                      headers: {
+                        Authorization: "Bearer " + this.state.auth,
+                        "Content-Type": "application/json"
+                      }
+                    }
+                  ).then(response => {
+                    console.log(response.url);
+                    this.setState({
+                      srcPDF: response.url
+                    });
+                  });
                 }}
               >
                 {listItem.name}
@@ -167,68 +182,27 @@ class ModalViewEmailRequest extends React.Component {
                 </Card>
               </Col>
             </Row>
-            <embed
+            {/* <embed
               src={this.state.srcPDF}
               width={"100%"}
               height={500}
               type="application/pdf"
-            />
-            {/* <Row>
-              <Col sm="3">
-                <img src={IMGEMAILREQUEST} className="img-thumbnail" />
-              </Col>
-              <Col sm="9">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Datos
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Dato 1</dt>
-                        <dd>Dato 1</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Dato 2 </dt>
-                        <dd> Dato 2 </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Dato 3 </dt>
-                        <dd> Dato 3 </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Dato 4</dt>
-                        <dd> Dato 4</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Fecha de recepción</dt>
-                        <dd> {this.FechaCreacionEmailRequest()} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            </Row> */}
+            /> */}
+            {/* <iframe
+              width={"100%"}
+              height={500}
+              src={
+                "http://192.168.10.180:8090/api/sgdea/service/filing/emails/view/file/0c29f416-1ad4-4226-b546-7b1db2da6f71/744d45ff-cded-467d-a999-7a94e06c07a5.pdf"
+              }
+            /> */}
+            {/* <object
+              type="application/pdf"
+              width="100%"
+              height="100%"
+              data="192.168.10.180:8090/api/sgdea/service/filing/emails/view/file/0c29f416-1ad4-4226-b546-7b1db2da6f71/744d45ff-cded-467d-a999-7a94e06c07a5.pdf"
+            /> */}
+            {/* <Document file="192.168.10.180:8090/api/sgdea/service/filing/emails/view/file/0c29f416-1ad4-4226-b546-7b1db2da6f71/744d45ff-cded-467d-a999-7a94e06c07a5.pdf" /> */}
+            <MyPdfViewer />
           </ModalBody>
           <ModalFooter>
             <button

@@ -12,7 +12,8 @@ import {
   NavItem,
   Toast,
   ToastBody,
-  ToastHeader
+  ToastHeader,
+  CustomInput
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
@@ -41,7 +42,9 @@ class DateField extends Component {
       auth: "",
       alert200: false,
       alert400: false,
-      alert500: false
+      alert500: false,
+      active: true,
+      formula: false
     };
   }
 
@@ -65,7 +68,6 @@ class DateField extends Component {
   componentDidMount() {
     this.setState(this.props.field);
     console.log(this.props.field);
-    console.log(this.state.auth);
   }
 
   changeValue = (stateFor, value) => {
@@ -145,8 +147,8 @@ class DateField extends Component {
         inputType: this.state.type,
         inputClass: "form-control form-control-sm",
         inputPlaceholder: "",
-        formula: false,
-        status: true,
+        formula: this.state.formula,
+        status: this.state.active,
         userName: user.user_name
       })
     })
@@ -387,6 +389,39 @@ class DateField extends Component {
                   </Card>
                 </TabPane>
               </TabContent>
+              <br />
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <CustomInput
+                      defaultValue={this.state.active}
+                      defaultChecked
+                      type={"checkbox"}
+                      id={"activeInput"}
+                      label={
+                        "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
+                      }
+                    />
+                  </div>
+                </div>
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <CustomInput
+                      type={"checkbox"}
+                      value={this.state.formula}
+                      id="formula"
+                      label={
+                        "Campo para asignar a formula o seleccion condicional."
+                      }
+                      onChange={e => {
+                        this.setState({
+                          formula: e.target.checked
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
             </form>
           </CardBody>
           <CardFooter>

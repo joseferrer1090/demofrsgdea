@@ -13,7 +13,8 @@ import {
   NavItem,
   Toast,
   ToastHeader,
-  ToastBody
+  ToastBody,
+  CustomInput
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
@@ -38,6 +39,8 @@ class CheckBoxes extends Component {
         min: 6,
         max: 6
       },
+      active: true,
+      formula: false,
       duplicate: false,
       checkBoxes: [],
       modalpreview: false,
@@ -69,7 +72,7 @@ class CheckBoxes extends Component {
   componentDidMount() {
     this.setState(this.props.field);
     console.log(this.props.field);
-    console.log(this.state.auth);
+    //console.log(this.state.auth);
   }
 
   changeValue = (stateFor, value) => {
@@ -218,6 +221,12 @@ class CheckBoxes extends Component {
     e.preventDefault();
     const aux = this.state.auth;
     const user = decode(aux);
+    console.log(
+      JSON.stringify({
+        status: this.state.active,
+        formula: this.state.formula
+      })
+    );
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {
@@ -233,8 +242,8 @@ class CheckBoxes extends Component {
         inputType: this.state.type,
         inputClass: "form-control form-control-sm",
         inputPlacehoder: "Placehoolder",
-        formula: false,
-        status: true,
+        formula: this.state.formula,
+        status: this.state.active,
         userName: user.user_name,
         details: this.state.checkBoxes
       })
@@ -580,6 +589,42 @@ class CheckBoxes extends Component {
                   </Card>
                 </TabPane>
               </TabContent>
+              <br />
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <CustomInput
+                      type={"checkbox"}
+                      defaultValue={this.state.active}
+                      defaultChecked
+                      id={"activeInput"}
+                      label={
+                        "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
+                      }
+                      onChange={e => {
+                        this.setState({
+                          active: e.target.checked
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <CustomInput
+                      value={this.state.formula}
+                      type="checkbox"
+                      id={"formula"}
+                      label={
+                        "Campo para asignar a formula o seleccion condicional."
+                      }
+                      onChange={e => {
+                        this.setState({ formula: e.target.checked });
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
             </form>
           </CardBody>
           <CardFooter>

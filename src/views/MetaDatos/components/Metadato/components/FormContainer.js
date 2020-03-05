@@ -323,7 +323,7 @@ class FormContainer extends Component {
     if (data === "SINGLE_FIELD") {
       meta = {
         title: "Title",
-        type: "Text",
+        type: "text",
         toolType: "SINGLE_FIELD",
         defaultValue: "",
         placeholder: "",
@@ -355,7 +355,7 @@ class FormContainer extends Component {
     } else if (data === "SELECT_FIELD") {
       meta = {
         title: "Title",
-        type: "SELECT",
+        type: "select",
         toolType: "SELECT_FIELD",
         multiple: false,
         defaultValue: "",
@@ -372,6 +372,7 @@ class FormContainer extends Component {
     } else if (data === "CHECK_BOXES") {
       meta = {
         title: "Title",
+        type: "checkbox",
         toolType: "CHECK_BOXES",
         inline: false,
         defaultValue: "",
@@ -389,6 +390,7 @@ class FormContainer extends Component {
       meta = {
         title: "Title",
         toolType: "RADIO_BUTTONS",
+        type: "radio",
         multiple: false,
         inline: false,
         defaultValue: "",
@@ -406,6 +408,7 @@ class FormContainer extends Component {
       meta = {
         title: "Title",
         toolType: "PARAGRAPH",
+        type: "textarea",
         content: "",
         textColor: "",
         backgroundColor: "",

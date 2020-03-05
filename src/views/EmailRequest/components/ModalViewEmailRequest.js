@@ -182,26 +182,6 @@ class ModalViewEmailRequest extends React.Component {
                 </Card>
               </Col>
             </Row>
-            {/* <embed
-              src={this.state.srcPDF}
-              width={"100%"}
-              height={500}
-              type="application/pdf"
-            /> */}
-            {/* <iframe
-              width={"100%"}
-              height={500}
-              src={
-                "http://192.168.10.180:8090/api/sgdea/service/filing/emails/view/file/0c29f416-1ad4-4226-b546-7b1db2da6f71/744d45ff-cded-467d-a999-7a94e06c07a5.pdf"
-              }
-            /> */}
-            {/* <object
-              type="application/pdf"
-              width="100%"
-              height="100%"
-              data="192.168.10.180:8090/api/sgdea/service/filing/emails/view/file/0c29f416-1ad4-4226-b546-7b1db2da6f71/744d45ff-cded-467d-a999-7a94e06c07a5.pdf"
-            /> */}
-            {/* <Document file="192.168.10.180:8090/api/sgdea/service/filing/emails/view/file/0c29f416-1ad4-4226-b546-7b1db2da6f71/744d45ff-cded-467d-a999-7a94e06c07a5.pdf" /> */}
             <MyPdfViewer />
           </ModalBody>
           <ModalFooter>

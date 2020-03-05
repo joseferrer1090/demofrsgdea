@@ -147,8 +147,8 @@ class DateField extends Component {
         inputType: this.state.type,
         inputClass: "form-control form-control-sm",
         inputPlaceholder: "",
-        formula: false,
-        status: true,
+        formula: this.state.formula,
+        status: this.state.active,
         userName: user.user_name
       })
     })

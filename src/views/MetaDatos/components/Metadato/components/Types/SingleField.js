@@ -165,8 +165,8 @@ class SingleField extends Component {
         // inputType: this.state.type,
         // inputClass: "form-control form-control-sm",
         // inputPlaceholder: this.state.placeholder,
-        formula: this.state.formula,
-        status: this.state.active
+        //formula: this.state.formula,
+        //status: this.state.active
         // userName: username.user_name
       })
     );
@@ -185,7 +185,7 @@ class SingleField extends Component {
         inputType: this.state.type,
         inputClass: "form-control form-control-sm",
         inputPlaceholder: this.state.placeholder,
-        formula: false,
+        formula: this.state.formula,
         status: this.state.active,
         userName: username.user_name
       })

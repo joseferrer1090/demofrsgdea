@@ -221,12 +221,6 @@ class CheckBoxes extends Component {
     e.preventDefault();
     const aux = this.state.auth;
     const user = decode(aux);
-    console.log(
-      JSON.stringify({
-        status: this.state.active,
-        formula: this.state.formula
-      })
-    );
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {

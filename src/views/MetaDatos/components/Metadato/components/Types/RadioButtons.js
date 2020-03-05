@@ -213,9 +213,6 @@ class RadioButtons extends Component {
     e.preventDefault();
     const aux = this.state.auth;
     const user = decode(aux);
-    console.log(
-      JSON.stringify({ formula: this.state.formula, status: this.state.active })
-    );
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {

@@ -43,7 +43,7 @@ class SingleField extends Component {
     super(props);
     this.state = {
       title: "",
-      type: "Text",
+      type: "",
       name: "",
       toolType: "SINGLE_FIELD",
       defaultValue: "",
@@ -152,6 +152,21 @@ class SingleField extends Component {
     const aux = this.state.auth;
     const username = decode(aux);
     e.preventDefault();
+    console.log(
+      JSON.stringify({
+        name: this.state.name,
+        description: this.state.description,
+        labelText: this.state.title,
+        labelClass: "col-sm-2 col-form-label",
+        inputId: this.state.name,
+        inputType: this.state.type,
+        inputClass: "form-control form-control-sm",
+        inputPlaceholder: this.state.placeholder,
+        formula: false,
+        status: true,
+        userName: username.user_name
+      })
+    );
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {

@@ -14,7 +14,8 @@ import {
   Table,
   Toast,
   ToastHeader,
-  ToastBody
+  ToastBody,
+  CustomInput
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
@@ -39,6 +40,8 @@ class RadioButtons extends Component {
         max: 6
       },
       radios: [],
+      active: true,
+      formula: false,
       duplicate: false,
       activeTab: "1",
       modalpreview: false,
@@ -70,7 +73,6 @@ class RadioButtons extends Component {
   componentDidMount() {
     this.setState(this.props.field);
     console.log(this.props.field);
-    console.log(this.state.auth);
   }
 
   changeValue = (stateFor, value) => {
@@ -211,6 +213,9 @@ class RadioButtons extends Component {
     e.preventDefault();
     const aux = this.state.auth;
     const user = decode(aux);
+    console.log(
+      JSON.stringify({ formula: this.state.formula, status: this.state.active })
+    );
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {
@@ -623,6 +628,44 @@ class RadioButtons extends Component {
                   </Card>
                 </TabPane>
               </TabContent>
+              <br />
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <CustomInput
+                      defaultValue={this.state.active}
+                      defaultChecked
+                      type="checkbox"
+                      id={"activeInput"}
+                      label={
+                        "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
+                      }
+                      onChange={e => {
+                        this.setState({
+                          active: e.target.checked
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <CustomInput
+                      type="checkbox"
+                      value={this.state.formula}
+                      id={"formula"}
+                      label={
+                        "Campo para asignar a formula o seleccion condicional."
+                      }
+                      onChange={e => {
+                        this.setState({
+                          formula: e.target.checked
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
             </form>
           </CardBody>
           <CardFooter>

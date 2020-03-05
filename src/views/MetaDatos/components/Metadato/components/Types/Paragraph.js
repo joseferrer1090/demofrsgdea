@@ -11,7 +11,8 @@ import {
   TabPane,
   Toast,
   ToastHeader,
-  ToastBody
+  ToastBody,
+  CustomInput
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
@@ -42,7 +43,9 @@ class Paragraph extends Component {
       auth: "",
       alert200: false,
       alert400: false,
-      alert500: false
+      alert500: false,
+      active: true,
+      formula: false
     };
   }
 
@@ -66,7 +69,6 @@ class Paragraph extends Component {
   componentDidMount() {
     this.setState(this.props.field);
     console.log(this.props.field);
-    console.log(this.state.auth);
   }
 
   toggle = tab => {
@@ -141,6 +143,12 @@ class Paragraph extends Component {
     e.preventDefault();
     const aux = this.state.auth;
     const user = decode(aux);
+    console.log(
+      JSON.stringify({
+        status: this.state.active,
+        formula: this.state.formula
+      })
+    );
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {
@@ -156,8 +164,8 @@ class Paragraph extends Component {
         inputType: this.state.type,
         inputClass: "form-control form-control-sm",
         inputPlaceholder: this.state.content,
-        formula: false,
-        status: true,
+        formula: this.state.formula,
+        status: this.state.active,
         userName: user.user_name
       })
     })
@@ -485,6 +493,44 @@ class Paragraph extends Component {
                 </div>
               </TabPane>
             </TabContent>
+            <br />
+            <div className="row">
+              <div className="col-md-12">
+                <div className="form-group">
+                  <CustomInput
+                    defaultValue={this.state.active}
+                    defaultChecked
+                    type={"checkbox"}
+                    id={"activeInput"}
+                    label={
+                      "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
+                    }
+                    onChange={e => {
+                      this.setState({
+                        active: e.target.checked
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="form-group">
+                  <CustomInput
+                    value={this.state.formula}
+                    type="checkbox"
+                    id="formula"
+                    label={
+                      "Campo para asignar a formula o seleccion condicional."
+                    }
+                    onChange={e => {
+                      this.setState({
+                        formula: e.target.checked
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </CardBody>
           <CardFooter>
             <div className="pull-right">

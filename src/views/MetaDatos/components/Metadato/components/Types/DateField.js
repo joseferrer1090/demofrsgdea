@@ -209,7 +209,9 @@ class DateField extends Component {
 
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      active: Yup.bool().test(value => value === true)
+      active: Yup.bool().test(value => value === true),
+      min: Yup.date(new Date()),
+      max: Yup.date(new Date())
     });
 
     schema
@@ -379,20 +381,6 @@ class DateField extends Component {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>MAX</label>
-                          <input
-                            type={"date"}
-                            className={"form-control form-control-sm"}
-                            onChange={e =>
-                              this.changeValue("MAX", e.target.value)
-                            }
-                            value={this.state.validation.max}
-                            patter={"yyyy/mm/dd"}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
                           <label>MIN</label>
                           <input
                             type="date"
@@ -401,6 +389,20 @@ class DateField extends Component {
                             onChange={e =>
                               this.changeValue("MIN", e.target.value)
                             }
+                            patter={"yyyy/mm/dd"}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label>MAX</label>
+                          <input
+                            type={"date"}
+                            className={"form-control form-control-sm"}
+                            onChange={e =>
+                              this.changeValue("MAX", e.target.value)
+                            }
+                            value={this.state.validation.max}
                             patter={"yyyy/mm/dd"}
                           />
                         </div>

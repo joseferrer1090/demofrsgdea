@@ -19,6 +19,7 @@ import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
 import { decode } from "jsonwebtoken";
 import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import * as Yup from "yup";
 
 class DateField extends Component {
   constructor(props) {
@@ -128,8 +129,7 @@ class DateField extends Component {
     }
   };
 
-  createMetadata = e => {
-    e.preventDefault();
+  sendData = () => {
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_CREATE}`, {
@@ -200,6 +200,35 @@ class DateField extends Component {
     //   2
     // );
     // alert(aux);
+  };
+
+  createMetadata = e => {
+    e.preventDefault();
+    // mensaje de las validaciones custom
+    Yup.setLocale({});
+
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      active: Yup.bool().test(value => value === true),
+      min: Yup.date(new Date()),
+      max: Yup.date(new Date()),
+      description: this.state.description
+    });
+
+    schema
+      .validate({
+        name: this.state.name,
+        active: this.state.active,
+        min: this.state.validation.min,
+        max: this.state.validation.max,
+        description: this.state.description
+      })
+      .then(() => {
+        console.log("Datos correctos");
+      })
+      .catch(err => {
+        console.log(err.errors);
+      });
   };
 
   openModalPreview = () => {
@@ -359,20 +388,6 @@ class DateField extends Component {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>MAX</label>
-                          <input
-                            type={"date"}
-                            className={"form-control form-control-sm"}
-                            onChange={e =>
-                              this.changeValue("MAX", e.target.value)
-                            }
-                            value={this.state.validation.max}
-                            patter={"yyyy/mm/dd"}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
                           <label>MIN</label>
                           <input
                             type="date"
@@ -381,6 +396,20 @@ class DateField extends Component {
                             onChange={e =>
                               this.changeValue("MIN", e.target.value)
                             }
+                            patter={"yyyy/mm/dd"}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label>MAX</label>
+                          <input
+                            type={"date"}
+                            className={"form-control form-control-sm"}
+                            onChange={e =>
+                              this.changeValue("MAX", e.target.value)
+                            }
+                            value={this.state.validation.max}
                             patter={"yyyy/mm/dd"}
                           />
                         </div>
@@ -401,6 +430,11 @@ class DateField extends Component {
                       label={
                         "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
                       }
+                      onChange={e => {
+                        this.setState({
+                          active: e.target.checked
+                        });
+                      }}
                     />
                   </div>
                 </div>

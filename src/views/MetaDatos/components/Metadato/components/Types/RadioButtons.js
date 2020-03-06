@@ -21,6 +21,7 @@ import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
 import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import * as Yup from "yup";
 
 class RadioButtons extends Component {
   constructor(props) {
@@ -209,8 +210,7 @@ class RadioButtons extends Component {
     }, 0);
   };
 
-  createMetada = e => {
-    e.preventDefault();
+  sendData = () => {
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_CREATE}`, {
@@ -283,6 +283,42 @@ class RadioButtons extends Component {
     //   2
     // );
     // alert(aux);
+  };
+
+  createMetada = e => {
+    e.preventDefault();
+    // los mensajes custom de las validaciones, por default en ingles
+    Yup.setLocale({});
+
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      active: Yup.bool().test(value => value === true),
+      radios: Yup.array()
+        .of(
+          Yup.object().shape({
+            title: Yup.string().required(),
+            value: Yup.string().required(),
+            selected: Yup.bool()
+          })
+        )
+        .required(),
+      description: Yup.string().required()
+    });
+
+    schema
+      .validate({
+        name: this.state.name,
+        active: this.state.active,
+        radios: this.state.radios,
+        description: this.state.description
+      })
+      .then(() => {
+        this.sendData();
+        console.log("Se enviaron los datos");
+      })
+      .catch(err => {
+        console.log(err.errors);
+      });
   };
 
   openModalPreview = () => {

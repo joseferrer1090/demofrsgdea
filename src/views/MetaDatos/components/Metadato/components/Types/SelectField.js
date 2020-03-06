@@ -21,6 +21,7 @@ import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
 import { decode } from "jsonwebtoken";
 import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import * as Yup from "yup";
 
 class SelectField extends Component {
   constructor(props) {
@@ -218,8 +219,7 @@ class SelectField extends Component {
     }
   };
 
-  createMetada = e => {
-    e.preventDefault();
+  sendData = () => {
     const aux = this.state.auth;
     const user = decode(aux);
 
@@ -298,6 +298,39 @@ class SelectField extends Component {
     //   2
     // );
     // alert(aux);
+  };
+
+  createMetada = e => {
+    e.preventDefault();
+    Yup.setLocale({});
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      options: Yup.array()
+        .of(
+          Yup.object().shape({
+            title: Yup.string().required(),
+            value: Yup.string().required(),
+            selected: Yup.bool()
+          })
+        )
+        .required(),
+      active: Yup.bool().test(value => value === true),
+      description: Yup.string().required()
+    });
+    schema
+      .validate({
+        name: this.state.name,
+        options: this.state.options,
+        active: this.state.active,
+        description: this.state.description
+      })
+      .then(() => {
+        this.sendData();
+        //console.log("los datos bien");
+      })
+      .catch(err => {
+        console.log(err.errors);
+      });
   };
 
   openModalPreview = () => {

@@ -20,7 +20,6 @@ import ModalPreview from "./../ModalPreview";
 import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import * as Yup from "yup";
-import { yupToFormErrors } from "formik";
 
 // const InputTypes = [
 //   "Checkbox",
@@ -187,6 +186,7 @@ class SingleField extends Component {
             this.setState({
               alert200: false
             });
+            this.resetForm();
           }, 1500);
           //console.log("se enviaron bien los datos");
         } else if (response.status === 400) {
@@ -233,10 +233,10 @@ class SingleField extends Component {
     });
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      active: Yup.boolean()
+      active: Yup.bool().test(value => value === true)
     });
     schema
-      .validate({ name: this.state.name })
+      .validate({ name: this.state.name, active: this.state.active })
       .then(() => {
         if (schema.isValid) {
           this.sendData();

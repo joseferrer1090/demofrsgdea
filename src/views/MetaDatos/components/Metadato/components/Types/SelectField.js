@@ -21,6 +21,7 @@ import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
 import { decode } from "jsonwebtoken";
 import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import * as Yup from "yup";
 
 class SelectField extends Component {
   constructor(props) {
@@ -220,84 +221,32 @@ class SelectField extends Component {
 
   createMetada = e => {
     e.preventDefault();
-    const aux = this.state.auth;
-    const user = decode(aux);
-
-    fetch(`${METADATA_CREATE}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        authorization: "Bearer " + aux
-      },
-      body: JSON.stringify({
+    Yup.setLocale({});
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      options: Yup.array()
+        .of(
+          Yup.object().shape({
+            title: Yup.string().required(),
+            value: Yup.string().required(),
+            selected: Yup.bool()
+          })
+        )
+        .required(),
+      active: Yup.bool().test(value => value === true)
+    });
+    schema
+      .validate({
         name: this.state.name,
-        description: this.state.description,
-        labelText: this.state.title,
-        labelClass: "col-sm-2 col-form-label",
-        inputId: this.state.name,
-        inputType: this.state.type,
-        inputClass: "form-control form-control-sm",
-        inputPlaceholder: "",
-        formula: this.state.formula,
-        status: this.state.status,
-        userName: user.user_name,
-        details: this.state.options
+        options: this.state.options,
+        active: this.state.active
       })
-    })
-      .then(resp => {
-        if (resp.status === 200) {
-          this.setState({
-            alert200: true
-          });
-          setTimeout(() => {
-            this.setState({
-              alert200: false
-            });
-            this.resetForm();
-          }, 1500);
-        } else if (resp.status === 400) {
-          this.setState({
-            alert400: true
-          });
-          setTimeout(() => {
-            this.setState({
-              alert400: false
-            });
-          }, 1500);
-        } else if (resp.status === 500) {
-          this.setState({
-            alert500: true
-          });
-          setTimeout(() => {
-            this.setState({
-              alert500: false
-            });
-          }, 1500);
-        }
+      .then(() => {
+        console.log("los datos bien");
       })
       .catch(err => {
-        this.setState({
-          alert500: true
-        });
-        setTimeout(() => {
-          this.setState({ alert500: false });
-        }, 1500);
+        console.log(err.errors);
       });
-    // const aux = JSON.stringify(
-    //   {
-    //     title: this.state.title,
-    //     name: this.state.name,
-    //     description: this.state.description,
-    //     helpertext: this.state.helpertext,
-    //     options: this.state.options,
-    //     multiple: this.state.multiple,
-    //     isRequired: this.state.validation.isRequired,
-    //     isReadOnly: this.state.validation.isReadOnly
-    //   },
-    //   null,
-    //   2
-    // );
-    // alert(aux);
   };
 
   openModalPreview = () => {

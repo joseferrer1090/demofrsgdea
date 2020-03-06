@@ -8,10 +8,16 @@ import {
   Nav,
   NavItem,
   NavLink,
-  TabPane
+  TabPane,
+  Toast,
+  ToastHeader,
+  ToastBody,
+  CustomInput
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
+import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import { decode } from "jsonwebtoken";
 
 class Paragraph extends Component {
   constructor(props) {
@@ -20,6 +26,7 @@ class Paragraph extends Component {
       toolType: "PARAGRAPH",
       title: "",
       name: "",
+      type: "",
       content: "",
       colorText: "#000000",
       background: "#cccccc",
@@ -32,8 +39,31 @@ class Paragraph extends Component {
       },
       disabled: false,
       activeTab: "1",
-      modalpreview: false
+      modalpreview: false,
+      auth: "",
+      alert200: false,
+      alert400: false,
+      alert500: false,
+      active: true,
+      formula: false
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   componentDidMount() {
@@ -105,29 +135,91 @@ class Paragraph extends Component {
     return sizes;
   };
 
+  resetForm = () => {
+    this.MyForm.reset();
+  };
+
   createMatadata = e => {
     e.preventDefault();
-    const aux = JSON.stringify(
-      {
-        title: this.state.title,
-        name: this.state.name,
-        content: this.state.content,
-        align: this.state.align,
-        fontSize: this.state.fontSize,
-        colorText: this.state.colorText,
-        colorContent: this.state.background,
-        disabled: this.state.disabled,
-        isReadOnly: this.state.validation.isReadOnly,
-        isRequired: this.state.validation.isRequired
+    const aux = this.state.auth;
+    const user = decode(aux);
+    fetch(`${METADATA_CREATE}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + aux
       },
-      null,
-      2
-    );
-    alert(aux);
+      body: JSON.stringify({
+        name: this.state.name,
+        description: this.state.description,
+        labelText: this.state.title,
+        labelClass: "col-sm-2 col-form-label",
+        inputId: this.state.name,
+        inputType: this.state.type,
+        inputClass: "form-control form-control-sm",
+        inputPlaceholder: this.state.content,
+        formula: this.state.formula,
+        status: this.state.active,
+        userName: user.user_name
+      })
+    })
+      .then(resp => {
+        if (resp.status === 200) {
+          this.setState({
+            alert200: true
+          });
+
+          setTimeout(() => {
+            this.setState({
+              alert200: false
+            });
+            this.resetForm();
+          }, 1500);
+        } else if (resp.status === 400) {
+          this.setState({
+            alert400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert400: false
+            });
+          }, 1500);
+        } else if (resp.status === 500) {
+          this.setState({
+            alert500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert500: false
+            });
+          }, 1500);
+        }
+      })
+      .catch(err => {
+        console.log(`Error => ${err}`);
+      });
+
+    // const aux = JSON.stringify(
+    //   {
+    //     title: this.state.title,
+    //     name: this.state.name,
+    //     content: this.state.content,
+    //     align: this.state.align,
+    //     fontSize: this.state.fontSize,
+    //     colorText: this.state.colorText,
+    //     colorContent: this.state.background,
+    //     disabled: this.state.disabled,
+    //     isReadOnly: this.state.validation.isReadOnly,
+    //     isRequired: this.state.validation.isRequired
+    //   },
+    //   null,
+    //   2
+    // );
+    // alert(aux);
   };
 
   openModalPreview = () => {
-    this.refs.child.toggle();
+    this.MyModal.toggle();
   };
 
   render() {
@@ -146,6 +238,43 @@ class Paragraph extends Component {
             </span>
           </CardHeader>
           <CardBody>
+            <Toast isOpen={this.state.alert200}>
+              <ToastHeader icon={"success"}>
+                SGDEA - Modulo de configuración
+              </ToastHeader>
+              <ToastBody>
+                <p className="text-justify">
+                  {" "}
+                  Se registro el metadato de manera correcta{" "}
+                </p>
+              </ToastBody>
+            </Toast>
+            <Toast isOpen={this.state.alert400}>
+              <ToastHeader icon={"danger"}>
+                {" "}
+                SGDEA - Modulo de configuración{" "}
+              </ToastHeader>
+              <ToastBody>
+                <p className="text-justify">
+                  {" "}
+                  Se enviaron mal los dato al servidor{" "}
+                </p>
+              </ToastBody>
+            </Toast>
+            <Toast isOpen={this.state.alert500}>
+              <ToastHeader icon={"danger"}>
+                {" "}
+                SGDEA - Modulo de configuración{" "}
+              </ToastHeader>
+              <ToastBody>
+                <p className="text-justify"> Error, interno el el servidor </p>
+              </ToastBody>
+            </Toast>
+            <form
+              ref={el => (this.MyForm = el)}
+              className="form"
+              role="form"
+            ></form>
             <Nav tabs>
               <NavItem>
                 <NavLink
@@ -358,6 +487,44 @@ class Paragraph extends Component {
                 </div>
               </TabPane>
             </TabContent>
+            <br />
+            <div className="row">
+              <div className="col-md-12">
+                <div className="form-group">
+                  <CustomInput
+                    defaultValue={this.state.active}
+                    defaultChecked
+                    type={"checkbox"}
+                    id={"activeInput"}
+                    label={
+                      "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
+                    }
+                    onChange={e => {
+                      this.setState({
+                        active: e.target.checked
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="form-group">
+                  <CustomInput
+                    value={this.state.formula}
+                    type="checkbox"
+                    id="formula"
+                    label={
+                      "Campo para asignar a formula o seleccion condicional."
+                    }
+                    onChange={e => {
+                      this.setState({
+                        formula: e.target.checked
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </CardBody>
           <CardFooter>
             <div className="pull-right">
@@ -385,7 +552,7 @@ class Paragraph extends Component {
         </Card>
         <ModalPreview
           modalpreview={this.state.modalpreview}
-          ref={"child"}
+          ref={el => (this.MyModal = el)}
           field={this.props.field}
           inputType={this.props.dragType}
         />

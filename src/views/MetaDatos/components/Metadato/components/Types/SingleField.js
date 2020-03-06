@@ -11,7 +11,8 @@ import {
   TabPane,
   Toast,
   ToastBody,
-  ToastHeader
+  ToastHeader,
+  CustomInput
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
@@ -43,7 +44,7 @@ class SingleField extends Component {
     super(props);
     this.state = {
       title: "",
-      type: "Text",
+      type: "",
       name: "",
       toolType: "SINGLE_FIELD",
       defaultValue: "",
@@ -56,6 +57,8 @@ class SingleField extends Component {
         min: 6,
         max: 6
       },
+      active: true,
+      formula: false,
       activeTab: "1",
       tab: "",
       modalpreview: false,
@@ -152,6 +155,21 @@ class SingleField extends Component {
     const aux = this.state.auth;
     const username = decode(aux);
     e.preventDefault();
+    console.log(
+      JSON.stringify({
+        // name: this.state.name,
+        // description: this.state.description,
+        // labelText: this.state.title,
+        // labelClass: "col-sm-2 col-form-label",
+        // inputId: this.state.name,
+        // inputType: this.state.type,
+        // inputClass: "form-control form-control-sm",
+        // inputPlaceholder: this.state.placeholder,
+        //formula: this.state.formula,
+        //status: this.state.active
+        // userName: username.user_name
+      })
+    );
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {
@@ -167,8 +185,8 @@ class SingleField extends Component {
         inputType: this.state.type,
         inputClass: "form-control form-control-sm",
         inputPlaceholder: this.state.placeholder,
-        formula: false,
-        status: true,
+        formula: this.state.formula,
+        status: this.state.active,
         userName: username.user_name
       })
     })
@@ -509,6 +527,38 @@ class SingleField extends Component {
                       </Card>
                     </TabPane>
                   </TabContent>
+                  <br />
+                  <div className="row">
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <CustomInput
+                          // value={this.state.active}
+                          defaultValue={!this.state.active}
+                          defaultChecked
+                          type="checkbox"
+                          id={"activeInput"}
+                          label={
+                            "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la platilla correspondiente."
+                          }
+                          onChange={e => {
+                            this.setState({
+                              active: e.target.checked
+                            });
+                          }}
+                        ></CustomInput>
+                        <br />
+                        <CustomInput
+                          value={this.state.formula}
+                          type={"checkbox"}
+                          label={"Campo para asignar a formula"}
+                          id={"formula"}
+                          onChange={e => {
+                            this.setState({ formula: e.target.checked });
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </form>
               </CardBody>
               <CardFooter>

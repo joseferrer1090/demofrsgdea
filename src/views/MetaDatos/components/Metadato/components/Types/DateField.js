@@ -9,17 +9,23 @@ import {
   TabPane,
   Nav,
   NavLink,
-  NavItem
+  NavItem,
+  Toast,
+  ToastBody,
+  ToastHeader,
+  CustomInput
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
+import { decode } from "jsonwebtoken";
+import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
 
 class DateField extends Component {
   constructor(props) {
     super(props);
     this.state = {
       title: "",
-      type: "Date",
+      type: "date",
       name: "",
       toolType: "DATE_FIELD",
       defaultValue: "",
@@ -32,8 +38,31 @@ class DateField extends Component {
         max: ""
       },
       activeTab: "1",
-      modalpreview: false
+      modalpreview: false,
+      auth: "",
+      alert200: false,
+      alert400: false,
+      alert500: false,
+      active: true,
+      formula: false
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   componentDidMount() {
@@ -101,24 +130,84 @@ class DateField extends Component {
 
   createMetadata = e => {
     e.preventDefault();
-    const aux = JSON.stringify(
-      {
-        title: this.state.title,
+    const aux = this.state.auth;
+    const user = decode(aux);
+    fetch(`${METADATA_CREATE}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + aux
+      },
+      body: JSON.stringify({
         name: this.state.name,
         description: this.state.description,
-        isRequired: this.state.validation.isRequired,
-        isReadOnly: this.state.validation.isReadOnly,
-        min: this.state.validation.min,
-        max: this.state.validation.max
-      },
-      null,
-      2
-    );
-    alert(aux);
+        labelText: this.state.title,
+        labelClass: "col-sm-2 col-form-label",
+        inputId: this.state.name,
+        inputType: this.state.type,
+        inputClass: "form-control form-control-sm",
+        inputPlaceholder: "",
+        formula: this.state.formula,
+        status: this.state.active,
+        userName: user.user_name
+      })
+    })
+      .then(resp => {
+        if (resp.status === 200) {
+          this.setState({
+            alert200: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert200: false
+            });
+            this.resetForm();
+          }, 1500);
+        } else if (resp.status === 400) {
+          this.setState({
+            alert400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert400: false
+            });
+          }, 1500);
+        } else if (resp.status === 500) {
+          this.setState({
+            alert500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert500: false
+            });
+          }, 1500);
+        }
+      })
+      .catch(err => {
+        console.log(`Error => ${err}`);
+      });
+    // const aux = JSON.stringify(
+    //   {
+    //     title: this.state.title,
+    //     name: this.state.name,
+    //     description: this.state.description,
+    //     isRequired: this.state.validation.isRequired,
+    //     isReadOnly: this.state.validation.isReadOnly,
+    //     min: this.state.validation.min,
+    //     max: this.state.validation.max
+    //   },
+    //   null,
+    //   2
+    // );
+    // alert(aux);
   };
 
   openModalPreview = () => {
-    this.refs.child.toggle();
+    this.MyModal.toggle();
+  };
+
+  resetForm = () => {
+    this.MyForm.reset();
   };
 
   render() {
@@ -137,136 +226,203 @@ class DateField extends Component {
             </span>
           </CardHeader>
           <CardBody>
-            <Nav tabs>
-              <NavLink
-                className={classnames({
-                  active: this.state.activeTab === "1"
-                })}
-                onClick={() => this.toggle("1")}
-              >
-                General <i className="fa fa-cog" />
-              </NavLink>
-              <NavLink
-                className={classnames({
-                  active: this.state.activeTab === "2"
-                })}
-                onClick={() => this.toggle("2")}
-              >
-                Validacion <i className="fa fa-exclamation-triangle" />
-              </NavLink>
-            </Nav>
-            <TabContent activeTab={this.state.activeTab}>
-              <TabPane tabId={"1"}>
-                <Card body>
-                  <div className="row">
-                    <div className="col-md-12">
-                      <div className="form-group">
-                        {/* <p className="alert alert-info text-center">
+            <form ref={el => (this.MyForm = el)} className="form" role={"form"}>
+              <Toast isOpen={this.state.alert200}>
+                <ToastHeader icon={"success"}>
+                  SGDEA - Modulo de configuración{" "}
+                </ToastHeader>
+                <ToastBody>
+                  <p className="text-justify">
+                    {" "}
+                    Se creo el metadato de manera correcta{" "}
+                  </p>
+                </ToastBody>
+              </Toast>
+              <Toast isOpen={this.state.alert400}>
+                <ToastHeader icon={"danger"}>
+                  {" "}
+                  SGDEA - Modulo de configuración{" "}
+                </ToastHeader>
+                <ToastBody>
+                  <p className="text-justify">
+                    {" "}
+                    Error, se enviaron mal los datos al servidor{" "}
+                  </p>
+                </ToastBody>
+              </Toast>
+              <Toast isOpen={this.state.alert500}>
+                <ToastHeader icon={"danger"}>
+                  {" "}
+                  SGDEA - Modulo de configuración{" "}
+                </ToastHeader>
+                <ToastBody>
+                  <p className="text-justify"> Error, en el servidor </p>
+                </ToastBody>
+              </Toast>
+              <Nav tabs>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "1"
+                  })}
+                  onClick={() => this.toggle("1")}
+                >
+                  General <i className="fa fa-cog" />
+                </NavLink>
+                <NavLink
+                  className={classnames({
+                    active: this.state.activeTab === "2"
+                  })}
+                  onClick={() => this.toggle("2")}
+                >
+                  Validacion <i className="fa fa-exclamation-triangle" />
+                </NavLink>
+              </Nav>
+              <TabContent activeTab={this.state.activeTab}>
+                <TabPane tabId={"1"}>
+                  <Card body>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          {/* <p className="alert alert-info text-center">
                           <strong>NAME</strong>
                         </p> */}
-                        <label htmlFor="name">NAME</label>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          value={this.state.name}
-                          onChange={e =>
-                            this.changeValue("NAME", e.target.value)
-                          }
-                          placeholder={"Nombre"}
-                        />
+                          <label htmlFor="name">NAME</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            value={this.state.name}
+                            onChange={e =>
+                              this.changeValue("NAME", e.target.value)
+                            }
+                            placeholder={"Nombre"}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="">TITLE</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            value={this.state.title}
+                            onChange={e =>
+                              this.changeValue("TITLE", e.target.value)
+                            }
+                            placeholder={"Titulo"}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="description"> Descripcion </label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            value={this.state.description}
+                            onChange={e => {
+                              this.changeValue("DESCRIPTION", e.target.value);
+                            }}
+                          />
+                        </div>
                       </div>
                     </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">TITLE</label>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          value={this.state.title}
-                          onChange={e =>
-                            this.changeValue("TITLE", e.target.value)
-                          }
-                          placeholder={"Titulo"}
-                        />
+                  </Card>
+                </TabPane>
+                <TabPane tabId={"2"}>
+                  <Card body>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <input
+                            type="checkbox"
+                            value={this.state.validation.isRequired}
+                            onChange={e =>
+                              this.changeValue("IS_REQUIRED", e.target.checked)
+                            }
+                            id={"isRequired"}
+                          />
+                          <label htmlFor="isRequired"> ¿Es requerido? </label>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <input
+                            type={"checkbox"}
+                            value={this.state.validation.isReadOnly}
+                            onChange={e =>
+                              this.changeValue("IS_READONLY", e.target.checked)
+                            }
+                            id="isReadOnly"
+                          />
+                          <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label>MAX</label>
+                          <input
+                            type={"date"}
+                            className={"form-control form-control-sm"}
+                            onChange={e =>
+                              this.changeValue("MAX", e.target.value)
+                            }
+                            value={this.state.validation.max}
+                            patter={"yyyy/mm/dd"}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label>MIN</label>
+                          <input
+                            type="date"
+                            className="form-control form-control-sm"
+                            value={this.state.validation.min}
+                            onChange={e =>
+                              this.changeValue("MIN", e.target.value)
+                            }
+                            patter={"yyyy/mm/dd"}
+                          />
+                        </div>
                       </div>
                     </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="description"> Descripcion </label>
-                        <input
-                          type="text"
-                          className="form-control form-control-sm"
-                          value={this.state.description}
-                          onChange={e => {
-                            this.changeValue("DESCRIPTION", e.target.value);
-                          }}
-                        />
-                      </div>
-                    </div>
+                  </Card>
+                </TabPane>
+              </TabContent>
+              <br />
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <CustomInput
+                      defaultValue={this.state.active}
+                      defaultChecked
+                      type={"checkbox"}
+                      id={"activeInput"}
+                      label={
+                        "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
+                      }
+                    />
                   </div>
-                </Card>
-              </TabPane>
-              <TabPane tabId={"2"}>
-                <Card body>
-                  <div className="row">
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <input
-                          type="checkbox"
-                          value={this.state.validation.isRequired}
-                          onChange={e =>
-                            this.changeValue("IS_REQUIRED", e.target.checked)
-                          }
-                          id={"isRequired"}
-                        />
-                        <label htmlFor="isRequired"> ¿Es requerido? </label>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <input
-                          type={"checkbox"}
-                          value={this.state.validation.isReadOnly}
-                          onChange={e =>
-                            this.changeValue("IS_READONLY", e.target.checked)
-                          }
-                          id="isReadOnly"
-                        />
-                        <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>MAX</label>
-                        <input
-                          type={"date"}
-                          className={"form-control form-control-sm"}
-                          onChange={e =>
-                            this.changeValue("MAX", e.target.value)
-                          }
-                          value={this.state.validation.max}
-                          patter={"yyyy/mm/dd"}
-                        />
-                      </div>
-                    </div>
-                    <div className="col-md-6">
-                      <div className="form-group">
-                        <label>MIN</label>
-                        <input
-                          type="date"
-                          className="form-control form-control-sm"
-                          value={this.state.validation.min}
-                          onChange={e =>
-                            this.changeValue("MIN", e.target.value)
-                          }
-                          patter={"yyyy/mm/dd"}
-                        />
-                      </div>
-                    </div>
+                </div>
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <CustomInput
+                      type={"checkbox"}
+                      value={this.state.formula}
+                      id="formula"
+                      label={
+                        "Campo para asignar a formula o seleccion condicional."
+                      }
+                      onChange={e => {
+                        this.setState({
+                          formula: e.target.checked
+                        });
+                      }}
+                    />
                   </div>
-                </Card>
-              </TabPane>
-            </TabContent>
+                </div>
+              </div>
+            </form>
           </CardBody>
           <CardFooter>
             <div className="pull-right">
@@ -292,7 +448,7 @@ class DateField extends Component {
           </CardFooter>
         </Card>
         <ModalPreview
-          ref="child"
+          ref={el => (this.MyModal = el)}
           modalpreview={this.state.modalpreview}
           field={this.props.field}
           inputType={this.props.dragType}

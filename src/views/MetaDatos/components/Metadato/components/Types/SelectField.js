@@ -219,6 +219,87 @@ class SelectField extends Component {
     }
   };
 
+  sendData = () => {
+    const aux = this.state.auth;
+    const user = decode(aux);
+
+    fetch(`${METADATA_CREATE}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + aux
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        description: this.state.description,
+        labelText: this.state.title,
+        labelClass: "col-sm-2 col-form-label",
+        inputId: this.state.name,
+        inputType: this.state.type,
+        inputClass: "form-control form-control-sm",
+        inputPlaceholder: "",
+        formula: this.state.formula,
+        status: this.state.status,
+        userName: user.user_name,
+        details: this.state.options
+      })
+    })
+      .then(resp => {
+        if (resp.status === 200) {
+          this.setState({
+            alert200: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert200: false
+            });
+            this.resetForm();
+          }, 1500);
+        } else if (resp.status === 400) {
+          this.setState({
+            alert400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert400: false
+            });
+          }, 1500);
+        } else if (resp.status === 500) {
+          this.setState({
+            alert500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert500: false
+            });
+          }, 1500);
+        }
+      })
+      .catch(err => {
+        this.setState({
+          alert500: true
+        });
+        setTimeout(() => {
+          this.setState({ alert500: false });
+        }, 1500);
+      });
+    // const aux = JSON.stringify(
+    //   {
+    //     title: this.state.title,
+    //     name: this.state.name,
+    //     description: this.state.description,
+    //     helpertext: this.state.helpertext,
+    //     options: this.state.options,
+    //     multiple: this.state.multiple,
+    //     isRequired: this.state.validation.isRequired,
+    //     isReadOnly: this.state.validation.isReadOnly
+    //   },
+    //   null,
+    //   2
+    // );
+    // alert(aux);
+  };
+
   createMetada = e => {
     e.preventDefault();
     Yup.setLocale({});
@@ -242,7 +323,8 @@ class SelectField extends Component {
         active: this.state.active
       })
       .then(() => {
-        console.log("los datos bien");
+        this.sendData();
+        //console.log("los datos bien");
       })
       .catch(err => {
         console.log(err.errors);

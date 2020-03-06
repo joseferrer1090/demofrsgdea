@@ -18,6 +18,7 @@ import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
 import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import * as Yup from "yup";
 
 class Paragraph extends Component {
   constructor(props) {
@@ -139,8 +140,7 @@ class Paragraph extends Component {
     this.MyForm.reset();
   };
 
-  createMatadata = e => {
-    e.preventDefault();
+  sendData = () => {
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_CREATE}`, {
@@ -216,6 +216,26 @@ class Paragraph extends Component {
     //   2
     // );
     // alert(aux);
+  };
+
+  createMatadata = e => {
+    e.preventDefault();
+    // Los mensajes custom de las validaciones.
+    Yup.setLocale({});
+
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      active: Yup.bool().test(value => value === true)
+    });
+
+    schema
+      .validate({ name: this.state.name, active: this.state.active })
+      .then(() => {
+        console.log("Se enviaron los datos");
+      })
+      .catch(err => {
+        console.log(err.errors);
+      });
   };
 
   openModalPreview = () => {

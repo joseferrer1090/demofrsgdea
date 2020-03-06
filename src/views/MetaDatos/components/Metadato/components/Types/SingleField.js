@@ -225,18 +225,23 @@ class SingleField extends Component {
   };
 
   CreateMetadate = e => {
-    // e.preventDefault();
+    e.preventDefault();
     Yup.setLocale({
       mixed: {
         required: `Campo necesario para el registro del metadato`
       }
     });
     const schema = Yup.object().shape({
-      name: Yup.string().required()
+      name: Yup.string().required(),
+      active: Yup.boolean()
     });
     schema
       .validate({ name: this.state.name })
-      .then(this.sendData())
+      .then(() => {
+        if (schema.isValid) {
+          this.sendData();
+        }
+      })
       .catch(err => {
         this.setState({
           alertError: true,

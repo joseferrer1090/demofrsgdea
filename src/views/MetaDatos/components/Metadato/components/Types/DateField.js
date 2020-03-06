@@ -19,6 +19,7 @@ import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
 import { decode } from "jsonwebtoken";
 import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import * as Yup from "yup";
 
 class DateField extends Component {
   constructor(props) {
@@ -128,8 +129,7 @@ class DateField extends Component {
     }
   };
 
-  createMetadata = e => {
-    e.preventDefault();
+  sendData = () => {
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_CREATE}`, {
@@ -200,6 +200,26 @@ class DateField extends Component {
     //   2
     // );
     // alert(aux);
+  };
+
+  createMetadata = e => {
+    e.preventDefault();
+    // mensaje de las validaciones custom
+    Yup.setLocale({});
+
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      active: Yup.bool().test(value => value === true)
+    });
+
+    schema
+      .validate({ name: this.state.name, active: this.state.active })
+      .then(() => {
+        console.log("Se enviaron los datos");
+      })
+      .catch(err => {
+        console.log(err.errors);
+      });
   };
 
   openModalPreview = () => {

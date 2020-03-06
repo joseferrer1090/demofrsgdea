@@ -215,9 +215,14 @@ class DateField extends Component {
     });
 
     schema
-      .validate({ name: this.state.name, active: this.state.active })
+      .validate({
+        name: this.state.name,
+        active: this.state.active,
+        min: this.state.validation.min,
+        max: this.state.validation.max
+      })
       .then(() => {
-        console.log("Se enviaron los datos");
+        console.log("Datos correctos");
       })
       .catch(err => {
         console.log(err.errors);
@@ -423,6 +428,11 @@ class DateField extends Component {
                       label={
                         "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
                       }
+                      onChange={e => {
+                        this.setState({
+                          active: e.target.checked
+                        });
+                      }}
                     />
                   </div>
                 </div>

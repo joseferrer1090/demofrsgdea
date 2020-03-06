@@ -225,11 +225,16 @@ class Paragraph extends Component {
 
     const schema = Yup.object().shape({
       name: Yup.string().required(),
-      active: Yup.bool().test(value => value === true)
+      active: Yup.bool().test(value => value === true),
+      description: Yup.string().required()
     });
 
     schema
-      .validate({ name: this.state.name, active: this.state.active })
+      .validate({
+        name: this.state.name,
+        active: this.state.active,
+        description: this.state.description
+      })
       .then(() => {
         console.log("Se enviaron los datos");
       })

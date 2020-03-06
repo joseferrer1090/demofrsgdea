@@ -301,14 +301,16 @@ class RadioButtons extends Component {
             selected: Yup.bool()
           })
         )
-        .required()
+        .required(),
+      description: Yup.string().required()
     });
 
     schema
       .validate({
         name: this.state.name,
         active: this.state.active,
-        radios: this.state.radios
+        radios: this.state.radios,
+        description: this.state.description
       })
       .then(() => {
         this.sendData();

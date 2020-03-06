@@ -293,13 +293,15 @@ class CheckBoxes extends Component {
             selected: Yup.bool()
           })
         )
-        .required()
+        .required(),
+      description: Yup.string().required()
     });
     schema
       .validate({
         name: this.state.name,
         active: this.state.active,
-        checboxes: this.state.checkBoxes
+        checboxes: this.state.checkBoxes,
+        description: this.state.description
       })
       .then(() => {
         this.sendData();

@@ -314,13 +314,15 @@ class SelectField extends Component {
           })
         )
         .required(),
-      active: Yup.bool().test(value => value === true)
+      active: Yup.bool().test(value => value === true),
+      description: Yup.string().required()
     });
     schema
       .validate({
         name: this.state.name,
         options: this.state.options,
-        active: this.state.active
+        active: this.state.active,
+        description: this.state.description
       })
       .then(() => {
         this.sendData();

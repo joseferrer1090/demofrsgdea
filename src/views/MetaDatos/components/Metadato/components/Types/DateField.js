@@ -211,7 +211,8 @@ class DateField extends Component {
       name: Yup.string().required(),
       active: Yup.bool().test(value => value === true),
       min: Yup.date(new Date()),
-      max: Yup.date(new Date())
+      max: Yup.date(new Date()),
+      description: this.state.description
     });
 
     schema
@@ -219,7 +220,8 @@ class DateField extends Component {
         name: this.state.name,
         active: this.state.active,
         min: this.state.validation.min,
-        max: this.state.validation.max
+        max: this.state.validation.max,
+        description: this.state.description
       })
       .then(() => {
         console.log("Datos correctos");

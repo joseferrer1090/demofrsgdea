@@ -20,6 +20,7 @@ import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
 import { decode } from "jsonwebtoken";
 import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import * as Yup from "yup";
 
 class CheckBoxes extends Component {
   constructor(props) {
@@ -217,8 +218,7 @@ class CheckBoxes extends Component {
     }
   };
 
-  createMetadata = e => {
-    e.preventDefault();
+  sendData = () => {
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_CREATE}`, {
@@ -275,6 +275,38 @@ class CheckBoxes extends Component {
       })
       .catch(error => {
         console.log(`${error}`);
+      });
+  };
+
+  createMetadata = e => {
+    e.preventDefault();
+    // van los valores de las validaciones
+    Yup.setLocale({});
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      active: Yup.bool().test(value => value === true),
+      checboxes: Yup.array()
+        .of(
+          Yup.object().shape({
+            title: Yup.string().required(),
+            value: Yup.string().required(),
+            selected: Yup.bool()
+          })
+        )
+        .required()
+    });
+    schema
+      .validate({
+        name: this.state.name,
+        active: this.state.active,
+        checboxes: this.state.checkBoxes
+      })
+      .then(() => {
+        this.sendData();
+        console.log("Se enviaron bien los datos");
+      })
+      .catch(err => {
+        console.log(err.errors);
       });
   };
 

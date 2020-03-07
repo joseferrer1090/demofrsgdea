@@ -15,7 +15,8 @@ import {
   Toast,
   ToastBody,
   ToastHeader,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
@@ -52,7 +53,9 @@ class SelectField extends Component {
       auth: "",
       alert200: false,
       alert500: false,
-      alert400: false
+      alert400: false,
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -329,7 +332,16 @@ class SelectField extends Component {
         //console.log("los datos bien");
       })
       .catch(err => {
-        console.log(err.errors);
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
+        console.log(err.message);
       });
   };
 
@@ -356,6 +368,10 @@ class SelectField extends Component {
             </span>
           </CardHeader>
           <CardBody>
+            <Alert color={"danger"} isOpen={this.state.alertError}>
+              <i className="fa fa-exclamation-triangle"></i>{" "}
+              {this.state.alertErrorMessage}
+            </Alert>
             <Toast isOpen={this.state.alert200}>
               <ToastHeader icon={"success"}>
                 {" "}

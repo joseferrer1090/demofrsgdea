@@ -69,7 +69,8 @@ class SingleField extends Component {
       alert200: false,
       alert400: false,
       alert500: false,
-      alertError: false
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -226,10 +227,11 @@ class SingleField extends Component {
 
   CreateMetadate = e => {
     e.preventDefault();
+    // mensajes personalizados para la validacion
     Yup.setLocale({
-      mixed: {
-        required: `Campo necesario para el registro del metadato`
-      }
+      // mixed: {
+      //   required: `Campo  necesario para el registro`
+      // }
     });
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -248,10 +250,13 @@ class SingleField extends Component {
         }
       })
       .catch(err => {
-        this.setState({
-          alertError: true,
-          alerErrorMessage: err.errors
-        });
+        this.setState(
+          {
+            alertError: true,
+            alertErrorMessage: err.message
+          },
+          console.log(err)
+        );
         setTimeout(() => {
           this.setState({
             alertError: false
@@ -284,8 +289,8 @@ class SingleField extends Component {
               <CardBody>
                 <Alert color={"danger"} isOpen={this.state.alertError}>
                   <p className="text-justify">
-                    <i className="fa fa-exclamation-triangle fa-1x" /> Error,{" "}
-                    {this.state.alerErrorMessage}{" "}
+                    <i className="fa fa-exclamation-triangle fa-1x" />{" "}
+                    {this.state.alertErrorMessage}
                   </p>
                 </Alert>
                 <Toast isOpen={this.state.alert200}>

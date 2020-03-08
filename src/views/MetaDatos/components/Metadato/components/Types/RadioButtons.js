@@ -15,7 +15,8 @@ import {
   Toast,
   ToastHeader,
   ToastBody,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
@@ -50,7 +51,9 @@ class RadioButtons extends Component {
       auth: "",
       alert200: false,
       alert400: false,
-      alert500: false
+      alert500: false,
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -154,7 +157,8 @@ class RadioButtons extends Component {
     }
   };
 
-  addOption = () => {
+  addOption = e => {
+    e.preventDefault();
     let radio = {
       title: "",
       value: "",
@@ -314,10 +318,19 @@ class RadioButtons extends Component {
       })
       .then(() => {
         this.sendData();
-        console.log("Se enviaron los datos");
+        // console.log("Se enviaron los datos");
       })
       .catch(err => {
-        console.log(err.errors);
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.errors
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
+        // console.log(err.errors);
       });
   };
 
@@ -344,6 +357,10 @@ class RadioButtons extends Component {
             </span>
           </CardHeader>
           <CardBody>
+            <Alert color={"danger"} isOpen={this.state.alertError}>
+              <i className="fa fa-exclamation-triangle" />
+              {this.state.alertErrorMessage}
+            </Alert>
             <Toast isOpen={this.state.alert200}>
               <ToastHeader icon={"success"}>
                 {" "}
@@ -653,7 +670,8 @@ class RadioButtons extends Component {
                       <span></span>
                     )}
                     <button
-                      onClick={() => this.addOption()}
+                      type="button"
+                      onClick={e => this.addOption(e)}
                       className="btn btn-secondary btn-sm"
                     >
                       <i className="fa fa-plus" /> Agregar opciones

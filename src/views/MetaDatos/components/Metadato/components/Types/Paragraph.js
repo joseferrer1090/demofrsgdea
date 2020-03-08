@@ -12,7 +12,8 @@ import {
   Toast,
   ToastHeader,
   ToastBody,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
@@ -38,6 +39,7 @@ class Paragraph extends Component {
         isReadOnly: false,
         isRequired: false
       },
+      description: "",
       disabled: false,
       activeTab: "1",
       modalpreview: false,
@@ -46,7 +48,9 @@ class Paragraph extends Component {
       alert400: false,
       alert500: false,
       active: true,
-      formula: false
+      formula: false,
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -118,6 +122,9 @@ class Paragraph extends Component {
         break;
       case "IS_DISABLED":
         this.setState({ disabled: value });
+        break;
+      case "DESCRIPTION":
+        this.setState({ description: value });
         break;
 
       default:
@@ -236,10 +243,19 @@ class Paragraph extends Component {
         description: this.state.description
       })
       .then(() => {
+        this.sendData();
         console.log("Se enviaron los datos");
       })
       .catch(err => {
-        console.log(err.errors);
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.errors
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
       });
   };
 
@@ -263,6 +279,10 @@ class Paragraph extends Component {
             </span>
           </CardHeader>
           <CardBody>
+            <Alert isOpen={this.state.alertError} color={"danger"}>
+              <i className="fa fa-exclamation-triangle" />{" "}
+              {this.state.alertErrorMessage}
+            </Alert>
             <Toast isOpen={this.state.alert200}>
               <ToastHeader icon={"success"}>
                 SGDEA - Modulo de configuración
@@ -341,34 +361,59 @@ class Paragraph extends Component {
             <TabContent activeTab={this.state.activeTab}>
               <TabPane tabId={"1"}>
                 <Card body>
-                  <div className="form-group">
-                    <label htmlFor="name">Name</label>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                      value={this.state.value}
-                      onChange={e => this.changeValue("NAME", e.target.value)}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="title">Title</label>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                      onChange={e => this.changeValue("TITLE", e.target.value)}
-                      value={this.state.title}
-                    />
-                  </div>
-                  <div className="form-group">
-                    <label htmlFor="paragraph">Paragraph</label>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                      onChange={e =>
-                        this.changeValue("CONTENT", e.target.value)
-                      }
-                      value={this.state.content}
-                    />
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="name">Name</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.value}
+                          onChange={e =>
+                            this.changeValue("NAME", e.target.value)
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="title">Title</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          onChange={e =>
+                            this.changeValue("TITLE", e.target.value)
+                          }
+                          value={this.state.title}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label htmlFor="paragraph">Paragraph</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          onChange={e =>
+                            this.changeValue("CONTENT", e.target.value)
+                          }
+                          value={this.state.content}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-grouop">
+                        <label>Descripcion</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          onChange={e => {
+                            this.changeValue("DESCRIPTION", e.target.value);
+                          }}
+                          value={this.state.description}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </Card>
               </TabPane>

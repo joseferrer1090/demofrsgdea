@@ -13,7 +13,8 @@ import {
   Toast,
   ToastBody,
   ToastHeader,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
 import ModalPreview from "./../ModalPreview";
@@ -45,7 +46,9 @@ class DateField extends Component {
       alert400: false,
       alert500: false,
       active: true,
-      formula: false
+      formula: false,
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -212,7 +215,7 @@ class DateField extends Component {
       active: Yup.bool().test(value => value === true),
       min: Yup.date(new Date()),
       max: Yup.date(new Date()),
-      description: this.state.description
+      description: Yup.string().required()
     });
 
     schema

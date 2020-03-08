@@ -227,9 +227,19 @@ class DateField extends Component {
         description: this.state.description
       })
       .then(() => {
+        this.sendData();
         console.log("Datos correctos");
       })
       .catch(err => {
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.errors
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
         console.log(err.errors);
       });
   };
@@ -258,7 +268,11 @@ class DateField extends Component {
             </span>
           </CardHeader>
           <CardBody>
-            <form ref={el => (this.MyForm = el)} className="form" role={"form"}>
+            <form ref={el => (this.MyForm = el)} className="form">
+              <Alert color={"danger"} isOpen={this.state.alertError}>
+                <i className="fa fa-exclamation-triangle" />
+                {this.state.alertErrorMessage}
+              </Alert>
               <Toast isOpen={this.state.alert200}>
                 <ToastHeader icon={"success"}>
                   SGDEA - Modulo de configuración{" "}

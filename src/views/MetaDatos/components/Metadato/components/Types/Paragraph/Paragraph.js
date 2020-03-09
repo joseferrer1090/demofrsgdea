@@ -16,8 +16,8 @@ import {
   Alert
 } from "reactstrap";
 import classnames from "classnames";
-import ModalPreview from "./../ModalPreview";
-import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import ModalPreview from "../../ModalPreview";
+import { METADATA_CREATE } from "../../../../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import * as Yup from "yup";
 

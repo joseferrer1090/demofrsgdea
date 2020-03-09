@@ -14,12 +14,12 @@ import {
   CardFooter,
   Button
 } from "reactstrap";
-import SingleField from "./Types/SingleField";
-import SelectField from "./Types/SelectField";
-import RadioButtons from "./Types/RadioButtons";
-import CheckBoxes from "./Types/CheckBoxes";
-import Paragraph from "./Types/Paragraph";
-import DateField from "./Types/DateField";
+import SingleField from "./Types/SingleField/SingleField";
+import SelectField from "./Types/SelectField/SelectField";
+import RadioButtons from "./Types/RadioButtons/RadioButtons";
+import CheckBoxes from "./Types/CheckBoxes/CheckBoxes";
+import Paragraph from "./Types/Paragraph/Paragraph";
+import DateField from "./Types/DateField/DateField";
 
 class FormContainer extends Component {
   constructor(props) {

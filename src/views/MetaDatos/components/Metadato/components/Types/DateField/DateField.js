@@ -17,9 +17,9 @@ import {
   Alert
 } from "reactstrap";
 import classnames from "classnames";
-import ModalPreview from "./../ModalPreview";
+import ModalPreview from "../../ModalPreview";
 import { decode } from "jsonwebtoken";
-import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import { METADATA_CREATE } from "../../../../../../../services/EndPoints";
 import * as Yup from "yup";
 
 class DateField extends Component {

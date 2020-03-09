@@ -10,11 +10,13 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Collapse
+  Collapse,
+  Toast,
+  ToastHeader,
+  ToastBody
 } from "reactstrap";
-
 import { decode } from "jsonwebtoken";
-import {} from "./../../../services/EndPoints";
+import { INFO_EMAIL } from "./../../../services/EndPoints";
 import IMGEMAILREQUEST from "./../../../assets/img/request.svg";
 import moment from "moment";
 import MyPdfViewer from "./viewpdf";
@@ -29,7 +31,10 @@ class ModalViewEmailRequest extends React.Component {
       id: this.props.id,
       t: this.props.t,
       collapase: true,
-      srcPDF: ""
+      idFile: "",
+      FilenameFile: "",
+      dataFiles: "",
+      noFiles: ""
     };
   }
 
@@ -54,23 +59,24 @@ class ModalViewEmailRequest extends React.Component {
       modal: !this.state.modal
       //   id: id
     });
-    // const auth = this.state.auth;
-    // const username = decode(auth);
-    // fetch(`${TEMPLATE_EMAIL}${id}?username=${username.user_name}`, {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "Bearer " + auth,
-    //     "Content-Type": "application/json"
-    //   }
-    // })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     this.setState({
-    //       dataTemplate: data
-    //     });
-    //     console.log(this.state.dataTemplate);
-    //   })
-    //   .catch(Error => console.log(Error));
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${INFO_EMAIL}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataFiles: data.details
+        });
+
+        // console.log(this.state.dataTemplate);
+      })
+      .catch(Error => console.log(Error));
   };
 
   FechaCreacionEmailRequest() {
@@ -86,62 +92,48 @@ class ModalViewEmailRequest extends React.Component {
       collapase: !this.state.collapase
     });
   };
+
   render() {
     const { t } = this.state;
-    const files = [
-      {
-        id: 1,
-        name: "Archivo para radicación PDF_v_1",
-        value: "http://www.africau.edu/images/default/sample.pdf"
-      },
-      {
-        id: 2,
-        name: "Archivo para radicación PDF_v_2",
-        value:
-          "https://edwardsib.org/ourpages/auto/2015/9/28/51403017/Cuentos%20Infantiles.pdf"
-      },
-      {
-        id: 3,
-        name: "Archivo para radicación PDF_v_3",
-        value:
-          "http://files.unicef.org/republicadominicana/Manual_de_Cuentos_y_fabulas.pdf"
-      }
-    ];
 
     const listFiles = () => {
+      const { dataFiles } = this.state;
       return (
         <React.Fragment>
           <ul className="list-group">
-            {files.map(listItem => (
-              <li
-                key={listItem.id}
-                className="list-group-item list-group-item-action"
-                value={listItem.value}
-                onClick={e => {
-                  // this.setState({
-                  //   srcPDF: listItem.value
-                  // });
-                  // console.log();
-                  fetch(
-                    "http://192.168.10.180:8090/api/sgdea/service/filing/emails/view/file/0c29f416-1ad4-4226-b546-7b1db2da6f71/744d45ff-cded-467d-a999-7a94e06c07a5.pdf",
-                    {
-                      method: "GET",
-                      headers: {
-                        Authorization: "Bearer " + this.state.auth,
-                        "Content-Type": "application/json"
-                      }
-                    }
-                  ).then(response => {
-                    console.log(response.url);
+            {dataFiles.length !== 0 ? (
+              dataFiles.map(listItem => (
+                <li
+                  key={listItem.id}
+                  className="list-group-item list-group-item-action"
+                  value={listItem.id}
+                  onClick={e => {
                     this.setState({
-                      srcPDF: response.url
+                      idFile: listItem.id,
+                      FilenameFile: listItem.filename,
+                      collapase: !this.state.collapase
                     });
-                  });
-                }}
-              >
-                {listItem.name}
-              </li>
-            ))}
+                    console.log(
+                      `id: ${listItem.id} -filename: ${listItem.filename}`
+                    );
+                  }}
+                >
+                  <i className="fa fa-file-text" /> {listItem.filenameOriginal}
+                </li>
+              ))
+            ) : (
+              <Toast>
+                <ToastHeader icon="danger">
+                  {" "}
+                  No se encontraron archivos adjuntos.
+                </ToastHeader>
+                <ToastBody>
+                  {" "}
+                  La petición vía correo electrónico no contiene archivos
+                  adjuntos.
+                </ToastBody>
+              </Toast>
+            )}
           </ul>
         </React.Fragment>
       );
@@ -164,7 +156,7 @@ class ModalViewEmailRequest extends React.Component {
                       style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      Peticiones vía correo electrónico
+                      <b>Archivos adjuntos</b>
                     </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapase}>
@@ -172,7 +164,7 @@ class ModalViewEmailRequest extends React.Component {
                       <div className="row">
                         <div className="col-md-6">
                           <dl className="param">
-                            <dt>Archivos</dt>
+                            {/* <dt>Archivos</dt> */}
                             {listFiles()}
                           </dl>
                         </div>
@@ -182,13 +174,21 @@ class ModalViewEmailRequest extends React.Component {
                 </Card>
               </Col>
             </Row>
-            <MyPdfViewer />
+            <MyPdfViewer
+              id={this.state.idFile}
+              filename={this.state.FilenameFile}
+            />
           </ModalBody>
           <ModalFooter>
             <button
               className="btn btn-secondary btn-sm"
               onClick={() => {
-                this.setState({ modal: false });
+                this.setState({
+                  modal: false,
+                  idFile: "",
+                  FilenameFile: "",
+                  collapase: true
+                });
               }}
             >
               <i className="fa fa-times" />{" "}

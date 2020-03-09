@@ -1,89 +1,118 @@
-import React, { useState, useEffect, useRef } from "react";
-import { usePdf } from "react-pdf-js";
+import React, { useState, useRef, useEffect } from "react";
+import { usePdf } from "@mikecousins/react-pdf";
+import { Row, Col, ToastBody, Toast, ToastHeader, Spinner } from "reactstrap";
 
-const MyPdfViewer = () => {
+const MyPdfViewer = props => {
   const [page, setPage] = useState(1);
-  const [pages, setPages] = useState(null);
+  const canvasRef = useRef(null);
+  const [id, setId] = useState(props.id);
+  const [filename, setFilename] = useState(props.filename);
 
-  const renderPagination = (page, pages) => {
-    if (!pages) {
-      return null;
-    }
-    let previousButton = (
-      <button onClick={() => setPage(page - 1)}>
-        <i className="fa fa-arrow-left"></i> Previous
-      </button>
-      //   <li className="previous" >
-      //     <a href="#">
-
-      //     </a>
-      //   </li>
-    );
-    if (page === 1) {
-      previousButton = (
-        <button disabled onClick={() => setPage(page - 1)}>
-          <i className="fa fa-arrow-left"></i> Previous
-        </button>
-        // <li className="previous disabled">
-        //   <a href="#">
-        //     <i className="fa fa-arrow-left"></i> Previous
-        //   </a>
-        // </li>
-      );
-    }
-    let nextButton = (
-      <button onClick={() => setPage(page + 1)}>
-        Next <i className="fa fa-arrow-right"></i>
-      </button>
-      //   <li className="next" onClick={() => setPage(page + 1)}>
-      //     <a href="#">
-      //       Next <i className="fa fa-arrow-right"></i>
-      //     </a>
-      //   </li>
-    );
-    if (page === pages) {
-      nextButton = (
-        <button disabled onClick={() => setPage(page + 1)}>
-          Next <i className="fa fa-arrow-right"></i>
-        </button>
-        // <li className="next disabled">
-        //   <a href="#">
-        //     Next <i className="fa fa-arrow-right"></i>
-        //   </a>
-        // </li>
-      );
-    }
-    return (
-      <nav>
-        <ul className="pager">
-          {previousButton}
-          {nextButton}
-        </ul>
-      </nav>
-    );
-  };
-
-  const canvasEl = useRef(null);
-
-  const [loading, numPages] = usePdf({
-    file:
-      "http://192.168.10.180:8090/api/sgdea/service/filing/emails/view/file/0c29f416-1ad4-4226-b546-7b1db2da6f71/744d45ff-cded-467d-a999-7a94e06c07a5.pdf",
-    // onDocumentComplete,
+  const { pdfDocument, pdfPage } = usePdf({
+    file: `http://192.168.0.19:8090/api/sgdea/service/filing/emails/view/file/${id}/${filename}`,
     page,
-    canvasEl
+    canvasRef,
+    pdfPage
   });
 
+  const validateValues = () => {
+    if (PreValue !== props.id) {
+      setPage(1);
+    }
+  };
+
   useEffect(() => {
-    setPages(numPages);
-  }, [numPages]);
+    setId(props.id);
+    setFilename(props.filename);
+    validateValues();
+  }, [props.id, props.filename, props.infoData]);
+
+  const PreviousValues = value => {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    });
+
+    return ref.current;
+  };
+  const PreValue = PreviousValues(props.id);
 
   return (
     <div>
-      {loading && <span>Loading...</span>}
-      <canvas ref={canvasEl} />
-      {renderPagination(page, pages)}
+      {Boolean(pdfDocument && pdfDocument.numPages) && (
+        <center>
+          <nav>
+            <Row>
+              <Col>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  data-trigger="hover"
+                  disabled={page === 1}
+                  onClick={() => setPage(1)}
+                >
+                  {" "}
+                  <i className="fa fa-backward" />{" "}
+                </button>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  data-trigger="hover"
+                  disabled={page === 1}
+                  onClick={() => setPage(page - 1)}
+                >
+                  {" "}
+                  <i className="fa fa-chevron-left" />{" "}
+                </button>
+                <button
+                  disabled
+                  className="btn btn-secondary btn-sm"
+                  data-trigger="hover"
+                >
+                  {`${page} de ${pdfDocument.numPages}`}
+                </button>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  data-trigger="hover"
+                  disabled={page === pdfDocument.numPages}
+                  onClick={() => setPage(page + 1)}
+                >
+                  {" "}
+                  <i className="fa fa-chevron-right" />{" "}
+                </button>
+                <button
+                  className="btn btn-secondary btn-sm"
+                  data-trigger="hover"
+                  disabled={page === pdfDocument.numPages}
+                  onClick={() => setPage(pdfDocument.numPages)}
+                >
+                  {" "}
+                  <i className="fa fa-forward" />{" "}
+                </button>
+              </Col>
+            </Row>
+          </nav>
+        </center>
+      )}
+      <br />
+      <center>
+        {!pdfDocument && (
+          <span>
+            <center>
+              <div className="p-3 bg my-2 rounded">
+                <Toast>
+                  <ToastHeader icon={<Spinner size="sm" />}>
+                    Visualizar archivos
+                  </ToastHeader>
+                  <ToastBody>
+                    <b>Seleccione un archivo para visualizarlo.</b>
+                  </ToastBody>
+                </Toast>
+              </div>
+            </center>
+          </span>
+        )}
+        <canvas ref={canvasRef} />
+      </center>
     </div>
   );
 };
-
 export default MyPdfViewer;

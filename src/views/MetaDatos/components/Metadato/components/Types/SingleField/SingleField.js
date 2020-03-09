@@ -12,12 +12,14 @@ import {
   Toast,
   ToastBody,
   ToastHeader,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
-import ModalPreview from "./../ModalPreview";
-import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import ModalPreview from "../../ModalPreview";
+import { METADATA_CREATE } from "../../../../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
+import * as Yup from "yup";
 
 // const InputTypes = [
 //   "Checkbox",
@@ -66,7 +68,9 @@ class SingleField extends Component {
       auth: "",
       alert200: false,
       alert400: false,
-      alert500: false
+      alert500: false,
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -151,25 +155,9 @@ class SingleField extends Component {
     this.myModal.toggle();
   };
 
-  CreateMetadate = e => {
+  sendData = () => {
     const aux = this.state.auth;
     const username = decode(aux);
-    e.preventDefault();
-    console.log(
-      JSON.stringify({
-        // name: this.state.name,
-        // description: this.state.description,
-        // labelText: this.state.title,
-        // labelClass: "col-sm-2 col-form-label",
-        // inputId: this.state.name,
-        // inputType: this.state.type,
-        // inputClass: "form-control form-control-sm",
-        // inputPlaceholder: this.state.placeholder,
-        //formula: this.state.formula,
-        //status: this.state.active
-        // userName: username.user_name
-      })
-    );
     fetch(`${METADATA_CREATE}`, {
       method: "POST",
       headers: {
@@ -199,6 +187,7 @@ class SingleField extends Component {
             this.setState({
               alert200: false
             });
+            this.resetForm();
           }, 1500);
           //console.log("se enviaron bien los datos");
         } else if (response.status === 400) {
@@ -232,7 +221,47 @@ class SingleField extends Component {
             alert500: false
           });
         }, 1500);
-        //console.log(`error, ${error}`);
+        console.log(`error, ${error}`);
+      });
+  };
+
+  CreateMetadate = e => {
+    e.preventDefault();
+    // mensajes personalizados para la validacion
+    Yup.setLocale({
+      // mixed: {
+      //   required: `Campo  necesario para el registro`
+      // }
+    });
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      active: Yup.bool().test(value => value === true),
+      description: Yup.string().required()
+    });
+    schema
+      .validate({
+        name: this.state.name,
+        active: this.state.active,
+        description: this.state.description
+      })
+      .then(() => {
+        if (schema.isValid) {
+          this.sendData();
+        }
+      })
+      .catch(err => {
+        this.setState(
+          {
+            alertError: true,
+            alertErrorMessage: err.message
+          },
+          console.log(err)
+        );
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
       });
   };
 
@@ -258,6 +287,12 @@ class SingleField extends Component {
               </CardHeader>
 
               <CardBody>
+                <Alert color={"danger"} isOpen={this.state.alertError}>
+                  <p className="text-justify">
+                    <i className="fa fa-exclamation-triangle fa-1x" />{" "}
+                    {this.state.alertErrorMessage}
+                  </p>
+                </Alert>
                 <Toast isOpen={this.state.alert200}>
                   <ToastHeader icon={"success"}>
                     SGDEA - Modulo de configuración
@@ -317,12 +352,7 @@ class SingleField extends Component {
                     Validacion <i className="fa fa-exclamation-triangle" />
                   </NavLink>
                 </Nav>
-                <form
-                  id="form1"
-                  role="form"
-                  className="form"
-                  ref={el => (this.myFormRef = el)}
-                >
+                <form className="form" ref={el => (this.myFormRef = el)}>
                   <TabContent activeTab={this.state.activeTab}>
                     <TabPane tabId="1">
                       <Card body>

@@ -13,12 +13,14 @@ import {
   Toast,
   ToastBody,
   ToastHeader,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
-import ModalPreview from "./../ModalPreview";
+import ModalPreview from "../../ModalPreview";
 import { decode } from "jsonwebtoken";
-import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import { METADATA_CREATE } from "../../../../../../../services/EndPoints";
+import * as Yup from "yup";
 
 class DateField extends Component {
   constructor(props) {
@@ -44,7 +46,9 @@ class DateField extends Component {
       alert400: false,
       alert500: false,
       active: true,
-      formula: false
+      formula: false,
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -128,8 +132,7 @@ class DateField extends Component {
     }
   };
 
-  createMetadata = e => {
-    e.preventDefault();
+  sendData = () => {
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_CREATE}`, {
@@ -202,6 +205,44 @@ class DateField extends Component {
     // alert(aux);
   };
 
+  createMetadata = e => {
+    e.preventDefault();
+    // mensaje de las validaciones custom
+    Yup.setLocale({});
+
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      active: Yup.bool().test(value => value === true),
+      min: Yup.date(new Date()),
+      max: Yup.date(new Date()),
+      description: Yup.string().required()
+    });
+
+    schema
+      .validate({
+        name: this.state.name,
+        active: this.state.active,
+        min: this.state.validation.min,
+        max: this.state.validation.max,
+        description: this.state.description
+      })
+      .then(() => {
+        this.sendData();
+        console.log("Datos correctos");
+      })
+      .catch(err => {
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
+      });
+  };
+
   openModalPreview = () => {
     this.MyModal.toggle();
   };
@@ -226,7 +267,11 @@ class DateField extends Component {
             </span>
           </CardHeader>
           <CardBody>
-            <form ref={el => (this.MyForm = el)} className="form" role={"form"}>
+            <form ref={el => (this.MyForm = el)} className="form">
+              <Alert color={"danger"} isOpen={this.state.alertError}>
+                <i className="fa fa-exclamation-triangle" />
+                {this.state.alertErrorMessage}
+              </Alert>
               <Toast isOpen={this.state.alert200}>
                 <ToastHeader icon={"success"}>
                   SGDEA - Modulo de configuración{" "}
@@ -359,20 +404,6 @@ class DateField extends Component {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>MAX</label>
-                          <input
-                            type={"date"}
-                            className={"form-control form-control-sm"}
-                            onChange={e =>
-                              this.changeValue("MAX", e.target.value)
-                            }
-                            value={this.state.validation.max}
-                            patter={"yyyy/mm/dd"}
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
                           <label>MIN</label>
                           <input
                             type="date"
@@ -381,6 +412,20 @@ class DateField extends Component {
                             onChange={e =>
                               this.changeValue("MIN", e.target.value)
                             }
+                            patter={"yyyy/mm/dd"}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label>MAX</label>
+                          <input
+                            type={"date"}
+                            className={"form-control form-control-sm"}
+                            onChange={e =>
+                              this.changeValue("MAX", e.target.value)
+                            }
+                            value={this.state.validation.max}
                             patter={"yyyy/mm/dd"}
                           />
                         </div>
@@ -401,6 +446,11 @@ class DateField extends Component {
                       label={
                         "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
                       }
+                      onChange={e => {
+                        this.setState({
+                          active: e.target.checked
+                        });
+                      }}
                     />
                   </div>
                 </div>

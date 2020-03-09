@@ -4,8 +4,8 @@ import * as _ from "lodash";
 import {
   Card,
   CardBody,
-  CardHeader,
   CardFooter,
+  CardHeader,
   TabContent,
   TabPane,
   Nav,
@@ -14,23 +14,24 @@ import {
   Toast,
   ToastHeader,
   ToastBody,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
-import ModalPreview from "./../ModalPreview";
+import ModalPreview from "../../ModalPreview";
+import { METADATA_CREATE } from "../../../../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
-import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import * as Yup from "yup";
 
-class CheckBoxes extends Component {
+class RadioButtons extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeTab: "1",
       inline: false,
-      toolType: "CHECK_BOXES",
+      multiple: false,
+      toolType: "RADIO_BUTTONS",
       title: "",
       name: "",
-      type: "checkbox",
       defaultValue: "",
       description: "",
       validation: {
@@ -39,16 +40,19 @@ class CheckBoxes extends Component {
         min: 6,
         max: 6
       },
+      radios: [],
       active: true,
       formula: false,
       duplicate: false,
-      checkBoxes: [],
+      activeTab: "1",
       modalpreview: false,
       dragType: this.props.dragType,
       auth: "",
       alert200: false,
       alert400: false,
-      alert500: false
+      alert500: false,
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -72,7 +76,6 @@ class CheckBoxes extends Component {
   componentDidMount() {
     this.setState(this.props.field);
     console.log(this.props.field);
-    //console.log(this.state.auth);
   }
 
   changeValue = (stateFor, value) => {
@@ -80,27 +83,18 @@ class CheckBoxes extends Component {
       case "NAME":
         this.setState({ name: value });
         break;
-      case "DESCRIPTION":
-        this.setState({
-          description: value
-        });
-        break;
       case "TITLE":
-        this.setState({
-          title: value
-        });
+        this.setState({ title: value });
+        break;
+      case "DESCRIPTION":
+        this.setState({ description: value });
         break;
       case "DEFAULT_VALUE":
-        this.setState({
-          defaultValue: value
-        });
+        this.setState({ defaultValue: value });
         break;
       case "IS_REQUIRED":
         this.setState({
-          validation: {
-            ...this.state.validation,
-            isRequired: value
-          }
+          validation: { ...this.state.validation, isRequired: value }
         });
         break;
       case "IS_READONLY":
@@ -108,20 +102,18 @@ class CheckBoxes extends Component {
           validation: { ...this.state.validation, isReadOnly: value }
         });
         break;
-      case "MIN":
-        this.setState({
-          validation: { ...this.state.validation, min: value }
-        });
-        break;
       case "MAX":
         this.setState({ validation: { ...this.state.validation, max: value } });
         break;
-      case "INLINE":
-        this.setState({
-          inline: value
-        });
+      case "MIN":
+        this.setState({ validation: { ...this.state.validation, min: value } });
         break;
-
+      case "INLINE":
+        this.setState({ inline: value });
+        break;
+      case "MULTIPLE":
+        this.setState({ multiple: value });
+        break;
       default:
         return;
     }
@@ -131,10 +123,10 @@ class CheckBoxes extends Component {
   };
 
   removeOption = index => {
-    let checboxes = this.state.checkBoxes;
-    checboxes.splice(index, 1);
+    let radios = this.state.radios;
+    radios.splice(index, 1);
     this.setState({
-      checkBoxes: checboxes
+      radios: radios
     });
     this.duplicate();
     setTimeout(() => {
@@ -142,10 +134,18 @@ class CheckBoxes extends Component {
     }, 0);
   };
 
+  toggle = tab => {
+    if (this.state.activeTab !== tab) {
+      this.setState({
+        activeTab: tab
+      });
+    }
+  };
+
   duplicate = () => {
-    let checboxes = this.state.checkBoxes;
-    let u = _.uniqBy(checboxes, "value");
-    if (!_.isEqual(checboxes, u)) {
+    let radios = this.state.radios;
+    let u = _.uniqBy(radios, "value");
+    if (!_.isEqual(radios, u)) {
       this.setState({
         duplicate: true
       });
@@ -156,69 +156,64 @@ class CheckBoxes extends Component {
     }
   };
 
-  addOption = () => {
-    let checkbox = {
+  addOption = e => {
+    e.preventDefault();
+    let radio = {
       title: "",
       value: "",
-      checked: false
+      selected: false
     };
-    let checboxes = this.state.checkBoxes;
-    checboxes.push(checkbox);
+    let radios = this.state.radios;
+    radios.push(radio);
     this.setState({
-      checkBoxes: checboxes
+      radios: radios
     });
     this.duplicate();
     setTimeout(() => {
-      // console.log(this.state, this.props.index);
       return this.props.changeState(this.state, this.props.index);
     }, 0);
   };
 
   changeOptionValue(index, value, state) {
-    let checkBoxes = this.state.checkBoxes;
-    let checkBox = {};
+    let radios = this.state.radios;
+    let radio = {};
+    if (state === "DEFAULT_VALUE") {
+      this.setState({
+        defaultValue: index
+      });
+    }
     if (state === "TITLE") {
-      checkBox = {
-        ...checkBoxes[index],
+      radio = {
+        ...radios[index],
         title: value
       };
     } else if (state === "SELECTED") {
-      checkBox = {
-        ...checkBoxes[index],
-        selected: checkBox[index].checked
+      radio = {
+        ...radios[index],
+        selected: !radios[index].selected
       };
     } else if (state === "VALUE") {
-      checkBox = {
-        ...checkBoxes[index],
+      radio = {
+        ...radios[index],
         value: value
       };
     } else {
-      checkBox = {
-        ...checkBoxes[index]
+      radio = {
+        ...radios[index]
       };
     }
-    checkBoxes[index] = checkBox;
+
+    radios[index] = radio;
     this.setState({
-      checkBoxes: checkBoxes
+      radios: radios
     });
-
     this.duplicate();
-
     setTimeout(() => {
       return this.props.changeState(this.state, this.props.index);
     }, 0);
   }
 
-  toggle = tab => {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab
-      });
-    }
-  };
-
-  createMetadata = e => {
-    e.preventDefault();
+  sendData = () => {
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_CREATE}`, {
@@ -236,10 +231,10 @@ class CheckBoxes extends Component {
         inputType: this.state.type,
         inputClass: "form-control form-control-sm",
         inputPlacehoder: "Placehoolder",
-        formula: this.state.formula,
-        status: this.state.active,
+        formula: false,
+        status: true,
         userName: user.user_name,
-        details: this.state.checkBoxes
+        details: this.state.radios
       })
     })
       .then(resp => {
@@ -273,13 +268,72 @@ class CheckBoxes extends Component {
           }, 1500);
         }
       })
-      .catch(error => {
-        console.log(`${error}`);
+      .catch(err => {
+        console.log(err);
+      });
+    // const aux = JSON.stringify(
+    //   {
+    //     name: this.state.name,
+    //     description: this.state.description,
+    //     title: this.state.title,
+    //     radios: this.state.radios,
+    //     isReadOnly: this.state.validation.isReadOnly,
+    //     isRequired: this.state.validation.isRequired,
+    //     multiple: this.state.multiple,
+    //     inline: this.state.inline
+    //   },
+    //   null,
+    //   2
+    // );
+    // alert(aux);
+  };
+
+  createMetada = e => {
+    e.preventDefault();
+    // los mensajes custom de las validaciones, por default en ingles
+    Yup.setLocale({});
+
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      active: Yup.bool().test(value => value === true),
+      radios: Yup.array()
+        .of(
+          Yup.object().shape({
+            title: Yup.string().required(),
+            value: Yup.string().required(),
+            selected: Yup.bool()
+          })
+        )
+        .required(),
+      description: Yup.string().required()
+    });
+
+    schema
+      .validate({
+        name: this.state.name,
+        active: this.state.active,
+        radios: this.state.radios,
+        description: this.state.description
+      })
+      .then(() => {
+        this.sendData();
+      })
+      .catch(err => {
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
+        console.log(err.message);
       });
   };
 
-  OpenModalPreview = () => {
-    this.myModal.toggle();
+  openModalPreview = () => {
+    this.MyModal.toggle();
   };
 
   resetForm = () => {
@@ -291,7 +345,7 @@ class CheckBoxes extends Component {
       <div>
         <Card>
           <CardHeader>
-            <i className="fa fa-check-square mr-1"></i> Check Boxes{" "}
+            <i className="fa fa-circle mr-1" /> Selección de radio{" "}
             {this.state.title}
             <span
               className="pull-right cross"
@@ -301,25 +355,29 @@ class CheckBoxes extends Component {
             </span>
           </CardHeader>
           <CardBody>
+            <Alert color={"danger"} isOpen={this.state.alertError}>
+              <i className="fa fa-exclamation-triangle" />
+              {this.state.alertErrorMessage}
+            </Alert>
             <Toast isOpen={this.state.alert200}>
               <ToastHeader icon={"success"}>
-                SGDEA - Modulo de configuración
+                {" "}
+                SGDEA - Modulo de configuración{" "}
               </ToastHeader>
               <ToastBody>
                 <p className="text-justify">
-                  {" "}
-                  Se creo el metadato de manera correacta{" "}
+                  Se registro el metadato de manera correcta
                 </p>
               </ToastBody>
             </Toast>
             <Toast isOpen={this.state.alert400}>
               <ToastHeader icon={"danger"}>
-                SGDEA - Modulo de configuración
+                {" "}
+                SGDEA - Modulo de configuración{" "}
               </ToastHeader>
               <ToastBody>
                 <p className="text-justify">
-                  {" "}
-                  Error, al enviar los datos del formulario{" "}
+                  Error, al enviar el formulario al servidor
                 </p>
               </ToastBody>
             </Toast>
@@ -329,20 +387,19 @@ class CheckBoxes extends Component {
                 SGDEA - Modulo de configuración{" "}
               </ToastHeader>
               <ToastBody>
-                <p className="text-justify">
-                  {" "}
-                  Error, problemas con el servidor{" "}
-                </p>
+                <p className="text-justify">Error, interno del servidor</p>
               </ToastBody>
             </Toast>
-            <form ref={el => (this.myForm = el)} className="form" role="form">
+            <form className="form" ref={el => (this.myForm = el)}>
               <Nav tabs>
                 <NavItem>
                   <NavLink
                     className={classnames({
                       active: this.state.activeTab === "1"
                     })}
-                    onClick={() => this.toggle("1")}
+                    onClick={() => {
+                      this.toggle("1");
+                    }}
                   >
                     General <i className="fa fa-cog" />
                   </NavLink>
@@ -352,9 +409,11 @@ class CheckBoxes extends Component {
                     className={classnames({
                       active: this.state.activeTab === "2"
                     })}
-                    onClick={() => this.toggle("2")}
+                    onClick={() => {
+                      this.toggle("2");
+                    }}
                   >
-                    Validation <i className="fa fa-exclamation-triangle" />
+                    Validacion <i className="fa fa-exclamation-triangle" />
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -362,7 +421,9 @@ class CheckBoxes extends Component {
                     className={classnames({
                       active: this.state.activeTab === "3"
                     })}
-                    onClick={() => this.toggle("3")}
+                    onClick={() => {
+                      this.toggle("3");
+                    }}
                   >
                     Values <i className="fa fa-list-ul" />
                   </NavLink>
@@ -376,42 +437,41 @@ class CheckBoxes extends Component {
                         <div className="form-group">
                           <label htmlFor="name">NAME</label>
                           <input
-                            type={"text"}
-                            className={"form-control form-control-sm"}
-                            value={this.state.name}
+                            type="text"
+                            className="form-control form-control-sm"
                             onChange={e =>
                               this.changeValue("NAME", e.target.value)
                             }
-                            placeholder={"nombre"}
+                            placeholder={"Nombre"}
+                            value={this.state.name}
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label htmlFor="title">TITLE</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            onChange={e =>
+                              this.changeValue("TITLE", e.target.value)
+                            }
+                            value={this.state.title}
+                            placeholder={"Titulo"}
                           />
                         </div>
                       </div>
 
-                      <div className="col-md-6">
+                      <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="title">Title</label>
-                          <input
-                            type="text"
-                            className="form-control form-control-sm"
-                            value={this.state.title}
-                            onChange={e =>
-                              this.changeValue("TITLE", e.target.value)
-                            }
-                            placeholder="Title"
-                          />
-                        </div>
-                      </div>
-                      <div className="col-md-6">
-                        <div className="form-group">
-                          <label htmlFor="description"> Description </label>
-                          <input
-                            type="text"
+                          <label htmlFor="">Description</label>
+                          <textarea
                             className="form-control form-control-sm"
                             value={this.state.description}
                             onChange={e =>
                               this.changeValue("DESCRIPTION", e.target.value)
                             }
-                          />
+                          ></textarea>
                         </div>
                       </div>
                     </div>
@@ -423,65 +483,82 @@ class CheckBoxes extends Component {
                       <div className="col-md-4">
                         <div className="form-group">
                           <input
-                            type="checkbox"
+                            type={"checkbox"}
                             value={this.state.validation.isRequired}
                             onChange={e =>
                               this.changeValue("IS_REQUIRED", e.target.checked)
                             }
-                            id="isRequired"
+                            id={"isRequired"}
                           />
-                          <label htmlFor="isRequired"> ¿ Es requerido ? </label>
+                          <label htmlFor="isRequired"> ¿Es Requerido? </label>
                         </div>
                       </div>
                       <div className="col-md-4">
                         <div className="form-group">
                           <input
-                            id={"isReadOnly"}
                             type={"checkbox"}
+                            value={this.state.validation}
                             onChange={e =>
                               this.changeValue("IS_READONLY", e.target.checked)
                             }
-                            value={this.state.validation.isReadOnly}
+                            id={"isReadOnly"}
                           />
-                          <label htmlFor="isReadOnly"> ¿ Solo lectura ? </label>
-                        </div>
-                      </div>
-                      <div className="col-md-4">
-                        <div className="form-group">
-                          <input
-                            type="checkbox"
-                            onChange={e =>
-                              this.changeValue("INLINE", e.target.checked)
-                            }
-                            value={this.state.inline}
-                            id={"inline"}
-                          />
-                          <label htmlFor="inline"> ¿ En linea ? </label>
+                          <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
                         </div>
                       </div>
                       {/* <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="">Min</label>
                         <input
-                          type="number"
+                          value={this.state.multiple}
+                          type="checkbox"
+                          id="multiple"
+                          onChange={e =>
+                            this.changeValue("MULTIPLE", e.target.checked)
+                          }
+                        />
+                        <label className="form-check-label" htmlFor="multiple">
+                          ¿ Multiple selección ?
+                        </label>
+                      </div>
+                    </div> */}
+                      <div className="col-md-4">
+                        <div className="form-group">
+                          <input
+                            type="checkbox"
+                            value={this.state.inline}
+                            onChange={e =>
+                              this.changeValue("INLINE", e.target.checked)
+                            }
+                            id="inline"
+                          />
+                          <label htmlFor="inline"> ¿ Alineados ? </label>
+                        </div>
+                      </div>
+                      {/* <div className="col-md-6">
+                      <div className="form-group">
+                        <label htmlFor="">Min characters</label>
+                        <input
+                          type={"number"}
                           className="form-control form-control-sm"
                           onChange={e =>
                             this.changeValue("MIN", e.target.value)
                           }
-                          placeholder="6"
+                          value={this.state.validation.min}
+                          placeholder={"6"}
                         />
                       </div>
                     </div> */}
                       {/* <div className="col-md-6">
                       <div className="form-group">
-                        <label>Max</label>
+                        <label> Max characters</label>
                         <input
-                          type="numbre"
-                          className="form-control form-control-sm"
+                          type={"number"}
+                          value={this.state.validation.max}
                           onChange={e =>
                             this.changeValue("MAX", e.target.value)
                           }
-                          value={this.state.validation.max}
+                          placeholder={"6"}
+                          className="form-control form-control-sm"
                         />
                       </div>
                     </div> */}
@@ -490,45 +567,46 @@ class CheckBoxes extends Component {
                 </TabPane>
                 <TabPane tabId={"3"}>
                   <Card body>
-                    {/* <p
-                    hidden={this.state.duplicate}
-                    className="alert text-center alert-danger"
-                  >
-                    Values
-                  </p> */}
-                    {this.state.checkBoxes ? (
+                    <p
+                      hidden={!this.state.duplicate}
+                      className="alert text-center alert-danger"
+                    >
+                      <strong>Valores </strong> Duplicados
+                    </p>
+                    {this.state.radios ? (
                       <table className="table text-center">
                         <tbody>
-                          {this.state.checkBoxes.map((checkbox, index) => {
+                          {this.state.radios.map((checkbox, index) => {
                             return (
                               <tr key={index}>
-                                <td>
-                                  <div>
-                                    <input
-                                      className="middle"
-                                      type={"checkbox"}
-                                      autoFocus={true}
-                                      value={
-                                        this.state.checkBoxes[index].selected
+                                {this.state.multiple ? (
+                                  <td style={{ verticalAlign: "middle" }}>
+                                    <div className="checkbox">
+                                      {
+                                        <input
+                                          type="checkbox"
+                                          value={
+                                            this.state.radios[index].selected
+                                          }
+                                          onChange={e =>
+                                            this.changeOptionValue(
+                                              index,
+                                              e.target.checked,
+                                              "SELECTED"
+                                            )
+                                          }
+                                        />
                                       }
-                                      onChange={e =>
-                                        this.changeOptionValue(
-                                          index,
-                                          e.target.checked,
-                                          "SELECT"
-                                        )
-                                      }
-                                    />
-                                  </div>
-                                </td>
+                                    </div>
+                                  </td>
+                                ) : (
+                                  <td hidden={true}></td>
+                                )}
                                 <td>
                                   <input
-                                    id={checkbox.title}
-                                    type="text"
-                                    className="form-control form-control-sm"
-                                    placeholder={"Title"}
                                     autoFocus={true}
-                                    value={this.state.checkBoxes[index].title}
+                                    placeholder="title"
+                                    value={this.state.radios[index].title}
                                     onChange={e =>
                                       this.changeOptionValue(
                                         index,
@@ -536,12 +614,14 @@ class CheckBoxes extends Component {
                                         "TITLE"
                                       )
                                     }
+                                    type="text"
+                                    className="form-control form-control-sm"
                                   />
                                 </td>
                                 <td>
                                   <input
-                                    placeholder="Value"
-                                    value={this.state.checkBoxes[index].value}
+                                    placeholder="value"
+                                    value={this.state.radios[index].value}
                                     onChange={e =>
                                       this.changeOptionValue(
                                         index,
@@ -554,6 +634,25 @@ class CheckBoxes extends Component {
                                     className="form-control form-control-sm"
                                   />
                                 </td>
+                                {!this.state.multiple ? (
+                                  <td style={{ verticalAlign: "middle" }}>
+                                    <input
+                                      name="default"
+                                      value={this.state.defaultValue}
+                                      onChange={e =>
+                                        this.changeOptionValue(
+                                          index,
+                                          e.target.checked,
+                                          "DEFAULT_VALUE"
+                                        )
+                                      }
+                                      id={checkbox.value}
+                                      type="radio"
+                                    />
+                                  </td>
+                                ) : (
+                                  <td hidden={true}></td>
+                                )}
                                 <td style={{ verticalAlign: "middle" }}>
                                   <span
                                     onClick={() => this.removeOption(index)}
@@ -575,10 +674,10 @@ class CheckBoxes extends Component {
                     )}
                     <button
                       type="button"
+                      onClick={e => this.addOption(e)}
                       className="btn btn-secondary btn-sm"
-                      onClick={() => this.addOption()}
                     >
-                      <i className="fa fa-plus" /> Agregar Valores
+                      <i className="fa fa-plus" /> Agregar opciones
                     </button>
                   </Card>
                 </TabPane>
@@ -588,9 +687,9 @@ class CheckBoxes extends Component {
                 <div className="col-md-12">
                   <div className="form-group">
                     <CustomInput
-                      type={"checkbox"}
                       defaultValue={this.state.active}
                       defaultChecked
+                      type="checkbox"
                       id={"activeInput"}
                       label={
                         "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
@@ -606,14 +705,16 @@ class CheckBoxes extends Component {
                 <div className="col-md-12">
                   <div className="form-group">
                     <CustomInput
-                      value={this.state.formula}
                       type="checkbox"
+                      value={this.state.formula}
                       id={"formula"}
                       label={
                         "Campo para asignar a formula o seleccion condicional."
                       }
                       onChange={e => {
-                        this.setState({ formula: e.target.checked });
+                        this.setState({
+                          formula: e.target.checked
+                        });
                       }}
                     />
                   </div>
@@ -624,36 +725,38 @@ class CheckBoxes extends Component {
           <CardFooter>
             <div className="pull-right">
               <button
-                type="button"
+                type={"button"}
                 className="btn btn-secondary btn-sm"
                 onClick={() => {
-                  this.OpenModalPreview();
+                  this.openModalPreview();
                 }}
               >
                 {" "}
-                <i className="fa fa-eye" /> Vista previa
+                <i className="fa fa-eye" /> Vista previa{" "}
               </button>
               &nbsp;
               <button
                 type="button"
                 className="btn btn-secondary btn-sm"
-                onClick={e => this.createMetadata(e)}
+                onClick={e => this.createMetada(e)}
               >
                 {" "}
-                <i className="fa fa-save" /> Guardar metadato{" "}
+                <i className="fa fa-save" /> Guardar metadato
               </button>
             </div>
           </CardFooter>
         </Card>
         <ModalPreview
-          ref={el => (this.myModal = el)}
+          ref={el => (this.MyModal = el)}
           modalpreview={this.state.modalpreview}
-          inputType={this.state.dragType}
           field={this.props.field}
+          inputType={this.state.dragType}
         />
       </div>
     );
   }
 }
 
-export default CheckBoxes;
+RadioButtons.propsTypes = {};
+
+export default RadioButtons;

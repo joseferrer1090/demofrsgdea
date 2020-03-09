@@ -73,7 +73,7 @@ class ModalPreview extends Component {
           </div>
         </div>
       );
-    } else if (data.type === "Select" || data.type === "SELECT") {
+    } else if (data.type === "select" || data.type === "SELECT") {
       component = (
         <div
           className="col-md-12"

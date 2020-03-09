@@ -39,10 +39,14 @@ class ListaMetadato extends Component {
   };
 
   render() {
-    console.log(this.state.authToken);
+    const authToken = this.state.authToken;
     return (
-      <div>
-        <p>Lista de metadatos</p>
+      <div className="animated fadeIn">
+        <div className="row">
+          <div className="col-md-12">
+            <TableContent authorization={authToken} />
+          </div>
+        </div>
       </div>
     );
   }

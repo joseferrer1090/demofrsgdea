@@ -233,7 +233,7 @@ class DateField extends Component {
       .catch(err => {
         this.setState({
           alertError: true,
-          alertErrorMessage: err.errors
+          alertErrorMessage: err.message
         });
         setTimeout(() => {
           this.setState({

@@ -244,18 +244,19 @@ class Paragraph extends Component {
       })
       .then(() => {
         this.sendData();
-        console.log("Se enviaron los datos");
+        // console.log("Se enviaron los datos");
       })
       .catch(err => {
         this.setState({
           alertError: true,
-          alertErrorMessage: err.errors
+          alertErrorMessage: err.message
         });
         setTimeout(() => {
           this.setState({
             alertError: false
           });
         }, 1500);
+        console.log(err);
       });
   };
 

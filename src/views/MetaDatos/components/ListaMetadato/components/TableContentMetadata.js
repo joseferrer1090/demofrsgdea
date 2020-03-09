@@ -269,7 +269,8 @@ class TableContentMetadata extends Component {
     super(props);
     this.state = {
       auth: this.props.authorization,
-      dataMetada: []
+      dataMetada: [],
+      hiddenColumnID: true
     };
   }
 
@@ -323,7 +324,33 @@ class TableContentMetadata extends Component {
                 <i className="fa fa-shopping-bag" /> Bolsa de metadatos
               </CardHeader>
               <CardBody>
-                <p>Probando</p>
+                <BootstrapTable
+                  data={this.state.dataMetada}
+                  striped
+                  hover
+                  search
+                  searchPlaceholder="Buscar metadato"
+                  bordered={false}
+                  pagination
+                >
+                  <TableHeaderColumn
+                    export={false}
+                    isKey
+                    dataField={"id"}
+                    hidden={this.state.hiddenColumnID}
+                  />
+                  <TableHeaderColumn dataField={"name"}>
+                    {" "}
+                    Nombre
+                  </TableHeaderColumn>
+                  <TableHeaderColumn dataField={"description"}>
+                    {" "}
+                    Descripcion
+                  </TableHeaderColumn>
+                  <TableHeaderColumn dataField={"status"}>
+                    Estado
+                  </TableHeaderColumn>
+                </BootstrapTable>
               </CardBody>
             </Card>
           </div>

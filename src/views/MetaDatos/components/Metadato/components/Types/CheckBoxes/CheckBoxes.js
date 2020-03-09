@@ -240,11 +240,17 @@ class CheckBoxes extends Component {
         formula: this.state.formula,
         status: this.state.active,
         userName: user.user_name,
-        details: this.state.checkBoxes
+        details: [
+          {
+            labelText: this.state.checkBoxes[0].title,
+            inputValue: this.state.checkBoxes[0].value,
+            inputId: this.state.checkBoxes[0].value
+          }
+        ]
       })
     })
       .then(resp => {
-        if (resp.status === 200) {
+        if (resp.status === 201) {
           this.setState({
             alert200: true
           });
@@ -314,7 +320,6 @@ class CheckBoxes extends Component {
       })
       .then(() => {
         this.sendData();
-        console.log("Se enviaron bien los datos");
       })
       .catch(err => {
         this.setState({
@@ -335,6 +340,9 @@ class CheckBoxes extends Component {
 
   resetForm = () => {
     this.myForm.reset();
+    this.setState({
+      checkBoxes: []
+    });
   };
 
   render() {

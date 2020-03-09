@@ -498,7 +498,7 @@ class SelectField extends Component {
                           <label htmlFor="description">Description</label>
                           <input
                             id="description"
-                            type={"text"}
+                            type="text"
                             className="form-control form-control-sm"
                             value={this.state.description}
                             onChange={e =>

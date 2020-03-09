@@ -171,7 +171,7 @@ class Paragraph extends Component {
       })
     })
       .then(resp => {
-        if (resp.status === 200) {
+        if (resp.status === 201) {
           this.setState({
             alert200: true
           });

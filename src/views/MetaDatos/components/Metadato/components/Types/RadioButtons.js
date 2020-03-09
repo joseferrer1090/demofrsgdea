@@ -11,7 +11,6 @@ import {
   Nav,
   NavLink,
   NavItem,
-  Table,
   Toast,
   ToastHeader,
   ToastBody,
@@ -175,7 +174,7 @@ class RadioButtons extends Component {
     }, 0);
   };
 
-  changeOptionValue = (index, value, state) => {
+  changeOptionValue(index, value, state) {
     let radios = this.state.radios;
     let radio = {};
     if (state === "DEFAULT_VALUE") {
@@ -190,12 +189,12 @@ class RadioButtons extends Component {
       };
     } else if (state === "SELECTED") {
       radio = {
-        ...radios[{ index }],
+        ...radios[index],
         selected: !radios[index].selected
       };
     } else if (state === "VALUE") {
       radio = {
-        ...radios[{ index }],
+        ...radios[index],
         value: value
       };
     } else {
@@ -212,7 +211,7 @@ class RadioButtons extends Component {
     setTimeout(() => {
       return this.props.changeState(this.state, this.props.index);
     }, 0);
-  };
+  }
 
   sendData = () => {
     const aux = this.state.auth;
@@ -270,7 +269,7 @@ class RadioButtons extends Component {
         }
       })
       .catch(err => {
-        console.log(`${err}`);
+        console.log(err);
       });
     // const aux = JSON.stringify(
     //   {
@@ -318,19 +317,18 @@ class RadioButtons extends Component {
       })
       .then(() => {
         this.sendData();
-        // console.log("Se enviaron los datos");
       })
       .catch(err => {
         this.setState({
           alertError: true,
-          alertErrorMessage: err.errors
+          alertErrorMessage: err.message
         });
         setTimeout(() => {
           this.setState({
             alertError: false
           });
         }, 1500);
-        // console.log(err.errors);
+        console.log(err.message);
       });
   };
 
@@ -392,7 +390,7 @@ class RadioButtons extends Component {
                 <p className="text-justify">Error, interno del servidor</p>
               </ToastBody>
             </Toast>
-            <form className="form" role="form" ref={el => (this.myForm = el)}>
+            <form className="form" ref={el => (this.myForm = el)}>
               <Nav tabs>
                 <NavItem>
                   <NavLink
@@ -606,8 +604,8 @@ class RadioButtons extends Component {
                                 )}
                                 <td>
                                   <input
-                                    placeholder="Title"
                                     autoFocus={true}
+                                    placeholder="title"
                                     value={this.state.radios[index].title}
                                     onChange={e =>
                                       this.changeOptionValue(
@@ -616,14 +614,13 @@ class RadioButtons extends Component {
                                         "TITLE"
                                       )
                                     }
-                                    id={checkbox.title}
                                     type="text"
                                     className="form-control form-control-sm"
                                   />
                                 </td>
                                 <td>
                                   <input
-                                    placeholder="Value"
+                                    placeholder="value"
                                     value={this.state.radios[index].value}
                                     onChange={e =>
                                       this.changeOptionValue(

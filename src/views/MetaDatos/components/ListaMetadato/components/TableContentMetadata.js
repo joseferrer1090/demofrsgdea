@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import PropTypes from "prop-types";
+import ViewComponent from "./ViewComponent";
 
 class TableContentMetadata extends Component {
   constructor(props) {

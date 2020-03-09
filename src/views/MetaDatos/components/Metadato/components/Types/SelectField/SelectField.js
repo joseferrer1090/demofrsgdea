@@ -15,12 +15,13 @@ import {
   Toast,
   ToastBody,
   ToastHeader,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
-import ModalPreview from "./../ModalPreview";
+import ModalPreview from "../../ModalPreview";
 import { decode } from "jsonwebtoken";
-import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import { METADATA_CREATE } from "../../../../../../../services/EndPoints";
 import * as Yup from "yup";
 
 class SelectField extends Component {
@@ -52,7 +53,9 @@ class SelectField extends Component {
       auth: "",
       alert200: false,
       alert500: false,
-      alert400: false
+      alert400: false,
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -329,7 +332,16 @@ class SelectField extends Component {
         //console.log("los datos bien");
       })
       .catch(err => {
-        console.log(err.errors);
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
+        console.log(err.message);
       });
   };
 
@@ -356,6 +368,10 @@ class SelectField extends Component {
             </span>
           </CardHeader>
           <CardBody>
+            <Alert color={"danger"} isOpen={this.state.alertError}>
+              <i className="fa fa-exclamation-triangle"></i>{" "}
+              {this.state.alertErrorMessage}
+            </Alert>
             <Toast isOpen={this.state.alert200}>
               <ToastHeader icon={"success"}>
                 {" "}
@@ -424,12 +440,7 @@ class SelectField extends Component {
                 </NavLink>
               </NavItem>
             </Nav>
-            <form
-              className="form"
-              role="form"
-              className="form"
-              ref={el => (this.myForm = el)}
-            >
+            <form className="form" ref={el => (this.myForm = el)}>
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId={"1"}>
                   <Card body>

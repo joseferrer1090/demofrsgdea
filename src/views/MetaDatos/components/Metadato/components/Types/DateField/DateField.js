@@ -13,12 +13,13 @@ import {
   Toast,
   ToastBody,
   ToastHeader,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
-import ModalPreview from "./../ModalPreview";
+import ModalPreview from "../../ModalPreview";
 import { decode } from "jsonwebtoken";
-import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import { METADATA_CREATE } from "../../../../../../../services/EndPoints";
 import * as Yup from "yup";
 
 class DateField extends Component {
@@ -45,7 +46,9 @@ class DateField extends Component {
       alert400: false,
       alert500: false,
       active: true,
-      formula: false
+      formula: false,
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -212,7 +215,7 @@ class DateField extends Component {
       active: Yup.bool().test(value => value === true),
       min: Yup.date(new Date()),
       max: Yup.date(new Date()),
-      description: this.state.description
+      description: Yup.string().required()
     });
 
     schema
@@ -224,10 +227,19 @@ class DateField extends Component {
         description: this.state.description
       })
       .then(() => {
+        this.sendData();
         console.log("Datos correctos");
       })
       .catch(err => {
-        console.log(err.errors);
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
       });
   };
 
@@ -255,7 +267,11 @@ class DateField extends Component {
             </span>
           </CardHeader>
           <CardBody>
-            <form ref={el => (this.MyForm = el)} className="form" role={"form"}>
+            <form ref={el => (this.MyForm = el)} className="form">
+              <Alert color={"danger"} isOpen={this.state.alertError}>
+                <i className="fa fa-exclamation-triangle" />
+                {this.state.alertErrorMessage}
+              </Alert>
               <Toast isOpen={this.state.alert200}>
                 <ToastHeader icon={"success"}>
                   SGDEA - Modulo de configuración{" "}

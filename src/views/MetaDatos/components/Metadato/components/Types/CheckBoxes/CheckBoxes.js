@@ -14,12 +14,13 @@ import {
   Toast,
   ToastHeader,
   ToastBody,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import classnames from "classnames";
-import ModalPreview from "./../ModalPreview";
+import ModalPreview from "../../ModalPreview";
 import { decode } from "jsonwebtoken";
-import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
+import { METADATA_CREATE } from "../../../../../../../services/EndPoints";
 import * as Yup from "yup";
 
 class CheckBoxes extends Component {
@@ -49,7 +50,9 @@ class CheckBoxes extends Component {
       auth: "",
       alert200: false,
       alert400: false,
-      alert500: false
+      alert500: false,
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -202,9 +205,7 @@ class CheckBoxes extends Component {
     this.setState({
       checkBoxes: checkBoxes
     });
-
     this.duplicate();
-
     setTimeout(() => {
       return this.props.changeState(this.state, this.props.index);
     }, 0);
@@ -274,7 +275,15 @@ class CheckBoxes extends Component {
         }
       })
       .catch(error => {
-        console.log(`${error}`);
+        this.setState({
+          alertError: true,
+          alertErrorMessage: error.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
       });
   };
 
@@ -308,7 +317,15 @@ class CheckBoxes extends Component {
         console.log("Se enviaron bien los datos");
       })
       .catch(err => {
-        console.log(err.errors);
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
       });
   };
 
@@ -335,6 +352,10 @@ class CheckBoxes extends Component {
             </span>
           </CardHeader>
           <CardBody>
+            <Alert color="danger" isOpen={this.state.alertError}>
+              <i className="fa fa-exclamation-triangle" />{" "}
+              {this.state.alertErrorMessage}
+            </Alert>
             <Toast isOpen={this.state.alert200}>
               <ToastHeader icon={"success"}>
                 SGDEA - Modulo de configuración
@@ -524,12 +545,12 @@ class CheckBoxes extends Component {
                 </TabPane>
                 <TabPane tabId={"3"}>
                   <Card body>
-                    {/* <p
-                    hidden={this.state.duplicate}
-                    className="alert text-center alert-danger"
-                  >
-                    Values
-                  </p> */}
+                    <p
+                      hidden={!this.state.duplicate}
+                      className="alert text-center alert-danger"
+                    >
+                      <strong>Valores </strong> Duplicados
+                    </p>
                     {this.state.checkBoxes ? (
                       <table className="table text-center">
                         <tbody>

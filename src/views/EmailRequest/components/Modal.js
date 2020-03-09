@@ -46,6 +46,7 @@ class Modalc extends React.Component {
       modal: !this.state.modal,
       id: id
     });
+    console.log(this.state.id);
     const auth = this.state.auth;
     const username = decode(auth);
     fetch(`${INFO_EMAIL}${id}?username=${username.user_name}`, {

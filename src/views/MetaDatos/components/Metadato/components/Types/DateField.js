@@ -240,7 +240,6 @@ class DateField extends Component {
             alertError: false
           });
         }, 1500);
-        console.log(err.errors);
       });
   };
 

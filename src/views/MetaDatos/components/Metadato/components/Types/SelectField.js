@@ -440,12 +440,7 @@ class SelectField extends Component {
                 </NavLink>
               </NavItem>
             </Nav>
-            <form
-              className="form"
-              role="form"
-              className="form"
-              ref={el => (this.myForm = el)}
-            >
+            <form className="form" ref={el => (this.myForm = el)}>
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId={"1"}>
                   <Card body>

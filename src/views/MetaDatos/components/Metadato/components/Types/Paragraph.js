@@ -315,11 +315,7 @@ class Paragraph extends Component {
                 <p className="text-justify"> Error, interno el el servidor </p>
               </ToastBody>
             </Toast>
-            <form
-              ref={el => (this.MyForm = el)}
-              className="form"
-              role="form"
-            ></form>
+            <form ref={el => (this.MyForm = el)} className="form"></form>
             <Nav tabs>
               <NavItem>
                 <NavLink

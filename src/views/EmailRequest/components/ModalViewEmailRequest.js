@@ -17,7 +17,6 @@ import {
 } from "reactstrap";
 import { decode } from "jsonwebtoken";
 import { INFO_EMAIL } from "./../../../services/EndPoints";
-import IMGEMAILREQUEST from "./../../../assets/img/request.svg";
 import moment from "moment";
 import MyPdfViewer from "./viewpdf";
 

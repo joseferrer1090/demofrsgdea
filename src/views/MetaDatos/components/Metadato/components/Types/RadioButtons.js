@@ -569,6 +569,12 @@ class RadioButtons extends Component {
                 </TabPane>
                 <TabPane tabId={"3"}>
                   <Card body>
+                    <p
+                      hidden={!this.state.duplicate}
+                      className="alert text-center alert-danger"
+                    >
+                      <strong>Valores </strong> Duplicados
+                    </p>
                     {this.state.radios ? (
                       <table className="table text-center">
                         <tbody>

@@ -22,7 +22,6 @@ import ModalPreview from "./../ModalPreview";
 import { decode } from "jsonwebtoken";
 import { METADATA_CREATE } from "./../../../../../../services/EndPoints";
 import * as Yup from "yup";
-import { thatReturnsThis } from "react-csv-to-table";
 
 class CheckBoxes extends Component {
   constructor(props) {
@@ -206,9 +205,7 @@ class CheckBoxes extends Component {
     this.setState({
       checkBoxes: checkBoxes
     });
-
     this.duplicate();
-
     setTimeout(() => {
       return this.props.changeState(this.state, this.props.index);
     }, 0);
@@ -548,12 +545,12 @@ class CheckBoxes extends Component {
                 </TabPane>
                 <TabPane tabId={"3"}>
                   <Card body>
-                    {/* <p
-                    hidden={this.state.duplicate}
-                    className="alert text-center alert-danger"
-                  >
-                    Values
-                  </p> */}
+                    <p
+                      hidden={!this.state.duplicate}
+                      className="alert text-center alert-danger"
+                    >
+                      <strong>Valores </strong> Duplicados
+                    </p>
                     {this.state.checkBoxes ? (
                       <table className="table text-center">
                         <tbody>

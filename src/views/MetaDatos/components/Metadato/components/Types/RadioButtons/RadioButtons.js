@@ -234,11 +234,17 @@ class RadioButtons extends Component {
         formula: false,
         status: true,
         userName: user.user_name,
-        details: this.state.radios
+        details: [
+          {
+            labelText: this.state.radios[0].title,
+            inputValue: this.state.radios[0].value,
+            inputId: this.state.radios[0].value
+          }
+        ]
       })
     })
       .then(resp => {
-        if (resp.status === 200) {
+        if (resp.status === 201) {
           this.setState({
             alert200: true
           });

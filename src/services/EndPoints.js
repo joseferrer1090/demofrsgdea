@@ -687,7 +687,7 @@ export const VIEW_FILE = `${config.IP}:${config.PORT}/api/sgdea/service/filing/e
 /* GET */
 export const METADATA_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag`;
 
-/* GET param in url => id */
+/* GET param in url => id, username */
 export const METADATA_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/`;
 
 /* GET */

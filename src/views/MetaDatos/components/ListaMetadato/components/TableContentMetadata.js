@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import PropTypes from "prop-types";
+import PropTypes, { func } from "prop-types";
 import ViewComponent from "./ViewComponent";
 import { Card, CardHeader, CardBody } from "reactstrap";
 import { METADATA_ALL } from "./../../../../../services/EndPoints";
@@ -270,7 +270,8 @@ class TableContentMetadata extends Component {
     this.state = {
       auth: this.props.authorization,
       dataMetada: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      idSelect: ""
     };
   }
 
@@ -313,8 +314,30 @@ class TableContentMetadata extends Component {
       });
   };
 
+  StatusMetadata = (cell, row) => {
+    let status;
+    if (row.status === 1 || row.status === true) {
+      status = <b className="text-success">Metadado Activo</b>;
+    } else if (row.status === 0 || row.status === false) {
+      status = <b className="text-danger"> Metadato Inactivo</b>;
+    }
+    return status;
+  };
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
   render() {
-    // console.log(this.state.dataMetada);
+    const selectRowProps = {
+      mode: "radio",
+      clickToSelect: true,
+      onSelect: row => {
+        this.setState({
+          idSelect: row.id
+        });
+      }
+    };
     return (
       <div className="Animated fadeIn">
         <div className="row">
@@ -330,8 +353,9 @@ class TableContentMetadata extends Component {
                   hover
                   search
                   searchPlaceholder="Buscar metadato"
-                  bordered={false}
+                  bordered
                   pagination
+                  selectRow={selectRowProps}
                 >
                   <TableHeaderColumn
                     export={false}
@@ -339,15 +363,32 @@ class TableContentMetadata extends Component {
                     dataField={"id"}
                     hidden={this.state.hiddenColumnID}
                   />
-                  <TableHeaderColumn dataField={"name"}>
+                  <TableHeaderColumn
+                    dataFormat={this.indexN}
+                    dataField={"id"}
+                    dataAlign={"center"}
+                  >
+                    #
+                  </TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name"} dataSort>
                     {" "}
                     Nombre
+                  </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField={"inputType"}
+                    dataAlign={"center"}
+                  >
+                    Tipo de metadato
                   </TableHeaderColumn>
                   <TableHeaderColumn dataField={"description"}>
                     {" "}
                     Descripcion
                   </TableHeaderColumn>
-                  <TableHeaderColumn dataField={"status"}>
+                  <TableHeaderColumn
+                    dataField={"status"}
+                    dataAlign={"center"}
+                    dataFormat={(cell, row) => this.StatusMetadata(cell, row)}
+                  >
                     Estado
                   </TableHeaderColumn>
                 </BootstrapTable>
@@ -355,11 +396,13 @@ class TableContentMetadata extends Component {
             </Card>
           </div>
           <div className="col-md-5">
-            <Card body>
-              <div>
+            <ViewComponent
+              authorization={this.state.auth}
+              idMetadata={this.state.idSelect}
+            />
+            {/* <div>
                 <p>Probando este el componente de informacion</p>
-              </div>
-            </Card>
+              </div> */}
           </div>
         </div>
       </div>

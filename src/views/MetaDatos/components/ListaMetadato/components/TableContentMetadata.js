@@ -313,6 +313,20 @@ class TableContentMetadata extends Component {
       });
   };
 
+  StatusMetadata = (cell, row) => {
+    let status;
+    if (row.status === 1 || row.status === true) {
+      status = <b className="text-success">Metadado Activo</b>;
+    } else if (row.status === 0 || row.status === false) {
+      status = <b className="text-danger"> Metadato Inactivo</b>;
+    }
+    return status;
+  };
+
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
   render() {
     // console.log(this.state.dataMetada);
     return (
@@ -330,7 +344,7 @@ class TableContentMetadata extends Component {
                   hover
                   search
                   searchPlaceholder="Buscar metadato"
-                  bordered={false}
+                  bordered
                   pagination
                 >
                   <TableHeaderColumn
@@ -339,7 +353,15 @@ class TableContentMetadata extends Component {
                     dataField={"id"}
                     hidden={this.state.hiddenColumnID}
                   />
-                  <TableHeaderColumn dataField={"name"}>
+                  <TableHeaderColumn
+                    dataFormat={this.indexN}
+                    width={50}
+                    dataField={"id"}
+                    dataAlign={"center"}
+                  >
+                    #
+                  </TableHeaderColumn>
+                  <TableHeaderColumn dataField={"name"} dataSort>
                     {" "}
                     Nombre
                   </TableHeaderColumn>
@@ -347,7 +369,11 @@ class TableContentMetadata extends Component {
                     {" "}
                     Descripcion
                   </TableHeaderColumn>
-                  <TableHeaderColumn dataField={"status"}>
+                  <TableHeaderColumn
+                    dataField={"status"}
+                    dataAlign={"center"}
+                    dataFormat={(cell, row) => this.StatusMetadata(cell, row)}
+                  >
                     Estado
                   </TableHeaderColumn>
                 </BootstrapTable>

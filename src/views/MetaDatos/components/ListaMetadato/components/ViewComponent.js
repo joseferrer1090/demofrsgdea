@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 import { METADATA_VIEW } from "./../../../../../services/EndPoints";
+import { Card, CardHeader, CardBody, CardFooter } from "reactstrap";
 
 class ViewComponent extends Component {
   constructor(props) {
@@ -9,7 +10,8 @@ class ViewComponent extends Component {
     this.state = {
       auth: this.props.authorization,
       id: this.props.idMetadata,
-      data: {}
+      data: {},
+      details: []
     };
   }
 
@@ -51,7 +53,10 @@ class ViewComponent extends Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          data: data.metadata,
+          details: data.details
+        });
       })
       .catch(err => {
         console.log(err.message);
@@ -59,12 +64,110 @@ class ViewComponent extends Component {
   };
 
   render() {
+    const aux = this.state.data;
+    console.log(this.state.data);
+    console.log(this.state.details);
     return (
       <div>
         {this.state.id ? (
-          <div>{this.state.id}</div>
+          <div className="row">
+            <div className="col-md-12">
+              <Card>
+                <CardHeader>
+                  <i className="fa fa-pencil" />
+                  {aux.name}
+                </CardHeader>
+                <CardBody>
+                  <form>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label> Fecha de creacion</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            defaultValue={aux.createdAt}
+                            disabled
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label>Fecha de actualizacion</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            disabled
+                            defaultValue={aux.updatedAt}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label> Nombre </label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            defaultValue={aux.name}
+                            disabled
+                          />
+                        </div>
+                      </div>
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label>Descripcion</label>
+                          <textarea
+                            className="form-control form-control-sm"
+                            defaultValue={aux.description}
+                            disabled
+                          ></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label> ¿Formula? </label>
+                          {aux.formula ? (
+                            <p className="text-success"> Asignado </p>
+                          ) : (
+                            <p className="text-danger">No asignado</p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="col-md-6">
+                        <label> ¿ Activo ? </label>
+                        {aux.status ? (
+                          <p className="text-success"> Activo </p>
+                        ) : (
+                          <p className="text-danger"> Inactivo </p>
+                        )}
+                      </div>
+                    </div>
+                  </form>
+                </CardBody>
+              </Card>
+            </div>
+          </div>
         ) : (
-          <div className="text-center">Seleccione un metadao</div>
+          <div className="">
+            <p
+              style={{
+                textAlign: "center",
+                padding: "3.5em",
+                fontSize: "12pt",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                color: "rgb(170, 170, 170)",
+                backgroundColor: "rgb(238, 238, 238)",
+                marginBottom: "0rem"
+              }}
+            >
+              Seleccione un metadato
+            </p>
+          </div>
         )}
       </div>
     );

@@ -11,13 +11,14 @@ import {
   CardBody,
   CardHeader,
   Collapse,
-  ListGroup,
-  ListGroupItem
+  Toast,
+  ToastHeader,
+  ToastBody
 } from "reactstrap";
 import { decode } from "jsonwebtoken";
-import {} from "./../../../services/EndPoints";
-import IMGEMAILREQUEST from "./../../../assets/img/request.svg";
+import { INFO_EMAIL } from "./../../../services/EndPoints";
 import moment from "moment";
+import MyPdfViewer from "./viewpdf";
 
 class ModalViewEmailRequest extends React.Component {
   constructor(props) {
@@ -29,48 +30,52 @@ class ModalViewEmailRequest extends React.Component {
       id: this.props.id,
       t: this.props.t,
       collapase: true,
-      srcPDF: ""
+      idFile: "",
+      FilenameFile: "",
+      dataFiles: "",
+      noFiles: ""
     };
   }
 
-  //   static getDerivedStateFromProps(props, state) {
-  //     if (props.authorization !== state.auth) {
-  //       return {
-  //         auth: props.authorization
-  //       };
-  //     }
-  //   }
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
 
-  //   componentDidUpdate(prevProps, prevState) {
-  //     if (this.props.authorization !== prevProps.authorization) {
-  //       this.setState({
-  //         auth: this.props.authorization
-  //       });
-  //     }
-  //   }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
 
   toggle = id => {
     this.setState({
       modal: !this.state.modal
       //   id: id
     });
-    // const auth = this.state.auth;
-    // const username = decode(auth);
-    // fetch(`${TEMPLATE_EMAIL}${id}?username=${username.user_name}`, {
-    //   method: "GET",
-    //   headers: {
-    //     Authorization: "Bearer " + auth,
-    //     "Content-Type": "application/json"
-    //   }
-    // })
-    //   .then(response => response.json())
-    //   .then(data => {
-    //     this.setState({
-    //       dataTemplate: data
-    //     });
-    //     console.log(this.state.dataTemplate);
-    //   })
-    //   .catch(Error => console.log(Error));
+    const auth = this.state.auth;
+    const username = decode(auth);
+    fetch(`${INFO_EMAIL}${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          dataFiles: data.details
+        });
+
+        // console.log(this.state.dataTemplate);
+      })
+      .catch(Error => console.log(Error));
   };
 
   FechaCreacionEmailRequest() {
@@ -86,47 +91,48 @@ class ModalViewEmailRequest extends React.Component {
       collapase: !this.state.collapase
     });
   };
+
   render() {
     const { t } = this.state;
-    const files = [
-      {
-        id: 1,
-        name: "Archivo para radicación PDF_v_1",
-        value: "http://www.africau.edu/images/default/sample.pdf"
-      },
-      {
-        id: 2,
-        name: "Archivo para radicación PDF_v_2",
-        value:
-          "https://edwardsib.org/ourpages/auto/2015/9/28/51403017/Cuentos%20Infantiles.pdf"
-      },
-      {
-        id: 3,
-        name: "Archivo para radicación PDF_v_3",
-        value:
-          "http://files.unicef.org/republicadominicana/Manual_de_Cuentos_y_fabulas.pdf"
-      }
-    ];
 
     const listFiles = () => {
+      const { dataFiles } = this.state;
       return (
         <React.Fragment>
           <ul className="list-group">
-            {files.map(listItem => (
-              <li
-                key={listItem.id}
-                className="list-group-item list-group-item-action"
-                value={listItem.value}
-                onClick={e => {
-                  this.setState({
-                    srcPDF: listItem.value
-                  });
-                  // console.log();
-                }}
-              >
-                {listItem.name}
-              </li>
-            ))}
+            {dataFiles.length !== 0 ? (
+              dataFiles.map(listItem => (
+                <li
+                  key={listItem.id}
+                  className="list-group-item list-group-item-action"
+                  value={listItem.id}
+                  onClick={e => {
+                    this.setState({
+                      idFile: listItem.id,
+                      FilenameFile: listItem.filename,
+                      collapase: !this.state.collapase
+                    });
+                    console.log(
+                      `id: ${listItem.id} -filename: ${listItem.filename}`
+                    );
+                  }}
+                >
+                  <i className="fa fa-file-text" /> {listItem.filenameOriginal}
+                </li>
+              ))
+            ) : (
+              <Toast>
+                <ToastHeader icon="danger">
+                  {" "}
+                  No se encontraron archivos adjuntos.
+                </ToastHeader>
+                <ToastBody>
+                  {" "}
+                  La petición vía correo electrónico no contiene archivos
+                  adjuntos.
+                </ToastBody>
+              </Toast>
+            )}
           </ul>
         </React.Fragment>
       );
@@ -149,7 +155,7 @@ class ModalViewEmailRequest extends React.Component {
                       style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      Peticiones vía correo electrónico
+                      <b>Archivos adjuntos</b>
                     </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapase}>
@@ -157,7 +163,7 @@ class ModalViewEmailRequest extends React.Component {
                       <div className="row">
                         <div className="col-md-6">
                           <dl className="param">
-                            <dt>Archivos</dt>
+                            {/* <dt>Archivos</dt> */}
                             {listFiles()}
                           </dl>
                         </div>
@@ -167,74 +173,21 @@ class ModalViewEmailRequest extends React.Component {
                 </Card>
               </Col>
             </Row>
-            <embed
-              src={this.state.srcPDF}
-              width={"100%"}
-              height={500}
-              type="application/pdf"
+            <MyPdfViewer
+              id={this.state.idFile}
+              filename={this.state.FilenameFile}
             />
-            {/* <Row>
-              <Col sm="3">
-                <img src={IMGEMAILREQUEST} className="img-thumbnail" />
-              </Col>
-              <Col sm="9">
-                <div className="">
-                  {" "}
-                  <h5 className="" style={{ borderBottom: "1px solid black" }}>
-                    {" "}
-                    Datos
-                  </h5>{" "}
-                </div>
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Dato 1</dt>
-                        <dd>Dato 1</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Dato 2 </dt>
-                        <dd> Dato 2 </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Dato 3 </dt>
-                        <dd> Dato 3 </dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Dato 4</dt>
-                        <dd> Dato 4</dd>
-                      </dl>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <dl className="param">
-                        <dt>Fecha de recepción</dt>
-                        <dd> {this.FechaCreacionEmailRequest()} </dd>
-                      </dl>
-                    </div>
-                  </div>
-                </div>
-              </Col>
-            </Row> */}
           </ModalBody>
           <ModalFooter>
             <button
               className="btn btn-secondary btn-sm"
               onClick={() => {
-                this.setState({ modal: false });
+                this.setState({
+                  modal: false,
+                  idFile: "",
+                  FilenameFile: "",
+                  collapase: true
+                });
               }}
             >
               <i className="fa fa-times" />{" "}

@@ -680,6 +680,8 @@ export const EMAIL_ACCOUNTS = `${config.IP}:${config.PORT}/api/sgdea/service/con
 /* GET */
 export const INFO_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/filing/emails/show/`;
 
+/* GET => View Files*/
+export const VIEW_FILE = `${config.IP}:${config.PORT}/api/sgdea/service/filing/emails/view/file/`;
 //--------------------------------------------- METADATA BAG -----------------------------------------------------//
 
 /* GET */

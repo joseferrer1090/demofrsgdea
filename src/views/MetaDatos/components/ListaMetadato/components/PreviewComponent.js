@@ -112,7 +112,8 @@ const PreviewComponent = props => {
             textTransform: "uppercase",
             color: "rgb(170, 170, 170)",
             backgroundColor: "rgb(238, 238, 238)",
-            marginBottom: "0rem"
+            marginBottom: "0rem",
+            border: "1px solid grey"
           }}
         >
           Vista previa del metadato
@@ -120,10 +121,6 @@ const PreviewComponent = props => {
       )}
     </div>
   );
-};
-
-PreviewComponent.propTypes = {
-  formElement: PropTypes.string.isRequired
 };
 
 export default PreviewComponent;

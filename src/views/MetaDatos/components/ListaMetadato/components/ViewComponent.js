@@ -162,8 +162,9 @@ class ViewComponent extends Component {
                 fontWeight: "bold",
                 textTransform: "uppercase",
                 color: "rgb(170, 170, 170)",
-                backgroundColor: "rgb(238, 238, 238)",
-                marginBottom: "0rem"
+                backgroundColor: "#c8ced3",
+                marginBottom: "0rem",
+                border: "1px solid grey"
               }}
             >
               Seleccione un metadato

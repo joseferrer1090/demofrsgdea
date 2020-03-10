@@ -314,7 +314,7 @@ class TableContentMetadata extends Component {
   };
 
   render() {
-    console.log(this.state.dataMetada);
+    // console.log(this.state.dataMetada);
     return (
       <div className="Animated fadeIn">
         <div className="row">

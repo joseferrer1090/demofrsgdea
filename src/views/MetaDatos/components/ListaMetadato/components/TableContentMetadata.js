@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import PropTypes from "prop-types";
+import PropTypes, { func } from "prop-types";
 import ViewComponent from "./ViewComponent";
 import { Card, CardHeader, CardBody } from "reactstrap";
 import { METADATA_ALL } from "./../../../../../services/EndPoints";
@@ -270,7 +270,8 @@ class TableContentMetadata extends Component {
     this.state = {
       auth: this.props.authorization,
       dataMetada: [],
-      hiddenColumnID: true
+      hiddenColumnID: true,
+      idSelect: ""
     };
   }
 
@@ -328,7 +329,15 @@ class TableContentMetadata extends Component {
   }
 
   render() {
-    // console.log(this.state.dataMetada);
+    const selectRowProps = {
+      mode: "radio",
+      clickToSelect: true,
+      onSelect: row => {
+        this.setState({
+          idSelect: row.id
+        });
+      }
+    };
     return (
       <div className="Animated fadeIn">
         <div className="row">
@@ -346,6 +355,7 @@ class TableContentMetadata extends Component {
                   searchPlaceholder="Buscar metadato"
                   bordered
                   pagination
+                  selectRow={selectRowProps}
                 >
                   <TableHeaderColumn
                     export={false}
@@ -355,7 +365,6 @@ class TableContentMetadata extends Component {
                   />
                   <TableHeaderColumn
                     dataFormat={this.indexN}
-                    width={50}
                     dataField={"id"}
                     dataAlign={"center"}
                   >
@@ -382,9 +391,13 @@ class TableContentMetadata extends Component {
           </div>
           <div className="col-md-5">
             <Card body>
-              <div>
+              <ViewComponent
+                authorization={this.state.auth}
+                idMetadata={this.state.idSelect}
+              />
+              {/* <div>
                 <p>Probando este el componente de informacion</p>
-              </div>
+              </div> */}
             </Card>
           </div>
         </div>

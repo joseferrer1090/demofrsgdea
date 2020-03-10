@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 import { METADATA_VIEW } from "./../../../../../services/EndPoints";
 import { Card, CardHeader, CardBody, CardFooter } from "reactstrap";
+import PreviewComponent from "./PreviewComponent";
 
 class ViewComponent extends Component {
   constructor(props) {
@@ -169,6 +170,26 @@ class ViewComponent extends Component {
             </p>
           </div>
         )}
+        <br />
+        <Card>
+          <CardHeader>
+            <i className="fa fa-eye" /> Vista previea del metadato
+          </CardHeader>
+          <CardBody>
+            <p className="alert alert-warning">
+              <i className="fa fa-exclamation-triangle" />{" "}
+              <b>Vista previa del metadato.</b> Este solo tendra funcionalidad
+              en la plantilla donde sea relacionado, en el modulo de
+              correspondencia.
+            </p>
+            <PreviewComponent
+              fromType={aux.inputType}
+              labelInput={aux.labelText}
+              inputPlaceholder={aux.inputPlaceholder}
+              details={this.state.details}
+            />
+          </CardBody>
+        </Card>
       </div>
     );
   }

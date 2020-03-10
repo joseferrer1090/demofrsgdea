@@ -333,7 +333,7 @@ class SelectField extends Component {
         description: this.state.description
       })
       .then(() => {
-        //this.sendData();
+        this.sendData();
         this.resetForm();
         console.log("los datos bien");
       })

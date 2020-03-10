@@ -374,6 +374,12 @@ class TableContentMetadata extends Component {
                     {" "}
                     Nombre
                   </TableHeaderColumn>
+                  <TableHeaderColumn
+                    dataField={"inputType"}
+                    dataAlign={"center"}
+                  >
+                    Tipo de metadato
+                  </TableHeaderColumn>
                   <TableHeaderColumn dataField={"description"}>
                     {" "}
                     Descripcion
@@ -390,15 +396,13 @@ class TableContentMetadata extends Component {
             </Card>
           </div>
           <div className="col-md-5">
-            <Card body>
-              <ViewComponent
-                authorization={this.state.auth}
-                idMetadata={this.state.idSelect}
-              />
-              {/* <div>
+            <ViewComponent
+              authorization={this.state.auth}
+              idMetadata={this.state.idSelect}
+            />
+            {/* <div>
                 <p>Probando este el componente de informacion</p>
               </div> */}
-            </Card>
           </div>
         </div>
       </div>

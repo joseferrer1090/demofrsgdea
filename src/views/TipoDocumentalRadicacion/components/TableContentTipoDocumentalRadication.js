@@ -121,7 +121,8 @@ class TableContentTramite extends Component {
   }
 
   openModalView(id) {
-    this.refs.child1.toggle(id);
+    // this.refs.child1.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   routeChange = id => {
@@ -130,15 +131,18 @@ class TableContentTramite extends Component {
   };
 
   openModalDelete(id) {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalExport() {
-    this.refs.child3.toogle();
+    // this.refs.child3.toogle();
+    this.ModalExportRef.toggle();
   }
 
   openModalExport2() {
-    this.refs.child4.toogle();
+    // this.refs.child4.toogle();
+    this.ModalExportUserRef.toggle();
   }
 
   indexN(cell, row, enumObject, index) {
@@ -277,26 +281,26 @@ class TableContentTramite extends Component {
           t={this.props.t}
           authorization={auth}
           modalviewtramit={this.state.modalview}
-          ref={"child1"}
+          ref={mv => (this.ModalViewRef = mv)}
         />
         <ModalDeleteTipoDocumentalRadication
           t={this.props.t}
           authorization={auth}
           modaldelete={this.state.modaldel}
           updateTable={this.getData}
-          ref={"child2"}
+          ref={md => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           t={this.props.t}
           authorization={auth}
-          ref={"child3"}
+          ref={mexp => (this.ModalExportRef = mexp)}
           modalexport={this.state.modalexport}
         />
         <ModalExportUsers
           t={this.props.t}
           modal={this.state.modalexport2}
           authorization={auth}
-          ref={"child4"}
+          ref={meu => (this.ModalExportUserRef = meu)}
         />
       </div>
     );

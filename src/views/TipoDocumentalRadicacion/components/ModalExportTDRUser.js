@@ -41,7 +41,7 @@ class ModalExportTDRUser extends Component {
     }
   }
 
-  toogle = () => {
+  toggle = () => {
     this.setState({
       modal: !this.state.modal
     });

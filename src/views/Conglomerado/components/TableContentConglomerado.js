@@ -119,19 +119,19 @@ class TableContentConglomerado extends Component {
   }
 
   openModalView(id) {
-    this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalDelete(id) {
-    this.refs.child2.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child3.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
 
   openModalExport = () => {
-    this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
@@ -258,27 +258,27 @@ class TableContentConglomerado extends Component {
         <ModalView
           t={t}
           modalviewstate={this.state.modalView}
-          ref="child"
+          ref={mv => (this.ModalViewRef = mv)}
           authorization={this.state.auth}
         />
         <ModalDelete
           t={t}
           modaldeletestate={this.state.modalDelete}
           updateTable={this.getDataConglomerates}
-          ref="child2"
+          ref={md => (this.ModalDeleteRef = md)}
           authorization={this.state.auth}
         />
         <ModalEdit
           authorization={this.state.auth}
           t={t}
           modaleditstate={this.state.modalEdit}
-          ref="child3"
+          ref={me => (this.ModalEditRef = me)}
           updateTable={this.getDataConglomerates}
         />
         <ModalExport
           t={t}
           modalexport={this.state.modalexport}
-          ref="child4"
+          ref={mexp => (this.ModalExportRef = mexp)}
           authorization={this.state.auth}
         />
       </div>

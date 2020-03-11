@@ -133,23 +133,28 @@ class TableContentUser extends Component {
   }
 
   openModalView(id) {
-    this.refs.child.toggle(id);
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalDelete(id) {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child3.toggle(id);
+    // this.refs.child3.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
 
   openModalPassword(id) {
-    this.refs.child4.toggle(id);
+    // this.refs.child4.toggle(id);
+    this.ModalPasswordRef.toggle(id);
   }
 
   openModalExport = () => {
-    this.refs.child5.toggle();
+    // this.refs.child5.toggle();
+    this.ModalExportRef.toggle();
   };
 
   createCustomButtonGroup = props => {
@@ -290,33 +295,33 @@ class TableContentUser extends Component {
           authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalviewuserstate}
-          ref="child"
+          ref={mv => (this.ModalViewRef = mv)}
         />
         <ModalDelete
           authorization={this.state.auth}
           t={this.props.t}
           modaldel={this.state.modaldeluserstate}
           updateTable={this.getDataUsers}
-          ref="child2"
+          ref={md => (this.ModalDeleteRef = md)}
         />
         <ModalUpdate
           authorization={this.state.auth}
           t={this.props.t}
           updateTable={this.getDataUsers}
           modaledit={this.state.modaledituserstate}
-          ref="child3"
+          ref={me => (this.ModalEditRef = me)}
         />
         <ModalChangePassword
           authorization={this.state.auth}
           t={this.props.t}
           modalpassword={this.state.modalchangepassword}
-          ref="child4"
+          ref={mcp => (this.ModalPasswordRef = mcp)}
         />
         <ModalExportCSV
           authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref={"child5"}
+          ref={mexp => (this.ModalExportRef = mexp)}
         ></ModalExportCSV>
       </div>
     );

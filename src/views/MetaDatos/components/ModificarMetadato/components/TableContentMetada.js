@@ -114,7 +114,7 @@ class TableContentMetada extends Component {
             dataField={"id"}
             hidden={!this.state.hiddenColumnID}
           />
-          <TableHeaderColumn dataFormat={this.indexN} width={50}>
+          <TableHeaderColumn dataFormat={this.indexN} width={"50"}>
             #
           </TableHeaderColumn>
           <TableHeaderColumn dataField={"name"} dataAlign={"center"} dataSort>

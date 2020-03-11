@@ -119,19 +119,23 @@ class TableContentCargo extends Component {
   }
 
   openModalView(id) {
-    this.refs.child1.toggle(id);
+    // this.refs.child1.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
 
   openModalDelete(id) {
-    this.refs.child3.toggle(id);
+    // this.refs.child3.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalExport() {
-    this.refs.child4.toggle();
+    // this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   }
 
   indexN(cell, row, enumObject, index) {
@@ -242,27 +246,27 @@ class TableContentCargo extends Component {
           t={t}
           modalviewcargo={this.state.modalview}
           authorization={this.state.auth}
-          ref="child1"
+          ref={mv => (this.ModalViewRef = mv)}
         />
         <ModalEdit
           t={this.props.t}
           modaleditcargo={this.state.modaledit}
           updateTable={this.getDataCharge}
           authorization={this.state.auth}
-          ref="child2"
+          ref={me => (this.ModalEditRef = me)}
         />
         <ModalDel
           t={this.props.t}
           modaldelete={this.state.modaldelete}
           updateTable={this.getDataCharge}
           authorization={this.state.auth}
-          ref="child3"
+          ref={md => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref="child4"
+          ref={mexp => (this.ModalExportRef = mexp)}
         />
       </div>
     );

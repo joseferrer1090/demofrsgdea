@@ -12,7 +12,8 @@ class TableContentMetada extends Component {
       auth: this.props.authorization,
       dataMetadata: [],
       hiddenColumnID: false,
-      modal: false
+      modal: false,
+      id: ""
     };
   }
 
@@ -69,8 +70,8 @@ class TableContentMetada extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  openModal() {
-    this.myModal.toggle();
+  openModal(id) {
+    this.myModal.toggle(id);
   }
 
   accionesMetadato(cell, row) {
@@ -83,7 +84,8 @@ class TableContentMetada extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModal();
+            this.openModal(row.id);
+            this.setState({ id: row.id });
           }}
         >
           <i className="fa fa-pencil" />
@@ -139,7 +141,9 @@ class TableContentMetada extends Component {
           </TableHeaderColumn>
         </BootstrapTable>
         <ModalUpdateMetadata
+          authorization={this.state.auth}
           modalupdate={this.state.modal}
+          id={this.state.id}
           ref={el => (this.myModal = el)}
         />
       </div>

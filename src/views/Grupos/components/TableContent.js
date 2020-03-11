@@ -139,19 +139,23 @@ class TableContent extends Component {
   }
 
   openModalView = id => {
-    this.refs.child.toggle(id);
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   };
 
   openModalEdit = id => {
-    this.refs.child3.toggle(id);
+    // this.refs.child3.toggle(id);
+    this.ModalEditRef.toggle(id);
   };
 
   openModalDelete = id => {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   };
 
   opneModalExport = id => {
-    this.refs.child4.toggle(id);
+    // this.refs.child4.toggle(id);
+    this.ModalExportRef.toggle(id);
   };
 
   FechaCreacionRoles(cell, row) {
@@ -261,27 +265,27 @@ class TableContent extends Component {
         <ModalView
           authorization={this.state.auth}
           modalview={this.state.modalview}
-          ref="child"
+          ref={mv => (this.ModalViewRef = mv)}
           t={this.props.t}
         />
         <ModalDelete
           authorization={this.state.auth}
           updateTable={this.getDataGroup}
           modaldel={this.state.modaldelete}
-          ref="child2"
+          ref={md => (this.ModalDeleteRef = md)}
           t={this.props.t}
         />
         <ModalEdit
           authorization={this.state.auth}
           updateTable={this.getDataGroup}
           modaledit={this.state.modaledit}
-          ref="child3"
+          ref={me => (this.ModalEditRef = me)}
           t={this.props.t}
         />
         <ModalExport
           authorization={this.state.auth}
           modalexport={this.state.modalexport}
-          ref="child4"
+          ref={mexp => (this.ModalExportRef = mexp)}
           t={this.props.t}
         />
       </div>

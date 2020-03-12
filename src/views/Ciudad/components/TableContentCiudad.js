@@ -6,7 +6,7 @@ import ModalDelete from "./ModalDeleteCiudad";
 import ModalExport from "./ModalExportCSV";
 import "./../../../css/styleTableCiudad.css";
 import "./../../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
-import { CITYS } from "./../../../services/EndPoints";
+import { CITYS, THIRDPARTYS_STATUS } from "./../../../services/EndPoints";
 import moment from "moment";
 import { withTranslation } from "react-i18next";
 import PropTypes from "prop-types";
@@ -138,18 +138,22 @@ class TableContentCiudad extends Component {
   }
 
   openModalView(id) {
-    this.refs.child.toggle(id);
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child3.toggle(id);
+    // this.refs.child3.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
 
   openModalDelete(id) {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
   openModalExport = () => {
-    this.refs.child4.toggle();
+    // this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
@@ -289,27 +293,27 @@ class TableContentCiudad extends Component {
         <ModalView
           t={this.props.t}
           modalview={this.state.ModalViewPais}
-          ref="child"
+          ref={mv => (this.ModalViewRef = mv)}
           authorization={this.state.auth}
         />
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.ModalEdit}
-          ref="child3"
+          ref={me => (this.ModalEditRef = me)}
           updateTable={this.getDataCity}
           authorization={this.state.auth}
         />
         <ModalDelete
           t={this.props.t}
           modaldel={this.state.ModalDelete}
-          ref="child2"
+          ref={md => (this.ModalDeleteRef = md)}
           updateTable={this.getDataCity}
           authorization={this.state.auth}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalExport}
-          ref="child4"
+          ref={mexp => (this.ModalExportRef = mexp)}
           authorization={this.state.auth}
         />
       </div>

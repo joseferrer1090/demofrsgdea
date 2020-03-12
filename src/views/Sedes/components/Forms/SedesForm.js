@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -58,6 +58,9 @@ const SedesForm = props => {
     setNewValueConglomerate(New);
   };
 
+  useEffect(() => {
+    console.log(values);
+  });
   return (
     <div>
       <Card>
@@ -115,6 +118,7 @@ const SedesForm = props => {
                     component={FieldCompany}
                     oldValueConglomerateId={oldValueConglomerate}
                     newValueConglomerateId={newValueConglomerate}
+                    conglomerateId={values.conglomerateId}
                   ></Field>
 
                   {/* <SelectCompany
@@ -318,6 +322,7 @@ const SedesForm = props => {
                     component={FieldDepartment}
                     oldValueCountryId={oldValue}
                     newValueCountryId={newValue}
+                    countryId={values.countryId}
                   ></Field>
 
                   <div style={{ color: "#D54B4B" }}>
@@ -612,7 +617,22 @@ export default withTranslation("translations")(
             });
           });
         setSubmitting(false);
-        resetForm();
+        resetForm({
+          conglomerateId: "",
+          companyId: null,
+          code: "",
+          name: "",
+          description: "",
+          prefix: "",
+          sequence: "",
+          countryId: "",
+          departmentId: null,
+          cityId: "",
+          address: "",
+          phone: "",
+          chargeId: "",
+          status: ""
+        });
       }, 1000);
     }
   })(SedesForm)

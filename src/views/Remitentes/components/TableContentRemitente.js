@@ -118,18 +118,22 @@ class TableContentRemitente extends Component {
   }
 
   openModalView(id) {
-    this.refs.child.toggle(id);
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalDel(id) {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child3.toggle(id);
+    // this.refs.child3.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
   openModalExport() {
-    this.refs.child4.toggle();
+    // this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   }
 
   indexN(cell, row, enumObject, index) {
@@ -258,27 +262,27 @@ class TableContentRemitente extends Component {
           authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalViewRemitente}
-          ref="child"
+          ref={mv => (this.ModalViewRef = mv)}
         />
         <ModalDel
           authorization={this.state.auth}
           updateTable={this.getDataTerceros}
           t={this.props.t}
           modaldel={this.state.modalDeleteRemitente}
-          ref="child2"
+          ref={md => (this.ModalDeleteRef = md)}
         />
         <ModalUpdate
           authorization={this.state.auth}
           updateTable={this.getDataTerceros}
           t={this.props.t}
           modalupdate={this.state.modalUpdateRemitente}
-          ref="child3"
+          ref={me => (this.ModalEditRef = me)}
         />
         <ModalExport
           authorization={this.state.auth}
           t={this.props.t}
           modalExport={this.state.modalexport}
-          ref={"child4"}
+          ref={mexp => (this.ModalExportRef = mexp)}
         />
       </div>
     );

@@ -143,12 +143,15 @@ class TableContentEmailRequest extends Component {
     }
     return status;
   }
+
   openModal = id => {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalViewFilesRef.toggle(id);
   };
 
   openModalView(id) {
-    this.refs.child.toggle(id);
+    // this.refs.child.toggle(id);
+    this.ModalViewInfoRef.toggle(id);
   }
 
   indexN(cell, row, enumObject, index) {
@@ -283,13 +286,13 @@ class TableContentEmailRequest extends Component {
           </BootstrapTable>
         </div>
         <ModalViewEmailRequest
-          ref={"child"}
+          ref={mi => (this.ModalViewInfoRef = mi)}
           modal={this.state.ModalPreview}
           authorization={this.state.auth}
           t={this.state.t}
         />
         <Modalc
-          ref={"child2"}
+          ref={mf => (this.ModalViewFilesRef = mf)}
           modal={this.state.ModalInfo}
           authorization={this.state.auth}
           t={this.state.t}

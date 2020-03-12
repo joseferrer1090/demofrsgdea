@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withFormik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import {
@@ -153,6 +153,7 @@ const ConglomeradorForm = props => {
                     component={FieldDepartment}
                     oldValueCountryId={oldValue}
                     newValueCountryId={newValue}
+                    countryId={values.countryId}
                   ></Field>
                   <div style={{ color: "#D54B4B" }}>
                     {errors.departmentId && touched.departmentId ? (
@@ -393,7 +394,16 @@ export default withTranslation("translations")(
             });
           });
         setSubmitting(false);
-        resetForm();
+        resetForm({
+          codigo: "",
+          nombre: "",
+          descripcion: "",
+          estado: "",
+          countryId: "",
+          departmentId: "",
+          cityId: "",
+          chargeId: ""
+        });
       }, 1000);
     }
   })(ConglomeradorForm)

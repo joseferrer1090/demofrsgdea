@@ -101,6 +101,7 @@ const DependenciaForm = props => {
                         component={FieldCompany}
                         oldValueConglomerateId={oldValueConglomerate}
                         newValueConglomerateId={newValueConglomerate}
+                        conglomerateId={values.conglomerateId}
                       ></Field>
                       <div style={{ color: "#D54B4B" }}>
                         {errors.companyId && touched.companyId ? (

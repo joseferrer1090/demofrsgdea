@@ -219,6 +219,7 @@ const EmpresaForm = props => {
                     component={FieldDepartment}
                     oldValueCountryId={oldValue}
                     newValueCountryId={newValue}
+                    countryId={values.countryId}
                   ></Field>
                   <div style={{ color: "#D54B4B" }}>
                     {errors.departmentId && touched.departmentId ? (

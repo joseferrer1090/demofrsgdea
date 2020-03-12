@@ -133,23 +133,28 @@ class TableContentRoles extends Component {
   }
 
   openModalView(id) {
-    this.refs.child.toggle(id);
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalDel(id) {
-    this.refs.child3.toggle(id);
+    // this.refs.child3.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
 
   openModalPermission(id) {
-    this.refs.child4.toggle(id);
+    // this.refs.child4.toggle(id);
+    this.ModalPermissionRef.toggle(id);
   }
 
   openModalExport() {
-    this.refs.child5.toggle();
+    // this.refs.child5.toggle();
+    this.ModalExportRef.toggle();
   }
 
   indexN(cell, row, enumObject, index) {
@@ -278,19 +283,19 @@ class TableContentRoles extends Component {
           t={this.props.t}
           modalviewroles={this.state.modalview}
           authorization={this.props.authorization}
-          ref="child"
+          ref={mv => (this.ModalViewRef = mv)}
         />
         <ModalEdit
           t={this.props.t}
           modaledit={this.state.modaledit}
-          ref="child2"
+          ref={me => (this.ModalEditRef = me)}
           updateTable={this.getDataRoles}
           authorization={this.props.authorization}
         />
         <ModalDelete
           t={this.props.t}
           modaldelete={this.state.modaldel}
-          ref="child3"
+          ref={md => (this.ModalDeleteRef = md)}
           updateTable={this.getDataRoles}
           authorization={this.props.authorization}
         />
@@ -298,13 +303,13 @@ class TableContentRoles extends Component {
           t={this.props.t}
           datamodal={this.state.data}
           modaleditpermission={this.state.modalpermission}
-          ref="child4"
+          ref={mp => (this.ModalPermissionRef = mp)}
           authorization={this.props.authorization}
         />
         <ModalExport
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref="child5"
+          ref={mexp => (this.ModalExportRef = mexp)}
           authorization={this.props.authorization}
         />
       </div>

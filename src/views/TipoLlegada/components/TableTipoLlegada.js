@@ -117,19 +117,23 @@ class TableTipoLlegada extends Component {
   };
 
   openModalView(id) {
-    this.refs.child.toggle(id);
+    // this.refs.child.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalEdit(id) {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalEditRef.toggle(id);
   }
 
   openModalDelete(id) {
-    this.refs.child3.toggle(id);
+    // this.refs.child3.toggle(id);
+    this.ModalDeleteRef.toggle(id);
   }
 
   openModalExport = () => {
-    this.refs.child4.toggle();
+    // this.refs.child4.toggle();
+    this.ModalExportRef.toggle();
   };
 
   indexN(cell, row, enumObject, index) {
@@ -247,27 +251,27 @@ class TableTipoLlegada extends Component {
           authorization={this.state.auth}
           t={this.props.t}
           modalview={this.state.modalviewtipollegada}
-          ref={"child"}
+          ref={mv => (this.ModalViewRef = mv)}
         />
         <ModalEdit
           authorization={this.state.auth}
           t={this.props.t}
           modaledit={this.state.modaledittipollegada}
           updateTable={this.getDataTipoLlegada}
-          ref={"child2"}
+          ref={me => (this.ModalEditRef = me)}
         />
         <ModalDelete
           authorization={this.state.auth}
           t={this.props.t}
           modaldelete={this.state.modaldeletetipollegada}
           updateTable={this.getDataTipoLlegada}
-          ref={"child3"}
+          ref={md => (this.ModalDeleteRef = md)}
         />
         <ModalExport
           authorization={this.state.auth}
           t={this.props.t}
           modalexport={this.state.modalexport}
-          ref="child4"
+          ref={mexp => (this.ModalExportRef = mexp)}
         />
       </div>
     );

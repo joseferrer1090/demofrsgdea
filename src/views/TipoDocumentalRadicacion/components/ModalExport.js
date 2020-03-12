@@ -55,7 +55,7 @@ class ModalExport extends Component {
       .catch(error => console.log(" ", error));
   };
 
-  toogle = () => {
+  toggle = () => {
     this.setState({
       modal: !this.state.modal
     });

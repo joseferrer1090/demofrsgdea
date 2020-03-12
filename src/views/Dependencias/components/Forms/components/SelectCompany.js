@@ -30,12 +30,15 @@ const FieldCompany = ({
       setDataCompany([]);
       values.companyId = "";
       fetchNewValues(props.newValueConglomerateId);
+    } else if (props.conglomerateId === "") {
+      setDataCompany([]);
+      values.companyId = "";
     }
   };
 
   useEffect(() => {
     validateValues();
-  }, [props.newValueConglomerateId]);
+  }, [props.newValueConglomerateId, props.conglomerateId]);
 
   const t = props.t;
   return (

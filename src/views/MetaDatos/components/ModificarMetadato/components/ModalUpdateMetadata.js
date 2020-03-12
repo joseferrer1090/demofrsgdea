@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  CustomInput
+} from "reactstrap";
 import {
   METADATA_VIEW,
   METADATA_UPDATE
@@ -62,7 +68,10 @@ class ModalUpdateMetadata extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          data: data.metadata
+        });
+        console.log(data.metadata);
       })
       .catch(err => {
         console.log(`${err.message}`);
@@ -71,24 +80,89 @@ class ModalUpdateMetadata extends Component {
 
   render() {
     return (
-      <Modal isOpen={this.state.modal} className="modal-xl">
-        <ModalHeader>Probando</ModalHeader>
+      <Modal isOpen={this.state.modal} className="modal-lg">
+        <ModalHeader>Edicion de controles {this.state.data.name}</ModalHeader>
         <ModalBody>
-          <p>{this.state.id} </p>
+          <form className="form">
+            <div className="row">
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>Fecha de creacion</label>
+                  <input
+                    type={"text"}
+                    className="form-control form-control-sm"
+                  />
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>Fecha de modificacion</label>
+                  <input
+                    type={"text"}
+                    className="form-control form-control-sm"
+                  />
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="form-group">
+                  <label>Nombre</label>
+                  <input type="text" className="form-control form-control-sm" />
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="form-group">
+                  <label>Descripcion</label>
+                  <textarea className="form-control form-control-sm"></textarea>
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>Label</label>
+                  <input
+                    type={"text"}
+                    className="form-control form-control-sm"
+                  />
+                </div>
+              </div>
+              <div className="col-md-6">
+                <div className="form-group">
+                  <label>Id tag metadato</label>
+                  <input
+                    type={"text"}
+                    className="form-control form-control-sm"
+                  />
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="form-group">
+                  <CustomInput type={"checkbox"} label="Estado" />
+                </div>
+              </div>
+              <div className="col-md-12">
+                <div className="form-group">
+                  <CustomInput type={"checkbox"} label={"Formula"} />
+                </div>
+              </div>
+            </div>
+          </form>
         </ModalBody>
         <ModalFooter>
           <div className="pull-right">
+            <button type="button" className="btn btn-secondary btn-sm">
+              {" "}
+              <i className="fa fa-pencil" /> Actualizar{" "}
+            </button>
+            &nbsp;
             <button
               type={"button"}
-              className="form-control form-control-sm"
+              className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({
                   modal: false
                 });
               }}
             >
-              {" "}
-              Cerrar
+              <i className="fa fa-times" /> Cerrar
             </button>
           </div>
         </ModalFooter>

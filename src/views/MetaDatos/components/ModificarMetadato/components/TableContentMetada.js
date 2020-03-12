@@ -342,8 +342,8 @@ class TableContentMetada extends Component {
   accionesMetadato(cell, row) {
     return (
       <div
-        className="table-actionMenuConglo"
-        style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+      // className="table-actionMenuConglo"
+      // style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
       >
         <button
           className="btn btn-secondary btn-sm"

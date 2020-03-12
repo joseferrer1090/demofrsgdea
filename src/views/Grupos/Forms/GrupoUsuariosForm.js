@@ -195,6 +195,7 @@ const GrupoUsuariosForm = props => {
                               component={FieldCompany}
                               oldValueConglomerateId={oldValueConglomerate}
                               newValueConglomerateId={newValueConglomerate}
+                              conglomerado={values.conglomerado}
                             ></Field>
                             <div style={{ color: "#D54B4B" }}>
                               {errors.empresa && touched.empresa ? (

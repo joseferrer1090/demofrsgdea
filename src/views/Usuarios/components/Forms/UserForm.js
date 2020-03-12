@@ -267,6 +267,7 @@ const UserForm = props => {
                         component={FieldCompany}
                         oldValueConglomerateId={oldValueConglomerate}
                         newValueConglomerateId={newValueConglomerate}
+                        conglomeradoID={values.conglomeradoID}
                       ></Field>
                       <div style={{ color: "#D54B4B" }}>
                         {errors.empresaID && touched.empresaID ? (
@@ -595,8 +596,8 @@ export default withTranslation("translations")(
       confirm_password: Yup.string()
         .oneOf([Yup.ref("password"), null], " Las contraseñas no coinciden.")
         .required(" Por favor confirme la contraseña.")
-        .min(10, " Mínimo 10 caracteres.")
-        .max(200),
+        .min(8, " Mínimo 8 caracteres.")
+        .max(15, " Máximo 15 caracteres."),
       rolesID: Yup.array().of(
         Yup.object().shape({
           label: Yup.string().required(),
@@ -685,7 +686,25 @@ export default withTranslation("translations")(
         console.log(formData);
       }, 1000);
       setSubmitting(false);
-      resetForm();
+      resetForm({
+        identificacion: "",
+        nombre: "",
+        email: "",
+        telefono: "",
+        direccion: "",
+        f_d_nacimiento: "",
+        conglomeradoID: "",
+        empresaID: "",
+        sedeID: "",
+        dependenciaID: "",
+        cargoID: "",
+        username: "",
+        password: "",
+        confirm_password: "",
+        rolesID: "",
+        estado: "",
+        foto: ""
+      });
     }
   })(UserForm)
 );

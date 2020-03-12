@@ -326,6 +326,7 @@ const RemitenteForm = props => {
                           component={FieldDepartment}
                           oldValueCountryId={oldValue}
                           newValueCountryId={newValue}
+                          pais={values.pais}
                         ></Field>
                         <div style={{ color: "#D54B4B" }}>
                           {errors.departamento && touched.departamento ? (

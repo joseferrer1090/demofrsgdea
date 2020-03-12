@@ -147,6 +147,7 @@ const TipoTramiteForm = props => {
                     })
                   });
                 }
+                console.log(response);
               })
             )
             .catch(error => {
@@ -167,7 +168,9 @@ const TipoTramiteForm = props => {
             conglomerado: "",
             empresa: "",
             sede: "",
-            dependencia: ""
+            dependencia: "",
+            workflow: "",
+            plantilla: ""
           });
         }, 1000);
       }}
@@ -445,6 +448,7 @@ const TipoTramiteForm = props => {
                                   component={FieldCompany}
                                   oldValueConglomerateId={oldValueConglomerate}
                                   newValueConglomerateId={newValueConglomerate}
+                                  conglomerado={values.conglomerado}
                                 ></Field>
                               </div>
                             </div>

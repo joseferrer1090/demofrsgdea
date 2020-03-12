@@ -30,12 +30,15 @@ const FieldDepartment = ({
       setDataDepartment([]);
       values.departamento = "";
       fetchNewValues(props.newValueCountryId);
+    } else if (props.pais) {
+      setDataDepartment([]);
+      values.departamento = "";
     }
   };
 
   useEffect(() => {
     validateValues();
-  }, [props.newValueCountryId]);
+  }, [props.newValueCountryId, props.pais]);
 
   const t = props.t;
   return (

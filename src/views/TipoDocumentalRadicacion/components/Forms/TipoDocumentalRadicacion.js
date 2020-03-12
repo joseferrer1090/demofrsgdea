@@ -455,6 +455,7 @@ const TipoDocumentalRadicacion = props => {
                                   component={FieldCompany}
                                   oldValueConglomerateId={oldValueConglomerate}
                                   newValueConglomerateId={newValueConglomerate}
+                                  conglomerado={values.conglomerado}
                                 ></Field>
                                 {/* <SelectEmpresa
                                   authorization={props.authorization}

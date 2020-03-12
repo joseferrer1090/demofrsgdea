@@ -106,11 +106,13 @@ class TableContentPlantillaEmail extends Component {
   }
 
   openModalViewInfo = id => {
-    this.refs.child2.toggle(id);
+    // this.refs.child2.toggle(id);
+    this.ModalViewRef.toggle(id);
   };
 
   openModalPreview(id) {
-    this.refs.child.toggle(id);
+    // this.refs.child.toggle(id);
+    this.ModalPreviewRef.toggle(id);
   }
 
   openModalEdit = id => {
@@ -191,13 +193,13 @@ class TableContentPlantillaEmail extends Component {
           </BootstrapTable>
         </div>
         <ShowTemplate
-          ref={"child"}
+          ref={mp => (this.ModalPreviewRef = mp)}
           modal={this.state.ModalPreview}
           authorization={this.state.auth}
           t={this.state.t}
         />
         <ModalViewInfoTemplateEmail
-          ref={"child2"}
+          ref={mv => (this.ModalViewRef = mv)}
           modal={this.state.ModalPreview}
           authorization={this.state.auth}
           t={this.state.t}

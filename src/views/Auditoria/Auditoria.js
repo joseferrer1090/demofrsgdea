@@ -92,11 +92,13 @@ class Auditoria extends Component {
   };
 
   openModalView(id) {
-    this.refs.child1.toggle(id);
+    // this.refs.child1.toggle(id);
+    this.ModalViewRef.toggle(id);
   }
 
   openModalSearch() {
-    this.refs.child2.toggle();
+    // this.refs.child2.toggle();
+    this.ModalSearchRef.toggle();
   }
 
   FechaAuditoria(cell, row) {
@@ -211,14 +213,14 @@ class Auditoria extends Component {
         <ModalViewAditoria
           t={this.props.t}
           modalview={this.state.modalviewauditoria}
-          ref={"child1"}
+          ref={mv => (this.ModalViewRef = mv)}
           authorization={this.props.authorization}
         />
         <ModalSearch
           t={this.props.t}
           onDataFetch={this.onDataFetch}
           modalSearch={this.state.modalSearch}
-          ref={"child2"}
+          ref={ms => (this.ModalSearchRef = ms)}
           authorization={this.props.authorization}
         />
       </div>

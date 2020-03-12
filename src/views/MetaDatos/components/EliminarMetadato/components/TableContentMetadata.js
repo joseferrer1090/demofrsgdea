@@ -165,6 +165,7 @@ class TableContentMetadata extends Component {
           id={this.state.idMetadata}
           authorization={this.state.auth}
           modaldelete={this.state.modaldelete}
+          refreshComponent={this.getDataMetadate}
           ref={el => (this.myModal = el)}
         />
       </div>

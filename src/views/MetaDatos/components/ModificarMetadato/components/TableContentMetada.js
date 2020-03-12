@@ -418,7 +418,7 @@ class TableContentMetada extends Component {
     return (
       <div className="card card-body">
         <BootstrapTable
-          data={data}
+          data={this.state.dataMetadata}
           striped
           hover
           bordered={false}

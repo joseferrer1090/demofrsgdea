@@ -12,6 +12,24 @@ class ModalDeleteMetadata extends Component {
     };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    if (props.id !== state.id) {
+      return {
+        id: props.id
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // Metodo que necesite
+  }
+
   toggle = () => {
     this.setState({
       modal: !this.state.modal
@@ -23,7 +41,7 @@ class ModalDeleteMetadata extends Component {
       <Modal isOpen={this.state.modal}>
         <ModalHeader>Eliminar Metadato</ModalHeader>
         <ModalBody>
-          <p>{this.props.id}</p>
+          <p>{this.state.id}</p>
         </ModalBody>
         <ModalFooter>
           <div className="pull-right">

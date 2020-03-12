@@ -13,7 +13,8 @@ class TableContentMetadata extends Component {
       auth: this.props.authorization,
       dataMetada: [],
       hiddenColumnID: true,
-      modaldelete: false
+      modaldelete: false,
+      idMetadata: ""
     };
   }
 
@@ -66,7 +67,12 @@ class TableContentMetadata extends Component {
         <button
           className="btn btn-danger btn-sm"
           data-trigger="hover"
-          onClick={() => this.openModal(row.id)}
+          onClick={() => {
+            this.openModal(row.id);
+            this.setState({
+              idMetadata: row.id
+            });
+          }}
           title={"Eliminar metadata"}
         >
           <i className="fa fa-trash" />
@@ -156,6 +162,7 @@ class TableContentMetadata extends Component {
           </div>
         </div>
         <ModalDelete
+          id={this.state.idMetadata}
           authorization={this.state.auth}
           modaldelete={this.state.modaldelete}
           ref={el => (this.myModal = el)}

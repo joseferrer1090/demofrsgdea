@@ -127,7 +127,27 @@ class ModalUpdateMetadata extends Component {
       })
       .then(() => {
         if (schema.isValid) {
-          alert("Se enviaron los datos de manera correacta");
+          this.sendEditMetadata();
+          // alert("Se enviaron los datos de manera correacta");
+          //   console.log(
+          //     JSON.stringify(
+          //       {
+          //         name: this.state.nombre,
+          //         description: this.state.descripcion,
+          //         labelText: this.state.label,
+          //         labelClass: "col-sm-2 col-form-label",
+          //         inputId: this.state.idMetadata,
+          //         inputType: this.state.data.inputType,
+          //         inputClass: this.state.data.inputClass,
+          //         inputPlaceholder: this.state.data.inputPlaceholder,
+          //         formula: this.state.formula,
+          //         status: this.state.status
+          //       },
+          //       null,
+          //       2
+          //     )
+          //   );
+          // }
         }
       })
       .catch(err => {
@@ -140,6 +160,44 @@ class ModalUpdateMetadata extends Component {
             alertError: false
           });
         }, 1500);
+      });
+  };
+
+  sendEditMetadata = () => {
+    const aux = this.state.auth;
+    const username = decode(aux);
+    fetch(`${METADATA_UPDATE}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + aux
+      },
+      body: JSON.stringify({
+        id: this.state.data.id,
+        name: this.state.nombre,
+        description: this.state.descripcion,
+        labelText: this.state.label,
+        labelClass: "col-sm-2 col-form-label",
+        inputId: this.state.idMetadata,
+        inputType: this.state.data.inputType,
+        inputClass: this.state.data.inputClass,
+        inputPlaceholder: this.state.data.inputPlaceholder,
+        formula: this.state.formula,
+        status: this.state.status,
+        userName: username.user_name
+      })
+    })
+      .then(resp => {
+        if (resp.status === 400) {
+          console.log(`Error => ${resp.message}`);
+        } else if (resp.status === 204) {
+          console.log(`OK => ${resp}`);
+        } else if (resp.status === 500) {
+          console.log(`Error => ${resp}`);
+        }
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
       });
   };
 

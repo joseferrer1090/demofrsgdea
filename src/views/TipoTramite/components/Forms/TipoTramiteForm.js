@@ -512,6 +512,10 @@ const TipoTramiteForm = props => {
                                 authorization={props.authorization}
                                 id={values.dependencia}
                                 t={props.t}
+                                dependencia={values.dependencia}
+                                oldValueConglomerateId={oldValueConglomerate}
+                                newValueConglomerateId={newValueConglomerate}
+                                conglomerado={values.conglomerado}
                               />
                             </div>
                           </div>
@@ -668,7 +672,7 @@ function UserList(props) {
   const dispatch = useDispatch();
   const AgregarUsuario = user => dispatch(agregarUserAction(user));
 
-  useEffect(() => {
+  const validateValues = () => {
     if (firstUpdate.current) {
       firstUpdate.current = false;
       return;
@@ -685,32 +689,14 @@ function UserList(props) {
         setdata(data);
       })
       .catch(err => console.log("Error", err));
+  };
+
+  useEffect(() => {
+    validateValues();
   }, [id]);
 
   return (
     <div>
-      {/* <div className="form-group">
-            <label> Buscar usuario <span className="text-danger">*</span> </label>
-            <div className="input-group input-group-sm">
-              <input
-                type="text"
-                className="form-control form-control-sm"
-                aria-label="Dollar amount (with dot and two decimal places)"
-              />
-              <div
-                className="input-group-append"
-                id="button-addon4"
-              >
-                <button
-                  className="btn btn-secondary"
-                  type="button"
-                >
-                  <i className="fa fa-search" />
-                </button>
-                
-              </div>
-            </div>
-          </div> */}
       <div
         style={{
           height: "140px",

@@ -33,7 +33,10 @@ class ModalUpdateMetadata extends Component {
       status: null,
       formula: null,
       alertError: false,
-      alertErrorMessage: ""
+      alertErrorMessage: "",
+      alert200: false,
+      alert400: false,
+      alert500: false
     };
   }
 
@@ -128,26 +131,6 @@ class ModalUpdateMetadata extends Component {
       .then(() => {
         if (schema.isValid) {
           this.sendEditMetadata();
-          // alert("Se enviaron los datos de manera correacta");
-          //   console.log(
-          //     JSON.stringify(
-          //       {
-          //         name: this.state.nombre,
-          //         description: this.state.descripcion,
-          //         labelText: this.state.label,
-          //         labelClass: "col-sm-2 col-form-label",
-          //         inputId: this.state.idMetadata,
-          //         inputType: this.state.data.inputType,
-          //         inputClass: this.state.data.inputClass,
-          //         inputPlaceholder: this.state.data.inputPlaceholder,
-          //         formula: this.state.formula,
-          //         status: this.state.status
-          //       },
-          //       null,
-          //       2
-          //     )
-          //   );
-          // }
         }
       })
       .catch(err => {
@@ -189,11 +172,38 @@ class ModalUpdateMetadata extends Component {
     })
       .then(resp => {
         if (resp.status === 400) {
-          console.log(`Error => ${resp.message}`);
-        } else if (resp.status === 204) {
-          console.log(`OK => ${resp}`);
+          this.setState({
+            alert400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert400: false
+            });
+          }, 1500);
+        } else if (resp.status === 200) {
+          this.setState({
+            alert200: true
+          });
+          setTimeout(() => {
+            this.setState(
+              {
+                alert200: false,
+                modal: false
+              },
+              () => {
+                this.props.refresh();
+              }
+            );
+          }, 1500);
         } else if (resp.status === 500) {
-          console.log(`Error => ${resp}`);
+          this.setState({
+            alert500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alert500: false
+            });
+          }, 1500);
         }
       })
       .catch(err => {
@@ -207,7 +217,22 @@ class ModalUpdateMetadata extends Component {
         <ModalHeader>Edicion de controles {this.state.data.name}</ModalHeader>
         <ModalBody>
           <Alert color={"danger"} isOpen={this.state.alertError}>
+            <i className="fa fa-exclamation-triangle" />{" "}
             {this.state.alertErrorMessage}
+          </Alert>
+          <Alert color={"success"} isOpen={this.state.alert200}>
+            <p>Se actualizo el metadado de manera correcta</p>
+          </Alert>
+          <Alert color={"danger"} isOpen={this.state.alert400}>
+            <p>
+              <i className="fa fa-exclamation-triangle" /> Verificar la
+              informacion del formulario
+            </p>
+          </Alert>
+          <Alert color={"danger"} isOpen={this.state.alert500}>
+            <p>
+              <i className="fa fa-exclamation-triangle" /> Error del servidor{" "}
+            </p>
           </Alert>
           <div className="row">
             <div className={"col-md-4"}>

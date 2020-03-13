@@ -149,7 +149,7 @@ class ModalUpdateMetadata extends Component {
   sendEditMetadata = () => {
     const aux = this.state.auth;
     const username = decode(aux);
-    fetch(`${METADATA_UPDATE}${this.state.id}`, {
+    fetch(`${METADATA_UPDATE}/${this.state.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

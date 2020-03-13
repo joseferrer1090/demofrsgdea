@@ -320,9 +320,9 @@ class TableContentMetada extends Component {
   StatusMetadata = (cell, row) => {
     let status;
     if (row.status === 1 || row.status === true) {
-      status = <b className="text-success">Metadado Activo</b>;
+      status = <p className="text-success">Metadado Activo</p>;
     } else if (row.status === 0 || row.status === false) {
-      status = <b className="text-danger"> Metadato Inactivo</b>;
+      status = <p className="text-danger"> Metadato Inactivo</p>;
     }
     return status;
   };

@@ -5,7 +5,8 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  CustomInput
+  CustomInput,
+  Alert
 } from "reactstrap";
 import {
   METADATA_VIEW,
@@ -13,6 +14,7 @@ import {
 } from "./../../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import IMG from "./../../../../../assets/img/keyboard.png";
+import * as Yup from "yup";
 
 class ModalUpdateMetadata extends Component {
   constructor(props) {
@@ -29,7 +31,9 @@ class ModalUpdateMetadata extends Component {
       label: "",
       idMetadata: "",
       status: null,
-      formula: null
+      formula: null,
+      alertError: false,
+      alertErrorMessage: ""
     };
   }
 
@@ -113,7 +117,9 @@ class ModalUpdateMetadata extends Component {
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Fecha de creacion</label>
+                      <label>
+                        Fecha de creacion <span className="text-danger">*</span>{" "}
+                      </label>
                       <input
                         type={"text"}
                         className="form-control form-control-sm"
@@ -124,7 +130,10 @@ class ModalUpdateMetadata extends Component {
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Fecha de modificacion</label>
+                      <label>
+                        Fecha de modificacion{" "}
+                        <span className="text-danger">*</span>{" "}
+                      </label>
                       <input
                         type={"text"}
                         className="form-control form-control-sm"
@@ -135,59 +144,106 @@ class ModalUpdateMetadata extends Component {
                   </div>
                   <div className="col-md-12">
                     <div className="form-group">
-                      <label>Nombre</label>
+                      <label>
+                        Nombre <span className="text-danger">*</span>{" "}
+                      </label>
                       <input
                         type="text"
                         className="form-control form-control-sm"
                         value={this.state.nombre}
+                        onChange={e => {
+                          this.setState({
+                            nombre: e.target.value
+                          });
+                        }}
                       />
                     </div>
                   </div>
                   <div className="col-md-12">
                     <div className="form-group">
-                      <label>Descripcion</label>
+                      <label>
+                        Descripcion <span className="text-danger">*</span>{" "}
+                      </label>
                       <textarea
                         className="form-control form-control-sm"
                         value={this.state.descripcion}
+                        onChange={e => {
+                          this.setState({
+                            descripcion: e.target.value
+                          });
+                        }}
                       ></textarea>
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Label</label>
+                      <label>
+                        Label <span className="text-danger">*</span>
+                      </label>
                       <input
                         type={"text"}
                         className="form-control form-control-sm"
                         value={this.state.label}
+                        onChange={e => {
+                          this.setState({
+                            label: e.target.value
+                          });
+                        }}
                       />
                     </div>
                   </div>
                   <div className="col-md-6">
                     <div className="form-group">
-                      <label>Id tag metadato</label>
+                      <label>
+                        Id tag metadato <span className="text-danger">*</span>
+                      </label>
                       <input
                         type={"text"}
                         className="form-control form-control-sm"
                         value={this.state.idMetadata}
+                        onChange={e => {
+                          this.setState({
+                            idMetadata: e.target.value
+                          });
+                        }}
                       />
                     </div>
                   </div>
                   <div className="col-md-12">
                     <div className="form-group">
                       <CustomInput
-                        type={"checkbox"}
-                        label="Estado"
-                        checked={this.state.status}
-                      />
+                        // value={this.state.active}
+                        defaultValue={!this.state.status}
+                        defaultChecked
+                        type="checkbox"
+                        id={"activeInput"}
+                        label={
+                          "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la platilla correspondiente."
+                        }
+                        onChange={e => {
+                          this.setState({
+                            status: e.target.checked
+                          });
+                        }}
+                      ></CustomInput>
                     </div>
                   </div>
                   <div className="col-md-12">
                     <div className="form-group">
                       <CustomInput
-                        type={"checkbox"}
-                        label={"Formula"}
-                        checked={this.state.formula}
-                      />
+                        // value={this.state.active}
+                        defaultValue={!this.state.formula}
+                        type="checkbox"
+                        id={"formula"}
+                        label={
+                          "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la platilla correspondiente."
+                        }
+                        onChange={e => {
+                          this.setState({
+                            formula: e.target.checked
+                          });
+                        }}
+                      ></CustomInput>
                     </div>
                   </div>
                 </div>

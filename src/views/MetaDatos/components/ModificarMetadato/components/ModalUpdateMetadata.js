@@ -98,11 +98,59 @@ class ModalUpdateMetadata extends Component {
         console.log(`${err.message}`);
       });
   };
+
+  sendData = e => {
+    e.preventDefault();
+    Yup.setLocale({}); // => en caso que sea una validacion custom
+    const schema = Yup.object().shape({
+      nombre: Yup.string()
+        .trim()
+        .required(),
+      descripcion: Yup.string()
+        .trim()
+        .required(),
+      label: Yup.string()
+        .trim()
+        .required(),
+      idMetadata: Yup.string()
+        .trim()
+        .required()
+    });
+    schema
+      .validate({
+        nombre: this.state.nombre,
+        descripcion: this.state.descripcion,
+        label: this.state.label,
+        idMetadata: this.state.idMetadata,
+        status: this.state.status,
+        formula: this.state.formula
+      })
+      .then(() => {
+        if (schema.isValid) {
+          alert("Se enviaron los datos de manera correacta");
+        }
+      })
+      .catch(err => {
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
+      });
+  };
+
   render() {
     return (
       <Modal isOpen={this.state.modal} className="modal-lg">
         <ModalHeader>Edicion de controles {this.state.data.name}</ModalHeader>
         <ModalBody>
+          <Alert color={"danger"} isOpen={this.state.alertError}>
+            {this.state.alertErrorMessage}
+          </Alert>
           <div className="row">
             <div className={"col-md-4"}>
               <img
@@ -236,7 +284,7 @@ class ModalUpdateMetadata extends Component {
                         type="checkbox"
                         id={"formula"}
                         label={
-                          "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la platilla correspondiente."
+                          "Formula, asignar al metadato como formula, esta funcion sera visible en el plantilla"
                         }
                         onChange={e => {
                           this.setState({
@@ -253,7 +301,13 @@ class ModalUpdateMetadata extends Component {
         </ModalBody>
         <ModalFooter>
           <div className="pull-right">
-            <button type="button" className="btn btn-secondary btn-sm">
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={e => {
+                this.sendData(e);
+              }}
+            >
               {" "}
               <i className="fa fa-pencil" /> Actualizar{" "}
             </button>

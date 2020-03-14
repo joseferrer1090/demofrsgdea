@@ -19,6 +19,11 @@ class ModalUpdateDetails extends Component {
         visible1: true,
         visible2: true,
         visible3: true
+      },
+      formcreate: {
+        title: "",
+        value: "",
+        id: ""
       }
     };
   }
@@ -127,6 +132,25 @@ class ModalUpdateDetails extends Component {
     });
   };
 
+  // PostCreateDetail
+  createDetail = e => {
+    e.preventDefault();
+    const aux = this.state.auth;
+    const username = decode(aux);
+    alert(
+      JSON.stringify(
+        {
+          labelText: this.state.formcreate.title,
+          inputId: this.state.formcreate.id,
+          inputValue: this.state.formcreate.value,
+          userName: username.user_name,
+          metadataBagId: this.state.id
+        },
+        null,
+        2
+      )
+    );
+  };
   render() {
     const options = {
       btnGroup: this.createCustomButton
@@ -170,7 +194,72 @@ class ModalUpdateDetails extends Component {
             hidden={this.state.actions.visible1}
             style={{ border: "1px solid green" }}
           >
-            probando
+            <form className="form">
+              <div className="row">
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Titulo</label>
+                    <input
+                      type="text"
+                      className="form-control from-control-sm"
+                      value={this.state.formcreate.title}
+                      onChange={e => {
+                        this.setState({
+                          formcreate: {
+                            ...this.state.formcreate,
+                            title: e.target.value
+                          }
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Valor</label>
+                    <input
+                      type="text"
+                      className="form-control from-control-sm"
+                      value={this.state.formcreate.value}
+                      onChange={e => {
+                        this.setState({
+                          formcreate: {
+                            ...this.state.formcreate,
+                            value: e.target.value
+                          }
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>id</label>
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      value={this.state.formcreate.id}
+                      onChange={e => {
+                        this.setState({
+                          formcreate: {
+                            ...this.state.formcreate,
+                            id: e.target.value
+                          }
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={e => this.createDetail(e)}
+                >
+                  {" "}
+                  Crear detalle{" "}
+                </button>
+              </div>
+            </form>
           </div>
           <br />
           <div

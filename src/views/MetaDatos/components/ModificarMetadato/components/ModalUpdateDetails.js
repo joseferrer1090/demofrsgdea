@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
 import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { decode } from "jsonwebtoken";
-import { FIND_BY_METADATA_BAG_ID } from "./../../../../../services/EndPoints";
+import {
+  FIND_BY_METADATA_BAG_ID,
+  METADATA_DETAIL_CREATE
+} from "./../../../../../services/EndPoints";
 
 class ModalUpdateDetails extends Component {
   constructor(props) {
@@ -137,19 +140,54 @@ class ModalUpdateDetails extends Component {
     e.preventDefault();
     const aux = this.state.auth;
     const username = decode(aux);
-    alert(
-      JSON.stringify(
-        {
-          labelText: this.state.formcreate.title,
-          inputId: this.state.formcreate.id,
-          inputValue: this.state.formcreate.value,
-          userName: username.user_name,
-          metadataBagId: this.state.id
-        },
-        null,
-        2
-      )
-    );
+    fetch(`${METADATA_DETAIL_CREATE}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + aux
+      },
+      body: JSON.stringify({
+        labelText: this.state.formcreate.title,
+        inputId: this.state.formcreate.id,
+        inputValue: this.state.formcreate.value,
+        userName: username.user_name,
+        metadataBagId: this.state.id
+      })
+    })
+      .then(resp => {
+        if (resp.status === 201) {
+          setTimeout(() => {
+            this.setState({
+              actions: {
+                ...this.state.actions,
+                visible1: !this.state.actions.visible1
+              }
+            });
+            this.getDataDetailsById(this.state.id, this.state.auth);
+          }, 500);
+          console.log("Se creo el detalle en la base de datos");
+        } else if (resp.status === 400) {
+          console.log("Se enviaron mal los datos");
+        } else if (resp.status === 500) {
+          console.log("Error");
+        }
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
+      });
+    // alert(
+    //   JSON.stringify(
+    //     {
+    //       labelText: this.state.formcreate.title,
+    //       inputId: this.state.formcreate.id,
+    //       inputValue: this.state.formcreate.value,
+    //       userName: username.user_name,
+    //       metadataBagId: this.state.id
+    //     },
+    //     null,
+    //     2
+    //   )
+    // );
   };
   render() {
     const options = {
@@ -194,7 +232,7 @@ class ModalUpdateDetails extends Component {
             hidden={this.state.actions.visible1}
             style={{ border: "1px solid green" }}
           >
-            <form className="form">
+            <form className="form" ref={el => (this.myFormCreate = el)}>
               <div className="row">
                 <div className="col-md-4">
                   <div className="form-group">

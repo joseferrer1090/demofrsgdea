@@ -15,7 +15,8 @@ import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { decode } from "jsonwebtoken";
 import {
   FIND_BY_METADATA_BAG_ID,
-  METADATA_DETAIL_CREATE
+  METADATA_DETAIL_CREATE,
+  METADATA_DETAIL_DELETE
 } from "./../../../../../services/EndPoints";
 
 class ModalUpdateDetails extends Component {
@@ -37,7 +38,8 @@ class ModalUpdateDetails extends Component {
         title: "",
         value: "",
         id: ""
-      }
+      },
+      idMetadata: ""
     };
   }
 
@@ -96,7 +98,8 @@ class ModalUpdateDetails extends Component {
               actions: {
                 ...this.state.actions,
                 visible2: !this.state.actions.visible2
-              }
+              },
+              idMetadata: row.id
             });
           }}
         >
@@ -111,7 +114,8 @@ class ModalUpdateDetails extends Component {
               actions: {
                 ...this.state.actions,
                 visible3: !this.state.actions.visible3
-              }
+              },
+              idMetadata: row.id
             });
           }}
         >
@@ -199,6 +203,42 @@ class ModalUpdateDetails extends Component {
     //   )
     // );
   };
+
+  // DeleteDetails
+  deleteDetail = e => {
+    e.preventDefault();
+    const aux = this.state.auth;
+    const username = decode(aux);
+    fetch(
+      `${METADATA_DETAIL_DELETE}${this.state.idMetadata}?username=${username.user_name}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: "Bearer " + this.state.auth
+        }
+      }
+    )
+      .then(resp => {
+        if (resp.status === 204) {
+          setTimeout(() => {
+            this.setState({
+              actions: {
+                ...this.state.actions,
+                visible3: !this.state.actions.visible3
+              }
+            });
+            this.getDataDetailsById(this.state.id, this.state.auth);
+          }, 1200);
+        } else if (resp.status === 500) {
+          console.log(`Error`);
+        }
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
+
   render() {
     const options = {
       btnGroup: this.createCustomButton
@@ -218,7 +258,11 @@ class ModalUpdateDetails extends Component {
                 <p className="text-justify mb-0">
                   Borrar elemento de la tabla
                   <br />
-                  <button type="button" className="btn btn-link">
+                  <button
+                    type="button"
+                    className="btn btn-link"
+                    onClick={e => this.deleteDetail(e)}
+                  >
                     Borrar
                   </button>
                   <button

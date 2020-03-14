@@ -724,4 +724,4 @@ export const METADATA_DETAIL_CREATE = `${config.IP}:${config.PORT}/api/sgdea/ser
 export const METADATA_DETAIL_PUT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/detail`;
 
 /* DELETE params in url idDetail */
-export const METADATA_DETAIL_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/detail/5872101b-0161-4ed5-8d98-8435848e3587`;
+export const METADATA_DETAIL_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/detail/`;

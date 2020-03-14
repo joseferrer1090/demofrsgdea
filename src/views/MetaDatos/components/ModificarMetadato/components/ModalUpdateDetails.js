@@ -1,22 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {
-  Modal,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  Card,
-  CardBody,
-  CardTitle,
-  CardText,
-  CardSubtitle
-} from "reactstrap";
+import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
 import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { decode } from "jsonwebtoken";
 import {
   FIND_BY_METADATA_BAG_ID,
   METADATA_DETAIL_CREATE,
-  METADATA_DETAIL_DELETE
+  METADATA_DETAIL_DELETE,
+  METADATA_DETAIL_PUT
 } from "./../../../../../services/EndPoints";
 
 class ModalUpdateDetails extends Component {
@@ -26,6 +17,7 @@ class ModalUpdateDetails extends Component {
       modal: this.props.modaldetails,
       auth: this.props.authorization,
       id: this.props.id,
+      idMetadata: "",
       data: [],
       metadata: {},
       hiddenColumnID: true,
@@ -39,7 +31,9 @@ class ModalUpdateDetails extends Component {
         value: "",
         id: ""
       },
-      idMetadata: ""
+      titleupdate: "",
+      valueupdate: "",
+      idupdate: ""
     };
   }
 
@@ -69,7 +63,6 @@ class ModalUpdateDetails extends Component {
   }
 
   getDataDetailsById = (id, auth) => {
-    const aux = auth;
     fetch(`${FIND_BY_METADATA_BAG_ID}${id}`, {
       method: "GET",
       headers: {
@@ -99,7 +92,10 @@ class ModalUpdateDetails extends Component {
                 ...this.state.actions,
                 visible2: !this.state.actions.visible2
               },
-              idMetadata: row.id
+              idMetadata: row.id,
+              titleupdate: row.labelText,
+              valueupdate: row.inputValue,
+              idupdate: row.inputId
             });
           }}
         >
@@ -239,10 +235,64 @@ class ModalUpdateDetails extends Component {
       });
   };
 
+  // PutDeatiails
+  putDetails = e => {
+    e.preventDefault();
+    const aux = this.state.auth;
+    const username = decode(aux);
+    // console.log(
+    //   JSON.stringify({
+    //     id: this.state.idMetadata,
+    //     labelText: this.state.titleupdate,
+    //     inputId: this.state.idupdate,
+    //     inputValue: this.state.valueupdate,
+    //     userName: username.user_name,
+    //     metadataBagId: this.state.id
+    //   })
+    // );
+    fetch(`${METADATA_DETAIL_PUT}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + aux
+      },
+      body: JSON.stringify({
+        id: this.state.idMetadata,
+        labelText: this.state.titleupdate,
+        inputId: this.state.idupdate,
+        inputValue: this.state.valueupdate,
+        userName: username.user_name,
+        metadataBagId: this.state.id
+      })
+    })
+      .then(resp => {
+        if (resp.status === 200) {
+          setTimeout(() => {
+            this.setState({
+              actions: {
+                ...this.state.actions,
+                visible2: !this.state.visible2
+              }
+            });
+            this.getDataDetailsById(this.state.id, this.state.auth);
+          }, 1200);
+          console.log("Ok");
+        } else if (resp.status === 400) {
+          console.log("Error al enviar los datos");
+        } else if (resp.status === 500) {
+          console.log("Error del servidor");
+        }
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
+
   render() {
     const options = {
       btnGroup: this.createCustomButton
     };
+
     return (
       <Modal isOpen={this.state.modal} className="modal-xl">
         <ModalHeader>
@@ -385,9 +435,65 @@ class ModalUpdateDetails extends Component {
           <div
             className="col-md-12 animated fadeIn"
             hidden={this.state.actions.visible2}
-            style={{ border: "1px solid red" }}
           >
-            probando
+            <form className="form">
+              <div className="row">
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Titulo</label>
+                    <input
+                      type={"text"}
+                      className="form-control form-control-sm"
+                      value={this.state.titleupdate}
+                      onChange={e => {
+                        this.setState({
+                          titleupdate: e.target.value
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Valor</label>
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      value={this.state.valueupdate}
+                      onChange={e => {
+                        this.setState({
+                          valueupdate: e.target.value
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-4">
+                  <div className="form-group">
+                    <label>Id</label>
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      value={this.state.idupdate}
+                      onChange={e => {
+                        this.setState({
+                          idupdate: e.target.value
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={e => {
+                    this.putDetails(e);
+                  }}
+                >
+                  Actualizar detalle
+                </button>
+              </div>
+            </form>
           </div>
         </ModalBody>
         <ModalFooter>

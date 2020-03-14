@@ -682,6 +682,7 @@ export const INFO_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/filing/
 
 /* GET => View Files*/
 export const VIEW_FILE = `${config.IP}:${config.PORT}/api/sgdea/service/filing/emails/view/file/`;
+
 //--------------------------------------------- METADATA BAG -----------------------------------------------------//
 
 /* GET */
@@ -710,3 +711,17 @@ export const METADATA_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/co
 
 /* GET params in url page and size */
 export const METADATA_PAGINATION = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag`;
+
+//--------------------------------------------- METADATA BAG  DETAIL -----------------------------------------------------//
+
+/* GET param in url idMetadata */
+export const FIND_BY_METADATA_BAG_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/detail/find/metadata/bag/`;
+
+/* POST */
+export const METADATA_DETAIL_CREATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/detail`;
+
+/* PUT */
+export const METADATA_DETAIL_PUT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/detail`;
+
+/* DELETE params in url idDetail */
+export const METADATA_DETAIL_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/detail/5872101b-0161-4ed5-8d98-8435848e3587`;

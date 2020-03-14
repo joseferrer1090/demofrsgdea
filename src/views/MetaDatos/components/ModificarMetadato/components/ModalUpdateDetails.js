@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
+import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
+import { decode } from "jsonwebtoken";
 
 class ModalUpdateDetails extends Component {
   constructor(props) {
@@ -29,7 +31,17 @@ class ModalUpdateDetails extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // Metodo para traer la data del array y los actualizar
+    if (this.props.id !== prevProps.id) {
+      this.setState({
+        id: this.props.id
+      });
+    }
   }
+
+  getDataDetailsById = id => {
+    const aux = this.state.auth;
+    const username = decode(aux);
+  };
 
   toggle = () => {
     this.setState({

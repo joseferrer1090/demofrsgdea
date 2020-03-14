@@ -91,7 +91,7 @@ class ModalUpdateDetails extends Component {
           }}
         >
           {" "}
-          Actualizar registro{" "}
+          <i className="fa fa-pencil" />
         </button>
         &nbsp;
         <button
@@ -105,7 +105,7 @@ class ModalUpdateDetails extends Component {
             });
           }}
         >
-          Quitar registro
+          <i className="fa fa-trash" />
         </button>
       </div>
     );
@@ -124,7 +124,7 @@ class ModalUpdateDetails extends Component {
           });
         }}
       >
-        agregar detalle
+        <i className="fa fa-plus-circle" />
       </button>
     );
   };

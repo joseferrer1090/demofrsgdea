@@ -13,7 +13,13 @@ class ModalUpdateDetails extends Component {
       auth: this.props.authorization,
       id: this.props.id,
       data: [],
-      hiddenColumnID: true
+      metadata: {},
+      hiddenColumnID: true,
+      actions: {
+        visible1: true,
+        visible2: true,
+        visible3: true
+      }
     };
   }
 
@@ -65,18 +71,54 @@ class ModalUpdateDetails extends Component {
   accionesDetails(cell, row) {
     return (
       <div>
-        <button className="btn btn-secondary btn-sm">
+        <button
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.setState({
+              actions: {
+                ...this.state.actions,
+                visible2: !this.state.actions.visible2
+              }
+            });
+          }}
+        >
           {" "}
           Actualizar registro{" "}
         </button>
         &nbsp;
-        <button className="btn btn-danger btn-sm">Quitar registro</button>
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => {
+            this.setState({
+              actions: {
+                ...this.state.actions,
+                visible3: !this.state.actions.visible3
+              }
+            });
+          }}
+        >
+          Quitar registro
+        </button>
       </div>
     );
   }
 
   createCustomButton = props => {
-    return <button className="btn btn-success btn-sm">agregar detalle</button>;
+    return (
+      <button
+        className="btn btn-success btn-sm"
+        onClick={() => {
+          this.setState({
+            actions: {
+              ...this.state.actions,
+              visible1: !this.state.actions.visible1
+            }
+          });
+        }}
+      >
+        agregar detalle
+      </button>
+    );
   };
 
   toggle = () => {
@@ -92,7 +134,7 @@ class ModalUpdateDetails extends Component {
     return (
       <Modal isOpen={this.state.modal} className="modal-xl">
         <ModalHeader>
-          <i className="fa fa-pencil" /> Actualizar detalles
+          <i className="fa fa-pencil" /> Actualizar detalles{" "}
         </ModalHeader>
         <ModalBody>
           <BootstrapTable
@@ -122,6 +164,30 @@ class ModalUpdateDetails extends Component {
             </TableHeaderColumn>
           </BootstrapTable>
           {/* <p>{this.state.id}</p> */}
+          <br />
+          <div
+            className=" animated fadeIn col-md-12"
+            hidden={this.state.actions.visible1}
+            style={{ border: "1px solid green" }}
+          >
+            probando
+          </div>
+          <br />
+          <div
+            className="col-md-12 animated fadeIn"
+            hidden={this.state.actions.visible2}
+            style={{ border: "1px solid red" }}
+          >
+            probando
+          </div>
+          <br />
+          <div
+            className="col-md-12 animated fadeIn"
+            hidden={this.state.actions.visible3}
+            style={{ border: "1px solid grey" }}
+          >
+            probando
+          </div>
         </ModalBody>
         <ModalFooter>
           <div className="pull-right">

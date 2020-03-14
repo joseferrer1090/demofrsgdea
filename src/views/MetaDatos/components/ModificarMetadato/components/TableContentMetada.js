@@ -474,6 +474,7 @@ class TableContentMetada extends Component {
           refresh={this.getDataMetadata}
         />
         <ModalUpdateDetails
+          authorization={this.state.auth}
           modaldetails={this.state.modaldetails}
           ref={el => (this.myModalDetails = el)}
           id={this.state.idDetails}

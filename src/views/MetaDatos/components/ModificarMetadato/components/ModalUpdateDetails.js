@@ -12,7 +12,8 @@ class ModalUpdateDetails extends Component {
       modal: this.props.modaldetails,
       auth: this.props.authorization,
       id: this.props.id,
-      data: []
+      data: [],
+      hiddenColumnID: true
     };
   }
 
@@ -61,6 +62,23 @@ class ModalUpdateDetails extends Component {
       });
   };
 
+  accionesDetails(cell, row) {
+    return (
+      <div>
+        <button className="btn btn-secondary btn-sm">
+          {" "}
+          Actualizar registro{" "}
+        </button>
+        &nbsp;
+        <button className="btn btn-danger btn-sm">Quitar registro</button>
+      </div>
+    );
+  }
+
+  createCustomButton = props => {
+    return <button className="btn btn-success btn-sm">agregar detalle</button>;
+  };
+
   toggle = () => {
     this.setState({
       modal: !this.state.modal
@@ -68,23 +86,40 @@ class ModalUpdateDetails extends Component {
   };
 
   render() {
+    const options = {
+      btnGroup: this.createCustomButton
+    };
     return (
       <Modal isOpen={this.state.modal} className="modal-xl">
         <ModalHeader>
           <i className="fa fa-pencil" /> Actualizar detalles
         </ModalHeader>
         <ModalBody>
-          <BootstrapTable data={this.state.data}>
-            <TableHeaderColumn dataField={"id"} isKey>
+          <BootstrapTable
+            data={this.state.data}
+            options={options}
+            bordered={false}
+            striped
+          >
+            <TableHeaderColumn
+              dataField={"id"}
+              isKey
+              hidden={this.state.hiddenColumnID}
+            >
               id
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"labelText"}>
+            <TableHeaderColumn dataField={"labelText"} dataAlign={"center"}>
               Titulo
             </TableHeaderColumn>
-            <TableHeaderColumn dataField={"inputValue"}>
+            <TableHeaderColumn dataField={"inputValue"} dataAlign={"center"}>
               Valor
             </TableHeaderColumn>
-            <TableHeaderColumn>Acciones</TableHeaderColumn>
+            <TableHeaderColumn
+              dataAlign={"center"}
+              dataFormat={(cell, row) => this.accionesDetails(cell, row)}
+            >
+              Acciones
+            </TableHeaderColumn>
           </BootstrapTable>
           {/* <p>{this.state.id}</p> */}
         </ModalBody>

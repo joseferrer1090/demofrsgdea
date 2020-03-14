@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Card,
+  CardBody,
+  CardTitle,
+  CardText,
+  CardSubtitle
+} from "reactstrap";
 import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { decode } from "jsonwebtoken";
 import {
@@ -199,6 +209,36 @@ class ModalUpdateDetails extends Component {
           <i className="fa fa-pencil" /> Actualizar detalles{" "}
         </ModalHeader>
         <ModalBody>
+          <div
+            className="col-md-12 animated fadeIn"
+            hidden={this.state.actions.visible3}
+          >
+            <div className="col-md-12">
+              <div className="alert alert-danger" role="alert">
+                <p className="text-justify mb-0">
+                  Borrar elemento de la tabla
+                  <br />
+                  <button type="button" className="btn btn-link">
+                    Borrar
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-link"
+                    onClick={() => {
+                      this.setState({
+                        actions: {
+                          ...this.state.actions,
+                          visible3: !this.state.actions.visible3
+                        }
+                      });
+                    }}
+                  >
+                    Cancelar
+                  </button>
+                </p>
+              </div>
+            </div>
+          </div>
           <BootstrapTable
             data={this.state.data}
             options={options}
@@ -226,7 +266,6 @@ class ModalUpdateDetails extends Component {
             </TableHeaderColumn>
           </BootstrapTable>
           {/* <p>{this.state.id}</p> */}
-          <br />
           <div
             className=" animated fadeIn col-md-12"
             hidden={this.state.actions.visible1}
@@ -299,19 +338,10 @@ class ModalUpdateDetails extends Component {
               </div>
             </form>
           </div>
-          <br />
           <div
             className="col-md-12 animated fadeIn"
             hidden={this.state.actions.visible2}
             style={{ border: "1px solid red" }}
-          >
-            probando
-          </div>
-          <br />
-          <div
-            className="col-md-12 animated fadeIn"
-            hidden={this.state.actions.visible3}
-            style={{ border: "1px solid grey" }}
           >
             probando
           </div>

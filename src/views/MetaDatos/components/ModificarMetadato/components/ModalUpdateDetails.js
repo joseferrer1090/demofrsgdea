@@ -365,7 +365,7 @@ class ModalUpdateDetails extends Component {
     };
 
     return (
-      <Modal isOpen={this.state.modal} className="modal-xl">
+      <Modal isOpen={this.state.modal} className="modal-lg">
         <ModalHeader>
           <i className="fa fa-pencil" /> Actualizar detalles{" "}
         </ModalHeader>
@@ -404,16 +404,12 @@ class ModalUpdateDetails extends Component {
               </div>
             </div>
           </div>
-          <BootstrapTable
-            data={this.state.data}
-            options={options}
-            bordered={false}
-            striped
-          >
+          <BootstrapTable data={this.state.data} options={options}>
             <TableHeaderColumn
               dataField={"id"}
               isKey
               hidden={this.state.hiddenColumnID}
+              striped
             >
               id
             </TableHeaderColumn>
@@ -431,6 +427,7 @@ class ModalUpdateDetails extends Component {
             </TableHeaderColumn>
           </BootstrapTable>
           {/* <p>{this.state.id}</p> */}
+          <br />
           <div
             className=" animated fadeIn col-md-12"
             hidden={this.state.actions.visible1}
@@ -504,8 +501,7 @@ class ModalUpdateDetails extends Component {
                         this.sendData(e);
                       }}
                     >
-                      {" "}
-                      Crear detalle{" "}
+                      <i className="fa fa-plus-circle" /> Crear detalle{" "}
                     </button>
                   </div>
                 </form>
@@ -567,7 +563,7 @@ class ModalUpdateDetails extends Component {
                       </div>
                     </div>
                   </div>
-                  <div className="">
+                  <div className="pull-right">
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm"
@@ -575,6 +571,7 @@ class ModalUpdateDetails extends Component {
                         this.sendDataUpdate(e);
                       }}
                     >
+                      <i className="fa fa-pencil" />
                       Actualizar detalle
                     </button>
                   </div>

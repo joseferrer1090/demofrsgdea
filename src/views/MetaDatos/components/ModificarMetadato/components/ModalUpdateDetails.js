@@ -404,12 +404,17 @@ class ModalUpdateDetails extends Component {
               </div>
             </div>
           </div>
-          <BootstrapTable data={this.state.data} options={options}>
+          <BootstrapTable
+            data={this.state.data}
+            options={options}
+            striped
+            bordered={false}
+            style={{ padding: "0px", margin: "0px" }}
+          >
             <TableHeaderColumn
               dataField={"id"}
               isKey
               hidden={this.state.hiddenColumnID}
-              striped
             >
               id
             </TableHeaderColumn>

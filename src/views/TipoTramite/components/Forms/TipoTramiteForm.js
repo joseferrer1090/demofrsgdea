@@ -41,10 +41,12 @@ const TipoTramiteForm = props => {
 
   useEffect(() => {
     auxRender.current = aux;
-    if (auxRender.current === true) {
-      console.log("si");
-      auxRender.current = null;
-    }
+
+    // if (auxRender.current === true) {
+    //   // console.log("si");
+    //   auxRender.current = null;
+    // }
+
     console.log(auxRender);
   });
 
@@ -546,7 +548,7 @@ const TipoTramiteForm = props => {
                     data={usersdata}
                     t={props.t}
                     // aux={aux}
-                    aux={auxRender.current}
+                    aux={(auxRender.current = aux)}
                   />
                 </div>
                 <div className="row">

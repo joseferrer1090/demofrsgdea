@@ -71,11 +71,13 @@ class ModalUpdateDetails extends Component {
   componentDidUpdate(prevProps, prevState) {
     // Metodo para traer la data del array y los actualizar
     if (this.props.id !== prevProps.id) {
-      this.setState({
-        id: this.props.id,
-        auth: this.props.authorization
-      });
-      this.getDataDetailsById(this.state.id, this.state.auth);
+      this.setState(
+        {
+          id: this.props.id,
+          auth: this.props.authorization
+        },
+        () => this.getDataDetailsById(this.state.id, this.state.auth)
+      );
     }
   }
 
@@ -92,6 +94,7 @@ class ModalUpdateDetails extends Component {
         this.setState({
           data: data
         });
+        console.log(this.state.data);
       })
       .catch(err => {
         console.log(`Error => ${err.message}`);
@@ -399,7 +402,7 @@ class ModalUpdateDetails extends Component {
     return (
       <Modal isOpen={this.state.modal} className="modal-lg">
         <ModalHeader>
-          <i className="fa fa-pencil" /> Actualizar detalles{" "}
+          <i className="fa fa-pencil" /> Actualizar detalles {this.props.name}
         </ModalHeader>
         <ModalBody>
           <div

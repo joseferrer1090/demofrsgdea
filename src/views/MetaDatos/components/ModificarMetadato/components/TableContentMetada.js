@@ -274,7 +274,8 @@ class TableContentMetada extends Component {
       modal: false,
       modaldetails: false,
       id: "",
-      idDetails: ""
+      idDetails: "",
+      nameDetails: ""
     };
   }
 
@@ -371,7 +372,8 @@ class TableContentMetada extends Component {
           onClick={() => {
             this.openModalDetails(row.id);
             this.setState({
-              idDetails: row.id
+              idDetails: row.id,
+              nameDetails: row.name
             });
           }}
         >
@@ -387,7 +389,8 @@ class TableContentMetada extends Component {
           onClick={() => {
             this.openModalDetails(row.id);
             this.setState({
-              idDetails: row.id
+              idDetails: row.id,
+              nameDetails: row.name
             });
           }}
         >
@@ -478,6 +481,7 @@ class TableContentMetada extends Component {
           modaldetails={this.state.modaldetails}
           ref={el => (this.myModalDetails = el)}
           id={this.state.idDetails}
+          name={this.state.nameDetails}
         />
       </div>
     );

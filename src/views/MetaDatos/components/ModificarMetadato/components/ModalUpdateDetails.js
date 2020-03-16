@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  Card,
+  CardBody,
+  CardHeader,
+  Alert
+} from "reactstrap";
 import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { decode } from "jsonwebtoken";
 import {
@@ -9,6 +18,7 @@ import {
   METADATA_DETAIL_DELETE,
   METADATA_DETAIL_PUT
 } from "./../../../../../services/EndPoints";
+import * as Yup from "yup";
 
 class ModalUpdateDetails extends Component {
   constructor(props) {
@@ -21,6 +31,7 @@ class ModalUpdateDetails extends Component {
       data: [],
       metadata: {},
       hiddenColumnID: true,
+      information: true,
       actions: {
         visible1: true,
         visible2: true,
@@ -29,11 +40,18 @@ class ModalUpdateDetails extends Component {
       formcreate: {
         title: "",
         value: "",
-        id: ""
+        id: "",
+        alertError: false,
+        alertErrorMessage: ""
       },
       titleupdate: "",
       valueupdate: "",
-      idupdate: ""
+      idupdate: "",
+      alertError: false,
+      alertErrorMessage: "",
+      formdelete: {
+        title: ""
+      }
     };
   }
 
@@ -54,11 +72,13 @@ class ModalUpdateDetails extends Component {
   componentDidUpdate(prevProps, prevState) {
     // Metodo para traer la data del array y los actualizar
     if (this.props.id !== prevProps.id) {
-      this.setState({
-        id: this.props.id,
-        auth: this.props.authorization
-      });
-      this.getDataDetailsById(this.state.id, this.state.auth);
+      this.setState(
+        {
+          id: this.props.id,
+          auth: this.props.authorization
+        },
+        () => this.getDataDetailsById(this.state.id, this.state.auth)
+      );
     }
   }
 
@@ -75,6 +95,7 @@ class ModalUpdateDetails extends Component {
         this.setState({
           data: data
         });
+        //console.log(this.state.data);
       })
       .catch(err => {
         console.log(`Error => ${err.message}`);
@@ -111,7 +132,11 @@ class ModalUpdateDetails extends Component {
                 ...this.state.actions,
                 visible3: !this.state.actions.visible3
               },
-              idMetadata: row.id
+              idMetadata: row.id,
+              formdelete: {
+                ...this.state.formdelete,
+                title: row.labelText
+              }
             });
           }}
         >
@@ -237,7 +262,6 @@ class ModalUpdateDetails extends Component {
 
   // PutDeatiails
   putDetails = e => {
-    e.preventDefault();
     const aux = this.state.auth;
     const username = decode(aux);
     // console.log(
@@ -288,17 +312,111 @@ class ModalUpdateDetails extends Component {
       });
   };
 
+  // Validaciones del formCreate
+  sendData = e => {
+    e.preventDefault();
+    Yup.setLocale({});
+    const schema = Yup.object().shape({
+      title: Yup.string()
+        .trim()
+        .required(),
+      value: Yup.string()
+        .trim()
+        .required(),
+      id: Yup.string()
+        .trim()
+        .required()
+    });
+    schema
+      .validate({
+        title: this.state.formcreate.title,
+        value: this.state.formcreate.value,
+        id: this.state.formcreate.id
+      })
+      .then(e => {
+        if (schema.isValid) {
+          this.createDetail(e);
+        }
+      })
+      .catch(err => {
+        this.setState({
+          formcreate: {
+            ...this.state.formcreate,
+            alertError: true,
+            alertErrorMessage: err.message
+          }
+        });
+        setTimeout(() => {
+          this.setState({
+            formcreate: {
+              ...this.state.formcreate,
+              alertError: false
+            }
+          });
+        }, 1100);
+      });
+  };
+
+  // Validacion del updateForm
+  sendDataUpdate = e => {
+    Yup.setLocale({});
+    const schema = Yup.object().shape({
+      title: Yup.string()
+        .trim()
+        .required(),
+      value: Yup.string()
+        .trim()
+        .required(),
+      id: Yup.string()
+        .trim()
+        .required()
+    });
+    schema
+      .validate({
+        title: this.state.titleupdate,
+        value: this.state.valueupdate,
+        id: this.state.idupdate
+      })
+      .then(e => {
+        if (schema.isValid) {
+          this.putDetails(e);
+        }
+      })
+      .catch(err => {
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1100);
+      });
+  };
+
   render() {
     const options = {
       btnGroup: this.createCustomButton
     };
 
     return (
-      <Modal isOpen={this.state.modal} className="modal-xl">
+      <Modal isOpen={this.state.modal} className="modal-lg">
         <ModalHeader>
-          <i className="fa fa-pencil" /> Actualizar detalles{" "}
+          <i className="fa fa-pencil" /> Actualizar detalles {this.props.name}
         </ModalHeader>
         <ModalBody>
+          <Alert
+            color={"light"}
+            isOpen={this.state.information}
+            toggle={() => {
+              this.setState({ information: false });
+            }}
+          >
+            <i className="fa fa-exclamation-triangle" /> Esto detalles
+            corresponde unicamente, aquellos metadatos que tienen seleccion
+            multiple, SELECT, RADIO, CHECKBOX
+          </Alert>
           <div
             className="col-md-12 animated fadeIn"
             hidden={this.state.actions.visible3}
@@ -306,7 +424,7 @@ class ModalUpdateDetails extends Component {
             <div className="col-md-12">
               <div className="alert alert-danger" role="alert">
                 <p className="text-justify mb-0">
-                  Borrar elemento de la tabla
+                  Borrar detalle <strong>{this.state.formdelete.title}</strong>
                   <br />
                   <button
                     type="button"
@@ -336,8 +454,9 @@ class ModalUpdateDetails extends Component {
           <BootstrapTable
             data={this.state.data}
             options={options}
-            bordered={false}
             striped
+            bordered={false}
+            style={{ padding: "0px", margin: "0px", zoom: "0" }}
           >
             <TableHeaderColumn
               dataField={"id"}
@@ -360,140 +479,166 @@ class ModalUpdateDetails extends Component {
             </TableHeaderColumn>
           </BootstrapTable>
           {/* <p>{this.state.id}</p> */}
+          <br />
           <div
             className=" animated fadeIn col-md-12"
             hidden={this.state.actions.visible1}
-            style={{ border: "1px solid green" }}
+            // style={{ border: "1px solid green" }}
           >
-            <form className="form" ref={el => (this.myFormCreate = el)}>
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Titulo</label>
-                    <input
-                      type="text"
-                      className="form-control from-control-sm"
-                      value={this.state.formcreate.title}
-                      onChange={e => {
-                        this.setState({
-                          formcreate: {
-                            ...this.state.formcreate,
-                            title: e.target.value
-                          }
-                        });
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Valor</label>
-                    <input
-                      type="text"
-                      className="form-control from-control-sm"
-                      value={this.state.formcreate.value}
-                      onChange={e => {
-                        this.setState({
-                          formcreate: {
-                            ...this.state.formcreate,
-                            value: e.target.value
-                          }
-                        });
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>id</label>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                      value={this.state.formcreate.id}
-                      onChange={e => {
-                        this.setState({
-                          formcreate: {
-                            ...this.state.formcreate,
-                            id: e.target.value
-                          }
-                        });
-                      }}
-                    />
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-sm"
-                  onClick={e => this.createDetail(e)}
+            <Card>
+              <CardHeader>Agregar nuevo detalle </CardHeader>
+              <CardBody>
+                <Alert
+                  isOpen={this.state.formcreate.alertError}
+                  color={"danger"}
                 >
-                  {" "}
-                  Crear detalle{" "}
-                </button>
-              </div>
-            </form>
+                  <i className="fa fa-exclamation-triangle" />{" "}
+                  {this.state.formcreate.alertErrorMessage}
+                </Alert>
+                <form className="form" ref={el => (this.myFormCreate = el)}>
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>Titulo</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.formcreate.title}
+                          onChange={e => {
+                            this.setState({
+                              formcreate: {
+                                ...this.state.formcreate,
+                                title: e.target.value
+                              }
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>Valor</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.formcreate.value}
+                          onChange={e => {
+                            this.setState({
+                              formcreate: {
+                                ...this.state.formcreate,
+                                value: e.target.value
+                              }
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>id</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.formcreate.id}
+                          onChange={e => {
+                            this.setState({
+                              formcreate: {
+                                ...this.state.formcreate,
+                                id: e.target.value
+                              }
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="pull-right">
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={e => {
+                        this.sendData(e);
+                      }}
+                    >
+                      <i className="fa fa-plus-circle" /> Crear detalle{" "}
+                    </button>
+                  </div>
+                </form>
+              </CardBody>
+            </Card>
           </div>
           <div
             className="col-md-12 animated fadeIn"
             hidden={this.state.actions.visible2}
           >
-            <form className="form">
-              <div className="row">
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Titulo</label>
-                    <input
-                      type={"text"}
-                      className="form-control form-control-sm"
-                      value={this.state.titleupdate}
-                      onChange={e => {
-                        this.setState({
-                          titleupdate: e.target.value
-                        });
-                      }}
-                    />
+            <Card>
+              <CardHeader>Actualizar detalle</CardHeader>
+              <CardBody>
+                <Alert color={"danger"} isOpen={this.state.alertError}>
+                  <i className="fa fa-exclamation-triangle" />{" "}
+                  {this.state.alertErrorMessage}
+                </Alert>
+                <form className="form">
+                  <div className="row">
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>Titulo</label>
+                        <input
+                          type={"text"}
+                          className="form-control form-control-sm"
+                          value={this.state.titleupdate}
+                          onChange={e => {
+                            this.setState({
+                              titleupdate: e.target.value
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>Valor</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.valueupdate}
+                          onChange={e => {
+                            this.setState({
+                              valueupdate: e.target.value
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-4">
+                      <div className="form-group">
+                        <label>Id</label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.idupdate}
+                          onChange={e => {
+                            this.setState({
+                              idupdate: e.target.value
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Valor</label>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                      value={this.state.valueupdate}
-                      onChange={e => {
-                        this.setState({
-                          valueupdate: e.target.value
-                        });
-                      }}
-                    />
+                  <div className="pull-right">
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={e => this.sendDataUpdate(e)}
+                    >
+                      <i className="fa fa-pencil" />
+                      Actualizar detalle
+                    </button>
                   </div>
-                </div>
-                <div className="col-md-4">
-                  <div className="form-group">
-                    <label>Id</label>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                      value={this.state.idupdate}
-                      onChange={e => {
-                        this.setState({
-                          idupdate: e.target.value
-                        });
-                      }}
-                    />
-                  </div>
-                </div>
-                <button
-                  type="button"
-                  className="btn btn-secondary btn-sm"
-                  onClick={e => {
-                    this.putDetails(e);
-                  }}
-                >
-                  Actualizar detalle
-                </button>
-              </div>
-            </form>
+                </form>
+              </CardBody>
+            </Card>
           </div>
         </ModalBody>
         <ModalFooter>

@@ -31,6 +31,7 @@ class ModalUpdateDetails extends Component {
       data: [],
       metadata: {},
       hiddenColumnID: true,
+      information: true,
       actions: {
         visible1: true,
         visible2: true,
@@ -94,7 +95,7 @@ class ModalUpdateDetails extends Component {
         this.setState({
           data: data
         });
-        console.log(this.state.data);
+        //console.log(this.state.data);
       })
       .catch(err => {
         console.log(`Error => ${err.message}`);
@@ -405,6 +406,17 @@ class ModalUpdateDetails extends Component {
           <i className="fa fa-pencil" /> Actualizar detalles {this.props.name}
         </ModalHeader>
         <ModalBody>
+          <Alert
+            color={"light"}
+            isOpen={this.state.information}
+            toggle={() => {
+              this.setState({ information: false });
+            }}
+          >
+            <i className="fa fa-exclamation-triangle" /> Esto detalles
+            corresponde unicamente, aquellos metadatos que tienen seleccion
+            multiple, SELECT, RADIO, CHECKBOX
+          </Alert>
           <div
             className="col-md-12 animated fadeIn"
             hidden={this.state.actions.visible3}

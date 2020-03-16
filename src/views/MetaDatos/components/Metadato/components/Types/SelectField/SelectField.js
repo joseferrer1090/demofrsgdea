@@ -242,13 +242,18 @@ class SelectField extends Component {
         inputClass: "form-control form-control-sm",
         inputPlaceholder: "",
         formula: this.state.formula,
-        status: this.state.status,
+        status: this.state.active,
         userName: user.user_name,
-        details: this.state.options
+        details: [
+          {
+            labelText: this.state.options[0].title,
+            inputValue: this.state.options[0].value
+          }
+        ]
       })
     })
       .then(resp => {
-        if (resp.status === 200) {
+        if (resp.status === 201) {
           this.setState({
             alert200: true
           });
@@ -329,7 +334,8 @@ class SelectField extends Component {
       })
       .then(() => {
         this.sendData();
-        //console.log("los datos bien");
+        this.resetForm();
+        console.log("los datos bien");
       })
       .catch(err => {
         this.setState({
@@ -350,7 +356,10 @@ class SelectField extends Component {
   };
 
   resetForm = () => {
-    this.myForm.reset();
+    this.myFormSelect.reset();
+    this.setState({
+      options: []
+    });
   };
 
   render() {
@@ -440,67 +449,62 @@ class SelectField extends Component {
                 </NavLink>
               </NavItem>
             </Nav>
-            <form className="form" ref={el => (this.myForm = el)}>
+            <form className="form" ref={el => (this.myFormSelect = el)}>
               <TabContent activeTab={this.state.activeTab}>
                 <TabPane tabId={"1"}>
                   <Card body>
-                    <div className="col-md-12">
-                      <div className="row">
-                        <div className="col-md-12">
-                          <div className="form-group">
-                            {/* <p className="alert alert-info text-center">
-                            <strong>NAME</strong>
-                          </p> */}
-                            <label htmlFor="name">NAME</label>
-                            <input
-                              type="text"
-                              className="form-control form-control-sm"
-                              value={this.state.name}
-                              onChange={e =>
-                                this.changeValue("NAME", e.target.value)
-                              }
-                            />
-                          </div>
+                    <div className="row">
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label htmlFor="name">NAME</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            value={this.state.name}
+                            onChange={e =>
+                              this.changeValue("NAME", e.target.value)
+                            }
+                          />
                         </div>
-
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label htmlFor="">Titulo</label>
-                            <input
-                              type="text"
-                              className="form-control form-control-sm"
-                              onChange={e =>
-                                this.changeValue("TITLE", e.target.value)
-                              }
-                              value={this.state.title}
-                            />
-                          </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="title">Titulo</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            onChange={e =>
+                              this.changeValue("TITLE", e.target.value)
+                            }
+                            value={this.state.title}
+                          />
                         </div>
-                        <div className="col-md-6">
-                          <div className="form-group">
-                            <label htmlFor="">Helper text</label>
-                            <input
-                              type="text"
-                              className="form-control form-control-sm"
-                              onChange={e =>
-                                this.changeValue("HELPER_TEXT", e.target.value)
-                              }
-                              value={this.state.helpertext}
-                            />
-                          </div>
+                      </div>
+                      <div className="col-md-6">
+                        <div className="form-group">
+                          <label htmlFor="helpertext">Helper text</label>
+                          <input
+                            type="text"
+                            className="form-control form-control-sm"
+                            onChange={e =>
+                              this.changeValue("HELPER_TEXT", e.target.value)
+                            }
+                            value={this.state.helpertext}
+                          />
                         </div>
-                        <div className="col-md-12">
-                          <div className="form-group">
-                            <label htmlFor="description">Description</label>
-                            <input
-                              type={"text"}
-                              className="form-control form-control-sm"
-                              value={this.state.description}
-                              onChange={e =>
-                                this.changeValue("DESCRIPTION", e.target.value)
-                              }
-                            />
-                          </div>
+                      </div>
+                      <div className="col-md-12">
+                        <div className="form-group">
+                          <label htmlFor="description">Description</label>
+                          <input
+                            id="description"
+                            type="text"
+                            className="form-control form-control-sm"
+                            value={this.state.description}
+                            onChange={e =>
+                              this.changeValue("DESCRIPTION", e.target.value)
+                            }
+                          />
                         </div>
                       </div>
                     </div>

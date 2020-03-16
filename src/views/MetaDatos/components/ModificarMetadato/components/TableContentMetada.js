@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
-import PropTypes, { func } from "prop-types";
-import ViewComponent from "./ViewComponent";
-import { Card, CardHeader, CardBody } from "reactstrap";
+import PropTypes from "prop-types";
 import { METADATA_ALL } from "./../../../../../services/EndPoints";
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { decode } from "jsonwebtoken";
+import ModalUpdateMetadata from "./ModalUpdateMetadata";
+import ModalUpdateDetails from "./ModalUpdateDetails";
 
 const data = [
   {
@@ -264,14 +264,18 @@ const data = [
   }
 ];
 
-class TableContentMetadata extends Component {
+class TableContentMetada extends Component {
   constructor(props) {
     super(props);
     this.state = {
       auth: this.props.authorization,
-      dataMetada: [],
-      hiddenColumnID: true,
-      idSelect: ""
+      dataMetadata: [],
+      hiddenColumnID: false,
+      modal: false,
+      modaldetails: false,
+      id: "",
+      idDetails: "",
+      nameDetails: ""
     };
   }
 
@@ -289,24 +293,24 @@ class TableContentMetadata extends Component {
       this.setState({
         auth: this.props.authorization
       });
-      this.getDataMetadate();
+      this.getDataMetadata();
     }
   }
 
-  getDataMetadate = () => {
+  getDataMetadata = () => {
     const aux = this.state.auth;
     const user = decode(aux);
     fetch(`${METADATA_ALL}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + aux
+        Authorization: "Bearer " + aux
       }
     })
       .then(resp => resp.json())
       .then(data => {
         this.setState({
-          dataMetada: data
+          dataMetadata: data
         });
       })
       .catch(err => {
@@ -317,9 +321,9 @@ class TableContentMetadata extends Component {
   StatusMetadata = (cell, row) => {
     let status;
     if (row.status === 1 || row.status === true) {
-      status = <b className="text-success">Metadado Activo</b>;
+      status = <p className="text-success">Metadado Activo</p>;
     } else if (row.status === 0 || row.status === false) {
-      status = <b className="text-danger"> Metadato Inactivo</b>;
+      status = <p className="text-danger"> Metadato Inactivo</p>;
     }
     return status;
   };
@@ -328,88 +332,164 @@ class TableContentMetadata extends Component {
     return <div key={index}>{index + 1}</div>;
   }
 
-  render() {
-    const selectRowProps = {
-      mode: "radio",
-      clickToSelect: true,
-      onSelect: row => {
-        this.setState({
-          idSelect: row.id
-        });
-      }
-    };
+  openModal(id) {
+    this.myModal.toggle(id);
+  }
+
+  openModalDetails(id) {
+    this.myModalDetails.toggle(id);
+  }
+
+  accionesMetadato(cell, row) {
     return (
-      <div className="Animated fadeIn">
-        <div className="row">
-          <div className="col-md-7">
-            <Card>
-              <CardHeader>
-                <i className="fa fa-shopping-bag" /> Bolsa de metadatos
-              </CardHeader>
-              <CardBody>
-                <BootstrapTable
-                  data={this.state.dataMetada}
-                  striped
-                  hover
-                  search
-                  searchPlaceholder="Buscar metadato"
-                  bordered
-                  pagination
-                  selectRow={selectRowProps}
-                >
-                  <TableHeaderColumn
-                    export={false}
-                    isKey
-                    dataField={"id"}
-                    hidden={this.state.hiddenColumnID}
-                  />
-                  <TableHeaderColumn
-                    dataFormat={this.indexN}
-                    dataField={"id"}
-                    dataAlign={"center"}
-                  >
-                    #
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name"} dataSort>
-                    {" "}
-                    Nombre
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField={"inputType"}
-                    dataAlign={"center"}
-                  >
-                    Tipo de metadato
-                  </TableHeaderColumn>
-                  <TableHeaderColumn dataField={"description"}>
-                    {" "}
-                    Descripcion
-                  </TableHeaderColumn>
-                  <TableHeaderColumn
-                    dataField={"status"}
-                    dataAlign={"center"}
-                    dataFormat={(cell, row) => this.StatusMetadata(cell, row)}
-                  >
-                    Estado
-                  </TableHeaderColumn>
-                </BootstrapTable>
-              </CardBody>
-            </Card>
-          </div>
-          <div className="col-md-5">
-            <ViewComponent
-              authorization={this.state.auth}
-              idMetadata={this.state.idSelect}
-            />
-            {/* <div>
-                <p>Probando este el componente de informacion</p>
-              </div> */}
-          </div>
-        </div>
+      <div
+      // className="table-actionMenuConglo"
+      // style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+      >
+        <button
+          className="btn btn-secondary btn-sm"
+          data-trigger="hover"
+          onClick={() => {
+            this.openModal(row.id);
+            this.setState({ id: row.id });
+          }}
+          title={"Actualizar valores de control"}
+        >
+          <i className="fa fa-pencil" />
+        </button>
+      </div>
+    );
+  }
+
+  accionesDetalles(cell, row) {
+    let button;
+    if (row.inputType === "select" || row.inputType === "SELECT") {
+      button = (
+        <button
+          type="button"
+          title={"Actulizar detalles"}
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalDetails(row.id);
+            this.setState({
+              idDetails: row.id,
+              nameDetails: row.name
+            });
+          }}
+        >
+          <i className="fa fa-cog" />
+        </button>
+      );
+    } else if (row.inputType === "radio" || row.inputType === "RADIO") {
+      button = (
+        <button
+          type="button"
+          title={"Actulizar detalles"}
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalDetails(row.id);
+            this.setState({
+              idDetails: row.id,
+              nameDetails: row.name
+            });
+          }}
+        >
+          <i className="fa fa-cog" />
+        </button>
+      );
+    } else if (row.inputType === "checkbox" || row.inputType === "CHECKBOX") {
+      button = (
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          title={"Actulizar detalles"}
+          onClick={() => {
+            this.openModalDetails(row.id);
+            this.setState({
+              idDetails: row.id
+            });
+          }}
+        >
+          <i className="fa fa-cog" />
+        </button>
+      );
+    }
+    return button;
+  }
+
+  render() {
+    return (
+      <div className="card card-body">
+        <BootstrapTable
+          data={this.state.dataMetadata}
+          striped
+          hover
+          bordered={false}
+          condensed={true}
+          search
+          searchPlaceholder="Buscar"
+          pagination
+        >
+          <TableHeaderColumn
+            export={false}
+            isKey
+            dataField={"id"}
+            hidden={!this.state.hiddenColumnID}
+          />
+          <TableHeaderColumn dataFormat={this.indexN} width={"50"}>
+            #
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField={"name"} dataAlign={"center"} dataSort>
+            Nombre
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField={"inputType"} dataAlign={"center"}>
+            Tipo metadato
+          </TableHeaderColumn>
+          <TableHeaderColumn dataAlign={"center"} dataField={"description"}>
+            Descripcion
+          </TableHeaderColumn>
+          <TableHeaderColumn
+            dataField={"status"}
+            dataAlign={"center"}
+            dataFormat={(cell, row) => this.StatusMetadata(cell, row)}
+          >
+            Estado
+          </TableHeaderColumn>
+          <TableHeaderColumn
+            dataAlign={"center"}
+            dataFormat={(cell, row) => this.accionesMetadato(cell, row)}
+          >
+            Acciones de control
+          </TableHeaderColumn>
+          <TableHeaderColumn
+            dataAlign={"center"}
+            dataFormat={(cell, row) => this.accionesDetalles(cell, row)}
+          >
+            {" "}
+            Acciones de detalles
+          </TableHeaderColumn>
+        </BootstrapTable>
+        <ModalUpdateMetadata
+          authorization={this.state.auth}
+          modalupdate={this.state.modal}
+          id={this.state.id}
+          ref={el => (this.myModal = el)}
+          refresh={this.getDataMetadata}
+        />
+        <ModalUpdateDetails
+          authorization={this.state.auth}
+          modaldetails={this.state.modaldetails}
+          ref={el => (this.myModalDetails = el)}
+          id={this.state.idDetails}
+          name={this.state.nameDetails}
+        />
       </div>
     );
   }
 }
 
-TableContentMetadata.propTypes = {};
+TableContentMetada.propTypes = {
+  authorization: PropTypes.string.isRequired
+};
 
-export default TableContentMetadata;
+export default TableContentMetada;

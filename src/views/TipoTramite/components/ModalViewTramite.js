@@ -119,7 +119,6 @@ class ModalViewTramite extends Component {
       }
       return type;
     };
-    console.log(this.state.users);
     return (
       <div>
         <Modal className="modal-xl" isOpen={this.state.modal}>

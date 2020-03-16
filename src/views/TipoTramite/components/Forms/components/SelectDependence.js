@@ -31,6 +31,7 @@ const FieldDependence = ({
       PREValueCompany !== props.companyId
     ) {
       setDataDependece([]);
+      values.dependencia = "";
     }
     if (PREValue !== props.sedeId) {
       setDataDependece([]);

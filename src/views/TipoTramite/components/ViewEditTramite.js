@@ -16,9 +16,6 @@ import { decode } from "jsonwebtoken";
 import { useDispatch, useSelector } from "react-redux";
 import { withTranslation } from "react-i18next";
 import {
-  agregarUserAction,
-  borrarUserAction,
-  agregarOriginal,
   obtenerTramiteEditarAction,
   agregarUsuarioEditar,
   borrarUsuarioEditar,
@@ -44,6 +41,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
     state => state.typeProcedureReducer.tramite.original
   );
   const dispatch = useDispatch();
+  let aux = useSelector(state => state.typeProcedureReducer.assigned);
 
   useEffect(() => {
     dispatch(obtenerTramiteEditarAction(id));
@@ -62,6 +60,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
       .then(response => response.json())
       .then(data => {
         setResponse(data.typeProcedure);
+        aux = null;
       })
       .catch(err => console.log(`err => ${err}`));
   };
@@ -120,7 +119,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
           })
             .then(response =>
               response.json().then(data => {
-                console.log(response);
+                // console.log(response);
                 if (response.status === 200) {
                   toast.success("Se actualizo el tipo de trámite con éxito.", {
                     position: toast.POSITION.TOP_RIGHT,
@@ -160,6 +159,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                 })
               });
             });
+          aux = null;
           // console.log(
           //   JSON.stringify(
           //     {
@@ -541,7 +541,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                         </div>
                       </div>
                       <div className="row">
-                        <UserListEnabled t={t} />
+                        <UserListEnabled t={t} aux={aux} />
                       </div>
                       <div className="row">
                         <div className="col-md-4">
@@ -778,8 +778,10 @@ function UserList(props) {
 }
 const UserListEnabled = props => {
   const t = props.t;
-  const x = useSelector(state => state.typeProcedureReducer.assigned);
+  // const x = useSelector(state => state.typeProcedureReducer.assigned);
+  const x = props.aux;
   const users = useSelector(state => state.typeProcedureReducer.tramite);
+  useEffect(() => {}, [props.aux]);
 
   const notificacion = ({ x, visible }) => {
     if (x === null) {
@@ -841,6 +843,7 @@ const UserListEnabled = props => {
                             <td scope="row"> {aux.name} </td>
                             <td>
                               <button
+                                className={"btn btn-secondary btn-sm"}
                                 type="button"
                                 onClick={() => {
                                   dispatch(
@@ -859,9 +862,9 @@ const UserListEnabled = props => {
                               <button
                                 type="button"
                                 className="btn btn-sm btn-outline-danger"
-                                onClick={() =>
-                                  dispatch(borrarUsuarioEditar(aux.id))
-                                }
+                                onClick={() => {
+                                  dispatch(borrarUsuarioEditar(aux.id));
+                                }}
                               >
                                 <i className="fa fa-trash" />
                               </button>{" "}

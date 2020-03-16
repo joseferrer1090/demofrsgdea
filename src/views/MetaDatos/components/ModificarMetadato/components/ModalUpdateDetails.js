@@ -171,8 +171,7 @@ class ModalUpdateDetails extends Component {
   };
 
   // PostCreateDetail
-  createDetail = e => {
-    e.preventDefault();
+  createDetail = () => {
     const aux = this.state.auth;
     const username = decode(aux);
     fetch(`${METADATA_DETAIL_CREATE}`, {
@@ -313,8 +312,7 @@ class ModalUpdateDetails extends Component {
   };
 
   // Validaciones del formCreate
-  sendData = e => {
-    e.preventDefault();
+  sendData = () => {
     Yup.setLocale({});
     const schema = Yup.object().shape({
       title: Yup.string()
@@ -335,7 +333,7 @@ class ModalUpdateDetails extends Component {
       })
       .then(e => {
         if (schema.isValid) {
-          this.createDetail(e);
+          this.createDetail();
         }
       })
       .catch(err => {
@@ -556,8 +554,8 @@ class ModalUpdateDetails extends Component {
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm"
-                      onClick={e => {
-                        this.sendData(e);
+                      onClick={() => {
+                        this.sendData();
                       }}
                     >
                       <i className="fa fa-plus-circle" /> Crear detalle{" "}

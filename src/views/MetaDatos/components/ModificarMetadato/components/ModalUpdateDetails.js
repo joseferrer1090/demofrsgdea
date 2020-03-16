@@ -7,7 +7,8 @@ import {
   ModalBody,
   Card,
   CardBody,
-  CardHeader
+  CardHeader,
+  Alert
 } from "reactstrap";
 import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { decode } from "jsonwebtoken";
@@ -38,7 +39,9 @@ class ModalUpdateDetails extends Component {
       formcreate: {
         title: "",
         value: "",
-        id: ""
+        id: "",
+        alertError: false,
+        alertErrorMessage: ""
       },
       titleupdate: "",
       valueupdate: "",
@@ -318,13 +321,27 @@ class ModalUpdateDetails extends Component {
         value: this.state.formcreate.value,
         id: this.state.formcreate.id
       })
-      .then(() => {
+      .then(ea => {
         if (schema.isValid) {
-          alert("Llamo la metodo");
+          this.createDetail(e);
         }
       })
       .catch(err => {
-        alert(`Error => ${err.message}`);
+        this.setState({
+          formcreate: {
+            ...this.state.formcreate,
+            alertError: true,
+            alertErrorMessage: err.message
+          }
+        });
+        setTimeout(() => {
+          this.setState({
+            formcreate: {
+              ...this.state.formcreate,
+              alertError: false
+            }
+          });
+        }, 1100);
       });
   };
 
@@ -409,7 +426,7 @@ class ModalUpdateDetails extends Component {
             options={options}
             striped
             bordered={false}
-            style={{ padding: "0px", margin: "0px" }}
+            style={{ padding: "0px", margin: "0px", zoom: "0" }}
           >
             <TableHeaderColumn
               dataField={"id"}
@@ -441,6 +458,13 @@ class ModalUpdateDetails extends Component {
             <Card>
               <CardHeader>Agregar nuevo detalle </CardHeader>
               <CardBody>
+                <Alert
+                  isOpen={this.state.formcreate.alertError}
+                  color={"danger"}
+                >
+                  <i className="fa fa-exclamation-triangle" />{" "}
+                  {this.state.formcreate.alertErrorMessage}
+                </Alert>
                 <form className="form" ref={el => (this.myFormCreate = el)}>
                   <div className="row">
                     <div className="col-md-4">

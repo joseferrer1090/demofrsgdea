@@ -45,7 +45,12 @@ class ModalUpdateDetails extends Component {
       },
       titleupdate: "",
       valueupdate: "",
-      idupdate: ""
+      idupdate: "",
+      alertError: false,
+      alertErrorMessage: "",
+      formdelete: {
+        title: ""
+      }
     };
   }
 
@@ -123,7 +128,11 @@ class ModalUpdateDetails extends Component {
                 ...this.state.actions,
                 visible3: !this.state.actions.visible3
               },
-              idMetadata: row.id
+              idMetadata: row.id,
+              formdelete: {
+                ...this.state.formdelete,
+                title: row.labelText
+              }
             });
           }}
         >
@@ -249,7 +258,6 @@ class ModalUpdateDetails extends Component {
 
   // PutDeatiails
   putDetails = e => {
-    e.preventDefault();
     const aux = this.state.auth;
     const username = decode(aux);
     // console.log(
@@ -321,7 +329,7 @@ class ModalUpdateDetails extends Component {
         value: this.state.formcreate.value,
         id: this.state.formcreate.id
       })
-      .then(ea => {
+      .then(e => {
         if (schema.isValid) {
           this.createDetail(e);
         }
@@ -347,7 +355,6 @@ class ModalUpdateDetails extends Component {
 
   // Validacion del updateForm
   sendDataUpdate = e => {
-    e.preventDefault();
     Yup.setLocale({});
     const schema = Yup.object().shape({
       title: Yup.string()
@@ -366,13 +373,21 @@ class ModalUpdateDetails extends Component {
         value: this.state.valueupdate,
         id: this.state.idupdate
       })
-      .then(() => {
+      .then(e => {
         if (schema.isValid) {
-          alert("Llamo al metodo");
+          this.putDetails(e);
         }
       })
       .catch(err => {
-        alert(`Error => ${err.message}`);
+        this.setState({
+          alertError: true,
+          alertErrorMessage: err.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1100);
       });
   };
 
@@ -394,7 +409,7 @@ class ModalUpdateDetails extends Component {
             <div className="col-md-12">
               <div className="alert alert-danger" role="alert">
                 <p className="text-justify mb-0">
-                  Borrar elemento de la tabla
+                  Borrar detalle <strong>{this.state.formdelete.title}</strong>
                   <br />
                   <button
                     type="button"
@@ -544,6 +559,10 @@ class ModalUpdateDetails extends Component {
             <Card>
               <CardHeader>Actualizar detalle</CardHeader>
               <CardBody>
+                <Alert color={"danger"} isOpen={this.state.alertError}>
+                  <i className="fa fa-exclamation-triangle" />{" "}
+                  {this.state.alertErrorMessage}
+                </Alert>
                 <form className="form">
                   <div className="row">
                     <div className="col-md-4">
@@ -596,9 +615,7 @@ class ModalUpdateDetails extends Component {
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm"
-                      onClick={e => {
-                        this.sendDataUpdate(e);
-                      }}
+                      onClick={e => this.sendDataUpdate(e)}
                     >
                       <i className="fa fa-pencil" />
                       Actualizar detalle

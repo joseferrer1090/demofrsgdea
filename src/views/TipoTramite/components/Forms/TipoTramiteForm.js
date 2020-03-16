@@ -25,7 +25,9 @@ import { decode } from "jsonwebtoken";
 const TipoTramiteForm = props => {
   const { t } = props;
   const usersdata = useSelector(state => state.typeProcedureReducer);
-  const aux = useSelector(state => state.typeProcedureReducer.assigned);
+  let aux = useSelector(state => state.typeProcedureReducer.assigned);
+
+  const users = usersdata.users;
 
   const [oldValueConglomerate, setOldValueConglomerate] = useState();
   const [newValueConglomerate, setNewValueConglomerate] = useState();
@@ -34,6 +36,17 @@ const TipoTramiteForm = props => {
     setOldValueConglomerate(Old);
     setNewValueConglomerate(New);
   };
+
+  const auxRender = useRef();
+
+  useEffect(() => {
+    auxRender.current = aux;
+    if (auxRender.current === true) {
+      console.log("si");
+      auxRender.current = null;
+    }
+    console.log(auxRender);
+  });
 
   return (
     <Formik
@@ -47,7 +60,8 @@ const TipoTramiteForm = props => {
         empresa: "",
         sede: "",
         dependencia: "",
-        estado: false
+        estado: false,
+        users: ""
       }}
       validationSchema={Yup.object().shape({
         tipocorrespondencia: Yup.string()
@@ -73,6 +87,12 @@ const TipoTramiteForm = props => {
             value => value === true
           )
           .required(" Es necesario activar el tipo de trámite.")
+        // workflow: Yup.string()
+        //   .ensure()
+        //   .required(" Por favor seleccione el WorkFlow."),
+        // plantilla: Yup.string()
+        //   .ensure()
+        //   .required(" Por favor seleccione la plantilla.")
       })}
       onSubmit={(values, { setSubmitting, resetForm }) => {
         const tipoEstado = data => {
@@ -147,7 +167,6 @@ const TipoTramiteForm = props => {
                     })
                   });
                 }
-                console.log(response);
               })
             )
             .catch(error => {
@@ -158,6 +177,8 @@ const TipoTramiteForm = props => {
                 })
               });
             });
+          aux = null;
+          users.splice(0, users.length);
           setSubmitting(false);
           resetForm({
             tipocorrespondencia: "",
@@ -512,10 +533,6 @@ const TipoTramiteForm = props => {
                                 authorization={props.authorization}
                                 id={values.dependencia}
                                 t={props.t}
-                                dependencia={values.dependencia}
-                                oldValueConglomerateId={oldValueConglomerate}
-                                newValueConglomerateId={newValueConglomerate}
-                                conglomerado={values.conglomerado}
                               />
                             </div>
                           </div>
@@ -525,7 +542,12 @@ const TipoTramiteForm = props => {
                   </div>
                 </div>
                 <div className="row">
-                  <UserListEnabled data={usersdata} t={props.t} />
+                  <UserListEnabled
+                    data={usersdata}
+                    t={props.t}
+                    // aux={aux}
+                    aux={auxRender.current}
+                  />
                 </div>
                 <div className="row">
                   <div className="col-md-4">
@@ -661,9 +683,10 @@ const TipoTramiteForm = props => {
     />
   );
 };
+
 function UserList(props) {
   const t = props.t;
-  const id = props.id;
+  let id = props.id;
   const auth = props.authorization;
 
   const [data, setdata] = useState([]);
@@ -672,11 +695,7 @@ function UserList(props) {
   const dispatch = useDispatch();
   const AgregarUsuario = user => dispatch(agregarUserAction(user));
 
-  const validateValues = () => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
+  const fetchNewValues = id => {
     fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
@@ -688,7 +707,18 @@ function UserList(props) {
       .then(data => {
         setdata(data);
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => {
+        console.log("Error", err);
+        setdata([]);
+      });
+  };
+
+  const validateValues = () => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetchNewValues(id);
   };
 
   useEffect(() => {
@@ -726,7 +756,7 @@ function UserList(props) {
                         AgregarUsuario({ id: aux.id, name: aux.name })
                       }
                     >
-                      <h6 className="badge badge-secondary">agregar</h6>
+                      <h6 className="badge badge-secondary">Agregar</h6>
                     </Button>
                   </div>
                 </li>
@@ -742,26 +772,27 @@ function UserList(props) {
 }
 
 const UserListEnabled = props => {
-  const x = useSelector(state => state.typeProcedureReducer.assigned);
-
+  const x = props.aux;
   const notificacion = ({ x, visible }) => {
     if (x === null) {
       return;
     } else if (x === true) {
       return (
         <Alert isOpen={x} color="success" fade={true}>
-          Usuario Asignado para recibir original
+          Usuario asignado para recibir original.
         </Alert>
       );
     } else if (x === false) {
       return (
         <Alert isOpen={x} color="danger" fade={true}>
-          Se deshabilito el usuario para recibir original
+          Se deshabilito el usuario para recibir original.
         </Alert>
       );
     }
     return x;
   };
+  useEffect(() => {}, [props.aux]);
+
   const dispatch = useDispatch();
   const users = props.data;
   const t = props.t;
@@ -799,13 +830,14 @@ const UserListEnabled = props => {
                             <td scope="row">{aux.name}</td>
                             <td>
                               <button
+                                className={"btn btn-secondary btn-sm"}
                                 type="button"
                                 onClick={() =>
                                   dispatch(agregarOriginal(aux.id))
                                 }
                               >
                                 {" "}
-                                asignar original{" "}
+                                Asignar original{" "}
                               </button>
                             </td>
                             <td>

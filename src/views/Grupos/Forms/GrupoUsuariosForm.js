@@ -366,9 +366,18 @@ const GrupoUsuariosForm = props => {
               <div className="pull-right">
                 <button
                   type="submit"
+                  // type="button"
                   className="btn btn-outline-secondary btn-sm"
                   disabled={isSubmitting}
                   onClick={handleSubmit}
+                  // onClick={() => {
+                  //   console.log({
+                  //     conglomerado: values.conglomerado,
+                  //     empresa: values.empresa,
+                  //     sede: values.sede,
+                  //     dependencia: values.dependencia
+                  //   });
+                  // }}
                 >
                   {isSubmitting ? (
                     <i className=" fa fa-spinner fa-spin" />

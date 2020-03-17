@@ -25,7 +25,8 @@ import { decode } from "jsonwebtoken";
 const TipoTramiteForm = props => {
   const { t } = props;
   const usersdata = useSelector(state => state.typeProcedureReducer);
-  let aux = useSelector(state => state.typeProcedureReducer.assigned);
+  const [aux, setAux] = useState("");
+  // let aux = useSelector(state => state.typeProcedureReducer.assigned);
 
   const users = usersdata.users;
 
@@ -36,19 +37,6 @@ const TipoTramiteForm = props => {
     setOldValueConglomerate(Old);
     setNewValueConglomerate(New);
   };
-
-  const auxRender = useRef();
-
-  useEffect(() => {
-    auxRender.current = aux;
-
-    // if (auxRender.current === true) {
-    //   // console.log("si");
-    //   auxRender.current = null;
-    // }
-
-    console.log(auxRender);
-  });
 
   return (
     <Formik
@@ -179,7 +167,7 @@ const TipoTramiteForm = props => {
                 })
               });
             });
-          aux = null;
+          setAux(null);
           users.splice(0, users.length);
           setSubmitting(false);
           resetForm({
@@ -544,12 +532,7 @@ const TipoTramiteForm = props => {
                   </div>
                 </div>
                 <div className="row">
-                  <UserListEnabled
-                    data={usersdata}
-                    t={props.t}
-                    // aux={aux}
-                    aux={(auxRender.current = aux)}
-                  />
+                  <UserListEnabled data={usersdata} t={props.t} aux={aux} />
                 </div>
                 <div className="row">
                   <div className="col-md-4">
@@ -774,8 +757,30 @@ function UserList(props) {
 }
 
 const UserListEnabled = props => {
-  const x = props.aux;
-  const notificacion = ({ x, visible }) => {
+  const aux = useSelector(state => state.typeProcedureReducer.assigned);
+  const dispatch = useDispatch();
+  const users = props.data;
+  const t = props.t;
+  const post = props.aux;
+
+  const [state, setstate] = useState(aux);
+  useEffect(() => {
+    console.log(props.aux);
+    console.log(state);
+    console.log(users.users.length);
+    if (users.users.length === 0) {
+      setstate(null);
+    } else if (props.aux === null) {
+      setstate(null);
+    }
+  }, [state, users, props.aux]);
+
+  const notificacion = x => {
+    if (users.length !== 0) {
+      x = aux;
+    } else {
+      x = null;
+    }
     if (x === null) {
       return;
     } else if (x === true) {
@@ -793,14 +798,21 @@ const UserListEnabled = props => {
     }
     return x;
   };
-  useEffect(() => {}, [props.aux]);
 
-  const dispatch = useDispatch();
-  const users = props.data;
-  const t = props.t;
   return (
     <div className="col-md-12">
-      {notificacion({ x })}
+      {/* {notificacion()}
+       */}
+      {state === true ? (
+        <Alert color="success" fade={true}>
+          Usuario asignado para recibir original.
+        </Alert>
+      ) : state === false ? (
+        <Alert color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original.
+        </Alert>
+      ) : null}
+
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
           {t("app_tipoTramite_form_registrar_titulo_3")}
@@ -834,9 +846,10 @@ const UserListEnabled = props => {
                               <button
                                 className={"btn btn-secondary btn-sm"}
                                 type="button"
-                                onClick={() =>
-                                  dispatch(agregarOriginal(aux.id))
-                                }
+                                onClick={() => {
+                                  dispatch(agregarOriginal(aux.id));
+                                  setstate(true);
+                                }}
                               >
                                 {" "}
                                 Asignar original{" "}
@@ -847,9 +860,10 @@ const UserListEnabled = props => {
                               <button
                                 type="button"
                                 className="btn btn-sm btn-outline-danger"
-                                onClick={() =>
-                                  dispatch(borrarUserAction(aux.id))
-                                }
+                                onClick={() => {
+                                  dispatch(borrarUserAction(aux.id));
+                                  setstate(false);
+                                }}
                               >
                                 <i className="fa fa-trash" />
                               </button>{" "}

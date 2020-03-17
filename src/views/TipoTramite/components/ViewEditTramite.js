@@ -33,7 +33,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
   const [auth, setAuth] = useState(authorization);
   const [id, setId] = useState(match.params.id);
   const [response, setResponse] = useState({});
-
   const usersData = useSelector(
     state => state.typeProcedureReducer.tramite.users
   );
@@ -41,12 +40,14 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
     state => state.typeProcedureReducer.tramite.original
   );
   const dispatch = useDispatch();
-  let aux = useSelector(state => state.typeProcedureReducer.assigned);
+  const [aux, setAux] = useState(
+    useSelector(state => state.typeProcedureReducer.assigned)
+  );
 
   useEffect(() => {
     dispatch(obtenerTramiteEditarAction(id));
     getDataTipoTramite();
-  }, []);
+  });
 
   const getDataTipoTramite = () => {
     const username = decode(auth);
@@ -60,7 +61,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
       .then(response => response.json())
       .then(data => {
         setResponse(data.typeProcedure);
-        aux = null;
+        // setAux(null);
       })
       .catch(err => console.log(`err => ${err}`));
   };
@@ -159,37 +160,8 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                 })
               });
             });
-          aux = null;
-          // console.log(
-          //   JSON.stringify(
-          //     {
-          //       id: id,
-          //       code: values.codigo,
-          //       name: values.nombre,
-          //       description: values.descripcion,
-          //       answerDays: values.d_maximos,
-          //       issue: values.asunto,
-          //       status: TipoEstado(values.estado),
-          //       typeCorrespondence: values.tipocorrespondencia,
-          //       templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
-          //       userName: userName.user_name,
-          //       users: usersData,
-          //       original: userOriginal
-          //     },
-          //     null,
-          //     2
-          //   )
-          // );
+          setAux(null);
           setSubmitting(false);
-
-          // resetForm({
-          //   codigo: "",
-          //   nombre: "",
-          //   asunto: "",
-          //   tipocorrespondencia: "",
-          //   estado: "",
-          //   d_maximos: ""
-          // });
         }, 500);
       }}
       validationSchema={Yup.object().shape({
@@ -777,34 +749,40 @@ function UserList(props) {
   );
 }
 const UserListEnabled = props => {
-  const t = props.t;
-  // const x = useSelector(state => state.typeProcedureReducer.assigned);
-  const x = props.aux;
-  const users = useSelector(state => state.typeProcedureReducer.tramite);
-  useEffect(() => {}, [props.aux]);
-
-  const notificacion = ({ x, visible }) => {
-    if (x === null) {
-      return;
-    } else if (x === true) {
-      return (
-        <Alert isOpen={x} color="success" fade={true}>
-          {t("app_tipoTramite_actualizar_user_list_enable_alert_success")}
-        </Alert>
-      );
-    } else if (x === false) {
-      return (
-        <Alert isOpen={x} color="danger" fade={true}>
-          {t("app_tipoTramite_actualizar_user_list_enable_alert_danger")}
-        </Alert>
-      );
-    }
-    return x;
-  };
   const dispatch = useDispatch();
+  const users = useSelector(state => state.typeProcedureReducer.tramite);
+  let aux = props.aux;
+  const t = props.t;
+
+  const notificacion = x => {
+    console.log(aux);
+    // if (users.length !== 0) {
+    //   x = aux;
+    // } else {
+    //   x = null;
+    // }
+    // if (x === null) {
+    //   return;
+    // } else if (x === true) {
+    //   return (
+    //     <Alert isOpen={x} color="success" fade={true}>
+    //       Usuario asignado para recibir original.
+    //     </Alert>
+    //   );
+    // } else if (x === false) {
+    //   return (
+    //     <Alert isOpen={x} color="danger" fade={true}>
+    //       Se deshabilito el usuario para recibir original.
+    //     </Alert>
+    //   );
+    // }
+    // return x;
+  };
+
+  notificacion()
   return (
     <div className="col-md-12">
-      {notificacion({ x })}
+{/**/}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
           {t("app_tipoTramite_actualizar_titulo_3")}

@@ -119,7 +119,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
           })
             .then(response =>
               response.json().then(data => {
-                // console.log(response);
                 if (response.status === 200) {
                   toast.success("Se actualizo el tipo de trámite con éxito.", {
                     position: toast.POSITION.TOP_RIGHT,
@@ -674,10 +673,8 @@ function UserList(props) {
       .then(response => response.json())
       .then(data => {
         setData(data);
-        // console.log(data);
       })
       .catch(err => console.log("Error", err));
-    //console.log("componentDidUpdate");
   }, [id]);
 
   return (
@@ -753,17 +750,10 @@ function UserList(props) {
 const UserListEnabled = props => {
   const users = useSelector(state => state.typeProcedureReducer.tramite);
   const aux = useSelector(state => state.typeProcedureReducer.assigned);
-
   const dispatch = useDispatch();
   const t = props.t;
   const [state, setstate] = useState(aux);
-  // const a = users.users;
 
-  // useEffect(() => {
-  //   // setTimeout(() => {
-  //   //   console.log(users.users.length);
-  //   // }, 500);
-  // }, [users, aux]);
   return (
     <div className="col-md-12">
       {state === true ? (

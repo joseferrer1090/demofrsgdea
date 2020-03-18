@@ -765,9 +765,6 @@ const UserListEnabled = props => {
   const [state, setstate] = useState(aux);
 
   useEffect(() => {
-    console.log(props.aux);
-    console.log(state);
-    console.log(users.users.length);
     if (users.users.length === 0) {
       setstate(null);
     } else if (props.aux === null) {

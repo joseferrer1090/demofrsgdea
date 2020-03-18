@@ -47,7 +47,7 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
   useEffect(() => {
     dispatch(obtenerTramiteEditarAction(id));
     getDataTipoTramite();
-  });
+  }, [id]);
 
   const getDataTipoTramite = () => {
     const username = decode(auth);
@@ -61,7 +61,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
       .then(response => response.json())
       .then(data => {
         setResponse(data.typeProcedure);
-        // setAux(null);
       })
       .catch(err => console.log(`err => ${err}`));
   };
@@ -513,7 +512,10 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                         </div>
                       </div>
                       <div className="row">
-                        <UserListEnabled t={t} aux={aux} />
+                        <UserListEnabled
+                          t={t}
+                          // aux={aux}
+                        />
                       </div>
                       <div className="row">
                         <div className="col-md-4">
@@ -749,40 +751,30 @@ function UserList(props) {
   );
 }
 const UserListEnabled = props => {
-  const dispatch = useDispatch();
   const users = useSelector(state => state.typeProcedureReducer.tramite);
-  let aux = props.aux;
+  const aux = useSelector(state => state.typeProcedureReducer.assigned);
+
+  const dispatch = useDispatch();
   const t = props.t;
+  const [state, setstate] = useState(aux);
+  // const a = users.users;
 
-  const notificacion = x => {
-    console.log(aux);
-    // if (users.length !== 0) {
-    //   x = aux;
-    // } else {
-    //   x = null;
-    // }
-    // if (x === null) {
-    //   return;
-    // } else if (x === true) {
-    //   return (
-    //     <Alert isOpen={x} color="success" fade={true}>
-    //       Usuario asignado para recibir original.
-    //     </Alert>
-    //   );
-    // } else if (x === false) {
-    //   return (
-    //     <Alert isOpen={x} color="danger" fade={true}>
-    //       Se deshabilito el usuario para recibir original.
-    //     </Alert>
-    //   );
-    // }
-    // return x;
-  };
-
-  notificacion()
+  // useEffect(() => {
+  //   // setTimeout(() => {
+  //   //   console.log(users.users.length);
+  //   // }, 500);
+  // }, [users, aux]);
   return (
     <div className="col-md-12">
-{/**/}
+      {state === true ? (
+        <Alert color="success" fade={true}>
+          Usuario asignado para recibir original.
+        </Alert>
+      ) : state === false ? (
+        <Alert color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original.
+        </Alert>
+      ) : null}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
           {t("app_tipoTramite_actualizar_titulo_3")}
@@ -796,7 +788,6 @@ const UserListEnabled = props => {
                     {" "}
                     <b>
                       {t("app_tipoTramite_actualizar_user_list_titulo")}
-                      {/* {t("app_tipoTramite_form_registrar_usuarios_disponibles")}{" "} */}
                     </b>{" "}
                   </p>
                 ) : (
@@ -827,6 +818,13 @@ const UserListEnabled = props => {
                                   dispatch(
                                     asignarOriginalTipoTramiteeditar(aux.id)
                                   );
+                                  setstate(true);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(true);
+                                    }, 300);
+                                  }
                                 }}
                               >
                                 {" "}
@@ -842,6 +840,13 @@ const UserListEnabled = props => {
                                 className="btn btn-sm btn-outline-danger"
                                 onClick={() => {
                                   dispatch(borrarUsuarioEditar(aux.id));
+                                  setstate(false);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(false);
+                                    }, 300);
+                                  }
                                 }}
                               >
                                 <i className="fa fa-trash" />

@@ -25,8 +25,7 @@ import { decode } from "jsonwebtoken";
 const TipoTramiteForm = props => {
   const { t } = props;
   const usersdata = useSelector(state => state.typeProcedureReducer);
-  const [aux, setAux] = useState("");
-  // let aux = useSelector(state => state.typeProcedureReducer.assigned);
+  const [StateChangeAlert, setAux] = useState("");
 
   const users = usersdata.users;
 
@@ -532,7 +531,11 @@ const TipoTramiteForm = props => {
                   </div>
                 </div>
                 <div className="row">
-                  <UserListEnabled data={usersdata} t={props.t} aux={aux} />
+                  <UserListEnabled
+                    data={usersdata}
+                    t={props.t}
+                    aux={StateChangeAlert}
+                  />
                 </div>
                 <div className="row">
                   <div className="col-md-4">
@@ -672,8 +675,6 @@ const TipoTramiteForm = props => {
 function UserList(props) {
   const t = props.t;
   let id = props.id;
-  const auth = props.authorization;
-
   const [data, setdata] = useState([]);
   const firstUpdate = useRef(true);
 
@@ -761,9 +762,8 @@ const UserListEnabled = props => {
   const dispatch = useDispatch();
   const users = props.data;
   const t = props.t;
-  const post = props.aux;
-
   const [state, setstate] = useState(aux);
+
   useEffect(() => {
     console.log(props.aux);
     console.log(state);
@@ -775,34 +775,8 @@ const UserListEnabled = props => {
     }
   }, [state, users, props.aux]);
 
-  const notificacion = x => {
-    if (users.length !== 0) {
-      x = aux;
-    } else {
-      x = null;
-    }
-    if (x === null) {
-      return;
-    } else if (x === true) {
-      return (
-        <Alert isOpen={x} color="success" fade={true}>
-          Usuario asignado para recibir original.
-        </Alert>
-      );
-    } else if (x === false) {
-      return (
-        <Alert isOpen={x} color="danger" fade={true}>
-          Se deshabilito el usuario para recibir original.
-        </Alert>
-      );
-    }
-    return x;
-  };
-
   return (
     <div className="col-md-12">
-      {/* {notificacion()}
-       */}
       {state === true ? (
         <Alert color="success" fade={true}>
           Usuario asignado para recibir original.
@@ -812,7 +786,6 @@ const UserListEnabled = props => {
           Se deshabilito el usuario para recibir original.
         </Alert>
       ) : null}
-
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
           {t("app_tipoTramite_form_registrar_titulo_3")}
@@ -849,6 +822,12 @@ const UserListEnabled = props => {
                                 onClick={() => {
                                   dispatch(agregarOriginal(aux.id));
                                   setstate(true);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(true);
+                                    }, 300);
+                                  }
                                 }}
                               >
                                 {" "}
@@ -863,6 +842,12 @@ const UserListEnabled = props => {
                                 onClick={() => {
                                   dispatch(borrarUserAction(aux.id));
                                   setstate(false);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(false);
+                                    }, 300);
+                                  }
                                 }}
                               >
                                 <i className="fa fa-trash" />

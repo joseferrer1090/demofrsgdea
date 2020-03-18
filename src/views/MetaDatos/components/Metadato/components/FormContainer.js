@@ -1,19 +1,6 @@
-import React, { Component, createRef } from "react";
+import React, { Component, createRef, Profiler } from "react";
 import PropTypes from "prop-types";
-import {
-  Row,
-  Col,
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardLink,
-  CardTitle,
-  CardSubtitle,
-  CardHeader,
-  CardFooter,
-  Button
-} from "reactstrap";
+import { Card, CardBody, CardHeader } from "reactstrap";
 import SingleField from "./Types/SingleField/SingleField";
 import SelectField from "./Types/SelectField/SelectField";
 import RadioButtons from "./Types/RadioButtons/RadioButtons";
@@ -500,5 +487,12 @@ class FormContainer extends Component {
     );
   }
 }
-
+FormContainer.propTypes = {
+  loader: PropTypes.bool.isRequired,
+  debug: PropTypes.bool.isRequired,
+  updateOnMount: PropTypes.bool.isRequired,
+  updateForm: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  authorization: PropTypes.string.isRequired
+};
 export default FormContainer;

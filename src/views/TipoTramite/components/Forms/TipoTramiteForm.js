@@ -496,25 +496,7 @@ const TipoTramiteForm = props => {
                                   sedeId={values.sede}
                                   companyId={values.empresa}
                                   conglomerateId={values.conglomerado}
-                                ></Field>
-
-                                {/* <SelectDependencia
-                                  authorization={props.authorization}
-                                  t={props.t}
-                                  idSede={values.sede}
-                                  name="dependencia"
-                                  value={values.dependencia}
-                                  onChange={e => {
-                                    setFieldValue(
-                                      "dependencia",
-                                      e.target.value
-                                    );
-                                  }}
-                                  onBlur={() => {
-                                    setFieldTouched("dependencia", true);
-                                  }}
-                                  className={"form-control form-control-sm"}
-                                /> */}
+                                ></Field>                             
                               </div>
                             </div>
                             <div className="col-md-12">

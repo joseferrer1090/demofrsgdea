@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, Fragment } from "react";
 import { Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
-import { Col, CustomInput } from "reactstrap";
+import { Col, CustomInput, Alert } from "reactstrap";
 import SelectConglomerado from "./component_viewEdit/SelectConglomerado";
 import FieldCompany from "./component_viewEdit/SelectEmpresa";
 import FieldHeadquarter from "./component_viewEdit/SelectSede";
@@ -40,7 +40,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
 
   useEffect(() => {
     dispatch(obtenerTipoDocumentalAction(id));
-    getDataTypeDocumentary();
+    getDataTypeDocumentary();    
   }, []);
 
   const getDataTypeDocumentary = () => {
@@ -106,12 +106,12 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
         };
         setTimeout(() => {
           const token = authorization;
-          const username = decode(token);
+          const username = decode(auth);
           fetch(`${TYPEDOCUMENTARY_PUT}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
-              Authorization: "Bearer " + token
+              Authorization: "Bearer " + authorization
             },
             body: JSON.stringify({
               id: id,
@@ -175,26 +175,6 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                 })
               });
             });
-          // console.log(
-          //   JSON.stringify(
-          //     {
-          //       id: id,
-          //       code: values.codigo,
-          //       name: values.nombre,
-          //       description: values.descripcion,
-          //       answerDays: values.d_maximos,
-          //       issue: values.asunto,
-          //       status: TipoEstado(values.estado),
-          //       typeCorrespondence: values.tipocorrespondencia,
-          //       templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
-          //       userName: userName.user_name,
-          //       users: usersData,
-          //       original: userOriginal
-          //     },
-          //     2,
-          //     null
-          //   )
-          // );
           setSubmitting(false);
         }, 1000);
       }}
@@ -208,8 +188,7 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
           handleBlur,
           handleSubmit,
           setFieldValue,
-          setFieldTouched,
-          setSubmitting
+          setFieldTouched
         } = props;
         return (
           <Fragment>
@@ -517,7 +496,6 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                         name="dependencia"
                                         component={FieldDependence}
                                         headquarterId={props.values.sede}
-                                        dependenceId={props.values.dependencia}
                                         conglomerateId={
                                           props.values.conglomerado
                                         }
@@ -526,33 +504,6 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
                                     </div>
                                   </div>
                                   <div className="col-md-12">
-                                    {/* <div className="form-group">
-                                      <label> Buscar usuario </label>
-                                      <div className="input-group input-group-sm">
-                                        <input
-                                          type="text"
-                                          className="form-control form-control-sm"
-                                          aria-label="Dollar amount (with dot and two decimal places)"
-                                        />
-                                        <div
-                                          className="input-group-append"
-                                          id="button-addon4"
-                                        >
-                                          <button
-                                            className="btn btn-secondary"
-                                            type="button"
-                                          >
-                                            <i className="fa fa-search" />
-                                          </button>
-                                          <button
-                                            className="btn btn-secondary"
-                                            type="button"
-                                          >
-                                            <i className="fa fa-plus" /> Agregar
-                                          </button>
-                                        </div>
-                                      </div>
-                                    </div> */}
                                     <UserList
                                       t={t}
                                       authorization={auth}
@@ -714,19 +665,13 @@ const ViewEditTipodocumental = ({ match, history, authorization, t }) => {
 function UserList(props) {
   const t = props.t;
   const id = props.id;
-  const auth = props.authorization;
-
   const [data, setData] = useState([]);
   const firstUpdate = useRef(true);
 
   const dispatch = useDispatch();
-  //const AgregarUserEditar = user => dispatch(agregarUsuarioEditar(user));
+  const AgregarUsuario = user => dispatch(agregarusuarioTipodocumentaleditar(user));
 
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
+  const fetchNewValues = id => {
     fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
@@ -737,36 +682,27 @@ function UserList(props) {
       .then(response => response.json())
       .then(data => {
         setData(data);
-        // console.log(data);
       })
-      .catch(err => console.log("Error", err));
-    //console.log("componentDidUpdate");
+      .catch(err => {
+        console.log("Error", err);
+        setData([]);
+      });
+  };
+
+  const validateValues = () => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetchNewValues(id);
+  };
+
+  useEffect(() => {
+    validateValues();
   }, [id]);
 
   return (
     <div>
-      {/* <div className="form-group">
-            <label> Buscar usuario <span className="text-danger">*</span> </label>
-            <div className="input-group input-group-exit sm">
-              <input
-                type="text"
-                className="form-control form-control-sm"
-                aria-label="Dollar amount (with dot and two decimal places)"
-              />
-              <div
-                className="input-group-append"
-                id="button-addon4"
-              >
-                <button
-                  className="btn btn-secondary"
-                  type="button"
-                >
-                  <i className="fa fa-search" />
-                </button>
-                
-              </div>
-            </div>
-          </div> */}
       <div
         style={{
           height: "140px",
@@ -792,14 +728,7 @@ function UserList(props) {
                     <Button
                       style={{ marginTop: "-13px", marginLeft: "-12px" }}
                       color={"link"}
-                      onClick={() => {
-                        dispatch(
-                          agregarusuarioTipodocumentaleditar({
-                            id: aux.id,
-                            name: aux.name
-                          })
-                        );
-                      }}
+                      onClick={() => AgregarUsuario({id:aux.id, name:aux.name})}
                     >
                       <h6 className="badge badge-secondary">
                         {t(
@@ -818,7 +747,6 @@ function UserList(props) {
               "app_documentalRadicacion_actualizar_placeholder_textarea_usuarios"
             )}
           </p>
-          // <p>{t("app_tipoTramite_form_registrar_placeholder_select")}</p>
         )}
       </div>
     </div>
@@ -827,46 +755,27 @@ function UserList(props) {
 
 const UserListEnabled = props => {
   const t = props.t;
-  const x = useSelector(state => state.documentaryTypeReducer.assigned);
-  const [visible, setVisible] = useState(true);
+  const dispatch = useDispatch();
+  const aux = useSelector(state => state.documentaryTypeReducer.assigned);
   const users = useSelector(
     state => state.documentaryTypeReducer.tipodocumental
   );
-
-  const onDismiss = () => setVisible(false);
-
-  // const notificacion = ({ x, visible }) => {
-  //   if (x === null) {
-  //     return;
-  //   } else if (x === true) {
-  //     return (
-  //       <UncontrolledAlert
-  //         isOpen={x}
-  //         color="success"
-  //         fade={true}
-  //         toggle={onDismiss}
-  //       >
-  //         Usuario Asignado para recibir original
-  //       </UncontrolledAlert>
-  //     );
-  //   } else if (x === false) {
-  //     return (
-  //       <UncontrolledAlert isOpen={x} color="danger" fade={true}>
-  //         Se deshabilito el usuario para recibir original
-  //       </UncontrolledAlert>
-  //     );
-  //   }
-  //   return x;
-  // };
-  const dispatch = useDispatch();
+  const [state, setstate] = useState(aux);
 
   return (
     <div className="col-md-12">
-      {/* {notificacion({ x, visible })} */}
+      {state === true ? (
+        <Alert color="success" fade={true}>
+          Usuario asignado para recibir original.
+        </Alert>
+      ) : state === false ? (
+        <Alert color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original.
+        </Alert>
+      ) : null}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
           {t("app_documentalRadicacion_actualizar_titulo_3")}
-          {/* {t("app_tipoTramite_form_registrar_titulo_3")} */}
         </div>
         <div className="card-body">
           <div>
@@ -879,7 +788,6 @@ const UserListEnabled = props => {
                       {t(
                         "app_documentalRadicacion_actualizar_user_list_titulo"
                       )}
-                      {/* {t("app_tipoTramite_form_registrar_usuarios_disponibles")}{" "} */}
                     </b>{" "}
                   </p>
                 ) : (
@@ -915,6 +823,13 @@ const UserListEnabled = props => {
                                   dispatch(
                                     asignarOriginalTipodocumentaleditar(aux.id)
                                   );
+                                  setstate(true);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(true);
+                                    }, 300);
+                                  }
                                 }}
                               >
                                 {" "}
@@ -932,6 +847,13 @@ const UserListEnabled = props => {
                                   dispatch(
                                     borrarusuarioTipodocumentaleditar(aux.id)
                                   );
+                                  setstate(false);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(false);
+                                    }, 300);
+                                  }
                                 }}
                               >
                                 <i className="fa fa-trash" />

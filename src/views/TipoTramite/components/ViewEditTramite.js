@@ -489,7 +489,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         name="dependencia"
                                         component={FieldDependence}
                                         headquarterId={props.values.sede}
-                                        dependenceId={props.values.dependencia}
                                         companyId={props.values.empresa}
                                         conglomerateId={
                                           props.values.conglomerado
@@ -658,11 +657,7 @@ function UserList(props) {
   const dispatch = useDispatch();
   const AgregarUserEditar = user => dispatch(agregarUsuarioEditar(user));
 
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
+  const fetchNewValues = id => {
     fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
@@ -674,33 +669,26 @@ function UserList(props) {
       .then(data => {
         setData(data);
       })
-      .catch(err => console.log("Error", err));
+      .catch(err => {
+        console.log("Error", err);
+        setData([]);
+      });
+  };
+
+  const validateValues = () => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetchNewValues(id);
+  };
+
+  useEffect(() => {
+    validateValues();
   }, [id]);
 
   return (
     <div>
-      {/* <div className="form-group">
-            <label> Buscar usuario <span className="text-danger">*</span> </label>
-            <div className="input-group input-group-sm">
-              <input
-                type="text"
-                className="form-control form-control-sm"
-                aria-label="Dollar amount (with dot and two decimal places)"
-              />
-              <div
-                className="input-group-append"
-                id="button-addon4"
-              >
-                <button
-                  className="btn btn-secondary"
-                  type="button"
-                >
-                  <i className="fa fa-search" />
-                </button>
-                
-              </div>
-            </div>
-          </div> */}
       <div
         style={{
           height: "140px",
@@ -741,12 +729,12 @@ function UserList(props) {
           })
         ) : (
           <p>{t("app_tipoTramite_actualizar_placeholder_textarea_usuarios")}</p>
-          // <p>{t("app_tipoTramite_form_registrar_placeholder_select")}</p>
         )}
       </div>
     </div>
   );
 }
+
 const UserListEnabled = props => {
   const users = useSelector(state => state.typeProcedureReducer.tramite);
   const aux = useSelector(state => state.typeProcedureReducer.assigned);

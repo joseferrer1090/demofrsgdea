@@ -25,7 +25,7 @@ import { decode } from "jsonwebtoken";
 const TipoTramiteForm = props => {
   const { t } = props;
   const usersdata = useSelector(state => state.typeProcedureReducer);
-  let aux = useSelector(state => state.typeProcedureReducer.assigned);
+  const [StateChangeAlert, setAux] = useState("");
 
   const users = usersdata.users;
 
@@ -36,17 +36,6 @@ const TipoTramiteForm = props => {
     setOldValueConglomerate(Old);
     setNewValueConglomerate(New);
   };
-
-  const auxRender = useRef();
-
-  useEffect(() => {
-    auxRender.current = aux;
-    if (auxRender.current === true) {
-      console.log("si");
-      auxRender.current = null;
-    }
-    console.log(auxRender);
-  });
 
   return (
     <Formik
@@ -177,7 +166,7 @@ const TipoTramiteForm = props => {
                 })
               });
             });
-          aux = null;
+          setAux(null);
           users.splice(0, users.length);
           setSubmitting(false);
           resetForm({
@@ -507,25 +496,7 @@ const TipoTramiteForm = props => {
                                   sedeId={values.sede}
                                   companyId={values.empresa}
                                   conglomerateId={values.conglomerado}
-                                ></Field>
-
-                                {/* <SelectDependencia
-                                  authorization={props.authorization}
-                                  t={props.t}
-                                  idSede={values.sede}
-                                  name="dependencia"
-                                  value={values.dependencia}
-                                  onChange={e => {
-                                    setFieldValue(
-                                      "dependencia",
-                                      e.target.value
-                                    );
-                                  }}
-                                  onBlur={() => {
-                                    setFieldTouched("dependencia", true);
-                                  }}
-                                  className={"form-control form-control-sm"}
-                                /> */}
+                                ></Field>                             
                               </div>
                             </div>
                             <div className="col-md-12">
@@ -545,8 +516,7 @@ const TipoTramiteForm = props => {
                   <UserListEnabled
                     data={usersdata}
                     t={props.t}
-                    // aux={aux}
-                    aux={auxRender.current}
+                    aux={StateChangeAlert}
                   />
                 </div>
                 <div className="row">
@@ -687,8 +657,6 @@ const TipoTramiteForm = props => {
 function UserList(props) {
   const t = props.t;
   let id = props.id;
-  const auth = props.authorization;
-
   const [data, setdata] = useState([]);
   const firstUpdate = useRef(true);
 
@@ -772,33 +740,31 @@ function UserList(props) {
 }
 
 const UserListEnabled = props => {
-  const x = props.aux;
-  const notificacion = ({ x, visible }) => {
-    if (x === null) {
-      return;
-    } else if (x === true) {
-      return (
-        <Alert isOpen={x} color="success" fade={true}>
-          Usuario asignado para recibir original.
-        </Alert>
-      );
-    } else if (x === false) {
-      return (
-        <Alert isOpen={x} color="danger" fade={true}>
-          Se deshabilito el usuario para recibir original.
-        </Alert>
-      );
-    }
-    return x;
-  };
-  useEffect(() => {}, [props.aux]);
-
+  const aux = useSelector(state => state.typeProcedureReducer.assigned);
   const dispatch = useDispatch();
   const users = props.data;
   const t = props.t;
+  const [state, setstate] = useState(aux);
+
+  useEffect(() => {
+    if (users.users.length === 0) {
+      setstate(null);
+    } else if (props.aux === null) {
+      setstate(null);
+    }
+  }, [state, users, props.aux]);
+
   return (
     <div className="col-md-12">
-      {notificacion({ x })}
+      {state === true ? (
+        <Alert color="success" fade={true}>
+          Usuario asignado para recibir original.
+        </Alert>
+      ) : state === false ? (
+        <Alert color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original.
+        </Alert>
+      ) : null}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
           {t("app_tipoTramite_form_registrar_titulo_3")}
@@ -832,9 +798,16 @@ const UserListEnabled = props => {
                               <button
                                 className={"btn btn-secondary btn-sm"}
                                 type="button"
-                                onClick={() =>
-                                  dispatch(agregarOriginal(aux.id))
-                                }
+                                onClick={() => {
+                                  dispatch(agregarOriginal(aux.id));
+                                  setstate(true);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(true);
+                                    }, 300);
+                                  }
+                                }}
                               >
                                 {" "}
                                 Asignar original{" "}
@@ -845,9 +818,16 @@ const UserListEnabled = props => {
                               <button
                                 type="button"
                                 className="btn btn-sm btn-outline-danger"
-                                onClick={() =>
-                                  dispatch(borrarUserAction(aux.id))
-                                }
+                                onClick={() => {
+                                  dispatch(borrarUserAction(aux.id));
+                                  setstate(false);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(false);
+                                    }, 300);
+                                  }
+                                }}
                               >
                                 <i className="fa fa-trash" />
                               </button>{" "}

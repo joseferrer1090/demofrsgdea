@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import CreatePlantillaForm from "./Forms/CreatePlantillaForm";
-import PropTypes from "prop-types";
 
 const FormCreatePlantilla = props => {
   return (
@@ -50,7 +49,5 @@ const FormCreatePlantilla = props => {
 //     );
 //   }
 // }
-
-FormCreatePlantilla.propTypes = {};
 
 export default FormCreatePlantilla;

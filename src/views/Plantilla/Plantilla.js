@@ -5,15 +5,10 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Card,
-  Button,
-  CardTitle,
-  CardText,
   Row,
   Col
 } from "reactstrap";
 import classnames from "classnames";
-import PropType from "prop-types";
 import FormCreatePlantilla from "./components/FormCreatePlantilla";
 import TableContent from "./components/TableContentPlantilla";
 import FormImport from "./components/FormImportPlantilla";

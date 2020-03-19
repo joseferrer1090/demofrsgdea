@@ -719,4 +719,12 @@ class CheckBoxes extends Component {
   }
 }
 
+CheckBoxes.propTypes = {
+  changeState: PropTypes.func.isRequired,
+  field: PropTypes.any.isRequired,
+  index: PropTypes.any.isRequired,
+  key: PropTypes.any.isRequired,
+  removeField: PropTypes.func.isRequired,
+  authorization: PropTypes.string.isRequired
+};
 export default CheckBoxes;

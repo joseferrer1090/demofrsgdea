@@ -388,7 +388,7 @@ class SingleField extends Component {
                             <div className="form-group">
                               <label htmlFor="title">
                                 {" "}
-                                Etiqueta {this.state.title}
+                                Etiqueta {this.state.title}                           <span className="text-danger">*</span>{" "}
                               </label>
                               <input
                                 type="text"

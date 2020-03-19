@@ -33,7 +33,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
   const [auth, setAuth] = useState(authorization);
   const [id, setId] = useState(match.params.id);
   const [response, setResponse] = useState({});
-
   const usersData = useSelector(
     state => state.typeProcedureReducer.tramite.users
   );
@@ -41,12 +40,14 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
     state => state.typeProcedureReducer.tramite.original
   );
   const dispatch = useDispatch();
-  let aux = useSelector(state => state.typeProcedureReducer.assigned);
+  const [aux, setAux] = useState(
+    useSelector(state => state.typeProcedureReducer.assigned)
+  );
 
   useEffect(() => {
     dispatch(obtenerTramiteEditarAction(id));
     getDataTipoTramite();
-  }, []);
+  }, [id]);
 
   const getDataTipoTramite = () => {
     const username = decode(auth);
@@ -60,7 +61,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
       .then(response => response.json())
       .then(data => {
         setResponse(data.typeProcedure);
-        aux = null;
       })
       .catch(err => console.log(`err => ${err}`));
   };
@@ -119,7 +119,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
           })
             .then(response =>
               response.json().then(data => {
-                // console.log(response);
                 if (response.status === 200) {
                   toast.success("Se actualizo el tipo de trámite con éxito.", {
                     position: toast.POSITION.TOP_RIGHT,
@@ -159,37 +158,8 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                 })
               });
             });
-          aux = null;
-          // console.log(
-          //   JSON.stringify(
-          //     {
-          //       id: id,
-          //       code: values.codigo,
-          //       name: values.nombre,
-          //       description: values.descripcion,
-          //       answerDays: values.d_maximos,
-          //       issue: values.asunto,
-          //       status: TipoEstado(values.estado),
-          //       typeCorrespondence: values.tipocorrespondencia,
-          //       templateId: "ef41a67a-5acb-4d8a-8f7e-2d4709a02e7d",
-          //       userName: userName.user_name,
-          //       users: usersData,
-          //       original: userOriginal
-          //     },
-          //     null,
-          //     2
-          //   )
-          // );
+          setAux(null);
           setSubmitting(false);
-
-          // resetForm({
-          //   codigo: "",
-          //   nombre: "",
-          //   asunto: "",
-          //   tipocorrespondencia: "",
-          //   estado: "",
-          //   d_maximos: ""
-          // });
         }, 500);
       }}
       validationSchema={Yup.object().shape({
@@ -519,7 +489,6 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                                         name="dependencia"
                                         component={FieldDependence}
                                         headquarterId={props.values.sede}
-                                        dependenceId={props.values.dependencia}
                                         companyId={props.values.empresa}
                                         conglomerateId={
                                           props.values.conglomerado
@@ -541,7 +510,10 @@ const ViewEditTramite = ({ match, history, authorization, t }) => {
                         </div>
                       </div>
                       <div className="row">
-                        <UserListEnabled t={t} aux={aux} />
+                        <UserListEnabled
+                          t={t}
+                          // aux={aux}
+                        />
                       </div>
                       <div className="row">
                         <div className="col-md-4">
@@ -685,11 +657,7 @@ function UserList(props) {
   const dispatch = useDispatch();
   const AgregarUserEditar = user => dispatch(agregarUsuarioEditar(user));
 
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
+  const fetchNewValues = id => {
     fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
@@ -700,36 +668,27 @@ function UserList(props) {
       .then(response => response.json())
       .then(data => {
         setData(data);
-        // console.log(data);
       })
-      .catch(err => console.log("Error", err));
-    //console.log("componentDidUpdate");
+      .catch(err => {
+        console.log("Error", err);
+        setData([]);
+      });
+  };
+
+  const validateValues = () => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetchNewValues(id);
+  };
+
+  useEffect(() => {
+    validateValues();
   }, [id]);
 
   return (
     <div>
-      {/* <div className="form-group">
-            <label> Buscar usuario <span className="text-danger">*</span> </label>
-            <div className="input-group input-group-sm">
-              <input
-                type="text"
-                className="form-control form-control-sm"
-                aria-label="Dollar amount (with dot and two decimal places)"
-              />
-              <div
-                className="input-group-append"
-                id="button-addon4"
-              >
-                <button
-                  className="btn btn-secondary"
-                  type="button"
-                >
-                  <i className="fa fa-search" />
-                </button>
-                
-              </div>
-            </div>
-          </div> */}
       <div
         style={{
           height: "140px",
@@ -770,41 +729,30 @@ function UserList(props) {
           })
         ) : (
           <p>{t("app_tipoTramite_actualizar_placeholder_textarea_usuarios")}</p>
-          // <p>{t("app_tipoTramite_form_registrar_placeholder_select")}</p>
         )}
       </div>
     </div>
   );
 }
-const UserListEnabled = props => {
-  const t = props.t;
-  // const x = useSelector(state => state.typeProcedureReducer.assigned);
-  const x = props.aux;
-  const users = useSelector(state => state.typeProcedureReducer.tramite);
-  useEffect(() => {}, [props.aux]);
 
-  const notificacion = ({ x, visible }) => {
-    if (x === null) {
-      return;
-    } else if (x === true) {
-      return (
-        <Alert isOpen={x} color="success" fade={true}>
-          {t("app_tipoTramite_actualizar_user_list_enable_alert_success")}
-        </Alert>
-      );
-    } else if (x === false) {
-      return (
-        <Alert isOpen={x} color="danger" fade={true}>
-          {t("app_tipoTramite_actualizar_user_list_enable_alert_danger")}
-        </Alert>
-      );
-    }
-    return x;
-  };
+const UserListEnabled = props => {
+  const users = useSelector(state => state.typeProcedureReducer.tramite);
+  const aux = useSelector(state => state.typeProcedureReducer.assigned);
   const dispatch = useDispatch();
+  const t = props.t;
+  const [state, setstate] = useState(aux);
+
   return (
     <div className="col-md-12">
-      {notificacion({ x })}
+      {state === true ? (
+        <Alert color="success" fade={true}>
+          Usuario asignado para recibir original.
+        </Alert>
+      ) : state === false ? (
+        <Alert color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original.
+        </Alert>
+      ) : null}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
           {t("app_tipoTramite_actualizar_titulo_3")}
@@ -818,7 +766,6 @@ const UserListEnabled = props => {
                     {" "}
                     <b>
                       {t("app_tipoTramite_actualizar_user_list_titulo")}
-                      {/* {t("app_tipoTramite_form_registrar_usuarios_disponibles")}{" "} */}
                     </b>{" "}
                   </p>
                 ) : (
@@ -849,6 +796,13 @@ const UserListEnabled = props => {
                                   dispatch(
                                     asignarOriginalTipoTramiteeditar(aux.id)
                                   );
+                                  setstate(true);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(true);
+                                    }, 300);
+                                  }
                                 }}
                               >
                                 {" "}
@@ -864,6 +818,13 @@ const UserListEnabled = props => {
                                 className="btn btn-sm btn-outline-danger"
                                 onClick={() => {
                                   dispatch(borrarUsuarioEditar(aux.id));
+                                  setstate(false);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(false);
+                                    }, 300);
+                                  }
                                 }}
                               >
                                 <i className="fa fa-trash" />

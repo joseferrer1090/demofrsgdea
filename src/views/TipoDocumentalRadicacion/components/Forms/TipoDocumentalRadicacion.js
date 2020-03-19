@@ -26,7 +26,9 @@ import { css } from "glamor";
 const TipoDocumentalRadicacion = props => {
   const { t } = props;
   const userData = useSelector(state => state.documentaryTypeReducer);
+  const users = userData.users;
 
+  const [StateChangeAlert, setAux] = useState("");
   const [oldValueConglomerate, setOldValueConglomerate] = useState();
   const [newValueConglomerate, setNewValueConglomerate] = useState();
 
@@ -34,6 +36,7 @@ const TipoDocumentalRadicacion = props => {
     setOldValueConglomerate(Old);
     setNewValueConglomerate(New);
   };
+
   return (
     <Formik
       initialValues={{
@@ -160,6 +163,8 @@ const TipoDocumentalRadicacion = props => {
                 });
               })
           );
+          setAux(null);
+          users.splice(0, users.length);
           setSubmitting(false);
           resetForm({
             tipocorrespondencia: "",
@@ -524,7 +529,11 @@ const TipoDocumentalRadicacion = props => {
                   </div>
                 </div>
                 <div className="row">
-                  <UserListEnabled data={userData} t={props.t} />
+                  <UserListEnabled
+                    data={userData}
+                    t={props.t}
+                    aux={StateChangeAlert}
+                  />
                 </div>
                 <div className="row">
                   <div className="col-md-4">
@@ -669,33 +678,14 @@ const TipoDocumentalRadicacion = props => {
 
 function UserList(props) {
   const t = props.t;
-  const id = props.id;
-  const auth = props.authorization;
-
+  let id = props.id;
   const [data, setdata] = useState([]);
   const firstUpdate = useRef(true);
 
   const dispatch = useDispatch();
   const AgregarUsuario = user => dispatch(agregarUsuarioDisponible(user));
 
-  // const getDataUsers = () => {
-  //   fetch(`http://192.168.20.187:7000/api/sgdea/user/dependence/${id}`,{
-  //     method: "GET",
-  //     headers: {
-  //       "Content-Type":"application/json",
-  //       Authorization: "Basic " + window.btoa('sgdea:123456')
-  //     }
-  //   }).then(response => response.json()).then(data => {
-  //     setdata(data);
-  //     console.log(data);
-  //   }).catch(err => console.log("Error", err));
-  // };
-
-  useEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
+  const fetchNewValues = id => {
     fetch(`${USERS_BY_DEPENDENCE}${id}`, {
       method: "GET",
       headers: {
@@ -706,38 +696,27 @@ function UserList(props) {
       .then(response => response.json())
       .then(data => {
         setdata(data);
-        // console.log(data);
       })
-      .catch(err => console.log("Error", err));
-    //console.log("componentDidUpdate");
-  }, [id]);
+      .catch(err => {
+        console.log("Error", err);
+        setdata([]);
+      });
+  };
 
-  //console.log(id);
+  const validateValues = () => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    fetchNewValues(id);
+  };
+
+  useEffect(() => {
+    validateValues();
+  }, [id]);
 
   return (
     <div>
-      {/* <div className="form-group">
-            <label> Buscar usuario <span className="text-danger">*</span> </label>
-            <div className="input-group input-group-sm">
-              <input
-                type="text"
-                className="form-control form-control-sm"
-                aria-label="Dollar amount (with dot and two decimal places)"
-              />
-              <div
-                className="input-group-append"
-                id="button-addon4"
-              >
-                <button
-                  className="btn btn-secondary"
-                  type="button"
-                >
-                  <i className="fa fa-search" />
-                </button>
-                
-              </div>
-            </div>
-          </div> */}
       <div
         style={{
           height: "140px",
@@ -789,33 +768,31 @@ function UserList(props) {
 }
 
 const UserListEnabled = props => {
-  const x = useSelector(state => state.documentaryTypeReducer.assigned);
-
-  const notificacion = ({ x, visible }) => {
-    if (x === null) {
-      return;
-    } else if (x === true) {
-      return (
-        <Alert isOpen={x} color="success" fade={true}>
-          Usuario Asignado para recibir original
-        </Alert>
-      );
-    } else if (x === false) {
-      return (
-        <Alert isOpen={x} color="danger" fade={true}>
-          Se deshabilito el usuario para recibir original
-        </Alert>
-      );
-    }
-    return x;
-  };
+  const aux = useSelector(state => state.documentaryTypeReducer.assigned);
   const dispatch = useDispatch();
   const users = props.data;
   const t = props.t;
-  // console.log(users.users);
+  const [state, setstate] = useState(aux);
+
+  useEffect(() => {
+    if (users.users.length === 0) {
+      setstate(null);
+    } else if (props.aux === null) {
+      setstate(null);
+    }
+  }, [state, users, props.aux]);
+
   return (
     <div className="col-md-12">
-      {notificacion({ x })}
+      {state === true ? (
+        <Alert color="success" fade={true}>
+          Usuario asignado para recibir original.
+        </Alert>
+      ) : state === false ? (
+        <Alert color="danger" fade={true}>
+          Se deshabilito el usuario para recibir original.
+        </Alert>
+      ) : null}
       <div className="card">
         <div className="p-2 mb-1 bg-light text-dark">
           {t("app_documentalRadicacion_form_registrar_titulo_3")}
@@ -862,9 +839,16 @@ const UserListEnabled = props => {
                             <td>
                               <button
                                 type="button"
-                                onClick={() =>
-                                  dispatch(agregarUsuarioOriginal(aux.id))
-                                }
+                                onClick={() => {
+                                  dispatch(agregarUsuarioOriginal(aux.id));
+                                  setstate(true);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(true);
+                                    }, 300);
+                                  }
+                                }}
                               >
                                 {" "}
                                 {t(
@@ -877,9 +861,16 @@ const UserListEnabled = props => {
                               <button
                                 type="button"
                                 className="btn btn-sm btn-outline-danger"
-                                onClick={() =>
-                                  dispatch(borrarUsuarioDiponible(aux.id))
-                                }
+                                onClick={() => {
+                                  dispatch(borrarUsuarioDiponible(aux.id));
+                                  setstate(false);
+                                  if (state === true || state === false) {
+                                    setstate(null);
+                                    setTimeout(() => {
+                                      setstate(false);
+                                    }, 300);
+                                  }
+                                }}
                               >
                                 <i className="fa fa-trash" />
                               </button>{" "}

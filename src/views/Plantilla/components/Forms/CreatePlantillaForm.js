@@ -1,37 +1,104 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardHeader, CardBody, CustomInput } from "reactstrap";
 import { Formik, ErrorMessage, Field } from "formik";
+import * as Yup from "yup";
+import {
+  METADATA_ACTIVE,
+  METADATA_ALL
+} from "./../../../../services/EndPoints";
 
-const CreatePlantillaForm = () => {
+const CreatePlantillaForm = props => {
+  const [metadata, setMetadata] = useState([]);
+  const [auth, setAuth] = useState("");
+  const [tbl, setTbl] = useState([]);
+
+  useEffect(() => {
+    setAuth(props.authorization);
+    if (props.authorization !== "" || props.authorization !== auth) {
+      getData();
+    }
+  }, [props.authorization]);
+
+  const getData = () => {
+    fetch(`${METADATA_ALL}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + props.authorization
+      }
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        setMetadata(data);
+        //console.log(data);
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
+
   return (
     <div className="row">
-      <div className="col-md-8">
+      <div className="col-md-6">
         <Card>
           <CardHeader>
-            <i className="fa fa-wpforms" /> Registro de plantilla
+            <i className="fa fa-wpforms" /> datos de plantilla
           </CardHeader>
           <CardBody>
-            <Formik>
-              {props => (
-                <form>
+            <Formik
+              validationSchema={Yup.object().shape({
+                codigo: Yup.string()
+                  .trim()
+                  .required("Codigo requerido para el registro"),
+                nombre: Yup.string()
+                  .trim()
+                  .required(`Nombre requerido para la plantilla`),
+                descripcion: Yup.string().required(
+                  "Asignar descripcion para la plantilla"
+                ),
+                estado: Yup.bool().test("Activo", value => value === true)
+              })}
+              render={({
+                values,
+                touched,
+                errors,
+                dirty,
+                isSubmitting,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+                handleReset,
+                setFieldValue
+              }) => (
+                <form className="form">
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>
                           {" "}
-                          Codigo <spam className="text-danger">*</spam>{" "}
+                          Codigo <span className="text-danger">*</span>{" "}
                         </label>
                         <input
-                          value={props.values.codigo}
-                          name={"codigo"}
+                          name="codigo"
+                          value={values.codigo}
                           type="text"
-                          className={`form-control form-control-sm ${props
-                            .errors.codigo &&
-                            props.touched.codigo &&
+                          className={`form-control form-control-sm ${errors.codigo &&
+                            touched.codigo &&
                             "is-invalid"}`}
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
+                          onChange={e => {
+                            setFieldValue(
+                              "codigo",
+                              e.target.value.toUpperCase()
+                            );
+                          }}
+                          onBlur={handleBlur}
                         />
+                        <div className="" style={{ color: "#D54B4B" }}>
+                          {errors.codigo && touched.codigo ? (
+                            <i className="fa fa-exclamation-triangle" />
+                          ) : null}
+                          <ErrorMessage name="codigo" />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-6">
@@ -40,16 +107,21 @@ const CreatePlantillaForm = () => {
                           Nombre <span className="text-danger">*</span>
                         </label>
                         <input
-                          value={props.values.nombre}
-                          name={"nombre"}
+                          value={values.nombre}
+                          name="nombre"
                           type="text"
-                          className={`form-control form-control-sm ${props
-                            .errors.nombre &&
-                            props.touched.nombre &&
+                          className={`form-control form-control-sm ${errors.nombre &&
+                            touched.nombre &&
                             "is-invalid"}`}
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         />
+                        <div className="" style={{ color: "#D54B4B" }}>
+                          {errors.nombre && touched.nombre ? (
+                            <i className="fa fa-exclamation-triangle" />
+                          ) : null}
+                          <ErrorMessage name="nombre" />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-12">
@@ -58,15 +130,20 @@ const CreatePlantillaForm = () => {
                           Descripcion <span className="text-danger">*</span>{" "}
                         </label>
                         <textarea
-                          value={props.values.descripcion}
-                          name={"descripcion"}
-                          className={`form-control form-control-sm ${props
-                            .errors.descripcion &&
-                            props.touched.descripcion &&
-                            `is-valid`}`}
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
+                          value={values.descripcion}
+                          name="descripcion"
+                          className={`form-control form-control-sm ${errors.descripcion &&
+                            touched.descripcion &&
+                            "is-invalid"}`}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
                         ></textarea>
+                        <div className="" style={{ color: "#D54B4B" }}>
+                          {errors.descripcion && touched.descripcion ? (
+                            <i className="fa fa-exclamation-triangle" />
+                          ) : null}
+                          <ErrorMessage name="descripcion" />
+                        </div>
                       </div>
                     </div>
                     <div className="col-md-12">
@@ -76,18 +153,18 @@ const CreatePlantillaForm = () => {
                         </label>
                         <div className="text-justify">
                           <CustomInput
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
-                            value={props.values.estado}
-                            name={"estado"}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.estado}
+                            name="estado"
                             type="checkbox"
                             id="ExampleInputCheckbox"
                             label={
                               "Si esta opción se encuentra activada, representa que la Plantilla es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la Plantilla no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema."
                             }
                             className={
-                              props.errors.estado &&
-                              props.touched.estado &&
+                              errors.estado &&
+                              touched.estado &&
                               "invalid-feedback"
                             }
                           />
@@ -97,7 +174,17 @@ const CreatePlantillaForm = () => {
                   </div>
                 </form>
               )}
-            </Formik>
+            />
+          </CardBody>
+        </Card>
+      </div>
+      <div className="col-md-6">
+        <Card>
+          <CardHeader>
+            <i className="fa fa-table" /> Metadatos
+          </CardHeader>
+          <CardBody>
+            <TableMetadata data={metadata} />
           </CardBody>
         </Card>
       </div>
@@ -106,3 +193,45 @@ const CreatePlantillaForm = () => {
 };
 
 export default CreatePlantillaForm;
+
+const TableMetadata = props => {
+  const [aux, setAux] = useState([]);
+  const [datatable, setDataTable] = useState([]);
+
+  useEffect(() => {
+    if (props.data !== "" || props.data !== null) {
+      setAux(props.data);
+    }
+    buildData(aux);
+  }, [props, aux]);
+
+  const buildData = () => {
+    const data = aux.map((aux, id) => {
+      return {
+        id: aux.id,
+        name: aux.name,
+        value: "",
+        formula: aux.formula,
+        required: aux.status
+      };
+    });
+    setDataTable(data);
+  };
+
+  return (
+    <div>
+      {/* <p>Probando</p> */}
+      {datatable.map((aux, id) => {
+        return (
+          <div>
+            <p>
+              {(id += 1)} - {aux.name} -{" "}
+              {aux.formula ? "asignado a formula" : "no asignado formula"} -{" "}
+              {aux.required ? "requerido" : "no requerido"}
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  );
+};

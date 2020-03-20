@@ -507,9 +507,8 @@ class SelectField extends Component {
                           <label htmlFor="description">
                             Descripción <span className="text-danger">*</span>{" "}
                           </label>
-                          <input
+                          <textarea
                             id="description"
-                            type="text"
                             className="form-control form-control-sm"
                             value={this.state.description}
                             onChange={e =>
@@ -601,7 +600,7 @@ class SelectField extends Component {
                       hidden={!this.state.duplicate}
                       className="alert text-center alert-danger"
                     >
-                      <i className="fa fa-exclamation-triangle" />{" "}
+                      <i className="fa fa-exclamation-triangle" /> &nbsp;{" "}
                       <strong>Valores duplicados</strong>
                     </p>
                     {this.state.options ? (

@@ -406,8 +406,8 @@ class RadioButtons extends Component {
                     onClick={() => {
                       this.toggle("1");
                     }}
-                  >
-                    General <i className="fa fa-cog" />
+                  ><i className="fa fa-cog" />&nbsp;
+                    General 
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -418,8 +418,8 @@ class RadioButtons extends Component {
                     onClick={() => {
                       this.toggle("2");
                     }}
-                  >
-                    Validacion <i className="fa fa-exclamation-triangle" />
+                  ><i className="fa fa-exclamation-triangle" />&nbsp;
+                    Validación 
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -430,8 +430,8 @@ class RadioButtons extends Component {
                     onClick={() => {
                       this.toggle("3");
                     }}
-                  >
-                    Values <i className="fa fa-list-ul" />
+                  ><i className="fa fa-list-ul" /> &nbsp;
+                    Valores     <span className="text-danger">*</span>{" "}
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -441,7 +441,7 @@ class RadioButtons extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="name">NAME</label>
+                          <label htmlFor="name">Nombre     <span className="text-danger">*</span>{" "}</label>
                           <input
                             type="text"
                             className="form-control form-control-sm"
@@ -455,7 +455,7 @@ class RadioButtons extends Component {
                       </div>
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="title">TITLE</label>
+                          <label htmlFor="title">Etiqueta     <span className="text-danger">*</span>{" "}</label>
                           <input
                             type="text"
                             className="form-control form-control-sm"
@@ -463,14 +463,14 @@ class RadioButtons extends Component {
                               this.changeValue("TITLE", e.target.value)
                             }
                             value={this.state.title}
-                            placeholder={"Titulo"}
+                            placeholder={"Etiqueta"}
                           />
                         </div>
                       </div>
 
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="">Description</label>
+                          <label htmlFor="">Descripción     <span className="text-danger">*</span>{" "}</label>
                           <textarea
                             className="form-control form-control-sm"
                             value={this.state.description}
@@ -496,7 +496,8 @@ class RadioButtons extends Component {
                             }
                             id={"isRequired"}
                           />
-                          <label htmlFor="isRequired"> ¿Es Requerido? </label>
+                          <label htmlFor="isRequired"
+                                       style={{ verticalAlign: "middle" }}> ¿Es requerido? </label>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -509,24 +510,9 @@ class RadioButtons extends Component {
                             }
                             id={"isReadOnly"}
                           />
-                          <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
+                          <label htmlFor="isReadOnly"             style={{ verticalAlign: "middle" }}> ¿Solo lectura? </label>
                         </div>
                       </div>
-                      {/* <div className="col-md-6">
-                      <div className="form-group">
-                        <input
-                          value={this.state.multiple}
-                          type="checkbox"
-                          id="multiple"
-                          onChange={e =>
-                            this.changeValue("MULTIPLE", e.target.checked)
-                          }
-                        />
-                        <label className="form-check-label" htmlFor="multiple">
-                          ¿ Multiple selección ?
-                        </label>
-                      </div>
-                    </div> */}
                       <div className="col-md-4">
                         <div className="form-group">
                           <input
@@ -537,37 +523,9 @@ class RadioButtons extends Component {
                             }
                             id="inline"
                           />
-                          <label htmlFor="inline"> ¿ Alineados ? </label>
+                          <label htmlFor="inline"              style={{ verticalAlign: "middle" }}> ¿Alineados? </label>
                         </div>
-                      </div>
-                      {/* <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">Min characters</label>
-                        <input
-                          type={"number"}
-                          className="form-control form-control-sm"
-                          onChange={e =>
-                            this.changeValue("MIN", e.target.value)
-                          }
-                          value={this.state.validation.min}
-                          placeholder={"6"}
-                        />
-                      </div>
-                    </div> */}
-                      {/* <div className="col-md-6">
-                      <div className="form-group">
-                        <label> Max characters</label>
-                        <input
-                          type={"number"}
-                          value={this.state.validation.max}
-                          onChange={e =>
-                            this.changeValue("MAX", e.target.value)
-                          }
-                          placeholder={"6"}
-                          className="form-control form-control-sm"
-                        />
-                      </div>
-                    </div> */}
+                      </div>       
                     </div>
                   </Card>
                 </TabPane>
@@ -577,7 +535,8 @@ class RadioButtons extends Component {
                       hidden={!this.state.duplicate}
                       className="alert text-center alert-danger"
                     >
-                      <strong>Valores </strong> Duplicados
+                      <i className="fa fa-exclamation-triangle" /> &nbsp;{" "}
+                      <strong>Valores duplicados</strong>
                     </p>
                     {this.state.radios ? (
                       <table className="table text-center">
@@ -611,7 +570,7 @@ class RadioButtons extends Component {
                                 <td>
                                   <input
                                     autoFocus={true}
-                                    placeholder="title"
+                                    placeholder="Etiqueta"
                                     value={this.state.radios[index].title}
                                     onChange={e =>
                                       this.changeOptionValue(
@@ -626,7 +585,7 @@ class RadioButtons extends Component {
                                 </td>
                                 <td>
                                   <input
-                                    placeholder="value"
+                                    placeholder="Valor"
                                     value={this.state.radios[index].value}
                                     onChange={e =>
                                       this.changeOptionValue(
@@ -698,7 +657,7 @@ class RadioButtons extends Component {
                       type="checkbox"
                       id={"activeInput"}
                       label={
-                        "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
+                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente."
                       }
                       onChange={e => {
                         this.setState({
@@ -715,7 +674,7 @@ class RadioButtons extends Component {
                       value={this.state.formula}
                       id={"formula"}
                       label={
-                        "Campo para asignar a formula o seleccion condicional."
+                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
                       }
                       onChange={e => {
                         this.setState({
@@ -763,6 +722,13 @@ class RadioButtons extends Component {
   }
 }
 
-RadioButtons.propsTypes = {};
+RadioButtons.propsTypes = {
+  changeState:PropTypes.func.isRequired,
+  field:PropTypes.any.isRequired,
+  index:PropTypes.any.isRequired,
+  key:PropTypes.any.isRequired,
+  removeField:PropTypes.func.isRequired,
+  authorization:PropTypes.string.isRequired,
+};
 
 export default RadioButtons;

@@ -350,7 +350,7 @@ class CheckBoxes extends Component {
       <div>
         <Card>
           <CardHeader>
-            <i className="fa fa-check-square mr-1"></i> Check Boxes{" "}
+            <i className="fa fa-check-square mr-1"></i> Casillas de verificación{" "}
             {this.state.title}
             <span
               className="pull-right cross"
@@ -407,7 +407,8 @@ class CheckBoxes extends Component {
                     })}
                     onClick={() => this.toggle("1")}
                   >
-                    General <i className="fa fa-cog" />
+                    <i className="fa fa-cog" />
+                    &nbsp; General
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -417,7 +418,8 @@ class CheckBoxes extends Component {
                     })}
                     onClick={() => this.toggle("2")}
                   >
-                    Validation <i className="fa fa-exclamation-triangle" />
+                    <i className="fa fa-exclamation-triangle" />
+                    &nbsp; Validación
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -427,7 +429,8 @@ class CheckBoxes extends Component {
                     })}
                     onClick={() => this.toggle("3")}
                   >
-                    Values <i className="fa fa-list-ul" />
+                    <i className="fa fa-list-ul" />
+                    &nbsp; Valores <span className="text-danger">*</span>{" "}
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -437,7 +440,9 @@ class CheckBoxes extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="name">NAME</label>
+                          <label htmlFor="name">
+                            Nombre <span className="text-danger">*</span>{" "}
+                          </label>
                           <input
                             type={"text"}
                             className={"form-control form-control-sm"}
@@ -445,14 +450,16 @@ class CheckBoxes extends Component {
                             onChange={e =>
                               this.changeValue("NAME", e.target.value)
                             }
-                            placeholder={"nombre"}
+                            placeholder={"Nombre"}
                           />
                         </div>
                       </div>
 
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="title">Title</label>
+                          <label htmlFor="title">
+                            Etiqueta <span className="text-danger">*</span>{" "}
+                          </label>
                           <input
                             type="text"
                             className="form-control form-control-sm"
@@ -460,15 +467,20 @@ class CheckBoxes extends Component {
                             onChange={e =>
                               this.changeValue("TITLE", e.target.value)
                             }
-                            placeholder="Title"
+                            placeholder="Etiqueta"
                           />
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="description"> Description </label>
-                          <input
-                            type="text"
+                          <label htmlFor="description">
+                            {" "}
+                            Descripción <span className="text-danger">
+                              *
+                            </span>{" "}
+                          </label>
+                          <textarea
+                            // type="text"
                             className="form-control form-control-sm"
                             value={this.state.description}
                             onChange={e =>
@@ -493,7 +505,14 @@ class CheckBoxes extends Component {
                             }
                             id="isRequired"
                           />
-                          <label htmlFor="isRequired"> ¿ Es requerido ? </label>
+                          &nbsp;
+                          <label
+                            htmlFor="isRequired"
+                            style={{ verticalAlign: "middle" }}
+                          >
+                            {" "}
+                            ¿Es requerido?{" "}
+                          </label>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -506,7 +525,14 @@ class CheckBoxes extends Component {
                             }
                             value={this.state.validation.isReadOnly}
                           />
-                          <label htmlFor="isReadOnly"> ¿ Solo lectura ? </label>
+                          &nbsp;
+                          <label
+                            htmlFor="isReadOnly"
+                            style={{ verticalAlign: "middle" }}
+                          >
+                            {" "}
+                            ¿Solo lectura?{" "}
+                          </label>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -519,35 +545,16 @@ class CheckBoxes extends Component {
                             value={this.state.inline}
                             id={"inline"}
                           />
-                          <label htmlFor="inline"> ¿ En linea ? </label>
+                          &nbsp;
+                          <label
+                            htmlFor="inline"
+                            style={{ verticalAlign: "middle" }}
+                          >
+                            {" "}
+                            ¿En linea?{" "}
+                          </label>
                         </div>
                       </div>
-                      {/* <div className="col-md-6">
-                      <div className="form-group">
-                        <label htmlFor="">Min</label>
-                        <input
-                          type="number"
-                          className="form-control form-control-sm"
-                          onChange={e =>
-                            this.changeValue("MIN", e.target.value)
-                          }
-                          placeholder="6"
-                        />
-                      </div>
-                    </div> */}
-                      {/* <div className="col-md-6">
-                      <div className="form-group">
-                        <label>Max</label>
-                        <input
-                          type="numbre"
-                          className="form-control form-control-sm"
-                          onChange={e =>
-                            this.changeValue("MAX", e.target.value)
-                          }
-                          value={this.state.validation.max}
-                        />
-                      </div>
-                    </div> */}
                     </div>
                   </Card>
                 </TabPane>
@@ -557,7 +564,9 @@ class CheckBoxes extends Component {
                       hidden={!this.state.duplicate}
                       className="alert text-center alert-danger"
                     >
-                      <strong>Valores </strong> Duplicados
+                      {" "}
+                      <i className="fa fa-exclamation-triangle" /> &nbsp;{" "}
+                      <strong>Valores duplicados</strong>
                     </p>
                     {this.state.checkBoxes ? (
                       <table className="table text-center">
@@ -589,7 +598,7 @@ class CheckBoxes extends Component {
                                     id={checkbox.title}
                                     type="text"
                                     className="form-control form-control-sm"
-                                    placeholder={"Title"}
+                                    placeholder={"Etiqueta"}
                                     autoFocus={true}
                                     value={this.state.checkBoxes[index].title}
                                     onChange={e =>
@@ -603,7 +612,7 @@ class CheckBoxes extends Component {
                                 </td>
                                 <td>
                                   <input
-                                    placeholder="Value"
+                                    placeholder="Valor"
                                     value={this.state.checkBoxes[index].value}
                                     onChange={e =>
                                       this.changeOptionValue(
@@ -641,7 +650,7 @@ class CheckBoxes extends Component {
                       className="btn btn-secondary btn-sm"
                       onClick={() => this.addOption()}
                     >
-                      <i className="fa fa-plus" /> Agregar Valores
+                      <i className="fa fa-plus" /> Agregar valores
                     </button>
                   </Card>
                 </TabPane>
@@ -656,7 +665,7 @@ class CheckBoxes extends Component {
                       defaultChecked
                       id={"activeInput"}
                       label={
-                        "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
+                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente."
                       }
                       onChange={e => {
                         this.setState({
@@ -673,7 +682,7 @@ class CheckBoxes extends Component {
                       type="checkbox"
                       id={"formula"}
                       label={
-                        "Campo para asignar a formula o seleccion condicional."
+                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
                       }
                       onChange={e => {
                         this.setState({ formula: e.target.checked });

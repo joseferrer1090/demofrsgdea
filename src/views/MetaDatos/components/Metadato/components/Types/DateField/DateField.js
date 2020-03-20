@@ -256,7 +256,7 @@ class DateField extends Component {
       <div>
         <Card outline color={"secondary"}>
           <CardHeader>
-            <i className="fa fa-calendar" /> Tipo de campon fecha{" "}
+            <i className="fa fa-calendar" /> Tipo de campo fecha{" "}
             {this.state.title}
             <span
               className="pull-right"
@@ -311,7 +311,8 @@ class DateField extends Component {
                   })}
                   onClick={() => this.toggle("1")}
                 >
-                  General <i className="fa fa-cog" />
+                  <i className="fa fa-cog" />
+                  &nbsp; General
                 </NavLink>
                 <NavLink
                   className={classnames({
@@ -319,7 +320,8 @@ class DateField extends Component {
                   })}
                   onClick={() => this.toggle("2")}
                 >
-                  Validacion <i className="fa fa-exclamation-triangle" />
+                  <i className="fa fa-exclamation-triangle" />
+                  &nbsp; Validación
                 </NavLink>
               </Nav>
               <TabContent activeTab={this.state.activeTab}>
@@ -328,10 +330,10 @@ class DateField extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
-                          {/* <p className="alert alert-info text-center">
-                          <strong>NAME</strong>
-                        </p> */}
-                          <label htmlFor="name">NAME</label>
+                          {" "}
+                          <label htmlFor="name">
+                            Nombre <span className="text-danger">*</span>{" "}
+                          </label>
                           <input
                             type="text"
                             className="form-control form-control-sm"
@@ -343,9 +345,11 @@ class DateField extends Component {
                           />
                         </div>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="">TITLE</label>
+                          <label htmlFor="">
+                            Etiqueta <span className="text-danger">*</span>{" "}
+                          </label>
                           <input
                             type="text"
                             className="form-control form-control-sm"
@@ -353,14 +357,19 @@ class DateField extends Component {
                             onChange={e =>
                               this.changeValue("TITLE", e.target.value)
                             }
-                            placeholder={"Titulo"}
+                            placeholder={"Etiqueta"}
                           />
                         </div>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="description"> Descripcion </label>
-                          <input
+                          <label htmlFor="description">
+                            {" "}
+                            Descripción <span className="text-danger">
+                              *
+                            </span>{" "}
+                          </label>
+                          <textarea
                             type="text"
                             className="form-control form-control-sm"
                             value={this.state.description}
@@ -386,7 +395,14 @@ class DateField extends Component {
                             }
                             id={"isRequired"}
                           />
-                          <label htmlFor="isRequired"> ¿Es requerido? </label>
+                          &nbsp;
+                          <label
+                            htmlFor="isRequired"
+                            style={{ verticalAlign: "middle" }}
+                          >
+                            {" "}
+                            ¿Es requerido?{" "}
+                          </label>
                         </div>
                       </div>
                       <div className="col-md-6">
@@ -399,12 +415,19 @@ class DateField extends Component {
                             }
                             id="isReadOnly"
                           />
-                          <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
+                          &nbsp;
+                          <label
+                            htmlFor="isReadOnly"
+                            style={{ verticalAlign: "middle" }}
+                          >
+                            {" "}
+                            ¿Solo lectura?{" "}
+                          </label>
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>MIN</label>
+                          <label>Fecha mínima</label>
                           <input
                             type="date"
                             className="form-control form-control-sm"
@@ -418,7 +441,7 @@ class DateField extends Component {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>MAX</label>
+                          <label>Fecha máxima</label>
                           <input
                             type={"date"}
                             className={"form-control form-control-sm"}
@@ -444,7 +467,7 @@ class DateField extends Component {
                       type={"checkbox"}
                       id={"activeInput"}
                       label={
-                        "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
+                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente."
                       }
                       onChange={e => {
                         this.setState({
@@ -461,7 +484,7 @@ class DateField extends Component {
                       value={this.state.formula}
                       id="formula"
                       label={
-                        "Campo para asignar a formula o seleccion condicional."
+                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
                       }
                       onChange={e => {
                         this.setState({
@@ -507,4 +530,12 @@ class DateField extends Component {
     );
   }
 }
+DateField.propTypes = {
+  changeState: PropTypes.func.isRequired,
+  field: PropTypes.any.isRequired,
+  index: PropTypes.any.isRequired,
+  key: PropTypes.any.isRequired,
+  removeField: PropTypes.func.isRequired,
+  authorization: PropTypes.string.isRequired
+};
 export default DateField;

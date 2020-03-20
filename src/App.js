@@ -68,9 +68,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 
 const loading = () => (
-  // <div className="animated fadeIn pt-3 text-center">Loading...</div>
   <div
-    className=""
+    className="animated fadeIn pt-3 text-center"
     style={{
       margin: "0",
       position: "absolute",
@@ -80,9 +79,23 @@ const loading = () => (
       transform: "translate(-50%, -50%)"
     }}
   >
-    <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
-    <p>Loading ... </p>
+    {" "}
+    Loading...{" "}
   </div>
+  //  <div
+  //   className=""
+  //   // style={{
+  //   //   margin: "0",
+  //   //   position: "absolute",
+  //   //   top: "50%",
+  //   //   left: "50%",
+  //   //   marginRight: "-50%",
+  //   //   transform: "translate(-50%, -50%)"
+  //   // }}
+  // >
+  //   <i className="fa fa-spinner fa-pulse fa-3x fa-fw" />
+  //   <p>Loading ... </p>
+  // </div>
 );
 
 // Containers

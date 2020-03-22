@@ -9,7 +9,7 @@ import {
 
 const TableListMetadata = React.lazy(() => {
   return new Promise(resolve => {
-    setTimeout(() => resolve(import("./TableMatadataList")), 1000);
+    setTimeout(() => resolve(import("./TableMatadataList")), 1200);
   });
 });
 
@@ -197,7 +197,7 @@ const CreatePlantillaForm = props => {
                 </div>
               }
             >
-              <TableListMetadata data={metadata} />
+              <TableListMetadata authorization={auth} />
             </Suspense>
           </CardBody>
         </Card>

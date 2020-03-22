@@ -1,43 +1,93 @@
 import React, { useState, useEffect } from "react";
+import { METADATA_ACTIVE } from "./../../../../services/EndPoints";
 
 const TableMetadata = props => {
-  const [aux, setAux] = useState([]);
-  const [datatable, setDataTable] = useState([]);
+  const [data, setData] = useState([]);
+  const [auth, setAuth] = useState("");
 
   useEffect(() => {
-    if (props.data !== "" || props.data !== null) {
-      setAux(props.data);
+    setAuth(props.authorization);
+    if (props.authorization !== "" || props.authorization !== auth) {
+      getMetadataActive();
     }
-    buildData(aux);
-  }, [props, aux]);
+  }, [props.authorization]);
 
-  const buildData = () => {
-    const data = aux.map((aux, id) => {
-      return {
-        id: aux.id,
-        name: aux.name,
-        value: "",
-        formula: aux.formula,
-        required: aux.status
-      };
-    });
-    setDataTable(data);
+  const getMetadataActive = () => {
+    fetch(`${METADATA_ACTIVE}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + props.authorization
+      }
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        setData(data);
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
+      });
   };
 
+  //   const [aux, setAux] = useState([]);
+  //   const [datatable, setDataTable] = useState([]);
+  //   useEffect(() => {
+  //     if (props.data !== "" || props.data !== null) {
+  //       setAux(props.data);
+  //     }
+  //     buildData(aux);
+  //   }, [props, aux]);
+
+  //   const buildData = () => {
+  //     const data = aux.map((aux, id) => {
+  //       return {
+  //         id: aux.id,
+  //         name: aux.name,
+  //         value: "",
+  //         formula: aux.formula,
+  //         required: aux.status
+  //       };
+  //     });
+  //     setDataTable(data);
+  //   };
   return (
     <div>
-      {/* <p>Probando</p> */}
-      {datatable.map((aux, id) => {
-        return (
-          <div>
-            <p>
-              {(id += 1)} - {aux.name} -{" "}
-              {aux.formula ? "asignado a formula" : "no asignado formula"} -{" "}
-              {aux.required ? "requerido" : "no requerido"}
-            </p>
+      {Object.keys(data) ? (
+        <div className="animated fadeIn">
+          {/* <p className="text-center"> Hay datos para mostrar </p> */}
+          <div className="table-responseive">
+            <table className="table table-striped">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>nombre metadato</th>
+                  <th>Asignar a plantilla</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((aux, id) => {
+                  return (
+                    <tr key={id}>
+                      <td>{(id += 1)}</td>
+                      <td>{aux.name}</td>
+                      <td>
+                        <button className="btn btn-secondary btn-sm">
+                          {" "}
+                          <i className="fa fa-plus" />{" "}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
-        );
-      })}
+        </div>
+      ) : (
+        <div className="animated fadeIn">
+          <p className="text-center text-danger"> No hay datos para mostrar</p>
+        </div>
+      )}
     </div>
   );
 };

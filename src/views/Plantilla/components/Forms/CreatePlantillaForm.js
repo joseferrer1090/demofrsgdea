@@ -6,6 +6,7 @@ import {
   METADATA_ACTIVE,
   METADATA_ALL
 } from "./../../../../services/EndPoints";
+import AssignedMetadata from "./AssignedMetadata";
 
 const TableListMetadata = React.lazy(() => {
   return new Promise(resolve => {
@@ -201,6 +202,9 @@ const CreatePlantillaForm = props => {
             </Suspense>
           </CardBody>
         </Card>
+      </div>
+      <div className="col-md-12">
+        <AssignedMetadata />
       </div>
     </div>
   );

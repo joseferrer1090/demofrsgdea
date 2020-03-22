@@ -98,7 +98,7 @@ const TableMetadata = props => {
                 <thead className="thead-light">
                   <tr>
                     <th>#</th>
-                    <th>nombre metadato</th>
+                    <th>Nombre del metadato</th>
                     <th>Asignar a plantilla</th>
                   </tr>
                 </thead>

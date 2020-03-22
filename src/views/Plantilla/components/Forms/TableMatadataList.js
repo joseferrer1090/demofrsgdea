@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { METADATA_ACTIVE } from "./../../../../services/EndPoints";
+import "./../css/fixedTable.css";
 
 const TableMetadata = props => {
   const [data, setData] = useState([]);
@@ -91,17 +92,19 @@ const TableMetadata = props => {
             }}
           />
           <br />
-          <div className="table-responseive">
-            <table className="table table-striped">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>nombre metadato</th>
-                  <th>Asignar a plantilla</th>
-                </tr>
-              </thead>
-              <tbody>{aux}</tbody>
-            </table>
+          <div className="tableFixHead">
+            <div className="table-responseive">
+              <table className="table table-striped">
+                <thead className="thead-light">
+                  <tr>
+                    <th>#</th>
+                    <th>nombre metadato</th>
+                    <th>Asignar a plantilla</th>
+                  </tr>
+                </thead>
+                <tbody>{aux}</tbody>
+              </table>
+            </div>
           </div>
         </div>
       ) : (

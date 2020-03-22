@@ -40,24 +40,6 @@ const TableMetadata = props => {
     };
   };
 
-  //   const aux = searchMetadata.data
-  //     .filter(searchMetadata(term))
-  //     .map((aux, id) => {
-  //       return (
-  //         <tr key={id}>
-  //           <td style={{ display: "none" }}>{aux.id}</td>
-  //           <td>{id}</td>
-  //           <td>{aux.name}</td>
-  //           <td>
-  //             <button className="btn btn-secondary btn-sm">
-  //               {" "}
-  //               <i className="fa fa-plus" />{" "}
-  //             </button>
-  //           </td>
-  //         </tr>
-  //       );
-  //     });
-
   const aux = data.filter(searchMetadata(term)).map((aux, id) => {
     return (
       <tr key={id}>

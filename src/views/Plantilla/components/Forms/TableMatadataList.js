@@ -4,6 +4,7 @@ import { METADATA_ACTIVE } from "./../../../../services/EndPoints";
 const TableMetadata = props => {
   const [data, setData] = useState([]);
   const [auth, setAuth] = useState("");
+  const [term, setTerm] = useState("");
 
   useEffect(() => {
     setAuth(props.authorization);
@@ -29,6 +30,49 @@ const TableMetadata = props => {
       });
   };
 
+  const handleSearchInput = e => {
+    setTerm(e.target.value);
+  };
+
+  const searchMetadata = term => {
+    return function(x) {
+      return x.name.toLowerCase().includes(term);
+    };
+  };
+
+  //   const aux = searchMetadata.data
+  //     .filter(searchMetadata(term))
+  //     .map((aux, id) => {
+  //       return (
+  //         <tr key={id}>
+  //           <td style={{ display: "none" }}>{aux.id}</td>
+  //           <td>{id}</td>
+  //           <td>{aux.name}</td>
+  //           <td>
+  //             <button className="btn btn-secondary btn-sm">
+  //               {" "}
+  //               <i className="fa fa-plus" />{" "}
+  //             </button>
+  //           </td>
+  //         </tr>
+  //       );
+  //     });
+
+  const aux = data.filter(searchMetadata(term)).map((aux, id) => {
+    return (
+      <tr key={id}>
+        <td style={{ display: "none" }}>{aux.id}</td>
+        <td>{(id += 1)}</td>
+        <td>{aux.name}</td>
+        <td>
+          <button className="btn btn-secondary btn-sm">
+            {" "}
+            <i className="fa fa-plus" />{" "}
+          </button>
+        </td>
+      </tr>
+    );
+  });
   //   const [aux, setAux] = useState([]);
   //   const [datatable, setDataTable] = useState([]);
   //   useEffect(() => {
@@ -55,6 +99,16 @@ const TableMetadata = props => {
       {Object.keys(data) ? (
         <div className="animated fadeIn">
           {/* <p className="text-center"> Hay datos para mostrar </p> */}
+          <input
+            type="search"
+            className="form-control form-control-sm"
+            placeholder={"Buscar metadato"}
+            value={term}
+            onChange={e => {
+              handleSearchInput(e);
+            }}
+          />
+          <br />
           <div className="table-responseive">
             <table className="table table-striped">
               <thead>
@@ -64,22 +118,7 @@ const TableMetadata = props => {
                   <th>Asignar a plantilla</th>
                 </tr>
               </thead>
-              <tbody>
-                {data.map((aux, id) => {
-                  return (
-                    <tr key={id}>
-                      <td>{(id += 1)}</td>
-                      <td>{aux.name}</td>
-                      <td>
-                        <button className="btn btn-secondary btn-sm">
-                          {" "}
-                          <i className="fa fa-plus" />{" "}
-                        </button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
+              <tbody>{aux}</tbody>
             </table>
           </div>
         </div>

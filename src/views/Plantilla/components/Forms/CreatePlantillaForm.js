@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Card, CardHeader, CardBody, CustomInput } from "reactstrap";
-import { Formik, ErrorMessage, Field } from "formik";
+import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
   METADATA_ACTIVE,
   METADATA_ALL
 } from "./../../../../services/EndPoints";
 
+const TableListMetadata = React.lazy(() => {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(import("./TableMatadataList")), 1000);
+  });
+});
+
 const CreatePlantillaForm = props => {
   const [metadata, setMetadata] = useState([]);
   const [auth, setAuth] = useState("");
-  const [tbl, setTbl] = useState([]);
 
   useEffect(() => {
     setAuth(props.authorization);
@@ -184,7 +189,16 @@ const CreatePlantillaForm = props => {
             <i className="fa fa-table" /> Metadatos
           </CardHeader>
           <CardBody>
-            <TableMetadata data={metadata} />
+            <Suspense
+              fallback={
+                <div className="text-center">
+                  <i className="fa fa-cog fa-spin fa-2x fa-fw" />
+                  <p className="text-center">Loading...</p>
+                </div>
+              }
+            >
+              <TableListMetadata data={metadata} />
+            </Suspense>
           </CardBody>
         </Card>
       </div>
@@ -193,45 +207,3 @@ const CreatePlantillaForm = props => {
 };
 
 export default CreatePlantillaForm;
-
-const TableMetadata = props => {
-  const [aux, setAux] = useState([]);
-  const [datatable, setDataTable] = useState([]);
-
-  useEffect(() => {
-    if (props.data !== "" || props.data !== null) {
-      setAux(props.data);
-    }
-    buildData(aux);
-  }, [props, aux]);
-
-  const buildData = () => {
-    const data = aux.map((aux, id) => {
-      return {
-        id: aux.id,
-        name: aux.name,
-        value: "",
-        formula: aux.formula,
-        required: aux.status
-      };
-    });
-    setDataTable(data);
-  };
-
-  return (
-    <div>
-      {/* <p>Probando</p> */}
-      {datatable.map((aux, id) => {
-        return (
-          <div>
-            <p>
-              {(id += 1)} - {aux.name} -{" "}
-              {aux.formula ? "asignado a formula" : "no asignado formula"} -{" "}
-              {aux.required ? "requerido" : "no requerido"}
-            </p>
-          </div>
-        );
-      })}
-    </div>
-  );
-};

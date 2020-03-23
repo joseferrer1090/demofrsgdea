@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import typeProcedureReducer from "./typeProcedureReducer";
 import authenticationReducer from "./authenticationReducer";
 import documentaryTypeReducer from "./documentaryTypeReducer";
-import templateMetadata from "./templateMetadata";
+import templateMetadata from "./templateMetadataReducer";
 import alertReducer from "./alert.Reducer";
 
 export default combineReducers({

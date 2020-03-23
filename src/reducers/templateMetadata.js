@@ -1,4 +1,7 @@
-import { AGREGAR_METADATO_PLANTILLA } from "./../types/index";
+import {
+  AGREGAR_METADATO_PLANTILLA,
+  ELIMINAR_METADATO_PLANTILLA
+} from "./../types/index";
 
 const initialState = {
   metadata: []
@@ -16,7 +19,13 @@ export default function(state = initialState, action) {
       } else {
         return state;
       }
-
+    case ELIMINAR_METADATO_PLANTILLA:
+      return {
+        ...state,
+        metadata: state.metadata.filter(
+          metadata => metadata.id !== action.payload.id
+        )
+      };
     default:
       return state;
   }

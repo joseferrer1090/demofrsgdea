@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Suspense } from "react";
+import { useSelector } from "react-redux";
 import {
   Card,
   CardHeader,
@@ -23,6 +24,7 @@ const TableListMetadata = React.lazy(() => {
 const CreatePlantillaForm = props => {
   const [metadata, setMetadata] = useState([]);
   const [auth, setAuth] = useState("");
+  const arrayMetadata = useSelector(state => state.templateMetadata.metadata);
 
   useEffect(() => {
     setAuth(props.authorization);
@@ -223,7 +225,7 @@ const CreatePlantillaForm = props => {
               </div>
               <div className="row">
                 <div className="col-md-12">
-                  <p>Tabla de metadatos asignados</p>
+                  <AssignedMetadata data={arrayMetadata} />
                 </div>
               </div>
             </CardBody>

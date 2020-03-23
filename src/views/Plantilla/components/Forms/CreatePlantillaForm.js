@@ -50,47 +50,53 @@ const CreatePlantillaForm = props => {
   };
 
   return (
-    <Card>
-      <CardBody>
-        <div className="row">
-          <div className="col-md-6">
-            <Card>
-              <CardHeader>
-                <i className="fa fa-wpforms" /> datos de plantilla
-              </CardHeader>
-              <CardBody>
-                <Formik
-                  onSubmit={(values, actions) => {
-                    setTimeout(() => {
-                      alert(JSON.stringify(values, null, 2));
-                      actions.setSubmitting(false);
-                    }, 1000);
-                  }}
-                  validationSchema={Yup.object().shape({
-                    codigo: Yup.string()
-                      .trim()
-                      .required("Codigo requerido para el registro"),
-                    nombre: Yup.string()
-                      .trim()
-                      .required(`Nombre requerido para la plantilla`),
-                    descripcion: Yup.string().required(
-                      "Asignar descripcion para la plantilla"
-                    ),
-                    estado: Yup.bool().test("Activo", value => value === true)
-                  })}
-                  render={({
-                    values,
-                    touched,
-                    errors,
-                    dirty,
-                    isSubmitting,
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    handleReset,
-                    setFieldValue
-                  }) => (
-                    <form className="form">
+    <div className="animated fadeIn">
+      <Formik
+        onSubmit={(values, { isSubmitting, resetForm }) => {
+          setTimeout(() => {
+            alert(JSON.stringify(values, null, 2));
+            isSubmitting(false);
+          }, 1000);
+          resetForm({
+            nombre: "",
+            codigo: "",
+            descripcion: "",
+            estado: null
+          });
+        }}
+        validationSchema={Yup.object().shape({
+          codigo: Yup.string()
+            .trim()
+            .required("Codigo requerido para el registro"),
+          nombre: Yup.string()
+            .trim()
+            .required("Nombre requqerido para el registro"),
+          descripcion: Yup.string().required(
+            "Descripcion es necesaria para el registro"
+          ),
+          estado: Yup.bool().test("Activo", value => value === true)
+        })}
+        render={({
+          values,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          setFieldValue,
+          dirty,
+          isSubmitting,
+          handleReset,
+          errors
+        }) => (
+          <Card>
+            <CardBody>
+              <div className="row">
+                <div className="col-md-6">
+                  <Card>
+                    <CardHeader>
+                      <i className="fa fa-wpforms" /> datos de plantilla
+                    </CardHeader>
+                    <CardBody>
                       <div className="row">
                         <div className="col-md-6">
                           <div className="form-group">
@@ -192,53 +198,57 @@ const CreatePlantillaForm = props => {
                           </div>
                         </div>
                       </div>
-                    </form>
-                  )}
-                />
-              </CardBody>
-            </Card>
-          </div>
-          <div className="col-md-6">
-            <Card>
-              <CardHeader>
-                <i className="fa fa-table" /> Metadatos
-              </CardHeader>
-              <CardBody>
-                <Suspense
-                  fallback={
-                    <div className="text-center">
-                      <i className="fa fa-cog fa-spin fa-2x fa-fw" />
-                      <p className="text-center">Loading...</p>
-                    </div>
-                  }
+                    </CardBody>
+                  </Card>
+                </div>
+                <div className="col-md-6">
+                  <Card>
+                    <CardHeader>
+                      <i className="fa fa-table" /> Metadatos
+                    </CardHeader>
+                    <CardBody>
+                      <Suspense
+                        fallback={
+                          <div className="text-center">
+                            <i className="fa fa-cog fa-spin fa-2x fa-fw" />
+                            <p className="text-center">Loading...</p>
+                          </div>
+                        }
+                      >
+                        <TableListMetadata authorization={auth} />
+                      </Suspense>
+                    </CardBody>
+                  </Card>
+                </div>
+              </div>
+              <div className="row">
+                <div className="col-md-12">
+                  <p>Tabla de metadatos asignados</p>
+                </div>
+              </div>
+            </CardBody>
+            <CardFooter>
+              <div className="pull-right">
+                <button className="btn btn-secondary btn-sm">
+                  <i className="fa fa-times" /> Cancelar
+                </button>
+                &nbsp;
+                <button
+                  type="button"
+                  className="btn btn-secondary btn-sm"
+                  onClick={() => {
+                    handleSubmit();
+                  }}
                 >
-                  <TableListMetadata authorization={auth} />
-                </Suspense>
-              </CardBody>
-            </Card>
-          </div>
-          <div className="col-md-12">
-            <AssignedMetadata />
-          </div>
-        </div>
-      </CardBody>
-      <CardFooter>
-        <div className="pull-right">
-          <button type="button" className="btn btn-secondary btn-sm">
-            <i className="fa fa-times" /> Cancelar
-          </button>
-          &nbsp;
-          <button
-            className="btn btn-secondary btn-sm"
-            onClick={() => {
-              this.handleSubmit();
-            }}
-          >
-            <i className="fa fa-save" /> Guardar plantilla{" "}
-          </button>
-        </div>
-      </CardFooter>
-    </Card>
+                  {" "}
+                  <i className="fa fa-save" /> Guardar plantilla{" "}
+                </button>
+              </div>
+            </CardFooter>
+          </Card>
+        )}
+      />
+    </div>
   );
 };
 

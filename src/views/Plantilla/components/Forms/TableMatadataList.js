@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { agregarMetadataAction } from "./../../../../actions/templateMetadataActions";
 import { METADATA_ACTIVE } from "./../../../../services/EndPoints";
 import "./../css/fixedTable.css";
 
@@ -41,6 +43,10 @@ const TableMetadata = props => {
     };
   };
 
+  const dispatch = useDispatch();
+  const AgregarMetadatoPlantilla = metadato =>
+    dispatch(agregarMetadataAction(metadato));
+
   const aux = data.filter(searchMetadata(term)).map((aux, id) => {
     return (
       <tr key={id}>
@@ -48,7 +54,12 @@ const TableMetadata = props => {
         <td>{(id += 1)}</td>
         <td>{aux.name}</td>
         <td>
-          <button className="btn btn-secondary btn-sm">
+          <button
+            className="btn btn-secondary btn-sm"
+            onClick={() =>
+              AgregarMetadatoPlantilla({ id: aux.id, name: aux.name })
+            }
+          >
             {" "}
             <i className="fa fa-plus" />{" "}
           </button>

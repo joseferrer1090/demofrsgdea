@@ -1,7 +1,7 @@
 import {
   AGREGAR_METADATO_PLANTILLA,
   ELIMINAR_METADATO_PLANTILLA
-} from "./../types/index";
+} from "../types/index";
 
 const initialState = {
   metadata: []

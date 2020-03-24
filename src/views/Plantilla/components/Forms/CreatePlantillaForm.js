@@ -56,7 +56,7 @@ const CreatePlantillaForm = props => {
       <Formik
         onSubmit={(values, { isSubmitting, resetForm }) => {
           setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
             isSubmitting(false);
           }, 1000);
           resetForm({

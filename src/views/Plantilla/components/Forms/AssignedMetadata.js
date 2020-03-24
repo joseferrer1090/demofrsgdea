@@ -1,18 +1,27 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { eliminarMetadataAction } from "./../../../../actions/templateMetadataActions";
+import { Alert } from "reactstrap";
 
 const AssignedMetadata = props => {
+  const err = useSelector(state => state.templateMetadata.error);
   const [data, setData] = React.useState([]);
+  const [error, setError] = React.useState();
+
   const dispatch = useDispatch();
   const eliminar = id => dispatch(eliminarMetadataAction(id));
 
   React.useEffect(() => {
     setData(props.data);
-  }, [props.data]);
+    setError(err);
+  }, [props.data, err]);
 
   return (
     <div className="animation fadeIn">
+      <Alert color={"danger"} isOpen={error} toggle={() => setError(false)}>
+        <i className="fa fa-exclamation-triangle" /> Error no se puede agregar
+        varias veces el mismo metadato a la plantilla.
+      </Alert>
       <div className="table-responseive">
         {data.length ? (
           <div className="animated fadeIn">

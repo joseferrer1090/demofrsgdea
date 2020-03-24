@@ -4,7 +4,8 @@ import {
 } from "../types/index";
 
 const initialState = {
-  metadata: []
+  metadata: [],
+  error: false
 };
 
 export default function(state = initialState, action) {
@@ -14,17 +15,22 @@ export default function(state = initialState, action) {
       if (index == -1) {
         return {
           ...state,
-          metadata: [...state.metadata, action.payload]
+          metadata: [...state.metadata, action.payload],
+          error: false
         };
       } else {
-        return state;
+        return {
+          ...state,
+          error: true
+        };
       }
     case ELIMINAR_METADATO_PLANTILLA:
       return {
         ...state,
         metadata: state.metadata.filter(
           metadata => metadata.id !== action.payload.id
-        )
+        ),
+        error: false
       };
     default:
       return state;

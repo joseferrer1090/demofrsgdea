@@ -57,7 +57,13 @@ const TableMetadata = props => {
           <button
             className="btn btn-secondary btn-sm"
             onClick={() =>
-              AgregarMetadatoPlantilla({ id: aux.id, name: aux.name })
+              AgregarMetadatoPlantilla({
+                id: aux.id,
+                defaultValue: "",
+                formula: false,
+                required: false,
+                name: aux.name
+              })
             }
           >
             {" "}

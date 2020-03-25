@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Suspense } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Card,
   CardHeader,
@@ -11,9 +11,12 @@ import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import {
   METADATA_ACTIVE,
-  METADATA_ALL
+  METADATA_ALL,
+  TEMPLATE_CREATE
 } from "./../../../../services/EndPoints";
 import AssignedMetadata from "./AssignedMetadata";
+import { decode } from "jsonwebtoken";
+import { resetMetadatoAction } from "./../../../../actions/templateMetadataActions";
 
 const TableListMetadata = React.lazy(() => {
   return new Promise(resolve => {
@@ -25,6 +28,10 @@ const CreatePlantillaForm = props => {
   const [metadata, setMetadata] = useState([]);
   const [auth, setAuth] = useState("");
   const arrayMetadata = useSelector(state => state.templateMetadata.metadata);
+  const dispatch = useDispatch();
+  const reset = () => {
+    dispatch(resetMetadatoAction());
+  };
 
   useEffect(() => {
     setAuth(props.authorization);
@@ -44,7 +51,6 @@ const CreatePlantillaForm = props => {
       .then(resp => resp.json())
       .then(data => {
         setMetadata(data);
-        //console.log(data);
       })
       .catch(err => {
         console.log(`Error => ${err.message}`);
@@ -55,15 +61,57 @@ const CreatePlantillaForm = props => {
     <div className="animated fadeIn">
       <Formik
         onSubmit={(values, { isSubmitting, resetForm }) => {
+          const tipoEstato = data => {
+            let tipo = null;
+            if (data === true) {
+              return (tipo = 1);
+            } else if (data === false) {
+              return (tipo = 0);
+            }
+            return null;
+          };
           setTimeout(() => {
+            const token = auth;
+            const username = decode(token);
+            fetch(`${TEMPLATE_CREATE}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                authorization: "Bearer " + auth
+              },
+              body: JSON.stringify({
+                code: values.codigo,
+                name: values.nombre,
+                description: values.descripcion,
+                status: tipoEstato(values.estado),
+                userName: username.user_name,
+                metadata: arrayMetadata
+              })
+            }).then(response =>
+              response
+                .json()
+                .then(data => {
+                  if (response.status === 201) {
+                    console.log("Se creo la plantilla");
+                  } else if (response.status === 400) {
+                    console.log("Error se envio un dato mal");
+                  } else if (response.status === 500) {
+                    console.log("Error 500 verificar en el servidor");
+                  }
+                })
+                .catch(err => {
+                  console.log(`Error => ${err.message}`);
+                })
+            );
             // alert(JSON.stringify(values, null, 2));
-            isSubmitting(false);
           }, 1000);
           resetForm({
             nombre: "",
             codigo: "",
             descripcion: "",
-            estado: null
+            arrayMetadata: [],
+            estado: null,
+            metadata: reset()
           });
         }}
         validationSchema={Yup.object().shape({

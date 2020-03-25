@@ -1,6 +1,7 @@
 import {
   AGREGAR_METADATO_PLANTILLA,
-  ELIMINAR_METADATO_PLANTILLA
+  ELIMINAR_METADATO_PLANTILLA,
+  RESET_METADATO_PLANTILLA
 } from "../types/index";
 
 const initialState = {
@@ -30,6 +31,12 @@ export default function(state = initialState, action) {
         metadata: state.metadata.filter(
           metadata => metadata.id !== action.payload.id
         ),
+        error: false
+      };
+    case RESET_METADATO_PLANTILLA:
+      return {
+        ...state,
+        metadata: [],
         error: false
       };
     default:

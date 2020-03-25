@@ -17,6 +17,9 @@ import {
 import AssignedMetadata from "./AssignedMetadata";
 import { decode } from "jsonwebtoken";
 import { resetMetadatoAction } from "./../../../../actions/templateMetadataActions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { css } from "glamor";
 
 const TableListMetadata = React.lazy(() => {
   return new Promise(resolve => {
@@ -59,8 +62,9 @@ const CreatePlantillaForm = props => {
 
   return (
     <div className="animated fadeIn">
+      <ToastContainer />
       <Formik
-        onSubmit={(values, { isSubmitting, resetForm }) => {
+        onSubmit={(values, { setSubmitting, resetForm }) => {
           const tipoEstato = data => {
             let tipo = null;
             if (data === true) {
@@ -92,27 +96,51 @@ const CreatePlantillaForm = props => {
                 .json()
                 .then(data => {
                   if (response.status === 201) {
-                    console.log("Se creo la plantilla");
+                    toast.success("Se registro la plantilla con exito", {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    });
                   } else if (response.status === 400) {
-                    console.log("Error se envio un dato mal");
+                    toast.error(
+                      "Error al registrar la plantilla, intentalo nuevamente",
+                      {
+                        position: toast.POSITION.TOP_RIGHT,
+                        className: css({
+                          marginTop: "60px"
+                        })
+                      }
+                    );
                   } else if (response.status === 500) {
-                    console.log("Error 500 verificar en el servidor");
+                    toast.error("Error, la plantilla ya existe.", {
+                      position: toast.POSITION.TOP_RIGHT,
+                      className: css({
+                        marginTop: "60px"
+                      })
+                    });
                   }
                 })
                 .catch(err => {
-                  console.log(`Error => ${err.message}`);
+                  toast.error(`Error ${err.message}`, {
+                    position: toast.POSITION.TOP_RIGHT,
+                    className: css({
+                      marginTop: "60px"
+                    })
+                  });
                 })
             );
+            setSubmitting(false);
+            resetForm({
+              nombre: "",
+              codigo: "",
+              descripcion: "",
+              arrayMetadata: [],
+              estado: null,
+              metadata: reset()
+            });
             // alert(JSON.stringify(values, null, 2));
           }, 1000);
-          resetForm({
-            nombre: "",
-            codigo: "",
-            descripcion: "",
-            arrayMetadata: [],
-            estado: null,
-            metadata: reset()
-          });
         }}
         validationSchema={Yup.object().shape({
           codigo: Yup.string()

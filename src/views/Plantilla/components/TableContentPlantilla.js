@@ -5,52 +5,64 @@ import PropTypes from "prop-types";
 import ModalDelete from "./ModalDeletePlantilla";
 import ModalView from "./ModalViewPlantilla";
 import ModalViewPlantilla from "./ModalViewPlantilla";
-
-const dataExample = [
-  {
-    id: 1,
-    codigo: 1,
-    nombre: "Plantilla 1",
-    descripcion: "descripcion plantilla",
-    estado: true
-  },
-  {
-    id: 2,
-    codigo: 2,
-    nombre: "Plantilla 2",
-    descripcion: "descripcion plantilla",
-    estado: false
-  },
-  {
-    id: 3,
-    codigo: 3,
-    nombre: "Planitlla 3",
-    descripcion: "descripcion plantilla",
-    estado: true
-  },
-  {
-    id: 4,
-    codigo: 3,
-    nombre: "Plantilla 4",
-    descripcion: "descripcion plantilla",
-    estado: false
-  }
-];
+import { TEMPLATE_ALL } from "./../../../services/EndPoints";
+import moment from "moment";
 
 class TableContentPlantilla extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modaldelete: false,
-      modalview_: false
+      modalview_: false,
+      token: this.props.authorization,
+      dataTemplate: []
     };
   }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.token) {
+      return {
+        token: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        token: this.props.authorization
+      });
+      this.getDataTemplates();
+    }
+    return null;
+  }
+
+  getDataTemplates = () => {
+    const auth = this.state.token;
+    fetch(`${TEMPLATE_ALL}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + auth
+      }
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        this.setState({
+          dataTemplate: data
+        });
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
 
   accionesPlnatilla = (cel, row) => {
     return (
       <div
         className="table-actionMenuGUsu"
-        style={{ textAlign: "center", padding: "0", marginRight: "190px" }}
+        style={{ textAlign: "center", padding: "0", marginRight: "5%" }}
       >
         <button
           className="btn btn-secondary btn-sm"
@@ -99,9 +111,9 @@ class TableContentPlantilla extends Component {
 
   estadoPlantilla(cell, row) {
     let status;
-    if (row.estado === true) {
+    if (row.status === 1) {
       status = <p className="text-success"> Activo </p>;
-    } else if (row.estado !== true) {
+    } else if (row.status === 0) {
       status = <p className="text-danger"> Inactivo </p>;
     }
     return status;
@@ -125,13 +137,23 @@ class TableContentPlantilla extends Component {
     this.refs.child1.toggle();
   }
 
+  indexN(cell, row, enumObject, index) {
+    return <div key={index}>{index + 1}</div>;
+  }
+
+  FechaCreacionConglomerado(cell, row) {
+    let createdAt;
+    createdAt = new Date(row.createdAt);
+    return moment(createdAt).format("DD-MM-YYYY");
+  }
+
   render() {
     return (
       <div className="animated fadeIn">
         <Row>
           <Col sm="12">
             <BootstrapTable
-              data={dataExample}
+              data={this.state.dataTemplate}
               bordered={false}
               hover
               striped
@@ -145,13 +167,14 @@ class TableContentPlantilla extends Component {
                 isKey
                 dataField="id"
                 dataAlign="center"
+                dataFormat={this.indexN}
                 width={"100"}
               >
                 {" "}
                 #{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField="codigo"
+                dataField="code"
                 dataAlign="center"
                 width={"200"}
               >
@@ -159,7 +182,7 @@ class TableContentPlantilla extends Component {
                 Codigo{" "}
               </TableHeaderColumn>
               <TableHeaderColumn
-                dataField="nombre"
+                dataField="name"
                 dataAlign="center"
                 width={"250"}
               >
@@ -168,12 +191,30 @@ class TableContentPlantilla extends Component {
               </TableHeaderColumn>
               <TableHeaderColumn
                 width={"200"}
-                dataField="estado"
+                dataField="status"
                 dataAlign="center"
                 dataFormat={(cell, row) => this.estadoPlantilla(cell, row)}
               >
                 {" "}
                 Estado{" "}
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataAlign="center"
+                dataField="createdAt"
+                dataFormat={(cell, row) =>
+                  this.FechaCreacionConglomerado(cell, row)
+                }
+              >
+                Fecha creaciòn
+              </TableHeaderColumn>
+              <TableHeaderColumn
+                dataAlign="center"
+                dataField="updatedAt"
+                dataFormat={(cell, row) =>
+                  this.FechaCreacionConglomerado(cell, row)
+                }
+              >
+                Fecha de modificaciòn
               </TableHeaderColumn>
               <TableHeaderColumn
                 export={false}

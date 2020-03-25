@@ -105,7 +105,7 @@ class Plantilla extends Component {
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <TableContent />
+                <TableContent authorization={authToken} />
               </Col>
             </Row>
           </TabPane>

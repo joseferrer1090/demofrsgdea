@@ -643,7 +643,7 @@ export const TEMPLATE_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/con
 export const TEMPLATE_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates`;
 
 /* GET params => idTemplate */
-export const TEMPLATE_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates/`;
+export const TEMPLATE_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates`;
 
 /* GET */
 export const TEMPLATE_ACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates/active`;

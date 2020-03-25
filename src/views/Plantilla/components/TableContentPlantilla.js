@@ -15,7 +15,8 @@ class TableContentPlantilla extends Component {
       modaldelete: false,
       modalview_: false,
       token: this.props.authorization,
-      dataTemplate: []
+      dataTemplate: [],
+      id: ""
     };
   }
 
@@ -68,7 +69,10 @@ class TableContentPlantilla extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
-            this.openModalView();
+            this.setState({
+              id: row.id
+            });
+            this.openModalView(row.id);
           }}
         >
           {" "}
@@ -133,15 +137,15 @@ class TableContentPlantilla extends Component {
     window.location.replace(path);
   }
 
-  openModalView() {
-    this.refs.child1.toggle();
+  openModalView(id) {
+    this.refs.child1.toggle(id);
   }
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
 
-  FechaCreacionConglomerado(cell, row) {
+  FechaPlantilla(cell, row) {
     let createdAt;
     createdAt = new Date(row.createdAt);
     return moment(createdAt).format("DD-MM-YYYY");
@@ -201,18 +205,14 @@ class TableContentPlantilla extends Component {
               <TableHeaderColumn
                 dataAlign="center"
                 dataField="createdAt"
-                dataFormat={(cell, row) =>
-                  this.FechaCreacionConglomerado(cell, row)
-                }
+                dataFormat={(cell, row) => this.FechaPlantilla(cell, row)}
               >
                 Fecha creaciòn
               </TableHeaderColumn>
               <TableHeaderColumn
                 dataAlign="center"
                 dataField="updatedAt"
-                dataFormat={(cell, row) =>
-                  this.FechaCreacionConglomerado(cell, row)
-                }
+                dataFormat={(cell, row) => this.FechaPlantilla(cell, row)}
               >
                 Fecha de modificaciòn
               </TableHeaderColumn>
@@ -227,7 +227,12 @@ class TableContentPlantilla extends Component {
             </BootstrapTable>
           </Col>
         </Row>
-        <ModalViewPlantilla modalview={this.state.modalview_} ref={"child1"} />
+        <ModalViewPlantilla
+          modalview={this.state.modalview_}
+          ref={"child1"}
+          authorization={this.state.token}
+          idPlantilla={this.state.id}
+        />
         <ModalDelete modaldelete={this.state.modaldelete} ref={"child3"} />
       </div>
     );

@@ -8,7 +8,7 @@ import {
   CustomInput
 } from "reactstrap";
 import { TEMPLATE_SHOW, TEMPLATE_UPDATE } from "./../../../services/EndPoints";
-import { Formik } from "formik";
+import { Formik, Field } from "formik";
 import * as Yup from "yup";
 import { decode } from "jsonwebtoken";
 import IMGPLANTILLA from "./../../../assets/img/puzzle-pieces.svg";
@@ -161,21 +161,27 @@ class ModalEditPlantilla extends Component {
                                 Estado <span className="text-danger">*</span>
                               </label>
                               <div className="text-justify">
-                                <CustomInput
-                                  onChange={handleChange}
-                                  onBlur={handleBlur}
-                                  value={values.status}
-                                  name="estado"
-                                  type="checkbox"
-                                  id="CheckBoxEdit"
-                                  label={
-                                    "Si esta opción se encuentra activada, representa que la Plantilla es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la Plantilla no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema."
-                                  }
-                                  className={
-                                    errors.status &&
-                                    touched.status &&
-                                    "invalid-feedback"
-                                  }
+                                <Field
+                                  name="status"
+                                  type=""
+                                  render={({ field, form }) => {
+                                    return (
+                                      <CustomInput
+                                        type="checkbox"
+                                        id="conglomeradoModalEdit"
+                                        label={
+                                          "Si esta opción se encuentra activada, representa que la Plantilla es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la Plantilla no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema."
+                                        }
+                                        {...field}
+                                        checked={field.value}
+                                        className={
+                                          errors.status &&
+                                          touched.status &&
+                                          "invalid-feedback"
+                                        }
+                                      />
+                                    );
+                                  }}
                                 />
                               </div>
                             </div>

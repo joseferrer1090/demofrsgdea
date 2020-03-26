@@ -166,7 +166,7 @@ class SingleField extends Component {
             this.setState({
               alert200: false
             });
-            this.resetForm();
+            // this.resetForm();
           }, 1500);
         } else if (response.status === 400) {
           this.setState({
@@ -176,7 +176,7 @@ class SingleField extends Component {
             this.setState({
               alert400: false
             });
-            this.resetForm();
+            // this.resetForm();
           }, 1500);
         } else if (response.status === 500) {
           this.setState({
@@ -186,7 +186,7 @@ class SingleField extends Component {
             this.setState({
               alert500: false
             });
-            this.resetForm();
+            // this.resetForm();
           }, 1500);
         }
       })
@@ -212,6 +212,7 @@ class SingleField extends Component {
       status: this.state.active,
       userName: username.user_name
     });
+    this.resetForm();
   };
 
   CreateMetadate = e => {
@@ -222,9 +223,15 @@ class SingleField extends Component {
       // }
     });
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      active: Yup.bool().test(value => value === true),
-      description: Yup.string().required()
+      name: Yup.string().required(" Por favor introduzca un nombre."),
+      active: Yup.bool().test(
+        "Activo",
+        " Es necesario activar el metadato.",
+        value => value === true
+      ),
+      description: Yup.string().required(
+        " Por favor introduzca una descripción."
+      )
     });
     schema
       .validate({
@@ -254,7 +261,25 @@ class SingleField extends Component {
   };
 
   resetForm = () => {
-    this.myFormRef.reset();
+    this.setState({
+      name: "",
+      description: "",
+      title: "",
+      type: "",
+      defaultValue: "",
+      placeholder: "",
+      helpertext: "",
+      formula: false,
+      active: true
+    });
+    console.log(`
+    name: ${this.state.name}
+    description: ${this.state.description}
+    title: ${this.state.title},
+    type: ${this.state.type},
+    placeholder: ${this.state.placeholder},
+    formula: ${this.state.formula},
+    active: ${this.state.active}    `);
   };
   render() {
     return (
@@ -356,6 +381,7 @@ class SingleField extends Component {
                                   this.changeValue("NAME", e.target.value);
                                 }}
                                 placeholder="Nombre"
+                                value={this.state.name}
                               />
                             </div>
                           </div>

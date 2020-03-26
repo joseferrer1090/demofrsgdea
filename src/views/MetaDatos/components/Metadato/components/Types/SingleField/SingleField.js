@@ -199,6 +199,19 @@ class SingleField extends Component {
         }, 1500);
         console.log(`error, ${error}`);
       });
+    console.log({
+      name: this.state.name,
+      description: this.state.description,
+      labelText: this.state.title,
+      labelClass: "col-sm-2 col-form-label",
+      inputId: this.state.name,
+      inputType: this.state.type,
+      inputClass: "form-control form-control-sm",
+      inputPlaceholder: this.state.placeholder,
+      formula: this.state.formula,
+      status: this.state.active,
+      userName: username.user_name
+    });
   };
 
   CreateMetadate = e => {
@@ -388,7 +401,8 @@ class SingleField extends Component {
                             <div className="form-group">
                               <label htmlFor="title">
                                 {" "}
-                                Etiqueta {this.state.title}                           <span className="text-danger">*</span>{" "}
+                                Etiqueta {this.state.title}{" "}
+                                <span className="text-danger">*</span>{" "}
                               </label>
                               <input
                                 type="text"

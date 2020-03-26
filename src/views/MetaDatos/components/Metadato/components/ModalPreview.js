@@ -247,19 +247,21 @@ class ModalPreview extends Component {
 
   render() {
     const aux = this.state.field;
-    // console.log(aux);
-    // console.log(this.props.inputType);
     return (
-      <Modal isOpen={this.state.modalPreview} toggle={this.toggle}>
+      <Modal
+        isOpen={this.state.modalPreview}
+        // toggle={this.toggle}
+      >
         <ModalHeader>
           {" "}
           Metadato {aux.name ? aux.name : "Nombre del metadado"}{" "}
         </ModalHeader>
         <ModalBody>
           <p className="text-justify">
-            El siguiente campo se visible en el formulario de radicacion, cuando
-            el usuario seleccione la plantilla, donde este campo este
-            configurado.
+            <i className="fa fa-info-circle" /> &nbsp; El campo que está siendo
+            pre visualizado será visible y operará cuando se asigne a la
+            plantilla correspondiente y esta a su vez se asocie a un tipo
+            documental de radicación en el modulo de configuración.
           </p>
           {this.renderType(aux)}
         </ModalBody>

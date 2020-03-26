@@ -64,7 +64,7 @@ class ModalEditPlantilla extends Component {
         this.setState({
           dataTemplate: data
         });
-        console.log(data);
+        // console.log(data);
       })
       .catch(err => {
         console.log(`Error => ${err.message}`);
@@ -84,6 +84,62 @@ class ModalEditPlantilla extends Component {
         <Formik
           enableReinitialize={true}
           initialValues={dataResult}
+          onSubmit={(values, { setSubmitting }) => {
+            const tipoEstado = data => {
+              let tipo;
+              if (data === 1 || data === true) {
+                return (tipo = 1);
+              } else if (data === 0 || data === false) {
+                return (tipo = 0);
+              }
+              return 0;
+            };
+            setTimeout(() => {
+              const auth = this.state.auth;
+              const username = decode(auth);
+              fetch(`${TEMPLATE_UPDATE}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                  authorization: "Bearer " + auth
+                },
+                body: JSON.stringify({
+                  id: this.state.id,
+                  code: values.code,
+                  name: values.name,
+                  description: values.description,
+                  status: tipoEstado(values.status),
+                  userName: username.user_name
+                })
+              })
+                .then(resp => {
+                  if (resp.status === 200) {
+                    console.log("Se Actualizo el registro");
+                  } else if (resp.status === 400) {
+                    console.log("Validar los datos de envios", resp);
+                  } else if (resp.status === 500) {
+                    console.log("Error al actualizar los datos en el servidor");
+                  }
+                })
+                .catch(err => {
+                  console.log(`Error => ${err.message}`);
+                });
+              //   console.log(
+              //     JSON.stringify(
+              //       {
+              //         id: this.state.id,
+              //         code: values.code,
+              //         name: values.name,
+              //         description: values.description,
+              //         status: tipoEstado(values.status),
+              //         userName: username.user_name
+              //       },
+              //       "",
+              //       2
+              //     )
+              //   );
+            }, 500);
+          }}
           validationSchema={Yup.object().shape({
             code: Yup.string()
               .trim()
@@ -204,7 +260,7 @@ class ModalEditPlantilla extends Component {
                                       <CustomInput
                                         name="status"
                                         type="checkbox"
-                                        id="conglomeradoModalEdit"
+                                        id="editPlantilla"
                                         label={
                                           "Si esta opción se encuentra activada, representa que la Plantilla es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la Plantilla no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema."
                                         }
@@ -229,7 +285,14 @@ class ModalEditPlantilla extends Component {
                 </ModalBody>
                 <ModalFooter>
                   <div className="pull-right">
-                    <button type="button" className="btn btn-secondary btn-sm">
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={e => {
+                        e.preventDefault();
+                        handleSubmit();
+                      }}
+                    >
                       <i className="fa fa-pencil" /> Editar plantilla
                     </button>
                     &nbsp;

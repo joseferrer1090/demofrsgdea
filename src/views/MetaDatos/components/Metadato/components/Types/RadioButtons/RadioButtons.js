@@ -252,7 +252,6 @@ class RadioButtons extends Component {
             this.setState({
               alert200: false
             });
-            this.resetForm();
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
@@ -274,44 +273,43 @@ class RadioButtons extends Component {
           }, 1500);
         }
       })
-      .catch(err => {
-        console.log(err);
+      .catch(error => {
+        this.setState({
+          alertError: true,
+          alertErrorMessage: error.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
       });
-    // const aux = JSON.stringify(
-    //   {
-    //     name: this.state.name,
-    //     description: this.state.description,
-    //     title: this.state.title,
-    //     radios: this.state.radios,
-    //     isReadOnly: this.state.validation.isReadOnly,
-    //     isRequired: this.state.validation.isRequired,
-    //     multiple: this.state.multiple,
-    //     inline: this.state.inline
-    //   },
-    //   null,
-    //   2
-    // );
-    // alert(aux);
+    this.resetForm();
   };
 
   createMetada = e => {
     e.preventDefault();
-    // los mensajes custom de las validaciones, por default en ingles
     Yup.setLocale({});
 
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      active: Yup.bool().test(value => value === true),
+      name: Yup.string().required(" Por favor introduzca un nombre."),
+      active: Yup.bool().test(
+        "Activo",
+        " Es necesario activar el metadato.",
+        value => value === true
+      ),
       radios: Yup.array()
         .of(
           Yup.object().shape({
-            title: Yup.string().required(),
-            value: Yup.string().required(),
+            title: Yup.string().required(" Por favor introduzca la etiqueta."),
+            value: Yup.string().required(" Por favor introduzca el valor."),
             selected: Yup.bool()
           })
         )
-        .required(),
-      description: Yup.string().required()
+        .required(" Por favor agregue las opciones."),
+      description: Yup.string().required(
+        " Por favor introduzca una descripción."
+      )
     });
 
     schema
@@ -343,9 +341,18 @@ class RadioButtons extends Component {
   };
 
   resetForm = () => {
-    this.myForm.reset();
+    this.setState({
+      radios: [],
+      name: "",
+      title: "",
+      description: "",
+      inline: false,
+      validation: {
+        isReadOnly: false,
+        isRequired: false
+      }
+    });
   };
-
   render() {
     return (
       <div>
@@ -406,8 +413,9 @@ class RadioButtons extends Component {
                     onClick={() => {
                       this.toggle("1");
                     }}
-                  ><i className="fa fa-cog" />&nbsp;
-                    General 
+                  >
+                    <i className="fa fa-cog" />
+                    &nbsp; General
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -418,8 +426,9 @@ class RadioButtons extends Component {
                     onClick={() => {
                       this.toggle("2");
                     }}
-                  ><i className="fa fa-exclamation-triangle" />&nbsp;
-                    Validación 
+                  >
+                    <i className="fa fa-exclamation-triangle" />
+                    &nbsp; Validación
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -430,8 +439,9 @@ class RadioButtons extends Component {
                     onClick={() => {
                       this.toggle("3");
                     }}
-                  ><i className="fa fa-list-ul" /> &nbsp;
-                    Valores     <span className="text-danger">*</span>{" "}
+                  >
+                    <i className="fa fa-list-ul" /> &nbsp; Valores{" "}
+                    <span className="text-danger">*</span>{" "}
                   </NavLink>
                 </NavItem>
               </Nav>
@@ -441,7 +451,9 @@ class RadioButtons extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="name">Nombre     <span className="text-danger">*</span>{" "}</label>
+                          <label htmlFor="name">
+                            Nombre <span className="text-danger">*</span>{" "}
+                          </label>
                           <input
                             type="text"
                             className="form-control form-control-sm"
@@ -455,7 +467,9 @@ class RadioButtons extends Component {
                       </div>
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="title">Etiqueta     <span className="text-danger">*</span>{" "}</label>
+                          <label htmlFor="title">
+                            Etiqueta <span className="text-danger">*</span>{" "}
+                          </label>
                           <input
                             type="text"
                             className="form-control form-control-sm"
@@ -470,7 +484,9 @@ class RadioButtons extends Component {
 
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="">Descripción     <span className="text-danger">*</span>{" "}</label>
+                          <label htmlFor="">
+                            Descripción <span className="text-danger">*</span>{" "}
+                          </label>
                           <textarea
                             className="form-control form-control-sm"
                             value={this.state.description}
@@ -496,8 +512,13 @@ class RadioButtons extends Component {
                             }
                             id={"isRequired"}
                           />
-                          <label htmlFor="isRequired"
-                                       style={{ verticalAlign: "middle" }}> ¿Es requerido? </label>
+                          <label
+                            htmlFor="isRequired"
+                            style={{ verticalAlign: "middle" }}
+                          >
+                            {" "}
+                            ¿Es requerido?{" "}
+                          </label>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -510,7 +531,13 @@ class RadioButtons extends Component {
                             }
                             id={"isReadOnly"}
                           />
-                          <label htmlFor="isReadOnly"             style={{ verticalAlign: "middle" }}> ¿Solo lectura? </label>
+                          <label
+                            htmlFor="isReadOnly"
+                            style={{ verticalAlign: "middle" }}
+                          >
+                            {" "}
+                            ¿Solo lectura?{" "}
+                          </label>
                         </div>
                       </div>
                       <div className="col-md-4">
@@ -523,9 +550,15 @@ class RadioButtons extends Component {
                             }
                             id="inline"
                           />
-                          <label htmlFor="inline"              style={{ verticalAlign: "middle" }}> ¿Alineados? </label>
+                          <label
+                            htmlFor="inline"
+                            style={{ verticalAlign: "middle" }}
+                          >
+                            {" "}
+                            ¿En linea?{" "}
+                          </label>
                         </div>
-                      </div>       
+                      </div>
                     </div>
                   </Card>
                 </TabPane>
@@ -723,12 +756,12 @@ class RadioButtons extends Component {
 }
 
 RadioButtons.propsTypes = {
-  changeState:PropTypes.func.isRequired,
-  field:PropTypes.any.isRequired,
-  index:PropTypes.any.isRequired,
-  key:PropTypes.any.isRequired,
-  removeField:PropTypes.func.isRequired,
-  authorization:PropTypes.string.isRequired,
+  changeState: PropTypes.func.isRequired,
+  field: PropTypes.any.isRequired,
+  index: PropTypes.any.isRequired,
+  key: PropTypes.any.isRequired,
+  removeField: PropTypes.func.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default RadioButtons;

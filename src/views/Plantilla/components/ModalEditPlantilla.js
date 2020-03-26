@@ -19,7 +19,8 @@ class ModalEditPlantilla extends Component {
     this.state = {
       modal: this.props.modaledit,
       auth: this.props.authorization,
-      id: this.props.id
+      id: this.props.id,
+      dataTemplate: {}
     };
   }
 
@@ -60,6 +61,9 @@ class ModalEditPlantilla extends Component {
     })
       .then(resp => resp.json())
       .then(data => {
+        this.setState({
+          dataTemplate: data
+        });
         console.log(data);
       })
       .catch(err => {
@@ -73,10 +77,11 @@ class ModalEditPlantilla extends Component {
     });
   };
   render() {
+    const dataResult = this.state.dataTemplate;
     return (
       <Modal className={"modal-lg"} isOpen={this.state.modal}>
         <ModalHeader>Probando apenas</ModalHeader>
-        <Formik>
+        <Formik enableReinitialize={true} initialValues={dataResult}>
           {props => {
             const {
               values,
@@ -118,7 +123,7 @@ class ModalEditPlantilla extends Component {
                                 className="form-control form-control-sm"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.codigo}
+                                value={values.code}
                               />
                             </div>
                           </div>
@@ -132,7 +137,7 @@ class ModalEditPlantilla extends Component {
                                 className="form-control form-control-sm"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.nombre}
+                                value={values.name}
                               />
                             </div>
                           </div>
@@ -146,7 +151,7 @@ class ModalEditPlantilla extends Component {
                                 className="form-control form-control-sm"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.descripcion}
+                                value={values.description}
                               ></textarea>
                             </div>
                           </div>
@@ -159,16 +164,16 @@ class ModalEditPlantilla extends Component {
                                 <CustomInput
                                   onChange={handleChange}
                                   onBlur={handleBlur}
-                                  value={values.estado}
+                                  value={values.status}
                                   name="estado"
                                   type="checkbox"
-                                  id="ExampleInputCheckbox"
+                                  id="CheckBoxEdit"
                                   label={
                                     "Si esta opción se encuentra activada, representa que la Plantilla es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la Plantilla no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema."
                                   }
                                   className={
-                                    errors.estado &&
-                                    touched.estado &&
+                                    errors.status &&
+                                    touched.status &&
                                     "invalid-feedback"
                                   }
                                 />

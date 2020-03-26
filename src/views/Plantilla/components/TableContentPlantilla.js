@@ -85,6 +85,9 @@ class TableContentPlantilla extends Component {
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
           onClick={() => {
+            this.setState({
+              id: row.id
+            });
             this.openModalEdit();
           }}
         >
@@ -239,6 +242,7 @@ class TableContentPlantilla extends Component {
         <ModalEdit
           authorization={this.state.token}
           modaledit={this.state.modaledit}
+          id={this.state.id}
           ref={modal => (this.modalEditRef = modal)}
         />
         <ModalDelete

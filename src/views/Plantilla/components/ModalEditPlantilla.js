@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { TEMPLATE_SHOW, TEMPLATE_UPDATE } from "./../../../services/EndPoints";
-import Formik from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 
 class ModalEditPlantilla extends Component {
@@ -10,7 +10,8 @@ class ModalEditPlantilla extends Component {
     super(props);
     this.state = {
       modal: this.props.modaledit,
-      auth: this.props.authorization
+      auth: this.props.authorization,
+      id: this.props.id
     };
   }
 
@@ -26,12 +27,11 @@ class ModalEditPlantilla extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
+        id: this.props.id
       });
     }
   }
-
-  getDataTemplate = () => {};
 
   toggle = () => {
     this.setState({
@@ -39,26 +39,45 @@ class ModalEditPlantilla extends Component {
     });
   };
   render() {
+    console.log(this.props);
     return (
       <Modal className={"modal-lg"} isOpen={this.state.modal}>
         <ModalHeader>Probando apenas</ModalHeader>
-        <ModalBody>
-          <p>Formulario de edicion </p>
-        </ModalBody>
-        <ModalFooter>
-          <div className="pull-right">
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm"
-              onClick={() => {
-                this.setState({ modal: false });
-              }}
-            >
-              {" "}
-              <i className="fa fa-times" /> Cancelar{" "}
-            </button>
-          </div>
-        </ModalFooter>
+        <Formik>
+          {props => {
+            const {
+              values,
+              touched,
+              errors,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              setFieldValue,
+              setFieldTouched
+            } = props;
+            return (
+              <React.Fragment>
+                <ModalBody>
+                  <p>Formulario de edicion </p>
+                </ModalBody>
+                <ModalFooter>
+                  <div className="pull-right">
+                    <button
+                      type="button"
+                      className="btn btn-secondary btn-sm"
+                      onClick={() => {
+                        this.setState({ modal: false });
+                      }}
+                    >
+                      {" "}
+                      <i className="fa fa-times" /> Cancelar{" "}
+                    </button>
+                  </div>
+                </ModalFooter>
+              </React.Fragment>
+            );
+          }}
+        </Formik>
       </Modal>
     );
   }

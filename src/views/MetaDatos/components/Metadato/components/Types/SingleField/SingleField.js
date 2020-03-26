@@ -199,19 +199,6 @@ class SingleField extends Component {
         }, 1500);
         console.log(`error, ${error}`);
       });
-    console.log({
-      name: this.state.name,
-      description: this.state.description,
-      labelText: this.state.title,
-      labelClass: "col-sm-2 col-form-label",
-      inputId: this.state.name,
-      inputType: this.state.type,
-      inputClass: "form-control form-control-sm",
-      inputPlaceholder: this.state.placeholder,
-      formula: this.state.formula,
-      status: this.state.active,
-      userName: username.user_name
-    });
     this.resetForm();
   };
 
@@ -270,16 +257,14 @@ class SingleField extends Component {
       placeholder: "",
       helpertext: "",
       formula: false,
-      active: true
+      active: true,
+      validation: {
+        isReadOnly: false,
+        isRequired: false,
+        min: 6,
+        max: 6
+      }
     });
-    console.log(`
-    name: ${this.state.name}
-    description: ${this.state.description}
-    title: ${this.state.title},
-    type: ${this.state.type},
-    placeholder: ${this.state.placeholder},
-    formula: ${this.state.formula},
-    active: ${this.state.active}    `);
   };
   render() {
     return (

@@ -49,7 +49,8 @@ class SingleField extends Component {
       alert400: false,
       alert500: false,
       alertError: false,
-      alertErrorMessage: ""
+      alertErrorMessage: "",
+      previewInfoField: false
     };
   }
 
@@ -197,6 +198,7 @@ class SingleField extends Component {
         console.log(`error, ${error}`);
       });
     this.resetForm();
+    console.log(this.props.field);
   };
 
   CreateMetadate = e => {
@@ -246,8 +248,8 @@ class SingleField extends Component {
     this.setState({
       name: "",
       description: "",
-      title: "",
-      type: "",
+      title: "Title",
+      type: "text",
       defaultValue: "",
       placeholder: "",
       helpertext: "",
@@ -260,6 +262,7 @@ class SingleField extends Component {
         max: 6
       }
     });
+    this.changeValue("TITLE", this.state.title);
   };
   render() {
     return (
@@ -610,6 +613,7 @@ class SingleField extends Component {
           modalpreview={this.state.modalpreview}
           inputType={this.state.dragType}
           field={this.props.field}
+          // field={this.state.previewInfoField}
         />
       </div>
     );

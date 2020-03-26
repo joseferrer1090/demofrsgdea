@@ -347,7 +347,8 @@ class SelectField extends Component {
     this.setState({
       name: "",
       description: "",
-      title: "",
+      title: "Title",
+      type:"SELECT",
       helpertext: "",
       formula: false,
       active: true,
@@ -358,6 +359,7 @@ class SelectField extends Component {
       },
       options: []
     });
+    this.changeValue("TITLE", this.state.title);
   };
 
   render() {

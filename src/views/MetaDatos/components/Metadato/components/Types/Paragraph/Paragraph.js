@@ -149,17 +149,18 @@ class Paragraph extends Component {
       name: "",
       description: "",
       content: "",
-      title: "",
+      toolType: "PARAGRAPH",
+      title: "Title",
       validation: {
         isReadOnly: false,
         isRequired: false
       },
-
       align: "center",
       fontSize: "",
-      colorText: "#000000",
-      background: "#cccccc"
+      colorText: "",
+      background: ""
     });
+    this.changeValue("TITLE", this.state.title);
   };
 
   sendData = () => {

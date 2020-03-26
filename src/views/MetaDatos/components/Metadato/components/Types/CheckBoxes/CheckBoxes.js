@@ -346,8 +346,10 @@ class CheckBoxes extends Component {
   resetForm = () => {
     this.setState({
       checkBoxes: [],
+ 
       name: "",
-      title: "",
+      type: "checkbox",
+      title: "Title",
       description: "",
       inline: false,
       validation: {
@@ -355,6 +357,7 @@ class CheckBoxes extends Component {
         isRequired: false
       }
     });
+    this.changeValue("TITLE", this.state.title);
   };
 
   render() {

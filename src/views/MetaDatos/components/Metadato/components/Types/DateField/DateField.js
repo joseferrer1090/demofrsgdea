@@ -249,8 +249,9 @@ class DateField extends Component {
 
   resetForm = () => {
     this.setState({
+      type: "date",
       name: "",
-      title: "",
+      title: "Title",
       description: "",
       validation: {
         isRequired: false,
@@ -259,6 +260,7 @@ class DateField extends Component {
         max: ""
       }
     });
+    this.changeValue("TITLE", this.state.title);
   };
 
   render() {

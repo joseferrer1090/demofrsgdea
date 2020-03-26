@@ -346,7 +346,8 @@ class RadioButtons extends Component {
     this.setState({
       radios: [],
       name: "",
-      title: "",
+      title: "Title",
+      toolType: "RADIO_BUTTONS",
       description: "",
       inline: false,
       validation: {
@@ -354,6 +355,7 @@ class RadioButtons extends Component {
         isRequired: false
       }
     });
+    this.changeValue("TITLE", this.state.title);
   };
   render() {
     return (

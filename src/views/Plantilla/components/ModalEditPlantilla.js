@@ -4,6 +4,8 @@ import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { TEMPLATE_SHOW, TEMPLATE_UPDATE } from "./../../../services/EndPoints";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { decode } from "jsonwebtoken";
+import IMGPLANTILLA from "./../../../assets/img/puzzle-pieces.svg";
 
 class ModalEditPlantilla extends Component {
   constructor(props) {
@@ -21,17 +23,43 @@ class ModalEditPlantilla extends Component {
         auth: props.authorization
       };
     }
+    if (props.id !== state.id) {
+      return {
+        id: props.id
+      };
+    }
     return null;
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.props.authorization !== prevProps.authorization) {
+    if (this.props.id !== prevProps.id) {
       this.setState({
         auth: this.props.authorization,
         id: this.props.id
       });
+      this.getDataTemplate(this.state.id, this.state.auth);
+    } else if (this.props.authorization === "" || this.props.id === null) {
     }
+    return;
   }
+
+  getDataTemplate = (id, auth) => {
+    const username = decode(auth);
+    fetch(`${TEMPLATE_SHOW}/${id}?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/jsom",
+        authorization: "Bearer " + auth
+      }
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
 
   toggle = () => {
     this.setState({
@@ -39,7 +67,6 @@ class ModalEditPlantilla extends Component {
     });
   };
   render() {
-    console.log(this.props);
     return (
       <Modal className={"modal-lg"} isOpen={this.state.modal}>
         <ModalHeader>Probando apenas</ModalHeader>
@@ -58,7 +85,69 @@ class ModalEditPlantilla extends Component {
             return (
               <React.Fragment>
                 <ModalBody>
-                  <p>Formulario de edicion </p>
+                  <div className="row">
+                    <div className="col-md-3">
+                      <img src={IMGPLANTILLA} className="img-thumbnail" />
+                    </div>
+                    <div className="col-md-9">
+                      <div className="">
+                        {" "}
+                        <h5
+                          className=""
+                          style={{ borderBottom: "1px solid black" }}
+                        >
+                          {" "}
+                          Datos plantilla{" "}
+                        </h5>{" "}
+                      </div>
+                      <form className="form">
+                        <div className="row">
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label>
+                                Codigo <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.codigo}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="form-group">
+                              <label>
+                                Nombre <span className="text-danger">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                className="form-control form-control-sm"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.nombre}
+                              />
+                            </div>
+                          </div>
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label>
+                                Descripcion{" "}
+                                <span className="text-danger">*</span>
+                              </label>
+                              <textarea
+                                className="form-control form-control-sm"
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.descripcion}
+                              ></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
                 </ModalBody>
                 <ModalFooter>
                   <div className="pull-right">

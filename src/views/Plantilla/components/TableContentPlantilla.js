@@ -244,6 +244,7 @@ class TableContentPlantilla extends Component {
           modaledit={this.state.modaledit}
           id={this.state.id}
           ref={modal => (this.modalEditRef = modal)}
+          updateTable={this.getDataTemplates}
         />
         <ModalDelete
           modaldelete={this.state.modaldelete}

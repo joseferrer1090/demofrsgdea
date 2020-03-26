@@ -122,9 +122,13 @@ class ModalEditPlantilla extends Component {
                       alert200: true
                     });
                     setTimeout(() => {
-                      this.setState({
-                        alert200: false
-                      });
+                      this.setState(
+                        {
+                          alert200: false,
+                          modal: false
+                        },
+                        this.props.updateTable()
+                      );
                     }, 3000);
                     // console.log("Se Actualizo el registro");
                   } else if (resp.status === 400) {
@@ -152,20 +156,6 @@ class ModalEditPlantilla extends Component {
                 .catch(err => {
                   console.log(`Error => ${err.message}`);
                 });
-              //   console.log(
-              //     JSON.stringify(
-              //       {
-              //         id: this.state.id,
-              //         code: values.code,
-              //         name: values.name,
-              //         description: values.description,
-              //         status: tipoEstado(values.status),
-              //         userName: username.user_name
-              //       },
-              //       "",
-              //       2
-              //     )
-              //   );
             }, 500);
           }}
           validationSchema={Yup.object().shape({

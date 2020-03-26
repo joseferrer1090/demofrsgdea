@@ -4,6 +4,7 @@ import { Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
 import ModalDelete from "./ModalDeletePlantilla";
 import ModalView from "./ModalViewPlantilla";
+import ModalEdit from "./ModalEditPlantilla";
 import ModalViewPlantilla from "./ModalViewPlantilla";
 import { TEMPLATE_ALL } from "./../../../services/EndPoints";
 import moment from "moment";
@@ -14,6 +15,7 @@ class TableContentPlantilla extends Component {
     this.state = {
       modaldelete: false,
       modalview_: false,
+      modaledit: false,
       token: this.props.authorization,
       dataTemplate: [],
       id: ""
@@ -124,12 +126,13 @@ class TableContentPlantilla extends Component {
   }
 
   openModalDelete() {
-    this.refs.child3.toggle();
+    this.modalDeleteRef.toggle();
   }
 
   openModalEdit() {
-    let path = `/#/configuracion/plantilla/edit`;
-    window.location.replace(path);
+    this.modalEditRef.toggle();
+    //let path = `/#/configuracion/plantilla/edit`;
+    //window.location.replace(path);
   }
 
   openViewAddIndexes() {
@@ -233,7 +236,15 @@ class TableContentPlantilla extends Component {
           authorization={this.state.token}
           idPlantilla={this.state.id}
         />
-        <ModalDelete modaldelete={this.state.modaldelete} ref={"child3"} />
+        <ModalEdit
+          authorization={this.state.token}
+          modaledit={this.state.modaledit}
+          ref={modal => (this.modalEditRef = modal)}
+        />
+        <ModalDelete
+          modaldelete={this.state.modaldelete}
+          ref={mdelete => (this.modalDeleteRef = mdelete)}
+        />
       </div>
     );
   }

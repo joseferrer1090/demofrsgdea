@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  CustomInput
+} from "reactstrap";
 import { TEMPLATE_SHOW, TEMPLATE_UPDATE } from "./../../../services/EndPoints";
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -142,6 +148,31 @@ class ModalEditPlantilla extends Component {
                                 onBlur={handleBlur}
                                 value={values.descripcion}
                               ></textarea>
+                            </div>
+                          </div>
+                          <div className="col-md-12">
+                            <div className="form-group">
+                              <label>
+                                Estado <span className="text-danger">*</span>
+                              </label>
+                              <div className="text-justify">
+                                <CustomInput
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.estado}
+                                  name="estado"
+                                  type="checkbox"
+                                  id="ExampleInputCheckbox"
+                                  label={
+                                    "Si esta opción se encuentra activada, representa que la Plantilla es visible en el sistema y se podrán realizar operaciones entre cada uno de los módulos correspondientes de la aplicación. En caso contrario la Plantilla no se elimina del sistema solo quedará inactivo y no visible para cada uno de los módulos correspondientes del sistema."
+                                  }
+                                  className={
+                                    errors.estado &&
+                                    touched.estado &&
+                                    "invalid-feedback"
+                                  }
+                                />
+                              </div>
                             </div>
                           </div>
                         </div>

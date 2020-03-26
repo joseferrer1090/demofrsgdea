@@ -8,7 +8,7 @@ import {
   CustomInput
 } from "reactstrap";
 import { TEMPLATE_SHOW, TEMPLATE_UPDATE } from "./../../../services/EndPoints";
-import { Formik, Field } from "formik";
+import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { decode } from "jsonwebtoken";
 import IMGPLANTILLA from "./../../../assets/img/puzzle-pieces.svg";
@@ -81,7 +81,22 @@ class ModalEditPlantilla extends Component {
     return (
       <Modal className={"modal-lg"} isOpen={this.state.modal}>
         <ModalHeader>Probando apenas</ModalHeader>
-        <Formik enableReinitialize={true} initialValues={dataResult}>
+        <Formik
+          enableReinitialize={true}
+          initialValues={dataResult}
+          validationSchema={Yup.object().shape({
+            code: Yup.string()
+              .trim()
+              .required("Codigo requerido para la actualizarcion"),
+            name: Yup.string()
+              .trim()
+              .required("Nombre requerido para la actualizacion "),
+            description: Yup.string().required(
+              "Descripcion necesaria para la actualizacion"
+            ),
+            status: Yup.bool().test("Activo", "", value => value === true)
+          })}
+        >
           {props => {
             const {
               values,
@@ -119,12 +134,18 @@ class ModalEditPlantilla extends Component {
                                 Codigo <span className="text-danger">*</span>
                               </label>
                               <input
+                                name="code"
                                 type="text"
                                 className="form-control form-control-sm"
                                 onChange={handleChange}
-                                onBlur={handleBlur}
                                 value={values.code}
                               />
+                              <div style={{ color: "#D54B4B" }}>
+                                {errors.code && touched.code ? (
+                                  <i className="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name={"code"} />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-6">
@@ -133,12 +154,19 @@ class ModalEditPlantilla extends Component {
                                 Nombre <span className="text-danger">*</span>
                               </label>
                               <input
+                                name="name"
                                 type="text"
                                 className="form-control form-control-sm"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.name}
                               />
+                              <div style={{ color: "#D54B4B" }}>
+                                {errors.name && touched.name ? (
+                                  <i className="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name={"name"} />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-12">
@@ -148,11 +176,18 @@ class ModalEditPlantilla extends Component {
                                 <span className="text-danger">*</span>
                               </label>
                               <textarea
+                                name="description"
                                 className="form-control form-control-sm"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 value={values.description}
                               ></textarea>
+                              <div style={{ color: "#D54B4B" }}>
+                                {errors.description && touched.description ? (
+                                  <i className="fa fa-exclamation-triangle" />
+                                ) : null}
+                                <ErrorMessage name={"description"} />
+                              </div>
                             </div>
                           </div>
                           <div className="col-md-12">
@@ -167,6 +202,7 @@ class ModalEditPlantilla extends Component {
                                   render={({ field, form }) => {
                                     return (
                                       <CustomInput
+                                        name="status"
                                         type="checkbox"
                                         id="conglomeradoModalEdit"
                                         label={
@@ -193,6 +229,10 @@ class ModalEditPlantilla extends Component {
                 </ModalBody>
                 <ModalFooter>
                   <div className="pull-right">
+                    <button type="button" className="btn btn-secondary btn-sm">
+                      <i className="fa fa-pencil" /> Editar plantilla
+                    </button>
+                    &nbsp;
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm"

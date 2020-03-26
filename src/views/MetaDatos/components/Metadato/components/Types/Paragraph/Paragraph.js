@@ -242,13 +242,15 @@ class Paragraph extends Component {
       ),
       description: Yup.string().required(
         " Por favor introduzca una descripción."
-      )
+      ),
+      title: Yup.string().required(" Por favor introduzca la etiqueta.")
     });
     schema
       .validate({
         name: this.state.name,
         active: this.state.active,
-        description: this.state.description
+        description: this.state.description,
+        title: this.state.title
       })
       .then(() => {
         this.sendData();

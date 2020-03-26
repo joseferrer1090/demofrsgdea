@@ -214,7 +214,8 @@ class DateField extends Component {
       max: Yup.date(new Date()),
       description: Yup.string().required(
         " Por favor introduzca una descripción."
-      )
+      ),
+      title: Yup.string().required(" Por favor introduzca la etiqueta.")
     });
 
     schema
@@ -223,7 +224,8 @@ class DateField extends Component {
         active: this.state.active,
         min: this.state.validation.min,
         max: this.state.validation.max,
-        description: this.state.description
+        description: this.state.description,
+        title: this.state.title
       })
       .then(() => {
         this.sendData();

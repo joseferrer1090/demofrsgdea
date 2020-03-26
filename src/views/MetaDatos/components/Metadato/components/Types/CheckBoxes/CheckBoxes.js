@@ -312,14 +312,16 @@ class CheckBoxes extends Component {
         .required("Por favor agregue las opciones."),
       description: Yup.string().required(
         " Por favor introduzca una descripción."
-      )
+      ),
+      title: Yup.string().required(" Por favor introduzca la etiqueta.")
     });
     schema
       .validate({
         name: this.state.name,
         active: this.state.active,
         checboxes: this.state.checkBoxes,
-        description: this.state.description
+        description: this.state.description,
+        title: this.state.title
       })
       .then(() => {
         this.sendData();

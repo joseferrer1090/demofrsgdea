@@ -166,7 +166,6 @@ class SingleField extends Component {
             this.setState({
               alert200: false
             });
-            // this.resetForm();
           }, 1500);
         } else if (response.status === 400) {
           this.setState({
@@ -176,7 +175,6 @@ class SingleField extends Component {
             this.setState({
               alert400: false
             });
-            // this.resetForm();
           }, 1500);
         } else if (response.status === 500) {
           this.setState({
@@ -186,7 +184,6 @@ class SingleField extends Component {
             this.setState({
               alert500: false
             });
-            // this.resetForm();
           }, 1500);
         }
       })
@@ -204,11 +201,7 @@ class SingleField extends Component {
 
   CreateMetadate = e => {
     e.preventDefault();
-    Yup.setLocale({
-      // mixed: {
-      //   required: `Campo  necesario para el registro`
-      // }
-    });
+    Yup.setLocale({});
     const schema = Yup.object().shape({
       name: Yup.string().required(" Por favor introduzca un nombre."),
       active: Yup.bool().test(
@@ -218,13 +211,15 @@ class SingleField extends Component {
       ),
       description: Yup.string().required(
         " Por favor introduzca una descripción."
-      )
+      ),
+      title: Yup.string().required(" Por favor introduzca la etiqueta.")
     });
     schema
       .validate({
         name: this.state.name,
         active: this.state.active,
-        description: this.state.description
+        description: this.state.description,
+        title: this.state.title
       })
       .then(() => {
         if (schema.isValid) {

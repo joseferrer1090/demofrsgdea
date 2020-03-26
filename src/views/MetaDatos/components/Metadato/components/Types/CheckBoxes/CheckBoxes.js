@@ -37,9 +37,7 @@ class CheckBoxes extends Component {
       description: "",
       validation: {
         isReadOnly: false,
-        isRequired: false,
-        min: 6,
-        max: 6
+        isRequired: false
       },
       active: true,
       formula: false,
@@ -258,7 +256,6 @@ class CheckBoxes extends Component {
             this.setState({
               alert200: false
             });
-            this.resetForm();
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
@@ -291,25 +288,31 @@ class CheckBoxes extends Component {
           });
         }, 1500);
       });
+    this.resetForm();
   };
 
   createMetadata = e => {
     e.preventDefault();
-    // van los valores de las validaciones
     Yup.setLocale({});
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      active: Yup.bool().test(value => value === true),
+      name: Yup.string().required(" Por favor introduca un nombre."),
+      active: Yup.bool().test(
+        "Activo",
+        " Es necesario activar el metadato.",
+        value => value === true
+      ),
       checboxes: Yup.array()
         .of(
           Yup.object().shape({
-            title: Yup.string().required(),
-            value: Yup.string().required(),
+            title: Yup.string().required(" Por favor introduzca la etiqueta."),
+            value: Yup.string().required(" Por favor introduzca el valor."),
             selected: Yup.bool()
           })
         )
-        .required(),
-      description: Yup.string().required()
+        .required("Por favor agregue las opciones."),
+      description: Yup.string().required(
+        " Por favor introduzca una descripción."
+      )
     });
     schema
       .validate({
@@ -339,9 +342,16 @@ class CheckBoxes extends Component {
   };
 
   resetForm = () => {
-    this.myForm.reset();
     this.setState({
-      checkBoxes: []
+      checkBoxes: [],
+      name: "",
+      title: "",
+      description: "",
+      inline: false,
+      validation: {
+        isReadOnly: false,
+        isRequired: false
+      }
     });
   };
 
@@ -455,7 +465,7 @@ class CheckBoxes extends Component {
                         </div>
                       </div>
 
-                      <div className="col-md-6">
+                      <div className="col-md-12">
                         <div className="form-group">
                           <label htmlFor="title">
                             Etiqueta <span className="text-danger">*</span>{" "}
@@ -471,7 +481,7 @@ class CheckBoxes extends Component {
                           />
                         </div>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-12">
                         <div className="form-group">
                           <label htmlFor="description">
                             {" "}

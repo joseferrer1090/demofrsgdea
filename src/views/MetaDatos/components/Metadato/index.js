@@ -38,13 +38,7 @@ class Metadato extends Component {
     console.log(form);
   };
 
-  updateForm = callback => {
-    // console.log(`Se esta llamando el metodo ${callback}`);
-    // let rawForm =
-    //   '[{"title":"ADS","toolType":"RADIO_BUTTONS","multiple":false,"inline":false,"defaultValue":"","placeholder":"","description":"","validation":{"isReadOnly":false,"isRequired":false,"min":6,"max":6},"radios":[]},{"title":"Title","toolType":"CHECK_BOXES","inline":false,"defaultValue":"","placeholder":"","description":"","validation":{"isReadOnly":false,"isRequired":false,"min":6,"max":6},"checkBoxes":[]}]';
-    // let form = JSON.parse(rawForm);
-    // callback(form);
-  };
+  updateForm = callback => {};
 
   getDataLocal = () => {
     asyncLocalStorage
@@ -60,7 +54,6 @@ class Metadato extends Component {
   };
 
   render() {
-    // console.log(this.state.authoToken);
     return (
       <div>
         <Alert color="secondary" isOpen={this.state.visible} fade>
@@ -88,7 +81,6 @@ class Metadato extends Component {
               updateForm={this.updateForm}
               onSave={this.myForm}
               authorization={this.state.authoToken}
-              // custom={myCustoms}
             />
           </div>
         </div>

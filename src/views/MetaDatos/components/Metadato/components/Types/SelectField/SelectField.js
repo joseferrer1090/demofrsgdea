@@ -11,7 +11,6 @@ import {
   Nav,
   NavLink,
   NavItem,
-  Table,
   Toast,
   ToastBody,
   ToastHeader,
@@ -78,8 +77,6 @@ class SelectField extends Component {
 
   componentDidMount() {
     this.setState(this.props.field);
-    console.log(this.props.field);
-    // console.log(this.state.auth);
   }
 
   changeValue = (stateFor, value) => {
@@ -261,7 +258,6 @@ class SelectField extends Component {
             this.setState({
               alert200: false
             });
-            this.resetForm();
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
@@ -291,51 +287,43 @@ class SelectField extends Component {
           this.setState({ alert500: false });
         }, 1500);
       });
-    // const aux = JSON.stringify(
-    //   {
-    //     title: this.state.title,
-    //     name: this.state.name,
-    //     description: this.state.description,
-    //     helpertext: this.state.helpertext,
-    //     options: this.state.options,
-    //     multiple: this.state.multiple,
-    //     isRequired: this.state.validation.isRequired,
-    //     isReadOnly: this.state.validation.isReadOnly
-    //   },
-    //   null,
-    //   2
-    // );
-    // alert(aux);
+    this.resetForm();
   };
 
   createMetada = e => {
     e.preventDefault();
     Yup.setLocale({});
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
+      name: Yup.string().required(" Por favor introduzca un nombre."),
       options: Yup.array()
         .of(
           Yup.object().shape({
-            title: Yup.string().required(),
-            value: Yup.string().required(),
+            title: Yup.string().required(" Por favor introduzca la etiqueta."),
+            value: Yup.string().required(" Por favor introduzca el valor."),
             selected: Yup.bool()
           })
         )
-        .required(),
-      active: Yup.bool().test(value => value === true),
-      description: Yup.string().required()
+        .required("Por favor agregue las opciones."),
+      active: Yup.bool().test(
+        "Activo",
+        " Es necesario activar el metadato.",
+        value => value === true
+      ),
+      description: Yup.string().required(
+        " Por favor introduzca una descripción."
+      ),
+      title: Yup.string().required(" Por favor introduzca la etiqueta.")
     });
     schema
       .validate({
         name: this.state.name,
         options: this.state.options,
         active: this.state.active,
-        description: this.state.description
+        description: this.state.description,
+        title: this.state.title
       })
       .then(() => {
         this.sendData();
-        this.resetForm();
-        console.log("los datos bien");
       })
       .catch(err => {
         this.setState({
@@ -356,10 +344,22 @@ class SelectField extends Component {
   };
 
   resetForm = () => {
-    this.myFormSelect.reset();
     this.setState({
+      name: "",
+      description: "",
+      title: "Title",
+      type:"SELECT",
+      helpertext: "",
+      formula: false,
+      active: true,
+      multiple: false,
+      validation: {
+        isReadOnly: false,
+        isRequired: false
+      },
       options: []
     });
+    this.changeValue("TITLE", this.state.title);
   };
 
   render() {
@@ -425,7 +425,8 @@ class SelectField extends Component {
                   })}
                   onClick={() => this.toggle("1")}
                 >
-                  General <i className="fa fa-cog" />
+                  <i className="fa fa-cog" />
+                  &nbsp; General
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -435,7 +436,8 @@ class SelectField extends Component {
                   })}
                   onClick={() => this.toggle("2")}
                 >
-                  Validation <i className="fa fa-exclamation-triangle" />
+                  <i className="fa fa-exclamation-triangle" />
+                  &nbsp; Validación
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -445,7 +447,8 @@ class SelectField extends Component {
                   })}
                   onClick={() => this.toggle("3")}
                 >
-                  Values <i className="fa fa-list-ul" />
+                  <i className="fa fa-list-ul" />
+                  &nbsp; Valores <span className="text-danger">*</span>{" "}
                 </NavLink>
               </NavItem>
             </Nav>
@@ -456,8 +459,11 @@ class SelectField extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="name">NAME</label>
+                          <label htmlFor="name">
+                            Nombre <span className="text-danger">*</span>{" "}
+                          </label>
                           <input
+                            placeholder={"Nombre"}
                             type="text"
                             className="form-control form-control-sm"
                             value={this.state.name}
@@ -469,8 +475,11 @@ class SelectField extends Component {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="title">Titulo</label>
+                          <label htmlFor="title">
+                            Etiqueta <span className="text-danger">*</span>{" "}
+                          </label>
                           <input
+                            placeholder={"Etiqueta"}
                             type="text"
                             className="form-control form-control-sm"
                             onChange={e =>
@@ -482,8 +491,9 @@ class SelectField extends Component {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="helpertext">Helper text</label>
+                          <label htmlFor="helpertext">Texto de ayuda </label>
                           <input
+                            placeholder={"Texto de ayuda"}
                             type="text"
                             className="form-control form-control-sm"
                             onChange={e =>
@@ -495,10 +505,11 @@ class SelectField extends Component {
                       </div>
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label htmlFor="description">Description</label>
-                          <input
+                          <label htmlFor="description">
+                            Descripción <span className="text-danger">*</span>{" "}
+                          </label>
+                          <textarea
                             id="description"
-                            type="text"
                             className="form-control form-control-sm"
                             value={this.state.description}
                             onChange={e =>
@@ -527,7 +538,14 @@ class SelectField extends Component {
                                 )
                               }
                             />
-                            <label htmlFor="isRequired"> ¿Es requerido? </label>
+                            &nbsp;
+                            <label
+                              htmlFor="isRequired"
+                              style={{ verticalAlign: "middle" }}
+                            >
+                              {" "}
+                              ¿Es requerido?{" "}
+                            </label>
                           </div>
                         </div>
                         <div className="col-md-4">
@@ -543,7 +561,14 @@ class SelectField extends Component {
                                 )
                               }
                             />
-                            <label htmlFor="isReadOnly"> ¿Solo lectura? </label>
+                            &nbsp;
+                            <label
+                              htmlFor="isReadOnly"
+                              style={{ verticalAlign: "middle" }}
+                            >
+                              {" "}
+                              ¿Solo lectura?{" "}
+                            </label>
                           </div>
                         </div>
                         <div className="col-md-4">
@@ -556,39 +581,16 @@ class SelectField extends Component {
                                 this.changeValue("MULTIPLE", e.target.checked)
                               }
                             />
-                            <label className="" htmlFor="multiple">
-                              ¿ Seleccion multiple ?
+                            &nbsp;
+                            <label
+                              className=""
+                              htmlFor="multiple"
+                              style={{ verticalAlign: "middle" }}
+                            >
+                              ¿Seleccion multiple?
                             </label>
                           </div>
                         </div>
-                        {/* <div className="col-md-6">
-                          <div className="form-group">
-                            <label htmlFor=""> Max </label>
-                            <input
-                              type={"number"}
-                              className="form-control form-control-sm"
-                              value={this.state.validation.max}
-                              onChange={e =>
-                                this.changeValue("MAX", e.target.value)
-                              }
-                              placeholder={"6"}
-                            />
-                          </div>
-                        </div> */}
-                        {/* <div className="col-md-6">
-                          <div className="form-group">
-                            <label htmlFor="">Min</label>
-                            <input
-                              type={"number"}
-                              className="form-control form-control-sm"
-                              onChange={e =>
-                                this.changeValue("MIN", e.target.value)
-                              }
-                              value={this.state.validation.min}
-                              placeholder={"6"}
-                            />
-                          </div>
-                        </div> */}
                       </div>
                     </div>
                   </Card>
@@ -599,7 +601,8 @@ class SelectField extends Component {
                       hidden={!this.state.duplicate}
                       className="alert text-center alert-danger"
                     >
-                      <strong>Valores </strong> Duplicados
+                      <i className="fa fa-exclamation-triangle" /> &nbsp;{" "}
+                      <strong>Valores duplicados</strong>
                     </p>
                     {this.state.options ? (
                       <table className="table text-center">
@@ -632,7 +635,7 @@ class SelectField extends Component {
                                 )}
                                 <td>
                                   <input
-                                    placeholder="Title"
+                                    placeholder="Etiqueta"
                                     autoFocus={true}
                                     value={this.state.options[index].title}
                                     onChange={e =>
@@ -649,7 +652,7 @@ class SelectField extends Component {
                                 </td>
                                 <td>
                                   <input
-                                    placeholder="Value"
+                                    placeholder="Valor"
                                     value={this.state.options[index].value}
                                     onChange={e =>
                                       this.changeOptionValue(
@@ -707,7 +710,7 @@ class SelectField extends Component {
                       onClick={() => this.addOption()}
                     >
                       {" "}
-                      <i className="fa fa-plus" /> Agregar Opciones
+                      <i className="fa fa-plus" /> Agregar opciones
                     </button>
                   </Card>
                 </TabPane>
@@ -722,7 +725,7 @@ class SelectField extends Component {
                       type={"checkbox"}
                       id={"active"}
                       label={
-                        "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la platilla correspondiente."
+                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente."
                       }
                       onChange={e => {
                         this.setState({
@@ -739,7 +742,7 @@ class SelectField extends Component {
                       id={"formula"}
                       type={"checkbox"}
                       label={
-                        "Campo para asignar a formula o seleccion condicional."
+                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
                       }
                       onChange={e => {
                         this.setState({
@@ -787,4 +790,12 @@ class SelectField extends Component {
     );
   }
 }
+SelectField.propTypes = {
+  changeState: PropTypes.func.isRequired,
+  field: PropTypes.any.isRequired,
+  index: PropTypes.any.isRequired,
+  key: PropTypes.any.isRequired,
+  removeField: PropTypes.func.isRequired,
+  authorization: PropTypes.string.isRequired
+};
 export default SelectField;

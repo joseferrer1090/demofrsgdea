@@ -207,7 +207,6 @@ class ModalEditPlantilla extends Component {
                     </p>
                   </Alert>
                   <Alert color={"success"} isOpen={this.state.alert200}>
-                    <i className="fa fa-exclamation-triangle" />{" "}
                     <p>Se actualizo la plantilla de manera exitosa</p>
                   </Alert>
                   <div className="row">

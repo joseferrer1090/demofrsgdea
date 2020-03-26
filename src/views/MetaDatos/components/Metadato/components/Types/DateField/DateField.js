@@ -164,7 +164,6 @@ class DateField extends Component {
             this.setState({
               alert200: false
             });
-            this.resetForm();
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
@@ -186,36 +185,36 @@ class DateField extends Component {
           }, 1500);
         }
       })
-      .catch(err => {
-        console.log(`Error => ${err}`);
+      .catch(error => {
+        this.setState({
+          alertError: true,
+          alertErrorMessage: error.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
       });
-    // const aux = JSON.stringify(
-    //   {
-    //     title: this.state.title,
-    //     name: this.state.name,
-    //     description: this.state.description,
-    //     isRequired: this.state.validation.isRequired,
-    //     isReadOnly: this.state.validation.isReadOnly,
-    //     min: this.state.validation.min,
-    //     max: this.state.validation.max
-    //   },
-    //   null,
-    //   2
-    // );
-    // alert(aux);
+    this.resetForm();
   };
 
   createMetadata = e => {
     e.preventDefault();
-    // mensaje de las validaciones custom
     Yup.setLocale({});
 
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      active: Yup.bool().test(value => value === true),
+      name: Yup.string().required(" Por favor introduzca un nombre."),
+      active: Yup.bool().test(
+        "Activo",
+        " Es necesario activar el metadato.",
+        value => value === true
+      ),
       min: Yup.date(new Date()),
       max: Yup.date(new Date()),
-      description: Yup.string().required()
+      description: Yup.string().required(
+        " Por favor introduzca una descripción."
+      )
     });
 
     schema
@@ -228,7 +227,6 @@ class DateField extends Component {
       })
       .then(() => {
         this.sendData();
-        console.log("Datos correctos");
       })
       .catch(err => {
         this.setState({
@@ -248,7 +246,17 @@ class DateField extends Component {
   };
 
   resetForm = () => {
-    this.MyForm.reset();
+    this.setState({
+      name: "",
+      title: "",
+      description: "",
+      validation: {
+        isRequired: false,
+        isReadOnly: false,
+        min: "",
+        max: ""
+      }
+    });
   };
 
   render() {

@@ -145,7 +145,21 @@ class Paragraph extends Component {
   };
 
   resetForm = () => {
-    this.MyForm.reset();
+    this.setState({
+      name: "",
+      description: "",
+      content: "",
+      title: "",
+      validation: {
+        isReadOnly: false,
+        isRequired: false
+      },
+
+      align: "center",
+      fontSize: "",
+      colorText: "#000000",
+      background: "#cccccc"
+    });
   };
 
   sendData = () => {
@@ -181,7 +195,6 @@ class Paragraph extends Component {
             this.setState({
               alert200: false
             });
-            this.resetForm();
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
@@ -203,21 +216,34 @@ class Paragraph extends Component {
           }, 1500);
         }
       })
-      .catch(err => {
-        console.log(`Error => ${err}`);
+      .catch(error => {
+        this.setState({
+          alertError: true,
+          alertErrorMessage: error.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
       });
+    this.resetForm();
   };
 
   createMatadata = e => {
     e.preventDefault();
-    // Los mensajes custom de las validaciones.
     Yup.setLocale({});
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      active: Yup.bool().test(value => value === true),
-      description: Yup.string().required()
+      name: Yup.string().required(" Por favor introduzca un nombre."),
+      active: Yup.bool().test(
+        "Activo",
+        " Es necesario activar el metadato.",
+        value => value === true
+      ),
+      description: Yup.string().required(
+        " Por favor introduzca una descripción."
+      )
     });
-
     schema
       .validate({
         name: this.state.name,
@@ -226,7 +252,6 @@ class Paragraph extends Component {
       })
       .then(() => {
         this.sendData();
-        // console.log("Se enviaron los datos");
       })
       .catch(err => {
         this.setState({
@@ -354,7 +379,7 @@ class Paragraph extends Component {
                           placeholder={"Nombre"}
                           type="text"
                           className="form-control form-control-sm"
-                          value={this.state.value}
+                          value={this.state.name}
                           onChange={e =>
                             this.changeValue("NAME", e.target.value)
                           }

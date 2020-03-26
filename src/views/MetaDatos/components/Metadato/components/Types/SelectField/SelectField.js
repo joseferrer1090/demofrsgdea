@@ -77,8 +77,6 @@ class SelectField extends Component {
 
   componentDidMount() {
     this.setState(this.props.field);
-    console.log(this.props.field);
-    // console.log(this.state.auth);
   }
 
   changeValue = (stateFor, value) => {
@@ -260,7 +258,6 @@ class SelectField extends Component {
             this.setState({
               alert200: false
             });
-            this.resetForm();
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
@@ -290,39 +287,31 @@ class SelectField extends Component {
           this.setState({ alert500: false });
         }, 1500);
       });
-    // const aux = JSON.stringify(
-    //   {
-    //     title: this.state.title,
-    //     name: this.state.name,
-    //     description: this.state.description,
-    //     helpertext: this.state.helpertext,
-    //     options: this.state.options,
-    //     multiple: this.state.multiple,
-    //     isRequired: this.state.validation.isRequired,
-    //     isReadOnly: this.state.validation.isReadOnly
-    //   },
-    //   null,
-    //   2
-    // );
-    // alert(aux);
+    this.resetForm();
   };
 
   createMetada = e => {
     e.preventDefault();
     Yup.setLocale({});
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
+      name: Yup.string().required(" Por favor introduzca un nombre."),
       options: Yup.array()
         .of(
           Yup.object().shape({
-            title: Yup.string().required(),
-            value: Yup.string().required(),
+            title: Yup.string().required(" Por favor introduzca la etiqueta."),
+            value: Yup.string().required(" Por favor introduzca el valor."),
             selected: Yup.bool()
           })
         )
-        .required(),
-      active: Yup.bool().test(value => value === true),
-      description: Yup.string().required()
+        .required("Por favor agregue las opciones."),
+      active: Yup.bool().test(
+        "Activo",
+        " Es necesario activar el metadato.",
+        value => value === true
+      ),
+      description: Yup.string().required(
+        " Por favor introduzca una descripción."
+      )
     });
     schema
       .validate({
@@ -333,8 +322,6 @@ class SelectField extends Component {
       })
       .then(() => {
         this.sendData();
-        this.resetForm();
-        console.log("los datos bien");
       })
       .catch(err => {
         this.setState({
@@ -355,8 +342,18 @@ class SelectField extends Component {
   };
 
   resetForm = () => {
-    this.myFormSelect.reset();
     this.setState({
+      name: "",
+      description: "",
+      title: "",
+      helpertext: "",
+      formula: false,
+      active: true,
+      multiple: false,
+      validation: {
+        isReadOnly: false,
+        isRequired: false
+      },
       options: []
     });
   };

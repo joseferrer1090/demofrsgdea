@@ -4,6 +4,7 @@ import { decode } from "jsonwebtoken";
 import { METADATA_VIEW } from "./../../../../../services/EndPoints";
 import { Card, CardHeader, CardBody, CardFooter } from "reactstrap";
 import PreviewComponent from "./PreviewComponent";
+import moment from "moment";
 
 class ViewComponent extends Component {
   constructor(props) {
@@ -54,6 +55,16 @@ class ViewComponent extends Component {
     })
       .then(resp => resp.json())
       .then(data => {
+        // console.log(data.metadata.createdAt);
+        // console.log(
+        //   moment(data.metadata.createdAt).format("DD-MM-YYYY, h:mm:ss a")
+        // );
+        // console.log(data.metadata.updatedAt);
+        // console.log(
+        //   moment(data.metadata.updatedAt).format("DD-MM-YYYY, h:mm:ss a")
+        // );
+        // console.log(data.metadata);
+        // console.log(data.details);
         this.setState({
           data: data.metadata,
           details: data.details
@@ -63,10 +74,19 @@ class ViewComponent extends Component {
         console.log(err.message);
       });
   };
-
+  // componentDidMount() {
+  //   this.FechaCreacionMetadato();
+  //   this.FechaModificacionMetadato();
+  // }
+  FechaCreacionMetadato = data => {
+    return moment(data).format("DD-MM-YYYY, h:mm:ss a");
+  };
+  FechaModificacionMetadato = data => {
+    return moment(data).format("DD-MM-YYYY, h:mm:ss a");
+  };
   render() {
     const aux = this.state.data;
-    console.log(this.state.data);
+    console.log(this.state.data.createdAt);
     console.log(this.state.details);
     return (
       <div>
@@ -87,7 +107,9 @@ class ViewComponent extends Component {
                           <input
                             type="text"
                             className="form-control form-control-sm"
-                            defaultValue={aux.createdAt}
+                            defaultValue={this.FechaCreacionMetadato(
+                              aux.createdAt
+                            )}
                             disabled
                           />
                         </div>
@@ -99,7 +121,9 @@ class ViewComponent extends Component {
                             type="text"
                             className="form-control form-control-sm"
                             disabled
-                            defaultValue={aux.updatedAt}
+                            defaultValue={this.FechaModificacionMetadato(
+                              aux.updatedAt
+                            )}
                           />
                         </div>
                       </div>
@@ -130,20 +154,31 @@ class ViewComponent extends Component {
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label> ¿Formula? </label>
+                          <label> Formula </label>
                           {aux.formula ? (
-                            <p className="text-success"> Asignado </p>
+                            <p className="text-success">
+                              {" "}
+                              <b>Asignado</b>{" "}
+                            </p>
                           ) : (
-                            <p className="text-danger">No asignado</p>
+                            <p className="text-danger">
+                              <b>No asignado</b>
+                            </p>
                           )}
                         </div>
                       </div>
                       <div className="col-md-6">
-                        <label> ¿ Activo ? </label>
+                        <label> Estado del metadato </label>
                         {aux.status ? (
-                          <p className="text-success"> Activo </p>
+                          <p className="text-success">
+                            {" "}
+                            <b>Activo</b>{" "}
+                          </p>
                         ) : (
-                          <p className="text-danger"> Inactivo </p>
+                          <p className="text-danger">
+                            {" "}
+                            <b>Inactivo</b>{" "}
+                          </p>
                         )}
                       </div>
                     </div>
@@ -174,13 +209,15 @@ class ViewComponent extends Component {
         <br />
         <Card>
           <CardHeader>
-            <i className="fa fa-eye" /> Vista previea del metadato
+            <i className="fa fa-eye" /> Vista previa del metadato.
           </CardHeader>
           <CardBody>
             <p className="alert alert-warning">
               <i className="fa fa-exclamation-triangle" />{" "}
-              <b>Vista previa del metadato.</b> Este solo tendra funcionalidad
-              en la plantilla donde sea relacionado, en el modulo de
+              <b>Vista previa del metadato</b>
+              <br />
+              El campo que está siendo pre visualizado será visible y operará
+              cuando se asigne a la plantilla correspondiente en el modulo de
               correspondencia.
             </p>
             <PreviewComponent

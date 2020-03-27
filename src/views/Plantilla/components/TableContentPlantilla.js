@@ -254,6 +254,7 @@ class TableContentPlantilla extends Component {
           modaldelete={this.state.modaldelete}
           ref={mdelete => (this.modalDeleteRef = mdelete)}
           id={this.state.id}
+          updateTable={this.getDataTemplates}
         />
       </div>
     );

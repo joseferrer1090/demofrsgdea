@@ -141,7 +141,7 @@ class ModalDeletePlantilla extends Component {
           validationSchema={Yup.object().shape({
             code: Yup.string()
               .trim()
-              .required("nombre de la plantilla es requerido")
+              .required("codigo de la plantilla es requerido")
           })}
         >
           {props => {
@@ -157,18 +157,18 @@ class ModalDeletePlantilla extends Component {
             } = props;
             return (
               <React.Fragment>
+                <Alert color="danger" isOpen={this.state.alert500}>
+                  <i className="fa fa-exclamation-triangle" /> Error no se puede
+                  eliminar, la plantilla existen registros con ella
+                </Alert>
+                <Alert color="danger" isOpen={this.state.alert400}>
+                  <i className="fa fa-exclamation-triangle" /> Verificar el
+                  codigo que ingreso para eliminar
+                </Alert>
+                <Alert color="success" isOpen={this.state.alert200}>
+                  <p>Se borro de manera safisfactoria la plantilla</p>
+                </Alert>
                 <form className="form">
-                  <Alert color="danger" isOpen={this.state.alert500}>
-                    <i className="fa fa-exclamation-triangle" /> Error no se
-                    puede eliminar, la plantilla existen registros con ella
-                  </Alert>
-                  <Alert color="danger" isOpen={this.state.alert400}>
-                    <i className="fa fa-exclamation-triangle" /> Verificar el
-                    codigo que ingreso para eliminar
-                  </Alert>
-                  <Alert color="success" isOpen={this.state.alert200}>
-                    <p>Se borro de manera safisfactoria la plantilla</p>
-                  </Alert>
                   <ModalBody>
                     <p className="text-center">
                       {" "}

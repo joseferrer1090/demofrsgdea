@@ -5,6 +5,8 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import { decode } from "jsonwebtoken";
 import ModalUpdateMetadata from "./ModalUpdateMetadata";
 import ModalUpdateDetails from "./ModalUpdateDetails";
+// import "./../../../../../css/styleTableUpdateMetadatos.css";
+import { Row, Col } from "reactstrap";
 
 const data = [
   {
@@ -321,9 +323,17 @@ class TableContentMetada extends Component {
   StatusMetadata = (cell, row) => {
     let status;
     if (row.status === 1 || row.status === true) {
-      status = <p className="text-success">Metadado Activo</p>;
+      status = (
+        <p className="text-success">
+          <b>Activo</b>{" "}
+        </p>
+      );
     } else if (row.status === 0 || row.status === false) {
-      status = <p className="text-danger"> Metadato Inactivo</p>;
+      status = (
+        <p className="text-danger">
+          <b>Inactivo</b>{" "}
+        </p>
+      );
     }
     return status;
   };
@@ -341,11 +351,65 @@ class TableContentMetada extends Component {
   }
 
   accionesMetadato(cell, row) {
+    let button;
+    if (row.inputType === "select" || row.inputType === "SELECT") {
+      button = (
+        <button
+          type="button"
+          title={"Actulizar detalles"}
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalDetails(row.id);
+            this.setState({
+              idDetails: row.id,
+              nameDetails: row.name
+            });
+          }}
+        >
+          <i className="fa fa-cog" /> Detalles
+        </button>
+      );
+    } else if (row.inputType === "radio" || row.inputType === "RADIO") {
+      button = (
+        <button
+          type="button"
+          title={"Actulizar detalles"}
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalDetails(row.id);
+            this.setState({
+              idDetails: row.id,
+              nameDetails: row.name
+            });
+          }}
+        >
+          <i className="fa fa-cog" /> Detalles
+        </button>
+      );
+    } else if (row.inputType === "checkbox" || row.inputType === "CHECKBOX") {
+      button = (
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          title={"Actulizar detalles"}
+          onClick={() => {
+            this.openModalDetails(row.id);
+            this.setState({
+              idDetails: row.id
+            });
+          }}
+        >
+          <i className="fa fa-cog" /> Detalles
+        </button>
+      );
+    }
+
     return (
       <div
-      // className="table-actionMenuConglo"
-      // style={{ textAlign: "center", padding: "0", marginRight: "40px" }}
+        // className="table-actionMenuMetadatos"
+        style={{ textAlign: "center", padding: "0", marginRight: "25px" }}
       >
+        &nbsp;
         <button
           className="btn btn-secondary btn-sm"
           data-trigger="hover"
@@ -356,7 +420,10 @@ class TableContentMetada extends Component {
           title={"Actualizar valores de control"}
         >
           <i className="fa fa-pencil" />
+          &nbsp; Controles
         </button>
+        &nbsp;
+        {button}
       </div>
     );
   }
@@ -416,7 +483,23 @@ class TableContentMetada extends Component {
     }
     return button;
   }
-
+  TipoMetadato(cell, row) {
+    let inputType;
+    if (row.inputType === "select") {
+      inputType = <span>Selección</span>;
+    } else if (row.inputType === "checkbox") {
+      inputType = <span>Check</span>;
+    } else if (row.inputType === "radio") {
+      inputType = <span>Radio</span>;
+    } else if (row.inputType === "textarea") {
+      inputType = <span>Párrafo</span>;
+    } else if (row.inputType === "date") {
+      inputType = <span>Fecha</span>;
+    } else if (row.inputType === "text") {
+      inputType = <span>Texto</span>;
+    }
+    return inputType;
+  }
   render() {
     return (
       <div className="card card-body">
@@ -429,6 +512,7 @@ class TableContentMetada extends Component {
           search
           searchPlaceholder="Buscar"
           pagination
+          // className="tableMetadatos tableMetadatos1 texto-Metadatos actionMenuMetadatos"
         >
           <TableHeaderColumn
             export={false}
@@ -436,38 +520,60 @@ class TableContentMetada extends Component {
             dataField={"id"}
             hidden={!this.state.hiddenColumnID}
           />
-          <TableHeaderColumn dataFormat={this.indexN} width={"50"}>
+          <TableHeaderColumn
+            dataFormat={this.indexN}
+            dataAlign={"center"}
+            width={"15"}
+          >
             #
           </TableHeaderColumn>
-          <TableHeaderColumn dataField={"name"} dataAlign={"center"} dataSort>
+          <TableHeaderColumn
+            dataField={"name"}
+            dataAlign={"center"}
+            dataSort
+            width={"100"}
+          >
             Nombre
           </TableHeaderColumn>
-          <TableHeaderColumn dataField={"inputType"} dataAlign={"center"}>
+          <TableHeaderColumn
+            dataField={"inputType"}
+            dataAlign={"center"}
+            width={"50"}
+            dataFormat={(cell, row) => this.TipoMetadato(cell, row)}
+          >
             Tipo metadato
           </TableHeaderColumn>
-          <TableHeaderColumn dataAlign={"center"} dataField={"description"}>
+          <TableHeaderColumn
+            dataAlign={"center"}
+            dataField={"description"}
+            width={"110"}
+          >
             Descripcion
           </TableHeaderColumn>
           <TableHeaderColumn
             dataField={"status"}
             dataAlign={"center"}
             dataFormat={(cell, row) => this.StatusMetadata(cell, row)}
+            width={"40"}
           >
             Estado
           </TableHeaderColumn>
+
           <TableHeaderColumn
             dataAlign={"center"}
             dataFormat={(cell, row) => this.accionesMetadato(cell, row)}
+            width={"100"}
           >
-            Acciones de control
+            Acciones
           </TableHeaderColumn>
-          <TableHeaderColumn
+          {/* <TableHeaderColumn
             dataAlign={"center"}
             dataFormat={(cell, row) => this.accionesDetalles(cell, row)}
+            width={"60"}
           >
             {" "}
             Acciones de detalles
-          </TableHeaderColumn>
+          </TableHeaderColumn> */}
         </BootstrapTable>
         <ModalUpdateMetadata
           authorization={this.state.auth}

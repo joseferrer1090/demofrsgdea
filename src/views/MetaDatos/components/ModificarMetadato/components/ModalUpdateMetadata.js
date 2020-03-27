@@ -6,7 +6,8 @@ import {
   ModalBody,
   ModalFooter,
   CustomInput,
-  Alert
+  Alert,
+  Spinner
 } from "reactstrap";
 import {
   METADATA_VIEW,
@@ -15,6 +16,7 @@ import {
 import { decode } from "jsonwebtoken";
 import IMG from "./../../../../../assets/img/keyboard.png";
 import * as Yup from "yup";
+import moment from "moment";
 
 class ModalUpdateMetadata extends Component {
   constructor(props) {
@@ -36,7 +38,8 @@ class ModalUpdateMetadata extends Component {
       alertErrorMessage: "",
       alert200: false,
       alert400: false,
-      alert500: false
+      alert500: false,
+      spinner: true
     };
   }
 
@@ -68,8 +71,16 @@ class ModalUpdateMetadata extends Component {
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      spinner: true
     });
+    // setTimeout(() => {
+    //   if (this.state.spinner !== false) {
+    //     this.setState({
+    //       spinner: false
+    //     });
+    //   }
+    // }, 1500);
   };
 
   getDataMetaDataByID = (id, auth) => {
@@ -93,7 +104,8 @@ class ModalUpdateMetadata extends Component {
           label: data.metadata.labelText,
           idMetadata: data.metadata.inputId,
           status: data.metadata.status,
-          formula: data.metadata.formula
+          formula: data.metadata.formula,
+          spinner: false
         });
         console.log(data.metadata);
       })
@@ -210,11 +222,17 @@ class ModalUpdateMetadata extends Component {
         console.log(`Error => ${err.message}`);
       });
   };
+  FechaCreacionMetadato = data => {
+    return moment(data).format("DD-MM-YYYY, h:mm:ss a");
+  };
+  FechaModificacionMetadato = data => {
+    return moment(data).format("DD-MM-YYYY, h:mm:ss a");
+  };
 
   render() {
     return (
       <Modal isOpen={this.state.modal} className="modal-lg">
-        <ModalHeader>Edicion de controles {this.state.data.name}</ModalHeader>
+        <ModalHeader>Edición de controles {this.state.data.name}</ModalHeader>
         <ModalBody>
           <Alert color={"danger"} isOpen={this.state.alertError}>
             <i className="fa fa-exclamation-triangle" />{" "}
@@ -238,155 +256,172 @@ class ModalUpdateMetadata extends Component {
             <div className={"col-md-4"}>
               <img
                 src={IMG}
-                width={220}
+                // width={220}
                 className="img-thumbnail"
-                style={{ padding: "20px" }}
+                // style={{ padding: "20px" }}
               />
             </div>
-            <div className={"col-md-8"}>
-              <form className="form">
-                <div className="row">
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>
-                        Fecha de creacion <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input
-                        type={"text"}
-                        className="form-control form-control-sm"
-                        value={this.state.fechaCreacion}
-                        disabled
-                      />
+            {this.state.spinner !== false ? (
+              <center>
+                <br />
+                <Spinner
+                  style={{ width: "3rem", height: "3rem" }}
+                  type="grow"
+                  color="primary"
+                />
+              </center>
+            ) : (
+              <div className={"col-md-8"}>
+                <form className="form">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>
+                          Fecha de creación{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </label>
+                        <input
+                          type={"text"}
+                          className="form-control form-control-sm"
+                          value={this.FechaCreacionMetadato(
+                            this.state.fechaCreacion
+                          )}
+                          disabled
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>
+                          Fecha de modificación{" "}
+                          <span className="text-danger">*</span>{" "}
+                        </label>
+                        <input
+                          type={"text"}
+                          className="form-control form-control-sm"
+                          value={this.FechaModificacionMetadato(
+                            this.state.fechaModificacion
+                          )}
+                          disabled
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label>
+                          Nombre <span className="text-danger">*</span>{" "}
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control form-control-sm"
+                          value={this.state.nombre}
+                          onChange={e => {
+                            this.setState({
+                              nombre: e.target.value
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <label>
+                          Descripción <span className="text-danger">*</span>{" "}
+                        </label>
+                        <textarea
+                          className="form-control form-control-sm"
+                          value={this.state.descripcion}
+                          onChange={e => {
+                            this.setState({
+                              descripcion: e.target.value
+                            });
+                          }}
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>
+                          Etiqueta <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type={"text"}
+                          className="form-control form-control-sm"
+                          value={this.state.label}
+                          onChange={e => {
+                            this.setState({
+                              label: e.target.value
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <label>
+                          Id del campo <span className="text-danger">*</span>
+                        </label>
+                        <input
+                          type={"text"}
+                          className="form-control form-control-sm"
+                          value={this.state.idMetadata}
+                          onChange={e => {
+                            this.setState({
+                              idMetadata: e.target.value
+                            });
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <CustomInput
+                          // value={this.state.active}
+                          defaultValue={!this.state.status}
+                          defaultChecked
+                          type="checkbox"
+                          id={"activeInput"}
+                          label={
+                            "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente."
+                          }
+                          onChange={e => {
+                            this.setState({
+                              status: e.target.checked
+                            });
+                          }}
+                        ></CustomInput>
+                      </div>
+                    </div>
+                    <div className="col-md-12">
+                      <div className="form-group">
+                        <CustomInput
+                          // value={this.state.active}
+                          defaultValue={!this.state.formula}
+                          type="checkbox"
+                          id={"formula"}
+                          label={
+                            "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
+                          }
+                          onChange={e => {
+                            this.setState({
+                              formula: e.target.checked
+                            });
+                          }}
+                        ></CustomInput>
+                      </div>
                     </div>
                   </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>
-                        Fecha de modificacion{" "}
-                        <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input
-                        type={"text"}
-                        className="form-control form-control-sm"
-                        value={this.state.fechaModificacion}
-                        disabled
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <label>
-                        Nombre <span className="text-danger">*</span>{" "}
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control form-control-sm"
-                        value={this.state.nombre}
-                        onChange={e => {
-                          this.setState({
-                            nombre: e.target.value
-                          });
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <label>
-                        Descripcion <span className="text-danger">*</span>{" "}
-                      </label>
-                      <textarea
-                        className="form-control form-control-sm"
-                        value={this.state.descripcion}
-                        onChange={e => {
-                          this.setState({
-                            descripcion: e.target.value
-                          });
-                        }}
-                      ></textarea>
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>
-                        Label <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type={"text"}
-                        className="form-control form-control-sm"
-                        value={this.state.label}
-                        onChange={e => {
-                          this.setState({
-                            label: e.target.value
-                          });
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-6">
-                    <div className="form-group">
-                      <label>
-                        Id tag metadato <span className="text-danger">*</span>
-                      </label>
-                      <input
-                        type={"text"}
-                        className="form-control form-control-sm"
-                        value={this.state.idMetadata}
-                        onChange={e => {
-                          this.setState({
-                            idMetadata: e.target.value
-                          });
-                        }}
-                      />
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <CustomInput
-                        // value={this.state.active}
-                        defaultValue={!this.state.status}
-                        defaultChecked
-                        type="checkbox"
-                        id={"activeInput"}
-                        label={
-                          "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la platilla correspondiente."
-                        }
-                        onChange={e => {
-                          this.setState({
-                            status: e.target.checked
-                          });
-                        }}
-                      ></CustomInput>
-                    </div>
-                  </div>
-                  <div className="col-md-12">
-                    <div className="form-group">
-                      <CustomInput
-                        // value={this.state.active}
-                        defaultValue={!this.state.formula}
-                        type="checkbox"
-                        id={"formula"}
-                        label={
-                          "Formula, asignar al metadato como formula, esta funcion sera visible en el plantilla"
-                        }
-                        onChange={e => {
-                          this.setState({
-                            formula: e.target.checked
-                          });
-                        }}
-                      ></CustomInput>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
+                </form>
+              </div>
+            )}
           </div>
         </ModalBody>
         <ModalFooter>
           <div className="pull-right">
             <button
               type="button"
-              className="btn btn-secondary btn-sm"
+              // className="btn btn-secondary btn-sm"
+              className={"btn btn-outline-success btn-sm"}
               onClick={e => {
                 this.sendData(e);
               }}

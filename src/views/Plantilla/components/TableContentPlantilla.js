@@ -108,6 +108,9 @@ class TableContentPlantilla extends Component {
           className="btn btn-danger btn-sm"
           data-trigger="hover"
           onClick={() => {
+            this.setState({
+              id: row.id
+            });
             this.openModalDelete();
           }}
         >
@@ -247,8 +250,10 @@ class TableContentPlantilla extends Component {
           updateTable={this.getDataTemplates}
         />
         <ModalDelete
+          authorization={this.state.token}
           modaldelete={this.state.modaldelete}
           ref={mdelete => (this.modalDeleteRef = mdelete)}
+          id={this.state.id}
         />
       </div>
     );

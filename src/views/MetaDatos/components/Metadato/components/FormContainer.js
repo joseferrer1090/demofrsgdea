@@ -1,19 +1,6 @@
 import React, { Component, createRef } from "react";
 import PropTypes from "prop-types";
-import {
-  Row,
-  Col,
-  Card,
-  CardImg,
-  CardText,
-  CardBody,
-  CardLink,
-  CardTitle,
-  CardSubtitle,
-  CardHeader,
-  CardFooter,
-  Button
-} from "reactstrap";
+import { Card, CardBody, CardHeader } from "reactstrap";
 import SingleField from "./Types/SingleField/SingleField";
 import SelectField from "./Types/SelectField/SelectField";
 import RadioButtons from "./Types/RadioButtons/RadioButtons";
@@ -50,20 +37,6 @@ class FormContainer extends Component {
     let list = this.tooList;
     let toolBoxContainer = this._toolBoxContainer;
     toolBoxContainer = "droppable";
-    //let self = this;
-    //const $ = window.$;
-    // $(function() {
-    //   $(toolBoxContainer).droppable({
-    //     drop: function(event, ui) {
-    //       let tool = $(ui.draggable[0]).attr("data-tool");
-    //       if (tool !== undefined) {
-    //         self.catchField(tool);
-    //       }
-    //     }
-    //   });
-    // });
-    // console.log(list);
-    // console.log(toolBoxContainer);
   }
 
   onDrop = e => {
@@ -74,20 +47,6 @@ class FormContainer extends Component {
     } else {
       return null;
     }
-    // let list = this.tooList;
-    // let toolBoxContainer = this._toolBoxContainer;
-    // let self = this;
-    // const $ = window.$;
-    // $(function() {
-    //   $(toolBoxContainer).droppable({
-    //     drop: function(event, ui) {
-    //       let tool = $(ui.draggable[0]).attr("data-tool");
-    //       if (tool !== undefined) {
-    //         self.catchField(tool);
-    //       }
-    //     }
-    //   });
-    // });
   };
 
   renderToolBoxItems = (field, index) => {
@@ -207,12 +166,10 @@ class FormContainer extends Component {
       fields[index] = e;
       this.setState({ fields: fields, change: this.state.change });
     }
-    //this.resetStateOrder();
     this.nameDuplicateReflector();
   };
 
   nameDuplicateReflector() {
-    // duplicate names
     let f = this.state.fields;
     var arr = [];
     f.forEach(i => {
@@ -245,7 +202,6 @@ class FormContainer extends Component {
       fields: fields,
       change: this.state.change
     });
-    //this.resetStateOrder();
     this.nameDuplicateReflector();
   }
 
@@ -258,7 +214,6 @@ class FormContainer extends Component {
   };
 
   nameDuplicateReflector = () => {
-    // duplicate names
     let f = this.state.fields;
     var arr = [];
     f.forEach(i => {
@@ -301,7 +256,6 @@ class FormContainer extends Component {
           dragActive: false,
           fields: fields
         });
-        //this.resetStateOrder();
         this.nameDuplicateReflector();
         return;
       }
@@ -430,7 +384,6 @@ class FormContainer extends Component {
       dragActive: false,
       fields: fields
     });
-    // this.resetStateOrder();
     this.nameDuplicateReflector();
   };
 
@@ -450,24 +403,11 @@ class FormContainer extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-code" /> Bolsa de metadatos{" "}
-                {/* <div className="pull-right">
-                  <button className="btn btn-secondary btn-sm">
-                    {" "}
-                    <i className="fa fa-eye" /> Preview
-                  </button>{" "}
-                </div> */}
               </CardHeader>
               <CardBody>
                 <div className="row">
                   <div className="col-md-12">
-                    <div
-                      className="list-group"
-                      ref={l => (this.tooList = l)}
-                      // onDragOver={e => {
-                      //   e.preventDefault();
-                      // }}
-                      // onDrop={e => this.onDrop(e)}
-                    >
+                    <div className="list-group" ref={l => (this.tooList = l)}>
                       {this.state.fields.length ? (
                         this.state.fields.map((field, index) => {
                           return this.renderToolBoxItems(field, index);
@@ -500,5 +440,12 @@ class FormContainer extends Component {
     );
   }
 }
-
+FormContainer.propTypes = {
+  loader: PropTypes.bool.isRequired,
+  debug: PropTypes.bool.isRequired,
+  updateOnMount: PropTypes.bool.isRequired,
+  updateForm: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
+  authorization: PropTypes.string.isRequired
+};
 export default FormContainer;

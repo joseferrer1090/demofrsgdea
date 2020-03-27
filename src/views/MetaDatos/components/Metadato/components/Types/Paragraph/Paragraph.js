@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import {
   Card,
   CardHeader,
@@ -144,7 +145,22 @@ class Paragraph extends Component {
   };
 
   resetForm = () => {
-    this.MyForm.reset();
+    this.setState({
+      name: "",
+      description: "",
+      content: "",
+      toolType: "PARAGRAPH",
+      title: "Title",
+      validation: {
+        isReadOnly: false,
+        isRequired: false
+      },
+      align: "center",
+      fontSize: "",
+      colorText: "",
+      background: ""
+    });
+    this.changeValue("TITLE", this.state.title);
   };
 
   sendData = () => {
@@ -180,7 +196,6 @@ class Paragraph extends Component {
             this.setState({
               alert200: false
             });
-            this.resetForm();
           }, 1500);
         } else if (resp.status === 400) {
           this.setState({
@@ -202,49 +217,44 @@ class Paragraph extends Component {
           }, 1500);
         }
       })
-      .catch(err => {
-        console.log(`Error => ${err}`);
+      .catch(error => {
+        this.setState({
+          alertError: true,
+          alertErrorMessage: error.message
+        });
+        setTimeout(() => {
+          this.setState({
+            alertError: false
+          });
+        }, 1500);
       });
-
-    // const aux = JSON.stringify(
-    //   {
-    //     title: this.state.title,
-    //     name: this.state.name,
-    //     content: this.state.content,
-    //     align: this.state.align,
-    //     fontSize: this.state.fontSize,
-    //     colorText: this.state.colorText,
-    //     colorContent: this.state.background,
-    //     disabled: this.state.disabled,
-    //     isReadOnly: this.state.validation.isReadOnly,
-    //     isRequired: this.state.validation.isRequired
-    //   },
-    //   null,
-    //   2
-    // );
-    // alert(aux);
+    this.resetForm();
   };
 
   createMatadata = e => {
     e.preventDefault();
-    // Los mensajes custom de las validaciones.
     Yup.setLocale({});
-
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      active: Yup.bool().test(value => value === true),
-      description: Yup.string().required()
+      name: Yup.string().required(" Por favor introduzca un nombre."),
+      active: Yup.bool().test(
+        "Activo",
+        " Es necesario activar el metadato.",
+        value => value === true
+      ),
+      description: Yup.string().required(
+        " Por favor introduzca una descripción."
+      ),
+      title: Yup.string().required(" Por favor introduzca la etiqueta.")
     });
-
     schema
       .validate({
         name: this.state.name,
         active: this.state.active,
-        description: this.state.description
+        description: this.state.description,
+        title: this.state.title
       })
       .then(() => {
         this.sendData();
-        // console.log("Se enviaron los datos");
       })
       .catch(err => {
         this.setState({
@@ -269,7 +279,7 @@ class Paragraph extends Component {
       <div>
         <Card clolor={"secondary"}>
           <CardHeader>
-            <i className="fa fa-paragraph" /> Selección area de texto{" "}
+            <i className="fa fa-paragraph" /> Tipo de campo área de texto{" "}
             {this.state.title}
             <span
               className="pull-right cross"
@@ -327,7 +337,8 @@ class Paragraph extends Component {
                     this.toggle("1");
                   }}
                 >
-                  General <i className="fa fa-cog" />
+                  <i className="fa fa-cog" />
+                  &nbsp; General
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -339,7 +350,9 @@ class Paragraph extends Component {
                     this.toggle("2");
                   }}
                 >
-                  Styles <i className="fa fa-pencil" />
+                  {" "}
+                  <i className="fa fa-exclamation-triangle" />
+                  &nbsp; Validación
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -351,7 +364,8 @@ class Paragraph extends Component {
                     this.toggle("3");
                   }}
                 >
-                  Validacion <i className="fa fa-exclamation-triangle" />
+                  <i className="fa fa-pencil" />
+                  &nbsp; Estilos
                 </NavLink>
               </NavItem>
             </Nav>
@@ -361,11 +375,14 @@ class Paragraph extends Component {
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="name">Name</label>
+                        <label htmlFor="name">
+                          Nombre <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
+                          placeholder={"Nombre"}
                           type="text"
                           className="form-control form-control-sm"
-                          value={this.state.value}
+                          value={this.state.name}
                           onChange={e =>
                             this.changeValue("NAME", e.target.value)
                           }
@@ -374,8 +391,11 @@ class Paragraph extends Component {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="title">Title</label>
+                        <label htmlFor="title">
+                          Etiqueta <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
+                          placeholder={"Etiqueta"}
                           type="text"
                           className="form-control form-control-sm"
                           onChange={e =>
@@ -387,8 +407,11 @@ class Paragraph extends Component {
                     </div>
                     <div className="col-md-12">
                       <div className="form-group">
-                        <label htmlFor="paragraph">Paragraph</label>
+                        <label htmlFor="paragraph">
+                          Párrafo <span className="text-danger">*</span>{" "}
+                        </label>
                         <input
+                          placeholder="Párrafo"
                           type="text"
                           className="form-control form-control-sm"
                           onChange={e =>
@@ -400,8 +423,10 @@ class Paragraph extends Component {
                     </div>
                     <div className="col-md-12">
                       <div className="form-grouop">
-                        <label>Descripcion</label>
-                        <input
+                        <label>
+                          Descripción <span className="text-danger">*</span>{" "}
+                        </label>
+                        <textarea
                           type="text"
                           className="form-control form-control-sm"
                           onChange={e => {
@@ -415,11 +440,90 @@ class Paragraph extends Component {
                 </Card>
               </TabPane>
               <TabPane tabId={"2"}>
+                <div className="row">
+                  <div className="col-md-12">
+                    <Card body>
+                      <div className="row">
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <input
+                              type="checkbox"
+                              id="isRequired"
+                              value={this.state.validation.isRequired}
+                              onChange={e =>
+                                this.changeValue(
+                                  "IS_REQUIRED",
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            &nbsp;
+                            <label
+                              htmlFor="isRequired"
+                              style={{ verticalAlign: "middle" }}
+                            >
+                              {" "}
+                              ¿Es requerido?{" "}
+                            </label>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <input
+                              type="checkbox"
+                              id="isReadOnly"
+                              value={this.state.validation.isReadOnly}
+                              onChange={e =>
+                                this.changeValue(
+                                  "IS_READONLY",
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            &nbsp;
+                            <label
+                              htmlFor="isReadOnly"
+                              style={{ verticalAlign: "middle" }}
+                            >
+                              {" "}
+                              ¿Solo lectura?{" "}
+                            </label>
+                          </div>
+                        </div>
+                        <div className="col-md-4">
+                          <div className="form-group">
+                            <input
+                              type="checkbox"
+                              id="disabled"
+                              value={this.state.disabled}
+                              onChange={e =>
+                                this.changeValue(
+                                  "IS_DISABLED",
+                                  e.target.checked
+                                )
+                              }
+                            />
+                            &nbsp;
+                            <label
+                              htmlFor="disabled"
+                              style={{ verticalAlign: "middle" }}
+                            >
+                              {" "}
+                              ¿Deshabilidado?{" "}
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </Card>
+                  </div>
+                </div>
+              </TabPane>
+              <TabPane tabId={"3"}>
                 <Card body>
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="Color">Text Color</label>
+                        <label htmlFor="Color">Color del texto</label>
                         <input
                           value={this.state.colorText}
                           onChange={e =>
@@ -432,10 +536,7 @@ class Paragraph extends Component {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="BackgroundColor">
-                          {" "}
-                          Background Color
-                        </label>
+                        <label htmlFor="BackgroundColor"> Color de fondo</label>
                         <input
                           value={this.state.background}
                           onChange={e =>
@@ -450,7 +551,7 @@ class Paragraph extends Component {
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="Color"> Text Align </label>
+                        <label htmlFor="Color">Alinear el texto</label>
                         <select
                           className="form-control form-control-sm"
                           onChange={e =>
@@ -458,15 +559,15 @@ class Paragraph extends Component {
                           }
                           value={this.state.align}
                         >
-                          <option value="center">Center</option>
-                          <option value="left">Left</option>
-                          <option value="right">Right</option>
-                          <option value="justify">Justify</option>
+                          <option value="center">Centro</option>
+                          <option value="left">Izquierda</option>
+                          <option value="right">Derecha</option>
+                          <option value="justify">Justificado</option>
                         </select>
                       </div>
                     </div>
                     <div className="col-md-6">
-                      <label htmlFor="Color"> Font size </label>
+                      <label htmlFor="Color"> Tamaño de la fuente </label>
                       <select
                         className="form-control form-control-sm"
                         value={this.state.fontSize}
@@ -486,73 +587,6 @@ class Paragraph extends Component {
                   </div>
                 </Card>
               </TabPane>
-              <TabPane tabId={"3"}>
-                <div className="row">
-                  <div className="col-md-12">
-                    <Card body>
-                      <div className="row">
-                        <div className="col-md-4">
-                          <div className="form-group">
-                            <input
-                              type="checkbox"
-                              id="isReadOnly"
-                              value={this.state.validation.isReadOnly}
-                              onChange={e =>
-                                this.changeValue(
-                                  "IS_READONLY",
-                                  e.target.checked
-                                )
-                              }
-                            />
-                            <label htmlFor="isReadOnly">
-                              {" "}
-                              ¿ Solo lectura ?{" "}
-                            </label>
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="form-group">
-                            <input
-                              type="checkbox"
-                              id="isRequired"
-                              value={this.state.validation.isRequired}
-                              onChange={e =>
-                                this.changeValue(
-                                  "IS_REQUIRED",
-                                  e.target.checked
-                                )
-                              }
-                            />
-                            <label htmlFor="isRequired">
-                              {" "}
-                              ¿ Es requerido ?{" "}
-                            </label>
-                          </div>
-                        </div>
-                        <div className="col-md-4">
-                          <div className="form-group">
-                            <input
-                              type="checkbox"
-                              id="disabled"
-                              value={this.state.disabled}
-                              onChange={e =>
-                                this.changeValue(
-                                  "IS_DISABLED",
-                                  e.target.checked
-                                )
-                              }
-                            />
-                            <label htmlFor="disabled">
-                              {" "}
-                              ¿ Deshabilidado ?{" "}
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                    </Card>
-                  </div>
-                </div>
-              </TabPane>
             </TabContent>
             <br />
             <div className="row">
@@ -564,7 +598,7 @@ class Paragraph extends Component {
                     type={"checkbox"}
                     id={"activeInput"}
                     label={
-                      "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la plantilla correspondiente."
+                      "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente."
                     }
                     onChange={e => {
                       this.setState({
@@ -581,7 +615,7 @@ class Paragraph extends Component {
                     type="checkbox"
                     id="formula"
                     label={
-                      "Campo para asignar a formula o seleccion condicional."
+                      "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
                     }
                     onChange={e => {
                       this.setState({
@@ -627,5 +661,12 @@ class Paragraph extends Component {
     );
   }
 }
-
+Paragraph.propsTypes = {
+  changeState: PropTypes.func.isRequired,
+  field: PropTypes.any.isRequired,
+  index: PropTypes.any.isRequired,
+  key: PropTypes.any.isRequired,
+  removeField: PropTypes.func.isRequired,
+  authorization: PropTypes.string.isRequired
+};
 export default Paragraph;

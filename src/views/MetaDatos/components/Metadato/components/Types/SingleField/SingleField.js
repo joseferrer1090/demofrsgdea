@@ -1,11 +1,10 @@
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 import {
   Card,
   CardHeader,
   CardBody,
   CardFooter,
   Nav,
-  NavItem,
   NavLink,
   TabContent,
   TabPane,
@@ -20,26 +19,6 @@ import ModalPreview from "../../ModalPreview";
 import { METADATA_CREATE } from "../../../../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import * as Yup from "yup";
-
-// const InputTypes = [
-//   "Checkbox",
-//   "Color",
-//   "Date",
-//   "Email",
-//   "File",
-//   "Month",
-//   "Number",
-//   "Password",
-//   "Radio",
-//   "Range",
-//   "Search",
-//   "Tel",
-//   "Text",
-//   "Time",
-//   "Url",
-//   "Week",
-//   "Textarea"
-// ];
 
 class SingleField extends Component {
   constructor(props) {
@@ -70,7 +49,8 @@ class SingleField extends Component {
       alert400: false,
       alert500: false,
       alertError: false,
-      alertErrorMessage: ""
+      alertErrorMessage: "",
+      previewInfoField: false
     };
   }
 
@@ -187,9 +167,7 @@ class SingleField extends Component {
             this.setState({
               alert200: false
             });
-            this.resetForm();
           }, 1500);
-          //console.log("se enviaron bien los datos");
         } else if (response.status === 400) {
           this.setState({
             alert400: true
@@ -198,9 +176,7 @@ class SingleField extends Component {
             this.setState({
               alert400: false
             });
-            this.resetForm();
           }, 1500);
-          //console.log("Error al enviar los datos");
         } else if (response.status === 500) {
           this.setState({
             alert500: true
@@ -209,9 +185,7 @@ class SingleField extends Component {
             this.setState({
               alert500: false
             });
-            this.resetForm();
           }, 1500);
-          //console.log("Error en el servidor");
         }
       })
       .catch(error => {
@@ -223,26 +197,31 @@ class SingleField extends Component {
         }, 1500);
         console.log(`error, ${error}`);
       });
+    this.resetForm();
+    console.log(this.props.field);
   };
 
   CreateMetadate = e => {
     e.preventDefault();
-    // mensajes personalizados para la validacion
-    Yup.setLocale({
-      // mixed: {
-      //   required: `Campo  necesario para el registro`
-      // }
-    });
+    Yup.setLocale({});
     const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      active: Yup.bool().test(value => value === true),
-      description: Yup.string().required()
+      name: Yup.string().required(" Por favor introduzca un nombre."),
+      active: Yup.bool().test(
+        "Activo",
+        " Es necesario activar el metadato.",
+        value => value === true
+      ),
+      description: Yup.string().required(
+        " Por favor introduzca una descripción."
+      ),
+      title: Yup.string().required(" Por favor introduzca la etiqueta.")
     });
     schema
       .validate({
         name: this.state.name,
         active: this.state.active,
-        description: this.state.description
+        description: this.state.description,
+        title: this.state.title
       })
       .then(() => {
         if (schema.isValid) {
@@ -266,10 +245,26 @@ class SingleField extends Component {
   };
 
   resetForm = () => {
-    this.myFormRef.reset();
+    this.setState({
+      name: "",
+      description: "",
+      title: "Title",
+      type: "text",
+      defaultValue: "",
+      placeholder: "",
+      helpertext: "",
+      formula: false,
+      active: true,
+      validation: {
+        isReadOnly: false,
+        isRequired: false,
+        min: 6,
+        max: 6
+      }
+    });
+    this.changeValue("TITLE", this.state.title);
   };
   render() {
-    // console.log(this.state.dragType);
     return (
       <div className="container">
         <div className="row">
@@ -285,7 +280,6 @@ class SingleField extends Component {
                   <i className="fa fa-times" style={{ color: "red" }} />
                 </button>
               </CardHeader>
-
               <CardBody>
                 <Alert color={"danger"} isOpen={this.state.alertError}>
                   <p className="text-justify">
@@ -338,7 +332,8 @@ class SingleField extends Component {
                       this.toggle("1");
                     }}
                   >
-                    General <i className="fa fa-cog" />
+                    <i className="fa fa-cog" />
+                    &nbsp; General
                   </NavLink>
                   <NavLink
                     className={classnames({
@@ -348,8 +343,8 @@ class SingleField extends Component {
                       this.toggle("2");
                     }}
                   >
-                    {" "}
-                    Validacion <i className="fa fa-exclamation-triangle" />
+                    <i className="fa fa-exclamation-triangle" />
+                    &nbsp; Validación
                   </NavLink>
                 </Nav>
                 <form className="form" ref={el => (this.myFormRef = el)}>
@@ -359,43 +354,25 @@ class SingleField extends Component {
                         <div className="row">
                           <div className="col-md-12">
                             <div className="form-group">
-                              <label htmlFor="name">Name</label>
+                              <label htmlFor="name">
+                                Nombre <span className="text-danger">*</span>{" "}
+                              </label>
                               <input
                                 type="text"
                                 className="form-control form-control-sm"
                                 onChange={e => {
                                   this.changeValue("NAME", e.target.value);
                                 }}
-                                placeholder="NAME"
+                                placeholder="Nombre"
+                                value={this.state.name}
                               />
                             </div>
                           </div>
                         </div>
                         <div className="row">
-                          {/* <div className="col-md-6">
-                            <div className="form-group">
-                              <label htmlFor="title">Type</label>
-                              <select
-                                className="form-control from-control-sm"
-                                onChange={e =>
-                                  this.changeValue("TYPE", e.target.value)
-                                }
-                                className="form-control form-control-sm"
-                                defaultValue={this.state.type}
-                              >
-                                {InputTypes.map((type, id) => {
-                                  return (
-                                    <option value={type} key={id}>
-                                      {type}
-                                    </option>
-                                  );
-                                })}
-                              </select>
-                            </div>
-                          </div> */}
                           <div className="col-md-6">
                             <div className="form-group">
-                              <label>Default value</label>
+                              <label>Valor por defecto</label>
                               <input
                                 type="text"
                                 className="form-control form-control-sm"
@@ -412,7 +389,7 @@ class SingleField extends Component {
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
-                              <label>Helper text</label>
+                              <label>Texto de ayuda</label>
                               <input
                                 type="text"
                                 className="form-control form-control-sm"
@@ -433,7 +410,8 @@ class SingleField extends Component {
                             <div className="form-group">
                               <label htmlFor="title">
                                 {" "}
-                                Label {this.state.title}
+                                Etiqueta {this.state.title}{" "}
+                                <span className="text-danger">*</span>{" "}
                               </label>
                               <input
                                 type="text"
@@ -441,14 +419,16 @@ class SingleField extends Component {
                                 onChange={e =>
                                   this.changeValue("TITLE", e.target.value)
                                 }
-                                placeholder="Field label Title"
+                                placeholder="Etiqueta del campo"
                                 className={"form-control form-control-sm"}
                               />
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
-                              <label htmlFor="title">Placeholder</label>
+                              <label htmlFor="title">
+                                Marcador de posición
+                              </label>
                               <input
                                 type="text"
                                 value={this.state.placeholder}
@@ -458,7 +438,7 @@ class SingleField extends Component {
                                     e.target.value
                                   )
                                 }
-                                placeholder="Field Placeholder"
+                                placeholder="Marcador de posición"
                                 className="form-control form-control-sm"
                               />
                             </div>
@@ -467,7 +447,10 @@ class SingleField extends Component {
                         <div className="row">
                           <div className="col-md-12">
                             <div className="form-group">
-                              <label htmlFor="title">description</label>
+                              <label htmlFor="title">
+                                Descripción{" "}
+                                <span className="text-danger">*</span>{" "}
+                              </label>
                               <textarea
                                 value={this.state.description}
                                 onChange={e =>
@@ -500,9 +483,12 @@ class SingleField extends Component {
                                 type={"Checkbox"}
                                 id="isRequired"
                               />
-                              <label className="" htmlFor={"isRequired"}>
+                              <label
+                                htmlFor={"isRequired"}
+                                style={{ verticalAlign: "middle" }}
+                              >
                                 {" "}
-                                ¿Es requerido?
+                                &nbsp; ¿Es requerido?
                               </label>
                             </div>
                           </div>
@@ -520,14 +506,19 @@ class SingleField extends Component {
                                 className=""
                                 id="isReadOnly"
                               />
-                              <label htmlFor="isReadOnly">¿Solo lectura?</label>
+                              <label
+                                htmlFor="isReadOnly"
+                                style={{ verticalAlign: "middle" }}
+                              >
+                                &nbsp; ¿Solo lectura?
+                              </label>
                             </div>
                           </div>
                         </div>
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
-                              <label htmlFor="">MAX 20 caracteres</label>
+                              <label htmlFor="">Máximo 20 caracteres </label>
                               <input
                                 type="number"
                                 className="form-control form-control-sm"
@@ -541,7 +532,9 @@ class SingleField extends Component {
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
-                              <label htmlFor="title">MIN 6 caracteres </label>
+                              <label htmlFor="title">
+                                Mínimo 6 caracteres{" "}
+                              </label>
                               <input
                                 type="number"
                                 onChange={e =>
@@ -562,14 +555,11 @@ class SingleField extends Component {
                     <div className="col-md-12">
                       <div className="form-group">
                         <CustomInput
-                          // value={this.state.active}
                           defaultValue={!this.state.active}
                           defaultChecked
                           type="checkbox"
                           id={"activeInput"}
-                          label={
-                            "Activar el metadato, para sea visible el la bolsa de metadatos y asignar en la platilla correspondiente."
-                          }
+                          label={`Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente.`}
                           onChange={e => {
                             this.setState({
                               active: e.target.checked
@@ -580,7 +570,9 @@ class SingleField extends Component {
                         <CustomInput
                           value={this.state.formula}
                           type={"checkbox"}
-                          label={"Campo para asignar a formula"}
+                          label={
+                            "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
+                          }
                           id={"formula"}
                           onChange={e => {
                             this.setState({ formula: e.target.checked });
@@ -621,6 +613,7 @@ class SingleField extends Component {
           modalpreview={this.state.modalpreview}
           inputType={this.state.dragType}
           field={this.props.field}
+          // field={this.state.previewInfoField}
         />
       </div>
     );

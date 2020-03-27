@@ -639,26 +639,35 @@ export const TEMPLATE_EMAIL = `${config.IP}:${config.PORT}/api/sgdea/service/con
 
 //---------------------------------------------PLANTILLA DE DATOS--------------------------------------------------//
 
-/* GET / POST / PUT */
-export const TEMPLATES = "http://192.168.10.180:7000/api/sgdea/template";
+/* GET */
+export const TEMPLATE_ALL = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates`;
 
-/* GET / DELETE */
-export const TEMPLATE =
-  "http://192.168.10.180:7000/api/sgdea/template/3df0b744-a7b4-416b-bbeb-f4d8d5ae32e1/ccuartas";
+/* GET params => idTemplate */
+export const TEMPLATE_SHOW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates`;
 
 /* GET */
-export const TEMPLATES_STATUS =
-  "http://192.168.10.180:7000/api/sgdea/template/status/1";
+export const TEMPLATE_ACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates/active`;
 
 /* GET */
-export const TEMPLATES_EXPORT =
-  "http://192.168.10.180:7000/api/sgdea/template/export/ccuartas";
+export const TEMPLATE_INACTIVE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates/inactive`;
+
+/* POST */
+export const TEMPLATE_CREATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates`;
+
+/* PUT */
+export const TEMPLATE_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates`;
+
+/* DELETE params => idTemplate */
+export const TEMPLATE_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates/`;
+
+/* GET params => username */
+export const TEMPLATE_EXPORT = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates/export/data`;
 
 /* GET */
 export const TEMPLATES_PAGINATION = () => {
   const page = 0;
   const size = 1;
-  return `http://192.168.10.180:7000/api/sgdea/template/pagination?page=${page}&size=${size}`;
+  return `${config.IP}:${config.PORT}/api/sgdea/service/configuration/templates/pagination?page=${page}&size=${size}`;
 };
 
 //---------------------------------------------PERMISOS-----------------------------------------------------//

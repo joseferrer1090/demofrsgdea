@@ -207,7 +207,9 @@ class SingleField extends Component {
         }, 1500);
         console.log(`error, ${error}`);
       });
-    this.resetForm();
+    setTimeout(() => {
+      this.resetForm();
+    }, 500);
   };
 
   CreateMetadate = e => {

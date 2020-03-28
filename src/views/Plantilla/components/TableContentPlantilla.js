@@ -6,6 +6,7 @@ import ModalDelete from "./ModalDeletePlantilla";
 import ModalView from "./ModalViewPlantilla";
 import ModalEdit from "./ModalEditPlantilla";
 import ModalViewPlantilla from "./ModalViewPlantilla";
+import ModalExport from "./ModalExportData";
 import { TEMPLATE_ALL } from "./../../../services/EndPoints";
 import moment from "moment";
 
@@ -16,6 +17,7 @@ class TableContentPlantilla extends Component {
       modaldelete: false,
       modalview_: false,
       modaledit: false,
+      modalexport: false,
       token: this.props.authorization,
       dataTemplate: [],
       id: ""
@@ -150,6 +152,10 @@ class TableContentPlantilla extends Component {
     this.refs.child1.toggle(id);
   }
 
+  openModalExport() {
+    this.modalExport.toggle();
+  }
+
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
   }
@@ -160,7 +166,24 @@ class TableContentPlantilla extends Component {
     return moment(createdAt).format("DD-MM-YYYY");
   }
 
+  createCustomButtonGroup = props => {
+    return (
+      <button
+        type="button"
+        className={`btn btn-secondary btn-sm`}
+        onClick={() => this.openModalExport()}
+      >
+        <i className="fa fa-download" /> exportar
+      </button>
+    );
+  };
+
   render() {
+    const options = {
+      btnGroup: this.createCustomButtonGroup,
+      pagination: true,
+      exportCSV: true
+    };
     return (
       <div className="animated fadeIn">
         <Row>
@@ -172,9 +195,9 @@ class TableContentPlantilla extends Component {
               striped
               search
               searchPlaceholder="Buscar"
-              exportCSV
               pagination
               className=""
+              options={options}
             >
               <TableHeaderColumn
                 isKey
@@ -255,6 +278,10 @@ class TableContentPlantilla extends Component {
           ref={mdelete => (this.modalDeleteRef = mdelete)}
           id={this.state.id}
           updateTable={this.getDataTemplates}
+        />
+        <ModalExport
+          modalexport={this.state.modalexport}
+          ref={mexport => (this.modalExport = mexport)}
         />
       </div>
     );

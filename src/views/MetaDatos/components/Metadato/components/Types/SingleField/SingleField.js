@@ -163,6 +163,16 @@ class SingleField extends Component {
           this.setState({
             alert200: true
           });
+          console.log({
+            id: this.state.name,
+            name: this.state.name,
+            type: this.state.type,
+            title: this.state.title,
+            inputPlaceholder: this.state.placeholder,
+            description: this.state.description,
+            formula: this.state.formula,
+            active: this.state.active
+          });
           setTimeout(() => {
             this.setState({
               alert200: false
@@ -197,8 +207,9 @@ class SingleField extends Component {
         }, 1500);
         console.log(`error, ${error}`);
       });
-    this.resetForm();
-    console.log(this.props.field);
+    setTimeout(() => {
+      this.resetForm();
+    }, 500);
   };
 
   CreateMetadate = e => {

@@ -317,15 +317,33 @@ class TableContentMetadata extends Component {
   StatusMetadata = (cell, row) => {
     let status;
     if (row.status === 1 || row.status === true) {
-      status = <b className="text-success">Metadado Activo</b>;
+      status = <b className="text-success"> Activo</b>;
     } else if (row.status === 0 || row.status === false) {
-      status = <b className="text-danger"> Metadato Inactivo</b>;
+      status = <b className="text-danger"> Inactivo</b>;
     }
     return status;
   };
 
   indexN(cell, row, enumObject, index) {
     return <div key={index}>{index + 1}</div>;
+  }
+
+  TipoMetadato(cell, row) {
+    let inputType;
+    if (row.inputType === "select") {
+      inputType = <span>Selección</span>;
+    } else if (row.inputType === "checkbox") {
+      inputType = <span>Check</span>;
+    } else if (row.inputType === "radio") {
+      inputType = <span>Radio</span>;
+    } else if (row.inputType === "textarea") {
+      inputType = <span>Párrafo</span>;
+    } else if (row.inputType === "date") {
+      inputType = <span>Fecha</span>;
+    } else if (row.inputType === "text") {
+      inputType = <span>Texto</span>;
+    }
+    return inputType;
   }
 
   render() {
@@ -338,6 +356,7 @@ class TableContentMetadata extends Component {
         });
       }
     };
+
     return (
       <div className="Animated fadeIn">
         <div className="row">
@@ -367,24 +386,28 @@ class TableContentMetadata extends Component {
                     dataFormat={this.indexN}
                     dataField={"id"}
                     dataAlign={"center"}
+                    width={"35"}
                   >
                     #
                   </TableHeaderColumn>
-                  <TableHeaderColumn dataField={"name"} dataSort>
+                  <TableHeaderColumn dataField={"name"} dataSort width={"150"}>
                     {" "}
                     Nombre
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField={"inputType"}
                     dataAlign={"center"}
+                    width={"100"}
+                    dataFormat={(cell, row) => this.TipoMetadato(cell, row)}
                   >
-                    Tipo de metadato
+                    Tipo
                   </TableHeaderColumn>
-                  <TableHeaderColumn dataField={"description"}>
+                  <TableHeaderColumn width={"170"} dataField={"description"}>
                     {" "}
                     Descripcion
                   </TableHeaderColumn>
                   <TableHeaderColumn
+                    // width={"20"}
                     dataField={"status"}
                     dataAlign={"center"}
                     dataFormat={(cell, row) => this.StatusMetadata(cell, row)}

@@ -280,6 +280,7 @@ class TableContentPlantilla extends Component {
           updateTable={this.getDataTemplates}
         />
         <ModalExport
+          authorization={this.state.token}
           modalexport={this.state.modalexport}
           ref={mexport => (this.modalExport = mexport)}
         />

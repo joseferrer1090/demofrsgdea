@@ -74,13 +74,11 @@ class ModalUpdateMetadata extends Component {
       modal: !this.state.modal,
       spinner: true
     });
-    // setTimeout(() => {
-    //   if (this.state.spinner !== false) {
-    //     this.setState({
-    //       spinner: false
-    //     });
-    //   }
-    // }, 1500);
+    setTimeout(() => {
+      this.setState({
+        spinner: false
+      });
+    }, 2000);
   };
 
   getDataMetaDataByID = (id, auth) => {
@@ -120,16 +118,16 @@ class ModalUpdateMetadata extends Component {
     const schema = Yup.object().shape({
       nombre: Yup.string()
         .trim()
-        .required(),
+        .required(" Por favor introduzca un nombre."),
       descripcion: Yup.string()
         .trim()
-        .required(),
+        .required(" Por favor introduzca una descripión."),
       label: Yup.string()
         .trim()
-        .required(),
+        .required(" Por favor introduzca la etiqueta."),
       idMetadata: Yup.string()
         .trim()
-        .required()
+        .required(" Por favor introduzca el ID del campo.")
     });
     schema
       .validate({
@@ -239,17 +237,18 @@ class ModalUpdateMetadata extends Component {
             {this.state.alertErrorMessage}
           </Alert>
           <Alert color={"success"} isOpen={this.state.alert200}>
-            <p>Se actualizo el metadado de manera correcta</p>
+            <p>Se actualizo el metadado con éxito.</p>
           </Alert>
           <Alert color={"danger"} isOpen={this.state.alert400}>
             <p>
-              <i className="fa fa-exclamation-triangle" /> Verificar la
-              informacion del formulario
+              <i className="fa fa-exclamation-triangle" /> Error al actualizar
+              el metadato. Inténtelo nuevamente.
             </p>
           </Alert>
           <Alert color={"danger"} isOpen={this.state.alert500}>
             <p>
-              <i className="fa fa-exclamation-triangle" /> Error del servidor{" "}
+              <i className="fa fa-exclamation-triangle" /> Error del servidor.
+              Inténtelo nuevamente.{" "}
             </p>
           </Alert>
           <div className="row">
@@ -435,7 +434,8 @@ class ModalUpdateMetadata extends Component {
               className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({
-                  modal: false
+                  modal: false,
+                  spinner: false
                 });
               }}
             >

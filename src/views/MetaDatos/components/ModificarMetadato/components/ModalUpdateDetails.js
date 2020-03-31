@@ -736,13 +736,21 @@ class ModalUpdateDetails extends Component {
                       className="btn btn-secondary btn-sm"
                       onClick={() => {
                         this.sendData();
-                        this.setState({
-                          spinner: true,
-                          actions: {
-                            ...this.state.actions,
-                            visible1: !this.state.actions.visible1
-                          }
-                        });
+                        if (
+                          this.state.formcreate.title &&
+                          this.state.formcreate.value &&
+                          this.state.formcreate.id !== ""
+                        ) {
+                          this.setState({
+                            spinner: true
+                          });
+                        }
+                        // this.setState({
+                        //   actions: {
+                        //     ...this.state.actions,
+                        //     visible1: !this.state.actions.visible1
+                        //   }
+                        // });
                       }}
                     >
                       <i className="fa fa-plus-circle" /> Crear detalle{" "}
@@ -833,9 +841,14 @@ class ModalUpdateDetails extends Component {
                       className="btn btn-secondary btn-sm"
                       onClick={e => {
                         this.sendDataUpdate(e);
-                        this.setState({
-                          spinner: true
-                        });
+                        if (
+                          this.state.formcreate.title &&
+                          this.state.formcreate.value !== ""
+                        ) {
+                          this.setState({
+                            spinner: true
+                          });
+                        }
                       }}
                     >
                       <i className="fa fa-pencil" />

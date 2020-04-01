@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 import { Card, CardBody, CardFooter, CardHeader, Row, Col } from "reactstrap";
+import { TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID } from "./../../../services/EndPoints";
 import ModalAddIndexes from "./ModalAddIndexes";
 import ModalEditIndexes from "./ModalEditIndex";
 import ModalDeleteIndex from "./ModalDeleteIndex";
 import ModalMultiple from "./ModalDeleteMultipleIndex";
 import PropTypes from "prop-types";
+import { decode } from "jsonwebtoken";
 
 class AddIndexPlantilla extends Component {
   constructor(props) {
@@ -35,6 +37,29 @@ class AddIndexPlantilla extends Component {
       });
     }
   }
+
+  componentDidMount() {
+    this.getDataTemplateID(this.state.id, this.state.auth);
+  }
+
+  getDataTemplateID = (id, auth) => {
+    const token = auth;
+    const username = decode(auth);
+    fetch(`${TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID}${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token
+      }
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
 
   openModalAdd() {
     this.refs.child.toggle();

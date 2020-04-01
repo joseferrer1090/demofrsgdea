@@ -321,7 +321,7 @@ const routes = [
   {
     path: `/configuracion/plantilla/addindexes/:id`,
     exact: true,
-    name: "Agregar indices de datos",
+    name: "Edicion estructura de la plantilla",
     component: props => (
       <AddIndexPlantilla
         {...props}

@@ -14,6 +14,7 @@ import FormCreate from "./components/FormCreateConglomerado";
 import TableContent from "./components/TableContentConglomerado";
 import ImportFile from "./components/FormUploadFile";
 import { withTranslation } from "react-i18next";
+import { decode } from "jsonwebtoken";
 
 const asyncLocalStorage = {
   setItem: async function(key, value) {
@@ -46,6 +47,7 @@ class Conglomerado extends React.Component {
         return JSON.parse(resp);
       })
       .then(resp => {
+        console.log(decode(resp.data.access_token));
         this.setState({
           authToken: resp.data.access_token
         });

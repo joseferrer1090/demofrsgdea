@@ -136,7 +136,7 @@ class TableContentPlantilla extends Component {
   openModalDelete() {
     this.modalDeleteRef.toggle();
   }
-
+  x;
   openModalEdit() {
     this.modalEditRef.toggle();
     //let path = `/#/configuracion/plantilla/edit`;

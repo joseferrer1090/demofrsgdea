@@ -13,8 +13,27 @@ class AddIndexPlantilla extends Component {
       modaladd: false,
       modaledit: false,
       modaldel: false,
-      modaldelmul: false
+      modaldelmul: false,
+      auth: this.props.authorization,
+      id: this.props.match.params.id
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   openModalAdd() {
@@ -34,7 +53,7 @@ class AddIndexPlantilla extends Component {
   }
 
   render() {
-    console.log(this.props);
+    console.log(this.state);
     return (
       <div className="animated fadeIn">
         <Row>
@@ -118,6 +137,8 @@ class AddIndexPlantilla extends Component {
   }
 }
 
-AddIndexPlantilla.propTypes = {};
+AddIndexPlantilla.propTypes = {
+  authorization: PropTypes.string.isRequired
+};
 
 export default AddIndexPlantilla;

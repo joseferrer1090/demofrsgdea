@@ -123,6 +123,7 @@ class Profle extends Component {
   render() {
     const { t } = this.props;
     const { data } = this.state;
+    const { authToken } = this.state;
     const infoUser = {
       name: data.name,
       phone: data.phone,
@@ -130,7 +131,7 @@ class Profle extends Component {
       roles: data.roles
     };
     // console.log(this.state.dataRoles);
-
+    console.log(authToken);
     return (
       <div className="animated fadeIn">
         <Row>
@@ -190,7 +191,7 @@ class Profle extends Component {
                 <i className="icon-lock" /> {t("user_profile_rol_permission")}{" "}
               </div>
               {this.state.dataRoles.map((aux, id) => {
-                console.log(aux);
+                // console.log(aux);
                 return (
                   <ListGroup>
                     <ListGroupItem className="justify-content-between">
@@ -215,7 +216,7 @@ class Profle extends Component {
           </Col>
           <Col sm="9">
             <div className="" style={{ height: "200px" }}>
-              <Tabinformaction />
+              <Tabinformaction authorization={authToken} />
             </div>
           </Col>
         </Row>

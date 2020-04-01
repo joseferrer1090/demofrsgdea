@@ -19,11 +19,27 @@ import { withTranslation } from "react-i18next";
 class TabProfile extends React.Component {
   constructor(props) {
     super(props);
-
     this.toggle = this.toggle.bind(this);
     this.state = {
-      activeTab: "1"
+      activeTab: "1",
+      auth: props.authorization
     };
+  }
+
+  static getDerivedStaticFromProps(props, state) {
+    if (props.auhorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
   }
 
   toggle(tab) {
@@ -35,6 +51,7 @@ class TabProfile extends React.Component {
   }
   render() {
     const { t } = this.props;
+    console.log(this.state.auth);
     return (
       <div>
         <Nav tabs>
@@ -94,21 +111,21 @@ class TabProfile extends React.Component {
           <TabPane tabId="1">
             <Row>
               <Col sm="12">
-                <FormUpdateProfile />
+                <FormUpdateProfile authorization={this.state.auth} />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
               <Col sm="12">
-                <FormChange />
+                <FormChange authorization={this.state.auth} />
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="3">
             <Row>
               <Col sm="12">
-                <FormAdvance />
+                <FormAdvance authorization={this.state.auth} />
               </Col>
             </Row>
           </TabPane>

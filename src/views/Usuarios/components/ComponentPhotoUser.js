@@ -22,7 +22,9 @@ class ComponentPhotoUser extends Component {
   }
 
   componentDidMount() {
-    this.getPhoto(this.state.idUser);
+    setTimeout(() => {
+      this.getPhoto(this.state.idUser);
+    }, 5000);
   }
 
   getPhoto = id => {
@@ -101,7 +103,27 @@ class ComponentPhotoUser extends Component {
           }, 2000);
         }
       })
-      .catch(err => console.log(`err => ${err}`));
+      .catch(error => {
+        if (error.response.status === 400) {
+          this.setState({
+            alertError400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alertError400: false
+            });
+          }, 3000);
+        } else if (error.response.status === 500) {
+          this.setState({
+            alertError500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alertError500: false
+            });
+          }, 3000);
+        }
+      });
     //console.log(this.state.file);
   };
 

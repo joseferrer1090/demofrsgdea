@@ -71,7 +71,10 @@ class ChangepasswordForm extends React.Component {
                   Authorization: "Bearer " + this.props.authorization
                 },
                 body: JSON.stringify({
-                  id: ""
+                  userNameAuthenticate: username.user_name,
+                  passwordOld: values.old_password,
+                  passwordNew: values.new_password,
+                  passwordConfirm: values.confirm_password
                 })
               })
                 .then(response => {

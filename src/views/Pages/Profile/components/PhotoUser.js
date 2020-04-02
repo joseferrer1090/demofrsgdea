@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 import {
   USER_PHOTO,
@@ -6,7 +6,7 @@ import {
 } from "./../../../../services/EndPoints";
 import axios from "axios";
 import { decode } from "jsonwebtoken";
-import { Alert, Col, Row, Popover, PopoverHeader } from "reactstrap";
+import { Alert, Col, Row, Popover, PopoverHeader, Spinner } from "reactstrap";
 
 class PhotoUser extends Component {
   constructor(props) {
@@ -22,7 +22,8 @@ class PhotoUser extends Component {
       alertSuccess: false,
       alertError500: false,
       alertError400: false,
-      t: this.props.t
+      t: this.props.t,
+      spinner: true
     };
   }
 
@@ -56,13 +57,16 @@ class PhotoUser extends Component {
   }
 
   getPhoto = id => {
+    console.log("yeeesss");
     fetch(`${USER_PHOTO}${id}`, {
       method: "GET"
     })
       .then(response => response.text())
       .then(data => {
+        // console.log("yeees");
         this.setState({
-          photo: data
+          photo: data,
+          spinner: false
         });
       })
       .catch(err => console.log(`err => ${err}`));
@@ -170,98 +174,111 @@ class PhotoUser extends Component {
           onSubmit={e => this._handleSubmit(e)}
           encType={"multipart/form-data"}
         >
-          <Alert
-            className={"text-center"}
-            color="danger"
-            isOpen={this.state.alertError500}
-          >
-            {t("app_usuarios_modal_actualizar_alert_error_500_image")}
-          </Alert>
-          <Alert
-            className={"text-center"}
-            color="success"
-            isOpen={this.state.alertSuccess}
-          >
-            {t("app_usuarios_modal_actualizar_alert_success_image")}
-          </Alert>
-          <Alert
-            className={"text-center"}
-            color="danger"
-            isOpen={this.state.alertError400}
-          >
-            {t("app_usuarios_modal_actualizar_alert_error_400_image")}
-          </Alert>
-          <Row>
-            <Col md="12">
-              {" "}
-              <input
-                type="file"
-                style={{ display: "none" }}
-                ref={"uploadFile"}
-                onChange={e => this._handleImageChange(e)}
+          {this.state.spinner !== false ? (
+            <center>
+              <br />
+              <Spinner
+                style={{ width: "3rem", height: "3rem" }}
+                type="grow"
+                color="primary"
               />
-              {$imagePreviewUrl}
-            </Col>
-          </Row>
-          &nbsp;
-          <div align="center">
-            <button
-              id="Popover1"
-              className="btn btn-primary btn-sm"
-              data-hover="hover"
-              onClick={() => {
-                this.refs.uploadFile.click();
-              }}
-              onMouseOver={() => {
-                this.setState({
-                  popOverOpen: true
-                });
-              }}
-              onMouseLeave={() => {
-                this.setState({
-                  popOverOpen: false
-                });
-              }}
-            >
-              {" "}
-              <i className="fa fa-image" />{" "}
-            </button>
-            <Popover
-              placement="bottom"
-              isOpen={this.state.popOverOpen}
-              target="Popover1"
-            >
-              <PopoverHeader>Cambiar imagen</PopoverHeader>
-            </Popover>
-            &nbsp;
-            <button
-              id="Popover2"
-              type="submit"
-              className="btn btn-primary btn-sm"
-              data-hover="hover"
-              onMouseOver={() => {
-                this.setState({
-                  popOverOpen_Actualizar: true
-                });
-              }}
-              onMouseLeave={() => {
-                this.setState({
-                  popOverOpen_Actualizar: false
-                });
-              }}
-            >
-              {" "}
-              <i className="fa fa-upload" />{" "}
-            </button>
-            <Popover
-              placement="bottom"
-              isOpen={this.state.popOverOpen_Actualizar}
-              target="Popover2"
-              // toggle={toggle}
-            >
-              <PopoverHeader>Actualizar imagen</PopoverHeader>
-            </Popover>
-          </div>
+            </center>
+          ) : (
+            <Fragment>
+              <Alert
+                className={"text-center"}
+                color="danger"
+                isOpen={this.state.alertError500}
+              >
+                {t("app_usuarios_modal_actualizar_alert_error_500_image")}
+              </Alert>
+              <Alert
+                className={"text-center"}
+                color="success"
+                isOpen={this.state.alertSuccess}
+              >
+                {t("app_usuarios_modal_actualizar_alert_success_image")}
+              </Alert>
+              <Alert
+                className={"text-center"}
+                color="danger"
+                isOpen={this.state.alertError400}
+              >
+                {t("app_usuarios_modal_actualizar_alert_error_400_image")}
+              </Alert>
+              <Row>
+                <Col md="12">
+                  {" "}
+                  <input
+                    type="file"
+                    style={{ display: "none" }}
+                    ref={"uploadFile"}
+                    onChange={e => this._handleImageChange(e)}
+                  />
+                  {$imagePreviewUrl}
+                </Col>
+              </Row>
+              &nbsp;
+              <div align="center">
+                <button
+                  id="Popover1"
+                  className="btn btn-primary btn-sm"
+                  data-hover="hover"
+                  onClick={() => {
+                    this.refs.uploadFile.click();
+                  }}
+                  onMouseOver={() => {
+                    this.setState({
+                      popOverOpen: true
+                    });
+                  }}
+                  onMouseLeave={() => {
+                    this.setState({
+                      popOverOpen: false
+                    });
+                  }}
+                >
+                  {" "}
+                  <i className="fa fa-image" />{" "}
+                </button>
+                <Popover
+                  placement="bottom"
+                  isOpen={this.state.popOverOpen}
+                  target="Popover1"
+                >
+                  <PopoverHeader>Cambiar imagen</PopoverHeader>
+                </Popover>
+                &nbsp;
+                <button
+                  id="Popover2"
+                  type="submit"
+                  className="btn btn-primary btn-sm"
+                  data-hover="hover"
+                  onMouseOver={() => {
+                    this.setState({
+                      popOverOpen_Actualizar: true
+                    });
+                  }}
+                  onMouseLeave={() => {
+                    this.setState({
+                      popOverOpen_Actualizar: false
+                    });
+                  }}
+                >
+                  {" "}
+                  <i className="fa fa-upload" />{" "}
+                </button>
+                <Popover
+                  placement="bottom"
+                  isOpen={this.state.popOverOpen_Actualizar}
+                  target="Popover2"
+                  // toggle={toggle}
+                >
+                  <PopoverHeader>Actualizar imagen</PopoverHeader>
+                </Popover>
+              </div>
+            </Fragment>
+          )}
         </form>
       </div>
     );

@@ -66,15 +66,15 @@ class AddIndexPlantilla extends Component {
   };
 
   openModalAdd() {
-    this.refs.child.toggle();
+    this.modalAdd.toggle();
   }
 
   openModaEdit() {
-    this.refs.child2.toggle();
+    this.modalEdit.toggle();
   }
 
   openModalDelete() {
-    this.refs.child3.toggle();
+    this.modalEdit.toggle();
   }
 
   openModalMult() {
@@ -179,14 +179,17 @@ class AddIndexPlantilla extends Component {
             </Col>
           </Row>
         )}
-        <ModalAddIndexes modaladdindexes={this.state.modaladd} ref={"child"} />
+        <ModalAddIndexes
+          modaladdindexes={this.state.modaladd}
+          ref={el => (this.modalAdd = el)}
+        />
         <ModalEditIndexes
           modaleditindexes={this.state.modaledit}
-          ref={"child2"}
+          ref={el => (this.modalEdit = el)}
         />
         <ModalDeleteIndex
           modaldeleteindex={this.state.modaldel}
-          ref={"child3"}
+          ref={el => (this.modalDel = el)}
         />
         <ModalMultiple
           modaldeletemultiple={this.state.modalmul}

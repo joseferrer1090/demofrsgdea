@@ -124,28 +124,9 @@ class ComponentPhotoUser extends Component {
           }, 3000);
         }
       });
-    //console.log(this.state.file);
   };
 
-  // componentDidMount() {
-  //   fetch(
-  //     `http://192.168.10.180:8090/api/sgdea/service/configuration/users/photo/view/base64/0dd61056-02bb-4114-bb07-59f284cb50de`,
-  //     {
-  //       method: "GET"
-  //     }
-  //   )
-  //     .then(response => response.text())
-  //     .then(data => {
-  //       this.setState({
-  //         photo: data
-  //       });
-  //     })
-  //     .catch(err => console.log(err));
-  // }
-
   render() {
-    // console.log(this.state.photo);
-    // console.log(this.state.file);
     let { imagePreviewUrl } = this.state;
     let $imagePreviewUrl = null;
     if (imagePreviewUrl) {

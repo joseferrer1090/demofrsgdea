@@ -1,29 +1,17 @@
-import React, { useEffect } from "react";
-import { Card, CardBody, CardFooter, Col, Row } from "reactstrap";
+import React from "react";
 import Changepassword from "./Forms/ChangepasswordForm";
-
-const dataPassword = {
-  new_password: "",
-  confirm_password: "",
-  old_password: ""
-};
+import { withTranslation } from "react-i18next";
 
 const FormChangePassword = props => {
-  // useEffect(() => {
-  //   console.log(props.authorization);
-  // }, [props.authorization]);
   return (
     <div className="animated fadeIn">
       <div className="row">
         <div className="col-md-8 offset-2">
-          <Changepassword
-            // changepassword={dataPassword}
-            authorization={props.authorization}
-          />
+          <Changepassword authorization={props.authorization} t={props.t} />
         </div>
       </div>
     </div>
   );
 };
 
-export default FormChangePassword;
+export default withTranslation("translations")(FormChangePassword);

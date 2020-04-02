@@ -1049,7 +1049,7 @@
     "app_usuarios_modal_editar_boton_cerrar": "Cerrar",
     "app_usuarios_modal_actualizar_alert_success": "Se actualizo el usuario con éxito.",
     "app_usuarios_modal_actualizar_alert_error_400": "Error al actualizar el usuario. Inténtelo nuevamente.",
-    "app_usuarios_modal_actualizar_alert_error_500": "Error, el usuario ya esta asignado.",
+    "app_usuarios_modal_actualizar_alert_error_500": " Error al cambiar la contraseña, intente nuevamente.",
     "app_usuarios_modal_actualizar_alert_success_image": "Se actualizo la imagen con éxito.",
     "app_usuarios_modal_actualizar_alert_error_400_image": "Error al actualizar la imagen. Inténtelo nuevamente.",
     "app_usuarios_modal_actualizar_alert_error_500_image": "Error, no se pudo actualizar la imagen.",

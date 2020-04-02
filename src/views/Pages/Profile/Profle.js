@@ -6,7 +6,8 @@ import {
   CardBody,
   ListGroup,
   ListGroupItem,
-  Badge
+  Badge,
+  Spinner
 } from "reactstrap";
 import Tabinformaction from "./components/TabProfile";
 import { withTranslation } from "react-i18next";
@@ -33,7 +34,8 @@ class Profle extends Component {
       data: [],
       dataRoles: [],
       authToken: "",
-      idUser: ""
+      idUser: "",
+      spinner: true
     };
     this.inputOpenFileRef = React.createRef();
   }
@@ -70,7 +72,8 @@ class Profle extends Component {
         this.setState({
           data: data,
           dataRoles: data.roles,
-          idUser: data.id
+          idUser: data.id,
+          spinner: false
         });
       })
       .catch(Error => console.log(" ", Error));
@@ -113,7 +116,7 @@ class Profle extends Component {
                 authorization={authToken}
                 id={this.state.idUser}
                 t={t}
-              />{" "}
+              />
               <CardBody>
                 <p className="text-center">
                   {" "}
@@ -165,12 +168,14 @@ class Profle extends Component {
 
             <br />
           </Col>
+
           <Col sm="9">
             <div className="" style={{ height: "200px" }}>
               <Tabinformaction authorization={authToken} />
             </div>
           </Col>
         </Row>
+
         <Row />
       </div>
     );

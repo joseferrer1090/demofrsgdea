@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { browserHistory } from "react-router";
-import Select from "react-select";
+import { Link } from "react-router-dom";
 import { options } from "./../../config/options";
 import { withTranslation } from "react-i18next";
 import {
@@ -15,15 +13,13 @@ import {
 import PropTypes from "prop-types";
 import language from "./../../assets/img/language.png";
 import { AppNavbarBrand, AppSidebarToggler } from "@coreui/react";
-
 import logo from "../../assets/img/sevenet_ori.svg";
 import sygnet from "../../assets/img/sevenet_ori.svg";
-import { useTranslation, Trans } from "react-i18next";
-import { useDispatch } from "react-redux";
-import { userActions } from "./../../actions/authenticationActions";
 import { history } from "./../../helpers/history";
+import PhotoAvatar from "./PhotoAvatarUser";
 
 import decode from "jwt-decode";
+import { SEARCH_BY_USERNAME } from "../../services/EndPoints";
 
 const propTypes = {
   children: PropTypes.node
@@ -49,7 +45,8 @@ class DefaultHeader extends Component {
       logoFull: logo,
       logoMin: sygnet,
       lang: options[1],
-      resp: {}
+      resp: {},
+      idUser: ""
     };
   }
 
@@ -68,11 +65,32 @@ class DefaultHeader extends Component {
         return JSON.parse(resp);
       })
       .then(resp => {
+        this.getInfoUser(resp.data.access_token);
         this.setState({
-          resp: decode(resp.data.access_token)
+          resp: decode(resp.data.access_token),
+          auth: resp.data.access_token
         });
-        //console.log(resp.data.access_token);
+        console.log(this.state.auth);
+        console.log(this.state.resp);
       });
+  };
+
+  getInfoUser = auth => {
+    const username = decode(auth);
+    fetch(`${SEARCH_BY_USERNAME}/?username=${username.user_name}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + auth,
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(data => {
+        this.setState({
+          idUser: data.id
+        });
+      })
+      .catch(Error => console.log(" ", Error));
   };
 
   changeLanguaje = lang => {
@@ -104,6 +122,7 @@ class DefaultHeader extends Component {
         </option>
       );
     });
+
     return (
       <React.Fragment>
         <AppSidebarToggler className="d-lg-none" display="md" mobile />
@@ -146,11 +165,16 @@ class DefaultHeader extends Component {
             <DropdownToggle nav style={{ marginRight: "4px !important" }}>
               {/* {t("userLogged")} */}
               {this.state.resp.user_name}
-              <img
-                src={"../../assets/img/avatars/user2.jpg"}
+              <PhotoAvatar
+                authorization={this.state.auth}
+                id={this.state.idUser}
+              />
+              {/* <img
+                // src={"../../assets/img/avatars/user2.jpg"}
+                src={"../../assets/img/GESTIONDOCUMENTAL.jpg"}
                 className="img-avatar"
                 alt="administratos@image"
-              />
+              /> */}
               {/*
                 
               */}

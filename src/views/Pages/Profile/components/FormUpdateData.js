@@ -1,5 +1,13 @@
 import React, { Component, Fragment } from "react";
-import { Card, CardBody, CardFooter, Row, Col, Alert } from "reactstrap";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Row,
+  Col,
+  Alert,
+  Spinner
+} from "reactstrap";
 import { withTranslation } from "react-i18next";
 import { decode } from "jsonwebtoken";
 import {
@@ -18,7 +26,8 @@ class FormUpdateData extends Component {
       dataPut: {},
       alertError500: false,
       alertError400: false,
-      alertSuccess: false
+      alertSuccess: false,
+      spinner: true
     };
   }
   static getDerivedStaticFromProps(props, state) {
@@ -53,8 +62,8 @@ class FormUpdateData extends Component {
       .then(response => response.json())
       .then(data => {
         this.setState({
-          // data: data,
           idProfile: data.id,
+          spinner: false,
           dataPut: {
             profile_identification: data.identification,
             profile_name: data.name,
@@ -76,7 +85,7 @@ class FormUpdateData extends Component {
   render() {
     const { t } = this.props;
     const { dataPut } = this.state;
-
+    console.log(this.state.spinner);
     return (
       <Fragment>
         <Formik
@@ -174,210 +183,232 @@ class FormUpdateData extends Component {
             return (
               <Fragment>
                 <div className="animated fadeIn">
-                  <Card>
-                    <CardBody>
-                      <div className="container">
-                        <Alert
-                          className={"text-center"}
-                          color="danger"
-                          isOpen={this.state.alertError500}
-                        >
-                          Error al actualizar el perfil. Intente nuevamente.
-                        </Alert>
-                        <Alert
-                          className={"text-center"}
-                          color="danger"
-                          isOpen={this.state.alertError400}
-                        >
-                          Error al actualizar el perfil. Intente nuevamente.
-                        </Alert>
-                        <Alert
-                          className={"text-center"}
-                          color="success"
-                          isOpen={this.state.alertSuccess}
-                        >
-                          Se ha actualizado el perfil con éxito.
-                        </Alert>
-                        <Row>
-                          <Col sm="6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t("user_profile_tab_1_form_update_1_id")}{" "}
-                              </label>
-                              <input
-                                disabled
-                                name={"profile_identification"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.profile_identification}
-                                type="text"
-                                className={`form-control form-control-sm ${errors.profile_identification &&
-                                  touched.profile_identification &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.profile_identification &&
-                                touched.profile_identification ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name={"profile_identification"} />
+                  {this.state.spinner !== false ? (
+                    <center>
+                      <br />
+                      <Spinner
+                        style={{ width: "3rem", height: "3rem" }}
+                        type="grow"
+                        color="primary"
+                      />
+                    </center>
+                  ) : (
+                    <Card>
+                      <CardBody>
+                        <div className="container">
+                          <Alert
+                            className={"text-center"}
+                            color="danger"
+                            isOpen={this.state.alertError500}
+                          >
+                            Error al actualizar el perfil. Intente nuevamente.
+                          </Alert>
+                          <Alert
+                            className={"text-center"}
+                            color="danger"
+                            isOpen={this.state.alertError400}
+                          >
+                            Error al actualizar el perfil. Intente nuevamente.
+                          </Alert>
+                          <Alert
+                            className={"text-center"}
+                            color="success"
+                            isOpen={this.state.alertSuccess}
+                          >
+                            Se ha actualizado el perfil con éxito.
+                          </Alert>
+                          <Row>
+                            <Col sm="6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "user_profile_tab_1_form_update_1_id"
+                                  )}{" "}
+                                </label>
+                                <input
+                                  disabled
+                                  name={"profile_identification"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.profile_identification}
+                                  type="text"
+                                  className={`form-control form-control-sm ${errors.profile_identification &&
+                                    touched.profile_identification &&
+                                    "is-invalid"}`}
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.profile_identification &&
+                                  touched.profile_identification ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage
+                                    name={"profile_identification"}
+                                  />
+                                </div>
                               </div>
-                            </div>
-                          </Col>
-                          <Col sm="6">
-                            <div className="form-group">
-                              <label>
-                                {t("user_profile_tab_1_form_update_1_name")}{" "}
-                              </label>
-                              <input
-                                type="text"
-                                name={"profile_name"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.profile_name}
-                                className={`form-control form-control-sm ${errors.profile_name &&
-                                  touched.profile_name &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.profile_name && touched.profile_name ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name={"profile_name"} />
+                            </Col>
+                            <Col sm="6">
+                              <div className="form-group">
+                                <label>
+                                  {t("user_profile_tab_1_form_update_1_name")}{" "}
+                                </label>
+                                <input
+                                  type="text"
+                                  name={"profile_name"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.profile_name}
+                                  className={`form-control form-control-sm ${errors.profile_name &&
+                                    touched.profile_name &&
+                                    "is-invalid"}`}
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.profile_name &&
+                                  touched.profile_name ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name={"profile_name"} />
+                                </div>
                               </div>
-                            </div>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col sm="6">
-                            <div className="form-group">
-                              <p>
-                                {" "}
-                                {t(
-                                  "user_profile_tab_1_from_update_1_date"
-                                )}{" "}
-                              </p>
-                              <input
-                                name={"profile_birthday"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={this.FormatDate(values.profile_birthday)}
-                                type="date"
-                                className="form-control form-control-sm"
-                              />
-                            </div>
-                          </Col>
-                          <Col sm="6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t("user_profile_tab_1_from_update_1_tel")}{" "}
-                              </label>
-                              <input
-                                name={"profile_phone"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.profile_phone}
-                                type="text"
-                                className={`form-control form-control-sm ${errors.profile_phone &&
-                                  touched.profile_phone &&
-                                  "is-invalid"}`}
-                              />
-                              <div style={{ color: "#D54B4B" }}>
-                                {errors.profile_phone &&
-                                touched.profile_phone ? (
-                                  <i className="fa fa-exclamation-triangle" />
-                                ) : null}
-                                <ErrorMessage name="profile_phone" />
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col sm="6">
+                              <div className="form-group">
+                                <p>
+                                  {" "}
+                                  {t(
+                                    "user_profile_tab_1_from_update_1_date"
+                                  )}{" "}
+                                </p>
+                                <input
+                                  name={"profile_birthday"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={this.FormatDate(
+                                    values.profile_birthday
+                                  )}
+                                  type="date"
+                                  className="form-control form-control-sm"
+                                />
                               </div>
-                            </div>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col sm="12">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t("user_profile_tab_1_from_update_1_dir")}{" "}
-                              </label>
-                              <input
-                                name={"profile_address"}
-                                type="text"
-                                className="form-control form-control-sm"
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.profile_address}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                        <Row>
-                          <Col sm="6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "user_profile_tab_1_from_update_1_email"
-                                )}{" "}
-                              </label>
-                              <input
-                                disabled
-                                name={"profile_email"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.profile_email}
-                                type="text"
-                                className={`form-control form-control-sm ${errors.profile_email &&
-                                  touched.profile_email &&
-                                  "is-invalid"}`}
-                              />
-                            </div>
-                          </Col>
-                          <Col sm="6">
-                            <div className="form-group">
-                              <label>
-                                {" "}
-                                {t(
-                                  "user_profile_tab_1_from_update_1_user"
-                                )}{" "}
-                              </label>
-                              <input
-                                disabled
-                                name={"profile_username"}
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.profile_username}
-                                type="text"
-                                className={`form-control form-control-sm ${errors.profile_username &&
-                                  touched.profile_username &&
-                                  "is-invalid"}`}
-                              />
-                            </div>
-                          </Col>
-                        </Row>
-                      </div>
-                    </CardBody>
-                    <CardFooter>
-                      <div className="float-right">
-                        <button
-                          type="submit"
-                          className="btn btn-outline-secondary btn-sm"
-                          disabled={isSubmitting}
-                          onClick={handleSubmit}
-                        >
-                          {isSubmitting ? (
-                            <i className=" fa fa-spinner fa-spin" />
-                          ) : (
-                            <div>
-                              <i className="fa fa-refresh" />{" "}
-                              {t("user_profile_tab_1_from_update_1_update")}{" "}
-                            </div>
-                          )}
-                        </button>
-                      </div>
-                    </CardFooter>
-                  </Card>
+                            </Col>
+                            <Col sm="6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "user_profile_tab_1_from_update_1_tel"
+                                  )}{" "}
+                                </label>
+                                <input
+                                  name={"profile_phone"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.profile_phone}
+                                  type="text"
+                                  className={`form-control form-control-sm ${errors.profile_phone &&
+                                    touched.profile_phone &&
+                                    "is-invalid"}`}
+                                />
+                                <div style={{ color: "#D54B4B" }}>
+                                  {errors.profile_phone &&
+                                  touched.profile_phone ? (
+                                    <i className="fa fa-exclamation-triangle" />
+                                  ) : null}
+                                  <ErrorMessage name="profile_phone" />
+                                </div>
+                              </div>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col sm="12">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "user_profile_tab_1_from_update_1_dir"
+                                  )}{" "}
+                                </label>
+                                <input
+                                  name={"profile_address"}
+                                  type="text"
+                                  className="form-control form-control-sm"
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.profile_address}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col sm="6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "user_profile_tab_1_from_update_1_email"
+                                  )}{" "}
+                                </label>
+                                <input
+                                  disabled
+                                  name={"profile_email"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.profile_email}
+                                  type="text"
+                                  className={`form-control form-control-sm ${errors.profile_email &&
+                                    touched.profile_email &&
+                                    "is-invalid"}`}
+                                />
+                              </div>
+                            </Col>
+                            <Col sm="6">
+                              <div className="form-group">
+                                <label>
+                                  {" "}
+                                  {t(
+                                    "user_profile_tab_1_from_update_1_user"
+                                  )}{" "}
+                                </label>
+                                <input
+                                  disabled
+                                  name={"profile_username"}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  value={values.profile_username}
+                                  type="text"
+                                  className={`form-control form-control-sm ${errors.profile_username &&
+                                    touched.profile_username &&
+                                    "is-invalid"}`}
+                                />
+                              </div>
+                            </Col>
+                          </Row>
+                        </div>
+                      </CardBody>
+                      <CardFooter>
+                        <div className="float-right">
+                          <button
+                            type="submit"
+                            className="btn btn-outline-secondary btn-sm"
+                            disabled={isSubmitting}
+                            onClick={handleSubmit}
+                          >
+                            {isSubmitting ? (
+                              <i className=" fa fa-spinner fa-spin" />
+                            ) : (
+                              <div>
+                                <i className="fa fa-refresh" />{" "}
+                                {t("user_profile_tab_1_from_update_1_update")}{" "}
+                              </div>
+                            )}
+                          </button>
+                        </div>
+                      </CardFooter>
+                    </Card>
+                  )}
                 </div>
               </Fragment>
             );

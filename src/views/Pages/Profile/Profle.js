@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import {
   Row,
   Col,
-  CardTitle,
+  CardBody,
   ListGroup,
   ListGroupItem,
   Badge
@@ -12,9 +12,7 @@ import Tabinformaction from "./components/TabProfile";
 import { withTranslation } from "react-i18next";
 import { decode } from "jsonwebtoken";
 import { SEARCH_BY_USERNAME } from "../../../services/EndPoints";
-
-const acceptedFileTypes =
-  "image/x-png, image/png, image/jpg, image/jpeg, image/gif";
+import PhotoUser from "./components/PhotoUser";
 
 const asyncLocalStorage = {
   setItem: async function(key, value) {
@@ -34,37 +32,15 @@ class Profle extends Component {
       image: "/assets/img/avatars/user2.jpg",
       data: [],
       dataRoles: [],
-      authToken: ""
+      authToken: "",
+      idUser: ""
     };
     this.inputOpenFileRef = React.createRef();
   }
 
-  onChange = e => {
-    let files = e.target.files;
-    let dataImg = e.target.files[0];
-    console.warn("Data file:", files);
-    console.log(e.target.files[0].name);
-    let reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    reader.onload = e => {
-      this.setState({ image: e.target.result });
-      setTimeout(e => {
-        alert(`Se modifico con éxito la imagen:
-                  name: ${dataImg.name},
-                  size: ${dataImg.size},
-                  type: ${dataImg.type}`);
-      }, 1000);
-    };
-  };
-
   componentDidMount() {
     this.getDataLocal();
-    // this.getInfoUser();
   }
-
-  // componentDidMount() {
-  //   this.getDataLocal();
-  // }
 
   getDataLocal = () => {
     asyncLocalStorage
@@ -91,20 +67,15 @@ class Profle extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        // data.roles.map((aux, id) => {
-        //   return console.log(aux);
-        // });
         this.setState({
           data: data,
-          dataRoles: data.roles
+          dataRoles: data.roles,
+          idUser: data.id
         });
       })
       .catch(Error => console.log(" ", Error));
   };
-  /* 
 
-  Peticion a get by id user, decode del acces token para tomar id.
-  */
   listRoles = () => {
     let lista;
     this.state.dataRoles.map((aux, id) => {
@@ -131,39 +102,19 @@ class Profle extends Component {
       roles: data.roles
     };
     // console.log(this.state.dataRoles);
-    console.log(authToken);
+    console.log(this.state.idUser);
     return (
       <div className="animated fadeIn">
         <Row>
           <Col sm="3">
             <div className="card">
               {" "}
-              <a
-                className="text-center"
-                onClick={() => {
-                  this.inputOpenFileRef.current.click();
-                }}
-              >
-                <img
-                  className="img-thumbnail"
-                  // className="img-responsive "
-                  src={this.state.image}
-                  width="150"
-                  height="150"
-                  style={{ margin: "10px" }}
-                />
-
-                <input
-                  multiple={false}
-                  accept={acceptedFileTypes}
-                  type="file"
-                  name="file"
-                  style={{ display: "none" }}
-                  ref={this.inputOpenFileRef}
-                  onChange={e => this.onChange(e)}
-                />
-              </a>
-              <CardTitle>
+              <PhotoUser
+                authorization={authToken}
+                id={this.state.idUser}
+                t={t}
+              />{" "}
+              <CardBody>
                 <p className="text-center">
                   {" "}
                   {infoUser.name}{" "}
@@ -182,7 +133,7 @@ class Profle extends Component {
                     </p>
                   </div>
                 </address>
-              </CardTitle>
+              </CardBody>
             </div>
 
             <div className="card">

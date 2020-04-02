@@ -22,7 +22,9 @@ class ComponentPhotoUser extends Component {
   }
 
   componentDidMount() {
-    this.getPhoto(this.state.idUser);
+    setTimeout(() => {
+      this.getPhoto(this.state.idUser);
+    }, 5000);
   }
 
   getPhoto = id => {
@@ -101,29 +103,30 @@ class ComponentPhotoUser extends Component {
           }, 2000);
         }
       })
-      .catch(err => console.log(`err => ${err}`));
-    //console.log(this.state.file);
+      .catch(error => {
+        if (error.response.status === 400) {
+          this.setState({
+            alertError400: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alertError400: false
+            });
+          }, 3000);
+        } else if (error.response.status === 500) {
+          this.setState({
+            alertError500: true
+          });
+          setTimeout(() => {
+            this.setState({
+              alertError500: false
+            });
+          }, 3000);
+        }
+      });
   };
 
-  // componentDidMount() {
-  //   fetch(
-  //     `http://192.168.10.180:8090/api/sgdea/service/configuration/users/photo/view/base64/0dd61056-02bb-4114-bb07-59f284cb50de`,
-  //     {
-  //       method: "GET"
-  //     }
-  //   )
-  //     .then(response => response.text())
-  //     .then(data => {
-  //       this.setState({
-  //         photo: data
-  //       });
-  //     })
-  //     .catch(err => console.log(err));
-  // }
-
   render() {
-    // console.log(this.state.photo);
-    // console.log(this.state.file);
     let { imagePreviewUrl } = this.state;
     let $imagePreviewUrl = null;
     if (imagePreviewUrl) {

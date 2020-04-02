@@ -70,13 +70,13 @@ class ModalEditConglomerado extends React.Component {
       }
     );
     this.getConglomeradoByID(id);
-    // setTimeout(() => {
-    //   if (this.state.spinner !== false) {
-    //     this.setState({
-    //       spinner: false
-    //     });
-    //   }
-    // }, 1500);
+    setTimeout(() => {
+      if (this.state.spinner !== false) {
+        this.setState({
+          spinner: false
+        });
+      }
+    }, 1500);
   };
 
   getConglomeradoByID = id => {
@@ -104,9 +104,9 @@ class ModalEditConglomerado extends React.Component {
             code: data.code,
             description: data.description,
             status: data.status,
-            conglomerate_charge: data.charge === null ? "" : data.charge.id,
-            spinner: false
+            conglomerate_charge: data.charge === null ? "" : data.charge.id
           }
+          // spinner: false
         });
       })
       .catch(error => console.log(error));
@@ -159,6 +159,7 @@ class ModalEditConglomerado extends React.Component {
     });
     const dataResult = this.state.dataResult;
     const { t } = this.props;
+
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>

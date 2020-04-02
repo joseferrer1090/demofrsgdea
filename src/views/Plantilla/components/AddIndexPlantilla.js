@@ -17,7 +17,8 @@ class AddIndexPlantilla extends Component {
       modaldel: false,
       modaldelmul: false,
       auth: this.props.authorization,
-      id: this.props.match.params.id
+      id: this.props.match.params.id,
+      dataTemplate: []
     };
   }
 
@@ -54,7 +55,10 @@ class AddIndexPlantilla extends Component {
     })
       .then(resp => resp.json())
       .then(data => {
-        console.log(data);
+        this.setState({
+          dataTemplate: data
+        });
+        console.log(this.state.dataTemplate);
       })
       .catch(err => {
         console.log(`Error => ${err.message}`);
@@ -78,72 +82,61 @@ class AddIndexPlantilla extends Component {
   }
 
   render() {
-    console.log(this.state);
     return (
       <div className="animated fadeIn">
-        <Row>
-          <Col sm={{ size: 10, offset: 1 }}>
-            <Card>
-              <div className="p-2 mb-2 bg-secondary text-black">
-                Índices de plantilla
-              </div>
-              <CardBody>
-                <div className="btn-toolbar mb-1">
-                  <button
-                    className="btn btn-success btn-sm mr-1"
-                    onClick={() => this.openModalAdd()}
-                  >
-                    <i className="fa fa-plus" /> Nuevo índice
-                  </button>
-                  <button
-                    className="btn btn-danger btn-sm mr-1"
-                    onClick={() => this.openModalMult()}
-                  >
-                    <i className="fa fa-trash" /> Eliminar
-                  </button>
-                  <button className="btn btn-secondary btn-sm mr-1">
-                    <i className="fa fa-globe" /> Vista previa
-                  </button>
+        {this.state.dataTemplate.length ? (
+          <table className="table table-bordered table-sm table-hover">
+            <thead className="thead-light">
+              <tr className="text-center">
+                <th scope="col">Nombre índice</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">
+              {this.state.dataTemplate.map((aux, id) => {
+                console.log(aux.metadataBag.name);
+              })}
+            </tbody>
+          </table>
+        ) : (
+          <Row>
+            <Col sm={{ size: 10, offset: 1 }}>
+              <Card>
+                <div className="p-2 mb-2 bg-secondary text-black">
+                  <i className="fa fa-puzzle-piece" /> Metadatos asociados en la
+                  plantilla
                 </div>
-                <table className="table table-bordered table-sm table-hover">
-                  <thead className="thead-light">
-                    <tr className="text-center">
-                      <th scope="col">
-                        <input type="checkbox" label="Todos" />
-                      </th>
-                      <th scope="col">Nombre índice</th>
-                      <th scope="col">Tipo</th>
-                      <th scope="col">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-center">
-                    <tr>
-                      <th scope="row">
-                        <input type="checkbox" />
-                      </th>
-                      <td>Adjuntar archivo</td>
-                      <td>archivo</td>
-                      <td>
-                        <button
-                          className="btn btn-secondary btn-sm mr-1"
-                          onClick={() => this.openModaEdit()}
-                        >
-                          <i className="fa fa-pencil" />{" "}
-                        </button>
-                        <button
-                          className="btn btn-danger btn-sm mr-1"
-                          onClick={() => this.openModalDelete()}
-                        >
-                          <i className="fa fa-trash" />
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+                <CardBody>
+                  <div className="btn-toolbar mb-1">
+                    <button
+                      className="btn btn-success btn-sm mr-1"
+                      onClick={() => this.openModalAdd()}
+                    >
+                      <i className="fa fa-plus" /> Nuevo índice
+                    </button>
+                    {/* <button
+                      className="btn btn-danger btn-sm mr-1"
+                      onClick={() => this.openModalMult()}
+                    >
+                      <i className="fa fa-trash" /> Eliminar
+                    </button> */}
+                    {/* <button className="btn btn-secondary btn-sm mr-1">
+                      <i className="fa fa-globe" /> Vista previa
+                    </button> */}
+                  </div>
+                  <br />
+                  <div className="text-center">
+                    <p className="alert alert-danger">
+                      <i className="fa fa-exclamation-triangle" /> No hay
+                      metadatos asociados a esta plantilla
+                    </p>
+                  </div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        )}
         <ModalAddIndexes modaladdindexes={this.state.modaladd} ref={"child"} />
         <ModalEditIndexes
           modaleditindexes={this.state.modaledit}

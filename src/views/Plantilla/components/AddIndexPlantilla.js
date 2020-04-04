@@ -180,6 +180,7 @@ class AddIndexPlantilla extends Component {
           </Row>
         )}
         <ModalAddIndexes
+          authorization={this.state.auth}
           modaladdindexes={this.state.modaladd}
           ref={el => (this.modalAdd = el)}
         />

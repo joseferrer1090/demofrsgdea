@@ -1,28 +1,134 @@
 import React, { Component } from "react";
 import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
+import { METADATA_ACTIVE } from "./../../../services/EndPoints";
 import PropTypes from "prop-types";
+import "./css/fixedTable.css";
 
 class ModalAddIndexes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modaladdindexes
+      modal: this.props.modaladdindexes,
+      auth: this.props.authorization,
+      dataMetadataActive: [],
+      newMetadataArray: [],
+      term: ""
     };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization
+      });
+    }
+  }
+
+  geData = auth => {
+    fetch(`${METADATA_ACTIVE}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + auth
+      }
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        this.setState({
+          dataMetadataActive: data
+        });
+        console.log(this.state.dataMetadataActive);
+      })
+      .catch(err => {
+        console.log(`Error => ${err.message}`);
+      });
+  };
+
   toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
+    this.setState({
+      modal: !this.state.modal
+    });
+    this.geData(this.state.auth);
   };
 
   render() {
+    const searchMetada = term => {
+      return function(x) {
+        return x.name.toUpperCase().includes(term);
+      };
+    };
+    const data = this.state.dataMetadataActive;
+    const aux = data.filter(searchMetada(this.state.term)).map((aux, id) => {
+      return (
+        <tr key={id} className="text-center">
+          <td>{(id += 1)}</td>
+          <td>{aux.name}</td>
+          <td className="text-center">
+            <button className="btn btn-secondary btn-sm">
+              <i className="fa fa-plus" />
+            </button>
+          </td>
+        </tr>
+      );
+    });
     return (
       <div>
-        <Modal className="" isOpen={this.state.modal}>
-          <ModalHeader>Nuveo índice</ModalHeader>
+        <Modal className="modal-xl" isOpen={this.state.modal}>
+          <ModalHeader>
+            <i className="fa fa-puzzle-piece" /> Agregar metadato a la plantilla
+          </ModalHeader>
           <ModalBody>
-            <form className="form">
+            <div className="row">
+              <div className="col-md-6">
+                <div className="card card-body">
+                  <div>
+                    <input
+                      type={"search"}
+                      className="form-control form-control-sm"
+                      value={this.state.term}
+                      onChange={e => {
+                        this.setState({
+                          term: e.target.value
+                        });
+                      }}
+                      placeholder={`Buscar metadato`}
+                    />
+                  </div>
+                  <br />
+                  {Object.keys(data) ? (
+                    <div className="tableFixHead">
+                      <table className="table table-hover table-striped">
+                        <thead className="thead-light">
+                          <tr>
+                            <th className="text-center">id</th>
+                            <th className="text-center">Nombre</th>
+                            <th className="text-center">Accion</th>
+                          </tr>
+                        </thead>
+                        <tbody>{aux}</tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <div className="animated fadeIn">
+                      <p className="alert alert-danger text-center">
+                        <i className="fa fa-exclamation-triangle" /> No hay
+                        datos disponibles
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* <form className="form">
               <div className="row">
                 <div className="col-md-6">
                   <div className="form-group">
@@ -66,7 +172,7 @@ class ModalAddIndexes extends Component {
                   </div>
                 </div>
               </div>
-            </form>
+            </form> */}
           </ModalBody>
           <ModalFooter>
             <button type="button" className="btn btn-outline-success btn-sm">
@@ -90,7 +196,8 @@ class ModalAddIndexes extends Component {
 }
 
 ModalAddIndexes.propTypes = {
-  modaladdindexes: PropTypes.bool.isRequired
+  modaladdindexes: PropTypes.bool.isRequired,
+  authorization: PropTypes.string.isRequired
 };
 
 export default ModalAddIndexes;

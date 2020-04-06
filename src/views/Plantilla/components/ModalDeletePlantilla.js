@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
-import { TEMPLATE_SHOW, TEMPLATE_DELETE } from "./../../../services/EndPoints";
+import {
+  TEMPLATE_SHOW,
+  TEMPLATE_DELETE,
+  THIRDPARTYS_EXPORT
+} from "./../../../services/EndPoints";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 import { Formik, ErrorMessage } from "formik";
@@ -212,8 +216,11 @@ class ModalDeletePlantilla extends Component {
                     </button>
                     <button
                       className="btn btn-secondary btn-sm"
-                      onClick={() => {
-                        this.setState({ modal: false });
+                      onClick={e => {
+                        e.preventDefault();
+                        this.setState({
+                          modal: false
+                        });
                       }}
                     >
                       {" "}

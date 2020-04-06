@@ -85,16 +85,26 @@ class Modalc extends React.Component {
       const { t } = this.props;
       let status;
       if (data === true) {
-        status = <b className="text-success"> Completa </b>;
+        status = (
+          <b className="text-success">
+            {" "}
+            {t("app_emailRequest_modal_ver_estado_completa")}{" "}
+          </b>
+        );
       } else if (data === false) {
-        status = <b className="text-danger"> Pendiente </b>;
+        status = (
+          <b className="text-danger">
+            {" "}
+            {t("app_emailRequest_modal_ver_estado_pendiente")}{" "}
+          </b>
+        );
       }
       return status;
     };
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver</ModalHeader>
+          <ModalHeader>{t("app_emailRequest_modal_ver_titulo")}</ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="3">
@@ -105,14 +115,14 @@ class Modalc extends React.Component {
                   {" "}
                   <h5 className="" style={{ borderBottom: "1px solid black" }}>
                     {" "}
-                    Datos
+                    {t("app_emailRequest_modal_ver_datos")}
                   </h5>{" "}
                 </div>
                 <div className="row">
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Remitente</dt>
+                        <dt>{t("app_emailRequest_modal_ver_remitente")}</dt>
                         <dd>{dataInfo.sender}</dd>
                       </dl>
                     </div>
@@ -120,7 +130,7 @@ class Modalc extends React.Component {
                   <div className="col-md-6">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Asunto</dt>
+                        <dt>{t("app_emailRequest_modal_ver_asunto")}</dt>
                         <dd>{dataInfo.subject}</dd>
                       </dl>
                     </div>
@@ -128,7 +138,7 @@ class Modalc extends React.Component {
                   <div className="col-md-12">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Mensaje</dt>
+                        <dt>{t("app_emailRequest_modal_ver_mensaje")}</dt>
                         <dd>{dataInfo.body}</dd>
                       </dl>
                     </div>
@@ -136,7 +146,7 @@ class Modalc extends React.Component {
                   <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Respuesta</dt>
+                        <dt>{t("app_emailRequest_modal_ver_respuesta")}</dt>
                         <dd>{statusAnswer(dataInfo.answer)}</dd>
                       </dl>
                     </div>
@@ -144,7 +154,9 @@ class Modalc extends React.Component {
                   <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de creación</dt>
+                        <dt>
+                          {t("app_emailRequest_modal_ver_fecha_creacion")}
+                        </dt>
                         <dd>
                           {" "}
                           {this.FechaCreacionEmailRequest(
@@ -157,7 +169,9 @@ class Modalc extends React.Component {
                   <div className="col-md-4">
                     <div className="form-group">
                       <dl className="param">
-                        <dt>Fecha de modificación</dt>
+                        <dt>
+                          {t("app_emailRequest_modal_ver_fecha_modificacion")}
+                        </dt>
                         <dd>
                           {" "}
                           {this.FechaModificacionEmailRequest(
@@ -179,7 +193,7 @@ class Modalc extends React.Component {
               }}
             >
               <i className="fa fa-times" />{" "}
-              {t("app_plantilla_email_modal_info_btn_cerrar")}
+              {t("app_emailRequest_modal_ver_btn_cerrar")}
             </button>
           </ModalFooter>
         </Modal>

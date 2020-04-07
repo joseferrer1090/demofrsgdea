@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
 import { METADATA_ACTIVE } from "./../../../services/EndPoints";
 import PropTypes from "prop-types";
@@ -61,11 +61,11 @@ class ModalAddIndexes extends Component {
     this.geData(this.state.auth);
   };
 
-  addMetadata = id => {
-    let index = this.state.newMetadataArray.findIndex(aux => aux === id);
+  addMetadata = (id, name) => {
+    let index = this.state.newMetadataArray.findIndex(aux => aux.id === id);
     const aux = this.state.newMetadataArray;
     if (index === -1) {
-      aux.push(id);
+      aux.push({ id, name });
       this.setState({
         newMetadataArray: aux
       });
@@ -97,7 +97,7 @@ class ModalAddIndexes extends Component {
               type="button"
               className="btn btn-secondary btn-sm"
               onClick={() => {
-                this.addMetadata(aux.id);
+                this.addMetadata(aux.id, aux.name);
               }}
             >
               <i className="fa fa-plus" />
@@ -230,10 +230,52 @@ ModalAddIndexes.propTypes = {
 };
 
 const Example = props => {
-  console.log(props.data);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(props.data);
+  }, [props]);
+
+  const deleteItem = id => {
+    setData(data.filter(e => e.id !== id));
+  };
+
+  console.log(data);
+
   return (
     <div>
-      {props.data.length ? <div>hay datos</div> : <div>No hay datos</div>}
+      {props.data.length ? (
+        <div>
+          <table className="table table-condensed table-hover">
+            <thead>
+              <th>#</th>
+              <th>Nombre</th>
+              <th>Accion</th>
+            </thead>
+            <tbody>
+              {data.map((aux, id) => {
+                return (
+                  <tr key={id}>
+                    <td>{(id += 1)}</td>
+                    <td>{aux.name}</td>
+                    <td>
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-sm"
+                        onClick={() => deleteItem(aux.id)}
+                      >
+                        <i className="fa fa-trash" />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div>No hay datos</div>
+      )}
     </div>
   );
 };

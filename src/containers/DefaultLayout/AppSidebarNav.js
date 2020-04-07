@@ -180,22 +180,22 @@ class AppSidebarNav extends Component {
           url: "/configuracion/metadatos",
           children: [
             {
-              name: "Metadato",
+              name: `${props.t("nav_app_metadatos_metadato")}`,
               icon: "fa fa-plus-circle",
               url: "/configuracion/metadatos/new"
             },
             {
-              name: "Lista Metadatos",
+              name: `${props.t("nav_app_metadatos_lista")}`,
               icon: "fa fa-list-ul",
               url: "/configuracion/metadatos/list"
             },
             {
-              name: "Actualizar Metadato",
+              name: `${props.t("nav_app_metadatos_actualizar")}`,
               icon: "fa fa-wrench",
               url: "/configuracion/metadatos/update"
             },
             {
-              name: "Eliminar Metadato",
+              name: `${props.t("nav_app_metadatos_eliminar")}`,
               icon: "fa fa-trash",
               url: "/configuracion/metadatos/delete"
             }
@@ -371,22 +371,22 @@ class AppSidebarNav extends Component {
           url: "/configuracion/metadatos",
           children: [
             {
-              name: "Metadato",
+              name: `${t("nav_app_metadatos_metadato")}`,
               icon: "fa fa-plus-circle",
               url: "/configuracion/metadatos/new"
             },
             {
-              name: "Lista Metadatos",
+              name: `${t("nav_app_metadatos_lista")}`,
               icon: "fa fa-list-ul",
               url: "/configuracion/metadatos/list"
             },
             {
-              name: "Actualizar Metadato",
+              name: `${t("nav_app_metadatos_actualizar")}`,
               icon: "fa fa-wrench",
               url: "/configuracion/metadatos/update"
             },
             {
-              name: "Eliminar Metadato",
+              name: `${t("nav_app_metadatos_eliminar")}`,
               icon: "fa fa-trash",
               url: "/configuracion/metadatos/delete"
             }

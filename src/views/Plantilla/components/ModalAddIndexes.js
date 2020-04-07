@@ -12,7 +12,8 @@ class ModalAddIndexes extends Component {
       auth: this.props.authorization,
       dataMetadataActive: [],
       newMetadataArray: [],
-      term: ""
+      term: "",
+      alertDuplicate: false
     };
   }
 
@@ -60,6 +61,25 @@ class ModalAddIndexes extends Component {
     this.geData(this.state.auth);
   };
 
+  addMetadata = id => {
+    let index = this.state.newMetadataArray.findIndex(aux => aux === id);
+    const aux = this.state.newMetadataArray;
+    if (index === -1) {
+      aux.push(id);
+      this.setState({
+        newMetadataArray: aux
+      });
+    } else {
+      console.log("Error");
+    }
+  };
+
+  // aux.push(id);
+  //     this.setState({
+  //   newMetadataArray: aux
+  // });
+  // console.log(this.state.newMetadataArray);
+
   render() {
     const searchMetada = term => {
       return function(x) {
@@ -73,7 +93,13 @@ class ModalAddIndexes extends Component {
           <td>{(id += 1)}</td>
           <td>{aux.name}</td>
           <td className="text-center">
-            <button className="btn btn-secondary btn-sm">
+            <button
+              type="button"
+              className="btn btn-secondary btn-sm"
+              onClick={() => {
+                this.addMetadata(aux.id);
+              }}
+            >
               <i className="fa fa-plus" />
             </button>
           </td>
@@ -126,6 +152,9 @@ class ModalAddIndexes extends Component {
                     </div>
                   )}
                 </div>
+              </div>
+              <div className="col-md-6">
+                <Example data={this.state.newMetadataArray} />
               </div>
             </div>
             {/* <form className="form">
@@ -200,4 +229,12 @@ ModalAddIndexes.propTypes = {
   authorization: PropTypes.string.isRequired
 };
 
+const Example = props => {
+  console.log(props.data);
+  return (
+    <div>
+      {props.data.length ? <div>hay datos</div> : <div>No hay datos</div>}
+    </div>
+  );
+};
 export default ModalAddIndexes;

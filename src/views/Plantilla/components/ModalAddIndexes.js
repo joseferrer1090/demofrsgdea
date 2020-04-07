@@ -74,6 +74,15 @@ class ModalAddIndexes extends Component {
     }
   };
 
+  deleteMeadata = id => {
+    let data = this.state.newMetadataArray;
+    data.filter(metadata => metadata.id !== id);
+    this.setState({
+      newMetadataArray: data
+    });
+    console.log(this.state.newMetadataArray);
+  };
+
   // aux.push(id);
   //     this.setState({
   //   newMetadataArray: aux
@@ -154,7 +163,12 @@ class ModalAddIndexes extends Component {
                 </div>
               </div>
               <div className="col-md-6">
-                <Example data={this.state.newMetadataArray} />
+                <Example
+                  data={this.state.newMetadataArray}
+                  delete={() => {
+                    this.deleteMeadata();
+                  }}
+                />
               </div>
             </div>
             {/* <form className="form">
@@ -230,15 +244,13 @@ ModalAddIndexes.propTypes = {
 };
 
 const Example = props => {
-  const [data, setData] = useState([]);
+  const d = props.data;
+  const [data, setData] = useState(d);
 
-  useEffect(() => {
-    setData(props.data);
-  }, [props]);
-
-  const deleteItem = id => {
-    setData(data.filter(e => e.id !== id));
-  };
+  // const deleteItem = id => {
+  //   const aux = data.filter(e => e.id !== id);
+  //   setData(aux);
+  // };
 
   console.log(data);
 
@@ -262,7 +274,7 @@ const Example = props => {
                       <button
                         type="button"
                         className="btn btn-danger btn-sm"
-                        onClick={() => deleteItem(aux.id)}
+                        onClick={() => props.delete(aux.id)}
                       >
                         <i className="fa fa-trash" />
                       </button>

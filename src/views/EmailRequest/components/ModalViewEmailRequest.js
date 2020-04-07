@@ -97,6 +97,7 @@ class ModalViewEmailRequest extends React.Component {
 
     const listFiles = () => {
       const { dataFiles } = this.state;
+      const { t } = this.state;
       return (
         <React.Fragment>
           <ul className="list-group">
@@ -124,12 +125,11 @@ class ModalViewEmailRequest extends React.Component {
               <Toast>
                 <ToastHeader icon="danger">
                   {" "}
-                  No se encontraron archivos adjuntos.
+                  {t("app_emailRequest_modal_preview_toast_title")}
                 </ToastHeader>
                 <ToastBody>
                   {" "}
-                  La petición vía correo electrónico no contiene archivos
-                  adjuntos.
+                  {t("app_emailRequest_modal_preview_toast")}
                 </ToastBody>
               </Toast>
             )}
@@ -141,7 +141,7 @@ class ModalViewEmailRequest extends React.Component {
     return (
       <Fragment>
         <Modal className="modal-lg" isOpen={this.state.modal}>
-          <ModalHeader>Ver</ModalHeader>
+          <ModalHeader>{t("app_emailRequest_modal_preview_title")}</ModalHeader>
           <ModalBody>
             <Row>
               <Col sm="12">
@@ -155,7 +155,7 @@ class ModalViewEmailRequest extends React.Component {
                       style={{ cursor: "pointer" }}
                     >
                       {" "}
-                      <b>Archivos adjuntos</b>
+                      <b>{t("app_emailRequest_modal_preview_title_card")}</b>
                     </a>{" "}
                   </CardHeader>
                   <Collapse isOpen={this.state.collapase}>
@@ -176,6 +176,7 @@ class ModalViewEmailRequest extends React.Component {
             <MyPdfViewer
               id={this.state.idFile}
               filename={this.state.FilenameFile}
+              t={this.state.t}
             />
           </ModalBody>
           <ModalFooter>

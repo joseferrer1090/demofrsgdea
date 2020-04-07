@@ -54,7 +54,8 @@ class SelectField extends Component {
       alert500: false,
       alert400: false,
       alertError: false,
-      alertErrorMessage: ""
+      alertErrorMessage: "",
+      t: this.props.t
     };
   }
 
@@ -348,7 +349,7 @@ class SelectField extends Component {
       name: "",
       description: "",
       title: "Title",
-      type:"SELECT",
+      type: "SELECT",
       helpertext: "",
       formula: false,
       active: true,
@@ -363,11 +364,13 @@ class SelectField extends Component {
   };
 
   render() {
+    const { t } = this.state;
     return (
       <div>
         <Card>
           <CardHeader>
-            <i className="fa fa-caret-square-o-down" /> Selección multiple{" "}
+            <i className="fa fa-caret-square-o-down" />{" "}
+            {t("app_metadatos_crear_metadato_entrada_seleccion_title")}{" "}
             {this.state.title}
             <span
               className="pull-right"
@@ -426,7 +429,10 @@ class SelectField extends Component {
                   onClick={() => this.toggle("1")}
                 >
                   <i className="fa fa-cog" />
-                  &nbsp; General
+                  &nbsp;{" "}
+                  {t(
+                    "app_metadatos_crear_metadato_entrada_seleccion_tab_general"
+                  )}
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -437,7 +443,10 @@ class SelectField extends Component {
                   onClick={() => this.toggle("2")}
                 >
                   <i className="fa fa-exclamation-triangle" />
-                  &nbsp; Validación
+                  &nbsp;{" "}
+                  {t(
+                    "app_metadatos_crear_metadato_entrada_seleccion_tab_validacion"
+                  )}
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -448,7 +457,11 @@ class SelectField extends Component {
                   onClick={() => this.toggle("3")}
                 >
                   <i className="fa fa-list-ul" />
-                  &nbsp; Valores <span className="text-danger">*</span>{" "}
+                  &nbsp;{" "}
+                  {t(
+                    "app_metadatos_crear_metadato_entrada_seleccion_tab_valores"
+                  )}{" "}
+                  <span className="text-danger">*</span>{" "}
                 </NavLink>
               </NavItem>
             </Nav>
@@ -460,10 +473,15 @@ class SelectField extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label htmlFor="name">
-                            Nombre <span className="text-danger">*</span>{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_seleccion_nombre"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            placeholder={"Nombre"}
+                            placeholder={`${t(
+                              "app_metadatos_crear_metadato_entrada_seleccion_nombre_placeholder"
+                            )}`}
                             type="text"
                             className="form-control form-control-sm"
                             value={this.state.name}
@@ -476,10 +494,15 @@ class SelectField extends Component {
                       <div className="col-md-6">
                         <div className="form-group">
                           <label htmlFor="title">
-                            Etiqueta <span className="text-danger">*</span>{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_seleccion_label"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <input
-                            placeholder={"Etiqueta"}
+                            placeholder={`${t(
+                              "app_metadatos_crear_metadato_entrada_seleccion_label_placeholder"
+                            )}`}
                             type="text"
                             className="form-control form-control-sm"
                             onChange={e =>
@@ -491,9 +514,15 @@ class SelectField extends Component {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label htmlFor="helpertext">Texto de ayuda </label>
+                          <label htmlFor="helpertext">
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_seleccion_helpText"
+                            )}
+                          </label>
                           <input
-                            placeholder={"Texto de ayuda"}
+                            placeholder={`${t(
+                              "app_metadatos_crear_metadato_entrada_seleccion_helpText_placeholder"
+                            )}`}
                             type="text"
                             className="form-control form-control-sm"
                             onChange={e =>
@@ -506,7 +535,10 @@ class SelectField extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label htmlFor="description">
-                            Descripción <span className="text-danger">*</span>{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_seleccion_descripcion"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <textarea
                             id="description"
@@ -544,7 +576,9 @@ class SelectField extends Component {
                               style={{ verticalAlign: "middle" }}
                             >
                               {" "}
-                              ¿Es requerido?{" "}
+                              {t(
+                                "app_metadatos_crear_metadato_entrada_seleccion_validacion_requerido"
+                              )}{" "}
                             </label>
                           </div>
                         </div>
@@ -567,7 +601,9 @@ class SelectField extends Component {
                               style={{ verticalAlign: "middle" }}
                             >
                               {" "}
-                              ¿Solo lectura?{" "}
+                              {t(
+                                "app_metadatos_crear_metadato_entrada_seleccion_validacion_lectura"
+                              )}{" "}
                             </label>
                           </div>
                         </div>
@@ -587,7 +623,9 @@ class SelectField extends Component {
                               htmlFor="multiple"
                               style={{ verticalAlign: "middle" }}
                             >
-                              ¿Seleccion multiple?
+                              {t(
+                                "app_metadatos_crear_metadato_entrada_seleccion_validacion_seleccionMulti"
+                              )}
                             </label>
                           </div>
                         </div>
@@ -602,7 +640,11 @@ class SelectField extends Component {
                       className="alert text-center alert-danger"
                     >
                       <i className="fa fa-exclamation-triangle" /> &nbsp;{" "}
-                      <strong>Valores duplicados</strong>
+                      <strong>
+                        {t(
+                          "app_metadatos_crear_metadato_entrada_seleccion_valores_alert_values"
+                        )}
+                      </strong>
                     </p>
                     {this.state.options ? (
                       <table className="table text-center">
@@ -635,7 +677,9 @@ class SelectField extends Component {
                                 )}
                                 <td>
                                   <input
-                                    placeholder="Etiqueta"
+                                    placeholder={`${t(
+                                      "app_metadatos_crear_metadato_entrada_seleccion_valores_placeholder_label"
+                                    )}`}
                                     autoFocus={true}
                                     value={this.state.options[index].title}
                                     onChange={e =>
@@ -652,7 +696,9 @@ class SelectField extends Component {
                                 </td>
                                 <td>
                                   <input
-                                    placeholder="Valor"
+                                    placeholder={`${t(
+                                      "app_metadatos_crear_metadato_entrada_seleccion_valores_placeholder_value"
+                                    )}`}
                                     value={this.state.options[index].value}
                                     onChange={e =>
                                       this.changeOptionValue(
@@ -710,7 +756,10 @@ class SelectField extends Component {
                       onClick={() => this.addOption()}
                     >
                       {" "}
-                      <i className="fa fa-plus" /> Agregar opciones
+                      <i className="fa fa-plus" />{" "}
+                      {t(
+                        "app_metadatos_crear_metadato_entrada_seleccion_valores_btn_addValues"
+                      )}
                     </button>
                   </Card>
                 </TabPane>
@@ -724,9 +773,9 @@ class SelectField extends Component {
                       defaultChecked
                       type={"checkbox"}
                       id={"active"}
-                      label={
-                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente."
-                      }
+                      label={`${t(
+                        "app_metadatos_crear_metadato_bolsa_metadatos_status"
+                      )}`}
                       onChange={e => {
                         this.setState({
                           active: e.target.checked
@@ -741,9 +790,9 @@ class SelectField extends Component {
                       value={this.state.formula}
                       id={"formula"}
                       type={"checkbox"}
-                      label={
-                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
-                      }
+                      label={`${t(
+                        "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
+                      )}`}
                       onChange={e => {
                         this.setState({
                           formula: e.target.checked
@@ -764,7 +813,8 @@ class SelectField extends Component {
                   this.openModalPreview();
                 }}
               >
-                <i className="fa fa-eye" /> Vista previa
+                <i className="fa fa-eye" />{" "}
+                {t("app_metadatos_crear_metadato_bolsa_metadatos_btn_preview")}
               </button>
               &nbsp;
               <button
@@ -775,7 +825,8 @@ class SelectField extends Component {
                 }}
               >
                 {" "}
-                <i className="fa fa-save" /> Guardar metadato{" "}
+                <i className="fa fa-save" />{" "}
+                {t("app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar")}{" "}
               </button>
             </div>
           </CardFooter>
@@ -785,6 +836,7 @@ class SelectField extends Component {
           modalpreview={this.state.modalpreview}
           inputType={this.props.field.toolType}
           field={this.props.field}
+          t={this.state.t}
         />
       </div>
     );

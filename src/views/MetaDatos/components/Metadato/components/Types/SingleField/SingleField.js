@@ -50,7 +50,8 @@ class SingleField extends Component {
       alert500: false,
       alertError: false,
       alertErrorMessage: "",
-      previewInfoField: false
+      previewInfoField: false,
+      t: this.props.t
     };
   }
 
@@ -276,13 +277,15 @@ class SingleField extends Component {
     this.changeValue("TITLE", this.state.title);
   };
   render() {
+    const { t } = this.state;
     return (
       <div className="container">
         <div className="row">
           <div className="col-md-12">
             <Card>
               <CardHeader>
-                <i className="fa fa-wpforms" /> Entrada de texto{" "}
+                <i className="fa fa-wpforms" />
+                {t("app_metadatos_crear_metadato_entrada_texto_title")}{" "}
                 {this.state.title}
                 <button
                   className="btn btn-link btn-sm pull-right"
@@ -344,7 +347,10 @@ class SingleField extends Component {
                     }}
                   >
                     <i className="fa fa-cog" />
-                    &nbsp; General
+                    &nbsp;{" "}
+                    {t(
+                      "app_metadatos_crear_metadato_entrada_texto_tab_general"
+                    )}
                   </NavLink>
                   <NavLink
                     className={classnames({
@@ -355,7 +361,10 @@ class SingleField extends Component {
                     }}
                   >
                     <i className="fa fa-exclamation-triangle" />
-                    &nbsp; Validación
+                    &nbsp;{" "}
+                    {t(
+                      "app_metadatos_crear_metadato_entrada_texto_tab_validacion"
+                    )}
                   </NavLink>
                 </Nav>
                 <form className="form" ref={el => (this.myFormRef = el)}>
@@ -366,7 +375,10 @@ class SingleField extends Component {
                           <div className="col-md-12">
                             <div className="form-group">
                               <label htmlFor="name">
-                                Nombre <span className="text-danger">*</span>{" "}
+                                {t(
+                                  "app_metadatos_crear_metadato_entrada_texto_nombre"
+                                )}{" "}
+                                <span className="text-danger">*</span>{" "}
                               </label>
                               <input
                                 type="text"
@@ -374,7 +386,9 @@ class SingleField extends Component {
                                 onChange={e => {
                                   this.changeValue("NAME", e.target.value);
                                 }}
-                                placeholder="Nombre"
+                                placeholder={`${t(
+                                  "app_metadatos_crear_metadato_entrada_texto_nombre_placeholder"
+                                )}`}
                                 value={this.state.name}
                               />
                             </div>
@@ -383,7 +397,11 @@ class SingleField extends Component {
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
-                              <label>Valor por defecto</label>
+                              <label>
+                                {t(
+                                  "app_metadatos_crear_metadato_entrada_texto_defaultValue"
+                                )}
+                              </label>
                               <input
                                 type="text"
                                 className="form-control form-control-sm"
@@ -394,13 +412,19 @@ class SingleField extends Component {
                                   );
                                 }}
                                 value={this.state.defaultValue}
-                                placeholder={"Valor por defecto"}
+                                placeholder={`${t(
+                                  "app_metadatos_crear_metadato_entrada_texto_defaultValue_placeholder"
+                                )}`}
                               />
                             </div>
                           </div>
                           <div className="col-md-6">
                             <div className="form-group">
-                              <label>Texto de ayuda</label>
+                              <label>
+                                {t(
+                                  "app_metadatos_crear_metadato_entrada_texto_helpText"
+                                )}
+                              </label>
                               <input
                                 type="text"
                                 className="form-control form-control-sm"
@@ -411,7 +435,9 @@ class SingleField extends Component {
                                   );
                                 }}
                                 value={this.state.helpertext}
-                                placeholder={"Texto de ayuda"}
+                                placeholder={`${t(
+                                  "app_metadatos_crear_metadato_entrada_texto_helpText_placeholder"
+                                )}`}
                               />
                             </div>
                           </div>
@@ -421,7 +447,10 @@ class SingleField extends Component {
                             <div className="form-group">
                               <label htmlFor="title">
                                 {" "}
-                                Etiqueta {this.state.title}{" "}
+                                {t(
+                                  "app_metadatos_crear_metadato_entrada_texto_label"
+                                )}{" "}
+                                {this.state.title}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <input
@@ -430,7 +459,9 @@ class SingleField extends Component {
                                 onChange={e =>
                                   this.changeValue("TITLE", e.target.value)
                                 }
-                                placeholder="Etiqueta del campo"
+                                placeholder={`${t(
+                                  "app_metadatos_crear_metadato_entrada_texto_label_placeholder"
+                                )}`}
                                 className={"form-control form-control-sm"}
                               />
                             </div>
@@ -438,7 +469,9 @@ class SingleField extends Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <label htmlFor="title">
-                                Marcador de posición
+                                {t(
+                                  "app_metadatos_crear_metadato_entrada_texto_placeholder"
+                                )}
                               </label>
                               <input
                                 type="text"
@@ -449,7 +482,9 @@ class SingleField extends Component {
                                     e.target.value
                                   )
                                 }
-                                placeholder="Marcador de posición"
+                                placeholder={`${t(
+                                  "app_metadatos_crear_metadato_entrada_texto_placeholder_placeholder"
+                                )}`}
                                 className="form-control form-control-sm"
                               />
                             </div>
@@ -459,7 +494,9 @@ class SingleField extends Component {
                           <div className="col-md-12">
                             <div className="form-group">
                               <label htmlFor="title">
-                                Descripción{" "}
+                                {t(
+                                  "app_metadatos_crear_metadato_entrada_texto_descripcion"
+                                )}{" "}
                                 <span className="text-danger">*</span>{" "}
                               </label>
                               <textarea
@@ -499,7 +536,10 @@ class SingleField extends Component {
                                 style={{ verticalAlign: "middle" }}
                               >
                                 {" "}
-                                &nbsp; ¿Es requerido?
+                                &nbsp;{" "}
+                                {t(
+                                  "app_metadatos_crear_metadato_entrada_texto_validacion_requerido"
+                                )}
                               </label>
                             </div>
                           </div>
@@ -521,7 +561,10 @@ class SingleField extends Component {
                                 htmlFor="isReadOnly"
                                 style={{ verticalAlign: "middle" }}
                               >
-                                &nbsp; ¿Solo lectura?
+                                &nbsp;{" "}
+                                {t(
+                                  "app_metadatos_crear_metadato_entrada_texto_validacion_lectura"
+                                )}
                               </label>
                             </div>
                           </div>
@@ -529,7 +572,11 @@ class SingleField extends Component {
                         <div className="row">
                           <div className="col-md-6">
                             <div className="form-group">
-                              <label htmlFor="">Máximo 20 caracteres </label>
+                              <label htmlFor="">
+                                {t(
+                                  "app_metadatos_crear_metadato_entrada_texto_validacion_maximo"
+                                )}{" "}
+                              </label>
                               <input
                                 type="number"
                                 className="form-control form-control-sm"
@@ -544,7 +591,9 @@ class SingleField extends Component {
                           <div className="col-md-6">
                             <div className="form-group">
                               <label htmlFor="title">
-                                Mínimo 6 caracteres{" "}
+                                {t(
+                                  "app_metadatos_crear_metadato_entrada_texto_validacion_minimo"
+                                )}{" "}
                               </label>
                               <input
                                 type="number"
@@ -570,7 +619,9 @@ class SingleField extends Component {
                           defaultChecked
                           type="checkbox"
                           id={"activeInput"}
-                          label={`Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente.`}
+                          label={`${t(
+                            "app_metadatos_crear_metadato_bolsa_metadatos_status"
+                          )}`}
                           onChange={e => {
                             this.setState({
                               active: e.target.checked
@@ -581,9 +632,9 @@ class SingleField extends Component {
                         <CustomInput
                           value={this.state.formula}
                           type={"checkbox"}
-                          label={
-                            "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
-                          }
+                          label={`${t(
+                            "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
+                          )}`}
                           id={"formula"}
                           onChange={e => {
                             this.setState({ formula: e.target.checked });
@@ -601,7 +652,10 @@ class SingleField extends Component {
                     type="button"
                     onClick={this.openModalPreview}
                   >
-                    <i className="fa fa-eye" /> Vista previa
+                    <i className="fa fa-eye" />{" "}
+                    {t(
+                      "app_metadatos_crear_metadato_bolsa_metadatos_btn_preview"
+                    )}
                   </button>
                   &nbsp;
                   <button
@@ -612,7 +666,10 @@ class SingleField extends Component {
                     }}
                   >
                     {" "}
-                    <i className="fa fa-save" /> Guardar metadato{" "}
+                    <i className="fa fa-save" />{" "}
+                    {t(
+                      "app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar"
+                    )}{" "}
                   </button>
                 </div>
               </CardFooter>
@@ -625,6 +682,7 @@ class SingleField extends Component {
           inputType={this.state.dragType}
           field={this.props.field}
           // field={this.state.previewInfoField}
+          t={this.state.t}
         />
       </div>
     );

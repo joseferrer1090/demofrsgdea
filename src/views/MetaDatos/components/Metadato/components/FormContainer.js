@@ -18,7 +18,8 @@ class FormContainer extends Component {
       fields: [],
       orders: [],
       change: false,
-      nameDuplicate: false
+      nameDuplicate: false,
+      t: this.props.t
     };
   }
 
@@ -89,6 +90,7 @@ class FormContainer extends Component {
           key={index}
           removeField={() => this.remove(index)}
           authorization={this.props.authorization}
+          t={this.state.t}
         />
       );
     } else if (field.toolType === "SINGLE_FIELD") {
@@ -103,6 +105,7 @@ class FormContainer extends Component {
           removeField={() => this.remove(index)}
           dragType={field.toolType}
           authorization={this.props.authorization}
+          t={this.state.t}
         />
       );
     } else if (field.toolType === "CHECK_BOXES") {
@@ -116,6 +119,7 @@ class FormContainer extends Component {
           key={index}
           removeField={() => this.remove(index)}
           authorization={this.props.authorization}
+          t={this.state.t}
         />
       );
     } else if (field.toolType === "RADIO_BUTTONS") {
@@ -129,6 +133,7 @@ class FormContainer extends Component {
           key={index}
           removeField={() => this.remove(index)}
           authorization={this.props.authorization}
+          t={this.state.t}
         />
       );
     } else if (field.toolType === "PARAGRAPH") {
@@ -142,6 +147,7 @@ class FormContainer extends Component {
           key={index}
           removeField={() => this.remove(index)}
           authorization={this.props.authorization}
+          t={this.state.t}
         />
       );
     } else if (field.toolType === "DATE_FIELD") {
@@ -155,6 +161,7 @@ class FormContainer extends Component {
           key={index}
           removeField={() => this.remove(index)}
           authorization={this.props.authorization}
+          t={this.state.t}
         />
       );
     }
@@ -388,6 +395,7 @@ class FormContainer extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div className="anitmated fadeIn">
         <div className="row">
@@ -402,7 +410,8 @@ class FormContainer extends Component {
           >
             <Card>
               <CardHeader>
-                <i className="fa fa-code" /> Bolsa de metadatos{" "}
+                <i className="fa fa-code" />{" "}
+                {t("app_metadatos_crear_metadato_bolsa_metadatos")}{" "}
               </CardHeader>
               <CardBody>
                 <div className="row">
@@ -425,7 +434,7 @@ class FormContainer extends Component {
                               backgroundColor: "#eee"
                             }}
                           >
-                            Seleccione una entrada a configurar
+                            {t("app_metadatos_crear_metadato_bolsa_placholder")}
                           </p>
                         </div>
                       )}

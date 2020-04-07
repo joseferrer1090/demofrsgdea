@@ -52,7 +52,8 @@ class RadioButtons extends Component {
       alert400: false,
       alert500: false,
       alertError: false,
-      alertErrorMessage: ""
+      alertErrorMessage: "",
+      t: this.props.t
     };
   }
 
@@ -358,11 +359,13 @@ class RadioButtons extends Component {
     this.changeValue("TITLE", this.state.title);
   };
   render() {
+    const { t } = this.state;
     return (
       <div>
         <Card>
           <CardHeader>
-            <i className="fa fa-circle mr-1" /> Selección de radio{" "}
+            <i className="fa fa-circle mr-1" />{" "}
+            {t("app_metadatos_crear_metadato_entrada_radio_title")}{" "}
             {this.state.title}
             <span
               className="pull-right cross"
@@ -419,7 +422,10 @@ class RadioButtons extends Component {
                     }}
                   >
                     <i className="fa fa-cog" />
-                    &nbsp; General
+                    &nbsp;{" "}
+                    {t(
+                      "app_metadatos_crear_metadato_entrada_radio_tab_general"
+                    )}
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -432,7 +438,10 @@ class RadioButtons extends Component {
                     }}
                   >
                     <i className="fa fa-exclamation-triangle" />
-                    &nbsp; Validación
+                    &nbsp;{" "}
+                    {t(
+                      "app_metadatos_crear_metadato_entrada_radio_tab_validacion"
+                    )}
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -444,7 +453,10 @@ class RadioButtons extends Component {
                       this.toggle("3");
                     }}
                   >
-                    <i className="fa fa-list-ul" /> &nbsp; Valores{" "}
+                    <i className="fa fa-list-ul" /> &nbsp;{" "}
+                    {t(
+                      "app_metadatos_crear_metadato_entrada_radio_tab_valores"
+                    )}{" "}
                     <span className="text-danger">*</span>{" "}
                   </NavLink>
                 </NavItem>
@@ -456,7 +468,10 @@ class RadioButtons extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label htmlFor="name">
-                            Nombre <span className="text-danger">*</span>{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_radio_nombre"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <input
                             type="text"
@@ -464,7 +479,9 @@ class RadioButtons extends Component {
                             onChange={e =>
                               this.changeValue("NAME", e.target.value)
                             }
-                            placeholder={"Nombre"}
+                            placeholder={`${t(
+                              "app_metadatos_crear_metadato_entrada_radio_nombre_placeholder"
+                            )}`}
                             value={this.state.name}
                           />
                         </div>
@@ -472,7 +489,10 @@ class RadioButtons extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label htmlFor="title">
-                            Etiqueta <span className="text-danger">*</span>{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_radio_label"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <input
                             type="text"
@@ -481,7 +501,9 @@ class RadioButtons extends Component {
                               this.changeValue("TITLE", e.target.value)
                             }
                             value={this.state.title}
-                            placeholder={"Etiqueta"}
+                            placeholder={`${t(
+                              "app_metadatos_crear_metadato_entrada_radio_label_placeholder"
+                            )}`}
                           />
                         </div>
                       </div>
@@ -489,7 +511,10 @@ class RadioButtons extends Component {
                       <div className="col-md-12">
                         <div className="form-group">
                           <label htmlFor="">
-                            Descripción <span className="text-danger">*</span>{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_radio_descripcion"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <textarea
                             className="form-control form-control-sm"
@@ -521,7 +546,9 @@ class RadioButtons extends Component {
                             style={{ verticalAlign: "middle" }}
                           >
                             {" "}
-                            ¿Es requerido?{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_radio_validacion_requerido"
+                            )}{" "}
                           </label>
                         </div>
                       </div>
@@ -540,7 +567,9 @@ class RadioButtons extends Component {
                             style={{ verticalAlign: "middle" }}
                           >
                             {" "}
-                            ¿Solo lectura?{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_radio_validacion_lectura"
+                            )}{" "}
                           </label>
                         </div>
                       </div>
@@ -559,7 +588,9 @@ class RadioButtons extends Component {
                             style={{ verticalAlign: "middle" }}
                           >
                             {" "}
-                            ¿En linea?{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_check_validacion_inline"
+                            )}{" "}
                           </label>
                         </div>
                       </div>
@@ -573,7 +604,11 @@ class RadioButtons extends Component {
                       className="alert text-center alert-danger"
                     >
                       <i className="fa fa-exclamation-triangle" /> &nbsp;{" "}
-                      <strong>Valores duplicados</strong>
+                      <strong>
+                        {t(
+                          "app_metadatos_crear_metadato_entrada_radio_valores_alert_values"
+                        )}
+                      </strong>
                     </p>
                     {this.state.radios ? (
                       <table className="table text-center">
@@ -607,7 +642,9 @@ class RadioButtons extends Component {
                                 <td>
                                   <input
                                     autoFocus={true}
-                                    placeholder="Etiqueta"
+                                    placeholder={`${t(
+                                      "app_metadatos_crear_metadato_entrada_radio_valores_placeholder_label"
+                                    )}`}
                                     value={this.state.radios[index].title}
                                     onChange={e =>
                                       this.changeOptionValue(
@@ -622,7 +659,9 @@ class RadioButtons extends Component {
                                 </td>
                                 <td>
                                   <input
-                                    placeholder="Valor"
+                                    placeholder={`${t(
+                                      "app_metadatos_crear_metadato_entrada_radio_valores_placeholder_value"
+                                    )}`}
                                     value={this.state.radios[index].value}
                                     onChange={e =>
                                       this.changeOptionValue(
@@ -679,7 +718,10 @@ class RadioButtons extends Component {
                       onClick={e => this.addOption(e)}
                       className="btn btn-secondary btn-sm"
                     >
-                      <i className="fa fa-plus" /> Agregar opciones
+                      <i className="fa fa-plus" />{" "}
+                      {t(
+                        "app_metadatos_crear_metadato_entrada_radio_valores_btn_addValues"
+                      )}
                     </button>
                   </Card>
                 </TabPane>
@@ -693,9 +735,9 @@ class RadioButtons extends Component {
                       defaultChecked
                       type="checkbox"
                       id={"activeInput"}
-                      label={
-                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente."
-                      }
+                      label={t(
+                        "app_metadatos_crear_metadato_bolsa_metadatos_status"
+                      )}
                       onChange={e => {
                         this.setState({
                           active: e.target.checked
@@ -710,9 +752,9 @@ class RadioButtons extends Component {
                       type="checkbox"
                       value={this.state.formula}
                       id={"formula"}
-                      label={
-                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
-                      }
+                      label={t(
+                        "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
+                      )}
                       onChange={e => {
                         this.setState({
                           formula: e.target.checked
@@ -734,7 +776,8 @@ class RadioButtons extends Component {
                 }}
               >
                 {" "}
-                <i className="fa fa-eye" /> Vista previa{" "}
+                <i className="fa fa-eye" />{" "}
+                {t("app_metadatos_crear_metadato_bolsa_metadatos_btn_preview")}{" "}
               </button>
               &nbsp;
               <button
@@ -743,7 +786,8 @@ class RadioButtons extends Component {
                 onClick={e => this.createMetada(e)}
               >
                 {" "}
-                <i className="fa fa-save" /> Guardar metadato
+                <i className="fa fa-save" />{" "}
+                {t("app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar")}
               </button>
             </div>
           </CardFooter>
@@ -753,6 +797,7 @@ class RadioButtons extends Component {
           modalpreview={this.state.modalpreview}
           field={this.props.field}
           inputType={this.state.dragType}
+          t={this.state.t}
         />
       </div>
     );

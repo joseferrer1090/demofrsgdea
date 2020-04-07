@@ -135,11 +135,22 @@ class TableContentEmailRequest extends Component {
     return moment(createdAt).format("DD-MM-YYYY");
   }
   StatusAnswer(cell, row) {
+    const { t } = this.state;
     let status;
     if (row.answer === true) {
-      status = <b className="text-success"> Completa </b>;
+      status = (
+        <b className="text-success">
+          {" "}
+          {t("app_emailRequest_administrar_table_estado_completa")}{" "}
+        </b>
+      );
     } else if (row.answer === false) {
-      status = <b className="text-danger"> Pendiente </b>;
+      status = (
+        <b className="text-danger">
+          {" "}
+          {t("app_emailRequest_administrar_table_estado_pendientea")}{" "}
+        </b>
+      );
     }
     return status;
   }
@@ -169,6 +180,7 @@ class TableContentEmailRequest extends Component {
         });
       }
     };
+    const { t } = this.state;
     return (
       <div className="animated fadeIn">
         <div className="col-md-12">
@@ -184,7 +196,7 @@ class TableContentEmailRequest extends Component {
                     style={{ cursor: "pointer" }}
                   >
                     {" "}
-                    Peticiones vía correo electrónico
+                    {t("app_emailRequest_administrar_title_card")}
                   </a>{" "}
                 </CardHeader>
                 <Collapse isOpen={this.state.collapase}>
@@ -192,14 +204,22 @@ class TableContentEmailRequest extends Component {
                     <div className="row">
                       <div className="col-md-6">
                         <dl className="param">
-                          <dt>Cuenta de correo electrónico</dt>
+                          <dt>
+                            {t("app_emailRequest_administrar_title_select")}
+                          </dt>
                           <dd>
                             <select
                               name={"email_accounts"}
                               onChange={e => dataTable(e)}
                               className={`form-control form-control-sm`}
                             >
-                              <option value={""}>-- Seleccione --</option>
+                              <option value={""}>
+                                --{" "}
+                                {t(
+                                  "app_emailRequest_administrar_title_select_placeholder"
+                                )}{" "}
+                                --
+                              </option>
                               {this.state.dataEmailAccount.map((aux, id) => {
                                 return (
                                   <option key={id} value={aux.id}>
@@ -221,7 +241,9 @@ class TableContentEmailRequest extends Component {
             striped
             pagination
             search
-            searchPlaceholder={"Buscar"}
+            searchPlaceholder={t(
+              "app_emailRequest_administrar_table_placeholder"
+            )}
             data={this.state.dataTable}
             hover
             bordered={false}
@@ -247,14 +269,14 @@ class TableContentEmailRequest extends Component {
               dataAlign="center"
               width={"250"}
             >
-              Remitente
+              {t("app_emailRequest_administrar_table_remitente")}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="subject"
               dataAlign="center"
               width={"250"}
             >
-              Asunto
+              {t("app_emailRequest_administrar_table_asunto")}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField={"createdAt"}
@@ -264,7 +286,7 @@ class TableContentEmailRequest extends Component {
               dataAlign="center"
               width={"150"}
             >
-              Fecha de creación
+              {t("app_emailRequest_administrar_table_fecha_creacion")}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField={"answer"}
@@ -272,7 +294,7 @@ class TableContentEmailRequest extends Component {
               dataAlign="center"
               width={"200"}
             >
-              Estado de respuesta
+              {t("app_emailRequest_administrar_table_estado")}
             </TableHeaderColumn>
             <TableHeaderColumn
               // width={"170"}
@@ -281,7 +303,7 @@ class TableContentEmailRequest extends Component {
               dataFormat={(cel, row) => this.accionesPlantillasEmail(cel, row)}
             >
               {" "}
-              Acciones
+              {t("app_emailRequest_administrar_table_acciones")}
             </TableHeaderColumn>
           </BootstrapTable>
         </div>

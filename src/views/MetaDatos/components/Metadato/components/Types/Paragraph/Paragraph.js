@@ -51,6 +51,7 @@ class Paragraph extends Component {
       active: true,
       formula: false,
       alertError: false,
+      t: this.props.t,
       alertErrorMessage: ""
     };
   }
@@ -275,11 +276,13 @@ class Paragraph extends Component {
   };
 
   render() {
+    const { t } = this.state;
     return (
       <div>
         <Card clolor={"secondary"}>
           <CardHeader>
-            <i className="fa fa-paragraph" /> Tipo de campo área de texto{" "}
+            <i className="fa fa-paragraph" />{" "}
+            {t("app_metadatos_crear_metadato_entrada_parrafo_title")}{" "}
             {this.state.title}
             <span
               className="pull-right cross"
@@ -338,7 +341,10 @@ class Paragraph extends Component {
                   }}
                 >
                   <i className="fa fa-cog" />
-                  &nbsp; General
+                  &nbsp;{" "}
+                  {t(
+                    "app_metadatos_crear_metadato_entrada_parrafo_tab_general"
+                  )}
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -352,7 +358,10 @@ class Paragraph extends Component {
                 >
                   {" "}
                   <i className="fa fa-exclamation-triangle" />
-                  &nbsp; Validación
+                  &nbsp;{" "}
+                  {t(
+                    "app_metadatos_crear_metadato_entrada_parrafo_tab_validacion"
+                  )}
                 </NavLink>
               </NavItem>
               <NavItem>
@@ -365,7 +374,10 @@ class Paragraph extends Component {
                   }}
                 >
                   <i className="fa fa-pencil" />
-                  &nbsp; Estilos
+                  &nbsp;{" "}
+                  {t(
+                    "app_metadatos_crear_metadato_entrada_parrafo_tab_estilos"
+                  )}
                 </NavLink>
               </NavItem>
             </Nav>
@@ -376,10 +388,15 @@ class Paragraph extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label htmlFor="name">
-                          Nombre <span className="text-danger">*</span>{" "}
+                          {t(
+                            "app_metadatos_crear_metadato_entrada_parrafo_nombre"
+                          )}{" "}
+                          <span className="text-danger">*</span>{" "}
                         </label>
                         <input
-                          placeholder={"Nombre"}
+                          placeholder={`${t(
+                            "app_metadatos_crear_metadato_entrada_parrafo_nombre_placeholder"
+                          )}`}
                           type="text"
                           className="form-control form-control-sm"
                           value={this.state.name}
@@ -392,10 +409,15 @@ class Paragraph extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label htmlFor="title">
-                          Etiqueta <span className="text-danger">*</span>{" "}
+                          {t(
+                            "app_metadatos_crear_metadato_entrada_parrafo_label"
+                          )}{" "}
+                          <span className="text-danger">*</span>{" "}
                         </label>
                         <input
-                          placeholder={"Etiqueta"}
+                          placeholder={`${t(
+                            "app_metadatos_crear_metadato_entrada_parrafo_label_placeholder"
+                          )}`}
                           type="text"
                           className="form-control form-control-sm"
                           onChange={e =>
@@ -408,10 +430,15 @@ class Paragraph extends Component {
                     <div className="col-md-12">
                       <div className="form-group">
                         <label htmlFor="paragraph">
-                          Párrafo <span className="text-danger">*</span>{" "}
+                          {t(
+                            "app_metadatos_crear_metadato_entrada_parrafo_parrafo"
+                          )}{" "}
+                          <span className="text-danger">*</span>{" "}
                         </label>
                         <input
-                          placeholder="Párrafo"
+                          placeholder={`${t(
+                            "app_metadatos_crear_metadato_entrada_parrafo_parrafo_placeholder"
+                          )}`}
                           type="text"
                           className="form-control form-control-sm"
                           onChange={e =>
@@ -424,7 +451,10 @@ class Paragraph extends Component {
                     <div className="col-md-12">
                       <div className="form-grouop">
                         <label>
-                          Descripción <span className="text-danger">*</span>{" "}
+                          {t(
+                            "app_metadatos_crear_metadato_entrada_parrafo_descripcion"
+                          )}{" "}
+                          <span className="text-danger">*</span>{" "}
                         </label>
                         <textarea
                           type="text"
@@ -463,7 +493,9 @@ class Paragraph extends Component {
                               style={{ verticalAlign: "middle" }}
                             >
                               {" "}
-                              ¿Es requerido?{" "}
+                              {t(
+                                "app_metadatos_crear_metadato_entrada_parrafo_validacion_requerido"
+                              )}{" "}
                             </label>
                           </div>
                         </div>
@@ -486,7 +518,9 @@ class Paragraph extends Component {
                               style={{ verticalAlign: "middle" }}
                             >
                               {" "}
-                              ¿Solo lectura?{" "}
+                              {t(
+                                "app_metadatos_crear_metadato_entrada_parrafo_validacion_lectura"
+                              )}{" "}
                             </label>
                           </div>
                         </div>
@@ -509,7 +543,9 @@ class Paragraph extends Component {
                               style={{ verticalAlign: "middle" }}
                             >
                               {" "}
-                              ¿Deshabilidado?{" "}
+                              {t(
+                                "app_metadatos_crear_metadato_entrada_parrafo_validacion_deshabilitado"
+                              )}{" "}
                             </label>
                           </div>
                         </div>
@@ -523,7 +559,11 @@ class Paragraph extends Component {
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="Color">Color del texto</label>
+                        <label htmlFor="Color">
+                          {t(
+                            "app_metadatos_crear_metadato_entrada_parrafo_estilos_textColor"
+                          )}
+                        </label>
                         <input
                           value={this.state.colorText}
                           onChange={e =>
@@ -536,7 +576,12 @@ class Paragraph extends Component {
                     </div>
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="BackgroundColor"> Color de fondo</label>
+                        <label htmlFor="BackgroundColor">
+                          {" "}
+                          {t(
+                            "app_metadatos_crear_metadato_entrada_parrafo_estilos_backgroundColor"
+                          )}
+                        </label>
                         <input
                           value={this.state.background}
                           onChange={e =>
@@ -551,7 +596,11 @@ class Paragraph extends Component {
                   <div className="row">
                     <div className="col-md-6">
                       <div className="form-group">
-                        <label htmlFor="Color">Alinear el texto</label>
+                        <label htmlFor="Color">
+                          {t(
+                            "app_metadatos_crear_metadato_entrada_parrafo_estilos_alingText"
+                          )}
+                        </label>
                         <select
                           className="form-control form-control-sm"
                           onChange={e =>
@@ -559,15 +608,36 @@ class Paragraph extends Component {
                           }
                           value={this.state.align}
                         >
-                          <option value="center">Centro</option>
-                          <option value="left">Izquierda</option>
-                          <option value="right">Derecha</option>
-                          <option value="justify">Justificado</option>
+                          <option value="center">
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_parrafo_estilos_alingText_centro"
+                            )}
+                          </option>
+                          <option value="left">
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_parrafo_estilos_alingText_izquierda"
+                            )}
+                          </option>
+                          <option value="right">
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_parrafo_estilos_alingText_derecha"
+                            )}
+                          </option>
+                          <option value="justify">
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_parrafo_estilos_alingText_justificado"
+                            )}
+                          </option>
                         </select>
                       </div>
                     </div>
                     <div className="col-md-6">
-                      <label htmlFor="Color"> Tamaño de la fuente </label>
+                      <label htmlFor="Color">
+                        {" "}
+                        {t(
+                          "app_metadatos_crear_metadato_entrada_parrafo_estilos_sizeFont"
+                        )}{" "}
+                      </label>
                       <select
                         className="form-control form-control-sm"
                         value={this.state.fontSize}
@@ -597,9 +667,9 @@ class Paragraph extends Component {
                     defaultChecked
                     type={"checkbox"}
                     id={"activeInput"}
-                    label={
-                      "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente."
-                    }
+                    label={t(
+                      "app_metadatos_crear_metadato_bolsa_metadatos_status"
+                    )}
                     onChange={e => {
                       this.setState({
                         active: e.target.checked
@@ -614,9 +684,9 @@ class Paragraph extends Component {
                     value={this.state.formula}
                     type="checkbox"
                     id="formula"
-                    label={
-                      "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
-                    }
+                    label={t(
+                      "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
+                    )}
                     onChange={e => {
                       this.setState({
                         formula: e.target.checked
@@ -636,7 +706,8 @@ class Paragraph extends Component {
                   this.openModalPreview();
                 }}
               >
-                <i className="fa fa-eye" /> Vista previa
+                <i className="fa fa-eye" />{" "}
+                {t("app_metadatos_crear_metadato_bolsa_metadatos_btn_preview")}
               </button>
               &nbsp;
               <button
@@ -646,7 +717,8 @@ class Paragraph extends Component {
                   this.createMatadata(e);
                 }}
               >
-                <i className="fa fa-save" /> Guardar metadato
+                <i className="fa fa-save" />{" "}
+                {t("app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar")}
               </button>
             </div>
           </CardFooter>
@@ -656,6 +728,7 @@ class Paragraph extends Component {
           ref={el => (this.MyModal = el)}
           field={this.props.field}
           inputType={this.props.dragType}
+          t={this.state.t}
         />
       </div>
     );

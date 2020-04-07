@@ -196,7 +196,7 @@ class TableContent extends Component {
             )}
             pagination
             className="tableGUsu texto-GUsu"
-            exportCSV
+            // exportCSV
           >
             <TableHeaderColumn
               isKey

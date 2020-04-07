@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import FormContainer from "./components/FormContainer";
 import ToolBox from "./components/ToolBox";
 import { Alert } from "reactstrap";
+import { withFormik } from "formik";
+import { withTranslation } from "react-i18next";
 
 const asyncLocalStorage = {
   setItem: async function(key, value) {
@@ -54,24 +56,22 @@ class Metadato extends Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <div>
         <Alert color="secondary" isOpen={this.state.visible} fade>
-          <h4 className="alert-heading">Well done!</h4>
-          <p>
-            Aww yeah, you successfully read this important alert message. This
-            example text is going to run a bit longer so that you can see how
-            spacing within an alert works with this kind of content.
-          </p>
+          <h4 className="alert-heading">
+            {t("app_metadatos_crear_metadato_alert_title")}
+          </h4>
+          <p>{t("app_metadatos_crear_metadato_alert_parrafo")}</p>
           <hr />
           <p className="mb-0">
-            Whenever you need to, be sure to use margin utilities to keep things
-            nice and tidy.
+            {t("app_metadatos_crear_metadato_alert_parrafo_2")}
           </p>
         </Alert>
         <div className="row">
           <div className="col-md-3">
-            <ToolBox />
+            <ToolBox t={this.props.t} />
           </div>
           <div className="col-md-9 ">
             <FormContainer
@@ -81,6 +81,7 @@ class Metadato extends Component {
               updateForm={this.updateForm}
               onSave={this.myForm}
               authorization={this.state.authoToken}
+              t={this.props.t}
             />
           </div>
         </div>
@@ -91,4 +92,4 @@ class Metadato extends Component {
 
 Metadato.propTypes = {};
 
-export default Metadato;
+export default withTranslation("translations")(Metadato);

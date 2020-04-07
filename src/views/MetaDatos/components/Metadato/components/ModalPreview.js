@@ -9,7 +9,8 @@ class ModalPreview extends Component {
       modalPreview: this.props.modalpreview,
       type: this.props.inputType,
       field: this.props.field,
-      valueexample: ""
+      valueexample: "",
+      t: this.props.t
     };
   }
   toggle = () => {
@@ -44,12 +45,13 @@ class ModalPreview extends Component {
   }
 
   renderType = data => {
+    const { t } = this.state;
     let component;
     if (data === undefined) {
       component = (
         <div className="text-center text-danger">
           {" "}
-          error en la vista previa{" "}
+          {t("app_metadatos_crear_metadato_modal_preview_error")}{" "}
         </div>
       );
     } else if (data.type === "Text" || data.type === "text") {
@@ -156,7 +158,11 @@ class ModalPreview extends Component {
               })
             ) : (
               <div className="form-group">
-                <p className="text-center"> No hay opciones creadas </p>
+                <p className="text-center">
+                  {t(
+                    "app_metadatos_crear_metadato_modal_preview_error_opciones"
+                  )}{" "}
+                </p>
               </div>
             )}
           </React.Fragment>
@@ -194,7 +200,9 @@ class ModalPreview extends Component {
               );
             })
           ) : (
-            <div>no hay elementos</div>
+            <div>
+              {t("app_metadatos_crear_metadato_modal_preview_error_elementos")}
+            </div>
           )}
         </div>
       );
@@ -247,6 +255,7 @@ class ModalPreview extends Component {
 
   render() {
     const aux = this.state.field;
+    const { t } = this.state;
     return (
       <Modal
         isOpen={this.state.modalPreview}
@@ -254,14 +263,13 @@ class ModalPreview extends Component {
       >
         <ModalHeader>
           {" "}
-          Metadato {aux.name ? aux.name : "Nombre del metadado"}{" "}
+          {t("app_metadatos_crear_metadato_modal_preview_title")}{" "}
+          {aux.name ? aux.name : "Nombre del metadado"}{" "}
         </ModalHeader>
         <ModalBody>
           <p className="text-justify">
-            <i className="fa fa-info-circle" /> &nbsp; El campo que está siendo
-            pre visualizado será visible y operará cuando se asigne a la
-            plantilla correspondiente y esta a su vez se asocie a un tipo
-            documental de radicación en el modulo de configuración.
+            <i className="fa fa-info-circle" /> &nbsp;{" "}
+            {t("app_metadatos_crear_metadato_modal_preview_info")}
           </p>
           {this.renderType(aux)}
         </ModalBody>
@@ -273,7 +281,8 @@ class ModalPreview extends Component {
                 this.setState({ modalPreview: false });
               }}
             >
-              <i className="fa fa-times" style={{ color: "red" }} /> Cerrar
+              <i className="fa fa-times" style={{ color: "red" }} />{" "}
+              {t("app_metadatos_crear_metadato_modal_preview_btn_cerrar")}
             </button>
           </div>
         </ModalFooter>

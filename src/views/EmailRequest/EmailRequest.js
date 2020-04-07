@@ -72,7 +72,7 @@ class EmailRequest extends Component {
               <i className="fa fa-plus " /> {t("app_plantilla_email_tab_2")}
             </NavLink>
           </NavItem>
-          <NavItem>
+          {/* <NavItem>
             <NavLink
               className={classnames({ active: this.state.activeTab === "2" })}
               onClick={() => {
@@ -81,7 +81,7 @@ class EmailRequest extends Component {
             >
               <i className={"fa fa-gear"} /> {t("app_plantilla_email_tab_3")}
             </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">

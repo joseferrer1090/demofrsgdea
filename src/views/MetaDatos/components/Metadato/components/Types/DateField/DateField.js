@@ -48,7 +48,8 @@ class DateField extends Component {
       active: true,
       formula: false,
       alertError: false,
-      alertErrorMessage: ""
+      alertErrorMessage: "",
+      t: this.props.t
     };
   }
 
@@ -264,11 +265,13 @@ class DateField extends Component {
   };
 
   render() {
+    const { t } = this.state;
     return (
       <div>
         <Card outline color={"secondary"}>
           <CardHeader>
-            <i className="fa fa-calendar" /> Tipo de campo fecha{" "}
+            <i className="fa fa-calendar" />{" "}
+            {t("app_metadatos_crear_metadato_entrada_fecha_title")}{" "}
             {this.state.title}
             <span
               className="pull-right"
@@ -324,7 +327,8 @@ class DateField extends Component {
                   onClick={() => this.toggle("1")}
                 >
                   <i className="fa fa-cog" />
-                  &nbsp; General
+                  &nbsp;{" "}
+                  {t("app_metadatos_crear_metadato_entrada_fecha_tab_general")}
                 </NavLink>
                 <NavLink
                   className={classnames({
@@ -333,7 +337,10 @@ class DateField extends Component {
                   onClick={() => this.toggle("2")}
                 >
                   <i className="fa fa-exclamation-triangle" />
-                  &nbsp; Validación
+                  &nbsp;{" "}
+                  {t(
+                    "app_metadatos_crear_metadato_entrada_fecha_tab_validacion"
+                  )}
                 </NavLink>
               </Nav>
               <TabContent activeTab={this.state.activeTab}>
@@ -344,7 +351,10 @@ class DateField extends Component {
                         <div className="form-group">
                           {" "}
                           <label htmlFor="name">
-                            Nombre <span className="text-danger">*</span>{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_fecha_nombre"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <input
                             type="text"
@@ -353,14 +363,19 @@ class DateField extends Component {
                             onChange={e =>
                               this.changeValue("NAME", e.target.value)
                             }
-                            placeholder={"Nombre"}
+                            placeholder={`${t(
+                              "app_metadatos_crear_metadato_entrada_fecha_nombre_placeholder"
+                            )}`}
                           />
                         </div>
                       </div>
                       <div className="col-md-12">
                         <div className="form-group">
                           <label htmlFor="">
-                            Etiqueta <span className="text-danger">*</span>{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_fecha_label"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <input
                             type="text"
@@ -369,7 +384,9 @@ class DateField extends Component {
                             onChange={e =>
                               this.changeValue("TITLE", e.target.value)
                             }
-                            placeholder={"Etiqueta"}
+                            placeholder={`${t(
+                              "app_metadatos_crear_metadato_entrada_fecha_label_placeholder"
+                            )}`}
                           />
                         </div>
                       </div>
@@ -377,9 +394,10 @@ class DateField extends Component {
                         <div className="form-group">
                           <label htmlFor="description">
                             {" "}
-                            Descripción <span className="text-danger">
-                              *
-                            </span>{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_fecha_descripcion"
+                            )}{" "}
+                            <span className="text-danger">*</span>{" "}
                           </label>
                           <textarea
                             type="text"
@@ -413,7 +431,9 @@ class DateField extends Component {
                             style={{ verticalAlign: "middle" }}
                           >
                             {" "}
-                            ¿Es requerido?{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_fecha_validacion_requerido"
+                            )}{" "}
                           </label>
                         </div>
                       </div>
@@ -433,13 +453,19 @@ class DateField extends Component {
                             style={{ verticalAlign: "middle" }}
                           >
                             {" "}
-                            ¿Solo lectura?{" "}
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_fecha_validacion_lectura"
+                            )}{" "}
                           </label>
                         </div>
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Fecha mínima</label>
+                          <label>
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_fecha_validacion_minimo"
+                            )}
+                          </label>
                           <input
                             type="date"
                             className="form-control form-control-sm"
@@ -453,7 +479,11 @@ class DateField extends Component {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Fecha máxima</label>
+                          <label>
+                            {t(
+                              "app_metadatos_crear_metadato_entrada_fecha_validacion_maximo"
+                            )}
+                          </label>
                           <input
                             type={"date"}
                             className={"form-control form-control-sm"}
@@ -478,9 +508,9 @@ class DateField extends Component {
                       defaultChecked
                       type={"checkbox"}
                       id={"activeInput"}
-                      label={
-                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente."
-                      }
+                      label={`${t(
+                        "app_metadatos_crear_metadato_bolsa_metadatos_status"
+                      )}`}
                       onChange={e => {
                         this.setState({
                           active: e.target.checked
@@ -495,9 +525,9 @@ class DateField extends Component {
                       type={"checkbox"}
                       value={this.state.formula}
                       id="formula"
-                      label={
-                        "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
-                      }
+                      label={t(
+                        "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
+                      )}
                       onChange={e => {
                         this.setState({
                           formula: e.target.checked
@@ -518,7 +548,8 @@ class DateField extends Component {
                   this.openModalPreview();
                 }}
               >
-                <i className="fa fa-eye" /> Vista previa
+                <i className="fa fa-eye" />{" "}
+                {t("app_metadatos_crear_metadato_bolsa_metadatos_btn_preview")}
               </button>
               &nbsp;
               <button
@@ -527,7 +558,10 @@ class DateField extends Component {
                 onClick={e => this.createMetadata(e)}
               >
                 {" "}
-                <i className="fa fa-save" /> Guardar metadato{" "}
+                <i className="fa fa-save" />
+                {t(
+                  "app_metadatos_crear_metadato_bolsa_metadatos_btn_guardar"
+                )}{" "}
               </button>
             </div>
           </CardFooter>
@@ -537,6 +571,7 @@ class DateField extends Component {
           modalpreview={this.state.modalpreview}
           field={this.props.field}
           inputType={this.props.dragType}
+          t={this.state.t}
         />
       </div>
     );

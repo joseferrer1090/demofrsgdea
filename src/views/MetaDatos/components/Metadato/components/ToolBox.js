@@ -5,34 +5,47 @@ class ToolBox extends Component {
     super(props);
     this._tools = createRef();
     this.state = {
+      t: this.props.t,
       Tools: [
         {
-          title: "Entrada de texto",
+          title: `${this.props.t(
+            "app_metadatos_crear_metadato_entrada_texto"
+          )}`,
           name: "SINGLE_FIELD",
           icon: "fa fa-wpforms"
         },
         {
-          title: "Selección multiple",
+          title: `${this.props.t(
+            "app_metadatos_crear_metadato_entrada_seleccion"
+          )}`,
           name: "SELECT_FIELD",
           icon: "fa fa-caret-square-o-down"
         },
         {
-          title: "Check",
+          title: `${this.props.t(
+            "app_metadatos_crear_metadato_entrada_check"
+          )}`,
           name: "CHECK_BOXES",
           icon: "fa fa-check-square-o"
         },
         {
-          title: "Radio",
+          title: `${this.props.t(
+            "app_metadatos_crear_metadato_entrada_radio"
+          )}`,
           name: "RADIO_BUTTONS",
           icon: "fa fa-circle"
         },
         {
-          title: "Area de texto",
+          title: `${this.props.t(
+            "app_metadatos_crear_metadato_entrada_parrafo"
+          )}`,
           name: "PARAGRAPH",
           icon: "fa fa-paragraph"
         },
         {
-          title: "Fecha",
+          title: `${this.props.t(
+            "app_metadatos_crear_metadato_entrada_fecha"
+          )}`,
           name: "DATE_FIELD",
           icon: "fa fa-calendar"
         }
@@ -84,13 +97,14 @@ class ToolBox extends Component {
 
   render() {
     const Tools = this.state.Tools;
-
+    const { t } = this.state;
     return (
       <div>
         <div className="card">
           <div className="card-header">
             {" "}
-            <i className="fa fa-keyboard-o" /> Tipo de entradas{" "}
+            <i className="fa fa-keyboard-o" />{" "}
+            {t("app_metadatos_crear_metadato_tipo_entrada")}{" "}
           </div>
           <div className="card-body">
             <div>

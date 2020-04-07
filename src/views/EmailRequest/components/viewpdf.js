@@ -100,10 +100,12 @@ const MyPdfViewer = props => {
               <div className="p-3 bg my-2 rounded">
                 <Toast>
                   <ToastHeader icon={<Spinner size="sm" />}>
-                    Visualizar archivos
+                    {props.t("app_emailRequest_modal_preview_title_toast")}
                   </ToastHeader>
                   <ToastBody>
-                    <b>Seleccione un archivo para visualizarlo.</b>
+                    <b>
+                      {props.t("app_emailRequest_modal_preview_select_file")}
+                    </b>
                   </ToastBody>
                 </Toast>
               </div>

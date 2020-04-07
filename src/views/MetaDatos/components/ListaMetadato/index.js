@@ -1,23 +1,24 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import TableContent from "./components/TableContentMetadata";
+import { withTranslation } from "react-i18next";
 
 const asyncLocalStorage = {
-  setItem: async function(key, value) {
+  setItem: async function (key, value) {
     await null;
     return localStorage.setItem(key, value);
   },
-  getItem: async function(key) {
+  getItem: async function (key) {
     await null;
     return localStorage.getItem(key);
-  }
+  },
 };
 
 class ListaMetadato extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      authToken: ""
+      authToken: "",
     };
   }
 
@@ -28,12 +29,12 @@ class ListaMetadato extends Component {
   getData = () => {
     asyncLocalStorage
       .getItem("user")
-      .then(resp => {
+      .then((resp) => {
         return JSON.parse(resp);
       })
-      .then(resp => {
+      .then((resp) => {
         this.setState({
-          authToken: resp.data.access_token
+          authToken: resp.data.access_token,
         });
       });
   };
@@ -44,7 +45,7 @@ class ListaMetadato extends Component {
       <div className="animated fadeIn">
         <div className="row">
           <div className="col-md-12">
-            <TableContent authorization={authToken} />
+            <TableContent authorization={authToken} t={this.props.t} />
           </div>
         </div>
       </div>
@@ -54,4 +55,4 @@ class ListaMetadato extends Component {
 
 ListaMetadato.propTypes = {};
 
-export default ListaMetadato;
+export default withTranslation("translations")(ListaMetadato);

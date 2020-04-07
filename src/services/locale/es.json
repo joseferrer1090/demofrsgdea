@@ -2247,6 +2247,27 @@
     "app_metadatos_crear_metadato_entrada_fecha_validacion_requerido": "Requerido",
     "app_metadatos_crear_metadato_entrada_fecha_validacion_lectura": "Solo lectura",
     "app_metadatos_crear_metadato_entrada_fecha_validacion_maximo": "Fecha máxima",
-    "app_metadatos_crear_metadato_entrada_fecha_validacion_minimo": "Fecha mínima"
+    "app_metadatos_crear_metadato_entrada_fecha_validacion_minimo": "Fecha mínima",
+
+    "app_metadatos_lista_metadatos_title_list": "Bolsa de metadatos",
+    "app_metadatos_lista_metadatos_table_placeholder": "Buscar metadato",
+    "app_metadatos_lista_metadatos_table_nombre": "Nombre",
+    "app_metadatos_lista_metadatos_table_tipo": "Tipo",
+    "app_metadatos_lista_metadatos_table_descripcion": "Descripción",
+    "app_metadatos_lista_metadatos_table_estado": "Estado",
+
+    "app_metadatos_lista_metadatos_seccion_info_title": "SELECCIONE UN METADATO",
+    "app_metadatos_lista_metadatos_seccion_info_fecha_creacion": "Fecha de creación",
+    "app_metadatos_lista_metadatos_seccion_info_fecha_modificacion": "Fecha de actualización",
+    "app_metadatos_lista_metadatos_seccion_info_nombre": "Nombre",
+    "app_metadatos_lista_metadatos_seccion_info_descripcion": "Descripción",
+    "app_metadatos_lista_metadatos_seccion_info_formula": "Formula",
+    "app_metadatos_lista_metadatos_seccion_info_formula_asigando": "Asignado",
+    "app_metadatos_lista_metadatos_seccion_info_formula_noAsignado": "No asignado",
+    "app_metadatos_lista_metadatos_seccion_info_estado": "Estado del metadato",
+    "app_metadatos_lista_metadatos_seccion_preview_title": "VISTA PREVIA DEL METADATO",
+    "app_metadatos_lista_metadatos_seccion_preview_title_card": "Vista previa del metadato",
+    "app_metadatos_lista_metadatos_seccion_preview_alert_title": "Vista previa del metadato",
+    "app_metadatos_lista_metadatos_seccion_preview_alert_info": "El campo que está siendo pre visualizado será visible y operará cuando se asigne a la plantilla correspondiente en el modulo de correspondencia."
   }
 }

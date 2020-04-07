@@ -20,7 +20,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "asdasd",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-05T16:26:43.122Z",
@@ -35,7 +35,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-06T13:27:17.242Z",
@@ -50,7 +50,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: false
+    status: false,
   },
   {
     createdAt: "2020-03-06T13:34:57.040Z",
@@ -65,7 +65,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-06T13:39:18.361Z",
@@ -80,7 +80,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "asdasd",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T13:36:01.436Z",
@@ -95,7 +95,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "nombre",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:05:44.678Z",
@@ -110,7 +110,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:15:30.851Z",
@@ -125,7 +125,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:23:21.613Z",
@@ -140,7 +140,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:28:48.416Z",
@@ -155,7 +155,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:40:42.205Z",
@@ -170,7 +170,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:47:08.361Z",
@@ -185,7 +185,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T16:39:48.271Z",
@@ -200,7 +200,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: null,
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T16:44:19.473Z",
@@ -215,7 +215,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: null,
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T19:28:27.225Z",
@@ -230,7 +230,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: null,
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T19:37:02.901Z",
@@ -245,7 +245,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: null,
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T20:45:02.154Z",
@@ -260,8 +260,8 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "Probando",
     formula: false,
-    status: true
-  }
+    status: true,
+  },
 ];
 
 class TableContentMetadata extends Component {
@@ -271,14 +271,15 @@ class TableContentMetadata extends Component {
       auth: this.props.authorization,
       dataMetada: [],
       hiddenColumnID: true,
-      idSelect: ""
+      idSelect: "",
+      t: this.props.t,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -287,7 +288,7 @@ class TableContentMetadata extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataMetadate();
     }
@@ -300,26 +301,29 @@ class TableContentMetadata extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + aux
-      }
+        authorization: "Bearer " + aux,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         this.setState({
-          dataMetada: data
+          dataMetada: data,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
 
   StatusMetadata = (cell, row) => {
+    const { t } = this.state;
     let status;
     if (row.status === 1 || row.status === true) {
-      status = <b className="text-success"> Activo</b>;
+      status = <b className="text-success"> {t("app_tablas_estado_activo")}</b>;
     } else if (row.status === 0 || row.status === false) {
-      status = <b className="text-danger"> Inactivo</b>;
+      status = (
+        <b className="text-danger"> {t("app_tablas_estado_inactivo")}</b>
+      );
     }
     return status;
   };
@@ -350,12 +354,13 @@ class TableContentMetadata extends Component {
     const selectRowProps = {
       mode: "radio",
       clickToSelect: true,
-      onSelect: row => {
+      onSelect: (row) => {
         this.setState({
-          idSelect: row.id
+          idSelect: row.id,
         });
-      }
+      },
     };
+    const { t } = this.state;
 
     return (
       <div className="Animated fadeIn">
@@ -363,7 +368,8 @@ class TableContentMetadata extends Component {
           <div className="col-md-7">
             <Card>
               <CardHeader>
-                <i className="fa fa-shopping-bag" /> Bolsa de metadatos
+                <i className="fa fa-shopping-bag" />{" "}
+                {t("app_metadatos_lista_metadatos_title_list")}
               </CardHeader>
               <CardBody>
                 <BootstrapTable
@@ -371,7 +377,9 @@ class TableContentMetadata extends Component {
                   striped
                   hover
                   search
-                  searchPlaceholder="Buscar metadato"
+                  searchPlaceholder={`${t(
+                    "app_metadatos_lista_metadatos_table_placeholder"
+                  )}`}
                   bordered
                   pagination
                   selectRow={selectRowProps}
@@ -392,7 +400,7 @@ class TableContentMetadata extends Component {
                   </TableHeaderColumn>
                   <TableHeaderColumn dataField={"name"} dataSort width={"150"}>
                     {" "}
-                    Nombre
+                    {t("app_metadatos_lista_metadatos_table_nombre")}
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField={"inputType"}
@@ -400,11 +408,11 @@ class TableContentMetadata extends Component {
                     width={"100"}
                     dataFormat={(cell, row) => this.TipoMetadato(cell, row)}
                   >
-                    Tipo
+                    {t("app_metadatos_lista_metadatos_table_tipo")}
                   </TableHeaderColumn>
                   <TableHeaderColumn width={"170"} dataField={"description"}>
                     {" "}
-                    Descripcion
+                    {t("app_metadatos_lista_metadatos_table_descripcion")}
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     // width={"20"}
@@ -412,7 +420,7 @@ class TableContentMetadata extends Component {
                     dataAlign={"center"}
                     dataFormat={(cell, row) => this.StatusMetadata(cell, row)}
                   >
-                    Estado
+                    {t("app_metadatos_lista_metadatos_table_estado")}
                   </TableHeaderColumn>
                 </BootstrapTable>
               </CardBody>
@@ -422,6 +430,7 @@ class TableContentMetadata extends Component {
             <ViewComponent
               authorization={this.state.auth}
               idMetadata={this.state.idSelect}
+              t={this.state.t}
             />
             {/* <div>
                 <p>Probando este el componente de informacion</p>

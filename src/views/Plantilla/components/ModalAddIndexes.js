@@ -196,8 +196,8 @@ const TableIndexes = (props) => {
       ) : (
         <div>
           <p className="alert alert-secondary">
-            <i className=" fa fa-exclamation-triangle" /> No hay metadatos
-            asignado en esta plantilla
+            <i className=" fa fa-exclamation-triangle" /> No se han asigando
+            nuevos metadatos a esta plantilla
           </p>
         </div>
       )}

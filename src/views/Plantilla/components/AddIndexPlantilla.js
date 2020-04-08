@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { Card, CardBody, CardFooter, CardHeader, Row, Col } from "reactstrap";
-import { TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID } from "./../../../services/EndPoints";
+import {
+  TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID,
+  THIRDPARTYS_EXPORT,
+} from "./../../../services/EndPoints";
 import ModalAddIndexes from "./ModalAddIndexes";
 import ModalEditIndexes from "./ModalEditIndex";
 import ModalDeleteIndex from "./ModalDeleteIndex";
@@ -9,6 +12,7 @@ import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 
 class AddIndexPlantilla extends Component {
+  parentRef = React.createRef(); // Esta referencia se crea de esta manera porque se esta implementando redux como su fuera un HOC
   constructor(props) {
     super(props);
     this.state = {
@@ -18,14 +22,14 @@ class AddIndexPlantilla extends Component {
       modaldelmul: false,
       auth: this.props.authorization,
       id: this.props.match.params.id,
-      dataTemplate: []
+      dataTemplate: [],
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -34,13 +38,14 @@ class AddIndexPlantilla extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
   componentDidMount() {
     this.getDataTemplateID(this.state.id, this.state.auth);
+    // console.log(this.parentRef.current.toggle());
   }
 
   getDataTemplateID = (id, auth) => {
@@ -50,23 +55,24 @@ class AddIndexPlantilla extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + token
-      }
+        Authorization: "Bearer " + token,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         this.setState({
-          dataTemplate: data
+          dataTemplate: data,
         });
         console.log(this.state.dataTemplate);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
 
   openModalAdd() {
-    this.modalAdd.toggle();
+    // Accedo al metodo toggle que me permite visualizar el modal
+    this.parentRef.current.toggle();
   }
 
   openModaEdit() {
@@ -182,15 +188,15 @@ class AddIndexPlantilla extends Component {
         <ModalAddIndexes
           authorization={this.state.auth}
           modaladdindexes={this.state.modaladd}
-          ref={el => (this.modalAdd = el)}
+          ref={this.parentRef} // asocio la referencia al componente hijo
         />
         <ModalEditIndexes
           modaleditindexes={this.state.modaledit}
-          ref={el => (this.modalEdit = el)}
+          ref={(el) => (this.modalEdit = el)}
         />
         <ModalDeleteIndex
           modaldeleteindex={this.state.modaldel}
-          ref={el => (this.modalDel = el)}
+          ref={(el) => (this.modalDel = el)}
         />
         <ModalMultiple
           modaldeletemultiple={this.state.modalmul}
@@ -202,7 +208,7 @@ class AddIndexPlantilla extends Component {
 }
 
 AddIndexPlantilla.propTypes = {
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default AddIndexPlantilla;

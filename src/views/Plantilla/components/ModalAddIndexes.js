@@ -1,26 +1,25 @@
-import React, { Component, useState, useEffect } from "react";
-import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
-import { METADATA_ACTIVE } from "./../../../services/EndPoints";
+import React, { Component, forwardRef } from "react";
 import PropTypes from "prop-types";
-import "./css/fixedTable.css";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { METADATA_ACTIVE } from "./../../../services/EndPoints";
+import { connect } from "react-redux";
+import { agregarMetadaEditAction } from "./../../../actions/templateMetadataActions";
 
 class ModalAddIndexes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modaladdindexes,
+      modal: this.props.modalindexes,
       auth: this.props.authorization,
       dataMetadataActive: [],
-      newMetadataArray: [],
       term: "",
-      alertDuplicate: false
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -29,69 +28,41 @@ class ModalAddIndexes extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
 
-  geData = auth => {
+  geData = (auth) => {
     fetch(`${METADATA_ACTIVE}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + auth
-      }
+        authorization: "Bearer " + auth,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         this.setState({
-          dataMetadataActive: data
+          dataMetadataActive: data,
         });
         console.log(this.state.dataMetadataActive);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
     this.geData(this.state.auth);
   };
 
-  addMetadata = (id, name) => {
-    let index = this.state.newMetadataArray.findIndex(aux => aux.id === id);
-    const aux = this.state.newMetadataArray;
-    if (index === -1) {
-      aux.push({ id, name });
-      this.setState({
-        newMetadataArray: aux
-      });
-    } else {
-      console.log("Error");
-    }
-  };
-
-  deleteMeadata = id => {
-    let data = this.state.newMetadataArray;
-    data.filter(metadata => metadata.id !== id);
-    this.setState({
-      newMetadataArray: data
-    });
-    console.log(this.state.newMetadataArray);
-  };
-
-  // aux.push(id);
-  //     this.setState({
-  //   newMetadataArray: aux
-  // });
-  // console.log(this.state.newMetadataArray);
-
   render() {
-    const searchMetada = term => {
-      return function(x) {
+    const searchMetada = (term) => {
+      return function (x) {
         return x.name.toUpperCase().includes(term);
       };
     };
@@ -106,7 +77,7 @@ class ModalAddIndexes extends Component {
               type="button"
               className="btn btn-secondary btn-sm"
               onClick={() => {
-                this.addMetadata(aux.id, aux.name);
+                this.agregar(aux.id);
               }}
             >
               <i className="fa fa-plus" />
@@ -116,179 +87,82 @@ class ModalAddIndexes extends Component {
       );
     });
     return (
-      <div>
-        <Modal className="modal-xl" isOpen={this.state.modal}>
-          <ModalHeader>
-            <i className="fa fa-puzzle-piece" /> Agregar metadato a la plantilla
-          </ModalHeader>
-          <ModalBody>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="card card-body">
-                  <div>
-                    <input
-                      type={"search"}
-                      className="form-control form-control-sm"
-                      value={this.state.term}
-                      onChange={e => {
-                        this.setState({
-                          term: e.target.value
-                        });
-                      }}
-                      placeholder={`Buscar metadato`}
-                    />
-                  </div>
-                  <br />
-                  {Object.keys(data) ? (
-                    <div className="tableFixHead">
-                      <table className="table table-hover table-striped">
-                        <thead className="thead-light">
-                          <tr>
-                            <th className="text-center">id</th>
-                            <th className="text-center">Nombre</th>
-                            <th className="text-center">Accion</th>
-                          </tr>
-                        </thead>
-                        <tbody>{aux}</tbody>
-                      </table>
-                    </div>
-                  ) : (
-                    <div className="animated fadeIn">
-                      <p className="alert alert-danger text-center">
-                        <i className="fa fa-exclamation-triangle" /> No hay
-                        datos disponibles
-                      </p>
-                    </div>
-                  )}
+      <Modal isOpen={this.state.modal} className="modal-xl">
+        <ModalHeader>
+          <i className="fa fa-puzzle-piece" /> Agregar metadato a la plantilla
+        </ModalHeader>
+        <ModalBody>
+          <div className="row">
+            <div className="col-md-6">
+              <div className="card card-body">
+                <div>
+                  <input
+                    type={"search"}
+                    className="form-control form-control-sm"
+                    value={this.state.term}
+                    onChange={(e) => {
+                      this.setState({
+                        term: e.target.value,
+                      });
+                    }}
+                    placeholder={`Buscar metadato`}
+                  />
                 </div>
-              </div>
-              <div className="col-md-6">
-                <Example
-                  data={this.state.newMetadataArray}
-                  delete={() => {
-                    this.deleteMeadata();
-                  }}
-                />
+                <br />
+                {Object.keys(data) ? (
+                  <div className="tableFixHead">
+                    <table className="table table-hover table-striped">
+                      <thead className="thead-light">
+                        <tr>
+                          <th className="text-center">id</th>
+                          <th className="text-center">Nombre</th>
+                          <th className="text-center">Accion</th>
+                        </tr>
+                      </thead>
+                      <tbody>{aux}</tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="animated fadeIn">
+                    <p className="alert alert-danger text-center">
+                      <i className="fa fa-exclamation-triangle" /> No hay datos
+                      disponibles
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
-            {/* <form className="form">
-              <div className="row">
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>
-                      {" "}
-                      Plantilla <span className="text-danger">*</span>{" "}
-                    </label>
-                    <dt>Nombre de la plantilla</dt>
-                  </div>
-                </div>
-                <div className="col-md-6">
-                  <div className="form-group">
-                    <label>
-                      {" "}
-                      Nombre del índice <span className="text-danger">
-                        *
-                      </span>{" "}
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                    />
-                  </div>
-                </div>
-                <div className="col-md-12">
-                  <div className="form-group">
-                    <label>
-                      {" "}
-                      Tipo <span className="text-danger">*</span>{" "}
-                    </label>
-                    <select className="form-control form-control-sm">
-                      <optgroup label="Generico">
-                        <option>Consecutivo</option>
-                        <option>Numerico</option>
-                        <option>Alfanumerico</option>
-                        <option>Fecha</option>
-                        <option>Texto</option>
-                        <option>Archivo</option>
-                      </optgroup>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </form> */}
-          </ModalBody>
-          <ModalFooter>
-            <button type="button" className="btn btn-outline-success btn-sm">
-              <i className="fa fa-plus" /> Crear nuevo índice
-            </button>
-            <button
-              type="button"
-              className="btn btn-secondary btn-sm"
-              onClick={() => {
-                this.setState({ modal: false });
-              }}
-            >
-              {" "}
-              <i className="fa fa-times" /> Cerrar{" "}
-            </button>
-          </ModalFooter>
-        </Modal>
-      </div>
+            <div className="col-md-6">
+              <p>apenas viendo como va la cosa </p>
+            </div>
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button
+            className="btn btn-secondary btn-sm"
+            onClick={() => {
+              this.setState({
+                modal: false,
+              });
+            }}
+          >
+            {" "}
+            <i className="fa fa-times" /> Cerrar
+          </button>
+        </ModalFooter>
+      </Modal>
     );
   }
 }
 
-ModalAddIndexes.propTypes = {
-  modaladdindexes: PropTypes.bool.isRequired,
-  authorization: PropTypes.string.isRequired
-};
+function mapStateToProps(state) {
+  console.log(state);
+  return { state };
+}
 
-const Example = props => {
-  const d = props.data;
-  const [data, setData] = useState(d);
+const actionCreators = {};
 
-  // const deleteItem = id => {
-  //   const aux = data.filter(e => e.id !== id);
-  //   setData(aux);
-  // };
-
-  console.log(data);
-
-  return (
-    <div>
-      {props.data.length ? (
-        <div>
-          <table className="table table-condensed table-hover">
-            <thead>
-              <th>#</th>
-              <th>Nombre</th>
-              <th>Accion</th>
-            </thead>
-            <tbody>
-              {data.map((aux, id) => {
-                return (
-                  <tr key={id}>
-                    <td>{(id += 1)}</td>
-                    <td>{aux.name}</td>
-                    <td>
-                      <button
-                        type="button"
-                        className="btn btn-danger btn-sm"
-                        onClick={() => props.delete(aux.id)}
-                      >
-                        <i className="fa fa-trash" />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div>No hay datos</div>
-      )}
-    </div>
-  );
-};
-export default ModalAddIndexes;
+// modifico el connect para que HOC de redux permita accede a la referencia y conecta al modal a Redux
+export default connect(mapStateToProps, actionCreators, null, {
+  forwardRef: true,
+})(ModalAddIndexes);

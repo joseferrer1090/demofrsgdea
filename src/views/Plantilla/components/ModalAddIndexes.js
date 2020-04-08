@@ -83,7 +83,10 @@ class ModalAddIndexes extends Component {
       },
       body: JSON.stringify({
         templateId: this.state.templateID,
-        metadataBagId: newMetadataEdit(this.props.newData),
+        defaultValue: "",
+        formula: "",
+        required: false,
+        metadata: newMetadataEdit(this.props.newData),
         userName: username.user_name,
       }),
     }).then((response) =>

@@ -46,6 +46,7 @@ class AddIndexPlantilla extends Component {
   componentDidMount() {
     this.getDataTemplateID(this.state.id, this.state.auth);
     // console.log(this.parentRef.current.toggle());
+    console.log(this.props.match);
   }
 
   getDataTemplateID = (id, auth) => {
@@ -188,6 +189,7 @@ class AddIndexPlantilla extends Component {
         <ModalAddIndexes
           authorization={this.state.auth}
           modaladdindexes={this.state.modaladd}
+          template={this.props.match.params.id}
           ref={this.parentRef} // asocio la referencia al componente hijo
         />
         <ModalEditIndexes

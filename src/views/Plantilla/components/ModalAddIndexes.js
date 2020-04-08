@@ -1,13 +1,17 @@
 import React, { Component, forwardRef } from "react";
 import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { METADATA_ACTIVE } from "./../../../services/EndPoints";
+import {
+  METADATA_ACTIVE,
+  TEMPLATE_METADATA_BAG_CREATE,
+} from "./../../../services/EndPoints";
 import { connect, useDispatch } from "react-redux";
 import { bindActionCreators } from "redux";
 import {
   agregarMetadaEditAction,
   eliminarMetadatoEditAction,
 } from "./../../../actions/templateMetadataActions";
+import { decode } from "jsonwebtoken";
 
 class ModalAddIndexes extends Component {
   constructor(props) {
@@ -17,6 +21,7 @@ class ModalAddIndexes extends Component {
       auth: this.props.authorization,
       dataMetadataActive: [],
       term: "",
+      templateID: this.props.template,
     };
   }
 
@@ -33,6 +38,7 @@ class ModalAddIndexes extends Component {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
         auth: this.props.authorization,
+        templateID: this.props.template,
       });
     }
   }
@@ -55,6 +61,47 @@ class ModalAddIndexes extends Component {
       .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
+  };
+
+  sendMetadataList = () => {
+    console.log(this.state.templateID);
+    const auth = this.state.auth;
+    const username = decode(auth);
+    const newMetadataEdit = (data) => {
+      let array = [];
+      data.map((aux, id) => {
+        return array.push({ id: aux.id });
+      });
+      // console.log(array);
+      return array;
+    };
+    fetch(`${TEMPLATE_METADATA_BAG_CREATE}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        authorization: "Bearer " + auth,
+      },
+      body: JSON.stringify({
+        templateId: this.state.templateID,
+        metadataBagId: newMetadataEdit(this.props.newData),
+        userName: username.user_name,
+      }),
+    }).then((response) =>
+      response
+        .json()
+        .then(() => {
+          if (response.status === 200) {
+            console.log(response);
+          } else if (response.status === 400) {
+            console.log("Error al enviar los datos");
+          } else if (response.status === 500) {
+            console.log("error => exiten metadatos repetidos en la plantilla");
+          }
+        })
+        .catch((err) => {
+          console.log(`Error => ${err.message}`);
+        })
+    );
   };
 
   toggle = () => {
@@ -98,6 +145,11 @@ class ModalAddIndexes extends Component {
           <i className="fa fa-puzzle-piece" /> Agregar metadato a la plantilla
         </ModalHeader>
         <ModalBody>
+          <p className="alert alert-secondary">
+            <i className="fa fa-exclamation-triangle" /> En esta seccion se solo
+            se puede asociar nuevo metadatos a la plantilla, sus valores se
+            podran editar en la tabla siguiente despues del modal.
+          </p>
           <div className="row">
             <div className="col-md-6">
               <div className="card card-body">
@@ -145,6 +197,13 @@ class ModalAddIndexes extends Component {
           </div>
         </ModalBody>
         <ModalFooter>
+          <button
+            type="button"
+            className="btn btn-outline-success btn-sm"
+            onClick={() => this.sendMetadataList()}
+          >
+            <i className="fa fa-save" /> Agregar nuevos metadatos
+          </button>
           <button
             className="btn btn-secondary btn-sm"
             onClick={() => {

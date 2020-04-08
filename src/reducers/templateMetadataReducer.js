@@ -16,9 +16,9 @@ export default function (state = initialState, action) {
   switch (action.type) {
     case AGREGAR_METADATO_PLANTILLA:
       let index = state.metadata.findIndex(
-        (aux) => aux.id == action.payload.id
+        (aux) => aux.id === action.payload.id
       );
-      if (index == -1) {
+      if (index === -1) {
         return {
           ...state,
           metadata: [...state.metadata, action.payload],
@@ -45,20 +45,18 @@ export default function (state = initialState, action) {
         error: false,
       };
     case AGREGAR_METADATO_PLANTILLA_EDITAR:
-      let indexmedatadataedit = state.metadataedit.findIndex(
+      let indexe = state.metadataedit.findIndex(
         (aux) => aux.id === action.payload.id
       );
-      if (indexmedatadataedit == -1) {
+      if (indexe === -1) {
         return {
-          ...state,
-          metadataedit: [...state.metadataedit, action.payload.id],
+          metadataedit: [...state.metadataedit, action.payload],
         };
       } else {
         return {
           ...state,
         };
       }
-
     default:
       return state;
   }

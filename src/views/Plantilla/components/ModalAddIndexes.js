@@ -60,6 +60,10 @@ class ModalAddIndexes extends Component {
     this.geData(this.state.auth);
   };
 
+  agregar = (id, name) => {
+    this.props.agregar(id, name);
+  };
+
   render() {
     const searchMetada = (term) => {
       return function (x) {
@@ -76,9 +80,7 @@ class ModalAddIndexes extends Component {
             <button
               type="button"
               className="btn btn-secondary btn-sm"
-              onClick={() => {
-                this.agregar(aux.id);
-              }}
+              onClick={() => this.agregar(aux)}
             >
               <i className="fa fa-plus" />
             </button>
@@ -160,9 +162,13 @@ function mapStateToProps(state) {
   return { state };
 }
 
-const actionCreators = {};
+const mapDispatchToProps = (dispatch) => {
+  return {
+    agregar: (aux) => dispatch(agregarMetadaEditAction(aux)),
+  };
+};
 
 // modifico el connect para que HOC de redux permita accede a la referencia y conecta al modal a Redux
-export default connect(mapStateToProps, actionCreators, null, {
+export default connect(mapStateToProps, mapDispatchToProps, null, {
   forwardRef: true,
 })(ModalAddIndexes);

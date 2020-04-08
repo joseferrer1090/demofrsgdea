@@ -26,9 +26,9 @@ export const resetMetadatoAction = () => {
   };
 };
 
-export const agregarMetadaEditAction = (id) => {
+export const agregarMetadaEditAction = (metadata) => {
   return {
     type: AGREGAR_METADATO_PLANTILLA_EDITAR,
-    payload: id,
+    payload: metadata,
   };
 };

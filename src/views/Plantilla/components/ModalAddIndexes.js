@@ -135,7 +135,8 @@ class ModalAddIndexes extends Component {
               </div>
             </div>
             <div className="col-md-6">
-              <p>apenas viendo como va la cosa </p>
+              <TableIndexes data={this.props.newData} />
+              {/* <p>apenas viendo como va la cosa </p> */}
             </div>
           </div>
         </ModalBody>
@@ -157,9 +158,55 @@ class ModalAddIndexes extends Component {
   }
 }
 
+const TableIndexes = (props) => {
+  const data = props.data;
+  console.log(props);
+  return (
+    <div>
+      {Object.keys(data).length ? (
+        <div className="card">
+          <div className="card-body">
+            <table className="table table-condensed table-striped table-hover">
+              <thead>
+                <tr className="text-center">
+                  <th>#</th>
+                  <th>Nombre del metadato</th>
+                  <th>Accion</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((aux, id) => {
+                  return (
+                    <tr key={id} className="text-center">
+                      <td>{(id += 1)}</td>
+                      <td>{aux.name}</td>
+                      <td>
+                        <button type="button" className="btn btn-danger btn-sm">
+                          {" "}
+                          <i className="fa fa-trash" />{" "}
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <p className="alert alert-secondary">
+            <i className=" fa fa-exclamation-triangle" /> No hay metadatos
+            asignado en esta plantilla
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
+
 function mapStateToProps(state) {
-  console.log(state);
-  return { state };
+  return { newData: state.templateMetadata.metadataedit };
 }
 
 const mapDispatchToProps = (dispatch) => {

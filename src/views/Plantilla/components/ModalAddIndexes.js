@@ -1,6 +1,6 @@
 import React, { Component, forwardRef } from "react";
 import PropTypes from "prop-types";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { Modal, ModalHeader, ModalBody, ModalFooter, Alert } from "reactstrap";
 import {
   METADATA_ACTIVE,
   TEMPLATE_METADATA_BAG_CREATE,
@@ -22,6 +22,9 @@ class ModalAddIndexes extends Component {
       dataMetadataActive: [],
       term: "",
       templateID: this.props.template,
+      alert200: false,
+      alert400: false,
+      alert500: false,
     };
   }
 
@@ -93,8 +96,20 @@ class ModalAddIndexes extends Component {
       response
         .json()
         .then(() => {
-          if (response.status === 200) {
-            console.log(response);
+          if (response.status === 201) {
+            this.setState({
+              alert200: true,
+            });
+            setTimeout(() => {
+              this.setState(
+                {
+                  alert200: false,
+                  modal: false,
+                },
+                () => this.props.refresh()
+              );
+            }, 1300);
+            console.log(response.message);
           } else if (response.status === 400) {
             console.log("Error al enviar los datos");
           } else if (response.status === 500) {
@@ -153,6 +168,9 @@ class ModalAddIndexes extends Component {
             se puede asociar nuevo metadatos a la plantilla, sus valores se
             podran editar en la tabla siguiente despues del modal.
           </p>
+          <Alert color="success" isOpen={this.state.alert200}>
+            Se Agregaron metadatos a la plantilla
+          </Alert>
           <div className="row">
             <div className="col-md-6">
               <div className="card card-body">

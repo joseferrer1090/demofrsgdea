@@ -2,8 +2,12 @@ import React, { Component, forwardRef } from "react";
 import PropTypes from "prop-types";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { METADATA_ACTIVE } from "./../../../services/EndPoints";
-import { connect } from "react-redux";
-import { agregarMetadaEditAction } from "./../../../actions/templateMetadataActions";
+import { connect, useDispatch } from "react-redux";
+import { bindActionCreators } from "redux";
+import {
+  agregarMetadaEditAction,
+  eliminarMetadatoEditAction,
+} from "./../../../actions/templateMetadataActions";
 
 class ModalAddIndexes extends Component {
   constructor(props) {
@@ -61,7 +65,7 @@ class ModalAddIndexes extends Component {
   };
 
   agregar = (id, name) => {
-    this.props.agregar(id, name);
+    this.props.agregarMetadaEditAction(id, name);
   };
 
   render() {
@@ -161,6 +165,7 @@ class ModalAddIndexes extends Component {
 const TableIndexes = (props) => {
   const data = props.data;
   console.log(props);
+  const dispatch = useDispatch();
   return (
     <div>
       {Object.keys(data).length ? (
@@ -181,7 +186,13 @@ const TableIndexes = (props) => {
                       <td>{(id += 1)}</td>
                       <td>{aux.name}</td>
                       <td>
-                        <button type="button" className="btn btn-danger btn-sm">
+                        <button
+                          type="button"
+                          className="btn btn-danger btn-sm"
+                          onClick={() =>
+                            dispatch(eliminarMetadatoEditAction(aux))
+                          }
+                        >
                           {" "}
                           <i className="fa fa-trash" />{" "}
                         </button>
@@ -211,8 +222,16 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    agregar: (aux) => dispatch(agregarMetadaEditAction(aux)),
+    dispatch,
+    ...bindActionCreators(
+      { agregarMetadaEditAction, eliminarMetadatoEditAction },
+      dispatch
+    ),
   };
+  // return {
+  //   agregar: (aux) => dispatch(agregarMetadaEditAction(aux)),
+  //   borrar: (id) => dispatch(eliminarMetadatoEditAction(id)),
+  // };
 };
 
 // modifico el connect para que HOC de redux permita accede a la referencia y conecta al modal a Redux

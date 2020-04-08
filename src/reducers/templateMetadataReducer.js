@@ -30,6 +30,7 @@ export default function (state = initialState, action) {
           error: true,
         };
       }
+
     case ELIMINAR_METADATO_PLANTILLA:
       return {
         ...state,
@@ -38,12 +39,14 @@ export default function (state = initialState, action) {
         ),
         error: false,
       };
+
     case RESET_METADATO_PLANTILLA:
       return {
         ...state,
         metadata: [],
         error: false,
       };
+
     case AGREGAR_METADATO_PLANTILLA_EDITAR:
       let indexe = state.metadataedit.findIndex(
         (aux) => aux.id === action.payload.id
@@ -57,6 +60,15 @@ export default function (state = initialState, action) {
           ...state,
         };
       }
+
+    case ELIMINAR_METADATO_PLANTILLA_EDITAR:
+      return {
+        ...state,
+        metadataedit: state.metadataedit.filter(
+          (aux) => aux.id !== action.payload.id
+        ),
+      };
+
     default:
       return state;
   }

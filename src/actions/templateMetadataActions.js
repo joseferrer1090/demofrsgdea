@@ -32,3 +32,10 @@ export const agregarMetadaEditAction = (metadata) => {
     payload: metadata,
   };
 };
+
+export const eliminarMetadatoEditAction = (metadata) => {
+  return {
+    type: ELIMINAR_METADATO_PLANTILLA_EDITAR,
+    payload: metadata,
+  };
+};

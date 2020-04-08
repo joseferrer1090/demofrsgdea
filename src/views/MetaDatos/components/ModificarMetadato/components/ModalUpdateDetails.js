@@ -9,7 +9,7 @@ import {
   CardBody,
   CardHeader,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import { TableHeaderColumn, BootstrapTable } from "react-bootstrap-table";
 import { decode } from "jsonwebtoken";
@@ -17,7 +17,7 @@ import {
   FIND_BY_METADATA_BAG_ID,
   METADATA_DETAIL_CREATE,
   METADATA_DETAIL_DELETE,
-  METADATA_DETAIL_PUT
+  METADATA_DETAIL_PUT,
 } from "./../../../../../services/EndPoints";
 import * as Yup from "yup";
 
@@ -46,35 +46,36 @@ class ModalUpdateDetails extends Component {
       actions: {
         visible1: true,
         visible2: true,
-        visible3: true
+        visible3: true,
       },
       formcreate: {
         title: "",
         value: "",
         id: "",
         alertError: false,
-        alertErrorMessage: ""
+        alertErrorMessage: "",
       },
+      t: this.props.t,
       titleupdate: "",
       valueupdate: "",
       idupdate: "",
       alertError: false,
       alertErrorMessage: "",
       formdelete: {
-        title: ""
-      }
+        title: "",
+      },
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     if (props.id !== state.id) {
       return {
-        id: props.id
+        id: props.id,
       };
     }
     return null;
@@ -86,7 +87,7 @@ class ModalUpdateDetails extends Component {
       this.setState(
         {
           id: this.props.id,
-          auth: this.props.authorization
+          auth: this.props.authorization,
         },
         () => this.getDataDetailsById(this.state.id, this.state.auth)
       );
@@ -98,18 +99,18 @@ class ModalUpdateDetails extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + auth
-      }
+        authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
         this.setState({
-          data: data
+          data: data,
         });
         //console.log(this.state.data);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
@@ -126,8 +127,8 @@ class ModalUpdateDetails extends Component {
                 this.setState({
                   actions: {
                     ...this.state.actions,
-                    visible2: !this.state.actions.visible2
-                  }
+                    visible2: !this.state.actions.visible2,
+                  },
                 });
               }
             }, 500);
@@ -135,12 +136,12 @@ class ModalUpdateDetails extends Component {
             this.setState({
               actions: {
                 ...this.state.actions,
-                visible2: !this.state.actions.visible2
+                visible2: !this.state.actions.visible2,
               },
               idMetadata: row.id,
               titleupdate: row.labelText,
               valueupdate: row.inputValue,
-              idupdate: row.inputId
+              idupdate: row.inputId,
             });
           }}
         >
@@ -156,21 +157,21 @@ class ModalUpdateDetails extends Component {
                 this.setState({
                   actions: {
                     ...this.state.actions,
-                    visible3: !this.state.actions.visible3
-                  }
+                    visible3: !this.state.actions.visible3,
+                  },
                 });
               }
             }, 500);
             this.setState({
               actions: {
                 ...this.state.actions,
-                visible3: !this.state.actions.visible3
+                visible3: !this.state.actions.visible3,
               },
               idMetadata: row.id,
               formdelete: {
                 ...this.state.formdelete,
-                title: row.labelText
-              }
+                title: row.labelText,
+              },
             });
           }}
         >
@@ -180,7 +181,8 @@ class ModalUpdateDetails extends Component {
     );
   }
 
-  createCustomButton = props => {
+  createCustomButton = (props) => {
+    const { t } = this.state;
     return (
       <button
         className="btn btn-success btn-sm"
@@ -188,19 +190,20 @@ class ModalUpdateDetails extends Component {
           this.setState({
             actions: {
               ...this.state.actions,
-              visible1: !this.state.actions.visible1
-            }
+              visible1: !this.state.actions.visible1,
+            },
           });
         }}
       >
-        <i className="fa fa-plus-circle" /> Agregar detalle
+        <i className="fa fa-plus-circle" />{" "}
+        {t("app_metadatos_actualizar_metdatos_modal_detalles_agregar_detalle")}
       </button>
     );
   };
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   };
 
@@ -212,54 +215,54 @@ class ModalUpdateDetails extends Component {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + aux
+        authorization: "Bearer " + aux,
       },
       body: JSON.stringify({
         labelText: this.state.formcreate.title,
         inputId: this.state.formcreate.id,
         inputValue: this.state.formcreate.value,
         userName: username.user_name,
-        metadataBagId: this.state.id
-      })
+        metadataBagId: this.state.id,
+      }),
     })
-      .then(resp => {
+      .then((resp) => {
         if (resp.status === 201) {
           this.getDataDetailsById(this.state.id, this.state.auth);
           this.setState({
             alertSuccess: true,
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alertSuccess: false
+              alertSuccess: false,
             });
           }, 3000);
         } else if (resp.status === 400) {
           this.setState({
             alertError400: true,
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alertError400: false
+              alertError400: false,
             });
           }, 3000);
         } else if (resp.status === 500) {
           this.setState({
             alertError500: true,
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alertError500: false
+              alertError500: false,
             });
           }, 3000);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
         this.setState({
-          spinner: false
+          spinner: false,
         });
       });
     this.resetForm();
@@ -270,13 +273,13 @@ class ModalUpdateDetails extends Component {
         title: "",
         value: "",
         id: "",
-        alertError: false
-      }
+        alertError: false,
+      },
     });
   };
 
   // DeleteDetails
-  deleteDetail = e => {
+  deleteDetail = (e) => {
     e.preventDefault();
     const aux = this.state.auth;
     const username = decode(aux);
@@ -286,23 +289,23 @@ class ModalUpdateDetails extends Component {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          authorization: "Bearer " + this.state.auth
-        }
+          authorization: "Bearer " + this.state.auth,
+        },
       }
     )
-      .then(resp => {
+      .then((resp) => {
         if (resp.status === 204) {
           this.setState({
             actions: {
               ...this.state.actions,
-              visible3: !this.state.actions.visible3
+              visible3: !this.state.actions.visible3,
             },
             alertSuccessDelete: true,
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alertSuccessDelete: false
+              alertSuccessDelete: false,
             });
           }, 3000);
           this.getDataDetailsById(this.state.id, this.state.auth);
@@ -310,14 +313,14 @@ class ModalUpdateDetails extends Component {
           this.setState({
             actions: {
               ...this.state.actions,
-              visible3: !this.state.actions.visible3
+              visible3: !this.state.actions.visible3,
             },
             alertError500Delete: true,
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alertError500Delete: false
+              alertError500Delete: false,
             });
           }, 3000);
         } else if (resp.status === 400) {
@@ -325,31 +328,31 @@ class ModalUpdateDetails extends Component {
             alertError400Delete: true,
             actions: {
               ...this.state.actions,
-              visible3: !this.state.actions.visible3
+              visible3: !this.state.actions.visible3,
             },
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alertError400Delete: false
+              alertError400Delete: false,
             });
           }, 3000);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
 
   // PutDeatiails
-  putDetails = e => {
+  putDetails = (e) => {
     const aux = this.state.auth;
     const username = decode(aux);
     fetch(`${METADATA_DETAIL_PUT}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + aux
+        authorization: "Bearer " + aux,
       },
       body: JSON.stringify({
         id: this.state.idMetadata,
@@ -357,47 +360,47 @@ class ModalUpdateDetails extends Component {
         inputId: this.state.idupdate,
         inputValue: this.state.valueupdate,
         userName: username.user_name,
-        metadataBagId: this.state.id
-      })
+        metadataBagId: this.state.id,
+      }),
     })
-      .then(resp => {
+      .then((resp) => {
         if (resp.status === 200) {
           this.getDataDetailsById(this.state.id, this.state.auth);
           this.setState({
             alertsSuccessPut: true,
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alertsSuccessPut: false
+              alertsSuccessPut: false,
             });
           }, 3000);
         } else if (resp.status === 400) {
           this.setState({
             alertError400Put: true,
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alertError400Put: false
+              alertError400Put: false,
             });
           }, 3000);
         } else if (resp.status === 500) {
           this.setState({
             alertError500Put: true,
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alertError500Put: false
+              alertError500Put: false,
             });
           }, 3000);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
         this.setState({
-          spinner: false
+          spinner: false,
         });
       });
   };
@@ -409,77 +412,73 @@ class ModalUpdateDetails extends Component {
       title: Yup.string()
         .trim()
         .required(" Por favor introduzca una etiqueta."),
-      value: Yup.string()
-        .trim()
-        .required(" Por favor introduzca un valor."),
+      value: Yup.string().trim().required(" Por favor introduzca un valor."),
       id: Yup.string()
         .trim()
-        .required(" Por favor introduzca el Id del detalle.")
+        .required(" Por favor introduzca el Id del detalle."),
     });
     schema
       .validate({
         title: this.state.formcreate.title,
         value: this.state.formcreate.value,
-        id: this.state.formcreate.id
+        id: this.state.formcreate.id,
       })
-      .then(e => {
+      .then((e) => {
         if (schema.isValid) {
           this.createDetail();
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           formcreate: {
             ...this.state.formcreate,
             alertError: true,
-            alertErrorMessage: err.message
-          }
+            alertErrorMessage: err.message,
+          },
         });
         setTimeout(() => {
           this.setState({
             formcreate: {
               ...this.state.formcreate,
-              alertError: false
-            }
+              alertError: false,
+            },
           });
         }, 1100);
       });
   };
 
   // Validacion del updateForm
-  sendDataUpdate = e => {
+  sendDataUpdate = (e) => {
     Yup.setLocale({});
     const schema = Yup.object().shape({
       title: Yup.string()
         .trim()
         .required(" Por favor introduzca una etiqueta."),
-      value: Yup.string()
-        .trim()
-        .required(" Por favor introduzca un valor."),
+      value: Yup.string().trim().required(" Por favor introduzca un valor."),
       id: Yup.string()
         .trim()
         // .required(" Por favor introduzca el Id del detalle.")
-        .nullable()
+        .nullable(),
     });
     schema
       .validate({
         title: this.state.titleupdate,
         value: this.state.valueupdate,
-        id: this.state.idupdate
+        id: this.state.idupdate,
       })
-      .then(e => {
+      .then((e) => {
         if (schema.isValid) {
           this.putDetails(e);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           alertError: true,
-          alertErrorMessage: err.message
+          alertErrorMessage: err.message,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1100);
       });
@@ -487,13 +486,15 @@ class ModalUpdateDetails extends Component {
 
   render() {
     const options = {
-      btnGroup: this.createCustomButton
+      btnGroup: this.createCustomButton,
     };
-    console.log(this.state.actions);
+    const { t } = this.state;
     return (
       <Modal isOpen={this.state.modal} className="modal-lg">
         <ModalHeader>
-          <i className="fa fa-pencil" /> Actualizar detalles {this.props.name}
+          <i className="fa fa-pencil" />{" "}
+          {t("app_metadatos_actualizar_metdatos_modal_detalles_titulo")}{" "}
+          {this.props.name}
         </ModalHeader>
         <ModalBody>
           <Alert
@@ -503,9 +504,8 @@ class ModalUpdateDetails extends Component {
               this.setState({ information: false });
             }}
           >
-            <i className="fa fa-exclamation-triangle" /> La actualización de
-            detalles corresponde unicamente, aquellos metadatos que tienen
-            selección de multiples valores.
+            <i className="fa fa-exclamation-triangle" />{" "}
+            {t("app_metadatos_actualizar_metdatos_modal_detalles_alert_info")}
           </Alert>
           {this.state.spinner !== false ? (
             <center>
@@ -524,49 +524,57 @@ class ModalUpdateDetails extends Component {
             color="success"
             isOpen={this.state.alertSuccess}
           >
-            Se creo el detalle con éxito.
+            {t("app_metadatos_actualizar_metdatos_modal_detalles_alert_200")}
           </Alert>
           <Alert
             className={"text-center"}
             color="danger"
             isOpen={this.state.alertError400}
           >
-            Error al crear el detalle. Inténtelo nuevamente.
+            {t("app_metadatos_actualizar_metdatos_modal_detalles_alert_400")}
           </Alert>
           <Alert
             className={"text-center"}
             color="danger"
             isOpen={this.state.alertError500}
           >
-            Error, el detalle ya esta asignado.
+            {t("app_metadatos_actualizar_metdatos_modal_detalles_alert_500")}
           </Alert>
           <Alert
             className={"text-center"}
             color="success"
             isOpen={this.state.alertsSuccessPut}
           >
-            Se actualizo el detalle con éxito.
+            {t(
+              "app_metadatos_actualizar_metdatos_modal_detalles_alert_200_put"
+            )}
           </Alert>
           <Alert
             className={"text-center"}
             color="danger"
             isOpen={this.state.alertError400Put}
           >
-            Error al actualizar el detalle. Inténtelo nuevamente.
+            {t(
+              "app_metadatos_actualizar_metdatos_modal_detalles_alert_400_put"
+            )}
           </Alert>
           <Alert
             className={"text-center"}
             color="danger"
             isOpen={this.state.alertError500Put}
           >
-            Error, el detalle ya esta asignado.
+            {t(
+              "app_metadatos_actualizar_metdatos_modal_detalles_alert_500_put"
+            )}
           </Alert>
           <Alert
             className="text-center"
             color="success"
             isOpen={this.state.alertSuccessDelete}
           >
-            Se elimino el detalle con éxito.
+            {t(
+              "app_metadatos_actualizar_metdatos_modal_detalles_alert_200_delete"
+            )}
           </Alert>
           <Alert
             className="text-center"
@@ -574,7 +582,9 @@ class ModalUpdateDetails extends Component {
             isOpen={this.state.alertError400Delete}
             toggle={this.onDismiss}
           >
-            Error, no se pudo eliminar el detalle. Intente nuevamente.
+            {t(
+              "app_metadatos_actualizar_metdatos_modal_detalles_alert_400_delete"
+            )}
           </Alert>
           <Alert
             className="text-center"
@@ -582,7 +592,9 @@ class ModalUpdateDetails extends Component {
             isOpen={this.state.alertError500}
             toggle={this.onDismiss}
           >
-            Error, no se pudo eliminar el detalle. Intente nuevamente.
+            {t(
+              "app_metadatos_actualizar_metdatos_modal_detalles_alert_500_delete"
+            )}
           </Alert>
           <div
             className="col-md-12 animated fadeIn"
@@ -591,23 +603,30 @@ class ModalUpdateDetails extends Component {
             <div className="col-md-12">
               <div className="alert alert-danger" role="alert">
                 <p className="text-justify mb-0 text-dark">
-                  Eliminar detalle{" "}
+                  {t(
+                    "app_metadatos_actualizar_metdatos_modal_detalles_eliminar_alert_titulo"
+                  )}{" "}
                   <strong>{this.state.formdelete.title}</strong>
                   <hr />
                   <p className="text-drak">
-                    El detalle quedará eliminado de manera permanente.
+                    {t(
+                      "app_metadatos_actualizar_metdatos_modal_detalles_eliminar_alert_info"
+                    )}
                   </p>
                   <button
                     type="button"
                     className="btn btn-outline-danger btn-sm"
-                    onClick={e => {
+                    onClick={(e) => {
                       this.deleteDetail(e);
                       this.setState({
-                        spinner: true
+                        spinner: true,
                       });
                     }}
                   >
-                    <i className="fa fa-trash" /> Eliminar
+                    <i className="fa fa-trash" />{" "}
+                    {t(
+                      "app_metadatos_actualizar_metdatos_modal_detalles_eliminar_btn_eliminar"
+                    )}
                   </button>
                   &nbsp;
                   <button
@@ -617,13 +636,16 @@ class ModalUpdateDetails extends Component {
                       this.setState({
                         actions: {
                           ...this.state.actions,
-                          visible3: !this.state.actions.visible3
-                        }
+                          visible3: !this.state.actions.visible3,
+                        },
                       });
                     }}
                   >
                     {" "}
-                    <i className="fa fa-times" /> Cancelar
+                    <i className="fa fa-times" />{" "}
+                    {t(
+                      "app_metadatos_actualizar_metdatos_modal_detalles_eliminar_btn_cancelar"
+                    )}
                   </button>
                 </p>
               </div>
@@ -641,19 +663,25 @@ class ModalUpdateDetails extends Component {
               isKey
               hidden={this.state.hiddenColumnID}
             >
-              id
+              Id
             </TableHeaderColumn>
             <TableHeaderColumn dataField={"labelText"} dataAlign={"center"}>
-              Etiqueta
+              {t(
+                "app_metadatos_actualizar_metdatos_modal_detalles_table_etiqueta"
+              )}
             </TableHeaderColumn>
             <TableHeaderColumn dataField={"inputValue"} dataAlign={"center"}>
-              Valor
+              {t(
+                "app_metadatos_actualizar_metdatos_modal_detalles_table_valor"
+              )}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign={"center"}
               dataFormat={(cell, row) => this.accionesDetails(cell, row)}
             >
-              Acciones
+              {t(
+                "app_metadatos_actualizar_metdatos_modal_detalles_table_acciones"
+              )}
             </TableHeaderColumn>
           </BootstrapTable>
           {/* <p>{this.state.id}</p> */}
@@ -664,7 +692,11 @@ class ModalUpdateDetails extends Component {
             // style={{ border: "1px solid green" }}
           >
             <Card>
-              <CardHeader>Agregar nuevo detalle </CardHeader>
+              <CardHeader>
+                {t(
+                  "app_metadatos_actualizar_metdatos_modal_detalles_agregar_titulo_card"
+                )}{" "}
+              </CardHeader>
               <CardBody>
                 <Alert
                   isOpen={this.state.formcreate.alertError}
@@ -673,21 +705,25 @@ class ModalUpdateDetails extends Component {
                   <i className="fa fa-exclamation-triangle" />{" "}
                   {this.state.formcreate.alertErrorMessage}
                 </Alert>
-                <form className="form" ref={el => (this.myFormCreate = el)}>
+                <form className="form" ref={(el) => (this.myFormCreate = el)}>
                   <div className="row">
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Etiqueta</label>
+                        <label>
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_detalles_agregar_etiqueta"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
                           value={this.state.formcreate.title}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({
                               formcreate: {
                                 ...this.state.formcreate,
-                                title: e.target.value
-                              }
+                                title: e.target.value,
+                              },
                             });
                           }}
                         />
@@ -695,17 +731,21 @@ class ModalUpdateDetails extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Valor</label>
+                        <label>
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_detalles_agregar_valor"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
                           value={this.state.formcreate.value}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({
                               formcreate: {
                                 ...this.state.formcreate,
-                                value: e.target.value
-                              }
+                                value: e.target.value,
+                              },
                             });
                           }}
                         />
@@ -713,17 +753,21 @@ class ModalUpdateDetails extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Id</label>
+                        <label>
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_detalles_agregar_id"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
                           value={this.state.formcreate.id}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({
                               formcreate: {
                                 ...this.state.formcreate,
-                                id: e.target.value
-                              }
+                                id: e.target.value,
+                              },
                             });
                           }}
                         />
@@ -742,7 +786,7 @@ class ModalUpdateDetails extends Component {
                           this.state.formcreate.id !== ""
                         ) {
                           this.setState({
-                            spinner: true
+                            spinner: true,
                           });
                         }
                         // this.setState({
@@ -753,7 +797,10 @@ class ModalUpdateDetails extends Component {
                         // });
                       }}
                     >
-                      <i className="fa fa-plus-circle" /> Crear detalle{" "}
+                      <i className="fa fa-plus-circle" />{" "}
+                      {t(
+                        "app_metadatos_actualizar_metdatos_modal_detalles_agregar_btn_crear"
+                      )}{" "}
                     </button>
                     &nbsp;
                     <button
@@ -763,12 +810,15 @@ class ModalUpdateDetails extends Component {
                         this.setState({
                           actions: {
                             ...this.state.actions,
-                            visible1: !this.state.actions.visible1
-                          }
+                            visible1: !this.state.actions.visible1,
+                          },
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar
+                      <i className="fa fa-times" />{" "}
+                      {t(
+                        "app_metadatos_actualizar_metdatos_modal_detalles_agregar_btn_cerrar"
+                      )}
                     </button>
                   </div>
                 </form>
@@ -780,7 +830,11 @@ class ModalUpdateDetails extends Component {
             hidden={this.state.actions.visible2}
           >
             <Card>
-              <CardHeader>Actualizar detalle</CardHeader>
+              <CardHeader>
+                {t(
+                  "app_metadatos_actualizar_metdatos_modal_detalles_editar_titulo_card"
+                )}
+              </CardHeader>
               <CardBody>
                 <Alert color={"danger"} isOpen={this.state.alertError}>
                   <i className="fa fa-exclamation-triangle" />{" "}
@@ -790,14 +844,18 @@ class ModalUpdateDetails extends Component {
                   <div className="row">
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Etiqueta</label>
+                        <label>
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_detalles_editar_etiqueta"
+                          )}
+                        </label>
                         <input
                           type={"text"}
                           className="form-control form-control-sm"
                           value={this.state.titleupdate}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({
-                              titleupdate: e.target.value
+                              titleupdate: e.target.value,
                             });
                           }}
                         />
@@ -805,14 +863,18 @@ class ModalUpdateDetails extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Valor</label>
+                        <label>
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_detalles_editar_valor"
+                          )}
+                        </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
                           value={this.state.valueupdate}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({
-                              valueupdate: e.target.value
+                              valueupdate: e.target.value,
                             });
                           }}
                         />
@@ -820,15 +882,19 @@ class ModalUpdateDetails extends Component {
                     </div>
                     <div className="col-md-4">
                       <div className="form-group">
-                        <label>Id</label>
+                        <label>
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_detalles_editar_id"
+                          )}
+                        </label>
                         <input
                           disabled
                           type="text"
                           className="form-control form-control-sm"
                           value={this.state.idupdate}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({
-                              idupdate: e.target.value
+                              idupdate: e.target.value,
                             });
                           }}
                         />
@@ -839,20 +905,22 @@ class ModalUpdateDetails extends Component {
                     <button
                       type="button"
                       className="btn btn-secondary btn-sm"
-                      onClick={e => {
+                      onClick={(e) => {
                         this.sendDataUpdate(e);
                         if (
                           this.state.formcreate.title &&
                           this.state.formcreate.value !== ""
                         ) {
                           this.setState({
-                            spinner: true
+                            spinner: true,
                           });
                         }
                       }}
                     >
                       <i className="fa fa-pencil" />
-                      Actualizar detalle
+                      {t(
+                        "app_metadatos_actualizar_metdatos_modal_detalles_editar_btn_actualizar_"
+                      )}
                     </button>
                     &nbsp;
                     <button
@@ -862,12 +930,15 @@ class ModalUpdateDetails extends Component {
                         this.setState({
                           actions: {
                             ...this.state.actions,
-                            visible2: !this.state.actions.visible2
-                          }
+                            visible2: !this.state.actions.visible2,
+                          },
                         });
                       }}
                     >
-                      <i className="fa fa-times" /> Cerrar
+                      <i className="fa fa-times" />{" "}
+                      {t(
+                        "app_metadatos_actualizar_metdatos_modal_detalles_editar_btn_cerrar"
+                      )}
                     </button>
                   </div>
                 </form>
@@ -882,11 +953,14 @@ class ModalUpdateDetails extends Component {
               className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({
-                  modal: false
+                  modal: false,
                 });
               }}
             >
-              <i className="fa fa-times" /> Cerrar
+              <i className="fa fa-times" />{" "}
+              {t(
+                "app_metadatos_actualizar_metdatos_modal_detalles_agregar_btn_cerrar"
+              )}
             </button>
           </div>
         </ModalFooter>
@@ -898,6 +972,6 @@ ModalUpdateDetails.propTypes = {
   authorization: PropTypes.string.isRequired,
   modaldetails: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
 };
 export default ModalUpdateDetails;

@@ -1,23 +1,24 @@
 import React, { Component } from "react";
 import PropTypes, { func } from "prop-types";
 import TableContent from "./components/TableContentMetada";
+import { withTranslation } from "react-i18next";
 
 const asyncLocalStorage = {
-  setItem: async function(key, value) {
+  setItem: async function (key, value) {
     await null;
     return localStorage.setItem(key, value);
   },
-  getItem: async function(key) {
+  getItem: async function (key) {
     await null;
     return localStorage.getItem(key);
-  }
+  },
 };
 
 class ModificarMetadato extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      authToken: ""
+      authToken: "",
     };
   }
 
@@ -28,12 +29,12 @@ class ModificarMetadato extends Component {
   getData = () => {
     asyncLocalStorage
       .getItem("user")
-      .then(resp => {
+      .then((resp) => {
         return JSON.parse(resp);
       })
-      .then(resp => {
+      .then((resp) => {
         this.setState({
-          authToken: resp.data.access_token
+          authToken: resp.data.access_token,
         });
       });
   };
@@ -42,7 +43,7 @@ class ModificarMetadato extends Component {
     const authToken = this.state.authToken;
     return (
       <div className="animated fadeIn">
-        <TableContent authorization={authToken} />
+        <TableContent authorization={authToken} t={this.props.t} />
       </div>
     );
   }
@@ -50,4 +51,4 @@ class ModificarMetadato extends Component {
 
 ModificarMetadato.propTypes = {};
 
-export default ModificarMetadato;
+export default withTranslation("translations")(ModificarMetadato);

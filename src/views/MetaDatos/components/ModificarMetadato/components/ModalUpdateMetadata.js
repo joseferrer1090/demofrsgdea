@@ -7,11 +7,11 @@ import {
   ModalFooter,
   CustomInput,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import {
   METADATA_VIEW,
-  METADATA_UPDATE
+  METADATA_UPDATE,
 } from "./../../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import IMG from "./../../../../../assets/img/keyboard.png";
@@ -39,19 +39,20 @@ class ModalUpdateMetadata extends Component {
       alert200: false,
       alert400: false,
       alert500: false,
-      spinner: true
+      spinner: true,
+      t: this.props.t,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     if (props.id !== state.id) {
       return {
-        id: props.id
+        id: props.id,
       };
     }
     return null;
@@ -61,7 +62,7 @@ class ModalUpdateMetadata extends Component {
     if (this.props.id !== prevProps.id) {
       this.setState({
         auth: this.props.authorization,
-        id: this.props.id
+        id: this.props.id,
       });
       this.getDataMetaDataByID(this.state.id, this.state.auth);
     } else if (this.props.authorization === "" || this.props.id === null) {
@@ -72,11 +73,11 @@ class ModalUpdateMetadata extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal,
-      spinner: true
+      spinner: true,
     });
     setTimeout(() => {
       this.setState({
-        spinner: false
+        spinner: false,
       });
     }, 2000);
   };
@@ -88,11 +89,11 @@ class ModalUpdateMetadata extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + auth
-      }
+        authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           data: data.metadata,
           fechaCreacion: data.metadata.createdAt,
@@ -103,31 +104,27 @@ class ModalUpdateMetadata extends Component {
           idMetadata: data.metadata.inputId,
           status: data.metadata.status,
           formula: data.metadata.formula,
-          spinner: false
+          spinner: false,
         });
         console.log(data.metadata);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`${err.message}`);
       });
   };
 
-  sendData = e => {
+  sendData = (e) => {
     e.preventDefault();
     Yup.setLocale({}); // => en caso que sea una validacion custom
     const schema = Yup.object().shape({
-      nombre: Yup.string()
-        .trim()
-        .required(" Por favor introduzca un nombre."),
+      nombre: Yup.string().trim().required(" Por favor introduzca un nombre."),
       descripcion: Yup.string()
         .trim()
         .required(" Por favor introduzca una descripión."),
-      label: Yup.string()
-        .trim()
-        .required(" Por favor introduzca la etiqueta."),
+      label: Yup.string().trim().required(" Por favor introduzca la etiqueta."),
       idMetadata: Yup.string()
         .trim()
-        .required(" Por favor introduzca el ID del campo.")
+        .required(" Por favor introduzca el ID del campo."),
     });
     schema
       .validate({
@@ -136,21 +133,21 @@ class ModalUpdateMetadata extends Component {
         label: this.state.label,
         idMetadata: this.state.idMetadata,
         status: this.state.status,
-        formula: this.state.formula
+        formula: this.state.formula,
       })
       .then(() => {
         if (schema.isValid) {
           this.sendEditMetadata();
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           alertError: true,
-          alertErrorMessage: err.message
+          alertErrorMessage: err.message,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
       });
@@ -163,7 +160,7 @@ class ModalUpdateMetadata extends Component {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + aux
+        authorization: "Bearer " + aux,
       },
       body: JSON.stringify({
         // id: this.state.data.id,
@@ -177,28 +174,28 @@ class ModalUpdateMetadata extends Component {
         inputPlaceholder: this.state.data.inputPlaceholder,
         formula: this.state.formula,
         status: this.state.status,
-        userName: username.user_name
-      })
+        userName: username.user_name,
+      }),
     })
-      .then(resp => {
+      .then((resp) => {
         if (resp.status === 400) {
           this.setState({
-            alert400: true
+            alert400: true,
           });
           setTimeout(() => {
             this.setState({
-              alert400: false
+              alert400: false,
             });
           }, 1500);
         } else if (resp.status === 200) {
           this.setState({
-            alert200: true
+            alert200: true,
           });
           setTimeout(() => {
             this.setState(
               {
                 alert200: false,
-                modal: false
+                modal: false,
               },
               () => {
                 this.props.refresh();
@@ -207,48 +204,54 @@ class ModalUpdateMetadata extends Component {
           }, 1500);
         } else if (resp.status === 500) {
           this.setState({
-            alert500: true
+            alert500: true,
           });
           setTimeout(() => {
             this.setState({
-              alert500: false
+              alert500: false,
             });
           }, 1500);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
-  FechaCreacionMetadato = data => {
+  FechaCreacionMetadato = (data) => {
     return moment(data).format("DD-MM-YYYY, h:mm:ss a");
   };
-  FechaModificacionMetadato = data => {
+  FechaModificacionMetadato = (data) => {
     return moment(data).format("DD-MM-YYYY, h:mm:ss a");
   };
 
   render() {
+    const { t } = this.state;
     return (
       <Modal isOpen={this.state.modal} className="modal-lg">
-        <ModalHeader>Edición de controles {this.state.data.name}</ModalHeader>
+        <ModalHeader>
+          {t("app_metadatos_actualizar_metadatos_modal_controles_titulo")}{" "}
+          {this.state.data.name}
+        </ModalHeader>
         <ModalBody>
           <Alert color={"danger"} isOpen={this.state.alertError}>
             <i className="fa fa-exclamation-triangle" />{" "}
             {this.state.alertErrorMessage}
           </Alert>
           <Alert color={"success"} isOpen={this.state.alert200}>
-            <p>Se actualizo el metadado con éxito.</p>
+            <p>
+              {t("app_metadatos_actualizar_metdatos_modal_controles_alert_200")}
+            </p>
           </Alert>
           <Alert color={"danger"} isOpen={this.state.alert400}>
             <p>
-              <i className="fa fa-exclamation-triangle" /> Error al actualizar
-              el metadato. Inténtelo nuevamente.
+              <i className="fa fa-exclamation-triangle" />{" "}
+              {t("app_metadatos_actualizar_metdatos_modal_controles_alert_400")}
             </p>
           </Alert>
           <Alert color={"danger"} isOpen={this.state.alert500}>
             <p>
-              <i className="fa fa-exclamation-triangle" /> Error del servidor.
-              Inténtelo nuevamente.{" "}
+              <i className="fa fa-exclamation-triangle" />{" "}
+              {t("app_metadatos_actualizar_metdatos_modal_controles_alert_500")}
             </p>
           </Alert>
           <div className="row">
@@ -276,7 +279,9 @@ class ModalUpdateMetadata extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>
-                          Fecha de creación{" "}
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_controles_fecha_creacion"
+                          )}{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <input
@@ -292,7 +297,9 @@ class ModalUpdateMetadata extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>
-                          Fecha de modificación{" "}
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_controles_fecha_modificacion"
+                          )}{" "}
                           <span className="text-danger">*</span>{" "}
                         </label>
                         <input
@@ -308,15 +315,18 @@ class ModalUpdateMetadata extends Component {
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>
-                          Nombre <span className="text-danger">*</span>{" "}
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_controles_nombre"
+                          )}{" "}
+                          <span className="text-danger">*</span>{" "}
                         </label>
                         <input
                           type="text"
                           className="form-control form-control-sm"
                           value={this.state.nombre}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({
-                              nombre: e.target.value
+                              nombre: e.target.value,
                             });
                           }}
                         />
@@ -325,14 +335,17 @@ class ModalUpdateMetadata extends Component {
                     <div className="col-md-12">
                       <div className="form-group">
                         <label>
-                          Descripción <span className="text-danger">*</span>{" "}
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_controles_descripcion"
+                          )}{" "}
+                          <span className="text-danger">*</span>{" "}
                         </label>
                         <textarea
                           className="form-control form-control-sm"
                           value={this.state.descripcion}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({
-                              descripcion: e.target.value
+                              descripcion: e.target.value,
                             });
                           }}
                         ></textarea>
@@ -341,15 +354,18 @@ class ModalUpdateMetadata extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>
-                          Etiqueta <span className="text-danger">*</span>
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_controles_etiqueta"
+                          )}{" "}
+                          <span className="text-danger">*</span>
                         </label>
                         <input
                           type={"text"}
                           className="form-control form-control-sm"
                           value={this.state.label}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({
-                              label: e.target.value
+                              label: e.target.value,
                             });
                           }}
                         />
@@ -358,15 +374,18 @@ class ModalUpdateMetadata extends Component {
                     <div className="col-md-6">
                       <div className="form-group">
                         <label>
-                          Id del campo <span className="text-danger">*</span>
+                          {t(
+                            "app_metadatos_actualizar_metdatos_modal_controles_id_campo"
+                          )}{" "}
+                          <span className="text-danger">*</span>
                         </label>
                         <input
                           type={"text"}
                           className="form-control form-control-sm"
                           value={this.state.idMetadata}
-                          onChange={e => {
+                          onChange={(e) => {
                             this.setState({
-                              idMetadata: e.target.value
+                              idMetadata: e.target.value,
                             });
                           }}
                         />
@@ -380,12 +399,12 @@ class ModalUpdateMetadata extends Component {
                           defaultChecked
                           type="checkbox"
                           id={"activeInput"}
-                          label={
-                            "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción en la plantilla correspondiente."
-                          }
-                          onChange={e => {
+                          label={`${t(
+                            "app_metadatos_crear_metadato_bolsa_metadatos_status"
+                          )}`}
+                          onChange={(e) => {
                             this.setState({
-                              status: e.target.checked
+                              status: e.target.checked,
                             });
                           }}
                         ></CustomInput>
@@ -398,12 +417,12 @@ class ModalUpdateMetadata extends Component {
                           defaultValue={!this.state.formula}
                           type="checkbox"
                           id={"formula"}
-                          label={
-                            "Si esta opción se encuentra activada, representa que el metadato es visible el la bolsa de metadatos y se podrá realizar la asiganción a una formula."
-                          }
-                          onChange={e => {
+                          label={`${t(
+                            "app_metadatos_crear_metadato_bolsa_metadatos_status_formula"
+                          )}`}
+                          onChange={(e) => {
                             this.setState({
-                              formula: e.target.checked
+                              formula: e.target.checked,
                             });
                           }}
                         ></CustomInput>
@@ -421,12 +440,15 @@ class ModalUpdateMetadata extends Component {
               type="button"
               // className="btn btn-secondary btn-sm"
               className={"btn btn-outline-success btn-sm"}
-              onClick={e => {
+              onClick={(e) => {
                 this.sendData(e);
               }}
             >
               {" "}
-              <i className="fa fa-pencil" /> Actualizar{" "}
+              <i className="fa fa-pencil" />{" "}
+              {t(
+                "app_metadatos_actualizar_metdatos_modal_controles_btn_actualizar"
+              )}{" "}
             </button>
             &nbsp;
             <button
@@ -435,11 +457,14 @@ class ModalUpdateMetadata extends Component {
               onClick={() => {
                 this.setState({
                   modal: false,
-                  spinner: false
+                  spinner: false,
                 });
               }}
             >
-              <i className="fa fa-times" /> Cerrar
+              <i className="fa fa-times" />{" "}
+              {t(
+                "app_metadatos_actualizar_metdatos_modal_controles_btn_cerrar"
+              )}
             </button>
           </div>
         </ModalFooter>
@@ -451,7 +476,7 @@ class ModalUpdateMetadata extends Component {
 ModalUpdateMetadata.propTypes = {
   modalupdate: PropTypes.bool.isRequired,
   authorization: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
 };
 
 export default ModalUpdateMetadata;

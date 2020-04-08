@@ -13,19 +13,20 @@ class ViewComponent extends Component {
       auth: this.props.authorization,
       id: this.props.idMetadata,
       data: {},
-      details: []
+      details: [],
+      t: this.props.t,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     if (props.idMetadata !== state.id) {
       return {
-        id: props.idMetadata
+        id: props.idMetadata,
       };
     }
     return null;
@@ -35,7 +36,7 @@ class ViewComponent extends Component {
     if (this.props.idMetadata !== prevProps.idMetadata) {
       this.setState({
         id: this.props.idMetadata,
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataMetadata(this.state.id, this.state.auth);
     } else if (this.props.idMetadata === null || this.props.idMetadata === "") {
@@ -50,11 +51,11 @@ class ViewComponent extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + aux
-      }
+        Authorization: "Bearer " + aux,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         // console.log(data.metadata.createdAt);
         // console.log(
         //   moment(data.metadata.createdAt).format("DD-MM-YYYY, h:mm:ss a")
@@ -67,10 +68,10 @@ class ViewComponent extends Component {
         // console.log(data.details);
         this.setState({
           data: data.metadata,
-          details: data.details
+          details: data.details,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err.message);
       });
   };
@@ -78,16 +79,15 @@ class ViewComponent extends Component {
   //   this.FechaCreacionMetadato();
   //   this.FechaModificacionMetadato();
   // }
-  FechaCreacionMetadato = data => {
+  FechaCreacionMetadato = (data) => {
     return moment(data).format("DD-MM-YYYY, h:mm:ss a");
   };
-  FechaModificacionMetadato = data => {
+  FechaModificacionMetadato = (data) => {
     return moment(data).format("DD-MM-YYYY, h:mm:ss a");
   };
   render() {
     const aux = this.state.data;
-    console.log(this.state.data.createdAt);
-    console.log(this.state.details);
+    const { t } = this.state;
     return (
       <div>
         {this.state.id ? (
@@ -103,7 +103,12 @@ class ViewComponent extends Component {
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label> Fecha de creacion</label>
+                          <label>
+                            {" "}
+                            {t(
+                              "app_metadatos_lista_metadatos_seccion_info_fecha_creacion"
+                            )}
+                          </label>
                           <input
                             type="text"
                             className="form-control form-control-sm"
@@ -116,7 +121,11 @@ class ViewComponent extends Component {
                       </div>
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label>Fecha de actualizacion</label>
+                          <label>
+                            {t(
+                              "app_metadatos_lista_metadatos_seccion_info_fecha_modificacion"
+                            )}
+                          </label>
                           <input
                             type="text"
                             className="form-control form-control-sm"
@@ -131,7 +140,12 @@ class ViewComponent extends Component {
                     <div className="row">
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label> Nombre </label>
+                          <label>
+                            {" "}
+                            {t(
+                              "app_metadatos_lista_metadatos_seccion_info_nombre"
+                            )}{" "}
+                          </label>
                           <input
                             type="text"
                             className="form-control form-control-sm"
@@ -142,7 +156,11 @@ class ViewComponent extends Component {
                       </div>
                       <div className="col-md-12">
                         <div className="form-group">
-                          <label>Descripcion</label>
+                          <label>
+                            {t(
+                              "app_metadatos_lista_metadatos_seccion_info_descripcion"
+                            )}
+                          </label>
                           <textarea
                             className="form-control form-control-sm"
                             defaultValue={aux.description}
@@ -154,30 +172,48 @@ class ViewComponent extends Component {
                     <div className="row">
                       <div className="col-md-6">
                         <div className="form-group">
-                          <label> Formula </label>
+                          <label>
+                            {" "}
+                            {t(
+                              "app_metadatos_lista_metadatos_seccion_info_formula"
+                            )}{" "}
+                          </label>
                           {aux.formula ? (
                             <p className="text-success">
                               {" "}
-                              <b>Asignado</b>{" "}
+                              <b>
+                                {t(
+                                  "app_metadatos_lista_metadatos_seccion_info_formula_asigando"
+                                )}
+                              </b>{" "}
                             </p>
                           ) : (
                             <p className="text-danger">
-                              <b>No asignado</b>
+                              <b>
+                                {t(
+                                  "app_metadatos_lista_metadatos_seccion_info_formula_noAsignado"
+                                )}
+                              </b>
                             </p>
                           )}
                         </div>
                       </div>
                       <div className="col-md-6">
-                        <label> Estado del metadato </label>
+                        <label>
+                          {" "}
+                          {t(
+                            "app_metadatos_lista_metadatos_seccion_info_estado"
+                          )}{" "}
+                        </label>
                         {aux.status ? (
                           <p className="text-success">
                             {" "}
-                            <b>Activo</b>{" "}
+                            <b>{t("app_tablas_estado_activo")}</b>{" "}
                           </p>
                         ) : (
                           <p className="text-danger">
                             {" "}
-                            <b>Inactivo</b>{" "}
+                            <b>{t("app_tablas_estado_inactivo")}</b>{" "}
                           </p>
                         )}
                       </div>
@@ -199,32 +235,34 @@ class ViewComponent extends Component {
                 color: "rgb(170, 170, 170)",
                 backgroundColor: "#c8ced3",
                 marginBottom: "0rem",
-                border: "1px solid grey"
+                border: "1px solid grey",
               }}
             >
-              Seleccione un metadato
+              {t("app_metadatos_lista_metadatos_seccion_info_title")}
             </p>
           </div>
         )}
         <br />
         <Card>
           <CardHeader>
-            <i className="fa fa-eye" /> Vista previa del metadato.
+            <i className="fa fa-eye" />{" "}
+            {t("app_metadatos_lista_metadatos_seccion_preview_title_card")}
           </CardHeader>
           <CardBody>
             <p className="alert alert-warning">
               <i className="fa fa-exclamation-triangle" />{" "}
-              <b>Vista previa del metadato</b>
+              <b>
+                {t("app_metadatos_lista_metadatos_seccion_preview_alert_title")}
+              </b>
               <br />
-              El campo que está siendo pre visualizado será visible y operará
-              cuando se asigne a la plantilla correspondiente en el modulo de
-              correspondencia.
+              {t("app_metadatos_lista_metadatos_seccion_preview_alert_info")}
             </p>
             <PreviewComponent
               fromType={aux.inputType}
               labelInput={aux.labelText}
               inputPlaceholder={aux.inputPlaceholder}
               details={this.state.details}
+              t={this.state.t}
             />
           </CardBody>
         </Card>
@@ -235,7 +273,7 @@ class ViewComponent extends Component {
 
 ViewComponent.propTypes = {
   idMetadata: PropTypes.string.isRequired,
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default ViewComponent;

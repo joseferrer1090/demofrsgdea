@@ -22,7 +22,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "asdasd",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-05T16:26:43.122Z",
@@ -37,7 +37,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-06T13:27:17.242Z",
@@ -52,7 +52,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: false
+    status: false,
   },
   {
     createdAt: "2020-03-06T13:34:57.040Z",
@@ -67,7 +67,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-06T13:39:18.361Z",
@@ -82,7 +82,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "asdasd",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T13:36:01.436Z",
@@ -97,7 +97,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "nombre",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:05:44.678Z",
@@ -112,7 +112,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:15:30.851Z",
@@ -127,7 +127,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:23:21.613Z",
@@ -142,7 +142,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:28:48.416Z",
@@ -157,7 +157,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:40:42.205Z",
@@ -172,7 +172,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T14:47:08.361Z",
@@ -187,7 +187,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "",
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T16:39:48.271Z",
@@ -202,7 +202,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: null,
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T16:44:19.473Z",
@@ -217,7 +217,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: null,
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T19:28:27.225Z",
@@ -232,7 +232,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: null,
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T19:37:02.901Z",
@@ -247,7 +247,7 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: null,
     formula: false,
-    status: true
+    status: true,
   },
   {
     createdAt: "2020-03-09T20:45:02.154Z",
@@ -262,8 +262,8 @@ const data = [
     inputClass: "form-control form-control-sm",
     inputPlaceholder: "Probando",
     formula: false,
-    status: true
-  }
+    status: true,
+  },
 ];
 
 class TableContentMetada extends Component {
@@ -277,14 +277,15 @@ class TableContentMetada extends Component {
       modaldetails: false,
       id: "",
       idDetails: "",
-      nameDetails: ""
+      nameDetails: "",
+      t: this.props.t,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -293,7 +294,7 @@ class TableContentMetada extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataMetadata();
     }
@@ -306,32 +307,33 @@ class TableContentMetada extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + aux
-      }
+        Authorization: "Bearer " + aux,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         this.setState({
-          dataMetadata: data
+          dataMetadata: data,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
 
   StatusMetadata = (cell, row) => {
+    const { t } = this.state;
     let status;
     if (row.status === 1 || row.status === true) {
       status = (
         <p className="text-success">
-          <b>Activo</b>{" "}
+          <b>{t("app_tablas_estado_activo")}</b>{" "}
         </p>
       );
     } else if (row.status === 0 || row.status === false) {
       status = (
         <p className="text-danger">
-          <b>Inactivo</b>{" "}
+          <b>{t("app_tablas_estado_inactivo")}</b>{" "}
         </p>
       );
     }
@@ -352,6 +354,7 @@ class TableContentMetada extends Component {
 
   accionesMetadato(cell, row) {
     let button;
+    const { t } = this.state;
     if (row.inputType === "select" || row.inputType === "SELECT") {
       button = (
         <button
@@ -362,11 +365,12 @@ class TableContentMetada extends Component {
             this.openModalDetails(row.id);
             this.setState({
               idDetails: row.id,
-              nameDetails: row.name
+              nameDetails: row.name,
             });
           }}
         >
-          <i className="fa fa-cog" /> Detalles
+          <i className="fa fa-cog" />{" "}
+          {t("app_metadatos_actualizar_metadatos_table_acciones_detalles")}
         </button>
       );
     } else if (row.inputType === "radio" || row.inputType === "RADIO") {
@@ -379,11 +383,12 @@ class TableContentMetada extends Component {
             this.openModalDetails(row.id);
             this.setState({
               idDetails: row.id,
-              nameDetails: row.name
+              nameDetails: row.name,
             });
           }}
         >
-          <i className="fa fa-cog" /> Detalles
+          <i className="fa fa-cog" />{" "}
+          {t("app_metadatos_actualizar_metadatos_table_acciones_detalles")}
         </button>
       );
     } else if (row.inputType === "checkbox" || row.inputType === "CHECKBOX") {
@@ -395,11 +400,12 @@ class TableContentMetada extends Component {
           onClick={() => {
             this.openModalDetails(row.id);
             this.setState({
-              idDetails: row.id
+              idDetails: row.id,
             });
           }}
         >
-          <i className="fa fa-cog" /> Detalles
+          <i className="fa fa-cog" />{" "}
+          {t("app_metadatos_actualizar_metadatos_table_acciones_detalles")}
         </button>
       );
     }
@@ -420,7 +426,8 @@ class TableContentMetada extends Component {
           title={"Actualizar valores de control"}
         >
           <i className="fa fa-pencil" />
-          &nbsp; Controles
+          &nbsp;{" "}
+          {t("app_metadatos_actualizar_metadatos_table_acciones_controles")}
         </button>
         &nbsp;
         {button}
@@ -440,7 +447,7 @@ class TableContentMetada extends Component {
             this.openModalDetails(row.id);
             this.setState({
               idDetails: row.id,
-              nameDetails: row.name
+              nameDetails: row.name,
             });
           }}
         >
@@ -457,7 +464,7 @@ class TableContentMetada extends Component {
             this.openModalDetails(row.id);
             this.setState({
               idDetails: row.id,
-              nameDetails: row.name
+              nameDetails: row.name,
             });
           }}
         >
@@ -473,7 +480,7 @@ class TableContentMetada extends Component {
           onClick={() => {
             this.openModalDetails(row.id);
             this.setState({
-              idDetails: row.id
+              idDetails: row.id,
             });
           }}
         >
@@ -485,22 +492,50 @@ class TableContentMetada extends Component {
   }
   TipoMetadato(cell, row) {
     let inputType;
+    const { t } = this.state;
     if (row.inputType === "select") {
-      inputType = <span>Selección</span>;
+      inputType = (
+        <span>
+          {t(
+            "app_metadatos_actualizar_metadatos_table_acciones_type_seleccion"
+          )}
+        </span>
+      );
     } else if (row.inputType === "checkbox") {
-      inputType = <span>Check</span>;
+      inputType = (
+        <span>
+          {t("app_metadatos_actualizar_metadatos_table_acciones_type_check")}
+        </span>
+      );
     } else if (row.inputType === "radio") {
-      inputType = <span>Radio</span>;
+      inputType = (
+        <span>
+          {t("app_metadatos_actualizar_metadatos_table_acciones_type_radio")}
+        </span>
+      );
     } else if (row.inputType === "textarea") {
-      inputType = <span>Párrafo</span>;
+      inputType = (
+        <span>
+          {t("app_metadatos_actualizar_metadatos_table_acciones_type_parrafo")}
+        </span>
+      );
     } else if (row.inputType === "date") {
-      inputType = <span>Fecha</span>;
+      inputType = (
+        <span>
+          {t("app_metadatos_actualizar_metadatos_table_acciones_type_fecha")}
+        </span>
+      );
     } else if (row.inputType === "text") {
-      inputType = <span>Texto</span>;
+      inputType = (
+        <span>
+          {t("app_metadatos_actualizar_metadatos_table_acciones_type_texto")}
+        </span>
+      );
     }
     return inputType;
   }
   render() {
+    const { t } = this.state;
     return (
       <div className="card card-body">
         <BootstrapTable
@@ -510,7 +545,9 @@ class TableContentMetada extends Component {
           bordered={false}
           condensed={true}
           search
-          searchPlaceholder="Buscar"
+          searchPlaceholder={`${t(
+            "app_metadatos_actualizar_metadatos_table_placeholder"
+          )}`}
           pagination
           // className="tableMetadatos tableMetadatos1 texto-Metadatos actionMenuMetadatos"
         >
@@ -533,7 +570,7 @@ class TableContentMetada extends Component {
             dataSort
             width={"100"}
           >
-            Nombre
+            {t("app_metadatos_actualizar_metadatos_table_nombre")}
           </TableHeaderColumn>
           <TableHeaderColumn
             dataField={"inputType"}
@@ -541,14 +578,14 @@ class TableContentMetada extends Component {
             width={"50"}
             dataFormat={(cell, row) => this.TipoMetadato(cell, row)}
           >
-            Tipo metadato
+            {t("app_metadatos_actualizar_metadatos_table_tipo_metadato")}
           </TableHeaderColumn>
           <TableHeaderColumn
             dataAlign={"center"}
             dataField={"description"}
             width={"110"}
           >
-            Descripcion
+            {t("app_metadatos_actualizar_metadatos_table_descripcion")}
           </TableHeaderColumn>
           <TableHeaderColumn
             dataField={"status"}
@@ -556,7 +593,7 @@ class TableContentMetada extends Component {
             dataFormat={(cell, row) => this.StatusMetadata(cell, row)}
             width={"40"}
           >
-            Estado
+            {t("app_metadatos_actualizar_metadatos_table_estado")}
           </TableHeaderColumn>
 
           <TableHeaderColumn
@@ -564,7 +601,7 @@ class TableContentMetada extends Component {
             dataFormat={(cell, row) => this.accionesMetadato(cell, row)}
             width={"100"}
           >
-            Acciones
+            {t("app_metadatos_actualizar_metadatos_table_acciones")}
           </TableHeaderColumn>
           {/* <TableHeaderColumn
             dataAlign={"center"}
@@ -579,15 +616,17 @@ class TableContentMetada extends Component {
           authorization={this.state.auth}
           modalupdate={this.state.modal}
           id={this.state.id}
-          ref={el => (this.myModal = el)}
+          ref={(el) => (this.myModal = el)}
           refresh={this.getDataMetadata}
+          t={this.state.t}
         />
         <ModalUpdateDetails
           authorization={this.state.auth}
           modaldetails={this.state.modaldetails}
-          ref={el => (this.myModalDetails = el)}
+          ref={(el) => (this.myModalDetails = el)}
           id={this.state.idDetails}
           name={this.state.nameDetails}
+          t={this.state.t}
         />
       </div>
     );
@@ -595,7 +634,7 @@ class TableContentMetada extends Component {
 }
 
 TableContentMetada.propTypes = {
-  authorization: PropTypes.string.isRequired
+  authorization: PropTypes.string.isRequired,
 };
 
 export default TableContentMetada;

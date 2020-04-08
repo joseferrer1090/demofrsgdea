@@ -4,11 +4,12 @@ import { Card } from "reactstrap";
 
 const styleInput = {
   border: "1px solid #c8ced3",
-  padding: "10px"
+  padding: "10px",
 };
 
-const PreviewComponent = props => {
+const PreviewComponent = (props) => {
   let formElement = null;
+  const { t } = props.t;
   switch (props.fromType) {
     case "text":
       formElement = (
@@ -113,10 +114,10 @@ const PreviewComponent = props => {
             color: "rgb(170, 170, 170)",
             backgroundColor: "rgb(238, 238, 238)",
             marginBottom: "0rem",
-            border: "1px solid grey"
+            border: "1px solid grey",
           }}
         >
-          Vista previa del metadato
+          {props.t("app_metadatos_lista_metadatos_seccion_preview_title")}
         </p>
       )}
     </div>

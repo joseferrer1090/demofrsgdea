@@ -14,14 +14,15 @@ class TableContentMetadata extends Component {
       dataMetada: [],
       hiddenColumnID: true,
       modaldelete: false,
-      idMetadata: ""
+      idMetadata: "",
+      t: this.props.t,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     return null;
@@ -30,7 +31,7 @@ class TableContentMetadata extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getDataMetadate();
     }
@@ -43,16 +44,16 @@ class TableContentMetadata extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + aux
-      }
+        authorization: "Bearer " + aux,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         this.setState({
-          dataMetada: data
+          dataMetada: data,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err.message}`);
       });
   };
@@ -70,7 +71,7 @@ class TableContentMetadata extends Component {
           onClick={() => {
             this.openModal(row.id);
             this.setState({
-              idMetadata: row.id
+              idMetadata: row.id,
             });
           }}
           title={"Eliminar metadata"}
@@ -82,11 +83,12 @@ class TableContentMetadata extends Component {
   }
 
   StatusMetadata = (cell, row) => {
+    const { t } = this.state;
     let status;
     if (row.status === 1 || row.status === true) {
-      status = <b className="text-success">Activo</b>;
+      status = <b className="text-success">{t("app_tablas_estado_activo")}</b>;
     } else if (row.status === 0 || row.status === false) {
-      status = <b className="text-danger">Inactivo</b>;
+      status = <b className="text-danger">{t("app_tablas_estado_inactivo")}</b>;
     }
     return status;
   };
@@ -95,30 +97,57 @@ class TableContentMetadata extends Component {
     return <div key={index}>{index + 1}</div>;
   }
   TipoMetadato(cell, row) {
+    const { t } = this.state;
     let inputType;
     if (row.inputType === "select") {
-      inputType = <span>Selección</span>;
+      inputType = (
+        <span>
+          {t("app_metadatos_remover_metadatos_table_acciones_type_seleccion")}
+        </span>
+      );
     } else if (row.inputType === "checkbox") {
-      inputType = <span>Check</span>;
+      inputType = (
+        <span>
+          {t("app_metadatos_remover_metadatos_table_acciones_type_check")}
+        </span>
+      );
     } else if (row.inputType === "radio") {
-      inputType = <span>Radio</span>;
+      inputType = (
+        <span>
+          {t("app_metadatos_remover_metadatos_table_acciones_type_radio")}
+        </span>
+      );
     } else if (row.inputType === "textarea") {
-      inputType = <span>Párrafo</span>;
+      inputType = (
+        <span>
+          {t("app_metadatos_remover_metadatos_table_acciones_type_parrafo")}
+        </span>
+      );
     } else if (row.inputType === "date") {
-      inputType = <span>Fecha</span>;
+      inputType = (
+        <span>
+          {t("app_metadatos_remover_metadatos_table_acciones_type_fecha")}
+        </span>
+      );
     } else if (row.inputType === "text") {
-      inputType = <span>Texto</span>;
+      inputType = (
+        <span>
+          {t("app_metadatos_remover_metadatos_table_acciones_type_texto")}
+        </span>
+      );
     }
     return inputType;
   }
   render() {
+    const { t } = this.state;
     return (
       <div className="animated fadeIn">
         <div className="row">
           <div className="col-md-12">
             <Card>
               <CardHeader>
-                <i className="fa fa-shopping-bag" /> Bolsa de metadatos
+                <i className="fa fa-shopping-bag" />{" "}
+                {t("app_metadatos_remover_metadatos_titulo")}
               </CardHeader>
               <CardBody>
                 <BootstrapTable
@@ -146,7 +175,7 @@ class TableContentMetadata extends Component {
                   </TableHeaderColumn>
                   <TableHeaderColumn dataField={"name"} dataSort width={"250"}>
                     {" "}
-                    Nombre
+                    {t("app_metadatos_remover_metadatos_table_nombre")}
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField={"inputType"}
@@ -154,11 +183,11 @@ class TableContentMetadata extends Component {
                     width={"130"}
                     dataFormat={(cell, row) => this.TipoMetadato(cell, row)}
                   >
-                    Tipo
+                    {t("app_metadatos_remover_metadatos_table_tipo")}
                   </TableHeaderColumn>
                   <TableHeaderColumn dataField={"description"} width={"270"}>
                     {" "}
-                    Descripción
+                    {t("app_metadatos_remover_metadatos_table_descripcion")}
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField={"status"}
@@ -166,7 +195,7 @@ class TableContentMetadata extends Component {
                     dataFormat={(cell, row) => this.StatusMetadata(cell, row)}
                     width={"100"}
                   >
-                    Estado
+                    {t("app_metadatos_remover_metadatos_table_estado")}
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataAlign={"center"}
@@ -175,7 +204,7 @@ class TableContentMetadata extends Component {
                     }
                     width={"100"}
                   >
-                    Acción
+                    {t("app_metadatos_remover_metadatos_table_accion")}
                   </TableHeaderColumn>
                 </BootstrapTable>
               </CardBody>
@@ -187,7 +216,8 @@ class TableContentMetadata extends Component {
           authorization={this.state.auth}
           modaldelete={this.state.modaldelete}
           refreshComponent={this.getDataMetadate}
-          ref={el => (this.myModal = el)}
+          ref={(el) => (this.myModal = el)}
+          t={this.state.t}
         />
       </div>
     );

@@ -2327,6 +2327,30 @@
     "app_metadatos_actualizar_metdatos_modal_detalles_eliminar_alert_titulo": "Remove detail",
     "app_metadatos_actualizar_metdatos_modal_detalles_eliminar_alert_info": "The detail will be permanently removed.",
     "app_metadatos_actualizar_metdatos_modal_detalles_eliminar_btn_eliminar": "Delete",
-    "app_metadatos_actualizar_metdatos_modal_detalles_eliminar_btn_cancelar": "Cancel"
+    "app_metadatos_actualizar_metdatos_modal_detalles_eliminar_btn_cancelar": "Cancel",
+
+    "app_metadatos_remover_metadatos_titulo": "Metadata bag",
+    "app_metadatos_remover_metadatos_table_placeholder": "Search for metadata",
+    "app_metadatos_remover_metadatos_table_nombre": "Name",
+    "app_metadatos_remover_metadatos_table_tipo": "Type",
+    "app_metadatos_remover_metadatos_table_descripcion": "Description",
+    "app_metadatos_remover_metadatos_table_estado": "Status",
+    "app_metadatos_remover_metadatos_table_accion": "Action",
+    "app_metadatos_remover_metadatos_table_acciones_type_seleccion": "Selection",
+    "app_metadatos_remover_metadatos_table_acciones_type_texto": "Text",
+    "app_metadatos_remover_metadatos_table_acciones_type_check": "Check",
+    "app_metadatos_remover_metadatos_table_acciones_type_radio": "Radio",
+    "app_metadatos_remover_metadatos_table_acciones_type_parrafo": "Paragraph",
+    "app_metadatos_remover_metadatos_table_acciones_type_fecha": "Date",
+
+    "app_metadatos_remover_metadatos_moda_eliminar_title": "Delete",
+    "app_metadatos_remover_metadatos_moda_eliminar_info": "Confirm the name to remove the metadata.",
+    "app_metadatos_remover_metadatos_moda_eliminar_placeholder": "Name of the metadata to be removed",
+    "app_metadatos_remover_metadatos_moda_eliminar_info_2": "The metadata will be permanently removed",
+    "app_metadatos_remover_metadatos_moda_eliminar_btn_eliminar": "Delete",
+    "app_metadatos_remover_metadatos_moda_eliminar_btn_cerrar": "Cancel",
+    "app_metadatos_remover_metadatos_moda_eliminar_alert_200": "Metadata was successfully removed.",
+    "app_metadatos_remover_metadatos_moda_eliminar_alert_400": "Error, the name is not valid to remove the metadata.",
+    "app_metadatos_remover_metadatos_moda_eliminar_alert_500": "Error, the metadata is associated."
   }
 }

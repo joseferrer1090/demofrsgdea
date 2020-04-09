@@ -342,10 +342,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch
     ),
   };
-  // return {
-  //   agregar: (aux) => dispatch(agregarMetadaEditAction(aux)),
-  //   borrar: (id) => dispatch(eliminarMetadatoEditAction(id)),
-  // };
 };
 
 // modifico el connect para que HOC de redux permita accede a la referencia y conecta al modal a Redux

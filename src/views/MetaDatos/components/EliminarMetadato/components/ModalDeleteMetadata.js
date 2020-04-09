@@ -5,12 +5,12 @@ import {
   ModalBody,
   ModalFooter,
   Alert,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import PropTypes from "prop-types";
 import {
   METADATA_VIEW,
-  METADATA_DELETE
+  METADATA_DELETE,
 } from "./../../../../../services/EndPoints";
 import { decode } from "jsonwebtoken";
 import * as Yup from "yup";
@@ -29,19 +29,20 @@ class ModalDeleteMetadata extends Component {
       alert400: false,
       alertErrorMessage: "",
       alertError: false,
-      spinner: false
+      spinner: false,
+      t: this.props.t,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     if (props.id !== state.id) {
       return {
-        id: props.id
+        id: props.id,
       };
     }
     return null;
@@ -51,7 +52,7 @@ class ModalDeleteMetadata extends Component {
     if (this.props.id !== prevProps.id) {
       this.setState({
         id: this.props.id,
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       this.getMetadata(this.state.id, this.state.auth);
     }
@@ -64,48 +65,48 @@ class ModalDeleteMetadata extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: "Bearer " + aux
-      }
+        authorization: "Bearer " + aux,
+      },
     })
-      .then(resp => resp.json())
-      .then(data => {
+      .then((resp) => resp.json())
+      .then((data) => {
         this.setState({
-          metadata: data.metadata
+          metadata: data.metadata,
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(`Error => ${err}`);
       });
   };
 
   toggle = () => {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
   };
 
   sendData = () => {
     Yup.setLocale({});
     const schema = Yup.object().shape({
-      code: Yup.string().required(" Por favor introduzca el nombre.")
+      code: Yup.string().required(" Por favor introduzca el nombre."),
     });
     schema
       .validate({
-        code: this.state.code
+        code: this.state.code,
       })
       .then(() => {
         if (schema.isValid) {
           this.deleteMetadata();
         }
       })
-      .catch(err => {
+      .catch((err) => {
         this.setState({
           alertError: true,
-          alertErrorMessage: err.message
+          alertErrorMessage: err.message,
         });
         setTimeout(() => {
           this.setState({
-            alertError: false
+            alertError: false,
           });
         }, 1500);
       });
@@ -120,21 +121,21 @@ class ModalDeleteMetadata extends Component {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          authorization: "Bearer " + aux
-        }
+          authorization: "Bearer " + aux,
+        },
       }
     )
-      .then(resp => {
+      .then((resp) => {
         if (resp.status === 204) {
           this.setState({
             alert200: true,
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState(
               {
                 alert200: false,
-                modal: false
+                modal: false,
               },
               () => {
                 this.props.refreshComponent();
@@ -144,39 +145,43 @@ class ModalDeleteMetadata extends Component {
         } else if (resp.status === 400) {
           this.setState({
             alert400: true,
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert400: false
+              alert400: false,
             });
           }, 3000);
         } else if (resp.status === 500) {
           this.setState({
             alert500: true,
-            spinner: false
+            spinner: false,
           });
           setTimeout(() => {
             this.setState({
-              alert500: false
+              alert500: false,
             });
           }, 3000);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console(`Error => ${err.message}`);
       });
     this.resetForm();
   };
   resetForm = () => {
     this.setState({
-      code: ""
+      code: "",
     });
   };
   render() {
+    const { t } = this.state;
     return (
       <Modal isOpen={this.state.modal}>
-        <ModalHeader>Eliminar {this.state.metadata.name} </ModalHeader>
+        <ModalHeader>
+          {t("app_metadatos_remover_metadatos_moda_eliminar_title")}{" "}
+          {this.state.metadata.name}{" "}
+        </ModalHeader>
         <ModalBody>
           {this.state.spinner !== false ? (
             <center>
@@ -196,29 +201,31 @@ class ModalDeleteMetadata extends Component {
           </Alert>
           <Alert color={"danger"} isOpen={this.state.alert400}>
             <i className="fa fa-exclamation-triangle" />
-            &nbsp;Error, el nombre no es válido para eliminar el metadato.
+            &nbsp;{t("app_metadatos_remover_metadatos_moda_eliminar_alert_400")}
           </Alert>
           <Alert color={"danger"} isOpen={this.state.alert500}>
             <i className="fa fa-exclamation-triangle" />
-            &nbsp;Error, el metadato se encuentra asociado.
+            &nbsp;{t("app_metadatos_remover_metadatos_moda_eliminar_alert_500")}
           </Alert>
           <Alert color={"success"} isOpen={this.state.alert200}>
-            &nbsp;Se elimino el metadato con éxito.
+            &nbsp;{t("app_metadatos_remover_metadatos_moda_eliminar_alert_200")}
           </Alert>
           <form className="form">
             <p className="text-center">
               {" "}
-              Confirmar el nombre para eliminar el metadato.
+              {t("app_metadatos_remover_metadatos_moda_eliminar_info")}
             </p>
             <div className="form-group">
               <input
                 type="text"
                 className="form-control from-control-sm"
-                placeholder={"Nombre del metadato a eliminar"}
+                placeholder={t(
+                  "app_metadatos_remover_metadatos_moda_eliminar_placeholder"
+                )}
                 style={{ textAlign: "center" }}
                 autoFocus
                 value={this.state.code}
-                onChange={e => {
+                onChange={(e) => {
                   this.setState({ code: e.target.value });
                 }}
               />
@@ -226,7 +233,7 @@ class ModalDeleteMetadata extends Component {
             <br />
             <p className="text-center text-danger">
               {" "}
-              El metadato quedará eliminado de manera permanente.
+              {t("app_metadatos_remover_metadatos_moda_eliminar_info_2")}
             </p>
           </form>
         </ModalBody>
@@ -238,7 +245,7 @@ class ModalDeleteMetadata extends Component {
               onClick={() => {
                 if (this.state.code !== "") {
                   this.setState({
-                    spinner: true
+                    spinner: true,
                   });
                 }
                 this.sendData();
@@ -248,7 +255,8 @@ class ModalDeleteMetadata extends Component {
               }}
             >
               {" "}
-              <i className="fa fa-trash" /> Eliminar{" "}
+              <i className="fa fa-trash" />{" "}
+              {t("app_metadatos_remover_metadatos_moda_eliminar_btn_eliminar")}{" "}
             </button>
             &nbsp;
             <button
@@ -256,12 +264,13 @@ class ModalDeleteMetadata extends Component {
               className="btn btn-secondary btn-sm"
               onClick={() => {
                 this.setState({
-                  modal: false
+                  modal: false,
                 });
               }}
             >
               {" "}
-              <i className="fa fa-times" /> Cancelar
+              <i className="fa fa-times" />{" "}
+              {t("app_metadatos_remover_metadatos_moda_eliminar_btn_cerrar")}
             </button>
           </div>
         </ModalFooter>

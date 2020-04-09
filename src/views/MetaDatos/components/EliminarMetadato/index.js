@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import TableContent from "./components/TableContentMetadata";
+import { withTranslation } from "react-i18next";
 
 const asyncLocalStorage = {
   setItem: async function(key, value) {
@@ -47,7 +48,7 @@ class EliminarMetadato extends Component {
       <div className="animated fadeIn">
         <div className="row">
           <div className="col-md-12">
-            <TableContent authorization={authToken} />
+            <TableContent authorization={authToken} t={this.props.t}/>
           </div>
         </div>
       </div>
@@ -57,4 +58,4 @@ class EliminarMetadato extends Component {
 
 EliminarMetadato.propTypes = {};
 
-export default EliminarMetadato;
+export default withTranslation("translations")(EliminarMetadato);

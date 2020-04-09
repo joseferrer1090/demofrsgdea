@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { eliminarMetadataAction } from "./../../../../actions/templateMetadataActions";
 import { Alert } from "reactstrap";
 
-const AssignedMetadata = props => {
-  const err = useSelector(state => state.templateMetadata.error);
+const AssignedMetadata = (props) => {
+  const err = useSelector((state) => state.templateMetadata.error);
   const [data, setData] = React.useState([]);
   const [error, setError] = React.useState();
 
   const dispatch = useDispatch();
-  const eliminar = id => dispatch(eliminarMetadataAction(id));
+  const eliminar = (id) => dispatch(eliminarMetadataAction(id));
 
   React.useEffect(() => {
     setData(props.data);
@@ -22,8 +22,8 @@ const AssignedMetadata = props => {
         <i className="fa fa-exclamation-triangle" /> Error no se puede agregar
         varias veces el mismo metadato a la plantilla.
       </Alert>
-      <div className="table-responseive">
-        {data.length ? (
+      <div className="table-responsive">
+        {Object.keys(data).length ? (
           <div className="animated fadeIn">
             <table className="table table-striped table-hover">
               <thead>

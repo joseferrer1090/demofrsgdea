@@ -12,7 +12,9 @@ const AssignedMetadata = (props) => {
   const eliminar = (id) => dispatch(eliminarMetadataAction(id));
 
   React.useEffect(() => {
-    setData(props.data);
+    if (props.data !== undefined || props.data !== null) {
+      setData(props.data);
+    }
     setError(err);
   }, [props.data, err]);
 

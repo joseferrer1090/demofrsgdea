@@ -23,6 +23,7 @@ class AddIndexPlantilla extends Component {
       auth: this.props.authorization,
       id: this.props.match.params.id,
       dataTemplate: [],
+      idSelectedTable: "",
     };
   }
 
@@ -81,7 +82,7 @@ class AddIndexPlantilla extends Component {
   }
 
   openModalDelete() {
-    this.modalEdit.toggle();
+    this.modalDel.toggle();
   }
 
   openModalMult() {
@@ -134,7 +135,12 @@ class AddIndexPlantilla extends Component {
                               </button>
                               <button
                                 className="btn btn-danger btn-sm mr-1"
-                                onClick={() => this.openModalDelete()}
+                                onClick={() => {
+                                  this.openModalDelete();
+                                  this.setState({
+                                    idSelectedTable: aux.id,
+                                  });
+                                }}
                               >
                                 <i className="fa fa-trash" />
                               </button>
@@ -197,6 +203,8 @@ class AddIndexPlantilla extends Component {
           ref={(el) => (this.modalEdit = el)}
         />
         <ModalDeleteIndex
+          authorization={this.state.auth}
+          id={this.state.idSelectedTable}
           modaldeleteindex={this.state.modaldel}
           ref={(el) => (this.modalDel = el)}
         />

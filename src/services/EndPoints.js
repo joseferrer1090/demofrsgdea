@@ -744,7 +744,7 @@ export const TEMPLATE_METADATA_BAG_CREATE = `${config.IP}:${config.PORT}/api/sgd
 export const TEMPLATE_METADATA_BAG_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag`;
 
 /* DELETE params => IdMetadata Y username */
-export const TEMPLATE_METADATA_BAG_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag/`;
+export const TEMPLATE_METADATA_BAG_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag`;
 
 /* GET params => IdTemplate */
 export const TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag/find/template/`;

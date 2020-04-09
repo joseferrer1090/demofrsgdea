@@ -100,16 +100,14 @@ class ModalDeletePlantilla extends Component {
         <ModalHeader>Eliminar metadato de la plantilla</ModalHeader>
         <ModalBody>
           <Alert color={"success"} isOpen={this.state.alert200}>
-            <p>El metadato se elimino con exito de la plantilla</p>
+            El metadato se elimino con exito de la plantilla
           </Alert>
           <Alert color={"danger"} isOpen={this.state.alert400}>
-            <p>Error => no se puede eliminar el metadato de la plantilla</p>
+            Error => no se puede eliminar el metadato de la plantilla
           </Alert>
           <Alert color={"danger"} isOpen={this.state.alert500}>
-            <p>
-              Error => el metadato no se puede eliminar porque existen registro
-              con la plantilla
-            </p>
+            Error => el metadato no se puede eliminar porque existen registro
+            con la plantilla
           </Alert>
           <p className="text-center">
             ¿ Desesa Eliminar el metadato de la plantilla junto con su valores ?

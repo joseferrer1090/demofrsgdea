@@ -25,6 +25,8 @@ class ModalAddIndexes extends Component {
       alert200: false,
       alert400: false,
       alert500: false,
+      alertCatch: false,
+      alertmsg: "",
     };
   }
 
@@ -111,13 +113,36 @@ class ModalAddIndexes extends Component {
             }, 1300);
             console.log(response.message);
           } else if (response.status === 400) {
-            console.log("Error al enviar los datos");
+            this.setState({
+              alert400: true,
+            });
+            setTimeout(() => {
+              this.setState({
+                alert400: false,
+              });
+            }, 1300);
           } else if (response.status === 500) {
-            console.log("error => exiten metadatos repetidos en la plantilla");
+            this.setState({
+              alert500: true,
+            });
+            setTimeout(() => {
+              this.setState({
+                alert500: false,
+              });
+            }, 1300);
           }
         })
         .catch((err) => {
-          console.log(`Error => ${err.message}`);
+          this.setState({
+            alertCatch: true,
+            alertmsg: err.message,
+          });
+          setTimeout(() => {
+            this.setState({
+              alertCatch: false,
+            });
+          }, 1300);
+          // console.log(`Error => ${err.message}`);
         })
     );
   };
@@ -170,6 +195,15 @@ class ModalAddIndexes extends Component {
           </p>
           <Alert color="success" isOpen={this.state.alert200}>
             Se Agregaron metadatos a la plantilla
+          </Alert>
+          <Alert color="danger" isOpen={this.state.alert400}>
+            Error al enviar los datos al servidor.
+          </Alert>
+          <Alert color="danger" isOpen={this.state.alert500}>
+            Error, hay metadatos repetidos en la plantilla
+          </Alert>
+          <Alert color="danger" isOpen={this.state.alertCatch}>
+            <p>Error => {this.state.alertmsg}</p>
           </Alert>
           <div className="row">
             <div className="col-md-6">

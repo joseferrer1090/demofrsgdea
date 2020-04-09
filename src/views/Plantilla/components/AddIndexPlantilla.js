@@ -196,6 +196,9 @@ class AddIndexPlantilla extends Component {
           authorization={this.state.auth}
           modaladdindexes={this.state.modaladd}
           template={this.props.match.params.id}
+          refresh={() =>
+            this.getDataTemplateID(this.state.id, this.props.authorization)
+          }
           ref={this.parentRef} // asocio la referencia al componente hijo
         />
         <ModalEditIndexes
@@ -206,6 +209,9 @@ class AddIndexPlantilla extends Component {
           authorization={this.state.auth}
           id={this.state.idSelectedTable}
           modaldeleteindex={this.state.modaldel}
+          refresh={() =>
+            this.getDataTemplateID(this.state.id, this.props.authorization)
+          }
           ref={(el) => (this.modalDel = el)}
         />
         <ModalMultiple

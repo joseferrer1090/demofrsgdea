@@ -62,10 +62,13 @@ class ModalDeletePlantilla extends Component {
             alert200: true,
           });
           setTimeout(() => {
-            this.setState({
-              alert200: false,
-              modal: false,
-            });
+            this.setState(
+              {
+                alert200: false,
+                modal: false,
+              },
+              () => this.props.refresh()
+            );
           }, 1300);
         } else if (response.status === 500) {
           this.setState({

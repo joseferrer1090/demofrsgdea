@@ -87,7 +87,7 @@ class ModalAddIndexes extends Component {
                       Requerido <span className="text-danger">*</span>{" "}
                     </label>
                   </div>
-                </div>
+                </div>  
               </div>
             </form>
           </ModalBody>

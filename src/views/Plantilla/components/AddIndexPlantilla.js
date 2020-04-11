@@ -209,7 +209,7 @@ class AddIndexPlantilla extends Component {
         <ModalEditIndexes
           authorization={this.state.auth}
           template={this.props.match.params.id}
-          metadata={this.state.idSelectedTable}
+          metadataid={this.state.idSelectedTable}
           modaleditindexes={this.state.modaledit}
           ref={(el) => (this.modalEdit = el)}
         />

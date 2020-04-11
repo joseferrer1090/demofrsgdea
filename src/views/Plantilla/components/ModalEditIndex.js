@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Modal, ModalHeader, ModalFooter, ModalBody } from "reactstrap";
+import Input from "./PreviewMetadata/Input";
 import PropTypes from "prop-types";
 
 class ModalAddIndexes extends Component {
@@ -51,7 +52,7 @@ class ModalAddIndexes extends Component {
   render() {
     return (
       <div>
-        <Modal className="modal-xl" isOpen={this.state.modal}>
+        <Modal className="modal-lg" isOpen={this.state.modal}>
           <ModalHeader>Editar valores del Metadato</ModalHeader>
           <ModalBody>
             <form className="form">
@@ -60,41 +61,31 @@ class ModalAddIndexes extends Component {
                   <div className="form-group">
                     <label>
                       {" "}
-                      Plantilla <span className="text-danger">*</span>{" "}
+                      Formula <span className="text-danger">*</span>{" "}
                     </label>
-                    <dt>Nombre de la plantilla</dt>
+                    <input
+                      type="text"
+                      className="form-control form-control-sm"
+                      disabled
+                    />
+                  </div>
+                </div>
+                <div className="col-md-12">
+                  <div className="form-group">
+                    <div className="card">
+                      <div className="card-header">Metadato</div>
+                      <div className="card-body">
+                        <Input formType="select" />
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="col-md-6">
                   <div className="form-group">
                     <label>
                       {" "}
-                      Nombre del índice <span className="text-danger">
-                        *
-                      </span>{" "}
+                      Requerido <span className="text-danger">*</span>{" "}
                     </label>
-                    <input
-                      type="text"
-                      className="form-control form-control-sm"
-                    />
-                  </div>
-                </div>
-                <div className="col-md-12">
-                  <div className="form-group">
-                    <label>
-                      {" "}
-                      Tipo <span className="text-danger">*</span>{" "}
-                    </label>
-                    <select className="form-control form-control-sm">
-                      <optgroup label="Generico">
-                        <option>Consecutivo</option>
-                        <option>Numerico</option>
-                        <option>Alfanumerico</option>
-                        <option>Fecha</option>
-                        <option>Texto</option>
-                        <option>Archivo</option>
-                      </optgroup>
-                    </select>
                   </div>
                 </div>
               </div>

@@ -13,6 +13,35 @@ class ModalAddIndexes extends Component {
     };
   }
 
+  static getDerivedStateFromProps(props, state) {
+    if (props.authorization !== state.auth) {
+      return {
+        auth: props.authorization,
+        metadata: props.metadataid,
+        template: props.templateid,
+      };
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.authorization !== prevProps.authorization) {
+      this.setState({
+        auth: this.props.authorization,
+      });
+    }
+    if (this.props.metadataid !== prevProps.metadataid) {
+      this.setState({
+        metadata: this.props.metadataid,
+      });
+    }
+    if (this.props.templateid !== prevProps.templateid) {
+      this.setState({
+        template: this.props.templateid,
+      });
+    }
+  }
+
   toggle = () => {
     this.setState((prevState) => ({
       modal: !prevState.modal,
@@ -20,11 +49,10 @@ class ModalAddIndexes extends Component {
   };
 
   render() {
-    console.log(this.props);
     return (
       <div>
-        <Modal className="" isOpen={this.state.modal}>
-          <ModalHeader>Editar índice</ModalHeader>
+        <Modal className="modal-xl" isOpen={this.state.modal}>
+          <ModalHeader>Editar valores del Metadato</ModalHeader>
           <ModalBody>
             <form className="form">
               <div className="row">
@@ -74,7 +102,7 @@ class ModalAddIndexes extends Component {
           </ModalBody>
           <ModalFooter>
             <button type="button" className="btn btn-outline-success btn-sm">
-              <i className="fa fa-plus" /> Editar índice
+              <i className="fa fa-pencil" /> Editar índice
             </button>
             <button
               type="button"

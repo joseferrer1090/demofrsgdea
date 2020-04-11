@@ -129,7 +129,12 @@ class AddIndexPlantilla extends Component {
                             <td>
                               <button
                                 className="btn btn-secondary btn-sm mr-1"
-                                onClick={() => this.openModaEdit()}
+                                onClick={() => {
+                                  this.openModaEdit();
+                                  this.setState({
+                                    idSelectedTable: aux.id,
+                                  });
+                                }}
                               >
                                 <i className="fa fa-pencil" />{" "}
                               </button>
@@ -197,11 +202,14 @@ class AddIndexPlantilla extends Component {
           modaladdindexes={this.state.modaladd}
           template={this.props.match.params.id}
           refresh={() => {
-            window.location.reload();
+            this.getDataTemplateID(this.state.id, this.props.authorization);
           }}
           ref={this.parentRef} // asocio la referencia al componente hijo
         />
         <ModalEditIndexes
+          authorization={this.state.auth}
+          template={this.props.match.params.id}
+          metadata={this.state.idSelectedTable}
           modaleditindexes={this.state.modaledit}
           ref={(el) => (this.modalEdit = el)}
         />

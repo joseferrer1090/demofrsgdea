@@ -6,17 +6,21 @@ class ModalAddIndexes extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: this.props.modaleditindexes
+      modal: this.props.modaleditindexes,
+      auth: this.props.authorization,
+      template: this.props.templateid,
+      metadata: this.props.metadataid,
     };
   }
 
   toggle = () => {
-    this.setState(prevState => ({
-      modal: !prevState.modal
+    this.setState((prevState) => ({
+      modal: !prevState.modal,
     }));
   };
 
   render() {
+    console.log(this.props);
     return (
       <div>
         <Modal className="" isOpen={this.state.modal}>
@@ -90,7 +94,7 @@ class ModalAddIndexes extends Component {
 }
 
 ModalAddIndexes.propTypes = {
-  modaleditindexes: PropTypes.bool.isRequired
+  modaleditindexes: PropTypes.bool.isRequired,
 };
 
 export default ModalAddIndexes;

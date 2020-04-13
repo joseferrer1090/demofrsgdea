@@ -1,29 +1,44 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { eliminarMetadataAction } from "./../../../../actions/templateMetadataActions";
 import { Alert } from "reactstrap";
 
-const AssignedMetadata = props => {
-  const err = useSelector(state => state.templateMetadata.error);
+const AssignedMetadata = (props) => {
+  const err = useSelector((state) => state.templateMetadata.error);
   const [data, setData] = React.useState([]);
   const [error, setError] = React.useState();
 
   const dispatch = useDispatch();
-  const eliminar = id => dispatch(eliminarMetadataAction(id));
+  const eliminar = (id) => dispatch(eliminarMetadataAction(id));
+  const mounted = useRef(false);
 
-  React.useEffect(() => {
-    setData(props.data);
+  // Validand el porps que viene del padre y el componenDidUpdate
+  useEffect(() => {
+    if (!mounted.current) {
+      mounted.current = true;
+    } else {
+      if (props.data !== undefined || props.data !== null) {
+        setData(props.data);
+      }
+    }
     setError(err);
   }, [props.data, err]);
+  console.log(useSelector((state) => state));
 
+  // React.useEffect(() => {
+  //   if (props.data !== undefined || props.data !== null) {
+  //     setData(props.data);
+  //   }
+  //   setError(err);
+  // }, [props.data, err]);
   return (
     <div className="animation fadeIn">
       <Alert color={"danger"} isOpen={error} toggle={() => setError(false)}>
         <i className="fa fa-exclamation-triangle" /> Error no se puede agregar
         varias veces el mismo metadato a la plantilla.
       </Alert>
-      <div className="table-responseive">
-        {data.length ? (
+      <div className="table-responsive">
+        {Object.keys(data).length ? (
           <div className="animated fadeIn">
             <table className="table table-striped table-hover">
               <thead>

@@ -734,3 +734,20 @@ export const METADATA_DETAIL_PUT = `${config.IP}:${config.PORT}/api/sgdea/servic
 
 /* DELETE params in url idDetail */
 export const METADATA_DETAIL_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/metadata/bag/detail/`;
+
+//--------------------------------------------- TEMPLATE_METADATA_BAG -----------------------------------------------------//
+
+/* POST */
+export const TEMPLATE_METADATA_BAG_CREATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag`;
+
+/* PUT */
+export const TEMPLATE_METADATA_BAG_UPDATE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag`;
+
+/* DELETE params => IdMetadata Y username */
+export const TEMPLATE_METADATA_BAG_DELETE = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag`;
+
+/* GET params => IdTemplate */
+export const TEMPLATE_METADATA_BAG_FIND_BY_TEMPLATE_ID = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag/find/template/`;
+
+/* GET params => IdMetadata */
+export const TEMPLATE_METADATA_BAG_VIEW = `${config.IP}:${config.PORT}/api/sgdea/service/configuration/template/metadata/bag/`;

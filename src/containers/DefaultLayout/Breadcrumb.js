@@ -207,7 +207,7 @@ let routes = [
   {
     path: "/configuracion/plantilla/addindexes",
     exact: true,
-    name: "Agregar indices de datos",
+    name: "Edicion estructura de la plantilla",
     component: null
   }
 ];

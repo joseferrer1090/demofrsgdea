@@ -319,10 +319,15 @@ const routes = [
     component: EditPlantilla
   },
   {
-    path: "/configuracion/plantilla/addindexes",
+    path: `/configuracion/plantilla/addindexes/:id`,
     exact: true,
-    name: "Agregar indices de datos",
-    component: AddIndexPlantilla
+    name: "Edicion estructura de la plantilla",
+    component: props => (
+      <AddIndexPlantilla
+        {...props}
+        authorization={localStorage.getItem("auth_token")}
+      />
+    )
   },
   {
     path: "/configuracion/radicacionemail",

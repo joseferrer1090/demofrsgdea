@@ -5,7 +5,7 @@ import { Formik, ErrorMessage, Field } from "formik";
 import {
   PARAMETERS_FIND_BY_ID,
   PARAMTERS_UPDATE,
-  PARAMETERS_INPUTS
+  PARAMETERS_INPUTS,
 } from "./../../../services/EndPoints";
 import * as Yup from "yup";
 import { decode } from "jsonwebtoken";
@@ -116,39 +116,40 @@ class ModalEditParameter extends Component {
       alertSuccess: false,
       alertError: false,
       alertError500: false,
-      valor: null
+      valor: null,
+      t: this.props.t,
     };
   }
 
-  toggle = id => {
+  toggle = (id) => {
     this.setState({
       id: id,
-      modal: !this.state.modal
+      modal: !this.state.modal,
     });
     //console.log(this.state.dataResult);
     this.getDataParametar(id);
   };
 
-  getDataParametar = id => {
+  getDataParametar = (id) => {
     fetch(`${PARAMETERS_INPUTS}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
           data: data,
-          dataResult: data.dataForm
+          dataResult: data.dataForm,
         });
       })
-      .catch(err => console.log(`err => ${err}`));
+      .catch((err) => console.log(`err => ${err}`));
   };
-  _handleChange = e => {
+  _handleChange = (e) => {
     this.setState({
-      valor: e.currentTarget.value
+      valor: e.currentTarget.value,
     });
   };
 
@@ -157,23 +158,26 @@ class ModalEditParameter extends Component {
     for (const key in this.state.dataResult) {
       aux.push({
         id: key,
-        inputInfo: this.state.dataResult[key]
+        inputInfo: this.state.dataResult[key],
       });
     }
     console.log(aux);
     // console.log(
     //   aux.map(element => console.log(`${element.inputInfo.elementConfig.name}`))
     // );
-
+    const { t } = this.state;
     return (
       <Modal className="" isOpen={this.state.modal} onClick={() => this.toogle}>
-        <ModalHeader>Parametro {this.state.data.parameter}</ModalHeader>
+        <ModalHeader>
+          {t("app_parametros_generales_modal_accion_title")}{" "}
+          {this.state.data.parameter}
+        </ModalHeader>
         <Formik
           enableReinitialize={true}
           initialValues={{
             parameter: this.state.data.parameter,
             description: this.state.data.description,
-            value: this.state.valor
+            value: this.state.valor,
           }}
           validationSchema={Yup.object().shape({})}
           onSubmit={(values, { setSubmitting, props }) => {
@@ -184,50 +188,50 @@ class ModalEditParameter extends Component {
                 method: "PUT",
                 headers: {
                   "Content-Type": "application/json",
-                  Authorization: "Bearer " + this.state.auth
+                  Authorization: "Bearer " + this.state.auth,
                 },
                 body: JSON.stringify({
                   parameter: values.parameter,
                   value: values.value,
-                  username: user.user_name
-                })
+                  username: user.user_name,
+                }),
               })
-                .then(response => {
+                .then((response) => {
                   if (response.ok) {
                     this.setState({
-                      alertSuccess: true
+                      alertSuccess: true,
                     });
                     setTimeout(() => {
                       this.setState(
                         {
                           alertSuccess: false,
-                          modal: false
+                          modal: false,
                         },
                         this.props.updateTable()
                       );
                     }, 3000);
                   } else if (response.status === 400) {
                     this.setState({
-                      alertError: true
+                      alertError: true,
                     });
                     setTimeout(() => {
                       this.setState({
-                        alertError: false
+                        alertError: false,
                       });
                     }, 3000);
                   } else if (response.status === 500) {
                     this.setState({
-                      alertError500: true
+                      alertError500: true,
                     });
                     setTimeout(() => {
                       this.setState({
-                        alertError500: false
+                        alertError500: false,
                       });
                     }, 3000);
                   }
                   console.log(response.json());
                 })
-                .catch(error => {
+                .catch((error) => {
                   console.log(`${error}`);
                 });
               console.log(values);
@@ -237,7 +241,7 @@ class ModalEditParameter extends Component {
             }, 10);
           }}
         >
-          {props => {
+          {(props) => {
             const {
               values,
               touched,
@@ -247,7 +251,7 @@ class ModalEditParameter extends Component {
               handleSubmit,
               handleReset,
               setFieldValue,
-              setFieldTouched
+              setFieldTouched,
             } = props;
             return (
               <React.Fragment>
@@ -260,7 +264,7 @@ class ModalEditParameter extends Component {
                         this.setState({ alertSuccess: false });
                       }}
                     >
-                      Se actualizo el Parametro del sistema
+                      {t("app_parametros_generales_modal_accion_alert_200")}
                     </Alert>
                     <Alert
                       color={"danger"}
@@ -269,8 +273,8 @@ class ModalEditParameter extends Component {
                         this.setState({ alertError: false });
                       }}
                     >
-                      <i className="fa fa-exclamation-triangle" /> Error al
-                      actualizar el parametro, verifique el valor ingresado
+                      <i className="fa fa-exclamation-triangle" />{" "}
+                      {t("app_parametros_generales_modal_accion_alert_400")}
                     </Alert>
                     <Alert
                       color={"danger"}
@@ -279,14 +283,18 @@ class ModalEditParameter extends Component {
                         this.setState({ alertError500: false });
                       }}
                     >
-                      <i className="fa fa-exclamation-triangle" /> Error al
-                      actualizar verifique con el administrador
+                      <i className="fa fa-exclamation-triangle" />{" "}
+                      {t("app_parametros_generales_modal_accion_alert_500")}
                     </Alert>
                     <div className="table-responseive">
                       <table className="table table-striped table-condensed ">
                         <tbody>
                           <tr>
-                            <td>Parametro </td>
+                            <td>
+                              {t(
+                                "app_parametros_generales_modal_accion_parametro"
+                              )}{" "}
+                            </td>
                             <td>
                               <input
                                 className="form-control form-control-sm"
@@ -298,7 +306,11 @@ class ModalEditParameter extends Component {
                             </td>
                           </tr>
                           <tr>
-                            <td>Descripcion</td>
+                            <td>
+                              {t(
+                                "app_parametros_generales_modal_accion_descripcion"
+                              )}
+                            </td>
                             <td>
                               <textarea
                                 rows={3}
@@ -311,7 +323,11 @@ class ModalEditParameter extends Component {
                             </td>
                           </tr>
                           <tr>
-                            <td>Valor del parametro</td>
+                            <td>
+                              {t(
+                                "app_parametros_generales_modal_accion_valor_parametro"
+                              )}
+                            </td>
                             <td>
                               {aux.map((element, id) => (
                                 <Field name={`${element.id}`}>
@@ -319,7 +335,7 @@ class ModalEditParameter extends Component {
                                     <InpuDynamics
                                       key={id}
                                       formType={element.inputInfo.type}
-                                      onChange={e => {
+                                      onChange={(e) => {
                                         setFieldValue(
                                           "value",
                                           e.currentTarget.value
@@ -378,20 +394,22 @@ class ModalEditParameter extends Component {
                   <button
                     type={"button"}
                     className="btn btn-secondary btn-sm"
-                    onClick={e => {
+                    onClick={(e) => {
                       e.preventDefault();
                       handleSubmit();
                     }}
                   >
                     {" "}
-                    Editar <i className="fa fa-pencil" />{" "}
+                    {t("app_parametros_generales_modal_accion_btn_editar")}{" "}
+                    <i className="fa fa-pencil" />{" "}
                   </button>
                   <button
                     className="btn btn-secondary btn-sm"
                     onClick={() => this.setState({ modal: false })}
                   >
                     {" "}
-                    Cerrar <i className="fa fa-times" />{" "}
+                    {t("app_parametros_generales_modal_accion_btn_cerrar")}{" "}
+                    <i className="fa fa-times" />{" "}
                   </button>
                 </ModalFooter>
               </React.Fragment>
@@ -405,7 +423,7 @@ class ModalEditParameter extends Component {
 
 ModalEditParameter.propTypes = {
   authorization: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
 };
 
 export default ModalEditParameter;

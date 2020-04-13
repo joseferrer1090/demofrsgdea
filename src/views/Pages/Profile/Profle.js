@@ -7,7 +7,7 @@ import {
   ListGroup,
   ListGroupItem,
   Badge,
-  Spinner
+  Spinner,
 } from "reactstrap";
 import Tabinformaction from "./components/TabProfile";
 import { withTranslation } from "react-i18next";
@@ -16,14 +16,14 @@ import { SEARCH_BY_USERNAME } from "../../../services/EndPoints";
 import PhotoUser from "./components/PhotoUser";
 
 const asyncLocalStorage = {
-  setItem: async function(key, value) {
+  setItem: async function (key, value) {
     await null;
     return localStorage.setItem(key, value);
   },
-  getItem: async function(key) {
+  getItem: async function (key) {
     await null;
     return localStorage.getItem(key);
-  }
+  },
 };
 
 class Profle extends Component {
@@ -35,7 +35,7 @@ class Profle extends Component {
       dataRoles: [],
       authToken: "",
       idUser: "",
-      spinner: true
+      spinner: true,
     };
     this.inputOpenFileRef = React.createRef();
   }
@@ -47,42 +47,43 @@ class Profle extends Component {
   getDataLocal = () => {
     asyncLocalStorage
       .getItem("user")
-      .then(resp => {
+      .then((resp) => {
         return JSON.parse(resp);
       })
-      .then(resp => {
+      .then((resp) => {
         this.getInfoUser(resp.data.access_token);
         this.setState({
-          authToken: resp.data.access_token
+          authToken: resp.data.access_token,
         });
       });
   };
 
-  getInfoUser = auth => {
+  getInfoUser = (auth) => {
     const username = decode(auth);
     fetch(`${SEARCH_BY_USERNAME}/?username=${username.user_name}`, {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
         this.setState({
           data: data,
           dataRoles: data.roles,
+          // dataRoles: data.charge,
           idUser: data.id,
-          spinner: false
+          spinner: false,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   listRoles = () => {
     let lista;
     this.state.dataRoles.map((aux, id) => {
-      console.log(aux.name);
       lista = (
         <ListGroup>
           <ListGroupItem className="justify-content-between">
@@ -102,10 +103,8 @@ class Profle extends Component {
       name: data.name,
       phone: data.phone,
       email: data.email,
-      roles: data.roles
+      roles: data.roles,
     };
-    // console.log(this.state.dataRoles);
-    console.log(this.state.idUser);
     return (
       <div className="animated fadeIn">
         <Row>
@@ -145,7 +144,6 @@ class Profle extends Component {
                 <i className="icon-lock" /> {t("user_profile_rol_permission")}{" "}
               </div>
               {this.state.dataRoles.map((aux, id) => {
-                // console.log(aux);
                 return (
                   <ListGroup>
                     <ListGroupItem className="justify-content-between">

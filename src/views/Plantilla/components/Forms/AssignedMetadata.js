@@ -6,7 +6,7 @@ import { Alert } from "reactstrap";
 const AssignedMetadata = (props) => {
   const err = useSelector((state) => state.templateMetadata.error);
   const [data, setData] = React.useState([]);
-  const [error, setError] = React.useState(err);
+  const [error, setError] = React.useState();
 
   const dispatch = useDispatch();
   const eliminar = (id) => dispatch(eliminarMetadataAction(id));
@@ -21,6 +21,7 @@ const AssignedMetadata = (props) => {
         setData(props.data);
       }
     }
+    setError(err);
   }, [props.data, err]);
   console.log(useSelector((state) => state));
 

@@ -6,14 +6,13 @@ import { Alert } from "reactstrap";
 const AssignedMetadata = (props) => {
   const err = useSelector((state) => state.templateMetadata.error);
   const [data, setData] = React.useState([]);
-  const [error, setError] = React.useState();
+  const [error, setError] = React.useState(err);
 
   const dispatch = useDispatch();
   const eliminar = (id) => dispatch(eliminarMetadataAction(id));
   const mounted = useRef(false);
 
   // Validand el porps que viene del padre y el componenDidUpdate
-
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
@@ -22,8 +21,8 @@ const AssignedMetadata = (props) => {
         setData(props.data);
       }
     }
-    setError(err);
   }, [props.data, err]);
+  console.log(useSelector((state) => state));
 
   // React.useEffect(() => {
   //   if (props.data !== undefined || props.data !== null) {
@@ -31,7 +30,6 @@ const AssignedMetadata = (props) => {
   //   }
   //   setError(err);
   // }, [props.data, err]);
-
   return (
     <div className="animation fadeIn">
       <Alert color={"danger"} isOpen={error} toggle={() => setError(false)}>

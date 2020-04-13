@@ -53,6 +53,7 @@ export default function (state = initialState, action) {
       );
       if (indexe === -1) {
         return {
+          ...state,
           metadataedit: [...state.metadataedit, action.payload],
         };
       } else {

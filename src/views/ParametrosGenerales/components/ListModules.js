@@ -4,10 +4,11 @@ import { Row, ListGroup, ListGroupItem, Col } from "reactstrap";
 import { MODULE_ALL } from "./../../../services/EndPoints";
 import classNames from "classnames";
 
-const ListModules = props => {
+const ListModules = (props) => {
   const [auth, setAuht] = useState(props.authorization);
   const [response, setResponse] = useState([]);
   const [ID, setID] = useState("");
+  const [t, setT] = useState(props.t);
 
   useEffect(() => {
     getDataModules();
@@ -18,37 +19,53 @@ const ListModules = props => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + auth
-      }
+        Authorization: "Bearer " + auth,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
         setResponse(data);
         console.log(data);
       })
-      .catch(err => console.log(`error => ${err}`));
+      .catch((err) => console.log(`error => ${err}`));
   };
-
   return (
     <Col xs="4">
       <ListGroup>
-        {response.map(aux => {
+        {response.map((aux) => {
+          let name;
+          if (aux.name === "Correspondencia") {
+            name = (
+              <span>
+                {props.t("app_parametros_generales_modulo_correspondencia")}
+              </span>
+            );
+          } else if (aux.name === "Configuración") {
+            name = (
+              <span>
+                {props.t("app_parametros_generales_modulo_configuracion")}
+              </span>
+            );
+          }
+
           return (
             <ListGroupItem
               tag={"button"}
               action
               dataId={aux.id}
               onClick={
-                (function() {
+                (function () {
                   setID(aux.id);
                 },
                 () => props.onDataSelected(aux.id))
               }
               className={classNames({
-                "list-group-item": true
+                "list-group-item": true,
               })}
             >
-              {aux.name}
+              {/* {aux.name} */}
+              {name}
               <span className="badge bad">
                 <i className="fa fa-arrow-circle-right " />
               </span>

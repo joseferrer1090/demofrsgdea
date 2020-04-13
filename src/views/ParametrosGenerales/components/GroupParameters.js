@@ -11,7 +11,7 @@ import {
   Row,
   Col,
   CardGroup,
-  TabContent
+  TabContent,
 } from "reactstrap";
 
 class GroupParameters extends React.Component {
@@ -21,19 +21,20 @@ class GroupParameters extends React.Component {
       id: this.props.moduleID,
       auth: this.props.authorization,
       listGroup: [],
-      selectedGroup: ""
+      selectedGroup: "",
+      t: this.props.t,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
     if (props.id !== state.id) {
       return {
-        id: props.moduleID
+        id: props.moduleID,
       };
     }
     return null;
@@ -47,32 +48,32 @@ class GroupParameters extends React.Component {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
         auth: this.props.authorization,
-        id: this.props.moduleID
+        id: this.props.moduleID,
       });
     }
   }
 
-  getDataParamatersByModules = id => {
+  getDataParamatersByModules = (id) => {
     fetch(`${PARAMETER_GROUP_FIND_BY_MODULE_ID}/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          listGroup: data
+          listGroup: data,
         });
       })
-      .catch(err => console.log(`Error => ${err}`));
+      .catch((err) => console.log(`Error => ${err}`));
   };
 
-  send = data => {
+  send = (data) => {
     this.setState(
       {
-        selectedGroup: data.id
+        selectedGroup: data.id,
       },
       this.props.onDataFetch
     );
@@ -80,6 +81,7 @@ class GroupParameters extends React.Component {
 
   render() {
     // console.log(this.props);
+    const { t } = this.state;
     const listGroup = this.state.listGroup;
     return (
       <div className="animated animated-fadeIn">
@@ -87,6 +89,7 @@ class GroupParameters extends React.Component {
           {listGroup.length ? (
             listGroup.map((aux, id) => (
               <CardGroupItem
+                t={this.state.t}
                 name={aux.name}
                 onClick={
                   (() => {
@@ -100,7 +103,7 @@ class GroupParameters extends React.Component {
             <Col sm={{ size: 12 }}>
               <Card body>
                 <p className="text-center">
-                  Seleccione un modulo para filtrar la lista de parametros
+                  {t("app_parametros_generales_seleccion_modulo")}
                 </p>
               </Card>
             </Col>
@@ -111,7 +114,8 @@ class GroupParameters extends React.Component {
   }
 }
 
-const CardGroupItem = props => {
+const CardGroupItem = (props) => {
+  const { t } = props.t;
   return (
     <Col sm={{ size: "4" }}>
       <Card>
@@ -126,7 +130,9 @@ const CardGroupItem = props => {
             onClick={props.onClick}
             className="btn btn-secondary btn-sm btn-block"
           >
-            Seleccionar
+            {props.t(
+              "app_parametros_generales_seleccion_modulo_btn_seleccionar"
+            )}
           </button>
         </CardBody>
       </Card>

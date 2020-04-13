@@ -17,7 +17,7 @@ import {
   ListGroupItem,
   Badge,
   ListGroupItemHeading,
-  ListGroupItemText
+  ListGroupItemText,
 } from "reactstrap";
 import classnames from "classnames";
 import { withTranslation } from "react-i18next";
@@ -33,7 +33,7 @@ class ParametrosGenerales extends Component {
     this.state = {
       activeTab: 1,
       idListModule: {},
-      idGroup: {}
+      idGroup: {},
     };
   }
 
@@ -44,7 +44,7 @@ class ParametrosGenerales extends Component {
   toggle(tab) {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   }
@@ -54,9 +54,9 @@ class ParametrosGenerales extends Component {
     console.log(this.props.authorization);
   };
 
-  onDataSelected = props => {
+  onDataSelected = (props) => {
     this.setState({
-      idListModule: props
+      idListModule: props,
     });
   };
 
@@ -70,21 +70,23 @@ class ParametrosGenerales extends Component {
             <Card>
               <CardHeader>
                 <i className="fa fa-cogs"></i>
-                Parametro generales del Sistema{" "}
+                {t("app_parametros_generales_title")}{" "}
               </CardHeader>
               <CardBody>
                 <Row>
                   <Listmodules
                     authorization={this.props.authorization}
                     onDataSelected={this.onDataSelected}
+                    t={t}
                   />
                   <Col xs="8">
                     <GroupParameter
+                      t={t}
                       moduleID={this.state.idListModule}
                       authorization={this.props.authorization}
-                      onDataFetch={props => {
+                      onDataFetch={(props) => {
                         this.setState({
-                          idGroup: props
+                          idGroup: props,
                         });
                         // console.log(props);
                       }}
@@ -96,6 +98,7 @@ class ParametrosGenerales extends Component {
                 <TableContentParameters
                   idGroup={this.state.idGroup}
                   authorization={this.props.authorization}
+                  t={t}
                 />
               </CardBody>
             </Card>

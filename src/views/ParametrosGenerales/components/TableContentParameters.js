@@ -3,7 +3,7 @@ import PropTypes, { resetWarningCache } from "prop-types";
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 import {
   PARAMETERS_FIND_BY_PARAMETER_GROUP_ID,
-  PARAMETERS_ALL
+  PARAMETERS_ALL,
 } from "./../../../services/EndPoints";
 import ModalEdit from "./../components/ModalEditParameter";
 
@@ -14,14 +14,15 @@ class TableContentParameter extends Component {
       auth: this.props.authorization,
       id: this.props.idGroup,
       dataParameters: [],
-      modal: false
+      modal: false,
+      t: this.props.t,
     };
   }
 
   static getDerivedStateFromProps(props, state) {
     if (props.idGroup !== state.id) {
       return {
-        id: props.idGroup
+        id: props.idGroup,
       };
     }
     return null;
@@ -30,27 +31,27 @@ class TableContentParameter extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.idGroup !== prevProps.idGroup) {
       this.setState({
-        id: this.props.idGroup
+        id: this.props.idGroup,
       });
       this.getDataParameterByIdGroup(this.state.id);
     }
   }
 
-  getDataParameterByIdGroup = id => {
+  getDataParameterByIdGroup = (id) => {
     fetch(`${PARAMETERS_FIND_BY_PARAMETER_GROUP_ID}${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataParameters: data
+          dataParameters: data,
         });
       })
-      .catch(err => console.log(`err => ${err}`));
+      .catch((err) => console.log(`err => ${err}`));
   };
 
   componentDidMount() {
@@ -62,16 +63,16 @@ class TableContentParameter extends Component {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + this.props.authorization
-      }
+        Authorization: "Bearer " + this.props.authorization,
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          dataParameters: data
+          dataParameters: data,
         });
       })
-      .catch(err => `err => ${err}`);
+      .catch((err) => `err => ${err}`);
   };
 
   indexN(cell, row, enumObject, index) {
@@ -89,18 +90,19 @@ class TableContentParameter extends Component {
     );
   }
 
-  openModalEdit = id => {
+  openModalEdit = (id) => {
     this.refs.child.toggle(id);
   };
 
   render() {
+    const { t } = this.state;
     return (
       <div className="row">
         <div className="col-md-12">
           <BootstrapTable
             data={this.state.dataParameters}
             search
-            searchPlaceholder={"Buscar Parametro"}
+            searchPlaceholder={t("app_parametros_generales_table_placeholder")}
             pagination
             striped
             hover
@@ -115,24 +117,24 @@ class TableContentParameter extends Component {
               dataAlign="center"
               width={"300"}
             >
-              Parametro
+              {t("app_parametros_generales_table_parametro")}
             </TableHeaderColumn>
             <TableHeaderColumn dataField={"description"} dataAlign={"center"}>
               {" "}
-              Descripcion{" "}
+              {t("app_parametros_generales_table_descripcion")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn dataField={"parameterType"} dataAlign={"center"}>
-              Tipo de parametro{" "}
+              {t("app_parametros_generales_table_tipo_parametro")}{" "}
             </TableHeaderColumn>
             <TableHeaderColumn dataField={"value"} dataAlign={"center"}>
               {" "}
-              Valor del parametro
+              {t("app_parametros_generales_table_valor_parametro")}
             </TableHeaderColumn>
             <TableHeaderColumn
               dataAlign={"center"}
               dataFormat={(cell, row) => this.accionesParametros(cell, row)}
             >
-              Accion
+              {t("app_parametros_generales_table_accion")}
             </TableHeaderColumn>
           </BootstrapTable>
         </div>
@@ -143,6 +145,7 @@ class TableContentParameter extends Component {
             this.getDataParameters();
           }}
           ref={"child"}
+          t={this.state.t}
         />
       </div>
     );
@@ -151,7 +154,7 @@ class TableContentParameter extends Component {
 
 TableContentParameter.propTypes = {
   authorization: PropTypes.string.isRequired,
-  idGroup: PropTypes.string.isRequired
+  idGroup: PropTypes.string.isRequired,
 };
 
 export default TableContentParameter;

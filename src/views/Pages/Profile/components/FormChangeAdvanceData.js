@@ -6,7 +6,7 @@ import {
   CardBody,
   CardHeader,
   ListGroupItem,
-  ListGroup
+  ListGroup,
 } from "reactstrap";
 import { withTranslation } from "react-i18next";
 import { SEARCH_BY_USERNAME } from "../../../../services/EndPoints";
@@ -23,15 +23,16 @@ class FormChangeAdvanceData extends Component {
         dependencia: "",
         cargo: "",
         roles: "",
-        permisos: ""
+        permisos: "",
       },
-      dataRoles: []
+      dataRoles: [],
+      dataPermisos: [],
     };
   }
   static getDerivedStaticFromProps(props, state) {
     if (props.auhorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -39,7 +40,7 @@ class FormChangeAdvanceData extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
       setTimeout(() => {
         this.getProfileByID();
@@ -54,11 +55,11 @@ class FormChangeAdvanceData extends Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         console.log(data);
         this.setState({
           dataPut: {
@@ -68,12 +69,13 @@ class FormChangeAdvanceData extends Component {
             dependencia: data.dependence.name,
             cargo: data.charge.name,
             roles: "",
-            permisos: ""
+            permisos: "",
           },
-          dataRoles: data.roles
+          dataRoles: data.roles,
+          dataPermisos: data.permissions,
         });
       })
-      .catch(Error => console.log(" ", Error));
+      .catch((Error) => console.log(" ", Error));
   };
 
   render() {
@@ -148,7 +150,18 @@ class FormChangeAdvanceData extends Component {
                       </tr>
                       <tr>
                         <td>{t("user_profile_tab_2_from_data_2_permisos")}:</td>
-                        <td> </td>
+                        <td>
+                          {this.state.dataPermisos.map((aux, id) => {
+                            // console.log(aux);
+                            return (
+                              <ListGroup>
+                                <ListGroupItem className="justify-content-between">
+                                  {aux.name}{" "}
+                                </ListGroupItem>
+                              </ListGroup>
+                            );
+                          })}{" "}
+                        </td>
                       </tr>
                     </tbody>
                   </table>

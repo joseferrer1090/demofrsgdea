@@ -17,13 +17,28 @@ class ModalEditIndexText extends Component {
   };
   render() {
     return (
-      <Modal isOpen={this.state.modal}>
-        <ModalHeader>Probando apenas</ModalHeader>
+      <Modal className="modal-lg" isOpen={this.state.modal}>
+        <ModalHeader>Editar valores del metadato</ModalHeader>
         <ModalBody>
-          <p>probando apenas mi idea</p>
+          <form className="form">
+            <div className="form-group">
+              <label>Requerido</label>
+              <input type="checkbox" />
+            </div>
+            <div className="form-group">
+              <label>Formula</label>
+              <input type="checkbox" />
+            </div>
+          </form>
+          <Input formType="text" />
         </ModalBody>
         <ModalFooter>
           <div className="float-right">
+            <button className="btn btn-outline-success btn-sm">
+              {" "}
+              <i className="fa fa-pencil" /> Editar metadato{" "}
+            </button>
+            &nbsp;
             <button
               type="button"
               className="btn btn-secondary btn-sm"

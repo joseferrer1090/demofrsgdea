@@ -8,6 +8,7 @@ import ModalAddIndexes from "./ModalAddIndexes";
 import ModalEditIndexes from "./ModalEditIndex";
 import ModalDeleteIndex from "./ModalDeleteIndex";
 import ModalMultiple from "./ModalDeleteMultipleIndex";
+import ModalEditText from "./ModalEditIndexText";
 import PropTypes from "prop-types";
 import { decode } from "jsonwebtoken";
 
@@ -85,9 +86,42 @@ class AddIndexPlantilla extends Component {
     this.modalDel.toggle();
   }
 
-  openModalMult() {
-    this.refs.child4.toggle();
+  openModalEditText() {
+    this.modaEditText.toggle();
   }
+
+  renderModal = (data) => {
+    let aux;
+    if (data === "checkbox" || data === "select" || data === "radio") {
+      aux = (
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModaEdit();
+            this.setState({
+              idSelectedTable: aux.id,
+            });
+          }}
+        >
+          <i className="fa fa-pencil" />
+        </button>
+      );
+    } else if (data === "text" || data === "date" || data === "textarea") {
+      aux = (
+        <button
+          type="button"
+          className="btn btn-secondary btn-sm"
+          onClick={() => {
+            this.openModalEditText();
+          }}
+        >
+          <i className="fa fa-pencil" />
+        </button>
+      );
+    }
+    return aux;
+  };
 
   render() {
     return (
@@ -127,7 +161,8 @@ class AddIndexPlantilla extends Component {
                             <td>{aux.metadataBag.name}</td>
                             <td>{aux.metadataBag.inputType}</td>
                             <td>
-                              <button
+                              {this.renderModal(aux.metadataBag.inputType)}
+                              {/* <button
                                 className="btn btn-secondary btn-sm mr-1"
                                 onClick={() => {
                                   this.openModaEdit();
@@ -137,7 +172,8 @@ class AddIndexPlantilla extends Component {
                                 }}
                               >
                                 <i className="fa fa-pencil" />{" "}
-                              </button>
+                              </button> */}
+                              &nbsp;
                               <button
                                 className="btn btn-danger btn-sm mr-1"
                                 onClick={() => {
@@ -222,10 +258,10 @@ class AddIndexPlantilla extends Component {
           }
           ref={(el) => (this.modalDel = el)}
         />
-        <ModalMultiple
-          modaldeletemultiple={this.state.modalmul}
-          ref={"child4"}
-        />
+        <ModalEditText
+          authorization={this.state.auth}
+          ref={(el) => (this.modaEditText = el)}
+        ></ModalEditText>
       </div>
     );
   }

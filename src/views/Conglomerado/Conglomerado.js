@@ -7,7 +7,7 @@ import {
   NavItem,
   NavLink,
   Row,
-  Col
+  Col,
 } from "reactstrap";
 import classnames from "classnames";
 import FormCreate from "./components/FormCreateConglomerado";
@@ -17,14 +17,14 @@ import { withTranslation } from "react-i18next";
 import { decode } from "jsonwebtoken";
 
 const asyncLocalStorage = {
-  setItem: async function(key, value) {
+  setItem: async function (key, value) {
     await null;
     return localStorage.setItem(key, value);
   },
-  getItem: async function(key) {
+  getItem: async function (key) {
     await null;
     return localStorage.getItem(key);
-  }
+  },
 };
 
 class Conglomerado extends React.Component {
@@ -32,7 +32,7 @@ class Conglomerado extends React.Component {
     super(props);
     this.state = {
       activeTab: "1",
-      authToken: ""
+      authToken: "",
     };
   }
 
@@ -43,21 +43,20 @@ class Conglomerado extends React.Component {
   getDataLocal = () => {
     asyncLocalStorage
       .getItem("user")
-      .then(resp => {
+      .then((resp) => {
         return JSON.parse(resp);
       })
-      .then(resp => {
-        console.log(decode(resp.data.access_token));
+      .then((resp) => {
         this.setState({
-          authToken: resp.data.access_token
+          authToken: resp.data.access_token,
         });
       });
   };
 
-  toggle = tab => {
+  toggle = (tab) => {
     if (this.state.activeTab !== tab) {
       this.setState({
-        activeTab: tab
+        activeTab: tab,
       });
     }
   };
@@ -128,7 +127,7 @@ class Conglomerado extends React.Component {
 }
 
 Conglomerado.propTypes = {
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default withTranslation("translations")(Conglomerado);

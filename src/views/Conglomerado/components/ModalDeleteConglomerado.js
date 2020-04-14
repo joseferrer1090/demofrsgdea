@@ -17,12 +17,13 @@ class ModalDeleteConglomerado extends React.Component {
     code: "",
     nameCompany: "",
     username: "",
-    auth: this.props.authorization
+    auth: this.props.authorization,
+    spinnerDelete: false,
   };
   static getDerivedStateFromProps(props, state) {
     if (props.authorization !== state.auth) {
       return {
-        auth: props.authorization
+        auth: props.authorization,
       };
     }
   }
@@ -30,16 +31,16 @@ class ModalDeleteConglomerado extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.props.authorization !== prevProps.authorization) {
       this.setState({
-        auth: this.props.authorization
+        auth: this.props.authorization,
       });
     }
   }
-  toggle = id => {
+  toggle = (id) => {
     this.setState(
       {
         modal: !this.state.modal,
         idConglomerado: id,
-        useLogged: "jferrer"
+        useLogged: "jferrer",
       },
       () => this.props.updateTable()
     );
@@ -49,29 +50,29 @@ class ModalDeleteConglomerado extends React.Component {
       method: "GET",
       headers: {
         Authorization: "Bearer " + auth,
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
-      .then(response => response.json())
-      .then(data => {
+      .then((response) => response.json())
+      .then((data) => {
         this.setState({
-          nameCompany: data.name
+          nameCompany: data.name,
         });
       })
-      .catch(Error => console.log(Error));
+      .catch((Error) => console.log(Error));
   };
 
   onDismiss = () => {
     this.setState({
       alertError500: false,
       alertError400: false,
-      alertSuccess: false
+      alertSuccess: false,
     });
   };
 
   render() {
     const dataInitial = {
-      code: ""
+      code: "",
     };
     const { t } = this.props;
     return (
@@ -86,6 +87,9 @@ class ModalDeleteConglomerado extends React.Component {
           <Formik
             initialValues={dataInitial}
             onSubmit={(values, setSubmitting) => {
+              this.setState({
+                spinnerDelete: true,
+              });
               setTimeout(() => {
                 const auth = this.state.auth;
                 const username = decode(auth);
@@ -95,53 +99,57 @@ class ModalDeleteConglomerado extends React.Component {
                     method: "DELETE",
                     headers: {
                       "Content-Type": "application/json",
-                      Authorization: "Bearer " + auth
-                    }
+                      Authorization: "Bearer " + auth,
+                    },
                   }
                 )
-                  .then(response => {
+                  .then((response) => {
                     console.log(response);
                     if (response.status === 500) {
                       this.setState({
-                        alertError500: true
+                        alertError500: true,
+                        spinnerDelete: false,
                       });
                     } else if (response.status === 204) {
                       this.setState(
                         {
-                          alertSuccess: true
+                          alertSuccess: true,
+                          spinnerDelete: false,
                         },
                         () => this.props.updateTable()
                       );
                       setTimeout(() => {
                         this.setState({
                           modal: false,
-                          alertSuccess: false
+                          alertSuccess: false,
                         });
                       }, 3000);
                     } else if (response.status === 400) {
                       this.setState({
-                        alertError400: true
+                        alertError400: true,
+                        spinnerDelete: false,
                       });
                     }
                   })
-                  .catch(error => console.log("", error));
+                  .catch((error) => console.log("", error));
                 // alert(JSON.stringify(values, "", 2))
               }, 1000);
             }}
             validationSchema={Yup.object().shape({
               code: Yup.string().required(
                 " Por favor introduzca el codigo del conglomerado."
-              )
+              ),
             })}
           >
-            {props => {
+            {(props) => {
               const {
                 values,
                 touched,
                 errors,
                 handleChange,
                 handleBlur,
-                handleSubmit
+                handleSubmit,
+                isSubmitting,
               } = props;
               return (
                 <Fragment>
@@ -184,9 +192,9 @@ class ModalDeleteConglomerado extends React.Component {
                         onChange={handleChange}
                         onBlur={handleBlur}
                         value={values.code}
-                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${errors.code &&
-                          touched.code &&
-                          "is-invalid"}`}
+                        className={`form-control form-control-sm col-sm-6 offset-sm-3 ${
+                          errors.code && touched.code && "is-invalid"
+                        }`}
                       />
                       <div className="text-center" style={{ color: "#D54B4B" }}>
                         {errors.code && touched.code ? (
@@ -206,14 +214,25 @@ class ModalDeleteConglomerado extends React.Component {
                       <button
                         type="submit"
                         className="btn btn-outline-danger btn-sm"
-                        onClick={e => {
+                        onClick={(e) => {
                           e.preventDefault();
                           handleSubmit();
+                          // this.setState({
+                          //   spinnerDelete: true,
+                          // });
                         }}
+                        disabled={this.state.spinnerDelete}
                       >
                         {" "}
-                        <i className="fa fa-trash" />{" "}
-                        {t("app_conglomerado_modal_eliminar_boton")}
+                        {this.state.spinnerDelete ? (
+                          <i className=" fa fa-spinner fa-refresh" />
+                        ) : (
+                          // fa-spin
+                          <div>
+                            <i className="fa fa-trash" />{" "}
+                            {t("app_conglomerado_modal_eliminar_boton")}
+                          </div>
+                        )}
                       </button>
                       <button
                         type="button"
@@ -223,7 +242,7 @@ class ModalDeleteConglomerado extends React.Component {
                             modal: false,
                             alertError500: false,
                             alertError400: false,
-                            alertSuccess: false
+                            alertSuccess: false,
                           });
                         }}
                       >
@@ -245,7 +264,7 @@ class ModalDeleteConglomerado extends React.Component {
 ModalDeleteConglomerado.propTypes = {
   modaldeletestate: PropTypes.bool.isRequired,
   id: PropTypes.string.isRequired,
-  t: PropTypes.any
+  t: PropTypes.any,
 };
 
 export default ModalDeleteConglomerado;
